@@ -1,0 +1,56 @@
+{
+    "resources.accounts.admin": {
+        "name": "Accounts"
+    },
+    "resources.accounts.merchant": {
+        "name": "My accounts"
+    },
+    "resources.accounts.editDialogTitle": "Edit account",
+    "resources.accounts.editFields": {
+        "name": "Name",
+        "wallet_create": "Wallet create",
+        "wallet_type": "Wallet type",
+        "tron_wallet": "Provider internal wallet",
+        "tron_address": "Provider external wallet",
+        "provider_account": "Provider account",
+        "reward_account": "Buffer account",
+        "stateActive": "Yes",
+        "stateInactive": "No"
+    },
+    "resources.accounts.fields": {
+        "owner": "Owner",
+        "state": "State",
+        "states": {
+            "active": "Active",
+            "frozen": "Frozen",
+            "blocked": "Blocked",
+            "deleted": "Deleted"
+        },
+        "type": "Account type",
+        "balance": "Account balance",
+        "tron_wallet": "Tron wallet",
+        "trc20": "Merchant balance replenishment address in aggregator",
+        "id": "ID",
+        "edit": "Edit",
+        "owner_id": "Owner ID",
+        "amounts": "Amounts",
+        "amount": {
+            "id": "ID",
+            "shop_currency": "Shop currency",
+            "type": "Type",
+            "currency": "Currency",
+            "value": "Value"
+        },
+        "meta": {
+            "caption": "Name"
+        }
+    },
+    "resources.accounts.errors": {
+        "name": "Name is required",
+        "uuid": "Invalid UUID"
+    },
+    "resources.accounts.showHeader": "Account info",
+    "resources.accounts.showDescription": "Detailed information about account with ID %{id}",
+    "resources.accounts.balance": "Balance",
+    "resources.accounts.held": "Hold"
+}

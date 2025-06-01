@@ -1,0 +1,39 @@
+{
+    "resources.provider.name": "Провайдеры",
+    "resources.provider.fields": {
+        "_name": "Название",
+        "name": "Провайдер",
+        "pk": "Публичный ключ",
+        "genKey": "Создать ключи",
+        "keyMiss": "Ключ отсутсвует",
+        "regenKey": "Пересоздать ключи",
+        "json_schema": "Схема Json",
+        "code": "Методы",
+        "enterMethods": "Введите свои методы",
+        "methods": "Методы"
+    },
+    "resources.provider.errors": {
+        "name": "Имя должно содержать хотя бы один символ",
+        "alreadyInUse": "Данное имя уже используется․ Выберите другой."
+    },
+    "resources.provider.recreateConfirm": "Пересоздать ключи?",
+    "resources.provider.recreateConfirmDescription": "Старые ключи станут недействительными",
+    "resources.provider.recreate": "Пересоздать",
+    "resources.provider.showTitle": "Детальная информация о провайдере",
+    "resources.provider.createNew": "Создать нового провайдера",
+    "resources.provider.createTestKeys": "Создать тестовые ключи",
+    "resources.provider.attention": "Внимание",
+    "resources.provider.warning": "Внимание! Приватный ключ будет показан только один раз.",
+    "resources.provider.sendToDevOps": "Скопируйте его и отправьте DevOps инженеру",
+    "resources.provider.pleaseCreate": "Пожалуйста создайте ключи на странице с таблицей провайдеров",
+    "resources.provider.pleaseWait": "Пожалуйста подождите",
+    "resources.provider.clickToCopy": "Это ваш приватный ключ. Нажмите на кнопку чтобы скопировать ключ, или скопируйте вручную.",
+    "resources.provider.continue": "Продолжить",
+    "resources.provider.close": "Закрыть",
+    "resources.provider.privateKey": "Приватный ключ",
+    "resources.provider.deleteProviderQuestion": "Удалить провайдера?",
+    "resources.provider.keysCreating": "Создание тестовых ключей",
+    "resources.provider.realKeysCreating": "Создание ключей",
+    "resources.provider.editingProvider": "Изменить провайдера",
+    "resources.provider.creatingProvider": "Создание провайдера"
+}

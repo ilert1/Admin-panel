@@ -25,6 +25,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
+import { ProviderSelect } from "../components/Selects/ProviderSelect";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
@@ -41,6 +42,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const { terminals, getTerminals } = useGetTerminals();
+
     const onSubmit: SubmitHandler<IDirectionCreate> = async data => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
@@ -221,6 +223,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         onChange={field.onChange}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
+                                        disabled={currenciesDisabled}
                                     />
                                 </FormItem>
                             )}
@@ -231,39 +234,14 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2 sm:w-1/2">
                                     <Label>{translate("resources.direction.destinationCurrency")}</Label>
-                                    <Select
+                                    <CurrencySelect
+                                        currencies={currencies.data}
                                         value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={currenciesDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        currenciesDisabled
-                                                            ? translate("resources.direction.noCurrencies")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!currenciesDisabled
-                                                    ? currencies.data.map(currency => (
-                                                          <SelectItem
-                                                              key={currency.code}
-                                                              value={currency.code}
-                                                              variant={SelectType.GRAY}>
-                                                              {currency.code}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={currenciesDisabled}
+                                    />
                                 </FormItem>
                             )}
                         />
@@ -290,43 +268,14 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2 sm:w-1/2">
                                     <Label>{translate("resources.direction.provider")}</Label>
-                                    <Select
+                                    <ProviderSelect
+                                        providers={providers.data}
                                         value={field.value}
-                                        onValueChange={e => {
-                                            getTerminals(e);
-                                            field.onChange(e);
-                                        }}
-                                        disabled={providersDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        providersDisabled
-                                                            ? translate("resources.direction.noProviders")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!providersDisabled
-                                                    ? providers.data.map(provider => (
-                                                          <SelectItem
-                                                              key={provider.name}
-                                                              value={provider.name}
-                                                              disabled={provider.public_key ? false : true}
-                                                              variant={SelectType.GRAY}>
-                                                              {provider.name}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={providersDisabled}
+                                    />
                                 </FormItem>
                             )}
                         />

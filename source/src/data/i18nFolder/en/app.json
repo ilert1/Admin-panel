@@ -1,0 +1,240 @@
+{
+    "app.menu": {
+        "merchant": {
+            "accounts": "My accounts",
+            "transactions": "Transactions history",
+            "cryptoOperations": "Crypto transactions"
+        },
+        "admin": {
+            "accounts": "Accounts",
+            "transactions": "Transactions",
+            "withdraw": "Withdrawal in crypto",
+            "users": "Users",
+            "currencies": "Currencies",
+            "merchant": "Merchants",
+            "providers": "Providers",
+            "directions": "Directions"
+        }
+    },
+    "app.ui": {
+        "header": {
+            "totalBalance": "Total account balance",
+            "aggregatorProfit": "Aggregator profit",
+            "totalLoading": "Loading...",
+            "totalError": "Error while getting total account balance",
+            "accurateBalance": "Accurate account balance",
+            "accurateAggregatorProfit": "Accurate aggregator profit",
+            "settings": "Settings"
+        },
+        "roles": {
+            "admin": "Administrator",
+            "merchant": "Merchant"
+        },
+        "actions": {
+            "quick_show": "Quick show",
+            "show": "Show",
+            "edit": "Edit",
+            "delete": "Delete",
+            "save": "Save",
+            "cancel": "Cancel",
+            "areYouSure": "Are you sure you want delete this element?",
+            "chatWithSupport": "Chat with support",
+            "close": "Close",
+            "confirm": "Confirm",
+            "search": "Search...",
+            "refresh": "Refresh",
+            "details": "More detailed",
+            "generateCallback": "Generate callback",
+            "clear": "Clear",
+            "continue": "Continue"
+        },
+        "pagination": {
+            "next": "Next",
+            "previous": "Previous"
+        },
+        "textField": {
+            "copied": "Copied"
+        },
+        "toast": {
+            "success": "Success",
+            "error": "Error"
+        },
+        "create": {
+            "createSuccess": "Created successfully",
+            "createError": "Something went wrong, please try again later"
+        },
+        "delete": {
+            "deletedSuccessfully": "Deleted successfully"
+        },
+        "edit": {
+            "editSuccess": "Edited successfully",
+            "editError": "Something went wrong, please try again later"
+        },
+        "testPopup": {
+            "attention": "Attention!",
+            "youReInTestEnv": "You are in a test environment.",
+            "allActionsSimulated": "All actions are simulated.",
+            "ok": "Ok!"
+        },
+        "timePickerShow": "Add a time range",
+        "timePickerErrorTitle": "Enter the correct time interval",
+        "timePickerErrorDescription": "The data for the day is displayed",
+        "chatMessagePlaceholder": "Message...",
+        "transactionHistory": "Transaction history",
+        "accountHistory": "Account history"
+    },
+    "app.errors": {
+        "401": { "text": "Unauthorized" },
+        "403": { "text": "Access is denied" },
+        "404": { "text": "Page not found" },
+        "408": { "text": "Request timeout" },
+        "409": { "text": "Conflict" },
+        "413": { "text": "Payload too large" },
+        "415": { "text": "Unsupported media type", "hint": "Try uploading the media in a different format" },
+        "429": { "text": "Too many requests", "hint": "Please try again later" },
+        "500": { "text": "Internal server error", "hint": "Please try again later" },
+        "502": { "text": "Bad gateway", "hint": "Please modify your request" },
+        "503": { "text": "Service unavailable", "hint": "Please try again later" },
+        "504": { "text": "Timeout" }
+    },
+    "app.theme": {
+        "light": "Light theme",
+        "dark": "Dark theme"
+    },
+    "app.widgets": {
+        "forms": {
+            "payout": {
+                "title": "Bank transfer",
+                "payMethod": "Pay method",
+                "phone_number": "Phone number",
+                "card_number": "Card number",
+                "card_holder": "Cardholder",
+                "iban_number": "IBAN number",
+                "account_number": "Account number",
+                "expiration_date": "Expiration date",
+                "account_last_digits": "Last four digits",
+                "selectPayMethod": "Select pay method",
+                "payMethodMessage": "Please, select pay method",
+                "value": "Destination value %{currency}",
+                "valueMessage": "Wrong value",
+                "valueMinMessage": "The minimum value must be greater than zero",
+                "create": "Created",
+                "successTitle": "The request has been successfully created",
+                "successDescription": "You can track her status in the section",
+                "errorTitle": "Request creation error",
+                "createOrder": "Create order",
+                "required": "Required field",
+                "noResult": "No methods available",
+                "loadingError": "An error has occurred, please contact the administrator.",
+                "wordsRegex": "It is allowed to enter Latin letters. Minimum 3 characters, maximum 255",
+                "minSymbol": "The field must not be empty",
+                "numberRegex": "You can only enter numbers and special characters"
+            },
+            "payoutBanner": {
+                "title": "Bank transfer",
+                "subtitle": "Your transfer request has been successfully completed!",
+                "description": "To complete the transfer, please use the link in the telegram bot. There you will be able to receive up-to-date information about the receipt of funds",
+                "closeTitle": "Close the link to the Telegram bot?"
+            },
+            "cryptoTransfer": {
+                "address": "TRC20 recipient address",
+                "addressMessage": "Invalid TRC-20 recipient address",
+                "amount": "Amount, USD₮",
+                "amountMessage": "Insert correct amount (e.g. 99.564)",
+                "amountMinMessage": "Amount should be more than 2 USD₮",
+                "amountMaxMessage": "Amount should be less than %{amount} USD₮",
+                "commission": "Commission",
+                "totalAmount": "Total amount",
+                "allAmount": "Transfer the entire amount",
+                "createTransfer": "Transfer",
+                "transferSuccess": "Transfer is successful!",
+                "transferError": "Insufficient funds in the account",
+                "successButton": "Transfer more",
+                "errorButton": "Try again",
+                "createNewWallet": "Add New Wallet",
+                "lastUsedWallet": "Last used",
+                "nan": "Is not a number",
+                "repeating": "Repeat Cryptocurrency Withdrawal",
+                "repeatDescription": "The withdrawal data has been copied to the form. Please check it and confirm the new withdrawal.",
+                "noAddress": "This address is not in your account",
+                "tryAgain": "Try again",
+                "insufficentBalance": "To withdraw cryptocurrency, funds on your USDT balance are required"
+            },
+            "userCreate": {
+                "title": "Adding a user",
+                "id": "User ID",
+                "firstName": "First name",
+                "firstNameMessage": "Cyrillic, latin alphabet and special characters are allowed. (:'-.,_@+). Minimum 3 characters, maximum 255",
+                "lastName": "Last name",
+                "lastNameMessage": "Cyrillic, latin alphabet and special characters are allowed. (:'-.,_@+). Minimum 3 characters, maximum 255",
+                "login": "Login",
+                "loginMessage": "Latin alphabet and special characters are allowed. (-,_,@,.). Minimum 3 characters, maximum 255",
+                "email": "Email",
+                "emailMessage": "Email is incorrect",
+                "password": "Password",
+                "passwordMessage": "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
+                "publicKey": "Public key(copy or drag&drop)",
+                "publicKeyPlaceholder": "Drop file here or type text",
+                "publicKeyMessage": "Wrong public key format",
+                "shopCurrency": "Currency",
+                "shopCurrencyPlaceholder": "Choose currency",
+                "shopCurrencyMessage": "Unknown currency",
+                "shopApiKey": "API key",
+                "shopSignKey": "Sign key",
+                "shopBalanceKey": "Balance key",
+                "keyMessage": "Key format is wrong",
+                "createUser": "Create user",
+                "cancelBtn": "Cancel",
+                "role": "Role",
+                "merchant": "Choose a merchant",
+                "activity": {
+                    "name": "Status",
+                    "active": "Active",
+                    "blocked": "Blocked"
+                }
+            }
+        },
+        "limits": {
+            "reward": "Reward",
+            "payment": "Withdraw",
+            "deposit": "Deposit",
+            "limits": "Limits",
+
+            "deleteLimits": "Reset limits?",
+            "reset": "Reset",
+
+            "updatedSuccessfully": "Limits updated successfully",
+            "resetedSuccessfully": "Limits reset successfully",
+            "errors": {
+                "minGreaterThanMax": "The maximum value of %{field} limit cannot be less than the minimum value",
+                "maxTooSmall": "The maximum value of %{field} limit must be 0 or greater than 1",
+                "minTooSmall": "The minimum value of %{field} limit must be 0 or greater than 1",
+                "maxTooLarge": "The maximum value of %{field} limit cannot be greater than 10,000,000",
+                "minTooSmallForOne": "The minimum value of %{field} limit must be 1 or greater",
+                "ofDeposit": "deposit",
+                "ofPayment": "payment",
+                "ofReward": "reward"
+            }
+        },
+        "multiSelect": {
+            "selectAll": "Select all",
+            "noResultFound": "No results found.",
+            "selectPaymentTypes": "Select payment types",
+            "searchPlaceholder": "Search..."
+        }
+    },
+    "app.login": {
+        "usernameOrEmail": "Username or e-mail",
+        "password": "Password",
+        "login": "Login",
+        "logPassError": "Invalid user data",
+        "networkError": "Network Error",
+        "accountError": "Complete the profile setup and try logging in again",
+        "accountConfigTitle": "Your account needs to be configured, please follow the required steps on the next page, then try logging in again",
+        "accountConfigConfirm": "Configure",
+        "totp": "Two-factor authentication code",
+        "configure2fa": "Configure Two-factor auth",
+        "lightTheme": "Light",
+        "darkTheme": "Dark"
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "resources.currency.name": "Валюты",
+    "resources.currency.fields": {
+        "currency": "Валюта",
+        "type": "Тип",
+        "symbPos": "Позиция символа",
+        "symbol": "Символ",
+        "fiat": "ФИАТ",
+        "crypto": "Криптовалюта",
+        "before": "Перед значением",
+        "after": "После значения",
+        "currencyName": "Название валюты",
+        "example": "Пример",
+        "edit": "Изменить",
+        "delete": "Удалить",
+        "accuracy": "Точность",
+        "defaultAccuracyPlaceholder": "По умолчанию 2"
+    },
+    "resources.currency.errors": {
+        "code": "Код валюты обязательно нужно ввести",
+        "alreadyInUse": "Данное имя уже тспользуется. Выберите другое.",
+        "intOnly": "Значение должно быть целым числом, без дробной части",
+        "minVal": "Минимальное значение 1",
+        "maxVal": "Максмальное значение 16"
+    },
+    "resources.currency.create": "Добавить валюту",
+    "resources.currency.createDialogTitle": "Добавление валюты",
+    "resources.currency.editDialogTitle": "Изменить валюту",
+    "resources.currency.deleteDialogTitle": "Удалить валюту?",
+    "resources.currency.showTitle": "Детальная информацию о валюте",
+    "resources.currency.showDescription": "Детальная информацию о валюте"
+}

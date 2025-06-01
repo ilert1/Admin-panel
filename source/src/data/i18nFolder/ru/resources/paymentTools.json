@@ -1,0 +1,138 @@
+{
+    "resources.paymentTools.name": "Платёжные инструменты",
+    "resources.paymentTools.paymentType": {
+        "name": "Типы платежей",
+        "admin": {
+            "name": "Типы платежей"
+        },
+        "errors": {
+            "code": "Код не может быть пустым",
+            "codeRegex": "Код может содержать только буквы, цифры, подчеркивание и тире"
+        },
+        "fields": {
+            "code": "Название",
+            "title": "Описание",
+            "payment_types": "Типы платежей",
+            "category": "Категория",
+            "icon": "Иконка"
+        },
+        "deletePaymentTypeQuestion": "Удалить тип платежа?",
+        "creatingPaymentType": "Создание типа платежа",
+        "editingPaymentType": "Изменение типа платежа",
+        "createNew": "Добавить тип платежа",
+        "duplicateCode": "Введенный код уже используется"
+    },
+    "resources.paymentTools.financialInstitution": {
+        "name": "Фин. организации",
+        "show": "Фин. организация",
+        "fields": {
+            "created_at": "Создано",
+            "updated_at": "Обновлено",
+            "name": "Название финансового института",
+            "nameWithId": "Наименование",
+            "short_name": "Краткое наименование",
+            "legal_name": "Полное юр.наименование",
+            "institution_type": "Тип фин. организации",
+            "country_code": "Код страны регистрации",
+            "bic": "SWIFT BIC",
+            "tax_id_number": "ИНН",
+            "registration_number": "ОГРН / регистрационный номер",
+            "nspk_member_id": "Код участника НСПК",
+            "status": "Статус",
+            "payment_types": "Платёжные типы",
+            "currencies": "Валюты",
+            "currenciesToChoose": "Выберите валюты",
+            "id": "ID",
+            "meta": "Метадата",
+            "types": {
+                "BANK": "Банк",
+                "OTHER": "Другое"
+            }
+        },
+        "errors": {
+            "name": "Название финансового института обязательно",
+            "country_code": "Код страны введен не правильно"
+        },
+        "success": {
+            "ACTIVE": "активна",
+            "INACTIVE": "деактивирована",
+            "editActivity": "Активность финансовой организации %{name} успешно изменена на: %{state}."
+        },
+        "createFinancialInstitutionBtn": "Добавить организацию",
+        "createFinancialInstitutionTitle": "Добавление финансовой организации",
+        "editingFinancialInstitution": "Изменение финансовой организации",
+        "deleteFinancialInstitution": "Удалить фин. организацию?"
+    },
+    "resources.paymentTools.systemPaymentInstruments": {
+        "name": "Системные инструменты",
+        "show": "Системный инструмент",
+        "fields": {
+            "name": "Название",
+            "payment_type_code": "Тип платежа",
+            "currency_code": "Валюта",
+            "financial_institution_id": "Финансовая организация",
+            "direction": "Направление",
+            "status": "Статус",
+            "description": "Описание",
+            "meta": "Метаданные"
+        },
+        "list": {
+            "createdAt": "Создан",
+            "updatedAt": "Обновлён",
+            "id": "ID",
+            "name": "Инструмент",
+            "paymentType": "Тип платежа",
+            "paymentTypeCode": "Код типа платежа",
+            "financialInstitution": "Фин. организация",
+            "direction": "Направление операций"
+        },
+        "errors": {
+            "cantBeEmpty": "Поле не может быть пустым",
+            "nameRegex": "Название может содержать только буквы, цифры, подчеркивание и тире"
+        },
+        "statuses": {
+            "active": "Активен",
+            "inactive": "Неактивен",
+            "test_only": "Тестовый"
+        },
+        "creatingPaymentInstrument": "Создание платежного инструмента",
+        "editingPaymentInstrument": "Изменение платежного инструмента",
+        "createNew": "Добавить платежный инструмент",
+        "deletePaymentInstrumentQuestion": "Удалить платежный инструмент?"
+    },
+    "resources.paymentTools.terminalPaymentInstruments": {
+        "name": "Интеграции терминалов",
+        "show": "Интеграции терминала",
+        "fields": {
+            "created_at": "Дата и время создания",
+            "updated_at": "Дата и время обновления",
+            "terminal_id": "Терминал",
+            "system_payment_instrument_id": "Платежный инструмент",
+            "terminal_payment_type_code": "Код типа платежа терминала",
+            "terminal_currency_code": "Код валюты терминала",
+            "terminal_financial_institution_code": "Код фин. организации терминала",
+            "terminal_specific_parameters": "Параметры",
+            "status": "Статус",
+            "id": "ID",
+            "terminalToChoose": "Выберите терминал",
+            "systemPaymentInstrumentsToChoose": "Выберите платежный инструмент"
+        },
+        "success": {
+            "ACTIVE": "активна",
+            "INACTIVE": "деактивирована",
+            "editActivity": "Активность интегарций терминала %{name} успешно изменена на: %{state}."
+        },
+        "createTerminalPaymentInstrument": "Добавить интеграцию терминала",
+        "editingTerminalPaymentInstrument": "Изменение интеграции терминала",
+        "deleteTerminalPaymentInstrument": "Удалить интеграцию терминала?"
+    },
+    "resources.paymentTools.deletion": {
+        "attention": "Внимание!",
+        "attentionDescriptionPaymentType": "Удаление типа платежа приведет к удалению связанных с ним платёжных инструментов",
+        "consequencesPaymentType": "Вы уверены, что хотите удалить тип платежа и связанные с ним платёжные инструменты?",
+        "attentionDescriptionFinOrganization": "Удаление финансовой организации приведет к удалению связанных с ней платёжных инструментов",
+        "consequencesFinOrganization": "Вы уверены, что хотите удалить финансовую организацию и связанные с ней платёжные инструменты?",
+        "attentionDescriptionSystemInstrument": "Удаление системного инструмента приведет к удалению связанных с ним платежных инструментов",
+        "consequencesSystemInstrument": "Вы уверены, что хотите удалить системный инструмент и связанные с ним платежные инструменты?"
+    }
+}

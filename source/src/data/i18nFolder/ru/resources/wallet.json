@@ -1,0 +1,126 @@
+{
+    "resources.wallet.name": "Управление криптокошельками",
+    "resources.wallet.storage": {
+        "name": "Хранилище",
+        "initiatedTitle": "Хранилище не инициализировано",
+        "buttonForInitiated": "Инициализировать",
+        "initiatedError": "Ошибка инициализации",
+        "titleClosed": "Распечатка хранилища",
+        "buttonForOpen": "Распечатать",
+        "buttonForClosed": "Запечатать",
+        "buttonForCancel": "Отменить распечатку",
+        "buttonForEnterKey": "Ввести часть ключа",
+        "buttonForSend": "Отправить",
+        "titleOpened": "Хранилище открыто",
+        "key": "Ключ",
+        "unsealed": {
+            "errorTitle": "Ошибка распечатывания хранилища",
+            "errorSubtitle": "Попробуйте снова",
+            "allKeys": "Всего частей ключа",
+            "requiredKeys": "Необходимо для открытия",
+            "enteredKeys": "Введено частей ключа",
+            "toFinishKeys": "До распечатывания осталось",
+            "unsealSuccess": "Хранилище успешно распечатано",
+            "keyPartSuccess": "Часть ключа введена успешно"
+        }
+    },
+    "resources.wallet.manage": {
+        "name": "Кошельки",
+        "wallet": "Кошелек",
+        "fields": {
+            "walletType": "Тип кошелька",
+            "walletAddress": "Адрес кошелька",
+            "accountNumber": "Номер счёта",
+            "merchantName": "Мерчант",
+            "merchantId": "ID мерчанта",
+            "currency": "Валюта",
+            "descr": "Описание",
+            "internalId": "Внутренний ID кошелька",
+            "blockchain": "Блокчейн",
+            "contactType": "Тип контакта в блокчейне",
+            "minRemaini": "Минимальная остаточная сумма",
+            "balance": "Баланс"
+        },
+        "errors": {
+            "serverError": "Ошибка на стороне сервера. Попробуйте позже",
+            "selectAccount": "Выберите аккаунт",
+            "errorWhenEditing": "Произошлка ошибка при изменении кошелька",
+            "errorWhenCreating": "Произошлка ошибка при создании кошелька",
+            "alreadyExists": "Кошелек с таким адресом уже существует",
+            "addressRequired": "Введите адрес кошелька",
+            "invalidTRCAddresss": "Неправильный формат TRC20 адреса",
+            "invalidTransactionId": "Неправильный формат ID TRC20 транзакции",
+            "minBalance": "Минимальное значение 0",
+            "intOnly": "Значение должно быть целым числом, без дробной части"
+        },
+        "success": {
+            "create": "Кошелек был успешно создан."
+        },
+        "creatingWallet": "Добавление кошелька",
+        "editingWallet": "Изменить кошелек",
+        "deleteWallet": "Удалить кошелек?",
+        "createWallet": "Создать кошелек"
+    },
+    "resources.wallet.transactions": {
+        "name": "Криптотранзакции",
+        "cryptotransaction": "Криптотранзакция",
+        "allTransactions": "Все операции",
+        "deletedTransactions": "Удаленные операции",
+        "successMessage": "Запрос подтверждения транзакции отправлен, ожидайте изменения статуса",
+        "fields": {
+            "created_at": "Создана",
+            "updated_at": "Обновлена",
+            "deleted_at": "Удалена",
+            "src_wallet": "Кошелёк списания",
+            "id": "ID операции",
+            "dst_wallet": "Кошелёк зачисления",
+            "amount": "Сумма операции",
+            "type": "Тип операции",
+            "state": "Статус платежа",
+            "merchant_id": "ID мерчанта",
+            "tx_id": "Хэшлинк",
+            "clickOnHashlink": "Хэш (нажмите на хэш чтобы открыть транзакцию в обозревателе блокчейна)",
+            "currency": "Валюта",
+            "blowfish_id": "ID в Blowfish",
+            "tx_link": "",
+            "total_fee": "Общая комиссия",
+            "bandwidth_fee": "Комиссия сети",
+            "confirm": "Потвердить",
+            "confirmQuestion": "Потвердить операцию?",
+            "pre_calculated_fee": "Предварительно рассчитанная комиссия"
+        },
+        "errors": {
+            "failedToConfirm": "Не удалось потвердить транзакцию"
+        },
+        "filterBar": {
+            "searchById": "Поиск по ID операции",
+            "created_at": "Дата создания",
+            "updated_at": "Дата обновления",
+            "datePlaceholder": "Выберите дату",
+            "paymentStatus": "Статус платежа",
+            "resetFilters": "Сбросить фильтры"
+        }
+    },
+    "resources.wallet.linkedTransactions": {
+        "name": "Поступления на linked-кошелёк",
+        "show": "Поступление на linked-кошелек",
+        "manual_reconciliation": "Ручная сверка",
+        "check": "Проверить",
+        "notFound": "Транзакция не найдена",
+        "successFound": "Транзакция успешно добавлена",
+        "notValidAmount": "Сумма не может быть больше баланса",
+        "fields": {
+            "scannedAt": "Время сканирования",
+            "blockTimestamp": "Время генерации",
+            "transactionId": "ID транзакции",
+            "sourceAddress": "Адрес кошелька отправителя",
+            "destinationAddress": "Адрес кошелька получателя",
+            "type": "Тип операции",
+            "amount": "Сумма прихода",
+            "currency": "Валюта",
+            "fiatSwitcher": "Вывод через фиатную валюту",
+            "merchantBalance": "Баланс",
+            "merchantAmount": "Сумма"
+        }
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "resources.terminals.name": "Terminals",
+    "resources.terminals.terminal": "Terminal",
+    "resources.terminals.fields": {
+        "verbose_name": "Name",
+        "id": "ID",
+        "description": "Description",
+        "provider": "Provider",
+        "auth": "Auth data",
+        "fees": "Fees",
+        "createAccount": "Create account",
+        "account": "Account",
+        "details": "Details",
+        "allocation_timeout_seconds": "Provider response timeout",
+        "timeout": "Provider timeout",
+        "pays": "PayIn/PayOut"
+    },
+    "resources.terminals.filter": {
+        "filters": "Filters",
+        "showAll": "Show all",
+        "filterAllPlaceholder": "All",
+        "filterByName": "Terminal"
+    },
+    "resources.terminals.errors": {
+        "verbose_name": "The terminal must have a name",
+        "description": "The terminal must have a description",
+        "auth_data_toggle": "To switch the mode, fix the errors",
+        "key_error": "The key field is required",
+        "value_error": "The value field is required",
+        "allocation_timeout_seconds": "Integer values only",
+        "allocation_timeout_seconds_min": "The minimum value is 1",
+        "allocation_timeout_seconds_max": "The maximum value is 120"
+    },
+    "resources.terminals.success": {
+        "create": "Terminal %{name} has been successfully created."
+    },
+    "resources.terminals.callbackCreating": "Creating callback",
+    "resources.terminals.callbackCreatedSuccessfully": "Callback created successfully",
+    "resources.terminals.urlTemplate": "URL template",
+    "resources.terminals.create": "Create terminal",
+    "resources.terminals.selectHeader": "Provider",
+    "resources.terminals.selectPlaceholder": "Select provider",
+    "resources.terminals.creatingTerminal": "Creating terminal",
+    "resources.terminals.deleteHeader": "Delete terminal?",
+    "resources.terminals.editingTerminal": "Editing terminal",
+    "resources.terminals.accountCreatedSuccessfully": "Счёт успешно создан",
+    "resources.terminals.adapter_nats_subject": "Adapter nats subject"
+}

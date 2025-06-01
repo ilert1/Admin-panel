@@ -1,0 +1,40 @@
+{
+    "pages.cryptoTransfer": {
+        "header": "Перевод криптовалюты"
+    },
+    "pages.settings": {
+        "generalInformation": "Общая информация",
+        "name": "Имя",
+        "changePassword": "Сменить пароль",
+        "login": {
+            "loginMethod": "Способ входа",
+            "withPassword": "Вход по паролю",
+            "withPassAndOtp": "Вход по паролю и одноразовому коду",
+            "scanQr": "Отсканируйте QR-код для начала генерации одноразовых кодов, которые будут использоваться при входе в аккаунт."
+        },
+        "passChange": {
+            "passChange": "Смена пароля",
+            "currentPassowrd": "Текущий пароль",
+            "newPassword": "Новый пароль",
+            "repeatNewPassword": "Повторите новый пароль",
+
+            "rules": {
+                "notLessThanTenSymbols": "Не менее 10 символов",
+                "notLessThanOneDigit": "Не менее 1 цифры",
+                "notLessThanOneCapital": "Не менее 1 прописной буквы",
+                "notLessThanOneLowercase": "Не менее 1 строчной буквы"
+            },
+
+            "errors": {
+                "cantBeEmpty": "Поле не может быть пустым",
+                "lenght": "Пароль должен содержать не менее 10 символов",
+                "oneUppercase": "Пароль должен содержать хотя бы одну заглавную букву",
+                "oneLowercase": "Пароль должен содержать хотя бы одну строчную букву",
+                "oneDigit": "Пароль должен содержать хотя бы одну цифру",
+                "dontMatch": "Пароли не совпадают",
+                "wrongFormat": "Неверный формат пароля",
+                "onlyEnglishLetters": "Разрешены только латинские буквы, числа и специальные символы"
+            }
+        }
+    }
+}

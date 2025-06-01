@@ -1,0 +1,138 @@
+{
+    "resources.paymentTools.name": "Payment tools",
+    "resources.paymentTools.paymentType": {
+        "admin": {
+            "name": "Payment types"
+        },
+        "errors": {
+            "code": "Code is required",
+            "codeRegex": "Code can only contain letters, numbers, underscores, and hyphens"
+        },
+        "name": "Payment types",
+        "fields": {
+            "code": "Title",
+            "title": "Description",
+            "payment_types": "Payment types",
+            "category": "Category",
+            "icon": "Icon"
+        },
+        "deletePaymentTypeQuestion": "Delete payment type?",
+        "creatingPaymentType": "Creating payment type",
+        "editingPaymentType": "Editing payment type",
+        "createNew": "Add payment type",
+        "duplicateCode": "This code is already in use"
+    },
+    "resources.paymentTools.financialInstitution": {
+        "name": "Financial institutions",
+        "show": "Financial institution",
+        "fields": {
+            "created_at": "Created at",
+            "updated_at": "Updated at",
+            "name": "Name of the financial institution",
+            "nameWithId": "Name",
+            "short_name": "Short name",
+            "legal_name": "Full legal name",
+            "institution_type": "Institution type",
+            "country_code": "Country code",
+            "bic": "SWIFT BIC",
+            "tax_id_number": "Tax identification number",
+            "registration_number": "Registration number",
+            "nspk_member_id": "NSPK member ID",
+            "status": "Status",
+            "payment_types": "Payment types",
+            "currencies": "Currencies",
+            "currenciesToChoose": "Select currencies",
+            "id": "ID",
+            "meta": "Metadata",
+            "types": {
+                "BANK": "Bank",
+                "OTHER": "Other"
+            }
+        },
+        "errors": {
+            "name": "The name of the financial institution is required",
+            "country_code": "The country code is entered incorrectly"
+        },
+        "success": {
+            "ACTIVE": "active",
+            "INACTIVE": "inactive",
+            "editActivity": "The activity of the financial institution %{name} has been successfully changed to: %{state}."
+        },
+        "createFinancialInstitutionBtn": "Create institution",
+        "createFinancialInstitutionTitle": "Create a financial institution",
+        "editingFinancialInstitution": "Editing a financial institution",
+        "deleteFinancialInstitution": "Delete financial institution?"
+    },
+    "resources.paymentTools.systemPaymentInstruments": {
+        "name": "System tools",
+        "show": "System tool",
+        "fields": {
+            "name": "Name",
+            "payment_type_code": "Payment type",
+            "currency_code": "Currency",
+            "financial_institution_id": "Financial institution",
+            "direction": "Direction",
+            "status": "Status",
+            "description": "Description",
+            "meta": "Meta"
+        },
+        "list": {
+            "createdAt": "Created at",
+            "updatedAt": "Updated at",
+            "id": "ID",
+            "name": "Instrument",
+            "paymentType": "Payment type",
+            "paymentTypeCode": "Payment type code",
+            "financialInstitution": "Financial institution",
+            "direction": "Payments direction"
+        },
+        "errors": {
+            "cantBeEmpty": "Field can't be empty",
+            "nameRegex": "Name can only contain letters, numbers, underscores, and hyphens"
+        },
+        "statuses": {
+            "active": "Active",
+            "inactive": "Inactive",
+            "test_only": "Test only"
+        },
+        "creatingPaymentInstrument": "Creating payment instrument",
+        "editingPaymentInstrument": "Editing payment instrument",
+        "createNew": "Add payment instrument",
+        "deletePaymentInstrumentQuestion": "Delete payment instrument?"
+    },
+    "resources.paymentTools.terminalPaymentInstruments": {
+        "name": "Terminal integrations",
+        "show": "Terminal integration",
+        "fields": {
+            "created_at": "Created at",
+            "updated_at": "Updated at",
+            "terminal_id": "Terminal",
+            "system_payment_instrument_id": "Payment instrument",
+            "terminal_payment_type_code": "Terminal payment type code",
+            "terminal_currency_code": "Terminal currency code",
+            "terminal_financial_institution_code": "Terminal financial institution code",
+            "terminal_specific_parameters": "Parameters",
+            "status": "Status",
+            "id": "ID",
+            "terminalToChoose": "Select terminal",
+            "systemPaymentInstrumentsToChoose": "Select payment instrument"
+        },
+        "success": {
+            "ACTIVE": "active",
+            "INACTIVE": "inactive",
+            "editActivity": "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
+        },
+        "createTerminalPaymentInstrument": "Create terminal integration",
+        "editingTerminalPaymentInstrument": "Editing terminal integration",
+        "deleteTerminalPaymentInstrument": "Delete terminal integration?"
+    },
+    "resources.paymentTools.deletion": {
+        "attention": "Attention!",
+        "attentionDescriptionPaymentType": "Payment type deletion will lead to the deletion of associated payment instruments",
+        "consequencesPaymentType": "You are going to delete payment type and associated payment instruments. Proceed?",
+        "attentionDescriptionFinOrganization": "Financial organization deletion will lead to the deletion of associated payment instruments",
+        "consequencesFinOrganization": "You are going to delete financial organization and associated payment instruments. Proceed?",
+        "attentionDescriptionSystemInstrument": "System instrument deletion will lead to the deletion of associated payment instruments",
+        "consequencesSystemInstrument": "You are going to delete system instrument and associated payment instruments. Proceed?"
+    }
+}

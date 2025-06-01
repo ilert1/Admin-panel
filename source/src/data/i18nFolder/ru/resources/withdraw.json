@@ -1,0 +1,43 @@
+{
+    "resources.withdraw.name": "Вывод криптовалюты",
+    "resources.withdraw.tableTitle": "Отчет по выводам в криптовалюте",
+    "resources.withdraw.cryptoTransferTitle": "Перевод криптовалюты",
+    "resources.withdraw.resendQuestion": "Повторить перевод?",
+    "resources.withdraw.errors": {
+        "lowAmountError": "Сумма перевода должна быть больше 2 USDT",
+        "serverError": "Произошла неизвестная ошибка на сервере"
+    },
+    "resources.withdraw.fields": {
+        "id": "ID операции",
+
+        "created_at": "Дата и время создания",
+        "destination": {
+            "id": "Адрес TRC20",
+            "amount": {
+                "currency": "Валюта",
+                "value": "Сумма"
+            }
+        },
+        "payload": {
+            "hash": "Хэш",
+            "hash_link": "Ссылка Tronscan"
+        },
+        "merchant": "Мерчант",
+        "state": "Состояние",
+        "idInBlockChain": "Хэшлинк",
+        "resend": "Повторить"
+    },
+    "resources.withdraw.download": {
+        "downloadReportButtonText": "Скачать отчет",
+        "bothError": "Начальная дата и конечная дата обязательно должны быть заполнены",
+        "error": "Ошибка"
+    },
+    "resources.withdraw.filter": {
+        "filterById": "Поиск по ID",
+        "filterByTrc20": "Поиск по адресу TRC20",
+        "filterByIdPlaceholder": "ID",
+        "filterByDate": "Дата",
+        "filterByDatePlaceholder": "Выберите дату",
+        "clearFilters": "Сбросить фильтры"
+    }
+}

@@ -1,0 +1,154 @@
+{
+    "resources.transactions.name": "Transactions",
+    "resources.transactions.fields": {
+        "id": "ID",
+        "created_at": "Created at",
+        "updated_at": "Updated at",
+        "committed": "Committed",
+        "dispute": "Dispute",
+        "account_id": "Account ID",
+        "accountBalance": "Account balance",
+        "amount_value": "Amount",
+        "currency": "Currency",
+
+        "meta": {
+            "external_status": "External status",
+            "parentId": "Parent transaction ID",
+            "customer_payment_id": "Customer payment ID",
+            "customer_id": "Customer ID"
+        },
+        "state": {
+            "title": "State",
+            "final": "Is final",
+            "state_int": "Code",
+            "state_description": "Status",
+            "state_changed": "Status changed to:"
+        },
+        "rateInfo": "Rate",
+        "createdAt": "Created at",
+        "stornoIds": "Storno transactions",
+        "source": {
+            "header": "Sender",
+            "id": "ID",
+            "amount": {
+                "currency": "Currency",
+                "value": "Value",
+                "sendAmount": "Amount send"
+            },
+            "meta": {
+                "caption": "Name"
+            }
+        },
+        "destination": {
+            "header": "Merchant",
+            "id": "ID",
+            "amount": {
+                "currency": "Currency",
+                "value": "Value",
+                "getAmount": "Amount credited"
+            },
+            "meta": {
+                "caption": "Name"
+            }
+        },
+        "recipient": "Recipient",
+        "value": "Value",
+        "type": "Type",
+        "feeType": "Fee type",
+        "history": "History",
+        "fees": "Fees",
+        "feeValue": "Fee value",
+        "sourceValue": "Source value",
+        "destValue": "Destination value"
+    },
+    "resources.transactions.show": {
+        "statusButton": "Manual change status",
+        "cancel": "Cancel",
+        "storno": "Storno",
+        "commit": "Commit",
+        "openDispute": "Open dispute",
+        "closeDispute": "Close dispute",
+        "disputeOpened": "Disput opened",
+        "disputeClosed": "Disput closed",
+        "commitTransaction": "Commit the transaction?",
+        "sendWebhook": "Send a webhook",
+        "sendWebhookSuccessMsg": "The webhook for the order %{id} has been successfully sent",
+        "notFound": "Transaction not found"
+    },
+    "resources.transactions.list": {
+        "filter": {
+            "transactionId": "Transaction ID",
+            "account": "Account"
+        }
+    },
+    "resources.transactions.undefined": "No results",
+    "resources.transactions.pagination": "Rows per page",
+    "resources.transactions.chart": "Schedule of operations",
+    "resources.transactions.showHeader": "Transaction info",
+    "resources.transactions.showDescription": "Detailed information about transaction with ID %{id}",
+    "resources.transactions.storno": {
+        "destValueMessage": "Wrong value",
+        "sourceValueMessage": "Wrong value",
+        "selectSourceValue": "Select sender account",
+        "selectDestinationValue": "Select receiver account",
+        "selectCurrency": "Select currency"
+    },
+    "resources.transactions.download": {
+        "downloadReportLabel": "Report download",
+        "dateTitle": "Date",
+        "downloadReportButtonText": "Download report",
+        "bothError": "Both start date and end date must be selected",
+        "greaterError": "End date must be greater than start date",
+        "dateExceed": "Start/end date cannot be greater than today's date",
+        "accountField": "Choose merchant account"
+    },
+    "resources.transactions.filter": {
+        "filters": "Filters",
+        "showAll": "Show all",
+        "filterById": "Search by operation ID",
+        "filterByIdPlaceholder": "ID",
+        "filterByAccount": "Merchant",
+        "filterAllPlaceholder": "All",
+        "filterByOrderStatus": "Order status",
+        "filterByDate": "Select period",
+        "clearFilters": "Clear filters",
+        "filterCustomerPaymentId": "Search by customer payment ID"
+    },
+    "resources.transactions.types": {
+        "all": "All transactions",
+        "deposit": "Deposit",
+        "withdraw": "Withdrawal",
+        "transfer": "Transfer",
+        "reward": "Reward",
+        "feefromsender": "Fee from sender",
+        "feefromtransaction": "Fee from transaction",
+        "unknown": "Unknown type",
+        "undefined": "Unknown type"
+    },
+    "resources.transactions.states": {
+        "all": "Show all",
+        "created": "Created",
+        "paid": "Paid",
+        "fromoutside": "From outside",
+        "waitpayout": "Wait payout",
+        "paidout": "Paid out",
+        "toreturnfrominside": "To return from inside",
+        "toreturnfromoutside": "To return from outside",
+        "reversed": "Reversed",
+        "changedfromcreated": "Changed from created",
+        "changedfrompaid": "Changed from paid",
+        "returned": "Returned",
+        "todeny": "To deny",
+        "processing": "Processing",
+        "expired": "Expired",
+        "deleted": "Deleted",
+        "success": "Success",
+        "fail": "Fail",
+        "correction": "Correction",
+        "emptyrequisites": "Empty requisites",
+        "limitfail": "Limit fail",
+        "waitingforadminapproval": "Waiting for admin approval",
+        "cancelledbypayer": "Cancelled by payer",
+        "cascadefail": "Cascade fail"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "resources.merchant.name": "Merchants",
+    "resources.merchant.merchant": "Merchant",
+    "resources.merchant.fields": {
+        "id": "ID",
+        "name": "Name",
+        "descr": "Description",
+        "directions": "Directions",
+        "fees": "Fees",
+        "pays": "PayIn/PayOut"
+    },
+    "resources.merchant.errors": {
+        "id": "ID is required",
+        "name": "Name is required",
+        "alreadyInUse": "Merchant with this id or name is already exists.",
+        "noSpaces": "Spaces are not allowed in this field",
+        "publicKey": "Wrong public key format",
+        "required": "Required field",
+        "notFound": "Merchant %{name} was not found"
+    },
+    "resources.merchant.success": {
+        "create": "Merchant %{name} has been successfully created."
+    },
+    "resources.merchant.showTitle": "Detailed information about merchant",
+    "resources.merchant.createNew": "Create new merchant",
+    "resources.merchant.editingMerchant": "Editing merchant",
+    "resources.merchant.creatingMerchant": "Creating new merchant",
+    "resources.merchant.delete": "Delete merchant?"
+}

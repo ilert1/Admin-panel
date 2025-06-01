@@ -1,0 +1,99 @@
+{
+    "resources.callbridge.name": "Входящие коллбеки",
+    "resources.callbridge.mapping": {
+        "name": "Маппинги",
+        "mapping": "Маппинг",
+        "fields": {
+            "name": "Название",
+            "ext_path": "Внешний путь",
+            "target": "Цель",
+            "int_path": "Внутренний путь",
+            "description": "Описание",
+            "terminal": "Терминал",
+
+            "callback_url": "URL коллбека",
+            "created_at": "Дата создания",
+            "external_path": "Внешний путь",
+            "internal_path": "Внутренний путь",
+            "retry_policy": "Политика повторов",
+            "base_delay": "Базовая задержка",
+            "state": "Состояние",
+            "active": "Активно",
+            "disabled": "Выключено",
+            "max_attempts": "Максимальное число попыток",
+            "strategy": "Стратегия",
+            "retryOn": "Повторная попытка при статусах",
+            "retryStatusChange": "Изменить статусы для повторов",
+            "newStatus": "Новые статусы",
+            "enterSepWithCommas": "Введите новые статусы разделив их запятой",
+
+            "wrongFormat": "Неправильные данные",
+            "allowedSymbols": "Можно использовать только пробелы, цифры и запятые",
+            "allowedVariant": "Ввод должен быть вида 400, 404,500 без лишних символов",
+
+            "security_policy": "Политика безопасности",
+            "allowed_ips": "Разрешённые IP-адреса",
+            "auth": "Авторизация",
+            "auth_required": "Требуется авторизация",
+            "auth_not_required": "Не требуется авторизация",
+            "whiteListEdit": "Изменить разрешенные IP адреса",
+            "blackListEdit": "Изменить заблокированные IP адреса",
+            "actDeactButton": "Активировать/деактивировать политику",
+
+            "blocked": "Заблокировано",
+            "permitted": "Разрешено",
+            "blocked_ips": "Заблокированные IP-адреса",
+            "burst_limit": "Порог частоты запросов",
+            "enforcement_mode": "Режим принудительного контроля",
+            "updated_at": "Дата обновления"
+        },
+        "sec_policy_edit": {
+            "editingAllowedPolicy": "Редактирование списка разрешенных адресов",
+            "editingBlockedPolicy": "Редактирование списка запрещенных адресов",
+            "noIps": "IP-адресов нет",
+            "addIp": "Добавить IP адрес",
+            "deleteIp": "Удалить IP адрес",
+            "errors": {
+                "wrongFormatOfIp": "Неправильный формат IPv4 адреса",
+                "alreadyExists": "Введенный IP адрес уже добавлен",
+                "notExist": "Данного IP адреса нету в списке"
+            },
+            "addedSuccessfully": "IP адрес добавлен",
+            "deletedSuccessfully": "IP адрес удален",
+            "activatePolicy": "Активировать политику?",
+            "deactivatePolicy": "Деактивировать политику?"
+        },
+        "errors": {
+            "cantBeEmpty": "Поле не может быть пустым",
+            "invalidUrl": "Неправильный формат URL",
+            "errorWhenCreating": "Произошла ошибка при создании"
+        },
+        "create": "Добавить маппинг",
+        "createSuccess": "Маппинг успешно создан",
+        "updateSuccess": "Маппинг успешно обновлён",
+        "creatingMapping": "Создание маппинга",
+        "deleteMapping": "Удалить маппинг?",
+        "editingMapping": "Изменить маппинг"
+    },
+    "resources.callbridge.history": {
+        "name": "История",
+        "history": "История",
+        "callback_id": "ID коллбека",
+        "fields": {
+            "request_url": "Выходной url",
+            "original_url": "Исходный url",
+            "mapping_id": "ID маппинга",
+            "created_at": "Дата создания",
+            "status": "Статус",
+            "trigger_type": "Тип триггера"
+        },
+        "callbacksStatus": {
+            "retryCallback": "Повторить",
+            "queued": "В очереди",
+            "processing": "Обрабатывается",
+            "success": "Успех",
+            "error": "Ошибка",
+            "sync": "Синхронизация"
+        }
+    }
+}

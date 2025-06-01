@@ -1,0 +1,97 @@
+{
+    "resources.callbridge.name": "Incoming Callbacks",
+    "resources.callbridge.mapping": {
+        "name": "Mappings",
+        "mapping": "Mapping",
+        "fields": {
+            "name": "Name",
+            "ext_path": "External url",
+            "target": "Target",
+            "int_path": "Internal url",
+            "description": "Description",
+            "created_at": "Created at",
+            "callback_url": "Callback URL",
+            "terminal": "Terminal",
+
+            "retry_policy": "Retry policy",
+            "base_delay": "Base delay",
+            "state": "State",
+            "active": "Active",
+            "disabled": "Active",
+            "max_attempts": "Max attempts",
+            "strategy": "Strategy",
+            "retryOn": "Retrying on status",
+            "retryStatusChange": "Edit retry status",
+            "newStatus": "New status",
+            "enterSepWithCommas": "Enter new statuses separated by commas",
+
+            "wrongFormat": "Invalid data",
+            "allowedSymbols": "Only spaces, digits, and commas are allowed",
+            "allowedVariant": "Input must be in the format like 400, 404, 500 without extra symbols",
+
+            "security_policy": "Security policy",
+            "allowed_ips": "Allowed IPs",
+            "auth": "Authorization",
+            "auth_required": "Auth required",
+            "auth_not_required": "No authorization required",
+            "whiteListEdit": "Edit allowed IPs",
+            "blackListEdit": "Edit blocked IPs",
+            "actDeactButton": "Activate/Deactivate policy",
+
+            "blocked": "Blocked",
+            "permitted": "Permitted",
+            "blocked_ips": "Blocked IPs",
+            "burst_limit": "Burst limit",
+            "enforcement_mode": "Enforcement mode",
+            "updated_at": "Updated at"
+        },
+        "sec_policy_edit": {
+            "editingAllowedPolicy": "Editing the list of allowed addresses",
+            "editingBlockedPolicy": "Editing the list of blocked addresses",
+            "noIps": "No IP addresses",
+            "addIp": "Add IP address",
+            "deleteIp": "Delete IP address",
+            "errors": {
+                "wrongFormatOfIp": "Invalid IPv4 address format",
+                "alreadyExists": "The entered IP address is already added",
+                "notExist": "This IP address is not listed"
+            },
+            "addedSuccessfully": "IP address added",
+            "deletedSuccessfully": "IP address deleted",
+            "activatePolicy": "Activate policy?",
+            "deactivatePolicy": "Deactivate policy?"
+        },
+        "errors": {
+            "cantBeEmpty": "Field can't be empty",
+            "invalidUrl": "Wrong URL format",
+            "errorWhenCreating": "An error occurred while creating mapping"
+        },
+        "create": "Add mapping",
+        "createSuccess": "Mapping created successfully",
+        "updateSuccess": "Mapping updated successfully",
+        "creatingMapping": "Creating mapping",
+        "deleteMapping": "Delete the mapping?",
+        "editingMapping": "Edit mapping"
+    },
+    "resources.callbridge.history": {
+        "name": "History",
+        "history": "History",
+        "callback_id": "Callback ID",
+        "fields": {
+            "request_url": "Request url",
+            "original_url": "Original url",
+            "mapping_id": "Mapping ID ",
+            "created_at": "Created at",
+            "status": "Status",
+            "trigger_type": "Trigger type"
+        },
+        "callbacksStatus": {
+            "retryCallback": "Retry",
+            "queued": "Queued",
+            "processing": "Processing",
+            "success": "Success",
+            "error": "Error",
+            "sync": "Sync"
+        }
+    }
+}

@@ -1,0 +1,62 @@
+{
+    "resources.users.name": "Users",
+    "resources.users.user": "User",
+    "resources.users.edit": "Edit",
+    "resources.users.delete": "Delete",
+    "resources.users.deleteThisUser": "Delete user?",
+    "resources.users.fields": {
+        "id": "User ID",
+        "keycloak_id": "User ID",
+        "name": "Username",
+        "login": "Login",
+        "email": "Email",
+        "merchant": "Merchant",
+        "roles": "Roles",
+        "currency": "Currency",
+        "created_at": "Date and time",
+        "active": "Activity",
+        "activeStateTrue": "Active",
+        "activeStateFalse": "Not active",
+        "public_key": "Public key",
+        "shop_api_key": "API key",
+        "shop_sign_key": "Sign key",
+        "shop_balance_key": "Balance key"
+    },
+    "resources.users.createButton": "Add user",
+    "resources.users.filter": {
+        "showAll": "Show all",
+        "filterByUserId": "Search by user ID",
+        "filterByUsername": "Search by name",
+        "filterByUsernamePlaceholder": "Name",
+        "filterByActivity": "Active users"
+    },
+    "resources.users.showHeader": "User info",
+    "resources.users.showDescription": "Detailed information about user with ID %{id}",
+    "resources.users.editUser": "Edit user",
+    "resources.users.editSuccessMessage": "The user has been successfully edited",
+    "resources.users.create": {
+        "successMessage": "User %{name} has been successfully created.",
+        "errorMessage": "Failed to create user",
+        "merhchantDoesntExist": "The selected merchant was not found",
+        "usernameInUse": "The chosen username is already taken, please choose another one",
+        "emailInUse": "The selected email address is already in use",
+        "wrongRole": "The selected user role does not exist",
+        "wrongNames": "Invalid format for first name and/or last name"
+    },
+    "resources.users.deleteMessages": {
+        "deleteSuccess": "Deleted successfully",
+        "deleteError": "Failed to delete user"
+    },
+    "resources.users.roles": {
+        "admin": "System admin",
+        "system_manager_for_providers": "Manager for provider integrations on system",
+        "system_manager_for_merchants": "Manager for merchant integrations on system",
+        "system_sales_manager": "Sales manager on system",
+        "system_hos": "Head of sales on system",
+        "system_operator": "System operator",
+        "system_supervisor": "System supervisor",
+        "system_accountant": "System accountant",
+        "merchant": "Merchant admin",
+        "merchant_operator": "Merchant operator"
+    }
+}

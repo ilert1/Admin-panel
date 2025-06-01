@@ -1,0 +1,40 @@
+{
+    "pages.cryptoTransfer": {
+        "header": "Crypto Wallet Transfer"
+    },
+    "pages.settings": {
+        "generalInformation": "General information",
+        "name": "Name",
+        "changePassword": "Change password",
+        "login": {
+            "loginMethod": "Login method",
+            "withPassword": "Login with passoword",
+            "withPassAndOtp": "Login with passoword and OTP",
+            "scanQr": "Scan the QR code to start generating OTPs that will be used to log into your account."
+        },
+        "passChange": {
+            "passChange": "Change Password",
+            "currentPassowrd": "Current Password",
+            "newPassword": "New Password",
+            "repeatNewPassword": "Repeat New Password",
+
+            "rules": {
+                "notLessThanTenSymbols": "At least 10 characters",
+                "notLessThanOneDigit": "At least 1 digit",
+                "notLessThanOneCapital": "At least 1 uppercase letter",
+                "notLessThanOneLowercase": "At least 1 lowercase letter"
+            },
+
+            "errors": {
+                "cantBeEmpty": "Field can't be empty",
+                "lenght": "Password must be at least 10 characters long",
+                "oneUppercase": "Password must contain at least one uppercase letter",
+                "oneLowercase": "Password must contain at least one lowercase letter",
+                "oneDigit": "Password must contain at least one digit",
+                "dontMatch": "Passwords don't match",
+                "wrongFormat": "Invalid password format",
+                "onlyEnglishLetters": "Only Latin letters, numbers, and special characters are allowed."
+            }
+        }
+    }
+}

@@ -1,0 +1,125 @@
+{
+    "resources.wallet.name": "Managing сryptocurrencies",
+    "resources.wallet.storage": {
+        "name": "Storage",
+        "initiatedTitle": "The storage is not initialized",
+        "buttonForInitiated": "Initialize",
+        "initiatedError": "Initialization error",
+        "titleClosed": "Storage sealed",
+        "buttonForOpen": "Unseal",
+        "buttonForClosed": "Seal",
+        "buttonForCancel": "Cancel unsealing",
+        "buttonForEnterKey": "Enter key shard",
+        "buttonForSend": "Submit",
+        "titleOpened": "Storage unsealed",
+        "key": "Key",
+        "unsealed": {
+            "errorTitle": "Storage unsealing error",
+            "errorSubtitle": "Please try again",
+            "allKeys": "Total key shards",
+            "requiredKeys": "Required to unseal",
+            "enteredKeys": "Entered key shards",
+            "toFinishKeys": "Shards remaining to unseal",
+            "unsealSuccess": "Storage unsealed successfully",
+            "keyPartSuccess": "Part of the key has been entered successfully"
+        }
+    },
+    "resources.wallet.manage": {
+        "name": "Wallets",
+        "wallet": "Wallet",
+        "fields": {
+            "walletType": "Wallet type",
+            "walletAddress": "Wallet address",
+            "accountNumber": "Account ID",
+            "merchantName": "Merchant",
+            "merchantId": "Merchant ID",
+            "currency": "Currency",
+            "descr": "Description",
+            "internalId": "Internal wallet ID",
+            "blockchain": "Blockchain",
+            "contactType": "Contact type in blockchain",
+            "minRemaini": "Minimum remaining amount",
+            "balance": "Balance"
+        },
+        "errors": {
+            "selectAccount": "Select account",
+            "errorWhenEditing": "An error occured when editing wallet",
+            "errorWhenCreating": "An error occured when creating wallet",
+            "serverError": "Server side error, try again later",
+            "alreadyExists": "Wallet with this address is already exists",
+            "addressRequired": "Address is required",
+            "invalidTRCAddresss": "Invalid TRC20 address",
+            "invalidTransactionId": "Invalid TRC20 transaction ID",
+            "minBalance": "Minimum value is 0",
+            "intOnly": "Input should be a valid integer without fractional part"
+        },
+        "success": {
+            "create": "Wallet has been successfully created."
+        },
+        "creatingWallet": "Adding wallet",
+        "editingWallet": "Editing wallet",
+        "deleteWallet": "Delete wallet?",
+        "createWallet": "Create wallet"
+    },
+    "resources.wallet.transactions": {
+        "name": "Cryptotransactions",
+        "cryptotransaction": "Cryptotransaction",
+        "allTransactions": "All transactions",
+        "deletedTransactions": "Deleted transactions",
+        "successMessage": "Confirmation request was send, wait for status update.",
+        "fields": {
+            "created_at": "Created at",
+            "updated_at": "Updated at",
+            "deleted_at": "Deleted at",
+            "src_wallet": "Source wallet",
+            "id": "Transaction ID",
+            "dst_wallet": "Destination wallet",
+            "amount": "Transaction amount",
+            "type": "Transaction type",
+            "state": "Payment status",
+            "merchant_id": "Merchant ID",
+            "tx_id": "Hashlink",
+            "clickOnHashlink": "Hash (click on hash to open transaction in blockchain explorer)",
+            "currency": "Currency",
+            "blowfish_id": "Blowfish id",
+            "total_fee": "Total fee",
+            "bandwidth_fee": "Network fee",
+            "confirm": "Confirm",
+            "confirmQuestion": "Confirm transaction?",
+            "pre_calculated_fee": "Precalculated fee"
+        },
+        "errors": {
+            "failedToConfirm": "Failed to confirm transaction"
+        },
+        "filterBar": {
+            "searchById": "Search by transaction ID",
+            "paymentStatus": "Payment status",
+            "created_at": "Creation date",
+            "datePlaceholder": "Select date",
+            "updated_at": "Update date",
+            "resetFilters": "Reset filters"
+        }
+    },
+    "resources.wallet.linkedTransactions": {
+        "name": "Receipts to the linked-wallet",
+        "show": "Receipt to a linked wallet",
+        "manual_reconciliation": "Manual reconciliation",
+        "check": "Check",
+        "notFound": "Transaction was not found",
+        "successFound": "Transaction added successfullly",
+        "notValidAmount": "The amount cannot be more than the balance",
+        "fields": {
+            "scannedAt": "Scanned at",
+            "blockTimestamp": "Block timestamp",
+            "transactionId": "Transaction ID",
+            "sourceAddress": "Source address",
+            "destinationAddress": "Destination address",
+            "type": "Type",
+            "amount": "Amount",
+            "currency": "Currency",
+            "fiatSwitcher": "Withdrawal via fiat currency",
+            "merchantBalance": "Balance",
+            "merchantAmount": "Amount"
+        }
+    }
+}

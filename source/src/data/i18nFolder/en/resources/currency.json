@@ -1,0 +1,32 @@
+{
+    "resources.currency.name": "Currencies",
+    "resources.currency.fields": {
+        "currency": "Currency",
+        "type": "Type",
+        "symbPos": "Symbol Position",
+        "symbol": "Symbol",
+        "fiat": "FIAT",
+        "crypto": "Cryptocurrency",
+        "before": "Before value",
+        "after": "After value",
+        "currencyName": "Currency name",
+        "example": "Example",
+        "edit": "Edit",
+        "delete": "Delete",
+        "accuracy": "Accuracy",
+        "defaultAccuracyPlaceholder": "By default 2"
+    },
+    "resources.currency.errors": {
+        "code": "Code is required",
+        "alreadyInUse": "This name is already in use. Choose another one.",
+        "intOnly": "Input should be a valid integer without fractional part",
+        "minVal": "Minimum value is 1",
+        "maxVal": "Maximum value is 16"
+    },
+    "resources.currency.create": "Add currency",
+    "resources.currency.createDialogTitle": "Adding a currency",
+    "resources.currency.editDialogTitle": "Edit currency",
+    "resources.currency.deleteDialogTitle": "Delete a currency?",
+    "resources.currency.showTitle": "Detailed information about currency",
+    "resources.currency.showDescription": "Detailed information about currency"
+}

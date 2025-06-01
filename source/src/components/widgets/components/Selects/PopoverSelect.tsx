@@ -7,6 +7,14 @@ import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 
+export interface IPopoverSelect {
+    value: string;
+    onChange: (value: string) => void;
+    isError?: boolean;
+    errorMessage?: string;
+    disabled?: boolean;
+}
+
 interface PopoverSelectProps {
     value: string;
     onChange: (value: string) => void;
@@ -19,7 +27,8 @@ interface PopoverSelectProps {
     notFoundMessage: string;
 
     isError?: boolean;
-    errorMessage?: string;
+    errorMessage?: string | React.ReactNode;
+    disabled?: boolean;
 }
 
 export const PopoverSelect = (props: PopoverSelectProps) => {
@@ -31,13 +40,14 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         notFoundMessage,
         isError,
         errorMessage = "",
+        disabled = false,
         onChange
     } = props;
     const [open, setOpen] = useState(false);
 
     return (
         <Popover modal={true} open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild className="mt-0">
+            <PopoverTrigger asChild className="mt-0" disabled={disabled}>
                 <Button
                     variant={"outline_gray"}
                     role="combobox"

@@ -1,0 +1,29 @@
+{
+    "resources.merchant.name": "Мерчанты",
+    "resources.merchant.merchant": "Мерчант",
+    "resources.merchant.fields": {
+        "id": "ID",
+        "name": "Имя",
+        "descr": "Описание",
+        "directions": "Направления",
+        "fees": "Комиссии",
+        "pays": "PayIn/PayOut"
+    },
+    "resources.merchant.errors": {
+        "id": "ID обязательно должен быть заполнен",
+        "name": "У мерчанта обязательно должно быть имя",
+        "alreadyInUse": "Мерчант с таким именем или Id уже существует",
+        "noSpaces": "Пробелы запрещены в данном поле",
+        "publicKey": "Неверный формат публичного ключа",
+        "required": "Обязательное поле",
+        "notFound": "Мерчант %{name} не найден"
+    },
+    "resources.merchant.success": {
+        "create": "Мерчант %{name} успешно создан."
+    },
+    "resources.merchant.showTitle": "Детальная инфорация о мерчанте",
+    "resources.merchant.createNew": "Создать нового мерчанта",
+    "resources.merchant.creatingMerchant": "Создание нового мерчанта",
+    "resources.merchant.editingMerchant": "Изменить мерчанта",
+    "resources.merchant.delete": "Удалить мерчанта?"
+}

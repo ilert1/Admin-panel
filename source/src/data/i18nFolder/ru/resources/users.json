@@ -1,0 +1,63 @@
+{
+    "resources.users.name": "Пользователи",
+    "resources.users.user": "Пользователь",
+    "resources.users.edit": "Изменить",
+    "resources.users.deleteThisUser": "Удалить пользователя?",
+    "resources.users.delete": "Удалить",
+    "resources.users.fields": {
+        "id": "ID пользователя",
+        "keycloak_id": "ID пользователя",
+        "name": "Имя пользователя",
+        "login": "Логин",
+        "email": "Электронная почта",
+        "merchant": "Мерчант",
+        "roles": "Роли",
+        "currency": "Валюта",
+        "created_at": "Дата и время",
+        "active": "Активность",
+        "activeStateTrue": "Активен",
+        "activeStateFalse": "Не активен",
+        "public_key": "Публичный ключ",
+        "shop_api_key": "Ключ API",
+        "shop_sign_key": "Ключ подписи",
+        "shop_balance_key": "Ключ баланса"
+    },
+    "resources.users.createButton": "Добавить пользователя",
+    "resources.users.filter": {
+        "showAll": "Показать все",
+        "filterByUserId": "Поиск по ID пользователя",
+        "filterByUsername": "Поиск по имени",
+        "filterByUsernamePlaceholder": "Имя",
+        "filterByActivity": "Активные пользователи"
+    },
+    "resources.users.showHeader": "Информация о пользователе",
+    "resources.users.showDescription": "Подробная информация о пользователе с ID %{id}",
+    "resources.users.editUser": "Изменить пользователя",
+    "resources.users.editSuccessMessage": "Пользователь успешно изменен",
+    "resources.users.create": {
+        "successMessage": "Пользователь %{name} успешно создан.",
+        "errorMessage": "Не удалось создать пользователя",
+        "deleteError": "Не удалось создать пользователя",
+        "merhchantDoesntExist": "Выбранный мерчант не найден",
+        "usernameInUse": "Выбранный логин уже занят, выберите другой",
+        "emailInUse": "Выбранный адрес электронной почты уже используется",
+        "wrongRole": "Выбранная роль не существует",
+        "wrongNames": "Неправильный формат имени и/или фамилии"
+    },
+    "resources.users.deleteMessages": {
+        "deleteSuccess": "Успешно удален",
+        "deleteError": "Ошибка при удалении пользователя"
+    },
+    "resources.users.roles": {
+        "admin": "Системный администратор",
+        "system_manager_for_providers": "Системный менеджер по интеграции провайдеров",
+        "system_manager_for_merchants": "Системный менеджер по интеграции мерчантов",
+        "system_sales_manager": "Системный менеджер по продажам",
+        "system_hos": "Руководитель отдела продаж в системе",
+        "system_operator": "Оператор системы",
+        "system_supervisor": "Аудитор системы",
+        "system_accountant": "Бухгалтер системы",
+        "merchant": "Адмнистратор мерчанта",
+        "merchant_operator": "Оператор мерчанта"
+    }
+}

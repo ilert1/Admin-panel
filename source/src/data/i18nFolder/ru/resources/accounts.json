@@ -1,0 +1,56 @@
+{
+    "resources.accounts.admin": {
+        "name": "Счета"
+    },
+    "resources.accounts.merchant": {
+        "name": "Мои счета"
+    },
+    "resources.accounts.editDialogTitle": "Изменить счет",
+    "resources.accounts.editFields": {
+        "name": "Наименование",
+        "wallet_create": "Создать кошелек",
+        "wallet_type": "Тип кошелька",
+        "tron_wallet": "Внутренний кошелёк провайдера",
+        "tron_address": "Внешний кошелёк провайдера",
+        "provider_account": "Счёт провайдера",
+        "reward_account": "Буферный счёт",
+        "stateActive": "Да",
+        "stateInactive": "Нет"
+    },
+    "resources.accounts.fields": {
+        "owner": "Владелец",
+        "state": "Статус",
+        "states": {
+            "active": "Активный",
+            "frozen": "Приостановлен",
+            "blocked": "Заблокирован",
+            "deleted": "Удален"
+        },
+        "tron_wallet": "Внутренний кошелёк провайдера",
+        "trc20": "Адрес для пополнения баланса мерчанта в агрегаторе",
+        "type": "Тип счёта",
+        "balance": "Баланс счёта",
+        "edit": "Изменить",
+        "id": "ID",
+        "owner_id": "ID владельца",
+        "amounts": "Суммы",
+        "amount": {
+            "id": "ID",
+            "shop_currency": "Фиатная валюта",
+            "type": "Тип",
+            "currency": "Валюта",
+            "value": "Сумма"
+        },
+        "meta": {
+            "caption": "Имя"
+        }
+    },
+    "resources.accounts.errors": {
+        "name": "Требуется указать имя",
+        "uuid": "Неправильный UUID"
+    },
+    "resources.accounts.showHeader": "Информация о счете",
+    "resources.accounts.showDescription": "Подробная информация о счете с ID %{id}",
+    "resources.accounts.balance": "Баланс",
+    "resources.accounts.held": "Заморожено"
+}

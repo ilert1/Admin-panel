@@ -1,0 +1,153 @@
+{
+    "resources.transactions.name": "Операции",
+    "resources.transactions.fields": {
+        "id": "ID операции",
+        "created_at": "Дата создания",
+        "updated_at": "Обновлена",
+        "committed": "Зафиксированная",
+        "account_id": "ID счёта",
+        "dispute": "Диспут",
+        "accountBalance": "Баланс счёта",
+        "amount_value": "Сумма",
+        "currency": "Валюта",
+        "meta": {
+            "external_status": "Внешний статус",
+            "parentId": "ID родительской транзакции",
+            "customer_payment_id": "ID платежа клиента",
+            "customer_id": "ID клиента"
+        },
+        "state": {
+            "title": "Состояние",
+            "final": "Финальная",
+            "state_int": "Код",
+            "state_description": "Статус",
+            "state_changed": "Статус измене на:"
+        },
+        "rateInfo": "Курс",
+        "createdAt": "Дата и время",
+        "stornoIds": "Транзакции сторно",
+        "source": {
+            "header": "Отправитель",
+            "id": "ID",
+            "amount": {
+                "currency": "Валюта",
+                "value": "Сумма",
+                "sendAmount": "Сумма отправления"
+            },
+            "meta": {
+                "caption": "Название"
+            }
+        },
+        "destination": {
+            "header": "Мерчант",
+            "id": "ID",
+            "amount": {
+                "currency": "Валюта",
+                "value": "Сумма",
+                "getAmount": "Сумма зачисления"
+            },
+            "meta": {
+                "caption": "Название"
+            }
+        },
+        "recipient": "Получатель",
+        "type": "Тип",
+        "feeType": "Тип комиссии",
+        "value": "Сумма",
+        "history": "История",
+        "fees": "Комиссии",
+        "feeValue": "Сумма комиссии",
+        "sourceValue": "Сумма отправления",
+        "destValue": "Сумма зачисления"
+    },
+    "resources.transactions.show": {
+        "statusButton": "Ручной перевод в статус",
+        "cancel": "Отмена",
+        "storno": "Сторно",
+        "commit": "Зафиксировать",
+        "openDispute": "Открыть диспут",
+        "closeDispute": "Закрыть диспут",
+        "disputeOpened": "Диспут открыт",
+        "disputeClosed": "Диспут закрыт",
+        "commitTransaction": "Зафиксировать операцию?",
+        "sendWebhook": "Отправить вебхук",
+        "sendWebhookSuccessMsg": "Вебхук для ордера %{id} успешно отправлен",
+        "notFound": "Транзакция не найдена"
+    },
+    "resources.transactions.list": {
+        "filter": {
+            "transactionId": "ID транзакции",
+            "account": "Счет"
+        }
+    },
+    "resources.transactions.undefined": "Нет данных",
+    "resources.transactions.pagination": "Записей",
+    "resources.transactions.chart": "График операций",
+    "resources.transactions.showHeader": "Информация о транзакции",
+    "resources.transactions.showDescription": "Подробная информация о транзакции с ID %{id}",
+    "resources.transactions.storno": {
+        "destValueMessage": "Некорректное значение",
+        "sourceValueMessage": "Некорректное значение",
+        "selectSourceValue": "Выберите счет отправителя",
+        "selectDestinationValue": "Выберите счет отправителя",
+        "selectCurrency": "Выберите валюту"
+    },
+    "resources.transactions.download": {
+        "downloadReportLabel": "Выгрузка отчета",
+        "dateTitle": "Дата",
+        "downloadReportButtonText": "Скачать отчет",
+        "bothError": "Начальная дата и конечная дата обязательно должны быть заполнены",
+        "greaterError": "Конечная дата не может быть больше чем начальная дата",
+        "dateExceed": "Начальная/конечная дата не может быть больше сегодняшней даты",
+        "accountField": "Выберите аккаунт мерчанта"
+    },
+    "resources.transactions.filter": {
+        "filters": "Фильтры",
+        "showAll": "Показать все",
+        "filterById": "Поиск по ID операции",
+        "filterByIdPlaceholder": "ID",
+        "filterByAccount": "Мерчант",
+        "filterAllPlaceholder": "Все",
+        "filterByOrderStatus": "Статус ордера",
+        "filterByDate": "Выберите период",
+        "clearFilters": "Сбросить фильтры",
+        "filterCustomerPaymentId": "Поиск по ID платежа клиента"
+    },
+    "resources.transactions.types": {
+        "all": "Все операции",
+        "deposit": "Пополнение",
+        "withdraw": "Вывод средств",
+        "transfer": "Перевод средств",
+        "reward": "Выплата вознаграждения",
+        "feefromsender": "Комиссия от отправителя",
+        "feefromtransaction": "Комиссия с транзакции",
+        "unknown": "Неизвестный тип",
+        "undefined": "Неизвестный тип"
+    },
+    "resources.transactions.states": {
+        "all": "Показать все",
+        "created": "Создано",
+        "paid": "Оплачено",
+        "fromoutside": "Извне",
+        "waitpayout": "Ожидание выплаты",
+        "paidout": "Выплачено",
+        "toreturnfrominside": "К возврату изнутри",
+        "toreturnfromoutside": "К возврату извне",
+        "reversed": "Отменено",
+        "changedfromcreated": "Изменено с состояния 'Создано'",
+        "changedfrompaid": "Изменено с состояния 'Оплачено'",
+        "returned": "Возвращено",
+        "todeny": "Отклонено системой провайдера",
+        "processing": "Обработка",
+        "expired": "Истекло",
+        "deleted": "Удалено",
+        "success": "Успех",
+        "fail": "Неудача",
+        "correction": "Коррекция",
+        "emptyrequisites": "Реквизиты отсутвуют",
+        "limitfail": "Вне допустимого лимита ордера",
+        "waitingforadminapproval": "Ожидание подтверждения",
+        "cancelledbypayer": "Отменено плательщиком",
+        "cascadefail": "Ошибка каскада"
+    }
+}

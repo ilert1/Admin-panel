@@ -1,0 +1,48 @@
+{
+    "resources.terminals.name": "Терминалы",
+    "resources.terminals.terminal": "Терминал",
+    "resources.terminals.fields": {
+        "verbose_name": "Наименование",
+        "id": "ID",
+        "description": "Описание",
+        "provider": "Провайдер",
+        "auth": "Данные аутентификации",
+        "fees": "Комиссии",
+        "createAccount": "Создать счёт",
+        "account": "Счёт",
+        "details": "Технические данные",
+        "allocation_timeout_seconds": "Таймаут ответа провайдера",
+        "timeout": "Таймаут провайдера",
+        "pays": "PayIn/PayOut"
+    },
+    "resources.terminals.filter": {
+        "filters": "Фильтры",
+        "showAll": "Показать все",
+        "filterAllPlaceholder": "Все",
+        "filterByName": "Терминал"
+    },
+    "resources.terminals.errors": {
+        "verbose_name": "У терминала обязательно должно быть имя",
+        "description": "У терминала обязательно должно быть описание",
+        "auth_data_toggle": "Для переключения режима - исправьте ошибки",
+        "key_error": "Поле key обязательное",
+        "value_error": "Поле value обязательное",
+        "allocation_timeout_seconds": "Только целочисленные значения",
+        "allocation_timeout_seconds_min": "Минимальное значение 1",
+        "allocation_timeout_seconds_max": "Максимальное значение 120"
+    },
+    "resources.terminals.success": {
+        "create": "Терминал %{name} успешно создан."
+    },
+    "resources.terminals.callbackCreating": "Создание callback",
+    "resources.terminals.callbackCreatedSuccessfully": "Callback успешно создан",
+    "resources.terminals.urlTemplate": "Шаблон URL",
+    "resources.terminals.create": "Создать терминал",
+    "resources.terminals.selectHeader": "Провайдер",
+    "resources.terminals.selectPlaceholder": "Выберите провайдера",
+    "resources.terminals.creatingTerminal": "Создание терминала",
+    "resources.terminals.deleteHeader": "Удалить терминал?",
+    "resources.terminals.editingTerminal": "Изменить терминал",
+    "resources.terminals.accountCreatedSuccessfully": "Account created successfully",
+    "resources.terminals.adapter_nats_subject": "Адаптер Nats"
+}

@@ -1,0 +1,42 @@
+{
+    "resources.withdraw.name": "Сrypto withdrawal",
+    "resources.withdraw.tableTitle": "Report on cryptocurrency withdrawals",
+    "resources.withdraw.cryptoTransferTitle": "Crypto transfer",
+    "resources.withdraw.resendQuestion": "Repeat transaction?",
+    "resources.withdraw.errors": {
+        "lowAmountError": "The amount must be more than 2 USDT",
+        "serverError": "An error occured on server"
+    },
+    "resources.withdraw.fields": {
+        "id": "Transaction ID",
+        "created_at": "Created at",
+        "destination": {
+            "id": "TRC20 address",
+            "amount": {
+                "currency": "Currency",
+                "value": "Value"
+            }
+        },
+        "payload": {
+            "hash": "Hash",
+            "hash_link": "Tronscan link"
+        },
+        "merchant": "Merchant",
+        "state": "State",
+        "idInBlockChain": "Hashlink",
+        "resend": "Resend"
+    },
+    "resources.withdraw.download": {
+        "downloadReportButtonText": "Download report",
+        "bothError": "Both start date and end date must be selected",
+        "error": "Error"
+    },
+    "resources.withdraw.filter": {
+        "filterById": "Search by ID",
+        "filterByTrc20": "Search by TRC20 address",
+        "filterByIdPlaceholder": "ID",
+        "filterByDate": "Date",
+        "filterByDatePlaceholder": "Select period",
+        "clearFilters": "Clear filters"
+    }
+}

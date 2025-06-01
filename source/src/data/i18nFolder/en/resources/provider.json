@@ -1,0 +1,39 @@
+{
+    "resources.provider.name": "Providers",
+    "resources.provider.fields": {
+        "_name": "Name",
+        "name": "Provider",
+        "pk": "Public key",
+        "genKey": "Generate keys",
+        "keyMiss": "The key is missing",
+        "regenKey": "Regenerate keys",
+        "json_schema": "Json schema",
+        "code": "Methods",
+        "enterMethods": "Enter your methods",
+        "methods": "Methods"
+    },
+    "resources.provider.errors": {
+        "name": "Name must contain at least 1 symbol",
+        "alreadyInUse": "This name is already in use. Choose another one."
+    },
+    "resources.provider.recreateConfirm": "Recreate keys?",
+    "resources.provider.recreateConfirmDescription": "Old keys will become invalid.",
+    "resources.provider.recreate": "Recreate",
+    "resources.provider.showTitle": "Detailed information about provider",
+    "resources.provider.createNew": "Create new provider",
+    "resources.provider.createTestKeys": "Create test keys",
+    "resources.provider.attention": "Attention",
+    "resources.provider.warning": "Attention! Private key will be shown ONLY 1 time",
+    "resources.provider.sendToDevOps": "Copy it and send it to DevOps Engineer",
+    "resources.provider.pleaseCreate": "Please create keys on the page with providers table",
+    "resources.provider.pleaseWait": "Please wait",
+    "resources.provider.clickToCopy": "This is your private key.\n Click button to copy or copy manually.",
+    "resources.provider.continue": "Continue",
+    "resources.provider.close": "Close",
+    "resources.provider.privateKey": "Private key",
+    "resources.provider.deleteProviderQuestion": "Delete provider?",
+    "resources.provider.keysCreating": "Test keys creating",
+    "resources.provider.realKeysCreating": "Keys generation",
+    "resources.provider.editingProvider": "Editing provider",
+    "resources.provider.creatingProvider": "Creating provider"
+}
