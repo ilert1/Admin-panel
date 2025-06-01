@@ -61,7 +61,10 @@
             "addedSuccessfully": "IP адрес добавлен",
             "deletedSuccessfully": "IP адрес удален",
             "activatePolicy": "Активировать политику?",
-            "deactivatePolicy": "Деактивировать политику?"
+            "deactivatePolicy": "Деактивировать политику?",
+            "ipAdressListUpdatedSuccessfully": "Список IP адресов успешно обновлен",
+            "youHaveUnsavedChanges": "Найдены несохраненные изменения",
+            "saveOrDeleteThem": "Удалить или сохранить их?"
         },
         "errors": {
             "cantBeEmpty": "Поле не может быть пустым",

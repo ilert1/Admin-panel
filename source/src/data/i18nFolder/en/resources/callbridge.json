@@ -59,7 +59,10 @@
             "addedSuccessfully": "IP address added",
             "deletedSuccessfully": "IP address deleted",
             "activatePolicy": "Activate policy?",
-            "deactivatePolicy": "Deactivate policy?"
+            "deactivatePolicy": "Deactivate policy?",
+            "ipAdressListUpdatedSuccessfully": "IP adresses list updated successfully",
+            "youHaveUnsavedChanges": "Found unsaved changes",
+            "saveOrDeleteThem": "Delete or save them?"
         },
         "errors": {
             "cantBeEmpty": "Field can't be empty",

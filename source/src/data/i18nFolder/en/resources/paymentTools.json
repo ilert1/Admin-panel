@@ -64,8 +64,8 @@
         "deleteFinancialInstitution": "Delete financial institution?"
     },
     "resources.paymentTools.systemPaymentInstruments": {
-        "name": "System tools",
-        "show": "System tool",
+        "name": "Payment tools",
+        "show": "Payment tool",
         "fields": {
             "name": "Name",
             "payment_type_code": "Payment type",
@@ -88,7 +88,7 @@
         },
         "errors": {
             "cantBeEmpty": "Field can't be empty",
-            "nameRegex": "Name can only contain letters, numbers, underscores, and hyphens"
+            "nameRegex": "Name can only contain latin letters, numbers, underscores, and hyphens"
         },
         "statuses": {
             "active": "Active",
@@ -101,8 +101,8 @@
         "deletePaymentInstrumentQuestion": "Delete payment instrument?"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
-        "name": "Terminal integrations",
-        "show": "Terminal integration",
+        "name": "Terminal payment instruments",
+        "show": "Terminal payment instrument",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
@@ -126,13 +126,20 @@
         "editingTerminalPaymentInstrument": "Editing terminal integration",
         "deleteTerminalPaymentInstrument": "Delete terminal integration?"
     },
+    "resources.paymentTools.currency": {
+        "name": "Currencies"
+    },
     "resources.paymentTools.deletion": {
         "attention": "Attention!",
         "attentionDescriptionPaymentType": "Payment type deletion will lead to the deletion of associated payment instruments",
         "consequencesPaymentType": "You are going to delete payment type and associated payment instruments. Proceed?",
         "attentionDescriptionFinOrganization": "Financial organization deletion will lead to the deletion of associated payment instruments",
         "consequencesFinOrganization": "You are going to delete financial organization and associated payment instruments. Proceed?",
-        "attentionDescriptionSystemInstrument": "System instrument deletion will lead to the deletion of associated payment instruments",
-        "consequencesSystemInstrument": "You are going to delete system instrument and associated payment instruments. Proceed?"
+        "attentionDescriptionSystemInstrument": "System instrument deletion will lead to the deletion of associated payment terminal",
+        "consequencesSystemInstrument": "You are going to delete system instrument and associated payment terminal. Proceed?",
+        "attentionDescriptionTerminalPaymentInstrument": "Terminal payment instrument deletion will lead to the deletion of associated payment terminal",
+        "consequencesTerminalPaymentInstrument": "Terminal payment instrument deletion will lead to the deletion of associated payment terminal",
+        "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
+        "consequencesCurrency": "Currency deletion will lead to the deletion of associated payment instruments"
     }
 }
