@@ -3,7 +3,7 @@ import { CheckIcon, ChevronDown, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 
@@ -11,7 +11,7 @@ export interface IPopoverSelect {
     value: string;
     onChange: (value: string) => void;
     isError?: boolean;
-    errorMessage?: string;
+    errorMessage?: string | ReactNode;
     disabled?: boolean;
 }
 
@@ -25,6 +25,7 @@ interface PopoverSelectProps {
     variantTitleKey?: string;
 
     notFoundMessage: string;
+    commandPlaceholder?: string;
 
     isError?: boolean;
     errorMessage?: string | React.ReactNode;
@@ -41,6 +42,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         isError,
         errorMessage = "",
         disabled = false,
+        commandPlaceholder = "",
         onChange
     } = props;
     const [open, setOpen] = useState(false);
@@ -92,7 +94,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
                 <Command>
-                    <CommandInput placeholder="Search currency..." />
+                    <CommandInput placeholder={commandPlaceholder} />
                     <CommandList>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>

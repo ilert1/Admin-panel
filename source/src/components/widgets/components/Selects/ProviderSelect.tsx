@@ -16,7 +16,6 @@ export const ProviderSelect = ({
     disabled
 }: ProviderSelectProps) => {
     const translate = useTranslate();
-
     return (
         <PopoverSelect
             variants={providers}

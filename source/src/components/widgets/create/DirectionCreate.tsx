@@ -271,7 +271,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <ProviderSelect
                                         providers={providers.data}
                                         value={field.value}
-                                        onChange={field.onChange}
+                                        onChange={e => {
+                                            getTerminals(e);
+                                            field.onChange(e);
+                                        }}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={providersDisabled}

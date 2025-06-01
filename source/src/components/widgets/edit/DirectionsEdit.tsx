@@ -27,6 +27,8 @@ import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { DirectionsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
+import { CurrencySelect } from "../components/Selects/CurrencySelect";
+import { ProviderSelect } from "../components/Selects/ProviderSelect";
 
 export interface DirectionEditProps {
     id?: string;
@@ -255,30 +257,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         render={({ field, fieldState }) => (
                             <FormItem className="w-full p-2 sm:w-1/2">
                                 <Label>{translate("resources.direction.sourceCurrency")}</Label>
-                                <Select value={field.value} onValueChange={field.onChange}>
-                                    <FormControl>
-                                        <SelectTrigger
-                                            variant={SelectType.GRAY}
-                                            isError={fieldState.invalid}
-                                            errorMessage={<FormMessage />}>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {currencies?.data.map(currency => {
-                                                return (
-                                                    <SelectItem
-                                                        key={currency.code}
-                                                        value={currency.code}
-                                                        variant={SelectType.GRAY}>
-                                                        {currency.code}
-                                                    </SelectItem>
-                                                );
-                                            })}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                <CurrencySelect
+                                    currencies={currencies.data}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    isError={fieldState.invalid}
+                                    errorMessage={<FormMessage />}
+                                />
                             </FormItem>
                         )}
                     />
@@ -304,30 +289,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         render={({ field, fieldState }) => (
                             <FormItem className="w-full p-2 sm:w-1/2">
                                 <Label>{translate("resources.direction.destinationCurrency")}</Label>
-                                <Select value={field.value} onValueChange={field.onChange}>
-                                    <FormControl>
-                                        <SelectTrigger
-                                            variant={SelectType.GRAY}
-                                            isError={fieldState.invalid}
-                                            errorMessage={<FormMessage />}>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {currencies?.data.map(currency => {
-                                                return (
-                                                    <SelectItem
-                                                        key={currency.code}
-                                                        value={currency.code}
-                                                        variant={SelectType.GRAY}>
-                                                        {currency.code}
-                                                    </SelectItem>
-                                                );
-                                            })}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                <CurrencySelect
+                                    currencies={currencies.data}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    isError={fieldState.invalid}
+                                    errorMessage={<FormMessage />}
+                                />
                             </FormItem>
                         )}
                     />
@@ -338,37 +306,17 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         render={({ field, fieldState }) => (
                             <FormItem className="w-full p-2 sm:w-1/2">
                                 <Label>{translate("resources.direction.provider")}</Label>
-                                <Select
+                                <ProviderSelect
+                                    providers={providers.data}
                                     value={field.value}
-                                    onValueChange={e => {
+                                    onChange={e => {
                                         getTerminals(e);
                                         if (e !== form.getValues().provider) form.setValue("terminal", "");
                                         field.onChange(e);
-                                    }}>
-                                    <FormControl>
-                                        <SelectTrigger
-                                            variant={SelectType.GRAY}
-                                            isError={fieldState.invalid}
-                                            errorMessage={<FormMessage />}>
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {providers?.data.map(provider => {
-                                                return (
-                                                    <SelectItem
-                                                        variant={SelectType.GRAY}
-                                                        key={provider.name}
-                                                        value={provider.name}
-                                                        disabled={provider.public_key ? false : true}>
-                                                        {provider.name}
-                                                    </SelectItem>
-                                                );
-                                            })}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                    }}
+                                    isError={fieldState.invalid}
+                                    errorMessage={<FormMessage />}
+                                />
                             </FormItem>
                         )}
                     />
