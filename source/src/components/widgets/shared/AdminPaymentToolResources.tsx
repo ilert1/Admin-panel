@@ -1,11 +1,12 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronLeft, FileTerminal, HandCoins, Landmark, Pickaxe } from "lucide-react";
+import { BanknoteIcon, ChevronDown, ChevronLeft, HandCoins, Landmark, Pickaxe } from "lucide-react";
 import { useState } from "react";
 
 import { useTranslate } from "react-admin";
 import { NavLink, useLocation } from "react-router-dom";
 import SystemToolsIcon from "@/lib/icons/System_tools.svg?react";
+import TerminalIntegrationsIcon from "@/lib/icons/integrations.svg?react";
 
 interface ICustomViewRoute {
     name: string;
@@ -28,6 +29,11 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
         icon: <Pickaxe />,
         childrens: [
             {
+                name: "currency",
+                path: "/paymentTools/currency",
+                icon: <BanknoteIcon />
+            },
+            {
                 name: "paymentType",
                 path: "/paymentTools/paymentType",
                 icon: <HandCoins />
@@ -38,14 +44,14 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                 icon: <Landmark />
             },
             {
-                name: "terminalPaymentInstruments",
-                path: "/paymentTools/terminalPaymentInstruments",
-                icon: <FileTerminal />
-            },
-            {
                 name: "systemPaymentInstruments",
                 path: "/paymentTools/systemPaymentInstruments",
-                icon: <SystemToolsIcon className="stroke-white" />
+                icon: <SystemToolsIcon className="stroke-current" />
+            },
+            {
+                name: "terminalPaymentInstruments",
+                path: "/paymentTools/terminalPaymentInstruments",
+                icon: <TerminalIntegrationsIcon className="stroke-current" />
             }
         ]
     };

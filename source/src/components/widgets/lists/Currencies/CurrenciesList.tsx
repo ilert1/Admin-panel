@@ -12,7 +12,7 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const CurrenciesList = () => {
-    const listContext = useAbortableListController<CurrencyWithId>();
+    const listContext = useAbortableListController<CurrencyWithId>({ resource: "currency" });
     const translate = useTranslate();
 
     const {

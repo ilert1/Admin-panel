@@ -15,6 +15,7 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
     const [deleteOne] = useDelete();
     const refresh = useRefresh();
     const [deleteClicked, setDeleteClicked] = useState(false);
+    const [continueClicked, setContinueClicked] = useState(false);
 
     const appToast = useAppToast();
 
@@ -42,21 +43,44 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[200px] max-w-[251px] overflow-auto bg-muted sm:max-h-[140px]">
+            <DialogContent
+                className="max-h-[250px] max-w-[270px] overflow-auto bg-muted md:max-w-[350px]"
+                onCloseAutoFocus={() => {
+                    setContinueClicked(false);
+                }}
+                onEscapeKeyDown={() => {
+                    setContinueClicked(false);
+                }}>
                 <DialogHeader>
-                    <DialogTitle className="text-xl">{translate("resources.currency.deleteDialogTitle")}</DialogTitle>
+                    <DialogTitle className="text-center !text-display-2 text-red-40 dark:text-red-40">
+                        {translate("resources.paymentTools.deletion.attention")}
+                    </DialogTitle>
+                    <DialogDescription className="text-center !text-title-1 text-red-400">
+                        {!continueClicked
+                            ? translate("resources.paymentTools.deletion.attentionDescriptionCurrency")
+                            : translate("resources.paymentTools.deletion.consequencesCurrency")}
+                    </DialogDescription>
                 </DialogHeader>
-
-                <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-0">
-                    <Button onClick={handleDelete} variant="default">
-                        {translate("app.ui.actions.delete")}
-                    </Button>
-                    <Button
-                        onClick={() => onOpenChange(false)}
-                        variant="outline"
-                        className="bg-neutral-0 dark:bg-neutral-100">
-                        {translate("app.ui.actions.cancel")}
-                    </Button>
+                <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-4">
+                    {!continueClicked ? (
+                        <Button className="w-full sm:w-1/2" variant={"alert"} onClick={() => setContinueClicked(true)}>
+                            {translate("app.ui.actions.continue")}
+                        </Button>
+                    ) : (
+                        <>
+                            <Button className="w-full" onClick={handleDelete} variant={"alert"}>
+                                {translate("app.ui.actions.delete")}
+                            </Button>
+                            <Button
+                                className="w-full"
+                                onClick={() => {
+                                    onOpenChange(false);
+                                    refresh();
+                                }}>
+                                {translate("app.ui.actions.cancel")}
+                            </Button>
+                        </>
+                    )}
                 </div>
             </DialogContent>
             <DialogDescription />

@@ -767,7 +767,10 @@ const ru: TranslationMessages = {
                     addedSuccessfully: "IP адрес добавлен",
                     deletedSuccessfully: "IP адрес удален",
                     activatePolicy: "Активировать политику?",
-                    deactivatePolicy: "Деактивировать политику?"
+                    deactivatePolicy: "Деактивировать политику?",
+                    ipAdressListUpdatedSuccessfully: "Список IP адресов успешно обновлен",
+                    youHaveUnsavedChanges: "Found unsaved changes",
+                    saveOrDeleteThem: "Delete or save them?"
                 },
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
@@ -869,8 +872,8 @@ const ru: TranslationMessages = {
                 deleteFinancialInstitution: "Удалить фин. организацию?"
             },
             systemPaymentInstruments: {
-                name: "Системные инструменты",
-                show: "Системный инструмент",
+                name: "Платёжные инструменты",
+                show: "Платёжный инструмент",
                 fields: {
                     name: "Название",
                     payment_type_code: "Тип платежа",
@@ -893,7 +896,7 @@ const ru: TranslationMessages = {
                 },
                 errors: {
                     cantBeEmpty: "Поле не может быть пустым",
-                    nameRegex: "Название может содержать только буквы, цифры, подчеркивание и тире"
+                    nameRegex: "Название может содержать только латинские буквы, цифры, подчеркивание и тире"
                 },
                 statuses: {
                     active: "Активен",
@@ -906,8 +909,8 @@ const ru: TranslationMessages = {
                 deletePaymentInstrumentQuestion: "Удалить платежный инструмент?"
             },
             terminalPaymentInstruments: {
-                name: "Интеграции терминалов",
-                show: "Интеграции терминала",
+                name: "Платежные инструменты терминалов",
+                show: "Платежный инструмент терминала",
                 fields: {
                     created_at: "Дата и время создания",
                     updated_at: "Дата и время обновления",
@@ -931,6 +934,9 @@ const ru: TranslationMessages = {
                 editingTerminalPaymentInstrument: "Изменение интеграции терминала",
                 deleteTerminalPaymentInstrument: "Удалить интеграцию терминала?"
             },
+            currency: {
+                name: "Валюты"
+            },
             deletion: {
                 attention: "Внимание!",
                 attentionDescriptionPaymentType:
@@ -942,9 +948,16 @@ const ru: TranslationMessages = {
                 consequencesFinOrganization:
                     "Вы уверены, что хотите удалить финансовую организацию и связанные с ней платёжные инструменты?",
                 attentionDescriptionSystemInstrument:
-                    "Удаление системного инструмента приведет к удалению связанных с ним платежных инструментов",
+                    "Удаление платёжного инструмента приведет к удалению связанного с ним платежного терминала",
                 consequencesSystemInstrument:
-                    "Вы уверены, что хотите удалить системный инструмент и связанные с ним платежные инструменты?"
+                    "Вы уверены, что хотите удалить плажетный инструмент и связанный с ним платёжный терминал?",
+                attentionDescriptionTerminalPaymentInstrument:
+                    "Удаление платёжного инструмента терминала приведет к удалению связанных с ним платежных инструментов",
+                consequencesTerminalPaymentInstrument:
+                    "Вы уверены, что хотите удалить плажетный инструмент терминала и связанные с ним платежные инструменты?",
+                attentionDescriptionCurrency:
+                    "Удаление валюты приведет к удалению связанных с ней платежных инструментов",
+                consequencesCurrency: "Вы уверены, что хотите удалить валюту и связанные с ней платежные инструменты?"
             }
         }
     },
@@ -1997,7 +2010,10 @@ const en: TranslationMessages = {
                     addedSuccessfully: "IP address added",
                     deletedSuccessfully: "IP address deleted",
                     activatePolicy: "Activate policy?",
-                    deactivatePolicy: "Deactivate policy?"
+                    deactivatePolicy: "Deactivate policy?",
+                    ipAdressListUpdatedSuccessfully: "IP adresses list updated successfully",
+                    youHaveUnsavedChanges: "Найдены несохраненные изменения",
+                    saveOrDeleteThem: "Удалить или сохранить их?"
                 },
                 errors: {
                     cantBeEmpty: "Field can't be empty",
@@ -2100,8 +2116,8 @@ const en: TranslationMessages = {
                 deleteFinancialInstitution: "Delete financial institution?"
             },
             systemPaymentInstruments: {
-                name: "System tools",
-                show: "System tool",
+                name: "Payment tools",
+                show: "Payment tool",
                 fields: {
                     name: "Name",
                     payment_type_code: "Payment type",
@@ -2124,7 +2140,7 @@ const en: TranslationMessages = {
                 },
                 errors: {
                     cantBeEmpty: "Field can't be empty",
-                    nameRegex: "Name can only contain letters, numbers, underscores, and hyphens"
+                    nameRegex: "Name can only contain latin letters, numbers, underscores, and hyphens"
                 },
                 statuses: {
                     active: "Active",
@@ -2137,8 +2153,8 @@ const en: TranslationMessages = {
                 deletePaymentInstrumentQuestion: "Delete payment instrument?"
             },
             terminalPaymentInstruments: {
-                name: "Terminal integrations",
-                show: "Terminal integration",
+                name: "Terminal payment instruments",
+                show: "Terminal payment instrument",
                 fields: {
                     created_at: "Created at",
                     updated_at: "Updated at",
@@ -2163,6 +2179,9 @@ const en: TranslationMessages = {
                 editingTerminalPaymentInstrument: "Editing terminal integration",
                 deleteTerminalPaymentInstrument: "Delete terminal integration?"
             },
+            currency: {
+                name: "Currencies"
+            },
             deletion: {
                 attention: "Attention!",
                 attentionDescriptionPaymentType:
@@ -2174,9 +2193,16 @@ const en: TranslationMessages = {
                 consequencesFinOrganization:
                     "You are going to delete financial organization and associated payment instruments. Proceed?",
                 attentionDescriptionSystemInstrument:
-                    "System instrument deletion will lead to the deletion of associated payment instruments",
+                    "System instrument deletion will lead to the deletion of associated payment terminal",
                 consequencesSystemInstrument:
-                    "You are going to delete system instrument and associated payment instruments. Proceed?"
+                    "You are going to delete system instrument and associated payment terminal. Proceed?",
+                attentionDescriptionTerminalPaymentInstrument:
+                    "Terminal payment instrument deletion will lead to the deletion of associated payment terminal",
+                consequencesTerminalPaymentInstrument:
+                    "Terminal payment instrument deletion will lead to the deletion of associated payment terminal",
+                attentionDescriptionCurrency:
+                    "Currency deletion will lead to the deletion of associated payment instruments",
+                consequencesCurrency: "Currency deletion will lead to the deletion of associated payment instruments"
             }
         }
     },

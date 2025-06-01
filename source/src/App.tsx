@@ -158,7 +158,6 @@ export const App = () => {
                                     {permissions === "admin" && (
                                         <>
                                             <Resource name="users" list={UserList} icon={UsersIcon} />
-                                            <Resource name="currency" list={CurrenciesList} icon={BanknoteIcon} />
                                             <Resource
                                                 name="merchant"
                                                 list={MerchantList}
@@ -184,6 +183,8 @@ export const App = () => {
                                                     path="systemPaymentInstruments"
                                                     element={<SystemPaymentInstrumentsList />}
                                                 />
+                                                <Route path="currency" element={<CurrenciesList />} />
+                                                {/* <Resource name="currency" list={CurrenciesList} icon={BanknoteIcon} /> */}
                                             </Resource>
 
                                             {CALLBRIDGE_ENABLED && (
