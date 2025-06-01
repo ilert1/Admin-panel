@@ -6,6 +6,7 @@ import useTerminalPaymentInstrumentFilter from "./useTerminalPaymentInstrumentFi
 import { Button } from "@/components/ui/Button";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface TerminalPaymentInstrumentFilterProps {
     selectProvider: React.Dispatch<React.SetStateAction<string>>;
@@ -15,6 +16,7 @@ interface TerminalPaymentInstrumentFilterProps {
     setTerminalFilterId: (terminal: string) => void;
     total: number;
     termId: string;
+    terminalPaymentTypes?: PaymentTypeBase[] | undefined;
 }
 
 export const TerminalPaymentInstrumentFilter = ({
@@ -24,18 +26,26 @@ export const TerminalPaymentInstrumentFilter = ({
     setTerminalFilterId,
     terminalFilterName,
     termId,
-    total
+    total,
+    terminalPaymentTypes
 }: TerminalPaymentInstrumentFilterProps) => {
     const { providersData, isFetching, providersLoadingProcess, onProviderChanged, translate, providerScrollHandler } =
         useTerminalPaymentInstrumentFilter({ selectProvider });
+    console.log(terminalPaymentTypes);
 
     const terminalsDataProvider = new TerminalPaymentInstrumentsProvider();
     const appToast = useAppToast();
 
     const handleInit = async () => {
         try {
-            await terminalsDataProvider.initialize(termId, []);
-            appToast("success", "");
+            await terminalsDataProvider.initialize(
+                termId,
+                terminalPaymentTypes ? terminalPaymentTypes.map(el => el.code) : []
+            );
+            appToast(
+                "success",
+                translate("resources.paymentTools.terminalPaymentInstruments.terminalPaymentInstrumentInitialized")
+            );
         } catch (error) {
             if (error instanceof Error) {
                 appToast("error", error.message);

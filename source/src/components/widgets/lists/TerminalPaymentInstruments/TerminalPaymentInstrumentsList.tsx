@@ -35,8 +35,9 @@ export const TerminalPaymentInstrumentsList = () => {
                 provider
             });
         }
-    }, [terminalFilterId, listContext, provider]);
-    console.log(listContext.total);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [terminalFilterId, provider]);
+    console.log(listContext.data);
 
     return (
         <>
@@ -71,6 +72,7 @@ export const TerminalPaymentInstrumentsList = () => {
                         onChangeTerminalFilter={setFilterName}
                         setTerminalFilterId={setTerminalFilterId}
                         total={listContext.total ?? 0}
+                        terminalPaymentTypes={listContext.data?.[0].terminal.payment_types}
                     />
                 </div>
 

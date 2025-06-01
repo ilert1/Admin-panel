@@ -125,7 +125,8 @@
         "createTerminalPaymentInstrument": "Добавить интеграцию терминала",
         "editingTerminalPaymentInstrument": "Изменение интеграции терминала",
         "deleteTerminalPaymentInstrument": "Удалить интеграцию терминала?",
-        "initInstruments": "Инициализировать инструменты"
+        "initInstruments": "Инициализировать инструменты",
+        "terminalPaymentInstrumentInitialized": "Платёжный инструмент терминала успешно инициализирован"
     },
     "resources.paymentTools.currency": {
         "name": "Валюты"
