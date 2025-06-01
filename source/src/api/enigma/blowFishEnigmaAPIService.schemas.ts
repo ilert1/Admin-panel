@@ -2215,6 +2215,11 @@ export interface TerminalDeleteAuth {
     keys: string[];
 }
 
+export interface TerminalInitializePaymentInstrumentsRequest {
+    /** The list of payment type codes to initialize instruments for */
+    payment_type_codes: string[];
+}
+
 /**
  * Provider's code for the payment type (e.g., SBP)
  */
@@ -2932,68 +2937,6 @@ export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV
         desc: "desc"
     } as const;
 
-export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams =
-    {
-        /**
-         * List of identifiers for filtering
-         */
-        ids?: string[] | null;
-        /**
-         * Upper bound for creation date filter
-         */
-        createdBefore?: string | null;
-        /**
-         * Lower bound for creation date filter
-         */
-        createdAfter?: string | null;
-        /**
-         * Upper bound for update date filter
-         */
-        updatedBefore?: string | null;
-        /**
-         * Lower bound for update date filter
-         */
-        updatedAfter?: string | null;
-        /**
-         * Current page number (starting from 1)
-         */
-        currentPage?: number;
-        /**
-         * Number of records per page
-         */
-        pageSize?: number;
-        /**
-         * Names of the fields to search (comma-separated or repeated).
-         */
-        searchField?: string[] | null;
-        /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
-         */
-        searchString?: string[] | null;
-        /**
-         * If true, the search will be case-insensitive.
-         */
-        searchIgnoreCase?: boolean;
-        /**
-         * Field to sort the results by
-         */
-        orderBy?: string | null;
-        /**
-         * Sort order: 'asc' or 'desc'
-         */
-        sortOrder?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder;
-    };
-
-export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
-    (typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetSortOrder =
-    {
-        asc: "asc",
-        desc: "desc"
-    } as const;
-
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams =
     {
         /**
@@ -3051,6 +2994,130 @@ export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnig
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
+
+export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetParams =
+    {
+        /**
+         * List of identifiers for filtering
+         */
+        ids?: string[] | null;
+        /**
+         * Upper bound for creation date filter
+         */
+        createdBefore?: string | null;
+        /**
+         * Lower bound for creation date filter
+         */
+        createdAfter?: string | null;
+        /**
+         * Upper bound for update date filter
+         */
+        updatedBefore?: string | null;
+        /**
+         * Lower bound for update date filter
+         */
+        updatedAfter?: string | null;
+        /**
+         * Current page number (starting from 1)
+         */
+        currentPage?: number;
+        /**
+         * Number of records per page
+         */
+        pageSize?: number;
+        /**
+         * Names of the fields to search (comma-separated or repeated).
+         */
+        searchField?: string[] | null;
+        /**
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         */
+        searchString?: string[] | null;
+        /**
+         * If true, the search will be case-insensitive.
+         */
+        searchIgnoreCase?: boolean;
+        /**
+         * Field to sort the results by
+         */
+        orderBy?: string | null;
+        /**
+         * Sort order: 'asc' or 'desc'
+         */
+        sortOrder?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder;
+    };
+
+export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder =
+    (typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
+
+export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetParams =
+    {
+        /**
+         * List of identifiers for filtering
+         */
+        ids?: string[] | null;
+        /**
+         * Upper bound for creation date filter
+         */
+        createdBefore?: string | null;
+        /**
+         * Lower bound for creation date filter
+         */
+        createdAfter?: string | null;
+        /**
+         * Upper bound for update date filter
+         */
+        updatedBefore?: string | null;
+        /**
+         * Lower bound for update date filter
+         */
+        updatedAfter?: string | null;
+        /**
+         * Current page number (starting from 1)
+         */
+        currentPage?: number;
+        /**
+         * Number of records per page
+         */
+        pageSize?: number;
+        /**
+         * Names of the fields to search (comma-separated or repeated).
+         */
+        searchField?: string[] | null;
+        /**
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         */
+        searchString?: string[] | null;
+        /**
+         * If true, the search will be case-insensitive.
+         */
+        searchIgnoreCase?: boolean;
+        /**
+         * Field to sort the results by
+         */
+        orderBy?: string | null;
+        /**
+         * Sort order: 'asc' or 'desc'
+         */
+        sortOrder?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder;
+    };
+
+export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder =
+    (typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder =
     {
         asc: "asc",
         desc: "desc"

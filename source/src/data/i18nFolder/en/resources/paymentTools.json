@@ -124,7 +124,8 @@
         },
         "createTerminalPaymentInstrument": "Create terminal integration",
         "editingTerminalPaymentInstrument": "Editing terminal integration",
-        "deleteTerminalPaymentInstrument": "Delete terminal integration?"
+        "deleteTerminalPaymentInstrument": "Delete terminal integration?",
+        "initInstruments": "Initialize instruments"
     },
     "resources.paymentTools.currency": {
         "name": "Currencies"
