@@ -1,14 +1,14 @@
 {
-    "resources.paymentTools.name": "Payment tools",
+    "resources.paymentTools.name": "Payment Settings",
     "resources.paymentTools.paymentType": {
         "admin": {
-            "name": "Payment types"
+            "name": "Payment Types"
         },
         "errors": {
             "code": "Code is required",
             "codeRegex": "Code can only contain letters, numbers, underscores, and hyphens"
         },
-        "name": "Payment types",
+        "name": "Payment Types",
         "fields": {
             "code": "Title",
             "title": "Description",
@@ -23,7 +23,7 @@
         "duplicateCode": "This code is already in use"
     },
     "resources.paymentTools.financialInstitution": {
-        "name": "Financial institutions",
+        "name": "Financial Institutions",
         "show": "Financial institution",
         "fields": {
             "created_at": "Created at",
@@ -64,8 +64,8 @@
         "deleteFinancialInstitution": "Delete financial institution?"
     },
     "resources.paymentTools.systemPaymentInstruments": {
-        "name": "Payment tools",
-        "show": "Payment tool",
+        "name": "Payment Instruments",
+        "show": "Payment instrument",
         "fields": {
             "name": "Name",
             "payment_type_code": "Payment type",
@@ -101,7 +101,7 @@
         "deletePaymentInstrumentQuestion": "Delete payment instrument?"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
-        "name": "Terminal payment instruments",
+        "name": "Terminal Payment Instruments",
         "show": "Terminal payment instrument",
         "fields": {
             "created_at": "Created at",

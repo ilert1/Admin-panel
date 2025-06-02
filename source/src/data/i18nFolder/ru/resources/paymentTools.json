@@ -1,9 +1,9 @@
 {
-    "resources.paymentTools.name": "Платёжные инструменты",
+    "resources.paymentTools.name": "Настройки платежей",
     "resources.paymentTools.paymentType": {
-        "name": "Типы платежей",
+        "name": "Платёжные типы",
         "admin": {
-            "name": "Типы платежей"
+            "name": "Платёжные типы"
         },
         "errors": {
             "code": "Код не может быть пустым",
@@ -23,8 +23,8 @@
         "duplicateCode": "Введенный код уже используется"
     },
     "resources.paymentTools.financialInstitution": {
-        "name": "Фин. организации",
-        "show": "Фин. организация",
+        "name": "Финансовые институты",
+        "show": "Финансовый институт",
         "fields": {
             "created_at": "Создано",
             "updated_at": "Обновлено",
