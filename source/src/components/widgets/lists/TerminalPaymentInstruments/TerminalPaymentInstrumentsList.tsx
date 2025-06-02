@@ -37,7 +37,6 @@ export const TerminalPaymentInstrumentsList = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalFilterId, provider]);
-    console.log(listContext.data);
 
     return (
         <>

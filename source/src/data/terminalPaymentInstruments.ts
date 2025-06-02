@@ -28,7 +28,6 @@ import {
 
 export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
-        console.log(params);
 
         let res;
         if (params.filter.terminalFilterId) {

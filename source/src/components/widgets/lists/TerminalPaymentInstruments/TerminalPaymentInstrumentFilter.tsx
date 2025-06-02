@@ -31,7 +31,6 @@ export const TerminalPaymentInstrumentFilter = ({
 }: TerminalPaymentInstrumentFilterProps) => {
     const { providersData, isFetching, providersLoadingProcess, onProviderChanged, translate, providerScrollHandler } =
         useTerminalPaymentInstrumentFilter({ selectProvider });
-    console.log(terminalPaymentTypes);
 
     const terminalsDataProvider = new TerminalPaymentInstrumentsProvider();
     const appToast = useAppToast();
