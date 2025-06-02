@@ -101,8 +101,8 @@
         "deletePaymentInstrumentQuestion": "Удалить платежный инструмент?"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
-        "name": "Платежные инструменты терминала",
-        "show": "Платежный инструмент терминала",
+        "name": "Терминальные платежные инструменты",
+        "show": "Терминальный платежный инструмент",
         "fields": {
             "created_at": "Дата и время создания",
             "updated_at": "Дата и время обновления",
