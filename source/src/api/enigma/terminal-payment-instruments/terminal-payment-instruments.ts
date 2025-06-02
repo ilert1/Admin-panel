@@ -9,77 +9,15 @@ import type {
     ApiResponseOffsetPaginationTerminalPaymentInstrument,
     ApiResponseTerminalPaymentInstrument,
     HTTPValidationError,
+    TerminalInitializePaymentInstrumentsRequest,
     TerminalPaymentInstrumentCreate,
-    TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams,
+    TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetParams,
+    TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetParams,
     TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams,
     TerminalPaymentInstrumentUpdate
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
-
-/**
- * Returns a list of terminal payment instruments associated with a given terminal ID.
- * @summary Get terminal payment instruments for a specific terminal
- */
-export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse200 =
-    {
-        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
-        status: 200;
-    };
-
-export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse422 =
-    {
-        data: HTTPValidationError;
-        status: 422;
-    };
-
-export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponseComposite =
-
-        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse200
-        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse422;
-
-export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse =
-    terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetUrl =
-    (
-        terminalId: string,
-        params?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams
-    ) => {
-        const normalizedParams = new URLSearchParams();
-
-        Object.entries(params || {}).forEach(([key, value]) => {
-            if (value !== undefined) {
-                normalizedParams.append(key, value === null ? "null" : value.toString());
-            }
-        });
-
-        const stringifiedParams = normalizedParams.toString();
-
-        return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}/instrument-configurations?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}/instrument-configurations`;
-    };
-
-export const terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGet =
-    async (
-        terminalId: string,
-        params?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetParams,
-        options?: RequestInit
-    ): Promise<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse> => {
-        return authFetch<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetResponse>(
-            getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInstrumentConfigurationsGetUrl(
-                terminalId,
-                params
-            ),
-            {
-                ...options,
-                method: "GET"
-            }
-        );
-    };
 
 /**
  * Returns a paginated list of terminal payment instruments with optional filtering.
@@ -185,6 +123,184 @@ export const terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEn
                 method: "POST",
                 headers: { "Content-Type": "application/json", ...options?.headers },
                 body: JSON.stringify(terminalPaymentInstrumentCreate)
+            }
+        );
+    };
+
+/**
+ * Returns a list of terminal payment instruments associated with all terminals belonging to a given provider name.
+ * @summary Get payment instruments for all terminals within a specific provider
+ */
+export type terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponse200 =
+    {
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponse200
+        | terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponse422;
+
+export type terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponse =
+    terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetUrl =
+    (
+        providerName: string,
+        params?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/providers/${providerName}?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/providers/${providerName}`;
+    };
+
+export const terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet =
+    async (
+        providerName: string,
+        params?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetParams,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetResponse>(
+            getTerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetUrl(
+                providerName,
+                params
+            ),
+            {
+                ...options,
+                method: "GET"
+            }
+        );
+    };
+
+/**
+ * Returns a list of terminal payment instruments associated with a given terminal ID.
+ * @summary Get terminal payment instruments for a specific terminal
+ */
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponse200 =
+    {
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponse200
+        | terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponse422;
+
+export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponse =
+    terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetUrl =
+    (
+        terminalId: string,
+        params?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}`;
+    };
+
+export const terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGet =
+    async (
+        terminalId: string,
+        params?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetParams,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetResponse>(
+            getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetUrl(
+                terminalId,
+                params
+            ),
+            {
+                ...options,
+                method: "GET"
+            }
+        );
+    };
+
+/**
+ * Creates TerminalPaymentInstrument records for a given terminal by finding all SystemPaymentInstruments with the specified payment_type_code that the terminal supports.
+ * @summary Initialize terminal payment instruments for a terminal based on a payment type
+ */
+export type terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponse200 =
+    {
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponse200
+        | terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponse422;
+
+export type terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponse =
+    terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostUrl =
+    (terminalId: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}/initialize`;
+    };
+
+export const terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost =
+    async (
+        terminalId: string,
+        terminalInitializePaymentInstrumentsRequest: TerminalInitializePaymentInstrumentsRequest,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostResponse>(
+            getTerminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostUrl(
+                terminalId
+            ),
+            {
+                ...options,
+                method: "POST",
+                headers: { "Content-Type": "application/json", ...options?.headers },
+                body: JSON.stringify(terminalInitializePaymentInstrumentsRequest)
             }
         );
     };
