@@ -1744,7 +1744,7 @@ export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCateg
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PaymentCategory = {
-    h2h: "h2h",
+    p2p: "p2p",
     ecom: "ecom"
 } as const;
 

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { X } from "lucide-react";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -183,16 +184,34 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 </div>
                                             )}
 
-                                            <label
-                                                htmlFor="icon-upload"
-                                                className="block w-full cursor-pointer rounded-4 bg-green-50 px-4 py-2 text-center !text-white transition-all duration-300 hover:bg-green-40"
-                                                title={
-                                                    iconFileName ||
-                                                    translate("resources.paymentTools.paymentType.uploadIcon") + "..."
-                                                }>
-                                                {iconFileName ||
-                                                    translate("resources.paymentTools.paymentType.uploadIcon") + "..."}
-                                            </label>
+                                            <div className="relative w-full">
+                                                <label
+                                                    htmlFor="icon-upload"
+                                                    className="block w-full cursor-pointer rounded-4 bg-green-50 px-4 py-2 text-center !text-white transition-all duration-300 hover:bg-green-40"
+                                                    title={
+                                                        iconFileName ||
+                                                        translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                            "..."
+                                                    }>
+                                                    <span className="block truncate">
+                                                        {iconFileName ||
+                                                            translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                                "..."}
+                                                    </span>
+                                                </label>
+
+                                                {iconFileName && (
+                                                    <X
+                                                        size={20}
+                                                        className="absolute right-2 top-2 cursor-pointer text-white"
+                                                        onClick={e => {
+                                                            e.stopPropagation();
+                                                            setIconFileName("");
+                                                            form.setValue("meta.icon", "", { shouldValidate: true });
+                                                        }}
+                                                    />
+                                                )}
+                                            </div>
 
                                             <input
                                                 id="icon-upload"
