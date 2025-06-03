@@ -251,6 +251,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         } finally {
             onOpenChange(false);
             setSaveButtonDisabled(false);
+            setDeleteButtonDisabled(true);
         }
     };
 
