@@ -20,7 +20,8 @@
         "creatingPaymentType": "Создание типа платежа",
         "editingPaymentType": "Изменение типа платежа",
         "createNew": "Добавить тип платежа",
-        "duplicateCode": "Введенный код уже используется"
+        "duplicateCode": "Введенный код уже используется",
+        "uploadIcon": "Загрузить иконку"
     },
     "resources.paymentTools.financialInstitution": {
         "name": "Финансовые институты",

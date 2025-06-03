@@ -20,7 +20,8 @@
         "creatingPaymentType": "Creating payment type",
         "editingPaymentType": "Editing payment type",
         "createNew": "Add payment type",
-        "duplicateCode": "This code is already in use"
+        "duplicateCode": "This code is already in use",
+        "uploadIcon": "Upload icon"
     },
     "resources.paymentTools.financialInstitution": {
         "name": "Financial Institutions",
