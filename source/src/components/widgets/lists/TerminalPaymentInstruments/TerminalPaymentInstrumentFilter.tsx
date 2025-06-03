@@ -64,6 +64,10 @@ export const TerminalPaymentInstrumentFilter = ({
                     </SelectTrigger>
 
                     <SelectContent align="start" onScrollCapture={providerScrollHandler}>
+                        <SelectItem key={"Show all"} value={"Show All"}>
+                            <p className="max-w-36 truncate">{translate("resources.transactions.filter.showAll")}</p>
+                        </SelectItem>
+
                         {providersData?.pages.map(page => {
                             return page.data.map(provider => (
                                 <SelectItem key={provider.name} value={provider.name}>

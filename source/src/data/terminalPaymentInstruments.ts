@@ -28,7 +28,6 @@ import {
 
 export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
-
         let res;
         if (params.filter.terminalFilterId) {
             res =
@@ -45,7 +44,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                         signal: params.signal || params.filter?.signal
                     }
                 );
-        } else if (params.filter.provider) {
+        } else if (params.filter.provider && params.filter.provider !== "Show All") {
             res =
                 await terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet(
                     params.filter.provider,
