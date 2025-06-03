@@ -14,7 +14,10 @@ import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilt
 export const TerminalPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({
         resource: "terminalPaymentInstruments",
-        disableSyncWithLocation: true
+        disableSyncWithLocation: true,
+        filterDefaultValues: localStorage.getItem("providerInTerminalsPaymenInstrument")
+            ? { provider: localStorage.getItem("providerInTerminalsPaymenInstrument") }
+            : undefined
     });
 
     const { translate, columns, createDialogOpen, setCreateDialogOpen } = useGetTerminalPaymentInstrumentsListColumns({
@@ -31,9 +34,13 @@ export const TerminalPaymentInstrumentsList = () => {
                 terminalFilterId
             });
         } else if (provider) {
-            listContext.setFilters({
-                provider
-            });
+            if (provider === "Show All") {
+                listContext.setFilters({});
+            } else {
+                listContext.setFilters({
+                    provider
+                });
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalFilterId, provider]);
@@ -71,7 +78,7 @@ export const TerminalPaymentInstrumentsList = () => {
                         onChangeTerminalFilter={setFilterName}
                         setTerminalFilterId={setTerminalFilterId}
                         total={listContext.total ?? 0}
-                        terminalPaymentTypes={listContext.data?.[0].terminal.payment_types}
+                        terminalPaymentTypes={listContext.data?.[0]?.terminal.payment_types ?? undefined}
                     />
                 </div>
 
