@@ -19,25 +19,60 @@ import {
     terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost,
     terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete,
     terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet,
+    terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGet,
+    terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost,
+    terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet,
     terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet,
     terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch
 } from "@/api/enigma/terminal-payment-instruments/terminal-payment-instruments";
 
 export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
-        const res =
-            await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
-                {
-                    currentPage: params?.pagination?.page,
-                    pageSize: params?.pagination?.perPage
-                },
-                {
-                    headers: {
-                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+        let res;
+        if (params.filter.terminalFilterId) {
+            res =
+                await terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGet(
+                    params.filter.terminalFilterId,
+                    {
+                        currentPage: params?.pagination?.page,
+                        pageSize: params?.pagination?.perPage
                     },
-                    signal: params.signal || params.filter?.signal
-                }
-            );
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
+                        },
+                        signal: params.signal || params.filter?.signal
+                    }
+                );
+        } else if (params.filter.provider && params.filter.provider !== "Show All") {
+            res =
+                await terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet(
+                    params.filter.provider,
+                    {
+                        currentPage: params?.pagination?.page,
+                        pageSize: params?.pagination?.perPage
+                    },
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
+                        },
+                        signal: params.signal || params.filter?.signal
+                    }
+                );
+        } else
+            res =
+                await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
+                    {
+                        currentPage: params?.pagination?.page,
+                        pageSize: params?.pagination?.perPage
+                    },
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
+                        },
+                        signal: params.signal || params.filter?.signal
+                    }
+                );
 
         if ("data" in res.data && res.data.success) {
             return {
@@ -85,6 +120,33 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
             data: [],
             total: 0
         };
+    }
+
+    async initialize(termId: string, codes: string[]) {
+        const res =
+            await terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost(
+                termId,
+                {
+                    payment_type_codes: codes
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<TerminalPaymentInstrument>> {

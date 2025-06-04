@@ -7,7 +7,7 @@ export class IAccountsDataProvider extends IBaseDataProvider {
     async update(resource: string, params: UpdateParams) {
         const data = params.data;
 
-        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/account/${params.id}`, {
+        const { json } = await fetchUtils.fetchJson(`${BF_MANAGER_URL}/account`, {
             method: "PUT",
             body: JSON.stringify(data),
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` }
