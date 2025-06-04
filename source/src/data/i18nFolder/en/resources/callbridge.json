@@ -79,7 +79,7 @@
     "resources.callbridge.history": {
         "name": "History",
         "history": "History",
-        "callback_id": "Callback ID",
+        "filters": {},
         "fields": {
             "request_url": "Request url",
             "original_url": "Original url",
@@ -99,6 +99,7 @@
             "success": "Success",
             "error": "Error",
             "sync": "Sync"
-        }
+        },
+        "notFoundMessage": "Mappings not found"
     }
 }

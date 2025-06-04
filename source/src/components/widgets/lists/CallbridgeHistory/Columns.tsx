@@ -7,12 +7,11 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CallbridgeDataProvider } from "@/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useLocaleState, useRefresh, useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 
 export const useGetCallbridgeHistory = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const [locale] = useLocaleState();
     const appToast = useAppToast();
     const refresh = useRefresh();
 
