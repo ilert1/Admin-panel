@@ -4,6 +4,7 @@ import { ShowDirectionSheet } from "../widgets/lists/Directions/ShowDirectionShe
 import { ShowFinancialInstitutionSheet } from "../widgets/lists/FinancialInstitution/ShowFinancialInstitutionSheet";
 import { ShowMappingSheet } from "../widgets/lists/Mappings/ShowMappingSheet";
 import { ShowMerchantSheet } from "../widgets/lists/Merchants/ShowMerchantSheet";
+import { ShowProviderSheet } from "../widgets/lists/Providers/ShowProviderSheet";
 import { SystemPaymentInstrumentSheet } from "../widgets/lists/SystemPaymentInstruments/SystemPaymentInstrumentSheet";
 import { ShowTerminalPaymentInstrumentsSheet } from "../widgets/lists/TerminalPaymentInstruments/ShowTerminalPaymentInstrumentsSheet";
 import { TerminalShowDialog } from "../widgets/lists/Terminals/TerminalShowDialog";
@@ -20,6 +21,7 @@ export const SHEETS_COMPONENTS = {
     merchant: ShowMerchantSheet,
     user: ShowUserSheet,
     transaction: ShowTransactionSheet,
+    provider: ShowProviderSheet,
     terminal: TerminalShowDialog,
     wallet: ShowWalletDialog,
     walletLinked: ShowWalletLinkedTransactionsSheet,

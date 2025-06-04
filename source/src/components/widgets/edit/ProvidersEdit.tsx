@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider } from "react-admin";
+import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { useEffect, useState } from "react";
@@ -24,6 +24,7 @@ export interface ProviderEditParams {
 export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
     const dataProvider = useDataProvider();
     const providersDataProvider = new ProvidersDataProvider();
+    const refresh = useRefresh();
 
     const {
         data: provider,
@@ -124,6 +125,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
             });
 
             appToast("success", translate("app.ui.edit.editSuccess"));
+            refresh();
             onClose();
         } catch (error) {
             appToast("error", translate("resources.currency.errors.alreadyInUse"));
