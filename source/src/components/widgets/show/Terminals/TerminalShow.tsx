@@ -13,6 +13,7 @@ import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 interface TerminalShowProps {
     id: string;
@@ -21,6 +22,8 @@ interface TerminalShowProps {
 }
 export const TerminalShow = (props: TerminalShowProps) => {
     const { id, provider } = props;
+
+    const { openSheet } = useSheets();
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [generateCallbackDialogOpen, setGenerateCallbackDialogOpen] = useState(false);
@@ -61,7 +64,16 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                 label={translate("resources.terminals.fields.verbose_name")}
                             />
 
-                            <TextField text={data.provider} label={translate("resources.terminals.fields.provider")} />
+                            <TextField
+                                label={translate("resources.terminals.fields.provider")}
+                                className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                                text={data.provider}
+                                onClick={() => {
+                                    openSheet("provider", {
+                                        id: data.provider
+                                    });
+                                }}
+                            />
 
                             <TextField
                                 text={data.allocation_timeout_seconds?.toString() ?? ""}

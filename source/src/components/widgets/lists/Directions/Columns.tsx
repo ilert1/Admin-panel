@@ -3,7 +3,6 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
-import { ProviderWithId } from "@/data/providers";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
@@ -115,8 +114,17 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
             cell: ({ row }) => {
-                const obj: ProviderWithId = row.getValue("provider");
-                return <TextField text={obj.name} wrap />;
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("provider", {
+                                id: row.original.provider.name
+                            });
+                        }}>
+                        {row.original.provider.name}
+                    </Button>
+                );
             }
         },
         {

@@ -10,6 +10,7 @@ import { DeleteTerminalPaymentInstrumentsDialog } from "./DeleteTerminalPaymentI
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsActivityBtn } from "../../lists/TerminalPaymentInstruments/TerminalPaymentInstrumentsActivityBtn";
 import { EditTerminalPaymentInstrumentsDialog } from "./EditTerminalPaymentInstrumentsDialog";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export interface TerminalPaymentInstrumentsShowProps {
     id: string;
@@ -24,6 +25,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
     const data = fetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { openSheet } = useSheets();
 
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -85,36 +87,30 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                         </p>
                     </div>
 
-                    <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id")}
-                        </small>
+                    <TextField
+                        label={translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id")}
+                        className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                        text={context.record.terminal.verbose_name}
+                        onClick={() => {
+                            openSheet("terminal", {
+                                id: context.record.terminal_id,
+                                provider: context.record.terminal.provider
+                            });
+                        }}
+                    />
 
-                        <p className="mb-1 text-nowrap text-base leading-[18px]">
-                            {context.record.terminal.verbose_name}
-                        </p>
-
-                        <TextField className="text-neutral-40" text={context.record.terminal_id} wrap copyValue />
-                    </div>
-
-                    <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
-                            {translate(
-                                "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
-                            )}
-                        </small>
-
-                        <p className="mb-1 text-nowrap text-base leading-[18px]">
-                            {context.record.system_payment_instrument.name}
-                        </p>
-
-                        <TextField
-                            className="text-neutral-40"
-                            text={context.record.system_payment_instrument_id}
-                            wrap
-                            copyValue
-                        />
-                    </div>
+                    <TextField
+                        label={translate(
+                            "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                        )}
+                        className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                        text={context.record.system_payment_instrument.name}
+                        onClick={() => {
+                            openSheet("systemPaymentInstrument", {
+                                id: context.record.system_payment_instrument_id
+                            });
+                        }}
+                    />
 
                     <TextField
                         label={translate(

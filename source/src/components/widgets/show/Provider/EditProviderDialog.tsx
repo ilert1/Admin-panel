@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { ProvidersEdit } from "../../edit";
-import { useRefresh, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 
 interface EditProviderDialogProps {
     open?: boolean;
@@ -16,7 +16,6 @@ interface EditProviderDialogProps {
 }
 
 export const EditProviderDialog = (props: EditProviderDialogProps) => {
-    const refresh = useRefresh();
     const translate = useTranslate();
 
     const { open, id, onOpenChange = () => {} } = props;
@@ -28,13 +27,7 @@ export const EditProviderDialog = (props: EditProviderDialogProps) => {
                 <DialogHeader>
                     <DialogTitle className="text-center">{translate("resources.provider.editingProvider")}</DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <ProvidersEdit
-                        id={id}
-                        onClose={() => {
-                            onOpenChange(false);
-                            refresh();
-                        }}
-                    />
+                    <ProvidersEdit id={id} onClose={() => onOpenChange(false)} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>
