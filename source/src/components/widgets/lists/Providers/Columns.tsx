@@ -29,7 +29,20 @@ export const useGetProvidersColumns = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.provider.fields.name")
+            header: translate("resources.provider.fields.name"),
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("provider", {
+                                id: row.original.id
+                            });
+                        }}>
+                        {row.original.name}
+                    </Button>
+                );
+            }
         },
         {
             id: "public_key",
