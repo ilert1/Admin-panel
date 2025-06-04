@@ -123,9 +123,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                     verbose_name: data.verbose_name,
                     description: data.description,
                     details: parseDetails,
-                    ...(data.allocation_timeout_seconds !== undefined && {
-                        allocation_timeout_seconds: data.allocation_timeout_seconds
-                    })
+                    allocation_timeout_seconds:
+                        data.allocation_timeout_seconds !== undefined ? data.allocation_timeout_seconds : null
                 } as TerminalUpdate,
                 previousData: undefined
             });
