@@ -36,45 +36,13 @@ export const useGetCallbridgeHistory = () => {
 
     const columns: ColumnDef<CallbackHistoryRead>[] = [
         {
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.createdAt"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
-        {
-            id: "external_path",
-            accessorKey: "external_path",
-            header: translate("resources.callbridge.history.fields.request_url"),
-            cell: ({ row }) => {
-                return (
-                    <TextField text={row.original.request_url} maxWidth="500px" lineClamp linesCount={1} copyValue />
-                );
-            }
-        },
-        {
-            id: "internal_path",
-            accessorKey: "internal_path",
-            header: translate("resources.callbridge.history.fields.original_url"),
-            cell: ({ row }) => {
-                return (
-                    <TextField text={row.original.original_url} maxWidth="100%" lineClamp linesCount={1} copyValue />
-                );
-            }
-        },
-        {
             id: "mapping_id",
             accessorKey: "external_path",
-            header: translate("resources.callbridge.history.fields.mapping_id"),
+            header: translate("resources.callbridge.history.fields.mapping_name"),
             cell: ({ row }) => {
                 return (
                     <TextField
-                        text={row.original.mapping_id}
+                        text={row.original.mapping?.name ?? ""}
                         maxWidth="100%"
                         lineClamp
                         linesCount={1}
@@ -84,6 +52,42 @@ export const useGetCallbridgeHistory = () => {
                         }}
                     />
                 );
+            }
+        },
+        {
+            id: "callback_id",
+            header: translate("resources.callbridge.history.fields.callback_id"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.callback_id} lineClamp linesCount={1} copyValue />;
+            }
+        },
+        {
+            id: "transaction_id",
+            header: translate("resources.callbridge.history.fields.transaction_id"),
+            cell: ({ row }) => {
+                const txId = row.original.transaction_id;
+                return (
+                    <TextField
+                        text={txId ?? ""}
+                        lineClamp
+                        linesCount={1}
+                        copyValue
+                        onClick={
+                            txId
+                                ? () => {
+                                      openSheet("transaction", { id: txId });
+                                  }
+                                : undefined
+                        }
+                    />
+                );
+            }
+        },
+        {
+            id: "external_order_id",
+            header: translate("resources.callbridge.history.fields.external_order_id"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.external_order_id ?? ""} lineClamp linesCount={1} copyValue />;
             }
         },
         {

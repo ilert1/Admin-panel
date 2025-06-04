@@ -88,7 +88,11 @@
             "mapping_id": "ID маппинга",
             "created_at": "Дата создания",
             "status": "Статус",
-            "trigger_type": "Тип триггера"
+            "trigger_type": "Тип триггера",
+            "callback_id": "ID коллбека",
+            "mapping_name": "Название маппинга",
+            "transaction_id": "ID транзакции",
+            "external_order_id": "ID внешней транзации"
         },
         "callbacksStatus": {
             "retryCallback": "Повторить",

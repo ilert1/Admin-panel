@@ -7,6 +7,31 @@
 /**
  * The error details if the request was not successful.
  */
+export type ApiResponseCallbackHistoryRestoreResultError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseCallbackHistoryRestoreResultMeta = unknown | null;
+
+export interface ApiResponseCallbackHistoryRestoreResult {
+    /** Indicates whether the request was successful. */
+    success?: boolean;
+    /** The actual response data if the request was successful. */
+    data: CallbackHistoryRestoreResult;
+    /** The error details if the request was not successful. */
+    error?: ApiResponseCallbackHistoryRestoreResultError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseCallbackHistoryRestoreResultMeta;
+}
+
+/**
+ * The error details if the request was not successful.
+ */
 export type ApiResponseCallbackMappingReadError = ErrorBody | null;
 
 /**
@@ -27,6 +52,31 @@ export interface ApiResponseCallbackMappingRead {
      * @deprecated
      */
     meta?: ApiResponseCallbackMappingReadMeta;
+}
+
+/**
+ * The error details if the request was not successful.
+ */
+export type ApiResponseCallbackRetryResponseError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseCallbackRetryResponseMeta = unknown | null;
+
+export interface ApiResponseCallbackRetryResponse {
+    /** Indicates whether the request was successful. */
+    success?: boolean;
+    /** The actual response data if the request was successful. */
+    data: CallbackRetryResponse;
+    /** The error details if the request was not successful. */
+    error?: ApiResponseCallbackRetryResponseError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseCallbackRetryResponseMeta;
 }
 
 /**
@@ -82,6 +132,31 @@ export interface ApiResponseNoneType {
 /**
  * The error details if the request was not successful.
  */
+export type ApiResponseOffsetPaginationCallbackHistoryBackupError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationCallbackHistoryBackupMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationCallbackHistoryBackup {
+    /** Indicates whether the request was successful. */
+    success?: boolean;
+    /** The actual response data if the request was successful. */
+    data: OffsetPaginationCallbackHistoryBackup;
+    /** The error details if the request was not successful. */
+    error?: ApiResponseOffsetPaginationCallbackHistoryBackupError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationCallbackHistoryBackupMeta;
+}
+
+/**
+ * The error details if the request was not successful.
+ */
 export type ApiResponseOffsetPaginationCallbackHistoryReadError = ErrorBody | null;
 
 /**
@@ -129,6 +204,22 @@ export interface ApiResponseOffsetPaginationCallbackMappingRead {
     meta?: ApiResponseOffsetPaginationCallbackMappingReadMeta;
 }
 
+export interface BodyCallbackHistoryBackupEndpointsRestoreBackupCallbridgeV1HistoryBackupRestorePost {
+    /** Put GZIP compressed .jsonl archive */
+    file: Blob;
+}
+
+export interface CallbackHistoryBackup {
+    /** File name of the backup */
+    file_name: string;
+    /** File size in bytes */
+    file_size: number;
+    /** Date when the backup was created */
+    created: string;
+    /** Number of records in backup */
+    records_count: number;
+}
+
 /**
  * Incoming headers
  */
@@ -167,6 +258,16 @@ export type CallbackHistoryReadResponseBody = string | null;
 export type CallbackHistoryReadDeliveredAt = string | null;
 
 /**
+ * Transaction ID
+ */
+export type CallbackHistoryReadTransactionId = string | null;
+
+/**
+ * External Order ID
+ */
+export type CallbackHistoryReadExternalOrderId = string | null;
+
+/**
  * Planned time for next retry
  */
 export type CallbackHistoryReadNextRetryAt = string | null;
@@ -177,6 +278,11 @@ export type CallbackHistoryReadNextRetryAt = string | null;
 export type CallbackHistoryReadErrorMessage = string | null;
 
 export type CallbackHistoryReadChangesHistoryItem = { [key: string]: unknown };
+
+/**
+ * Callback Mapping entity
+ */
+export type CallbackHistoryReadMapping = CallbackMappingBase | null;
 
 export interface CallbackHistoryRead {
     /** Full original callback URL */
@@ -199,6 +305,10 @@ export interface CallbackHistoryRead {
     response_body?: CallbackHistoryReadResponseBody;
     /** Actual delivery time */
     delivered_at?: CallbackHistoryReadDeliveredAt;
+    /** Transaction ID */
+    transaction_id?: CallbackHistoryReadTransactionId;
+    /** External Order ID */
+    external_order_id?: CallbackHistoryReadExternalOrderId;
     /** Processing status */
     status: CallbackStatusEnum;
     /** What triggered this delivery */
@@ -217,8 +327,70 @@ export interface CallbackHistoryRead {
     mapping_id: string;
     /** Identifier of the callback attempt flow */
     callback_id: string;
+    /** Callback Mapping entity */
+    mapping?: CallbackHistoryReadMapping;
     created_at: string;
     updated_at: string;
+}
+
+export interface CallbackHistoryRestoreResult {
+    /** Number records in backup */
+    total: number;
+    /** Number of inserted records */
+    inserted?: number;
+    /** Number of deleted records */
+    deleted?: number;
+    /** Number of skipped records */
+    skipped?: number;
+}
+
+/**
+ * Description of the CallbackMapping
+ */
+export type CallbackMappingBaseDescription = string | null;
+
+/**
+ * Full internal URL path to route the request to
+ */
+export type CallbackMappingBaseInternalPath = string | null;
+
+/**
+ * NATS subject for the adapter to publish messages to
+ */
+export type CallbackMappingBaseAdapterNatsSubject = string | null;
+
+/**
+ * Terminal to which the callback is associated
+ */
+export type CallbackMappingBaseTerminal = TerminalOutput | null;
+
+/**
+ * Retry behavior configuration for delivery attempts
+ */
+export type CallbackMappingBaseRetryPolicy = RetryPolicyConfig | null;
+
+/**
+ * Security policy including IP filtering and rate limiting
+ */
+export type CallbackMappingBaseSecurityPolicy = SecurityPolicyConfig | null;
+
+export interface CallbackMappingBase {
+    /** Name of the CallbackMapping */
+    name: string;
+    /** Description of the CallbackMapping */
+    description?: CallbackMappingBaseDescription;
+    /** Full external path exposed to clients */
+    external_path: string;
+    /** Full internal URL path to route the request to */
+    internal_path?: CallbackMappingBaseInternalPath;
+    /** NATS subject for the adapter to publish messages to */
+    adapter_nats_subject?: CallbackMappingBaseAdapterNatsSubject;
+    /** Terminal to which the callback is associated */
+    terminal?: CallbackMappingBaseTerminal;
+    /** Retry behavior configuration for delivery attempts */
+    retry_policy?: CallbackMappingBaseRetryPolicy;
+    /** Security policy including IP filtering and rate limiting */
+    security_policy?: CallbackMappingBaseSecurityPolicy;
 }
 
 /**
@@ -383,6 +555,25 @@ export interface CallbackMappingUpdate {
     security_policy?: CallbackMappingUpdateSecurityPolicy;
 }
 
+export interface CallbackRetryRequestItems {
+    /** List unique identifiers of the callback */
+    callback_ids: string[];
+}
+
+export interface CallbackRetryResponse {
+    /** Successfully delivered callbacks */
+    delivered?: DeliveryRequestMessage[];
+    /** Skipped callbacks */
+    skipped?: CallbackRetrySkippedItem[];
+}
+
+export interface CallbackRetrySkippedItem {
+    /** Identifier of the callback */
+    callback_id: string;
+    /** Reason for skipping */
+    reason: string;
+}
+
 export type CallbackStatusEnum = (typeof CallbackStatusEnum)[keyof typeof CallbackStatusEnum];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -459,6 +650,8 @@ export interface DeliveryRequestMessage {
     retry_policy?: RetryPolicyConfig;
     /** Security and access rules */
     security_policy?: SecurityPolicyConfig;
+    /** What triggered this delivery */
+    trigger_type: CallbackTriggerType;
     /** NATS subject for the adapter to publish messages to */
     adapter_nats_subject?: DeliveryRequestMessageAdapterNatsSubject;
     /** Terminal to which the callback is associated */
@@ -517,6 +710,17 @@ export interface HTTPValidationError {
     detail?: ValidationError[];
 }
 
+export interface OffsetPaginationCallbackHistoryBackup {
+    /** A list of items in the current page. */
+    items: CallbackHistoryBackup[];
+    /** The maximum number of items returned in a single page. */
+    limit: number;
+    /** The starting index for the current page. */
+    offset: number;
+    /** The total number of available items. */
+    total: number;
+}
+
 export interface OffsetPaginationCallbackHistoryRead {
     /** A list of items in the current page. */
     items: CallbackHistoryRead[];
@@ -551,6 +755,15 @@ export interface RateValue {
      */
     accuracy?: number;
 }
+
+export type RestoreStrategy = (typeof RestoreStrategy)[keyof typeof RestoreStrategy];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RestoreStrategy = {
+    merge: "merge",
+    skip: "skip",
+    overwrite: "overwrite"
+} as const;
 
 export interface RetryPolicyConfig {
     /** Enable retries for this mapping */
@@ -643,6 +856,11 @@ export type TerminalInputAuth = { [key: string]: unknown };
  */
 export type TerminalInputCallbackUrl = string | null;
 
+/**
+ * Additional details about the terminal
+ */
+export type TerminalInputDetails = { [key: string]: unknown };
+
 export interface TerminalInput {
     /** Unique identifier of the terminal */
     terminal_id: string;
@@ -660,6 +878,8 @@ export interface TerminalInput {
     account_created?: boolean;
     /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
     callback_url?: TerminalInputCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalInputDetails;
 }
 
 /**
@@ -682,6 +902,11 @@ export type TerminalOutputAuth = { [key: string]: unknown };
  */
 export type TerminalOutputCallbackUrl = string | null;
 
+/**
+ * Additional details about the terminal
+ */
+export type TerminalOutputDetails = { [key: string]: unknown };
+
 export interface TerminalOutput {
     /** Unique identifier of the terminal */
     terminal_id: string;
@@ -699,6 +924,8 @@ export interface TerminalOutput {
     account_created?: boolean;
     /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
     callback_url?: TerminalOutputCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalOutputDetails;
 }
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];
@@ -778,6 +1005,52 @@ export const CallbackMappingEndpointsListMappingsCallbridgeV1MappingGetSortOrder
     asc: "asc",
     desc: "desc"
 } as const;
+
+export type CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetParams = {
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of files per page
+     */
+    pageSize?: number;
+    /**
+     * Show up to this date (ISO)
+     */
+    createdAfter?: string | null;
+    /**
+     * Show from this date (ISO)
+     */
+    createdBefore?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetSortOrder;
+};
+
+export type CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetSortOrder =
+    (typeof CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetSortOrder)[keyof typeof CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type CallbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryBackupDownloadGetParams = {
+    /**
+     * Backup file name, format: YYYY-MM-DD.jsonl.gz
+     */
+    fileName: string;
+};
+
+export type CallbackHistoryBackupEndpointsRestoreBackupCallbridgeV1HistoryBackupRestorePostParams = {
+    /**
+     * Restore strategy
+     */
+    strategy?: RestoreStrategy;
+};
 
 export type CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetParams = {
     /**

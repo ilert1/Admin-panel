@@ -1744,7 +1744,7 @@ export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCateg
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PaymentCategory = {
-    h2h: "h2h",
+    p2p: "p2p",
     ecom: "ecom"
 } as const;
 
@@ -2771,6 +2771,12 @@ export const DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMercha
     asc: "asc",
     desc: "desc"
 } as const;
+
+export type DirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetParams = {
+    merchant_id?: string | null;
+    provider_name?: string | null;
+    terminal_id?: string | null;
+};
 
 export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
     /**

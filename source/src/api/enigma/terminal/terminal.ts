@@ -877,6 +877,55 @@ export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderN
     };
 
 /**
+ * Automatically associates all available payment types with a terminal based on its provider's payment types.
+ * @summary Automatically add available payment types to terminal
+ */
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse200 =
+    {
+        data: ApiResponseTerminal;
+        status: 200;
+    };
+
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite =
+
+        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse200
+        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse422;
+
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse =
+    terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchUrl =
+    (providerName: string, terminalId: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auto_add_payment_types`;
+    };
+
+export const terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatch =
+    async (
+        providerName: string,
+        terminalId: string,
+        options?: RequestInit
+    ): Promise<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse> => {
+        return authFetch<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse>(
+            getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchUrl(
+                providerName,
+                terminalId
+            ),
+            {
+                ...options,
+                method: "PATCH"
+            }
+        );
+    };
+
+/**
  * Disassociates a payment type from a terminal by its code.
  * @summary Remove payment type from terminal
  */

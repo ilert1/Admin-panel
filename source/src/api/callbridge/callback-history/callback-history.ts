@@ -5,10 +5,12 @@
  * OpenAPI spec version: develop
  */
 import type {
+    ApiResponseCallbackRetryResponse,
     ApiResponseDeliveryRequestMessage,
     ApiResponseOffsetPaginationCallbackHistoryRead,
     CallbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGetParams,
     CallbackHistoryEndpointsListHistoryCallbridgeV1HistoryGetParams,
+    CallbackRetryRequestItems,
     HTTPValidationError
 } from "../blowFishCallBridgeAPIService.schemas";
 
@@ -123,6 +125,9 @@ export const callbackHistoryEndpointsGetCallbackCallbridgeV1HistoryCallbackIdGet
 };
 
 /**
+ * This endpoint is deprecated and will be removed in a future version.
+             Use `/callbridge/v1/history/retry/bulk`
+ * @deprecated
  * @summary Retry callback by history ID
  */
 export type callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryCallbackIdRetryGetResponse200 = {
@@ -159,6 +164,47 @@ export const callbackHistoryEndpointsRetryByCallbackIdCallbridgeV1HistoryCallbac
         {
             ...options,
             method: "GET"
+        }
+    );
+};
+
+/**
+ * @summary Retry all callbacks by listed history IDs
+ */
+export type callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponse200 = {
+    data: ApiResponseCallbackRetryResponse;
+    status: 200;
+};
+
+export type callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponseComposite =
+    | callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponse200
+    | callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponse422;
+
+export type callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponse =
+    callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getCallbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostUrl = () => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/retry/bulk`;
+};
+
+export const callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPost = async (
+    callbackRetryRequestItems: CallbackRetryRequestItems,
+    options?: RequestInit
+): Promise<callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponse> => {
+    return authFetch<callbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostResponse>(
+        getCallbackHistoryEndpointsRetryBulkByCallbackIdsCallbridgeV1HistoryRetryBulkPostUrl(),
+        {
+            ...options,
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...options?.headers },
+            body: JSON.stringify(callbackRetryRequestItems)
         }
     );
 };
