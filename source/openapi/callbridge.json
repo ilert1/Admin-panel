@@ -490,6 +490,209 @@
                 }
             }
         },
+        "/callbridge/v1/history/backup": {
+            "get": {
+                "tags": ["Callback backup"],
+                "summary": "Get list all backup files with callback history records",
+                "operationId": "CallbackHistoryBackupEndpoints_list_backups_callbridge_v1_history_backup_get",
+                "parameters": [
+                    {
+                        "name": "currentPage",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Current page number (starting from 1)",
+                            "default": 1,
+                            "title": "Currentpage"
+                        },
+                        "description": "Current page number (starting from 1)"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Number of files per page",
+                            "default": 20,
+                            "title": "Pagesize"
+                        },
+                        "description": "Number of files per page"
+                    },
+                    {
+                        "name": "createdAfter",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "description": "Show up to this date (ISO)",
+                            "title": "Createdafter"
+                        },
+                        "description": "Show up to this date (ISO)"
+                    },
+                    {
+                        "name": "createdBefore",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "description": "Show from this date (ISO)",
+                            "title": "Createdbefore"
+                        },
+                        "description": "Show from this date (ISO)"
+                    },
+                    {
+                        "name": "sortOrder",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "enum": ["asc", "desc"],
+                            "type": "string",
+                            "description": "Sort order: 'asc' or 'desc'",
+                            "default": "asc",
+                            "title": "Sortorder"
+                        },
+                        "description": "Sort order: 'asc' or 'desc'"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CallbackHistoryBackup__"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/callbridge/v1/history/backup/download": {
+            "get": {
+                "tags": ["Callback backup"],
+                "summary": "Download archive history file from S3",
+                "operationId": "CallbackHistoryBackupEndpoints_download_backup_callbridge_v1_history_backup_download_get",
+                "parameters": [
+                    {
+                        "name": "fileName",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^\\d{4}-\\d{2}-\\d{2}\\.jsonl\\.gz$",
+                            "title": "Backup file name",
+                            "description": "Backup file name, format: YYYY-MM-DD.jsonl.gz"
+                        },
+                        "description": "Backup file name, format: YYYY-MM-DD.jsonl.gz"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/callbridge/v1/history/backup/restore": {
+            "post": {
+                "tags": ["Callback backup"],
+                "summary": "Restoring callback history records from a JSONL GZIP backup.",
+                "description": "Restoring callback history records from a JSONL GZIP backup.\n\nSupports three restoration strategies:\n\n    MERGE: (default): Only inserts new records that don't exist\n    SKIP: Skips the entire restore if any records already exist\n    OVERWRITE: Deletes existing records before inserting all from backup\n\nRequest parameters:\n\n    file: Required - The backup file to restore (GZIP-compressed JSONL format)\n    strategy: Optional - Restoration strategy (MERGE|SKIP|OVERWRITE), defaults to MERGE\n\nReturns:\n    CallbackHistoryRestoreResult object containing:\n\n    total: Total records in backup\n    inserted: Number of new records inserted\n    deleted: Number of existing records deleted (OVERWRITE only)\n    skipped: Number of records skipped (due to existing or strategy)",
+                "operationId": "CallbackHistoryBackupEndpoints_restore_backup_callbridge_v1_history_backup_restore_post",
+                "parameters": [
+                    {
+                        "name": "strategy",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/RestoreStrategy",
+                            "title": "Restore strategy",
+                            "description": "Restore strategy",
+                            "default": "merge"
+                        },
+                        "description": "Restore strategy"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_CallbackHistoryBackupEndpoints_restore_backup_callbridge_v1_history_backup_restore_post"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_CallbackHistoryRestoreResult_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/callbridge/v1/history": {
             "get": {
                 "tags": ["Callback history"],
@@ -987,7 +1190,9 @@
             "get": {
                 "tags": ["Callback history"],
                 "summary": "Retry callback by history ID",
+                "description": "This endpoint is deprecated and will be removed in a future version.\n             Use `/callbridge/v1/history/retry/bulk`",
                 "operationId": "CallbackHistoryEndpoints_retry_by_callback_id_callbridge_v1_history__callback_id__retry_get",
+                "deprecated": true,
                 "parameters": [
                     {
                         "name": "callback_id",
@@ -1026,10 +1231,88 @@
                     }
                 }
             }
+        },
+        "/callbridge/v1/history/retry/bulk": {
+            "post": {
+                "tags": ["Callback history"],
+                "summary": "Retry all callbacks by listed history IDs",
+                "operationId": "CallbackHistoryEndpoints_retry_bulk_by_callback_ids_callbridge_v1_history_retry_bulk_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CallbackRetryRequestItems"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_CallbackRetryResponse_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "ApiResponse_CallbackHistoryRestoreResult_": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful.",
+                        "default": true
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/CallbackHistoryRestoreResult",
+                        "description": "The actual response data if the request was successful."
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful."
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[CallbackHistoryRestoreResult]"
+            },
             "ApiResponse_CallbackMappingRead_": {
                 "properties": {
                     "success": {
@@ -1068,6 +1351,45 @@
                 "type": "object",
                 "required": ["data"],
                 "title": "ApiResponse[CallbackMappingRead]"
+            },
+            "ApiResponse_CallbackRetryResponse_": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful.",
+                        "default": true
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/CallbackRetryResponse",
+                        "description": "The actual response data if the request was successful."
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful."
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[CallbackRetryResponse]"
             },
             "ApiResponse_DeliveryRequestMessage_": {
                 "properties": {
@@ -1148,6 +1470,45 @@
                 "required": ["data"],
                 "title": "ApiResponse[NoneType]"
             },
+            "ApiResponse_OffsetPagination_CallbackHistoryBackup__": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful.",
+                        "default": true
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/OffsetPagination_CallbackHistoryBackup_",
+                        "description": "The actual response data if the request was successful."
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful."
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[OffsetPagination[CallbackHistoryBackup]]"
+            },
             "ApiResponse_OffsetPagination_CallbackHistoryRead__": {
                 "properties": {
                     "success": {
@@ -1225,6 +1586,47 @@
                 "type": "object",
                 "required": ["data"],
                 "title": "ApiResponse[OffsetPagination[CallbackMappingRead]]"
+            },
+            "Body_CallbackHistoryBackupEndpoints_restore_backup_callbridge_v1_history_backup_restore_post": {
+                "properties": {
+                    "file": {
+                        "type": "string",
+                        "format": "binary",
+                        "title": "User backup file",
+                        "description": "Put GZIP compressed .jsonl archive"
+                    }
+                },
+                "type": "object",
+                "required": ["file"],
+                "title": "Body_CallbackHistoryBackupEndpoints_restore_backup_callbridge_v1_history_backup_restore_post"
+            },
+            "CallbackHistoryBackup": {
+                "properties": {
+                    "file_name": {
+                        "type": "string",
+                        "title": "File Name",
+                        "description": "File name of the backup"
+                    },
+                    "file_size": {
+                        "type": "integer",
+                        "title": "File Size",
+                        "description": "File size in bytes"
+                    },
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Created",
+                        "description": "Date when the backup was created"
+                    },
+                    "records_count": {
+                        "type": "integer",
+                        "title": "Records Count",
+                        "description": "Number of records in backup"
+                    }
+                },
+                "type": "object",
+                "required": ["file_name", "file_size", "created", "records_count"],
+                "title": "CallbackHistoryBackup"
             },
             "CallbackHistoryRead": {
                 "properties": {
@@ -1320,6 +1722,30 @@
                         "title": "Delivered At",
                         "description": "Actual delivery time"
                     },
+                    "transaction_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Transaction Id",
+                        "description": "Transaction ID"
+                    },
+                    "external_order_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "External Order Id",
+                        "description": "External Order ID"
+                    },
                     "status": {
                         "$ref": "#/components/schemas/CallbackStatusEnum",
                         "description": "Processing status"
@@ -1386,6 +1812,17 @@
                         "title": "Callback Id",
                         "description": "Identifier of the callback attempt flow"
                     },
+                    "mapping": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CallbackMappingBase"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Callback Mapping entity"
+                    },
                     "created_at": {
                         "type": "string",
                         "format": "date-time",
@@ -1413,6 +1850,127 @@
                     "updated_at"
                 ],
                 "title": "CallbackHistoryRead"
+            },
+            "CallbackHistoryRestoreResult": {
+                "properties": {
+                    "total": {
+                        "type": "integer",
+                        "title": "Total",
+                        "description": "Number records in backup"
+                    },
+                    "inserted": {
+                        "type": "integer",
+                        "title": "Inserted",
+                        "description": "Number of inserted records",
+                        "default": 0
+                    },
+                    "deleted": {
+                        "type": "integer",
+                        "title": "Deleted",
+                        "description": "Number of deleted records",
+                        "default": 0
+                    },
+                    "skipped": {
+                        "type": "integer",
+                        "title": "Skipped",
+                        "description": "Number of skipped records",
+                        "default": 0
+                    }
+                },
+                "type": "object",
+                "required": ["total"],
+                "title": "CallbackHistoryRestoreResult"
+            },
+            "CallbackMappingBase": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Name of the CallbackMapping",
+                        "examples": ["adapter.status"]
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description",
+                        "description": "Description of the CallbackMapping",
+                        "examples": ["This CallbackMapping is used for adapter callback"]
+                    },
+                    "external_path": {
+                        "type": "string",
+                        "title": "External Path",
+                        "description": "Full external path exposed to clients",
+                        "examples": ["/api/health"]
+                    },
+                    "internal_path": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Internal Path",
+                        "description": "Full internal URL path to route the request to",
+                        "examples": ["http://callbridge_api:8000/health"]
+                    },
+                    "adapter_nats_subject": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Adapter Nats Subject",
+                        "description": "NATS subject for the adapter to publish messages to",
+                        "examples": ["adapters.pay4u.callback.status.update"]
+                    },
+                    "terminal": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/Terminal-Output"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Terminal to which the callback is associated"
+                    },
+                    "retry_policy": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/RetryPolicyConfig"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Retry behavior configuration for delivery attempts"
+                    },
+                    "security_policy": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/SecurityPolicyConfig"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Security policy including IP filtering and rate limiting"
+                    }
+                },
+                "type": "object",
+                "required": ["name", "external_path"],
+                "title": "CallbackMappingBase"
             },
             "CallbackMappingCreate": {
                 "properties": {
@@ -1722,6 +2280,62 @@
                 "type": "object",
                 "title": "CallbackMappingUpdate"
             },
+            "CallbackRetryRequestItems": {
+                "properties": {
+                    "callback_ids": {
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "type": "array",
+                        "title": "Callback Ids",
+                        "description": "List unique identifiers of the callback"
+                    }
+                },
+                "type": "object",
+                "required": ["callback_ids"],
+                "title": "CallbackRetryRequestItems"
+            },
+            "CallbackRetryResponse": {
+                "properties": {
+                    "delivered": {
+                        "items": {
+                            "$ref": "#/components/schemas/DeliveryRequestMessage"
+                        },
+                        "type": "array",
+                        "title": "Delivered",
+                        "description": "Successfully delivered callbacks"
+                    },
+                    "skipped": {
+                        "items": {
+                            "$ref": "#/components/schemas/CallbackRetrySkippedItem"
+                        },
+                        "type": "array",
+                        "title": "Skipped",
+                        "description": "Skipped callbacks"
+                    }
+                },
+                "type": "object",
+                "title": "CallbackRetryResponse"
+            },
+            "CallbackRetrySkippedItem": {
+                "properties": {
+                    "callback_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Callback Id",
+                        "description": "Identifier of the callback"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "title": "Reason",
+                        "description": "Reason for skipping"
+                    }
+                },
+                "type": "object",
+                "required": ["callback_id", "reason"],
+                "title": "CallbackRetrySkippedItem"
+            },
             "CallbackStatusEnum": {
                 "type": "string",
                 "enum": ["queued", "processing", "success", "error", "sync"],
@@ -1814,6 +2428,10 @@
                         "$ref": "#/components/schemas/SecurityPolicyConfig",
                         "description": "Security and access rules"
                     },
+                    "trigger_type": {
+                        "$ref": "#/components/schemas/CallbackTriggerType",
+                        "description": "What triggered this delivery"
+                    },
                     "adapter_nats_subject": {
                         "anyOf": [
                             {
@@ -1840,7 +2458,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["callback_id", "mapping_id", "original_url", "url", "method"],
+                "required": ["callback_id", "mapping_id", "original_url", "url", "method", "trigger_type"],
                 "title": "DeliveryRequestMessage"
             },
             "ErrorBody": {
@@ -1959,6 +2577,39 @@
                 "required": ["status"],
                 "title": "HealthStatus"
             },
+            "OffsetPagination_CallbackHistoryBackup_": {
+                "properties": {
+                    "items": {
+                        "items": {
+                            "$ref": "#/components/schemas/CallbackHistoryBackup"
+                        },
+                        "type": "array",
+                        "title": "Items",
+                        "description": "A list of items in the current page."
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "title": "Limit",
+                        "description": "The maximum number of items returned in a single page.",
+                        "examples": [10]
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "title": "Offset",
+                        "description": "The starting index for the current page.",
+                        "examples": [0]
+                    },
+                    "total": {
+                        "type": "integer",
+                        "title": "Total",
+                        "description": "The total number of available items.",
+                        "examples": [100]
+                    }
+                },
+                "type": "object",
+                "required": ["items", "limit", "offset", "total"],
+                "title": "OffsetPagination[CallbackHistoryBackup]"
+            },
             "OffsetPagination_CallbackHistoryRead_": {
                 "properties": {
                     "items": {
@@ -2046,6 +2697,11 @@
                 },
                 "type": "object",
                 "title": "RateValue"
+            },
+            "RestoreStrategy": {
+                "type": "string",
+                "enum": ["merge", "skip", "overwrite"],
+                "title": "RestoreStrategy"
             },
             "RetryPolicyConfig": {
                 "properties": {
@@ -2280,6 +2936,17 @@
                         ],
                         "title": "Callback Url",
                         "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
+                    },
+                    "details": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Details",
+                        "description": "Additional details about the terminal",
+                        "examples": [
+                            {
+                                "key": "value"
+                            }
+                        ]
                     }
                 },
                 "type": "object",
@@ -2377,6 +3044,17 @@
                         ],
                         "title": "Callback Url",
                         "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
+                    },
+                    "details": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Details",
+                        "description": "Additional details about the terminal",
+                        "examples": [
+                            {
+                                "key": "value"
+                            }
+                        ]
                     }
                 },
                 "type": "object",

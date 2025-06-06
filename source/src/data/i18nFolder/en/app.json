@@ -46,7 +46,8 @@
             "details": "More detailed",
             "generateCallback": "Generate callback",
             "clear": "Clear",
-            "continue": "Continue"
+            "continue": "Continue",
+            "back": "Go back"
         },
         "pagination": {
             "next": "Next",

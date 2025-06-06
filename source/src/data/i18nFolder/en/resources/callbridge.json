@@ -62,7 +62,7 @@
             "deactivatePolicy": "Deactivate policy?",
             "ipAdressListUpdatedSuccessfully": "IP adresses list updated successfully",
             "youHaveUnsavedChanges": "Found unsaved changes",
-            "saveOrDeleteThem": "Delete or save them?"
+            "saveOrDeleteThem": "Save them?"
         },
         "errors": {
             "cantBeEmpty": "Field can't be empty",
@@ -79,14 +79,18 @@
     "resources.callbridge.history": {
         "name": "History",
         "history": "History",
-        "callback_id": "Callback ID",
+        "filters": {},
         "fields": {
             "request_url": "Request url",
             "original_url": "Original url",
             "mapping_id": "Mapping ID ",
             "created_at": "Created at",
             "status": "Status",
-            "trigger_type": "Trigger type"
+            "trigger_type": "Trigger type",
+            "callback_id": "Callback ID",
+            "mapping_name": "Mapping name",
+            "transaction_id": "Transaction ID",
+            "external_order_id": "External order ID"
         },
         "callbacksStatus": {
             "retryCallback": "Retry",
@@ -95,6 +99,7 @@
             "success": "Success",
             "error": "Error",
             "sync": "Sync"
-        }
+        },
+        "notFoundMessage": "Mappings not found"
     }
 }

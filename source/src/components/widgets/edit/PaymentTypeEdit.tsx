@@ -2,7 +2,7 @@ import { useTranslate, useDataProvider, useEditController, EditContextProvider }
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { X } from "lucide-react";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -34,25 +35,41 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const { theme } = useTheme();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [iconFileName, setIconFileName] = useState<string>("");
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
         title: z.string().optional().default(""),
-        category: z.enum(paymentTypeCategories as [string, ...string[]])
+        category: z.enum(paymentTypeCategories as [string, ...string[]]),
+        meta: z
+            .object({
+                icon: z.string().optional()
+            })
+            .optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: id,
-            title: controllerProps.record?.title,
-            category: controllerProps.record?.category
+            title: controllerProps.record?.title ?? "",
+            category: controllerProps.record?.category ?? "",
+            meta: {
+                icon: controllerProps.record?.meta?.icon ?? ""
+            }
         }
     });
+
+    const val = form.watch("meta.icon");
+
+    useEffect(() => {
+        console.log(val);
+    }, [val]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -154,6 +171,84 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="meta.icon"
+                                render={({ field }) => (
+                                    <FormItem className="w-full p-2">
+                                        <Label>{translate("resources.paymentTools.paymentType.fields.icon")}</Label>
+                                        <div className="!mt-0 flex items-center gap-4">
+                                            {field.value && (
+                                                <div className="h-10 w-10">
+                                                    <img
+                                                        src={field.value}
+                                                        alt="icon"
+                                                        className="pointer-events-none h-full w-full object-contain"
+                                                    />
+                                                </div>
+                                            )}
+
+                                            <div className="relative w-full">
+                                                <label
+                                                    htmlFor="icon-upload"
+                                                    className="block w-full cursor-pointer rounded-4 bg-green-50 px-4 py-2 text-center !text-white transition-all duration-300 hover:bg-green-40"
+                                                    title={
+                                                        iconFileName ||
+                                                        translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                            "..."
+                                                    }>
+                                                    <span className="block truncate">
+                                                        {iconFileName ||
+                                                            translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                                "..."}
+                                                    </span>
+                                                </label>
+
+                                                {iconFileName && (
+                                                    <X
+                                                        size={20}
+                                                        className="absolute right-2 top-2 cursor-pointer text-white"
+                                                        onClick={e => {
+                                                            e.stopPropagation();
+                                                            setIconFileName("");
+                                                            form.setValue("meta.icon", "", { shouldValidate: true });
+
+                                                            if (fileInputRef.current) {
+                                                                fileInputRef.current.value = "";
+                                                            }
+                                                        }}
+                                                    />
+                                                )}
+                                            </div>
+
+                                            <input
+                                                ref={fileInputRef}
+                                                id="icon-upload"
+                                                type="file"
+                                                accept=".svg"
+                                                style={{ display: "none" }}
+                                                onChange={async e => {
+                                                    const file = e.target.files?.[0];
+                                                    if (file) {
+                                                        setIconFileName(file.name);
+                                                        const reader = new FileReader();
+                                                        reader.onloadend = () => {
+                                                            const base64 = reader.result as string;
+                                                            form.setValue("meta.icon", base64, {
+                                                                shouldValidate: true
+                                                            });
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                    if (fileInputRef.current) {
+                                                        fileInputRef.current.value = "";
+                                                    }
+                                                }}
+                                            />
+                                        </div>
                                     </FormItem>
                                 )}
                             />

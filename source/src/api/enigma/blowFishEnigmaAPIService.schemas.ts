@@ -653,6 +653,56 @@ export interface ApiResponseListPaymentCategoryItem {
     meta?: ApiResponseListPaymentCategoryItemMeta;
 }
 
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseListSystemPaymentInstrumentError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseListSystemPaymentInstrumentMeta = unknown | null;
+
+export interface ApiResponseListSystemPaymentInstrument {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: SystemPaymentInstrument[];
+    /** The error details if the request was not successful */
+    error?: ApiResponseListSystemPaymentInstrumentError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseListSystemPaymentInstrumentMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseListTerminalError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseListTerminalMeta = unknown | null;
+
+export interface ApiResponseListTerminal {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: Terminal[];
+    /** The error details if the request was not successful */
+    error?: ApiResponseListTerminalError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseListTerminalMeta;
+}
+
 export interface CurrenciesLink {
     /** Unique codes of the currencies to link (ISO 4217) */
     codes: string[];
@@ -1184,29 +1234,9 @@ export interface FeeUpdate {
 }
 
 /**
- * Short name or abbreviation
- */
-export type FinancialInstitutionShortName = string | null;
-
-/**
  * Full legal name of the institution
  */
 export type FinancialInstitutionLegalName = string | null;
-
-/**
- * SWIFT/BIC code
- */
-export type FinancialInstitutionBic = string | null;
-
-/**
- * Tax identification number
- */
-export type FinancialInstitutionTaxIdNumber = string | null;
-
-/**
- * Registration number
- */
-export type FinancialInstitutionRegistrationNumber = string | null;
 
 /**
  * NSPK member ID (for Russia)
@@ -1222,7 +1252,7 @@ export interface FinancialInstitution {
     /** Name of the financial institution */
     name: string;
     /** Short name or abbreviation */
-    short_name?: FinancialInstitutionShortName;
+    short_name: string;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionLegalName;
     /** Type of financial institution */
@@ -1232,16 +1262,8 @@ export interface FinancialInstitution {
      * @pattern ^\w{2}$
      */
     country_code: string;
-    /** SWIFT/BIC code */
-    bic?: FinancialInstitutionBic;
-    /** Tax identification number */
-    tax_id_number?: FinancialInstitutionTaxIdNumber;
-    /** Registration number */
-    registration_number?: FinancialInstitutionRegistrationNumber;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionNspkMemberId;
-    /** Status of the financial institution */
-    status?: FinancialInstitutionStatus;
     /** Additional metadata */
     meta?: FinancialInstitutionMeta;
     /** Unique identifier of the financial institution */
@@ -1257,29 +1279,9 @@ export interface FinancialInstitution {
 }
 
 /**
- * Short name or abbreviation
- */
-export type FinancialInstitutionBaseShortName = string | null;
-
-/**
  * Full legal name of the institution
  */
 export type FinancialInstitutionBaseLegalName = string | null;
-
-/**
- * SWIFT/BIC code
- */
-export type FinancialInstitutionBaseBic = string | null;
-
-/**
- * Tax identification number
- */
-export type FinancialInstitutionBaseTaxIdNumber = string | null;
-
-/**
- * Registration number
- */
-export type FinancialInstitutionBaseRegistrationNumber = string | null;
 
 /**
  * NSPK member ID (for Russia)
@@ -1295,7 +1297,7 @@ export interface FinancialInstitutionBase {
     /** Name of the financial institution */
     name: string;
     /** Short name or abbreviation */
-    short_name?: FinancialInstitutionBaseShortName;
+    short_name: string;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionBaseLegalName;
     /** Type of financial institution */
@@ -1305,44 +1307,16 @@ export interface FinancialInstitutionBase {
      * @pattern ^\w{2}$
      */
     country_code: string;
-    /** SWIFT/BIC code */
-    bic?: FinancialInstitutionBaseBic;
-    /** Tax identification number */
-    tax_id_number?: FinancialInstitutionBaseTaxIdNumber;
-    /** Registration number */
-    registration_number?: FinancialInstitutionBaseRegistrationNumber;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionBaseNspkMemberId;
-    /** Status of the financial institution */
-    status?: FinancialInstitutionStatus;
     /** Additional metadata */
     meta?: FinancialInstitutionBaseMeta;
 }
 
 /**
- * Short name or abbreviation
- */
-export type FinancialInstitutionCreateShortName = string | null;
-
-/**
  * Full legal name of the institution
  */
 export type FinancialInstitutionCreateLegalName = string | null;
-
-/**
- * SWIFT/BIC code
- */
-export type FinancialInstitutionCreateBic = string | null;
-
-/**
- * Tax identification number
- */
-export type FinancialInstitutionCreateTaxIdNumber = string | null;
-
-/**
- * Registration number
- */
-export type FinancialInstitutionCreateRegistrationNumber = string | null;
 
 /**
  * NSPK member ID (for Russia)
@@ -1358,7 +1332,7 @@ export interface FinancialInstitutionCreate {
     /** Name of the financial institution */
     name: string;
     /** Short name or abbreviation */
-    short_name?: FinancialInstitutionCreateShortName;
+    short_name: string;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionCreateLegalName;
     /** Type of financial institution */
@@ -1368,16 +1342,8 @@ export interface FinancialInstitutionCreate {
      * @pattern ^\w{2}$
      */
     country_code: string;
-    /** SWIFT/BIC code */
-    bic?: FinancialInstitutionCreateBic;
-    /** Tax identification number */
-    tax_id_number?: FinancialInstitutionCreateTaxIdNumber;
-    /** Registration number */
-    registration_number?: FinancialInstitutionCreateRegistrationNumber;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionCreateNspkMemberId;
-    /** Status of the financial institution */
-    status?: FinancialInstitutionStatus;
     /** Additional metadata */
     meta?: FinancialInstitutionCreateMeta;
 }
@@ -1392,27 +1358,26 @@ export interface FinancialInstitutionPaymentTypesLink {
     codes: string[];
 }
 
-export type FinancialInstitutionStatus = (typeof FinancialInstitutionStatus)[keyof typeof FinancialInstitutionStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const FinancialInstitutionStatus = {
-    ACTIVE: "ACTIVE",
-    INACTIVE: "INACTIVE",
-    SUSPENDED: "SUSPENDED"
-} as const;
-
 export type FinancialInstitutionType = (typeof FinancialInstitutionType)[keyof typeof FinancialInstitutionType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FinancialInstitutionType = {
     BANK: "BANK",
+    MICROFINANCE: "MICROFINANCE",
+    CREDIT_UNION: "CREDIT_UNION",
+    EMI: "EMI",
+    MOBILE_MONEY_OPERATOR: "MOBILE_MONEY_OPERATOR",
+    PSP: "PSP",
+    PAYMENT_AGGREGATOR: "PAYMENT_AGGREGATOR",
+    REMITTANCE_COMPANY: "REMITTANCE_COMPANY",
+    CRYPTO_EXCHANGE: "CRYPTO_EXCHANGE",
     OTHER: "OTHER"
 } as const;
 
 export interface FinancialInstitutionTypeItem {
-    /** Name of the financial institution type */
-    name: string;
-    /** Value of the financial institution type */
+    /** Human-readable name for UI */
+    label: string;
+    /** Enum value used by API / DB */
     value: string;
 }
 
@@ -1442,29 +1407,9 @@ export type FinancialInstitutionUpdateInstitutionType = FinancialInstitutionType
 export type FinancialInstitutionUpdateCountryCode = string | null;
 
 /**
- * SWIFT/BIC code
- */
-export type FinancialInstitutionUpdateBic = string | null;
-
-/**
- * Tax identification number
- */
-export type FinancialInstitutionUpdateTaxIdNumber = string | null;
-
-/**
- * Registration number
- */
-export type FinancialInstitutionUpdateRegistrationNumber = string | null;
-
-/**
  * NSPK member ID (for Russia)
  */
 export type FinancialInstitutionUpdateNspkMemberId = string | null;
-
-/**
- * Status of the financial institution
- */
-export type FinancialInstitutionUpdateStatus = FinancialInstitutionStatus | null;
 
 export type FinancialInstitutionUpdateMetaAnyOf = { [key: string]: unknown };
 
@@ -1484,16 +1429,8 @@ export interface FinancialInstitutionUpdate {
     institution_type?: FinancialInstitutionUpdateInstitutionType;
     /** ISO 3166-1 alpha-2 country code */
     country_code?: FinancialInstitutionUpdateCountryCode;
-    /** SWIFT/BIC code */
-    bic?: FinancialInstitutionUpdateBic;
-    /** Tax identification number */
-    tax_id_number?: FinancialInstitutionUpdateTaxIdNumber;
-    /** Registration number */
-    registration_number?: FinancialInstitutionUpdateRegistrationNumber;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionUpdateNspkMemberId;
-    /** Status of the financial institution */
-    status?: FinancialInstitutionUpdateStatus;
     /** Additional metadata */
     meta?: FinancialInstitutionUpdateMeta;
 }
@@ -1744,7 +1681,7 @@ export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCateg
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PaymentCategory = {
-    h2h: "h2h",
+    p2p: "p2p",
     ecom: "ecom"
 } as const;
 
@@ -1995,8 +1932,6 @@ export type SystemPaymentInstrumentDescription = string | null;
 export type SystemPaymentInstrumentMeta = { [key: string]: unknown };
 
 export interface SystemPaymentInstrument {
-    /** Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'. */
-    name: string;
     /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
     payment_type_code: string;
     /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
@@ -2011,6 +1946,8 @@ export interface SystemPaymentInstrument {
     description?: SystemPaymentInstrumentDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
     meta?: SystemPaymentInstrumentMeta;
+    /** Unique name for the system payment instrument */
+    name: string;
     /** Unique identifier of the system payment instrument. */
     id: string;
     /** Details of the associated payment type. */
@@ -2028,35 +1965,6 @@ export interface SystemPaymentInstrument {
 /**
  * Optional detailed description of the payment instrument's purpose or configuration.
  */
-export type SystemPaymentInstrumentBaseDescription = string | null;
-
-/**
- * Additional metadata in JSON format, useful for custom configurations or notes.
- */
-export type SystemPaymentInstrumentBaseMeta = { [key: string]: unknown };
-
-export interface SystemPaymentInstrumentBase {
-    /** Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'. */
-    name: string;
-    /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
-    payment_type_code: string;
-    /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
-    currency_code: string;
-    /** Unique identifier of the associated financial institution. */
-    financial_institution_id: string;
-    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
-    direction: DirectionType;
-    /** Current operational status of the payment instrument. */
-    status?: SystemPaymentInstrumentStatus;
-    /** Optional detailed description of the payment instrument's purpose or configuration. */
-    description?: SystemPaymentInstrumentBaseDescription;
-    /** Additional metadata in JSON format, useful for custom configurations or notes. */
-    meta?: SystemPaymentInstrumentBaseMeta;
-}
-
-/**
- * Optional detailed description of the payment instrument's purpose or configuration.
- */
 export type SystemPaymentInstrumentCreateDescription = string | null;
 
 /**
@@ -2065,8 +1973,6 @@ export type SystemPaymentInstrumentCreateDescription = string | null;
 export type SystemPaymentInstrumentCreateMeta = { [key: string]: unknown };
 
 export interface SystemPaymentInstrumentCreate {
-    /** Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'. */
-    name: string;
     /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
     payment_type_code: string;
     /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
@@ -2083,6 +1989,35 @@ export interface SystemPaymentInstrumentCreate {
     meta?: SystemPaymentInstrumentCreateMeta;
 }
 
+/**
+ * Optional detailed description of the payment instrument's purpose or configuration.
+ */
+export type SystemPaymentInstrumentReadDescription = string | null;
+
+/**
+ * Additional metadata in JSON format, useful for custom configurations or notes.
+ */
+export type SystemPaymentInstrumentReadMeta = { [key: string]: unknown };
+
+export interface SystemPaymentInstrumentRead {
+    /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
+    payment_type_code: string;
+    /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
+    currency_code: string;
+    /** Unique identifier of the associated financial institution. */
+    financial_institution_id: string;
+    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
+    direction: DirectionType;
+    /** Current operational status of the payment instrument. */
+    status?: SystemPaymentInstrumentStatus;
+    /** Optional detailed description of the payment instrument's purpose or configuration. */
+    description?: SystemPaymentInstrumentReadDescription;
+    /** Additional metadata in JSON format, useful for custom configurations or notes. */
+    meta?: SystemPaymentInstrumentReadMeta;
+    /** Unique name for the system payment instrument */
+    name: string;
+}
+
 export type SystemPaymentInstrumentStatus =
     (typeof SystemPaymentInstrumentStatus)[keyof typeof SystemPaymentInstrumentStatus];
 
@@ -2092,11 +2027,6 @@ export const SystemPaymentInstrumentStatus = {
     inactive: "inactive",
     test_only: "test_only"
 } as const;
-
-/**
- * New unique name for the system payment instrument.
- */
-export type SystemPaymentInstrumentUpdateName = string | null;
 
 /**
  * New direction of the payment instrument.
@@ -2121,8 +2051,6 @@ export type SystemPaymentInstrumentUpdateMetadataAnyOf = { [key: string]: unknow
 export type SystemPaymentInstrumentUpdateMetadata = SystemPaymentInstrumentUpdateMetadataAnyOf | null;
 
 export interface SystemPaymentInstrumentUpdate {
-    /** New unique name for the system payment instrument. */
-    name?: SystemPaymentInstrumentUpdateName;
     /** New direction of the payment instrument. */
     direction?: SystemPaymentInstrumentUpdateDirection;
     /** New operational status of the payment instrument. */
@@ -2260,7 +2188,7 @@ export interface TerminalPaymentInstrument {
     /** Related Terminal object */
     terminal: Terminal;
     /** Related SystemPaymentInstrument object */
-    system_payment_instrument: SystemPaymentInstrumentBase;
+    system_payment_instrument: SystemPaymentInstrumentRead;
     /** Timestamp of creation */
     created_at: string;
     /** Timestamp of last update */
@@ -2772,6 +2700,12 @@ export const DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMercha
     desc: "desc"
 } as const;
 
+export type DirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetParams = {
+    merchant_id?: string | null;
+    provider_name?: string | null;
+    terminal_id?: string | null;
+};
+
 export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
     /**
      * List of identifiers for filtering
@@ -2936,6 +2870,26 @@ export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV
         asc: "asc",
         desc: "desc"
     } as const;
+
+export type SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetParams =
+    {
+        /**
+         * List of payment type codes to filter by. If not provided, all payment types are considered.
+         */
+        payment_types?: string[] | null;
+    };
+
+export type SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetParams =
+    {
+        /**
+         * List of payment type codes to filter by. If not provided, all payment types are considered.
+         */
+        payment_types?: string[] | null;
+        /**
+         * List of currency codes to filter by. If not provided, all currencies are considered.
+         */
+        currencies?: string[] | null;
+    };
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams =
     {

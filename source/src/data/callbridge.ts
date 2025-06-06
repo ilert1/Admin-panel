@@ -32,18 +32,24 @@ import {
 // /history/{history_id}/retry
 export class CallbridgeDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        const fieldsForSearch = Object.keys(params.filter).filter(
-            item =>
-                item === "name" ||
-                item === "description" ||
-                item === "internal_path" ||
-                item === "external_path" ||
-                item === "mapping_id" ||
-                item === "callback_id" ||
-                item === "original_url" ||
-                item === "trigger_type" ||
-                item === "status"
-        );
+        console.log(params.filter);
+
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item =>
+                      item === "name" ||
+                      item === "description" ||
+                      item === "internal_path" ||
+                      item === "external_path" ||
+                      item === "mapping_id" ||
+                      item === "callback_id" ||
+                      item === "original_url" ||
+                      item === "trigger_type" ||
+                      item === "status" ||
+                      item === "transaction_id" ||
+                      item === "external_order_id"
+              )
+            : [];
 
         const fn = resource.includes("mapping")
             ? callbackMappingEndpointsListMappingsCallbridgeV1MappingGet

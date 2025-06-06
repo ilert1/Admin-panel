@@ -3,30 +3,36 @@ import { IPopoverSelect, PopoverSelect } from "./PopoverSelect";
 import { ProviderWithId } from "@/data/providers";
 import { useTranslate } from "react-admin";
 
-interface ProviderSelectProps extends IPopoverSelect {
-    providers: ProviderWithId[] | Provider[];
+interface MappingSelectProps extends IPopoverSelect {
+    mappings: ProviderWithId[] | Provider[];
 }
 
-export const ProviderSelect = ({
+export const MappingSelect = ({
     value,
     onChange,
-    providers,
+    idField,
+    setIdValue,
+    mappings,
     isError,
     errorMessage,
     disabled
-}: ProviderSelectProps) => {
+}: MappingSelectProps) => {
     const translate = useTranslate();
+
     return (
         <PopoverSelect
-            variants={providers}
+            variants={mappings}
+            setIdValue={setIdValue}
+            idField={idField}
             value={value}
             onChange={onChange}
             variantKey={"name"}
             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-            notFoundMessage={translate("resources.direction.noProviders")}
+            notFoundMessage={translate("resources.callbridge.history.notFoundMessage")}
             isError={isError}
             errorMessage={errorMessage}
             disabled={disabled}
+            style="Black"
         />
     );
 };

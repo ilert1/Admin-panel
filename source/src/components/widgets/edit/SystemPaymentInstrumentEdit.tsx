@@ -49,11 +49,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     });
 
     const formSchema = z.object({
-        name: z
-            .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty"))
-            .regex(/^[A-Za-z0-9 _-]+$/, translate("resources.paymentTools.systemPaymentInstruments.errors.nameRegex"))
-            .trim(),
         direction: z.enum(directions as [string, ...string[]]).default("universal"),
         status: z.enum(statuses as [string, ...string[]]).default("active"),
         description: z.string().optional(),
@@ -63,7 +58,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
             direction: DirectionType.universal,
             status: SystemPaymentInstrumentStatus.active,
             description: "",
@@ -74,7 +68,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     useEffect(() => {
         if (!isLoadingPaymentInstrument) {
             form.reset({
-                name: record.name,
                 direction: record.direction,
                 status: record.status,
                 description: record.description,
@@ -117,27 +110,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap gap-4">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                label={translate(
-                                                    "resources.paymentTools.systemPaymentInstruments.fields.name"
-                                                )}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                );
-                            }}
-                        />
                         <FormField
                             control={form.control}
                             name="direction"
@@ -208,7 +180,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                             name="description"
                             render={({ field, fieldState }) => {
                                 return (
-                                    <FormItem>
+                                    <FormItem className="col-span-2">
                                         <FormControl>
                                             <Input
                                                 {...field}

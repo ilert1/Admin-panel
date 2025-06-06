@@ -1,5 +1,6 @@
 {
     "resources.paymentTools.name": "Настройки платежей",
+    "resources.paymentTools.noAvailable": "Ничего не найдено",
     "resources.paymentTools.paymentType": {
         "name": "Платёжные типы",
         "admin": {
@@ -20,7 +21,8 @@
         "creatingPaymentType": "Создание типа платежа",
         "editingPaymentType": "Изменение типа платежа",
         "createNew": "Добавить тип платежа",
-        "duplicateCode": "Введенный код уже используется"
+        "duplicateCode": "Введенный код уже используется",
+        "uploadIcon": "Загрузить иконку"
     },
     "resources.paymentTools.financialInstitution": {
         "name": "Финансовые институты",

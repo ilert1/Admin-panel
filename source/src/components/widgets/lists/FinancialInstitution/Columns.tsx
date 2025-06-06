@@ -7,13 +7,15 @@ import { TextField } from "@/components/ui/text-field";
 import { EyeIcon } from "lucide-react";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
-import { FinancialInstitutionActivityBtn } from "./FinancialInstitutionActivityBtn";
+import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 
-export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
+export const useGetFinancialInstitutionColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+    const { data: financialInstitutionTypes } = useFetchFinancialInstitutionTypes();
 
     const columns: ColumnDef<FinancialInstitution>[] = [
         {
@@ -25,9 +27,8 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
                     <TextField
                         text={
                             row.original.institution_type
-                                ? translate(
-                                      `resources.paymentTools.financialInstitution.fields.types.${row.original.institution_type}`
-                                  )
+                                ? financialInstitutionTypes?.find(type => type.value === row.original.institution_type)
+                                      ?.label || ""
                                 : ""
                         }
                     />
@@ -106,21 +107,6 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
             id: "country_code",
             accessorKey: "country_code",
             header: translate("resources.paymentTools.financialInstitution.fields.country_code")
-        },
-        {
-            id: "status",
-            accessorKey: "status",
-            header: translate("resources.paymentTools.financialInstitution.fields.status"),
-            cell: ({ row }) => {
-                return (
-                    <FinancialInstitutionActivityBtn
-                        id={row.original.id}
-                        financialInstitutionName={row.original.name}
-                        activityState={row.original.status === "ACTIVE" ? true : false}
-                        isFetching={isFetching}
-                    />
-                );
-            }
         },
         {
             id: "show",

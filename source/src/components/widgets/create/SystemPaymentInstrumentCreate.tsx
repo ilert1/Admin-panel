@@ -1,8 +1,4 @@
-import {
-    DirectionType,
-    FinancialInstitution,
-    SystemPaymentInstrumentStatus
-} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { DirectionType, SystemPaymentInstrumentStatus } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
@@ -27,6 +23,7 @@ import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 interface SystemPaymentInstrumentCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -40,6 +37,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
     const appToast = useAppToast();
 
+    const [financialInstitutionValueName, setFinancialInstitutionValueName] = useState("");
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
@@ -61,16 +59,11 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
     const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
         queryKey: ["financialInstitutions"],
-        queryFn: ({ signal }) => dataProvider.getList("financialInstitution", { signal }),
+        queryFn: () => dataProvider.getListWithoutPagination("financialInstitution"),
         select: data => data.data
     });
 
     const formSchema = z.object({
-        name: z
-            .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty"))
-            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentTools.systemPaymentInstruments.errors.nameRegex"))
-            .trim(),
         payment_type_code: z
             .string()
             .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
@@ -100,7 +93,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
             payment_type_code: "",
             currency_code: "",
             financial_institution_id: "",
@@ -112,6 +104,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        console.log(data);
         if (buttonDisabled) return;
         setButtonDisabled(true);
         if (data.meta) data.meta = JSON.parse(data.meta);
@@ -138,7 +131,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         );
 
     const paymentsDisabled = !paymentTypes || paymentTypes.length === 0;
-    const currenciesDisabled = !currencies || currencies.length === 0;
     const financialInstitutionsDisabled = !financialInstitutions || financialInstitutions.length === 0;
 
     return (
@@ -146,27 +138,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap gap-4">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                label={translate(
-                                                    "resources.paymentTools.systemPaymentInstruments.fields.name"
-                                                )}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                );
-                            }}
-                        />
                         <FormField
                             control={form.control}
                             name="payment_type_code"
@@ -177,46 +148,25 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                             "resources.paymentTools.systemPaymentInstruments.fields.payment_type_code"
                                         )}
                                     </Label>
-                                    <Select
+
+                                    <PopoverSelect
+                                        variants={paymentTypes}
                                         value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={paymentsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        paymentsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!paymentsDisabled
-                                                    ? paymentTypes.map((paymentType: PaymentTypeWithId) => (
-                                                          <SelectItem
-                                                              key={paymentType.code}
-                                                              value={paymentType.code}
-                                                              variant={SelectType.GRAY}>
-                                                              {paymentType.code}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
+                                        onChange={e => field.onChange(e)}
+                                        variantKey={"code"}
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                        isError={fieldState.invalid}
+`                                       errorMessage={fieldState.error?.message}
+                                        disabled={paymentsDisabled}
+                                    />
+`                                </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="currency_code"
-                            render={({ field, fieldState }) => (
+                            render={({ field }) => (
                                 <FormItem className="">
                                     <Label>
                                         {translate(
@@ -244,41 +194,20 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                             "resources.paymentTools.systemPaymentInstruments.fields.financial_institution_id"
                                         )}
                                     </Label>
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={paymentsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        paymentsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!financialInstitutionsDisabled
-                                                    ? financialInstitutions.map(
-                                                          (financialInstitution: FinancialInstitution) => (
-                                                              <SelectItem
-                                                                  key={financialInstitution.id}
-                                                                  value={financialInstitution.id}
-                                                                  variant={SelectType.GRAY}>
-                                                                  {financialInstitution.name}
-                                                              </SelectItem>
-                                                          )
-                                                      )
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+
+                                    <PopoverSelect
+                                        variants={financialInstitutions}
+                                        value={financialInstitutionValueName}
+                                        idField="id"
+                                        setIdValue={e => field.onChange(e)}
+                                        onChange={e => setFinancialInstitutionValueName(e)}
+                                        variantKey="name"
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={financialInstitutionsDisabled}
+                                    />
                                 </FormItem>
                             )}
                         />
