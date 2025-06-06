@@ -5,11 +5,14 @@
  * OpenAPI spec version: develop
  */
 import type {
+    ApiResponseListSystemPaymentInstrument,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationSystemPaymentInstrument,
     ApiResponseSystemPaymentInstrument,
     HTTPValidationError,
-    SystemPaymentInstrumentCreate,
+    SystemPaymentInstrumentCreateSchema,
+    SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetParams,
+    SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetParams,
     SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetParams,
     SystemPaymentInstrumentUpdate
 } from "../blowFishEnigmaAPIService.schemas";
@@ -56,8 +59,8 @@ export const getSystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnig
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system-payment-instruments?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system-payment-instruments`;
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments`;
 };
 
 export const systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet = async (
@@ -101,11 +104,11 @@ export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV
 
 export const getSystemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostUrl =
     () => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system-payment-instruments`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments`;
     };
 
 export const systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost = async (
-    systemPaymentInstrumentCreate: SystemPaymentInstrumentCreate,
+    systemPaymentInstrumentCreateSchema: SystemPaymentInstrumentCreateSchema,
     options?: RequestInit
 ): Promise<systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse> => {
     return authFetch<systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse>(
@@ -114,7 +117,7 @@ export const systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigma
             ...options,
             method: "POST",
             headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(systemPaymentInstrumentCreate)
+            body: JSON.stringify(systemPaymentInstrumentCreateSchema)
         }
     );
 };
@@ -147,7 +150,7 @@ export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1Sy
 
 export const getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetUrl =
     (systemPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system-payment-instruments/${systemPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentId}`;
     };
 
 export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGet =
@@ -194,7 +197,7 @@ export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1
 
 export const getSystemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchUrl =
     (systemPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system-payment-instruments/${systemPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentId}`;
     };
 
 export const systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatch =
@@ -244,7 +247,7 @@ export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV
 
 export const getSystemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteUrl =
     (systemPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system-payment-instruments/${systemPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentId}`;
     };
 
 export const systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDelete =
@@ -259,6 +262,181 @@ export const systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigma
             {
                 ...options,
                 method: "DELETE"
+            }
+        );
+    };
+
+/**
+ * Retrieves a list of System Payment Instruments associated with a specific Terminal ID.
+ * @summary Retrieve System Payment Instruments by Terminal ID
+ */
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponse200 =
+    {
+        data: ApiResponseListSystemPaymentInstrument;
+        status: 200;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponseComposite =
+
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponse200
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponse422;
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponse =
+    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetUrl =
+    (terminalId: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/by_terminal/${terminalId}`;
+    };
+
+export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGet =
+    async (
+        terminalId: string,
+        options?: RequestInit
+    ): Promise<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponse> => {
+        return authFetch<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetResponse>(
+            getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByTerminalEnigmaV1SystemPaymentInstrumentsByTerminalTerminalIdGetUrl(
+                terminalId
+            ),
+            {
+                ...options,
+                method: "GET"
+            }
+        );
+    };
+
+/**
+ * Retrieves a list of System Payment Instruments associated with a specific Direction ID, optionally filtered by payment types defined on the Direction.
+ * @summary Retrieve System Payment Instruments by Direction ID
+ */
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponse200 =
+    {
+        data: ApiResponseListSystemPaymentInstrument;
+        status: 200;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponseComposite =
+
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponse200
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponse422;
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponse =
+    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetUrl =
+    (
+        directionId: string,
+        params?: SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/by_direction/${directionId}?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/by_direction/${directionId}`;
+    };
+
+export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGet =
+    async (
+        directionId: string,
+        params?: SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetParams,
+        options?: RequestInit
+    ): Promise<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponse> => {
+        return authFetch<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetResponse>(
+            getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetUrl(
+                directionId,
+                params
+            ),
+            {
+                ...options,
+                method: "GET"
+            }
+        );
+    };
+
+/**
+ * Retrieves a list of unique System Payment Instruments associated with a specific Merchant ID, considering all related Directions and their payment type filters.
+ * @summary Retrieve System Payment Instruments by Merchant ID
+ */
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponse200 =
+    {
+        data: ApiResponseListSystemPaymentInstrument;
+        status: 200;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponseComposite =
+
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponse200
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponse422;
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponse =
+    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetUrl =
+    (
+        merchantId: string,
+        params?: SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/by_merchant/${merchantId}?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/by_merchant/${merchantId}`;
+    };
+
+export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGet =
+    async (
+        merchantId: string,
+        params?: SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetParams,
+        options?: RequestInit
+    ): Promise<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponse> => {
+        return authFetch<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetResponse>(
+            getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetUrl(
+                merchantId,
+                params
+            ),
+            {
+                ...options,
+                method: "GET"
             }
         );
     };
