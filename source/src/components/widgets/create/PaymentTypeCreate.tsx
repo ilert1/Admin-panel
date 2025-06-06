@@ -23,7 +23,7 @@ import {
     SelectType,
     SelectItem
 } from "@/components/ui/select";
-import { Trash, X } from "lucide-react";
+import { X } from "lucide-react";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;

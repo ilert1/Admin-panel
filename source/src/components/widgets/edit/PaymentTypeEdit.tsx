@@ -65,12 +65,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         }
     });
 
-    const val = form.watch("meta.icon");
-
-    useEffect(() => {
-        console.log(val);
-    }, [val]);
-
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 

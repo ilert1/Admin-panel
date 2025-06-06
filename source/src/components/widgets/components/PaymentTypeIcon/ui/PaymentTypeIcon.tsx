@@ -70,7 +70,21 @@ export const PaymentTypeIcon = memo(
     ({ type, className, tooltip = false }: { type: string; className?: string; tooltip?: boolean }) => {
         const Icon = iconsRecord[type];
 
-        if (!Icon) return null;
+        if (!Icon) {
+            return (
+                <div
+                    className={cn(
+                        className,
+                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white"
+                    )}>
+                    {type
+                        .toUpperCase()
+                        .split("_")
+                        .map(el => el[0])
+                        .join("")}
+                </div>
+            );
+        }
         return tooltip ? (
             <TooltipProvider>
                 <Tooltip delayDuration={300}>

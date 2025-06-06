@@ -77,7 +77,7 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
 
                                 {showCaptions && (
                                     <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
-                                        {translate(`resources.paymentTools  .name`)}
+                                        {translate(`resources.paymentTools.name`)}
                                     </span>
                                 )}
                             </div>
