@@ -27,7 +27,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
     };
 
     const columns: ColumnDef<SystemPaymentInstrument>[] = [
-        {
+        /* {
             accessorKey: "created_at",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.createdAt"),
             cell: ({ row }) => (
@@ -50,7 +50,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                     </p>
                 </>
             )
-        },
+        }, */
         {
             id: "instrument",
             accessorKey: "id",
