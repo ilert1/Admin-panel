@@ -108,7 +108,7 @@ export const TerminalPaymentInstrumentFilter = ({
             <div className="">
                 <Button
                     onClick={handleInit}
-                    disabled={!(Boolean(currentProvider) && Boolean(terminalFilterName)) || !total}>
+                    disabled={!(Boolean(currentProvider) && Boolean(terminalFilterName))}>
                     {translate("resources.paymentTools.terminalPaymentInstruments.initInstruments")}
                 </Button>
             </div>
