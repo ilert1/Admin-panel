@@ -10,7 +10,7 @@ import type {
     ApiResponseOffsetPaginationSystemPaymentInstrument,
     ApiResponseSystemPaymentInstrument,
     HTTPValidationError,
-    SystemPaymentInstrumentCreateSchema,
+    SystemPaymentInstrumentCreate,
     SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetParams,
     SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetParams,
     SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetParams,
@@ -108,7 +108,7 @@ export const getSystemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEni
     };
 
 export const systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost = async (
-    systemPaymentInstrumentCreateSchema: SystemPaymentInstrumentCreateSchema,
+    systemPaymentInstrumentCreate: SystemPaymentInstrumentCreate,
     options?: RequestInit
 ): Promise<systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse> => {
     return authFetch<systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostResponse>(
@@ -117,7 +117,7 @@ export const systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigma
             ...options,
             method: "POST",
             headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(systemPaymentInstrumentCreateSchema)
+            body: JSON.stringify(systemPaymentInstrumentCreate)
         }
     );
 };

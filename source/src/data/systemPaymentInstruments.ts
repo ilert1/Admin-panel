@@ -11,10 +11,7 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import {
-    SystemPaymentInstrument,
-    SystemPaymentInstrumentCreateSchema
-} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { SystemPaymentInstrument, SystemPaymentInstrumentCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost,
     systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDelete,
@@ -126,7 +123,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
     async create(resource: string, params: CreateParams): Promise<CreateResult<SystemPaymentInstrument>> {
         const res =
             await systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost(
-                params.data as SystemPaymentInstrumentCreateSchema,
+                params.data as SystemPaymentInstrumentCreate,
                 {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`

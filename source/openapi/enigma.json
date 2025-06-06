@@ -5801,7 +5801,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SystemPaymentInstrumentCreateSchema"
+                "$ref": "#/components/schemas/SystemPaymentInstrumentCreate"
               }
             }
           }
@@ -11942,6 +11942,14 @@
               }
             ]
           },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Unique name for the system payment instrument",
+            "examples": [
+              "sberbank SBP/RUB"
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -11949,14 +11957,6 @@
             "description": "Unique identifier of the system payment instrument.",
             "examples": [
               "123e4567-e89b-12d3-a456-426614174000"
-            ]
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Unique name for the system payment instrument",
-            "examples": [
-              "sberbank SBP/RUB"
             ]
           },
           "payment_type": {
@@ -11996,8 +11996,8 @@
           "currency_code",
           "financial_institution_id",
           "direction",
-          "id",
           "name",
+          "id",
           "payment_type",
           "currency",
           "financial_institution",
@@ -12006,7 +12006,7 @@
         ],
         "title": "SystemPaymentInstrument"
       },
-      "SystemPaymentInstrumentBase": {
+      "SystemPaymentInstrumentCreate": {
         "properties": {
           "payment_type_code": {
             "type": "string",
@@ -12083,9 +12083,9 @@
           "financial_institution_id",
           "direction"
         ],
-        "title": "SystemPaymentInstrumentBase"
+        "title": "SystemPaymentInstrumentCreate"
       },
-      "SystemPaymentInstrumentCreateSchema": {
+      "SystemPaymentInstrumentRead": {
         "properties": {
           "payment_type_code": {
             "type": "string",
@@ -12153,6 +12153,14 @@
                 "region": "US"
               }
             ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Unique name for the system payment instrument",
+            "examples": [
+              "sberbank SBP/RUB"
+            ]
           }
         },
         "type": "object",
@@ -12160,9 +12168,10 @@
           "payment_type_code",
           "currency_code",
           "financial_institution_id",
-          "direction"
+          "direction",
+          "name"
         ],
-        "title": "SystemPaymentInstrumentCreateSchema"
+        "title": "SystemPaymentInstrumentRead"
       },
       "SystemPaymentInstrumentStatus": {
         "type": "string",
@@ -12578,7 +12587,7 @@
             "description": "Related Terminal object"
           },
           "system_payment_instrument": {
-            "$ref": "#/components/schemas/SystemPaymentInstrumentBase",
+            "$ref": "#/components/schemas/SystemPaymentInstrumentRead",
             "description": "Related SystemPaymentInstrument object"
           },
           "created_at": {

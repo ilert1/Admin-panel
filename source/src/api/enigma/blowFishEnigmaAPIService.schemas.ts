@@ -1946,10 +1946,10 @@ export interface SystemPaymentInstrument {
     description?: SystemPaymentInstrumentDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
     meta?: SystemPaymentInstrumentMeta;
-    /** Unique identifier of the system payment instrument. */
-    id: string;
     /** Unique name for the system payment instrument */
     name: string;
+    /** Unique identifier of the system payment instrument. */
+    id: string;
     /** Details of the associated payment type. */
     payment_type: PaymentTypeBase;
     /** Details of the associated currency. */
@@ -1965,14 +1965,14 @@ export interface SystemPaymentInstrument {
 /**
  * Optional detailed description of the payment instrument's purpose or configuration.
  */
-export type SystemPaymentInstrumentBaseDescription = string | null;
+export type SystemPaymentInstrumentCreateDescription = string | null;
 
 /**
  * Additional metadata in JSON format, useful for custom configurations or notes.
  */
-export type SystemPaymentInstrumentBaseMeta = { [key: string]: unknown };
+export type SystemPaymentInstrumentCreateMeta = { [key: string]: unknown };
 
-export interface SystemPaymentInstrumentBase {
+export interface SystemPaymentInstrumentCreate {
     /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
     payment_type_code: string;
     /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
@@ -1984,22 +1984,22 @@ export interface SystemPaymentInstrumentBase {
     /** Current operational status of the payment instrument. */
     status?: SystemPaymentInstrumentStatus;
     /** Optional detailed description of the payment instrument's purpose or configuration. */
-    description?: SystemPaymentInstrumentBaseDescription;
+    description?: SystemPaymentInstrumentCreateDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
-    meta?: SystemPaymentInstrumentBaseMeta;
+    meta?: SystemPaymentInstrumentCreateMeta;
 }
 
 /**
  * Optional detailed description of the payment instrument's purpose or configuration.
  */
-export type SystemPaymentInstrumentCreateSchemaDescription = string | null;
+export type SystemPaymentInstrumentReadDescription = string | null;
 
 /**
  * Additional metadata in JSON format, useful for custom configurations or notes.
  */
-export type SystemPaymentInstrumentCreateSchemaMeta = { [key: string]: unknown };
+export type SystemPaymentInstrumentReadMeta = { [key: string]: unknown };
 
-export interface SystemPaymentInstrumentCreateSchema {
+export interface SystemPaymentInstrumentRead {
     /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
     payment_type_code: string;
     /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
@@ -2011,9 +2011,11 @@ export interface SystemPaymentInstrumentCreateSchema {
     /** Current operational status of the payment instrument. */
     status?: SystemPaymentInstrumentStatus;
     /** Optional detailed description of the payment instrument's purpose or configuration. */
-    description?: SystemPaymentInstrumentCreateSchemaDescription;
+    description?: SystemPaymentInstrumentReadDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
-    meta?: SystemPaymentInstrumentCreateSchemaMeta;
+    meta?: SystemPaymentInstrumentReadMeta;
+    /** Unique name for the system payment instrument */
+    name: string;
 }
 
 export type SystemPaymentInstrumentStatus =
@@ -2186,7 +2188,7 @@ export interface TerminalPaymentInstrument {
     /** Related Terminal object */
     terminal: Terminal;
     /** Related SystemPaymentInstrument object */
-    system_payment_instrument: SystemPaymentInstrumentBase;
+    system_payment_instrument: SystemPaymentInstrumentRead;
     /** Timestamp of creation */
     created_at: string;
     /** Timestamp of last update */
