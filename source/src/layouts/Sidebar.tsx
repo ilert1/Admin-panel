@@ -92,7 +92,7 @@ export const Sidebar = (props: SidebarProps) => {
                     if (
                         !resource.includes("wallet") &&
                         !resource.includes("callbridge") &&
-                        !resource.includes("paymentTools")
+                        !resource.includes("paymentSettings")
                     ) {
                         return (
                             <TooltipProvider key={resource} delayDuration={100}>

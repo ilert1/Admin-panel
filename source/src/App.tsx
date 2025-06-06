@@ -169,7 +169,7 @@ export const App = () => {
                                             <Resource name="terminals" list={TerminalsList} icon={SquareTerminal} />
                                             <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
 
-                                            <Resource name="paymentTools" icon={Nfc}>
+                                            <Resource name="paymentSettings" icon={Nfc}>
                                                 <Route path="paymentType" element={<PaymentTypesList />} />
                                                 <Route
                                                     path="financialInstitution"
