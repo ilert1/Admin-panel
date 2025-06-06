@@ -15,16 +15,8 @@ import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstru
 import { TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectType,
-    SelectValue
-} from "@/components/ui/select";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 export interface TerminalPaymentInstrumentsCreateProps {
     onClose?: () => void;
@@ -41,6 +33,8 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const refresh = useRefresh();
     const translate = useTranslate();
 
+    const [systemPaymentInstrumentValueName, setSystemPaymentInstrumentValueName] = useState("");
+    const [terminalValueName, setTerminalValueName] = useState("");
     const [hasErrors, setHasErrors] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -132,37 +126,19 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                                 "resources.paymentTools.terminalPaymentInstruments.fields.terminal_id"
                                             )}
                                         </Label>
-                                        <Select
-                                            value={field.value}
-                                            onValueChange={field.onChange}
-                                            disabled={terminalsDataLoading}>
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    variant={SelectType.GRAY}
-                                                    isError={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}>
-                                                    <SelectValue
-                                                        placeholder={translate(
-                                                            "resources.paymentTools.terminalPaymentInstruments.fields.terminalToChoose"
-                                                        )}
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {terminalsData && !terminalsDataLoading
-                                                        ? terminalsData.data.map(terminal => (
-                                                              <SelectItem
-                                                                  key={terminal.terminal_id}
-                                                                  value={terminal.terminal_id}
-                                                                  variant={SelectType.GRAY}>
-                                                                  {terminal.verbose_name}
-                                                              </SelectItem>
-                                                          ))
-                                                        : ""}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
+
+                                        <PopoverSelect
+                                            variants={terminalsData?.data || []}
+                                            value={terminalValueName}
+                                            idField="terminal_id"
+                                            setIdValue={e => field.onChange(e)}
+                                            onChange={e => setTerminalValueName(e)}
+                                            variantKey="verbose_name"
+                                            notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={terminalsDataLoading}
+                                        />
                                     </FormItem>
                                 )}
                             />
@@ -177,38 +153,19 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                                 "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
                                             )}
                                         </Label>
-                                        <Select
-                                            value={field.value}
-                                            onValueChange={field.onChange}
-                                            disabled={systemPaymentInstrumentsDataLoading}>
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    variant={SelectType.GRAY}
-                                                    isError={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}>
-                                                    <SelectValue
-                                                        placeholder={translate(
-                                                            "resources.paymentTools.terminalPaymentInstruments.fields.systemPaymentInstrumentsToChoose"
-                                                        )}
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {systemPaymentInstrumentsData &&
-                                                    !systemPaymentInstrumentsDataLoading
-                                                        ? systemPaymentInstrumentsData.data.map(paymentInstrument => (
-                                                              <SelectItem
-                                                                  key={paymentInstrument.id}
-                                                                  value={paymentInstrument.id}
-                                                                  variant={SelectType.GRAY}>
-                                                                  {paymentInstrument.name}
-                                                              </SelectItem>
-                                                          ))
-                                                        : ""}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
+
+                                        <PopoverSelect
+                                            variants={systemPaymentInstrumentsData?.data || []}
+                                            value={systemPaymentInstrumentValueName}
+                                            idField="id"
+                                            setIdValue={e => field.onChange(e)}
+                                            onChange={e => setSystemPaymentInstrumentValueName(e)}
+                                            variantKey="name"
+                                            notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={systemPaymentInstrumentsDataLoading}
+                                        />
                                     </FormItem>
                                 )}
                             />
