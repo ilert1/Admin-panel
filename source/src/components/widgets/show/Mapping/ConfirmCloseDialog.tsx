@@ -7,7 +7,6 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { TextField } from "@/components/ui/text-field";
 import { useTranslate } from "react-admin";
 
 export interface ConfirmCloseDialogProps {
