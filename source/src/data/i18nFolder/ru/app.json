@@ -47,7 +47,7 @@
             "generateCallback": "Создать callback",
             "clear": "Очистить",
             "continue": "Продолжить",
-            "back": "Вернутся"
+            "back": "Вернуться"
         },
         "pagination": {
             "next": "Далее",
