@@ -216,40 +216,10 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         value={field.value}
                                         onChange={field.onChange}
                                         currencies={currencies}
+                                        disabled={currenciesDisabled}
+                                        isError={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
                                     />
-                                    {/* <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={paymentsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        paymentsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!currenciesDisabled
-                                                    ? currencies.map((currency: CurrencyWithId) => (
-                                                          <SelectItem
-                                                              key={currency.code}
-                                                              value={currency.code}
-                                                              variant={SelectType.GRAY}>
-                                                              {currency.code}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select> */}
                                 </FormItem>
                             )}
                         />
