@@ -104,7 +104,17 @@ export const useGetTerminalColumns = () => {
             accessorKey: "provider",
             header: translate("resources.terminals.fields.provider"),
             cell: ({ row }) => {
-                return <TextField text={row.original.provider} />;
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("provider", {
+                                id: row.original.provider
+                            });
+                        }}>
+                        {row.original.provider}
+                    </Button>
+                );
             }
         },
         {

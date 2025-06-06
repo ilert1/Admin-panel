@@ -1,9 +1,9 @@
 {
-    "resources.paymentTools.name": "Платёжные инструменты",
+    "resources.paymentTools.name": "Настройки платежей",
     "resources.paymentTools.paymentType": {
-        "name": "Типы платежей",
+        "name": "Платёжные типы",
         "admin": {
-            "name": "Типы платежей"
+            "name": "Платёжные типы"
         },
         "errors": {
             "code": "Код не может быть пустым",
@@ -23,8 +23,8 @@
         "duplicateCode": "Введенный код уже используется"
     },
     "resources.paymentTools.financialInstitution": {
-        "name": "Фин. организации",
-        "show": "Фин. организация",
+        "name": "Финансовые институты",
+        "show": "Финансовый институт",
         "fields": {
             "created_at": "Создано",
             "updated_at": "Обновлено",
@@ -101,8 +101,8 @@
         "deletePaymentInstrumentQuestion": "Удалить платежный инструмент?"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
-        "name": "Платежные инструменты терминалов",
-        "show": "Платежный инструмент терминала",
+        "name": "Терминальные платежные инструменты",
+        "show": "Терминальный платежный инструмент",
         "fields": {
             "created_at": "Дата и время создания",
             "updated_at": "Дата и время обновления",
@@ -124,7 +124,9 @@
         },
         "createTerminalPaymentInstrument": "Добавить интеграцию терминала",
         "editingTerminalPaymentInstrument": "Изменение интеграции терминала",
-        "deleteTerminalPaymentInstrument": "Удалить интеграцию терминала?"
+        "deleteTerminalPaymentInstrument": "Удалить интеграцию терминала?",
+        "initInstruments": "Инициализировать инструменты",
+        "terminalPaymentInstrumentInitialized": "Платёжный инструмент терминала успешно инициализирован"
     },
     "resources.paymentTools.currency": {
         "name": "Валюты"

@@ -102,8 +102,8 @@ export const Sidebar = (props: SidebarProps) => {
                                             to={`/${resource}`}
                                             className={
                                                 resourceName[0] === resource
-                                                    ? "flex w-full items-center gap-3 bg-neutral-20 py-2 pl-6 text-controlElements animate-in fade-in-0 dark:bg-black"
-                                                    : "flex w-full items-center gap-3 py-2 pl-6 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black"
+                                                    ? "flex w-full items-center gap-3 bg-neutral-20 py-2 pl-6 leading-normal text-controlElements animate-in fade-in-0 dark:bg-black"
+                                                    : "flex w-full items-center gap-3 py-2 pl-6 leading-normal animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black"
                                             }>
                                             {createElement(resources[resource].icon, {})}
                                             {showCaptions && !isMobile && (

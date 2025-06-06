@@ -10,6 +10,7 @@ interface SheetDataMap {
     merchant: { id: string | undefined; merchantName: string | undefined };
     user: { id: string | undefined };
     transaction: { id: string | undefined };
+    provider: { id: string | undefined };
     terminal: { id: string | undefined; provider: string | undefined };
     wallet: { id: string | undefined };
     walletLinked: { id: string | undefined };

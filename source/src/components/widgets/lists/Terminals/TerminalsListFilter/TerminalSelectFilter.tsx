@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 interface ITerminalSelectFilter {
     terminalFilterName: string;
     onChangeTerminalFilter: (terminal: string) => void;
+    setTerminalFilterId?: (val: string) => void;
     currentProvider: string;
     disabled: boolean;
 }
@@ -19,6 +20,7 @@ interface ITerminalSelectFilter {
 export const TerminalSelectFilter = ({
     terminalFilterName,
     onChangeTerminalFilter,
+    setTerminalFilterId,
     currentProvider,
     disabled
 }: ITerminalSelectFilter) => {
@@ -70,6 +72,12 @@ export const TerminalSelectFilter = ({
 
     const onSelectTerminal = (currentValue: string) => {
         onChangeTerminalFilter(currentValue);
+
+        if (setTerminalFilterId) {
+            const termId = allTerminalsList?.find(terminal => terminal.verbose_name === currentValue)?.id;
+            setTerminalFilterId(termId ?? "");
+        }
+
         setOpen(false);
     };
 

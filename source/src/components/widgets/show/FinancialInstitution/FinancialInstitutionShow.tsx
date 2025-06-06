@@ -123,7 +123,13 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
 
                     <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.institution_type")}
-                        text={context.record.institution_type ? translate(`resources.paymentTools.financialInstitution.fields.types.${context.record.institution_type}`) : ""}
+                        text={
+                            context.record.institution_type
+                                ? translate(
+                                      `resources.paymentTools.financialInstitution.fields.types.${context.record.institution_type}`
+                                  )
+                                : ""
+                        }
                     />
 
                     <div className="flex flex-col">
@@ -132,9 +138,13 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         </small>
 
                         <div className="max-w-auto flex flex-wrap gap-2">
-                            {context.record.payment_types?.map(pt => {
-                                return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
-                            })}
+                            {context.record.payment_types && context.record.payment_types?.length > 0 ? (
+                                context.record.payment_types.map(pt => {
+                                    return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                                })
+                            ) : (
+                                <span className="title-1">-</span>
+                            )}
                         </div>
                     </div>
 

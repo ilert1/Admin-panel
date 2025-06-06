@@ -40,7 +40,6 @@ import {
     HistoryIcon,
     BitcoinIcon,
     UsersIcon,
-    BanknoteIcon,
     StoreIcon,
     NetworkIcon,
     SignpostIcon,
