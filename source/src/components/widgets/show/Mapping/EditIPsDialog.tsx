@@ -352,7 +352,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                     variant={"alert"}
                                     onClick={dialogCloseFn}
                                     disabled={saveButtonDisabled}>
-                                    {translate("app.ui.actions.cancel")}
+                                    {translate("app.ui.actions.close")}
                                 </Button>
                             </div>
                         </div>
