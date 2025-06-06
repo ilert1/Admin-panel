@@ -62,6 +62,36 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         };
     }
 
+    async getListWithoutPagination(): Promise<GetListResult<FinancialInstitution>> {
+        const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
+            {
+                currentPage: 1,
+                pageSize: 1000
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items,
+                total: res.data.data.total
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return {
+            data: [],
+            total: 0
+        };
+    }
+
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<FinancialInstitution>> {
         const res =
             await financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet(

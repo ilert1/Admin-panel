@@ -61,7 +61,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
     const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
         queryKey: ["financialInstitutions"],
-        queryFn: ({ signal }) => dataProvider.getList("financialInstitution", { signal }),
+        queryFn: () => dataProvider.getListWithoutPagination("financialInstitution"),
         select: data => data.data
     });
 
