@@ -33,12 +33,7 @@ export const ConfirmCloseDialog = (props: ConfirmCloseDialogProps) => {
                     </span>
                     <DialogDescription />
                     <div>
-                        <div className="flex justify-center">
-                            {/* <TextField
-                                className="!text-title-2"
-                                text={translate("resources.callbridge.mapping.sec_policy_edit.saveOrDeleteThem")}
-                            /> */}
-                        </div>
+                        <div className="flex justify-center"></div>
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                             <Button
                                 type="submit"
@@ -54,7 +49,6 @@ export const ConfirmCloseDialog = (props: ConfirmCloseDialogProps) => {
                             <Button
                                 onClick={() => {
                                     onOpenChange(false);
-                                    onClose();
                                 }}
                                 variant="outline_gray"
                                 type="button"

@@ -62,7 +62,7 @@
             "deactivatePolicy": "Deactivate policy?",
             "ipAdressListUpdatedSuccessfully": "IP adresses list updated successfully",
             "youHaveUnsavedChanges": "Found unsaved changes",
-            "saveOrDeleteThem": "Delete or save them?"
+            "saveOrDeleteThem": "Save them?"
         },
         "errors": {
             "cantBeEmpty": "Field can't be empty",
