@@ -1,5 +1,5 @@
 import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate } from "react-router-dom";
 import {
     TransactionDataProvider,
     i18nProvider,
@@ -169,6 +169,7 @@ export const App = () => {
                                             <Resource name="direction" list={DirectionsList} icon={SignpostIcon} />
 
                                             <Resource name="paymentSettings" icon={Nfc}>
+                                                <Route index element={<Navigate to="paymentType" replace />} />
                                                 <Route path="paymentType" element={<PaymentTypesList />} />
                                                 <Route
                                                     path="financialInstitution"

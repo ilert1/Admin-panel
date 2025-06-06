@@ -88,7 +88,8 @@
         },
         "errors": {
             "cantBeEmpty": "Field can't be empty",
-            "nameRegex": "Name can only contain latin letters, numbers, underscores, and hyphens"
+            "nameRegex": "Name can only contain latin letters, numbers, underscores, and hyphens",
+            "wrongJson": "Invalid JSON"
         },
         "statuses": {
             "active": "Active",

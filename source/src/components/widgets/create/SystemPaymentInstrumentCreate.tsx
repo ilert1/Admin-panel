@@ -19,7 +19,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { CurrencyWithId } from "@/data/currencies";
 import { PaymentTypeWithId } from "@/data/payment_types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
@@ -85,7 +84,17 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         direction: z.enum(directions as [string, ...string[]]).default("universal"),
         status: z.enum(statuses as [string, ...string[]]).default("active"),
         description: z.string().optional(),
-        meta: z.string()
+        meta: z.string().transform((val, ctx) => {
+            try {
+                return JSON.parse(val);
+            } catch {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: translate("resources.paymentTools.systemPaymentInstruments.errors.wrongJson")
+                });
+                return z.NEVER;
+            }
+        })
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -105,7 +114,9 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
-        data.meta = JSON.parse(data.meta);
+        if (data.meta) data.meta = JSON.parse(data.meta);
+        console.log(data.meta);
+
         try {
             await dataProvider.create("systemPaymentInstruments", { data: data });
             appToast("success", translate("app.ui.toast.success"));
