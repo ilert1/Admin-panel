@@ -80,8 +80,6 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             // if (error instanceof Error) {
             //     appToast("error", error.message);
             // }
-            console.log();
-
             appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
             setSubmitButtonDisabled(false);
         } finally {

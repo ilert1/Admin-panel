@@ -31,8 +31,6 @@ export const useGetPaymentTypesColumns = () => {
                 <div className="text-center">{translate("resources.paymentTools.paymentType.fields.icon")}</div>
             ),
             cell: ({ row }) => {
-                console.log(row.original.meta);
-
                 return (
                     <div className="flex items-center justify-center">
                         {row.original.meta?.icon ? (

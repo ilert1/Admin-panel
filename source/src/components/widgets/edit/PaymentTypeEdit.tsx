@@ -2,7 +2,7 @@ import { useTranslate, useDataProvider, useEditController, EditContextProvider }
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,6 +35,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const { theme } = useTheme();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -63,6 +64,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             }
         }
     });
+
+    const val = form.watch("meta.icon");
+
+    useEffect(() => {
+        console.log(val);
+    }, [val]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -208,12 +215,17 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                             e.stopPropagation();
                                                             setIconFileName("");
                                                             form.setValue("meta.icon", "", { shouldValidate: true });
+
+                                                            if (fileInputRef.current) {
+                                                                fileInputRef.current.value = "";
+                                                            }
                                                         }}
                                                     />
                                                 )}
                                             </div>
 
                                             <input
+                                                ref={fileInputRef}
                                                 id="icon-upload"
                                                 type="file"
                                                 accept=".svg"
@@ -230,6 +242,9 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                             });
                                                         };
                                                         reader.readAsDataURL(file);
+                                                    }
+                                                    if (fileInputRef.current) {
+                                                        fileInputRef.current.value = "";
                                                     }
                                                 }}
                                             />
