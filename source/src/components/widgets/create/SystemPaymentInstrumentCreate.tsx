@@ -36,6 +36,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
     const appToast = useAppToast();
 
+    const [financialInstitutionValueName, setFinancialInstitutionValueName] = useState("");
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
@@ -92,6 +93,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        console.log(data);
         if (buttonDisabled) return;
         setButtonDisabled(true);
         data.meta = JSON.parse(data.meta);
@@ -178,9 +180,11 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
                                     <PopoverSelect
                                         variants={financialInstitutions}
-                                        value={field.value}
-                                        onChange={e => field.onChange(e)}
-                                        variantKey={"name"}
+                                        value={financialInstitutionValueName}
+                                        idField="id"
+                                        setIdValue={e => field.onChange(e)}
+                                        onChange={e => setFinancialInstitutionValueName(e)}
+                                        variantKey="name"
                                         notFoundMessage={translate("resources.paymentTools.noAvailable")}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}

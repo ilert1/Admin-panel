@@ -54,7 +54,6 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         setIdValue
     } = props;
     const [open, setOpen] = useState(false);
-    console.log(value);
 
     return (
         <Popover modal={true} open={open} onOpenChange={setOpen}>
