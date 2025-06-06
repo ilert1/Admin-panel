@@ -27,6 +27,7 @@ export const MappingSelect = ({
             value={value}
             onChange={onChange}
             variantKey={"name"}
+            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
             notFoundMessage={translate("resources.callbridge.history.notFoundMessage")}
             isError={isError}
             errorMessage={errorMessage}

@@ -170,6 +170,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setTerminalValueName(e)}
                                         variantKey="verbose_name"
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate("resources.paymentTools.noAvailable")}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
@@ -194,6 +195,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         variants={systemPaymentInstrumentsData?.data || []}
                                         value={systemPaymentInstrumentValueName}
                                         idField="id"
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setSystemPaymentInstrumentValueName(e)}
                                         variantKey="name"

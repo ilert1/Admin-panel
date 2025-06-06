@@ -141,6 +141,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         value={field.value}
                                         onChange={e => field.onChange(e)}
                                         variantKey={"code"}
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate("resources.paymentTools.noAvailable")}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
@@ -185,6 +186,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setFinancialInstitutionValueName(e)}
                                         variantKey="name"
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate("resources.paymentTools.noAvailable")}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}

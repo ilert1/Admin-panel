@@ -19,6 +19,7 @@ export const CurrencySelect = ({
 
     return (
         <PopoverSelect
+            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
             variants={currencies}
             value={value}
             onChange={onChange}
