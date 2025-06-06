@@ -15,7 +15,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { PaymentTypeWithId } from "@/data/payment_types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -131,6 +130,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         );
 
     const paymentsDisabled = !paymentTypes || paymentTypes.length === 0;
+    const currenciesDisabled = !currencies || currencies.length === 0;
     const financialInstitutionsDisabled = !financialInstitutions || financialInstitutions.length === 0;
 
     return (
@@ -157,16 +157,16 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate("resources.paymentTools.noAvailable")}
                                         isError={fieldState.invalid}
-`                                       errorMessage={fieldState.error?.message}
+                                        errorMessage={fieldState.error?.message}
                                         disabled={paymentsDisabled}
                                     />
-`                                </FormItem>
+                                </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="currency_code"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem className="">
                                     <Label>
                                         {translate(
