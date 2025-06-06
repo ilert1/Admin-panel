@@ -23,16 +23,12 @@ import {
     financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPost,
     financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDelete,
     financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet,
+    financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1FinancialInstitutionTypesGet,
     financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet,
     financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDelete,
     financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDelete,
     financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut
 } from "@/api/enigma/financial-institution/financial-institution";
-
-export enum FinancialInstitutionTypes {
-    BANK = "BANK",
-    OTHER = "OTHER"
-}
 
 export class FinancialInstitutionProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<FinancialInstitution>> {
@@ -137,6 +133,27 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
             throw new Error(res.data.error?.error_message);
         } else if ("detail" in res.data) {
             throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async getFinancialInstitutionTypes(resource: string, params: GetListParams) {
+        const res = await financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1FinancialInstitutionTypesGet(
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                },
+                signal: params.signal || params.meta?.signal
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
         }
 
         return Promise.reject();
