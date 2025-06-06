@@ -19,7 +19,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { CurrencyWithId } from "@/data/currencies";
 import { PaymentTypeWithId } from "@/data/payment_types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
@@ -67,11 +66,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     });
 
     const formSchema = z.object({
-        name: z
-            .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty"))
-            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentTools.systemPaymentInstruments.errors.nameRegex"))
-            .trim(),
         payment_type_code: z
             .string()
             .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
@@ -91,7 +85,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
             payment_type_code: "",
             currency_code: "",
             financial_institution_id: "",
@@ -127,7 +120,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         );
 
     const paymentsDisabled = !paymentTypes || paymentTypes.length === 0;
-    const currenciesDisabled = !currencies || currencies.length === 0;
     const financialInstitutionsDisabled = !financialInstitutions || financialInstitutions.length === 0;
 
     return (
@@ -135,27 +127,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap gap-4">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                label={translate(
-                                                    "resources.paymentTools.systemPaymentInstruments.fields.name"
-                                                )}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                );
-                            }}
-                        />
                         <FormField
                             control={form.control}
                             name="payment_type_code"
@@ -205,7 +176,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                         <FormField
                             control={form.control}
                             name="currency_code"
-                            render={({ field, fieldState }) => (
+                            render={({ field }) => (
                                 <FormItem className="">
                                     <Label>
                                         {translate(
@@ -217,39 +188,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         onChange={field.onChange}
                                         currencies={currencies}
                                     />
-                                    {/* <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={paymentsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        paymentsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!currenciesDisabled
-                                                    ? currencies.map((currency: CurrencyWithId) => (
-                                                          <SelectItem
-                                                              key={currency.code}
-                                                              value={currency.code}
-                                                              variant={SelectType.GRAY}>
-                                                              {currency.code}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select> */}
                                 </FormItem>
                             )}
                         />
