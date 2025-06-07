@@ -28,6 +28,16 @@ import {
 
 export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item =>
+                      item === "terminal_payment_type_code" ||
+                      item === "terminal_currency_code" ||
+                      item === "terminal_financial_institution_code"
+              )
+            : [];
+        console.log(fieldsForSearch);
+
         let res;
         if (params.filter.terminalFilterId) {
             res =
@@ -35,7 +45,11 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                     params.filter.terminalFilterId,
                     {
                         currentPage: params?.pagination?.page,
-                        pageSize: params?.pagination?.perPage
+                        pageSize: params?.pagination?.perPage,
+                        ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                        ...(fieldsForSearch.length > 0 && {
+                            searchString: fieldsForSearch.map(item => params.filter?.[item])
+                        })
                     },
                     {
                         headers: {
@@ -50,7 +64,11 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                     params.filter.provider,
                     {
                         currentPage: params?.pagination?.page,
-                        pageSize: params?.pagination?.perPage
+                        pageSize: params?.pagination?.perPage,
+                        ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                        ...(fieldsForSearch.length > 0 && {
+                            searchString: fieldsForSearch.map(item => params.filter?.[item])
+                        })
                     },
                     {
                         headers: {
@@ -64,7 +82,11 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                 await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
                     {
                         currentPage: params?.pagination?.page,
-                        pageSize: params?.pagination?.perPage
+                        pageSize: params?.pagination?.perPage,
+                        ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                        ...(fieldsForSearch.length > 0 && {
+                            searchString: fieldsForSearch.map(item => params.filter?.[item])
+                        })
                     },
                     {
                         headers: {

@@ -133,27 +133,3 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         </div>
     );
 };
-
-// <Select value={field.value} onValueChange={field.onChange}>
-//                                                 <FormControl>
-//                                                     <SelectTrigger
-//                                                         disabled={financialInstitutionTypesLoading}
-//                                                         variant={SelectType.GRAY}
-//                                                         isError={fieldState.invalid}
-//                                                         errorMessage={<FormMessage />}>
-//                                                         <SelectValue placeholder={"Bank"} />
-//                                                     </SelectTrigger>
-//                                                 </FormControl>
-//                                                 <SelectContent>
-//                                                     <SelectGroup>
-//                                                         {financialInstitutionTypes?.map(type => (
-//                                                             <SelectItem
-//                                                                 key={type.value}
-//                                                                 value={type.value}
-//                                                                 variant={SelectType.GRAY}>
-//                                                                 {type.label}
-//                                                             </SelectItem>
-//                                                         ))}
-//                                                     </SelectGroup>
-//                                                 </SelectContent>
-//                                             </Select>
