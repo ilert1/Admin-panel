@@ -144,7 +144,9 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                                     }
                                     sideOffset={12}
                                     side="right">
-                                    {translate(`resources.${customViewRoutes.name}.${customRoute.name}.name`)}
+                                    {/* {translate(`resources.${customViewRoutes.name}.${customRoute.name}.name`)} */}
+                                    {translate(`resources.paymentTools.${customRoute.name}.name`)}
+
                                     <ChevronLeft
                                         className="absolute -left-[13px] top-1.5 text-green-40"
                                         width={20}

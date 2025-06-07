@@ -1,4 +1,3 @@
-import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
@@ -11,7 +10,6 @@ const usePaymentTypesListFilter = () => {
     const [code, setCode] = useState(filterValues?.code || "");
     const [title, setTitle] = useState(filterValues?.title || "");
     const [category, setCategory] = useState(filterValues?.category || "");
-
     const onPropertySelected = debounce((value: string, type: "code" | "title" | "category") => {
         if (value) {
             setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
@@ -44,7 +42,6 @@ const usePaymentTypesListFilter = () => {
         setTitle("");
         setCategory("");
     };
-    // code, title, category
 
     return {
         translate,
