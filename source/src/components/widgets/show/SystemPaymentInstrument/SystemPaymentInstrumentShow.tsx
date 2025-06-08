@@ -151,7 +151,10 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
             </div>
             <DeleteSystemPaymentInstrumentDialog
                 open={deleteDialogOpen}
-                onOpenChange={setDeleteDialogOpen}
+                onOpenChange={state => {
+                    setDeleteDialogOpen(state);
+                    onOpenChange(state);
+                }}
                 deleteId={context.record?.id}
             />
             <EditPaymentInstrumentDialog
