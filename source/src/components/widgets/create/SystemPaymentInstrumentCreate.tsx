@@ -103,11 +103,8 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     });
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data);
         if (buttonDisabled) return;
         setButtonDisabled(true);
-        if (data.meta) data.meta = JSON.parse(data.meta);
-        console.log(data.meta);
 
         try {
             await dataProvider.create("systemPaymentInstruments", { data: data });
