@@ -105,7 +105,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
-        if (data.meta) data.meta = JSON.parse(data.meta);
 
         try {
             await dataProvider.create("systemPaymentInstruments", { data: data });
@@ -138,6 +137,34 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <FormField
                             control={form.control}
+                            name="financial_institution_id"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="">
+                                    <Label>
+                                        {translate(
+                                            "resources.paymentTools.systemPaymentInstruments.fields.financial_institution_id"
+                                        )}
+                                    </Label>
+
+                                    <PopoverSelect
+                                        variants={financialInstitutions}
+                                        value={financialInstitutionValueName}
+                                        idField="id"
+                                        setIdValue={e => field.onChange(e)}
+                                        onChange={e => setFinancialInstitutionValueName(e)}
+                                        variantKey="name"
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={financialInstitutionsDisabled}
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="payment_type_code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="">
@@ -161,6 +188,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="currency_code"
@@ -178,33 +206,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         disabled={currenciesDisabled}
                                         isError={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="financial_institution_id"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="">
-                                    <Label>
-                                        {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.financial_institution_id"
-                                        )}
-                                    </Label>
-
-                                    <PopoverSelect
-                                        variants={financialInstitutions}
-                                        value={financialInstitutionValueName}
-                                        idField="id"
-                                        setIdValue={e => field.onChange(e)}
-                                        onChange={e => setFinancialInstitutionValueName(e)}
-                                        variantKey="name"
-                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={financialInstitutionsDisabled}
                                     />
                                 </FormItem>
                             )}
