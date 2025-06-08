@@ -222,7 +222,8 @@
             "selectAll": "Выбрать все",
             "noResultFound": "Нет результатов",
             "selectPaymentTypes": "Выберите типы платежей",
-            "searchPlaceholder": "Поиск..."
+            "searchPlaceholder": "Поиск...",
+            "selectCurrencies": "Выберите валюты"
         }
     },
 

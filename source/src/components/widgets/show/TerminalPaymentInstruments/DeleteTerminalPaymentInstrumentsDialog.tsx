@@ -66,12 +66,17 @@ export const DeleteTerminalPaymentInstrumentsDialog = ({
                 <DialogFooter>
                     <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-4">
                         {!continueClicked ? (
-                            <Button
-                                className="w-full sm:w-1/2"
-                                variant={"alert"}
-                                onClick={() => setContinueClicked(true)}>
-                                {translate("app.ui.actions.continue")}
-                            </Button>
+                            <>
+                                <Button
+                                    className="w-full sm:w-1/2"
+                                    variant={"alert"}
+                                    onClick={() => setContinueClicked(true)}>
+                                    {translate("app.ui.actions.continue")}
+                                </Button>
+                                <Button className="w-full sm:w-1/2" onClick={() => onOpenChange(false)}>
+                                    {translate("app.ui.actions.cancel")}
+                                </Button>
+                            </>
                         ) : (
                             <>
                                 <Button className="w-full" onClick={handleDelete} variant={"alert"}>

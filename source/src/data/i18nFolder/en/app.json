@@ -221,6 +221,7 @@
             "selectAll": "Select all",
             "noResultFound": "No results found.",
             "selectPaymentTypes": "Select payment types",
+            "selectCurrencies": "Select currencies",
             "searchPlaceholder": "Search..."
         }
     },
