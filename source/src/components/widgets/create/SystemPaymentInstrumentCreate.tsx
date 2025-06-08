@@ -76,17 +76,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         direction: z.enum(directions as [string, ...string[]]).default("universal"),
         status: z.enum(statuses as [string, ...string[]]).default("active"),
         description: z.string().optional(),
-        meta: z.string().transform((val, ctx) => {
-            try {
-                return JSON.parse(val);
-            } catch {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: translate("resources.paymentTools.systemPaymentInstruments.errors.wrongJson")
-                });
-                return z.NEVER;
-            }
-        })
+        meta: z.string()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -107,7 +97,8 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         setButtonDisabled(true);
 
         try {
-            await dataProvider.create("systemPaymentInstruments", { data: data });
+            await dataProvider.create("systemPaymentInstruments", { data: { ...data, meta: JSON.parse(data.meta) } });
+
             appToast("success", translate("app.ui.toast.success"));
             refresh();
         } catch (error) {
