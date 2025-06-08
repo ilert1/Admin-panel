@@ -99,6 +99,11 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
             cell: ({ row }) => <TextField text={row.original.terminal_financial_institution_code || ""} />
         },
         {
+            id: "terminal_payment_type_code",
+            accessorKey: "terminal_payment_type_code",
+            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code")
+        },
+        {
             id: "status",
             accessorKey: "status",
             header: translate("resources.paymentTools.terminalPaymentInstruments.fields.status"),

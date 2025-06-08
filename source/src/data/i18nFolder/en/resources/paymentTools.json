@@ -11,7 +11,7 @@
         },
         "name": "Payment Types",
         "fields": {
-            "code": "Title",
+            "code": "Code",
             "title": "Description",
             "payment_types": "Payment types",
             "category": "Category",
@@ -32,7 +32,7 @@
             "updated_at": "Updated at",
             "name": "Name of the financial institution",
             "nameWithId": "Name",
-            "short_name": "Short name",
+            "short_name": "Code",
             "legal_name": "Full legal name",
             "institution_type": "Institution type",
             "country_code": "Country code",
@@ -98,6 +98,11 @@
             "inactive": "Inactive",
             "test_only": "Test only"
         },
+        "success": {
+            "ACTIVE": "active",
+            "INACTIVE": "inactive",
+            "editActivity": "The activity of the system payment instrument %{name} has been successfully changed to: %{state}."
+        },
         "creatingPaymentInstrument": "Creating payment instrument",
         "editingPaymentInstrument": "Editing payment instrument",
         "createNew": "Add payment instrument",
@@ -121,8 +126,6 @@
             "systemPaymentInstrumentsToChoose": "Select payment instrument"
         },
         "success": {
-            "ACTIVE": "active",
-            "INACTIVE": "inactive",
             "editActivity": "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
         },
         "createTerminalPaymentInstrument": "Create terminal integration",

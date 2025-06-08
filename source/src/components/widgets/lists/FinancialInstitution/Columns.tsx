@@ -104,6 +104,11 @@ export const useGetFinancialInstitutionColumns = () => {
             }
         },
         {
+            id: "nspk_code",
+            header: translate("resources.paymentTools.financialInstitution.fields.nspk_member_id"),
+            accessorKey: "nspk_member_id"
+        },
+        {
             id: "country_code",
             accessorKey: "country_code",
             header: translate("resources.paymentTools.financialInstitution.fields.country_code")

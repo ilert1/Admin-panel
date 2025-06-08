@@ -41,7 +41,8 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
 
-    const directions = Object.keys(DirectionType);
+    const directions = Object.keys(DirectionType).filter(el => el !== "universal");
+
     const statuses = Object.keys(SystemPaymentInstrumentStatus);
 
     const { data: paymentTypes, isLoading: paymentTypesLoading } = useQuery({
@@ -105,7 +106,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
-        if (data.meta) data.meta = JSON.parse(data.meta);
 
         try {
             await dataProvider.create("systemPaymentInstruments", { data: data });
@@ -146,7 +146,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                             "resources.paymentTools.systemPaymentInstruments.fields.payment_type_code"
                                         )}
                                     </Label>
-
                                     <PopoverSelect
                                         variants={paymentTypes}
                                         value={field.value}
@@ -157,6 +156,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={paymentsDisabled}
+                                        iconForPaymentTypes
                                     />
                                 </FormItem>
                             )}

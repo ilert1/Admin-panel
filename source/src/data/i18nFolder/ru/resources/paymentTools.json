@@ -11,16 +11,16 @@
             "codeRegex": "Код может содержать только буквы, цифры, подчеркивание и тире"
         },
         "fields": {
-            "code": "Название",
+            "code": "Код",
             "title": "Описание",
-            "payment_types": "Типы платежей",
+            "payment_types": "Платежные типы",
             "category": "Категория",
             "icon": "Иконка"
         },
-        "deletePaymentTypeQuestion": "Удалить тип платежа?",
-        "creatingPaymentType": "Создание типа платежа",
-        "editingPaymentType": "Изменение типа платежа",
-        "createNew": "Добавить тип платежа",
+        "deletePaymentTypeQuestion": "Удалить платежные тип?",
+        "creatingPaymentType": "Создание платежного типа",
+        "editingPaymentType": "Изменение платежного типа",
+        "createNew": "Добавить платежный тип",
         "duplicateCode": "Введенный код уже используется",
         "uploadIcon": "Загрузить иконку"
     },
@@ -32,7 +32,7 @@
             "updated_at": "Обновлено",
             "name": "Название финансового института",
             "nameWithId": "Наименование",
-            "short_name": "Краткое наименование",
+            "short_name": "Код",
             "legal_name": "Полное юр.наименование",
             "institution_type": "Тип фин. организации",
             "country_code": "Код страны регистрации",
@@ -70,9 +70,9 @@
         "show": "Платёжный инструмент",
         "fields": {
             "name": "Название",
-            "payment_type_code": "Тип платежа",
+            "payment_type_code": "Платежный тип",
             "currency_code": "Валюта",
-            "financial_institution_id": "Финансовая организация",
+            "financial_institution_id": "Финансовая институт",
             "direction": "Направление",
             "status": "Статус",
             "description": "Описание",
@@ -83,9 +83,9 @@
             "updatedAt": "Обновлён",
             "id": "ID",
             "name": "Инструмент",
-            "paymentType": "Тип платежа",
-            "paymentTypeCode": "Код типа платежа",
-            "financialInstitution": "Фин. организация",
+            "paymentType": "Платежный тип",
+            "paymentTypeCode": "Код Платежного типа",
+            "financialInstitution": "Фин. институт",
             "direction": "Направление операций"
         },
         "errors": {
@@ -97,6 +97,9 @@
             "active": "Активен",
             "inactive": "Неактивен",
             "test_only": "Тестовый"
+        },
+        "success": {
+            "editActivity": "Активность платежного инструмента %{name} успешно изменена на: %{state}."
         },
         "creatingPaymentInstrument": "Создание платежного инструмента",
         "editingPaymentInstrument": "Изменение платежного инструмента",
@@ -111,7 +114,7 @@
             "updated_at": "Дата и время обновления",
             "terminal_id": "Терминал",
             "system_payment_instrument_id": "Платежный инструмент",
-            "terminal_payment_type_code": "Код типа платежа терминала",
+            "terminal_payment_type_code": "Код платежного типа терминала",
             "terminal_currency_code": "Код валюты терминала",
             "terminal_financial_institution_code": "Код фин. организации терминала",
             "terminal_specific_parameters": "Параметры",
@@ -136,8 +139,8 @@
     },
     "resources.paymentTools.deletion": {
         "attention": "Внимание!",
-        "attentionDescriptionPaymentType": "Удаление типа платежа приведет к удалению связанных с ним платёжных инструментов",
-        "consequencesPaymentType": "Вы уверены, что хотите удалить тип платежа и связанные с ним платёжные инструменты?",
+        "attentionDescriptionPaymentType": "Удаление плтежногот ипа приведет к удалению связанных с ним платёжных инструментов",
+        "consequencesPaymentType": "Вы уверены, что хотите удалить платежный тип и связанные с ним платёжные инструменты?",
         "attentionDescriptionFinOrganization": "Удаление финансовой организации приведет к удалению связанных с ней платёжных инструментов",
         "consequencesFinOrganization": "Вы уверены, что хотите удалить финансовую организацию и связанные с ней платёжные инструменты?",
         "attentionDescriptionSystemInstrument": "Удаление платёжного инструмента приведет к удалению связанного с ним платежного терминала",

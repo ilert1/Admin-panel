@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { ReactNode, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
+import { PaymentTypeIcon } from "../PaymentTypeIcon";
 
 export interface IPopoverSelect {
     value: string;
@@ -35,6 +36,7 @@ interface PopoverSelectProps {
     errorMessage?: string | React.ReactNode;
     disabled?: boolean;
     style?: "Grey" | "Black";
+    iconForPaymentTypes?: boolean;
 }
 
 export const PopoverSelect = (props: PopoverSelectProps) => {
@@ -50,6 +52,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         disabled = false,
         commandPlaceholder = "",
         style = "Grey",
+        iconForPaymentTypes = false,
         onChange,
         setIdValue
     } = props;
@@ -136,7 +139,14 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                             value === variant[variantKey] ? "opacity-100" : "opacity-0"
                                         )}
                                     />
-                                    {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
+                                    <>
+                                        {iconForPaymentTypes ? (
+                                            <PaymentTypeIcon type={variant[variantKey]} className="mr-2" />
+                                        ) : (
+                                            ""
+                                        )}
+                                        {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
+                                    </>
                                 </CommandItem>
                             ))}
                         </CommandGroup>

@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useLocale, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { useState } from "react";
 import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
@@ -7,11 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { SystemPaymentInstrumentsActivityBtn } from "./SystemPaymentInstrumentsActivityBtn";
 
 export const useGetSystemPaymentInstrumentsColumns = () => {
     const translate = useTranslate();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
-    const locale = useLocale();
     const [chosenId, setChosenId] = useState<string>("");
     const [showEditDialogOpen, setShowEditDialogOpen] = useState(false);
     const [showDeleteDialogOpen, setShowDeleteDialogOpen] = useState(false);
@@ -83,13 +84,17 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentType"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        text={row.original.payment_type_code}
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                    />
+                    <div className="flex items-center justify-center">
+                        {row.original.payment_type?.meta?.icon ? (
+                            <img
+                                src={row.original.payment_type?.meta["icon"]}
+                                alt="icon"
+                                className="h-6 w-6 fill-white object-contain"
+                            />
+                        ) : (
+                            <PaymentTypeIcon type={row.original.payment_type_code} tooltip />
+                        )}
+                    </div>
                 );
             }
         },
@@ -143,12 +148,16 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 </div>
             ),
             cell: ({ row }) => {
-                return (
+                return row.original.status !== "test_only" ? (
+                    <SystemPaymentInstrumentsActivityBtn
+                        activityState={row.original.status === "active" ? true : false}
+                        id={row.original.id}
+                        systemPaymentInstrumentName={row.original.name}
+                    />
+                ) : (
                     <div className="flex items-center justify-center">
                         <Badge
                             className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2 text-white", {
-                                "bg-green-50 hover:bg-green-50": row.original.status === "active",
-                                "bg-red-50 hover:bg-red-50": row.original.status === "inactive",
                                 "bg-extra-2 hover:bg-extra-2": row.original.status === "test_only"
                             })}
                             variant="default">

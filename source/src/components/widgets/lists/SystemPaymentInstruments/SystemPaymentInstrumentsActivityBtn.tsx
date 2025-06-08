@@ -3,28 +3,28 @@ import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstru
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 
-interface ITerminalPaymentInstrumentsActivityBtn {
+interface SystemPaymentInstrumentsActivityBtnProps {
     id: string;
-    terminalPaymentInstrumentName: string;
+    systemPaymentInstrumentName: string;
     activityState: boolean;
     isFetching?: boolean;
 }
 
-export const TerminalPaymentInstrumentsActivityBtn = ({
+export const SystemPaymentInstrumentsActivityBtn = ({
     id,
-    terminalPaymentInstrumentName,
+    systemPaymentInstrumentName,
     activityState,
     isFetching
-}: ITerminalPaymentInstrumentsActivityBtn) => {
+}: SystemPaymentInstrumentsActivityBtnProps) => {
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
 
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
-    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
+    const dataProvider = useDataProvider();
 
     useEffect(() => {
         if (currentState !== activityState) {
@@ -39,7 +39,7 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
         try {
             setBtnDisabled(true);
 
-            await terminalPaymentInstrumentsProvider.update("terminalPaymentInstruments", {
+            await dataProvider.update("systemPaymentInstruments", {
                 id,
                 data: { status: currentStateData },
                 previousData: undefined
@@ -47,8 +47,8 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
 
             appToast(
                 "success",
-                translate("resources.paymentTools.terminalPaymentInstruments.success.editActivity", {
-                    name: terminalPaymentInstrumentName,
+                translate("resources.paymentTools.systemPaymentInstruments.success.editActivity", {
+                    name: systemPaymentInstrumentName,
                     state: translate(`resources.paymentTools.terminalPaymentInstruments.success.${currentStateData}`)
                 })
             );
@@ -60,7 +60,7 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
             setBtnDisabled(false);
         }
     };
-    ``;
+
     return (
         <div className="flex items-center justify-center">
             <button
@@ -74,8 +74,6 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
                     className={clsx(
                         "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
                         currentState ? "translate-x-full" : "translate-x-0"
-
-                        // currentState ? "translate-x-0" : "translate-x-full"
                     )}>
                     {currentState ? (
                         <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
