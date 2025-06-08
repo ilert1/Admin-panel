@@ -13,8 +13,7 @@ import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { CirclePlus } from "lucide-react";
-import { CurrencySelect } from "../../components/Selects/CurrencySelect";
-import { PopoverSelect } from "../../components/Selects/PopoverSelect";
+import { Input } from "@/components/ui/Input/input";
 
 interface TerminalPaymentInstrumentFilterProps {
     terminalPaymentTypes?: PaymentTypeBase[] | undefined;
@@ -39,12 +38,6 @@ export const TerminalPaymentInstrumentFilter = ({
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
-        terminalPaymentTypesList,
-        isLoadingPaymentTypes,
-        currencies,
-        isLoadingCurrencies,
-        financialInstitutions,
-        isLoadingFinInstitutions,
         currentProvider,
         terminalFilterName,
         terminalFilterId,
@@ -182,47 +175,30 @@ export const TerminalPaymentInstrumentFilter = ({
                     <div>
                         <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                             <div className="w-full">
-                                <Label variant={"title-2"}>
-                                    {translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
-                                    )}
-                                </Label>
-
-                                <PopoverSelect
-                                    variants={financialInstitutions ?? []}
+                                <Input
                                     value={terminalFinancialInstitutionCode}
                                     onChange={onTerminalFinancialInstitutionCodeChanged}
-                                    variantKey="name"
-                                    notFoundMessage=""
-                                    disabled={isLoadingFinInstitutions}
+                                    label={translate(
+                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                    )}
                                 />
                             </div>
                             <div className="w-full">
-                                <Label variant={"title-2"}>
-                                    {translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
-                                    )}
-                                </Label>
-                                <CurrencySelect
-                                    currencies={currencies ?? []}
+                                <Input
                                     value={terminalCurrencyCode}
                                     onChange={onTerminalCurrencyCodeChanged}
-                                    disabled={isLoadingCurrencies}
+                                    label={translate(
+                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
+                                    )}
                                 />
                             </div>
                             <div className="w-full">
-                                <Label variant={"title-2"}>
-                                    {translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
-                                    )}
-                                </Label>
-                                <PopoverSelect
-                                    variants={terminalPaymentTypesList ?? []}
+                                <Input
                                     value={terminalPaymentTypeCode}
                                     onChange={onTerminalPaymentTypeCodeChanged}
-                                    variantKey="code"
-                                    notFoundMessage=""
-                                    disabled={isLoadingPaymentTypes}
+                                    label={translate(
+                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                                    )}
                                 />
                             </div>
                         </div>

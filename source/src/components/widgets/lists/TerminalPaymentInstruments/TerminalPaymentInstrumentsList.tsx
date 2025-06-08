@@ -8,11 +8,7 @@ import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilt
 
 export const TerminalPaymentInstrumentsList = () => {
     const listContext = useAbortableListController({
-        resource: "terminalPaymentInstruments",
-        disableSyncWithLocation: true,
-        filterDefaultValues: localStorage.getItem("providerInTerminalsPaymenInstrument")
-            ? { provider: localStorage.getItem("providerInTerminalsPaymenInstrument") }
-            : undefined
+        resource: "terminalPaymentInstruments"
     });
 
     const { columns, createDialogOpen, setCreateDialogOpen } = useGetTerminalPaymentInstrumentsListColumns({

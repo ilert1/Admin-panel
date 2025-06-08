@@ -1,9 +1,8 @@
-import { UIEvent, useEffect, useMemo, useState } from "react";
-import { useDataProvider, useListContext, useTranslate } from "react-admin";
+import { ChangeEvent, UIEvent, useEffect, useMemo, useState } from "react";
+import { useListContext, useTranslate } from "react-admin";
 import { ProviderWithId } from "@/data/providers";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 import { debounce } from "lodash";
-import { useQuery } from "@tanstack/react-query";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const {
@@ -48,25 +47,6 @@ const useTerminalPaymentInstrumentFilter = () => {
             providersNextPage();
         }
     };
-    // terminal_payment_type_code, terminal_currency_code, terminal_financial_institution_code
-    const dataProvider = useDataProvider();
-    const { data: terminalPaymentTypesList, isLoading: isLoadingPaymentTypes } = useQuery({
-        queryKey: ["terminalPaymentTypes", filterValues],
-        queryFn: () => dataProvider.getListWithoutPagination("payment_type"),
-        select: data => data.data
-    });
-
-    const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
-        queryKey: ["currencies", filterValues],
-        queryFn: () => dataProvider.getListWithoutPagination("currency"),
-        select: data => data.data
-    });
-
-    const { data: financialInstitutions, isLoading: isLoadingFinInstitutions } = useQuery({
-        queryKey: ["financialInstitution", filterValues],
-        queryFn: () => dataProvider.getListWithoutPagination("financialInstitution"),
-        select: data => data.data
-    });
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
         filterValues?.terminal_payment_type_code || ""
@@ -113,17 +93,20 @@ const useTerminalPaymentInstrumentFilter = () => {
         setTerminalFilterName("");
     };
 
-    const onTerminalPaymentTypeCodeChanged = (value: string) => {
+    const onTerminalPaymentTypeCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
         setTerminalPaymentTypeCode(value);
         onPropertySelected(value, "terminal_payment_type_code");
     };
 
-    const onTerminalCurrencyCodeChanged = (value: string) => {
+    const onTerminalCurrencyCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
         setTerminalCurrencyCode(value);
         onPropertySelected(value, "terminal_currency_code");
     };
 
-    const onTerminalFinancialInstitutionCodeChanged = (value: string) => {
+    const onTerminalFinancialInstitutionCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
         setTerminalFinancialInstitutionCode(value);
         onPropertySelected(value, "terminal_financial_institution_code");
     };
@@ -152,12 +135,6 @@ const useTerminalPaymentInstrumentFilter = () => {
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
-        terminalPaymentTypesList,
-        isLoadingPaymentTypes,
-        currencies,
-        isLoadingCurrencies,
-        financialInstitutions,
-        isLoadingFinInstitutions,
         currentProvider,
         terminalFilterName,
         setTerminalFilterName,
