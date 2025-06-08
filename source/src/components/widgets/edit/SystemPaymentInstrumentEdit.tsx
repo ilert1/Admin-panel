@@ -71,7 +71,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                 direction: record.direction,
                 status: record.status,
                 description: record.description,
-                meta: JSON.stringify(record.meta)
+                meta: JSON.stringify(record.meta, null, 2)
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
