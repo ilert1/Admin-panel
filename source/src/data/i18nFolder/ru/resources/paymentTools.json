@@ -34,7 +34,7 @@
             "nameWithId": "Наименование",
             "short_name": "Код",
             "legal_name": "Полное юр.наименование",
-            "institution_type": "Тип фин. организации",
+            "institution_type": "Тип фин. института",
             "country_code": "Код страны регистрации",
             "bic": "SWIFT BIC",
             "tax_id_number": "ИНН",
@@ -58,12 +58,12 @@
         "success": {
             "ACTIVE": "активна",
             "INACTIVE": "деактивирована",
-            "editActivity": "Активность финансовой организации %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность финансового института %{name} успешно изменена на: %{state}."
         },
-        "createFinancialInstitutionBtn": "Добавить организацию",
-        "createFinancialInstitutionTitle": "Добавление финансовой организации",
-        "editingFinancialInstitution": "Изменение финансовой организации",
-        "deleteFinancialInstitution": "Удалить фин. организацию?"
+        "createFinancialInstitutionBtn": "Добавить фин. институт",
+        "createFinancialInstitutionTitle": "Добавление финансового института",
+        "editingFinancialInstitution": "Изменение финансового института",
+        "deleteFinancialInstitution": "Удалить фин. институт?"
     },
     "resources.paymentTools.systemPaymentInstruments": {
         "name": "Платёжные инструменты",
@@ -139,15 +139,15 @@
     },
     "resources.paymentTools.deletion": {
         "attention": "Внимание!",
-        "attentionDescriptionPaymentType": "Удаление плтежногот ипа приведет к удалению связанных с ним платёжных инструментов",
+        "attentionDescriptionPaymentType": "Удаление платежного типа приведет к удалению связанных с ним платёжных инструментов",
         "consequencesPaymentType": "Вы уверены, что хотите удалить платежный тип и связанные с ним платёжные инструменты?",
-        "attentionDescriptionFinOrganization": "Удаление финансовой организации приведет к удалению связанных с ней платёжных инструментов",
-        "consequencesFinOrganization": "Вы уверены, что хотите удалить финансовую организацию и связанные с ней платёжные инструменты?",
+        "attentionDescriptionFinOrganization": "Удаление финансового института приведет к удалению связанных с ней платёжных инструментов",
+        "consequencesFinOrganization": "Вы уверены, что хотите удалить финансовый институт и связанные с ним платёжные инструменты?",
         "attentionDescriptionSystemInstrument": "Удаление платёжного инструмента приведет к удалению связанного с ним платежного терминала",
-        "consequencesSystemInstrument": "Вы уверены, что хотите удалить плажетный инструмент и связанный с ним платёжный терминал?",
+        "consequencesSystemInstrument": "Вы уверены, что хотите удалить платёжный инструмент и связанный с ним платёжный терминал?",
         "attentionDescriptionTerminalPaymentInstrument": "Удаление платёжного инструмента терминала приведет к удалению связанных с ним платежных инструментов",
-        "consequencesTerminalPaymentInstrument": "Вы уверены, что хотите удалить плажетный инструмент терминала и связанные с ним платежные инструменты?",
-        "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платежных инструментов",
+        "consequencesTerminalPaymentInstrument": "Вы уверены, что хотите удалить платёжный инструмент терминала и связанные с ним платежные инструменты?",
+        "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платёжных инструментов",
         "consequencesCurrency": "Вы уверены, что хотите удалить валюту и связанные с ней платежные инструменты?"
     }
 }
