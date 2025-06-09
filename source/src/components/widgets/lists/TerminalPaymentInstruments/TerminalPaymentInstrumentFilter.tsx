@@ -115,7 +115,15 @@ export const TerminalPaymentInstrumentFilter = ({
                                 {translate("resources.terminals.selectHeader")}
                             </Label>
 
-                            <Select onValueChange={onProviderChanged} value={currentProvider}>
+                            <Select
+                                onValueChange={(val: string) => {
+                                    if (val !== "Show All") {
+                                        onProviderChanged(val);
+                                    } else {
+                                        onProviderChanged("");
+                                    }
+                                }}
+                                value={currentProvider}>
                                 <SelectTrigger className="text-ellipsis">
                                     <SelectValue placeholder={translate("resources.terminals.selectPlaceholder")} />
                                 </SelectTrigger>
