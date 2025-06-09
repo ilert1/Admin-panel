@@ -13,6 +13,7 @@ import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentIn
 import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { SystemPaymentInstrumentsActivityBtn } from "../../lists/SystemPaymentInstruments/SystemPaymentInstrumentsActivityBtn";
 
 interface SystemPaymentInstrumentShowProps {
     id: string;
@@ -52,7 +53,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center justify-between px-4 md:px-[42px]">
                         <TextField text={context.record.name} copyValue fontSize="title-2" />
-                        <Badge
+                        {/* <Badge
                             className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2 text-white", {
                                 "bg-green-50 hover:bg-green-50": context.record.status === "active",
                                 "bg-red-50 hover:bg-red-50": context.record.status === "inactive",
@@ -62,7 +63,12 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             {translate(
                                 `resources.paymentTools.systemPaymentInstruments.statuses.${context.record.status}`
                             )}
-                        </Badge>
+                        </Badge> */}
+                        <SystemPaymentInstrumentsActivityBtn
+                            activityState={context.record.status === "active"}
+                            id={context.record.id}
+                            systemPaymentInstrumentName={context.record.name}
+                        />
                     </div>
                     <div className="grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
                         <div>
@@ -93,12 +99,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             text={context.record.id}
                             copyValue
                         />
-                        {/* <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
-                            text={context.record.payment_type_code}
-                            copyValue
-                        /> */}
+
                         <div>
                             <Label>
                                 {translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
