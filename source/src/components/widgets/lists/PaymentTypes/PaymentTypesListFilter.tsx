@@ -58,6 +58,7 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                             value={code}
                             onChange={onCodeChanged}
                             className="min-w-40"
+                            placeholder={translate("resources.paymentTools.paymentType.placeholders.code")}
                         />
                         <Input
                             label={translate("resources.paymentTools.paymentType.fields.title")}
@@ -65,6 +66,7 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                             value={title}
                             onChange={onTitleChanged}
                             className="min-w-40"
+                            placeholder={translate("resources.paymentTools.paymentType.placeholders.title")}
                         />
                         <div className="flex w-full flex-wrap gap-2 sm:flex-nowrap">
                             <div className="flex min-w-[50%] max-w-full flex-1 flex-col gap-1 sm:min-w-44 sm:max-w-[25%]">

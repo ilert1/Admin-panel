@@ -13,7 +13,8 @@ export const ProviderSelect = ({
     providers,
     isError,
     errorMessage,
-    disabled
+    disabled,
+    placeholder
 }: ProviderSelectProps) => {
     const translate = useTranslate();
     return (
@@ -27,6 +28,7 @@ export const ProviderSelect = ({
             isError={isError}
             errorMessage={errorMessage}
             disabled={disabled}
+            placeholder={placeholder}
         />
     );
 };

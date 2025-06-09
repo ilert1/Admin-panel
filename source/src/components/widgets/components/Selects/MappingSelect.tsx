@@ -15,7 +15,9 @@ export const MappingSelect = ({
     mappings,
     isError,
     errorMessage,
-    disabled
+    disabled,
+    placeholder,
+    style = "Black"
 }: MappingSelectProps) => {
     const translate = useTranslate();
 
@@ -32,7 +34,8 @@ export const MappingSelect = ({
             isError={isError}
             errorMessage={errorMessage}
             disabled={disabled}
-            style="Black"
+            style={style}
+            placeholder={placeholder}
         />
     );
 };

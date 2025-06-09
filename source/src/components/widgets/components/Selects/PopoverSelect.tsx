@@ -17,14 +17,10 @@ export interface IPopoverSelect {
     errorMessage?: string | ReactNode;
     disabled?: boolean;
     style?: "Grey" | "Black";
+    placeholder?: string;
 }
 
-interface PopoverSelectProps {
-    value: string;
-    setIdValue?: (value: string) => void;
-    idField?: string;
-    onChange: (value: string) => void;
-
+interface PopoverSelectProps extends IPopoverSelect {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     variants: any[];
     variantKey: string;
@@ -32,11 +28,6 @@ interface PopoverSelectProps {
 
     notFoundMessage: string;
     commandPlaceholder?: string;
-
-    isError?: boolean;
-    errorMessage?: string | React.ReactNode;
-    disabled?: boolean;
-    style?: "Grey" | "Black";
     iconForPaymentTypes?: boolean;
 }
 
@@ -48,6 +39,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         variantKey,
         variantTitleKey,
         notFoundMessage,
+        placeholder,
         isError,
         errorMessage = "",
         disabled = false,
@@ -77,7 +69,13 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                         isError ? "!border-red-40 dark:!border-red-40" : ""
                     )}>
                     <div className="flex w-full items-center justify-between">
-                        <div className="flex flex-wrap items-center">{value}</div>
+                        {value ? (
+                            <div className="flex flex-wrap items-center">{value}</div>
+                        ) : (
+                            <div className="flex flex-wrap items-center">
+                                <span className="!text-neutral-60">{placeholder}</span>
+                            </div>
+                        )}
 
                         <div className="flex items-center justify-between">
                             {value && (
