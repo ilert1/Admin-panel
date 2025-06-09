@@ -68,6 +68,9 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 label={translate("resources.paymentTools.systemPaymentInstruments.list.name")}
                                 labelSize="title-2"
                                 value={name}
+                                placeholder={translate(
+                                    "resources.paymentTools.systemPaymentInstruments.placeholders.name"
+                                )}
                                 onChange={onNameChanged}
                             />
                         </div>
@@ -81,6 +84,9 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 onChange={onCurrencyCodeChanged}
                                 disabled={isLoadingCurrencies}
                                 style="Black"
+                                placeholder={translate(
+                                    "resources.paymentTools.systemPaymentInstruments.placeholders.currencyCode"
+                                )}
                             />
                         </div>
                         <div className="w-full">
@@ -97,6 +103,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 notFoundMessage={translate("resources.paymentTools.noAvailable")}
                                 disabled={isLoadingPaymentTypes}
                                 style="Black"
+                                placeholder={translate("resources.paymentTools.paymentType.placeholders.code")}
                             />
                         </div>
                     </div>

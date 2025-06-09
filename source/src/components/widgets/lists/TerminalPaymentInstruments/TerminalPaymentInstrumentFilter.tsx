@@ -189,6 +189,9 @@ export const TerminalPaymentInstrumentFilter = ({
                                     label={translate(
                                         "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                                     )}
+                                    placeholder={translate(
+                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                    )}
                                 />
                             </div>
                             <div className="w-full">
@@ -198,6 +201,9 @@ export const TerminalPaymentInstrumentFilter = ({
                                     label={translate(
                                         "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
                                     )}
+                                    placeholder={translate(
+                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
+                                    )}
                                 />
                             </div>
                             <div className="w-full">
@@ -205,6 +211,9 @@ export const TerminalPaymentInstrumentFilter = ({
                                     value={terminalPaymentTypeCode}
                                     onChange={onTerminalPaymentTypeCodeChanged}
                                     label={translate(
+                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                                    )}
+                                    placeholder={translate(
                                         "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
                                     )}
                                 />

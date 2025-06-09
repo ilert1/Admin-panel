@@ -70,6 +70,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 labelSize="title-2"
                                 value={name}
                                 onChange={onNameChanged}
+                                placeholder={translate("resources.paymentTools.financialInstitution.placeholders.name")}
                             />
                         </div>
                         <div className="w-full">
@@ -78,6 +79,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 labelSize="title-2"
                                 value={shortName}
                                 onChange={onShortNameChanged}
+                                placeholder={translate("resources.paymentTools.financialInstitution.fields.short_name")}
                             />
                         </div>
                         <div className="w-full">
@@ -86,6 +88,9 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 labelSize="title-2"
                                 value={countryCode}
                                 onChange={onCountryCodeChanged}
+                                placeholder={translate(
+                                    "resources.paymentTools.financialInstitution.fields.country_code"
+                                )}
                             />
                         </div>
                         <div className="w-full">
@@ -94,6 +99,9 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 labelSize="title-2"
                                 value={nspkMemberId}
                                 onChange={onNspkMemberIdChanged}
+                                placeholder={translate(
+                                    "resources.paymentTools.financialInstitution.fields.nspk_member_id"
+                                )}
                             />
                         </div>
                         <div className="w-full">

@@ -109,7 +109,7 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
                         }}
                     />
 
-                    <HeaderButton text={translate("ra.auth.logout")} Icon={LogOut} onClick={handleLogout} />
+                    <HeaderButton text={translate("app.login.logout")} Icon={LogOut} onClick={handleLogout} />
                 </div>
             </DropdownMenuContent>
         </DropdownMenu>

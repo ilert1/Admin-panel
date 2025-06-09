@@ -17,6 +17,10 @@
             "category": "Category",
             "icon": "Icon"
         },
+        "placeholders": {
+            "code": "Payment type code",
+            "title": "Payment type description"
+        },
         "deletePaymentTypeQuestion": "Delete payment type?",
         "creatingPaymentType": "Creating payment type",
         "editingPaymentType": "Editing payment type",
@@ -49,7 +53,8 @@
             "types": {
                 "BANK": "Bank",
                 "OTHER": "Other"
-            }
+            },
+            "currency": "Currency"
         },
         "errors": {
             "name": "The name of the financial institution is required",
@@ -59,6 +64,9 @@
             "ACTIVE": "active",
             "INACTIVE": "inactive",
             "editActivity": "The activity of the financial institution %{name} has been successfully changed to: %{state}."
+        },
+        "placeholders": {
+            "name": "Name of the financial institution"
         },
         "createFinancialInstitutionBtn": "Create institution",
         "createFinancialInstitutionTitle": "Create a financial institution",
@@ -102,6 +110,10 @@
             "ACTIVE": "active",
             "INACTIVE": "inactive",
             "editActivity": "The activity of the system payment instrument %{name} has been successfully changed to: %{state}."
+        },
+        "placeholders": {
+            "name": "Name of the payment instrument",
+            "currencyCode": "Currency code"
         },
         "creatingPaymentInstrument": "Creating payment instrument",
         "editingPaymentInstrument": "Editing payment instrument",

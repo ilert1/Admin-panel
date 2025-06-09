@@ -17,6 +17,10 @@
             "category": "Категория",
             "icon": "Иконка"
         },
+        "placeholders": {
+            "code": "Код платежного типа",
+            "title": "Описание платежного типа"
+        },
         "deletePaymentTypeQuestion": "Удалить платежные тип?",
         "creatingPaymentType": "Создание платежного типа",
         "editingPaymentType": "Изменение платежного типа",
@@ -49,7 +53,8 @@
             "types": {
                 "BANK": "Банк",
                 "OTHER": "Другое"
-            }
+            },
+            "currency": "Валюта"
         },
         "errors": {
             "name": "Название финансового института обязательно",
@@ -59,6 +64,9 @@
             "ACTIVE": "активна",
             "INACTIVE": "деактивирована",
             "editActivity": "Активность финансового института %{name} успешно изменена на: %{state}."
+        },
+        "placeholders": {
+            "name": "Название финансового института"
         },
         "createFinancialInstitutionBtn": "Добавить фин. институт",
         "createFinancialInstitutionTitle": "Добавление финансового института",
@@ -100,6 +108,10 @@
         },
         "success": {
             "editActivity": "Активность платежного инструмента %{name} успешно изменена на: %{state}."
+        },
+        "placeholders": {
+            "name": "Название платежного инструмента",
+            "currencyCode": "Код валюты"
         },
         "creatingPaymentInstrument": "Создание платежного инструмента",
         "editingPaymentInstrument": "Изменение платежного инструмента",
