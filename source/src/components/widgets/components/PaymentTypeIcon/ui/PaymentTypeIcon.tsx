@@ -67,7 +67,20 @@ const iconsRecord: Record<
 };
 
 export const PaymentTypeIcon = memo(
-    ({ type, className, tooltip = false }: { type: string; className?: string; tooltip?: boolean }) => {
+    ({
+        type,
+        className,
+        tooltip = false,
+        metaIcon
+    }: {
+        type: string;
+        className?: string;
+        tooltip?: boolean;
+        metaIcon?: string;
+    }) => {
+        if (metaIcon) {
+            return <img src={metaIcon} alt="icon" className="mr-2 h-6 w-6 fill-white object-contain" />;
+        }
         const Icon = iconsRecord[type];
 
         if (!Icon) {

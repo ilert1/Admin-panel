@@ -33,15 +33,7 @@ export const useGetPaymentTypesColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
-                        {row.original.meta?.icon ? (
-                            <img
-                                src={row.original.meta["icon"]}
-                                alt="icon"
-                                className="h-6 w-6 fill-white object-contain"
-                            />
-                        ) : (
-                            <PaymentTypeIcon type={row.original.code} />
-                        )}
+                        <PaymentTypeIcon type={row.original.code} metaIcon={row.original.meta?.["icon"] as string} />
                     </div>
                 );
             }

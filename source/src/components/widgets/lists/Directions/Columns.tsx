@@ -166,7 +166,15 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">
                         {row.original.payment_types?.map(pt => {
-                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                            return (
+                                <PaymentTypeIcon
+                                    className="h-7 w-7"
+                                    key={pt.code}
+                                    type={pt.code}
+                                    metaIcon={pt.meta?.["icon"] as string}
+                                    tooltip
+                                />
+                            );
                         })}
                     </div>
                 );
