@@ -98,7 +98,15 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             id: "direction",
             header: translate("resources.paymentTools.systemPaymentInstruments.list.direction"),
             cell: ({ row }) => {
-                return <TextField text={row.original.direction} />;
+                return (
+                    <TextField
+                        text={
+                            row.original.direction
+                                ? translate(`resources.direction.types.${row.original.direction}`)
+                                : ""
+                        }
+                    />
+                );
             }
         },
         {
