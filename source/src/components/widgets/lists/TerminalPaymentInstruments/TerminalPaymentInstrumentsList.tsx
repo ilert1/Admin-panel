@@ -31,9 +31,9 @@ export const TerminalPaymentInstrumentsList = () => {
                 </div>
 
                 {listContext.isLoading || !listContext.data ? <LoadingBlock /> : <DataTable columns={columns} />}
-            </ListContextProvider>
 
-            <CreateTerminalPaymentInstrumentsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+                <CreateTerminalPaymentInstrumentsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+            </ListContextProvider>
         </>
     );
 };

@@ -1,8 +1,8 @@
-import { useCreateController, CreateContextProvider, useTranslate, useRefresh } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useRefresh, useListContext } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +28,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const terminalsDataProvider = new TerminalsDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
+    const { filterValues } = useListContext();
     const { theme } = useTheme();
     const appToast = useAppToast();
     const refresh = useRefresh();
@@ -73,6 +74,20 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
             terminal_specific_parameters: ""
         }
     });
+
+    useEffect(() => {
+        if (filterValues?.terminalFilterId && terminalsData && terminalsData?.data.length > 0) {
+            const terminalFromFilter = terminalsData.data.find(
+                item => item.terminal_id === filterValues.terminalFilterId
+            );
+
+            if (terminalFromFilter) {
+                setTerminalValueName(terminalFromFilter.verbose_name);
+                form.setValue("terminal_id", filterValues.terminalFilterId);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [terminalsData]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setSubmitButtonDisabled(true);
