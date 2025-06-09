@@ -16,6 +16,7 @@ export interface IPopoverSelect {
     isError?: boolean;
     errorMessage?: string | ReactNode;
     disabled?: boolean;
+    style?: "Grey" | "Black";
 }
 
 interface PopoverSelectProps {

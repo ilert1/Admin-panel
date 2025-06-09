@@ -28,30 +28,6 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
     };
 
     const columns: ColumnDef<SystemPaymentInstrument>[] = [
-        /* {
-            accessorKey: "created_at",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.createdAt"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
-        {
-            accessorKey: "updated_at",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.updatedAt"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.updated_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        }, */
         {
             id: "instrument",
             accessorKey: "id",
@@ -123,6 +99,13 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             header: translate("resources.paymentTools.systemPaymentInstruments.list.direction"),
             cell: ({ row }) => {
                 return <TextField text={row.original.direction} />;
+            }
+        },
+        {
+            id: "Currency",
+            header: translate("resources.paymentTools.systemPaymentInstruments.fields.currency_code"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.currency_code} />;
             }
         },
         {

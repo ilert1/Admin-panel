@@ -32,10 +32,23 @@ import {
 
 export class FinancialInstitutionProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<FinancialInstitution>> {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item =>
+                      item === "name" ||
+                      item === "short_name" ||
+                      item === "institution_type" ||
+                      item === "country_code" ||
+                      item === "nspk_member_id"
+              )
+            : [];
+
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
             },
             {
                 headers: {
