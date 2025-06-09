@@ -66,7 +66,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                     <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                         <div className="w-full">
                             <Input
-                                label={translate("resources.paymentTools.systemPaymentInstruments.list.name")}
+                                label={translate("resources.paymentTools.financialInstitution.fields.name")}
                                 labelSize="title-2"
                                 value={name}
                                 onChange={onNameChanged}
