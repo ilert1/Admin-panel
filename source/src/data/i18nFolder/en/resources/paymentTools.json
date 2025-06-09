@@ -75,8 +75,8 @@
         "deleteFinancialInstitution": "Delete financial institution?"
     },
     "resources.paymentTools.systemPaymentInstruments": {
-        "name": "Payment Instruments",
-        "show": "Payment instrument",
+        "name": "System Payment Instruments",
+        "show": "System Payment instrument",
         "fields": {
             "name": "Name",
             "payment_type_code": "Payment type",
@@ -91,7 +91,7 @@
             "createdAt": "Created at",
             "updatedAt": "Updated at",
             "id": "ID",
-            "name": "Instrument",
+            "name": "Name",
             "paymentType": "Payment type",
             "paymentTypeCode": "Payment type code",
             "financialInstitution": "Financial institution",
@@ -116,10 +116,10 @@
             "name": "Name of the payment instrument",
             "currencyCode": "Currency code"
         },
-        "creatingPaymentInstrument": "Creating payment instrument",
-        "editingPaymentInstrument": "Editing payment instrument",
-        "createNew": "Add payment instrument",
-        "deletePaymentInstrumentQuestion": "Delete payment instrument?"
+        "creatingPaymentInstrument": "Creating system payment instrument",
+        "editingPaymentInstrument": "Editing system payment instrument",
+        "createNew": "Add instrument",
+        "deletePaymentInstrumentQuestion": "Delete system payment instrument?"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",
@@ -143,9 +143,10 @@
             "INACTIVE": "inactive",
             "editActivity": "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
         },
-        "createTerminalPaymentInstrument": "Create terminal integration",
-        "editingTerminalPaymentInstrument": "Editing terminal integration",
-        "deleteTerminalPaymentInstrument": "Delete terminal integration?",
+        "createTerminalPaymentInstrument": "Create instrument",
+        "creatingTerminalPaymentInstrument": "Creating terminal payment instrument",
+        "editingTerminalPaymentInstrument": "Editing terminal payment instrument",
+        "deleteTerminalPaymentInstrument": "Delete terminal payment instrument?",
         "initInstruments": "Initialize instruments",
         "terminalPaymentInstrumentInitialized": "Terminal payment instrument initialized successfully"
     },

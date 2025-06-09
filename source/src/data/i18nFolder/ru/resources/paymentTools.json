@@ -75,8 +75,8 @@
         "deleteFinancialInstitution": "Удалить фин. институт?"
     },
     "resources.paymentTools.systemPaymentInstruments": {
-        "name": "Платёжные инструменты",
-        "show": "Платёжный инструмент",
+        "name": "Системные платежные инструменты",
+        "show": "Системный платежный инструмент",
         "fields": {
             "name": "Название",
             "payment_type_code": "Платежный тип",
@@ -91,7 +91,7 @@
             "createdAt": "Создан",
             "updatedAt": "Обновлён",
             "id": "ID",
-            "name": "Инструмент",
+            "name": "Название",
             "paymentType": "Платежный тип",
             "paymentTypeCode": "Код Платежного типа",
             "financialInstitution": "Фин. институт",
@@ -108,16 +108,16 @@
             "test_only": "Тестовый"
         },
         "success": {
-            "editActivity": "Активность платежного инструмента %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность системного платежного инструмента %{name} успешно изменена на: %{state}."
         },
         "placeholders": {
-            "name": "Название платежного инструмента",
+            "name": "Название",
             "currencyCode": "Код валюты"
         },
-        "creatingPaymentInstrument": "Создание платежного инструмента",
-        "editingPaymentInstrument": "Изменение платежного инструмента",
-        "createNew": "Добавить платежный инструмент",
-        "deletePaymentInstrumentQuestion": "Удалить платежный инструмент?"
+        "creatingPaymentInstrument": "Создание системного платежного инструмента",
+        "editingPaymentInstrument": "Изменение системного платежного инструмента",
+        "createNew": "Добавить инструмент",
+        "deletePaymentInstrumentQuestion": "Удалить системный платежный инструмент?"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
         "name": "Терминальные платежные инструменты",
@@ -141,11 +141,12 @@
             "INACTIVE": "деактивирована",
             "editActivity": "Активность интегарций терминала %{name} успешно изменена на: %{state}."
         },
-        "createTerminalPaymentInstrument": "Добавить интеграцию терминала",
-        "editingTerminalPaymentInstrument": "Изменение интеграции терминала",
-        "deleteTerminalPaymentInstrument": "Удалить интеграцию терминала?",
+        "createTerminalPaymentInstrument": "Добавить инструмент",
+        "creatingTerminalPaymentInstrument": "Добавление терминального платежного инструмента",
+        "editingTerminalPaymentInstrument": "Изменение терминального платежного инструмента",
+        "deleteTerminalPaymentInstrument": "Удалить терминальный платежный инструмент?",
         "initInstruments": "Инициализировать инструменты",
-        "terminalPaymentInstrumentInitialized": "Платёжный инструмент терминала успешно инициализирован"
+        "terminalPaymentInstrumentInitialized": "Терминальный платёжный инструмент успешно инициализирован"
     },
     "resources.paymentTools.currency": {
         "name": "Валюты"
