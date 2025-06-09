@@ -25,6 +25,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const onProviderChanged = (provider: string) => {
         localStorage.setItem("providerInTerminalsPaymenInstrument", provider);
         setCurrentProvider(provider ? provider : "");
+        onPropertySelected(provider, "provider");
     };
 
     useEffect(() => {
@@ -112,13 +113,12 @@ const useTerminalPaymentInstrumentFilter = () => {
     };
 
     const onTerminalIdFieldChanged = (value: string) => {
-        setTerminalFinancialInstitutionCode(value);
+        setTerminalFilterId(value);
         onPropertySelected(value, "terminalFilterId");
     };
 
     const onTerminalNameChanged = (value: string) => {
-        setTerminalFinancialInstitutionCode(value);
-        onPropertySelected(value, "provider");
+        setTerminalFilterName(value);
     };
 
     return {
