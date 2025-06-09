@@ -138,6 +138,8 @@
             "systemPaymentInstrumentsToChoose": "Select payment instrument"
         },
         "success": {
+            "ACTIVE": "active",
+            "INACTIVE": "inactive",
             "editActivity": "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
         },
         "createTerminalPaymentInstrument": "Create terminal integration",
