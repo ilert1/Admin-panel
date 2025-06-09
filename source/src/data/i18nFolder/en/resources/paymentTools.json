@@ -34,7 +34,7 @@
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
-            "name": "Name of the financial institution",
+            "name": "Name",
             "nameWithId": "Name",
             "short_name": "Code",
             "legal_name": "Full legal name",

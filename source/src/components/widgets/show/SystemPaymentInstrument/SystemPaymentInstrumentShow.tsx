@@ -1,12 +1,10 @@
 import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TextField } from "@/components/ui/text-field";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useLocale, useTranslate } from "react-admin";
 import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentInstruments/DeleteSystemPaymentInstrumentDialog";
@@ -131,7 +129,11 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         <TextField
                             fontSize="title-2"
                             label={translate("resources.paymentTools.systemPaymentInstruments.list.direction")}
-                            text={context.record.direction}
+                            text={
+                                context.record.direction
+                                    ? translate(`resources.direction.types.${context.record.direction}`)
+                                    : ""
+                            }
                         />
                         <TextField
                             fontSize="title-2"

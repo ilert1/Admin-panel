@@ -34,10 +34,10 @@
         "fields": {
             "created_at": "Создано",
             "updated_at": "Обновлено",
-            "name": "Название финансового института",
+            "name": "Наименование",
             "nameWithId": "Наименование",
             "short_name": "Код",
-            "legal_name": "Полное юр.наименование",
+            "legal_name": "Полное юр. наименование",
             "institution_type": "Тип фин. института",
             "country_code": "Код страны регистрации",
             "bic": "SWIFT BIC",
