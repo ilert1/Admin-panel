@@ -38,7 +38,7 @@ export const useGetFinancialInstitutionColumns = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.paymentTools.financialInstitution.fields.nameWithId"),
+            header: translate("resources.paymentTools.financialInstitution.fields.name"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -51,16 +51,6 @@ export const useGetFinancialInstitutionColumns = () => {
                             }}>
                             {row.original.name}
                         </Button>
-
-                        {/* <TextField
-                            className="text-neutral-70"
-                            wrap
-                            copyValue
-                            lineClamp
-                            linesCount={1}
-                            minWidth="150px"
-                            text={row.original.id || ""}
-                        /> */}
                     </div>
                 );
             }
