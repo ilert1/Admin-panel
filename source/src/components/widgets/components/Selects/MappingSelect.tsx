@@ -1,10 +1,9 @@
-import { Provider } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { IPopoverSelect, PopoverSelect } from "./PopoverSelect";
-import { ProviderWithId } from "@/data/providers";
 import { useTranslate } from "react-admin";
+import { CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface MappingSelectProps extends IPopoverSelect {
-    mappings: ProviderWithId[] | Provider[];
+    mappings: CallbackMappingRead[];
 }
 
 export const MappingSelect = ({
