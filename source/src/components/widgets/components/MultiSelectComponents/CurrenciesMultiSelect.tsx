@@ -27,7 +27,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 options={modifiedOptions}
                 onValueChange={onValueChange}
                 defaultValue={value}
-                placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
+                placeholder={translate("app.widgets.multiSelect.selectCurrencies")}
                 animation={0}
                 maxCount={10}
                 modalPopover={true}
