@@ -67,7 +67,7 @@
             "editActivity": "The activity of the financial institution %{name} has been successfully changed to: %{state}."
         },
         "placeholders": {
-            "name": "Name of the financial institution"
+            "name": "Financial Institution name"
         },
         "createFinancialInstitutionBtn": "Create institution",
         "createFinancialInstitutionTitle": "Create a financial institution",
