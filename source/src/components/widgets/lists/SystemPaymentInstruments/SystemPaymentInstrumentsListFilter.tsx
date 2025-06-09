@@ -80,6 +80,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 value={currencyCode}
                                 onChange={onCurrencyCodeChanged}
                                 disabled={isLoadingCurrencies}
+                                style="Black"
                             />
                         </div>
                         <div className="w-full">
@@ -95,6 +96,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.paymentTools.noAvailable")}
                                 disabled={isLoadingPaymentTypes}
+                                style="Black"
                             />
                         </div>
                     </div>

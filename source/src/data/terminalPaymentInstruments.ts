@@ -36,8 +36,6 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                       item === "terminal_financial_institution_code"
               )
             : [];
-        console.log(fieldsForSearch);
-
         let res;
         if (params.filter.terminalFilterId) {
             res =

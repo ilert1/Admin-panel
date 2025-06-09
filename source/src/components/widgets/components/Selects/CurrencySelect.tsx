@@ -13,7 +13,8 @@ export const CurrencySelect = ({
     currencies,
     isError,
     errorMessage,
-    disabled = false
+    disabled = false,
+    style = "Grey"
 }: CurrencySelectProps) => {
     const translate = useTranslate();
 
@@ -28,6 +29,7 @@ export const CurrencySelect = ({
             isError={isError}
             errorMessage={errorMessage}
             disabled={disabled}
+            style={style}
         />
     );
 };
