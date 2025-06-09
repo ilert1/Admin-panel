@@ -74,7 +74,9 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
         setSubmitButtonDisabled(true);
 
-        const required_fields_for_payment = data.required_fields_for_payment?.trim().split(", ");
+        const required_fields_for_payment = data.required_fields_for_payment?.trim()
+            ? data.required_fields_for_payment?.split(",").map(item => item.trim())
+            : undefined;
 
         try {
             await dataProvider.create("payment_type", { data: { ...data, required_fields_for_payment } });
