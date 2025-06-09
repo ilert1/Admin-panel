@@ -52,7 +52,7 @@ export const useGetFinancialInstitutionColumns = () => {
                             {row.original.name}
                         </Button>
 
-                        <TextField
+                        {/* <TextField
                             className="text-neutral-70"
                             wrap
                             copyValue
@@ -60,7 +60,7 @@ export const useGetFinancialInstitutionColumns = () => {
                             linesCount={1}
                             minWidth="150px"
                             text={row.original.id || ""}
-                        />
+                        /> */}
                     </div>
                 );
             }
