@@ -12,6 +12,7 @@ import { useLocale, useTranslate } from "react-admin";
 import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentInstruments/DeleteSystemPaymentInstrumentDialog";
 import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 interface SystemPaymentInstrumentShowProps {
     id: string;
@@ -92,12 +93,29 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             text={context.record.id}
                             copyValue
                         />
-                        <TextField
+                        {/* <TextField
                             fontSize="title-2"
                             label={translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
                             text={context.record.payment_type_code}
                             copyValue
-                        />
+                        /> */}
+                        <div>
+                            <Label>
+                                {translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
+                            </Label>
+                            <div className="flex flex-wrap gap-2">
+                                {context.record.payment_type?.meta?.icon ? (
+                                    <img
+                                        src={context.record.payment_type?.meta["icon"]}
+                                        alt="icon"
+                                        className="h-6 w-6 fill-white object-contain"
+                                    />
+                                ) : (
+                                    <PaymentTypeIcon type={context.record.payment_type_code} tooltip />
+                                )}
+                            </div>
+                        </div>
+
                         <TextField
                             fontSize="title-2"
                             label={translate(

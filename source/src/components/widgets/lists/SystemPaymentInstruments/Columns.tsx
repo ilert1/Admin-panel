@@ -98,21 +98,6 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 );
             }
         },
-        /* {
-            id: "payment_type_code",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentTypeCode"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={row.original.payment_type.code}
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                    />
-                );
-            }
-        }, */
         {
             id: "financial_institution_id",
             accessorKey: "financial_institution_id",
