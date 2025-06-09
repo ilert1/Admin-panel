@@ -41,8 +41,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
 
-    const directions = Object.keys(DirectionType).filter(el => el !== "universal");
-
     const statuses = Object.keys(SystemPaymentInstrumentStatus);
 
     const { data: paymentTypes, isLoading: paymentTypesLoading } = useQuery({
@@ -74,7 +72,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
             .string()
             .uuid()
             .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-        direction: z.enum(directions as [string, ...string[]]).default("universal"),
+        direction: z.nativeEnum(DirectionType).default(DirectionType.universal),
         status: z.enum(statuses as [string, ...string[]]).default("active"),
         description: z.string().optional(),
         meta: z.string()
@@ -222,12 +220,12 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {directions.map(direction => (
+                                                {Object.keys(DirectionType).map(direction => (
                                                     <SelectItem
                                                         key={direction}
                                                         value={direction}
                                                         variant={SelectType.GRAY}>
-                                                        {direction}
+                                                        {translate(`resources.direction.types.${direction}`)}
                                                     </SelectItem>
                                                 ))}
                                             </SelectGroup>

@@ -39,7 +39,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
 
-    const directions = Object.keys(DirectionType);
     const statuses = Object.keys(SystemPaymentInstrumentStatus);
 
     const { data: record, isLoading: isLoadingPaymentInstrument } = useQuery({
@@ -49,7 +48,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     });
 
     const formSchema = z.object({
-        direction: z.enum(directions as [string, ...string[]]).default("universal"),
+        direction: z.nativeEnum(DirectionType).default(DirectionType.universal),
         status: z.enum(statuses as [string, ...string[]]).default("active"),
         description: z.string().optional(),
         meta: z.string().transform((val, ctx) => {
@@ -138,12 +137,12 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {directions.map(direction => (
+                                                {Object.keys(DirectionType).map(direction => (
                                                     <SelectItem
                                                         key={direction}
                                                         value={direction}
                                                         variant={SelectType.GRAY}>
-                                                        {direction}
+                                                        {translate(`resources.direction.types.${direction}`)}
                                                     </SelectItem>
                                                 ))}
                                             </SelectGroup>
