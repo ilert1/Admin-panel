@@ -2,7 +2,7 @@ import { useTranslate, useDataProvider, useEditController, EditContextProvider }
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,6 +46,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
         title: z.string().optional().default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
+        required_fields_for_payment: z.string().optional(),
         meta: z
             .object({
                 icon: z.string().optional()
@@ -59,6 +60,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             code: id,
             title: controllerProps.record?.title ?? "",
             category: controllerProps.record?.category ?? "",
+            required_fields_for_payment: controllerProps.record?.required_fields_for_payment?.join(", ") ?? "",
             meta: {
                 icon: controllerProps.record?.meta?.icon ?? ""
             }
@@ -70,10 +72,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
         setSubmitButtonDisabled(true);
 
+        const required_fields_for_payment = data.required_fields_for_payment?.trim().split(", ");
+
         try {
             await dataProvider.update("payment_type", {
                 id,
-                data,
+                data: { ...data, required_fields_for_payment },
                 previousData: undefined
             });
 
@@ -165,6 +169,25 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="required_fields_for_payment"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentTools.paymentType.fields.required_fields_for_payment"
+                                                )}
+                                            />
+                                        </FormControl>
                                     </FormItem>
                                 )}
                             />

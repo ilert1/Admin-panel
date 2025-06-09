@@ -15,6 +15,7 @@
             "title": "Description",
             "payment_types": "Payment types",
             "category": "Category",
+            "required_fields_for_payment": "Required fields for payment",
             "icon": "Icon"
         },
         "placeholders": {
