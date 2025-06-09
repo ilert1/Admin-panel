@@ -129,7 +129,7 @@
             "system_payment_instrument_id": "Системный платежный инструмент",
             "terminal_payment_type_code": "Код платежного типа терминала",
             "terminal_currency_code": "Код валюты терминала",
-            "terminal_financial_institution_code": "Код фин. организации терминала",
+            "terminal_financial_institution_code": "Код фин. института терминала",
             "terminal_specific_parameters": "Параметры",
             "status": "Статус",
             "id": "ID",
