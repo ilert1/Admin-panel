@@ -15,6 +15,7 @@
             "title": "Описание",
             "payment_types": "Платежные типы",
             "category": "Категория",
+            "required_fields_for_payment": "Обязательные поля для платежа",
             "icon": "Иконка"
         },
         "placeholders": {

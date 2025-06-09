@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { PaymentTypeWithId } from "@/data/payment_types";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { TextField } from "@/components/ui/text-field";
 
 export const useGetPaymentTypesColumns = () => {
     const translate = useTranslate();
@@ -53,7 +54,14 @@ export const useGetPaymentTypesColumns = () => {
             accessorKey: "category",
             header: translate("resources.paymentTools.paymentType.fields.category")
         },
-
+        {
+            id: "required_fields_for_payment",
+            accessorKey: "required_fields_for_payment",
+            header: translate("resources.paymentTools.paymentType.fields.required_fields_for_payment"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.required_fields_for_payment?.join(", ") || ""} lineClamp wrap />;
+            }
+        },
         {
             id: "update_field",
             header: () => {

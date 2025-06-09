@@ -47,6 +47,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentTools.paymentType.errors.codeRegex"))
             .trim(),
         title: z.string().optional().default(""),
+        required_fields_for_payment: z.string().optional(),
         category: z.enum(paymentTypeCategories as [string, ...string[]]).default("h2h"),
         meta: z
             .object({
@@ -61,6 +62,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             code: "",
             title: "",
             category: paymentTypeCategories[0],
+            required_fields_for_payment: "",
             meta: {
                 icon: ""
             }
@@ -72,8 +74,12 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
         setSubmitButtonDisabled(true);
 
+        const required_fields_for_payment = data.required_fields_for_payment?.trim()
+            ? data.required_fields_for_payment?.split(",").map(item => item.trim())
+            : undefined;
+
         try {
-            await dataProvider.create("payment_type", { data });
+            await dataProvider.create("payment_type", { data: { ...data, required_fields_for_payment } });
             appToast("success", translate("app.ui.create.createSuccess"));
         } catch (error) {
             // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так
@@ -157,6 +163,25 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="required_fields_for_payment"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentTools.paymentType.fields.required_fields_for_payment"
+                                                )}
+                                            />
+                                        </FormControl>
                                     </FormItem>
                                 )}
                             />
