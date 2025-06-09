@@ -104,6 +104,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 disabled={isLoadingPaymentTypes}
                                 style="Black"
                                 placeholder={translate("resources.paymentTools.paymentType.placeholders.code")}
+                                iconForPaymentTypes
                             />
                         </div>
                     </div>
