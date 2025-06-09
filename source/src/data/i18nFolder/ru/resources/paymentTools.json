@@ -126,7 +126,7 @@
             "created_at": "Дата и время создания",
             "updated_at": "Дата и время обновления",
             "terminal_id": "Терминал",
-            "system_payment_instrument_id": "Платежный инструмент",
+            "system_payment_instrument_id": "Системный платежный инструмент",
             "terminal_payment_type_code": "Код платежного типа терминала",
             "terminal_currency_code": "Код валюты терминала",
             "terminal_financial_institution_code": "Код фин. организации терминала",
@@ -134,7 +134,7 @@
             "status": "Статус",
             "id": "ID",
             "terminalToChoose": "Выберите терминал",
-            "systemPaymentInstrumentsToChoose": "Выберите платежный инструмент"
+            "systemPaymentInstrumentsToChoose": "Выберите системный платежный инструмент"
         },
         "success": {
             "ACTIVE": "активна",

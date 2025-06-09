@@ -113,7 +113,7 @@
             "editActivity": "The activity of the system payment instrument %{name} has been successfully changed to: %{state}."
         },
         "placeholders": {
-            "name": "Name of the payment instrument",
+            "name": "Name",
             "currencyCode": "Currency code"
         },
         "creatingPaymentInstrument": "Creating system payment instrument",
@@ -128,7 +128,7 @@
             "created_at": "Created at",
             "updated_at": "Updated at",
             "terminal_id": "Terminal",
-            "system_payment_instrument_id": "Payment instrument",
+            "system_payment_instrument_id": "System payment instrument",
             "terminal_payment_type_code": "Terminal payment type code",
             "terminal_currency_code": "Terminal currency code",
             "terminal_financial_institution_code": "Terminal financial institution code",
@@ -136,7 +136,7 @@
             "status": "Status",
             "id": "ID",
             "terminalToChoose": "Select terminal",
-            "systemPaymentInstrumentsToChoose": "Select payment instrument"
+            "systemPaymentInstrumentsToChoose": "Select system payment instrument"
         },
         "success": {
             "ACTIVE": "active",
