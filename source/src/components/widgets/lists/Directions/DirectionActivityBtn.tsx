@@ -68,7 +68,7 @@ export const DirectionActivityBtn = ({ id, directionName, activityState, isFetch
                 <span
                     className={clsx(
                         "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
-                        currentState ? "translate-x-0" : "translate-x-full"
+                        currentState ? "translate-x-full" : "translate-x-0"
                     )}>
                     {currentState ? (
                         <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
