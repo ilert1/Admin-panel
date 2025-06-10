@@ -34,6 +34,7 @@
     "resources.provider.deleteProviderQuestion": "Удалить провайдера?",
     "resources.provider.keysCreating": "Создание тестовых ключей",
     "resources.provider.realKeysCreating": "Создание ключей",
+    "resources.provider.notFoundMessage": "Провайдеры не найдены.",
     "resources.provider.editingProvider": "Изменить провайдера",
     "resources.provider.creatingProvider": "Создание провайдера"
 }
