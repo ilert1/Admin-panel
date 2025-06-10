@@ -43,6 +43,7 @@
             "legal_name": "Полное юр. наименование",
             "institution_type": "Тип фин. института",
             "country_code": "Код страны регистрации",
+            "countryCodePlaceholder": "Выберите страну",
             "bic": "SWIFT BIC",
             "tax_id_number": "ИНН",
             "registration_number": "ОГРН / регистрационный номер",
