@@ -61,7 +61,7 @@ export const CallbridgeHistoryListFilter = () => {
                                 disabled={isLoadingMappings}
                                 idField="id"
                                 setIdValue={onMappingIdChanged}
-                                // placeholder={translate("resources.callbridge.history.placeholders.mapping_name")}
+                                placeholder={translate("resources.callbridge.mapping.placeholders.name")}
                             />
                         </div>
                         <Input

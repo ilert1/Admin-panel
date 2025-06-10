@@ -74,7 +74,7 @@ export const MappingsListFilter = ({ setCreateMappingClicked }: MappingsListFilt
                             onChange={onExtPathValueChanged}
                             label={translate("resources.callbridge.mapping.fields.ext_path")}
                             labelSize="title-2"
-                            placeholder={translate("resources.callbridge.mapping.placeholders.ext_path")}
+                            placeholder={translate("resources.callbridge.mapping.fields.ext_path")}
                         />
                         <Input
                             value={intPathValue}
