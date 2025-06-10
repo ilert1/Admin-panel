@@ -23,6 +23,9 @@ import {
 import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { X } from "lucide-react";
+import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
+import { useQuery } from "@tanstack/react-query";
+import { PaymentTypesProvider } from "@/data/payment_types";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -31,6 +34,7 @@ export interface PaymentTypeEditProps {
 
 export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps) => {
     const dataProvider = useDataProvider();
+    const paymentTypesDataProvider = new PaymentTypesProvider();
     const controllerProps = useEditController({ resource: "payment_type", id });
     const { theme } = useTheme();
     const refresh = useRefresh();
@@ -42,6 +46,14 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const [iconFileName, setIconFileName] = useState<string>("");
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
+    const { data: currenciesList, isLoading: isLoadingCurrencies } = useQuery({
+        queryKey: ["currencies"],
+        queryFn: () => {
+            return dataProvider.getList("currency", {});
+        },
+        select: data => data.data
+    });
+
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
         title: z.string().optional().default(""),
@@ -51,7 +63,8 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             .object({
                 icon: z.string().optional()
             })
-            .optional()
+            .optional(),
+        currencies: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -63,7 +76,8 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             required_fields_for_payment: controllerProps.record?.required_fields_for_payment?.join(", ") ?? "",
             meta: {
                 icon: controllerProps.record?.meta?.icon ?? ""
-            }
+            },
+            currencies: controllerProps.record?.currencies?.map((c: { code: string }) => c.code) ?? []
         }
     });
 
@@ -76,12 +90,49 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             ? data.required_fields_for_payment?.split(",").map(item => item.trim())
             : undefined;
 
+        let currencies: string[] = [];
+        let oldCurrencies: Set<string> = new Set();
+
+        if (controllerProps.record?.currencies) {
+            oldCurrencies = new Set(controllerProps.record?.currencies?.map((c: { code: string }) => c.code));
+        }
+
+        if (data.currencies) {
+            currencies = [...data.currencies];
+            delete data.currencies;
+        }
+
+        const currenciesToDelete = oldCurrencies.difference(new Set(currencies));
+
         try {
             await dataProvider.update("payment_type", {
                 id,
                 data: { ...data, required_fields_for_payment },
                 previousData: undefined
             });
+
+            if (currenciesToDelete.size > 0) {
+                await Promise.all(
+                    Array.from(currenciesToDelete).map(currency =>
+                        paymentTypesDataProvider.deleteCurrency({
+                            id,
+                            code: currency,
+                            previousData: undefined,
+                            data: {}
+                        })
+                    )
+                );
+            }
+
+            if (currencies.length > 0) {
+                await paymentTypesDataProvider.addCurrencies({
+                    id,
+                    data: {
+                        codes: currencies
+                    },
+                    previousData: undefined
+                });
+            }
 
             appToast("success", translate("app.ui.edit.editSuccess"));
             refresh();
@@ -100,7 +151,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     usePreventFocus({});
 
-    if (controllerProps.isLoading || theme.length === 0) return <Loading />;
+    if (controllerProps.isLoading || theme.length === 0 || isLoadingCurrencies) return <Loading />;
 
     return (
         <EditContextProvider value={controllerProps}>
@@ -193,6 +244,22 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="currencies"
+                                render={({ field }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <CurrenciesMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={currenciesList || []}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
                             <FormField
                                 control={form.control}
                                 name="meta.icon"

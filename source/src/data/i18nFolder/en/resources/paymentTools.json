@@ -16,7 +16,8 @@
             "payment_types": "Payment types",
             "category": "Category",
             "required_fields_for_payment": "Required fields for payment",
-            "icon": "Icon"
+            "icon": "Icon",
+            "currencies": "Currencies"
         },
         "placeholders": {
             "code": "Payment type code",

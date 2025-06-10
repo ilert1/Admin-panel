@@ -63,6 +63,20 @@ export const useGetPaymentTypesColumns = () => {
             }
         },
         {
+            id: "currencies",
+            accessorKey: "currencies",
+            header: translate("resources.paymentTools.paymentType.fields.currencies"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={row.original.currencies?.map((c: { code: string }) => c.code)?.join(", ") || ""}
+                        lineClamp
+                        wrap
+                    />
+                );
+            }
+        },
+        {
             id: "update_field",
             header: () => {
                 return <div className="text-center">{translate("app.ui.actions.edit")}</div>;

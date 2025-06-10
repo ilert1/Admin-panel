@@ -11,12 +11,14 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { PaymentTypeCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CurrenciesLink, PaymentTypeCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch,
     paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
     paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
     paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
     paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
+    paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete,
     paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut
 } from "@/api/enigma/payment-type/payment-type";
 
@@ -176,7 +178,61 @@ export class PaymentTypesProvider extends IBaseDataProvider {
 
         return Promise.reject();
     }
+    async addCurrencies(params: UpdateParams): Promise<UpdateResult<PaymentTypeWithId>> {
+        const res =
+            await paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch(
+                params.id,
+                params.data as CurrenciesLink,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
 
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.code,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async deleteCurrency(params: UpdateParams & { code: string }): Promise<UpdateResult<PaymentTypeWithId>> {
+        const res =
+            await paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete(
+                params.id,
+                params.code,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.code,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<PaymentTypeWithId, "id">>> {
         const res = await paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete(params.id, {
             headers: {

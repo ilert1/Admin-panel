@@ -16,12 +16,14 @@
             "payment_types": "Платежные типы",
             "category": "Категория",
             "required_fields_for_payment": "Обязательные поля для платежа",
-            "icon": "Иконка"
+            "icon": "Иконка",
+            "currencies": "Валюты"
         },
         "placeholders": {
             "code": "Код платежного типа",
             "title": "Описание платежного типа"
         },
+
         "deletePaymentTypeQuestion": "Удалить платежные тип?",
         "creatingPaymentType": "Создание платежного типа",
         "editingPaymentType": "Изменение платежного типа",
