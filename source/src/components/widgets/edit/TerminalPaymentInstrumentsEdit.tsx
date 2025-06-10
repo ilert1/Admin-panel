@@ -278,16 +278,14 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {Object.keys(DirectionType)
-                                                    .filter(el => el !== "universal")
-                                                    .map(direction => (
-                                                        <SelectItem
-                                                            key={direction}
-                                                            value={direction}
-                                                            variant={SelectType.GRAY}>
-                                                            {translate(`resources.direction.types.${direction}`)}
-                                                        </SelectItem>
-                                                    ))}
+                                                {Object.keys(DirectionType).map(direction => (
+                                                    <SelectItem
+                                                        key={direction}
+                                                        value={direction}
+                                                        variant={SelectType.GRAY}>
+                                                        {translate(`resources.direction.types.${direction}`)}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
