@@ -164,7 +164,7 @@
         "attentionDescriptionSystemInstrument": "System payment instrument deletion will lead to the deletion of associated terminal payment instruments",
         "consequencesSystemInstrument": "You are going to delete system payment instrument and associated terminal payment instruments. Proceed?",
         "attentionDescriptionTerminalPaymentInstrument": "Terminal payment instrument deletion",
-        "consequencesTerminalPaymentInstrument": "Terminal payment instrument deletion",
+        "consequencesTerminalPaymentInstrument": "Terminal payment instrument deletion. Proceed?",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
         "consequencesCurrency": "Currency deletion will lead to the deletion of associated payment instruments. Proceed?"
     }
