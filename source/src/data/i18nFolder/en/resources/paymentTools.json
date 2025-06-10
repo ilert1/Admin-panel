@@ -162,8 +162,8 @@
         "consequencesFinOrganization": "You are going to delete financial institution and associated payment instruments. Proceed?",
         "attentionDescriptionSystemInstrument": "System payment instrument deletion will lead to the deletion of associated terminal payment instruments",
         "consequencesSystemInstrument": "You are going to delete system payment instrument and associated terminal payment instrument. Proceed?",
-        "attentionDescriptionTerminalPaymentInstrument": "Terminal payment instrument deletion will lead to the deletion of associated system payment instruments",
-        "consequencesTerminalPaymentInstrument": "Terminal payment instrument deletion will lead to the deletion of associated system payment instruments",
+        "attentionDescriptionTerminalPaymentInstrument": "Terminal payment instrument deletion",
+        "consequencesTerminalPaymentInstrument": "Terminal payment instrument deletion",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
         "consequencesCurrency": "Currency deletion will lead to the deletion of associated payment instruments"
     }
