@@ -104,6 +104,21 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
             header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code")
         },
         {
+            id: "direction",
+            header: translate("resources.paymentTools.systemPaymentInstruments.list.direction"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={
+                            row.original.direction
+                                ? translate(`resources.direction.types.${row.original.direction}`)
+                                : ""
+                        }
+                    />
+                );
+            }
+        },
+        {
             id: "status",
             accessorKey: "status",
             header: translate("resources.paymentTools.terminalPaymentInstruments.fields.status"),

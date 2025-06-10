@@ -1,19 +1,10 @@
-import { DirectionType, SystemPaymentInstrumentStatus } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectType,
-    SelectValue
-} from "@/components/ui/select";
+
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
@@ -39,8 +30,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
 
-    const statuses = Object.keys(SystemPaymentInstrumentStatus);
-
     const { data: record, isLoading: isLoadingPaymentInstrument } = useQuery({
         queryKey: ["paymentInstrument", id],
         queryFn: () => dataProvider.getOne("systemPaymentInstruments", { id }),
@@ -48,8 +37,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     });
 
     const formSchema = z.object({
-        direction: z.nativeEnum(DirectionType).default(DirectionType.universal),
-        status: z.enum(statuses as [string, ...string[]]).default("active"),
         description: z.string().optional(),
         meta: z.string().transform((val, ctx) => {
             try {
@@ -67,8 +54,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            direction: DirectionType.universal,
-            status: SystemPaymentInstrumentStatus.active,
             description: "",
             meta: "{}"
         }
@@ -77,8 +62,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     useEffect(() => {
         if (!isLoadingPaymentInstrument) {
             form.reset({
-                direction: record.direction,
-                status: record.status,
                 description: record.description,
                 meta: JSON.stringify(record.meta, null, 2)
             });
@@ -118,71 +101,6 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap gap-4">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="direction"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="">
-                                    <Label>
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.direction")}
-                                    </Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {Object.keys(DirectionType).map(direction => (
-                                                    <SelectItem
-                                                        key={direction}
-                                                        value={direction}
-                                                        variant={SelectType.GRAY}>
-                                                        {translate(`resources.direction.types.${direction}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="status"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="">
-                                    <Label>
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.status")}
-                                    </Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {statuses.map(status => (
-                                                    <SelectItem key={status} value={status} variant={SelectType.GRAY}>
-                                                        {translate(
-                                                            `resources.paymentTools.systemPaymentInstruments.statuses.${status}`
-                                                        )}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
                         <FormField
                             control={form.control}
                             name="description"

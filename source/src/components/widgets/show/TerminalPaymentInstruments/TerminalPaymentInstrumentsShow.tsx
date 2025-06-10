@@ -22,6 +22,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
         resource: "terminalPaymentInstruments",
         id
     });
+
     const data = fetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
@@ -131,6 +132,15 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                             "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                         )}
                         text={context.record.terminal_financial_institution_code || ""}
+                    />
+                    <TextField
+                        fontSize="title-2"
+                        label={translate("resources.paymentTools.systemPaymentInstruments.list.direction")}
+                        text={
+                            context.record.direction
+                                ? translate(`resources.direction.types.${context.record.direction}`)
+                                : ""
+                        }
                     />
                 </div>
 

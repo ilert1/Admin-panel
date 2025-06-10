@@ -656,31 +656,6 @@ export interface ApiResponseListPaymentCategoryItem {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseListSystemPaymentInstrumentError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseListSystemPaymentInstrumentMeta = unknown | null;
-
-export interface ApiResponseListSystemPaymentInstrument {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: SystemPaymentInstrument[];
-    /** The error details if the request was not successful */
-    error?: ApiResponseListSystemPaymentInstrumentError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseListSystemPaymentInstrumentMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
 export type ApiResponseListTerminalError = ErrorBody | null;
 
 /**
@@ -1258,8 +1233,8 @@ export interface FinancialInstitution {
     /** Type of financial institution */
     institution_type?: FinancialInstitutionType;
     /**
-     * ISO 3166-1 alpha-2 country code
-     * @pattern ^\w{2}$
+     * Country code
+     * @pattern ^[A-Z]{2}$
      */
     country_code: string;
     /** NSPK member ID (for Russia) */
@@ -1303,8 +1278,8 @@ export interface FinancialInstitutionBase {
     /** Type of financial institution */
     institution_type?: FinancialInstitutionType;
     /**
-     * ISO 3166-1 alpha-2 country code
-     * @pattern ^\w{2}$
+     * Country code
+     * @pattern ^[A-Z]{2}$
      */
     country_code: string;
     /** NSPK member ID (for Russia) */
@@ -1338,8 +1313,8 @@ export interface FinancialInstitutionCreate {
     /** Type of financial institution */
     institution_type?: FinancialInstitutionType;
     /**
-     * ISO 3166-1 alpha-2 country code
-     * @pattern ^\w{2}$
+     * Country code
+     * @pattern ^[A-Z]{2}$
      */
     country_code: string;
     /** NSPK member ID (for Russia) */
@@ -1402,7 +1377,7 @@ export type FinancialInstitutionUpdateLegalName = string | null;
 export type FinancialInstitutionUpdateInstitutionType = FinancialInstitutionType | null;
 
 /**
- * ISO 3166-1 alpha-2 country code
+ * Country code
  */
 export type FinancialInstitutionUpdateCountryCode = string | null;
 
@@ -1427,7 +1402,7 @@ export interface FinancialInstitutionUpdate {
     legal_name?: FinancialInstitutionUpdateLegalName;
     /** Type of financial institution */
     institution_type?: FinancialInstitutionUpdateInstitutionType;
-    /** ISO 3166-1 alpha-2 country code */
+    /** Country code */
     country_code?: FinancialInstitutionUpdateCountryCode;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionUpdateNspkMemberId;
@@ -1938,10 +1913,6 @@ export interface SystemPaymentInstrument {
     currency_code: string;
     /** Unique identifier of the associated financial institution. */
     financial_institution_id: string;
-    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
-    direction: DirectionType;
-    /** Current operational status of the payment instrument. */
-    status?: SystemPaymentInstrumentStatus;
     /** Optional detailed description of the payment instrument's purpose or configuration. */
     description?: SystemPaymentInstrumentDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
@@ -1979,10 +1950,6 @@ export interface SystemPaymentInstrumentCreate {
     currency_code: string;
     /** Unique identifier of the associated financial institution. */
     financial_institution_id: string;
-    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
-    direction: DirectionType;
-    /** Current operational status of the payment instrument. */
-    status?: SystemPaymentInstrumentStatus;
     /** Optional detailed description of the payment instrument's purpose or configuration. */
     description?: SystemPaymentInstrumentCreateDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
@@ -2006,10 +1973,6 @@ export interface SystemPaymentInstrumentRead {
     currency_code: string;
     /** Unique identifier of the associated financial institution. */
     financial_institution_id: string;
-    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
-    direction: DirectionType;
-    /** Current operational status of the payment instrument. */
-    status?: SystemPaymentInstrumentStatus;
     /** Optional detailed description of the payment instrument's purpose or configuration. */
     description?: SystemPaymentInstrumentReadDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
@@ -2018,47 +1981,23 @@ export interface SystemPaymentInstrumentRead {
     name: string;
 }
 
-export type SystemPaymentInstrumentStatus =
-    (typeof SystemPaymentInstrumentStatus)[keyof typeof SystemPaymentInstrumentStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const SystemPaymentInstrumentStatus = {
-    active: "active",
-    inactive: "inactive",
-    test_only: "test_only"
-} as const;
-
-/**
- * New direction of the payment instrument.
- */
-export type SystemPaymentInstrumentUpdateDirection = DirectionType | null;
-
-/**
- * New operational status of the payment instrument.
- */
-export type SystemPaymentInstrumentUpdateStatus = SystemPaymentInstrumentStatus | null;
-
 /**
  * Updated detailed description of the payment instrument.
  */
 export type SystemPaymentInstrumentUpdateDescription = string | null;
 
-export type SystemPaymentInstrumentUpdateMetadataAnyOf = { [key: string]: unknown };
+export type SystemPaymentInstrumentUpdateMetaAnyOf = { [key: string]: unknown };
 
 /**
  * Updated additional metadata in JSON format.
  */
-export type SystemPaymentInstrumentUpdateMetadata = SystemPaymentInstrumentUpdateMetadataAnyOf | null;
+export type SystemPaymentInstrumentUpdateMeta = SystemPaymentInstrumentUpdateMetaAnyOf | null;
 
 export interface SystemPaymentInstrumentUpdate {
-    /** New direction of the payment instrument. */
-    direction?: SystemPaymentInstrumentUpdateDirection;
-    /** New operational status of the payment instrument. */
-    status?: SystemPaymentInstrumentUpdateStatus;
     /** Updated detailed description of the payment instrument. */
     description?: SystemPaymentInstrumentUpdateDescription;
     /** Updated additional metadata in JSON format. */
-    metadata?: SystemPaymentInstrumentUpdateMetadata;
+    meta?: SystemPaymentInstrumentUpdateMeta;
 }
 
 /**
@@ -2173,6 +2112,8 @@ export interface TerminalPaymentInstrument {
     terminal_id: string;
     /** ID of the system payment instrument */
     system_payment_instrument_id: string;
+    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
+    direction: DirectionType;
     /** Provider's code for the payment type (e.g., SBP) */
     terminal_payment_type_code?: TerminalPaymentInstrumentTerminalPaymentTypeCode;
     /** Provider's code for the currency (if different from system) */
@@ -2220,6 +2161,8 @@ export interface TerminalPaymentInstrumentCreate {
     terminal_id: string;
     /** ID of the system payment instrument */
     system_payment_instrument_id: string;
+    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
+    direction: DirectionType;
     /** Provider's code for the payment type (e.g., SBP) */
     terminal_payment_type_code?: TerminalPaymentInstrumentCreateTerminalPaymentTypeCode;
     /** Provider's code for the currency (if different from system) */
@@ -2252,6 +2195,16 @@ export type TerminalPaymentInstrumentUpdateTerminalId = string | null;
 export type TerminalPaymentInstrumentUpdateSystemPaymentInstrumentId = string | null;
 
 /**
+ * New direction of the payment instrument.
+ */
+export type TerminalPaymentInstrumentUpdateDirection = DirectionType | null;
+
+/**
+ * Status of the terminal payment instrument
+ */
+export type TerminalPaymentInstrumentUpdateStatus = TerminalPaymentInstrumentStatus | null;
+
+/**
  * Terminal's code for the payment type (e.g., TINKOFF_SBP)
  */
 export type TerminalPaymentInstrumentUpdateTerminalPaymentTypeCode = string | null;
@@ -2274,16 +2227,15 @@ export type TerminalPaymentInstrumentUpdateTerminalSpecificParametersAnyOf = { [
 export type TerminalPaymentInstrumentUpdateTerminalSpecificParameters =
     TerminalPaymentInstrumentUpdateTerminalSpecificParametersAnyOf | null;
 
-/**
- * Status of the terminal payment instrument
- */
-export type TerminalPaymentInstrumentUpdateStatus = TerminalPaymentInstrumentStatus | null;
-
 export interface TerminalPaymentInstrumentUpdate {
     /** ID of the terminal */
     terminal_id?: TerminalPaymentInstrumentUpdateTerminalId;
     /** ID of the system payment instrument */
     system_payment_instrument_id?: TerminalPaymentInstrumentUpdateSystemPaymentInstrumentId;
+    /** New direction of the payment instrument. */
+    direction?: TerminalPaymentInstrumentUpdateDirection;
+    /** Status of the terminal payment instrument */
+    status?: TerminalPaymentInstrumentUpdateStatus;
     /** Terminal's code for the payment type (e.g., TINKOFF_SBP) */
     terminal_payment_type_code?: TerminalPaymentInstrumentUpdateTerminalPaymentTypeCode;
     /** Terminal's code for the currency (if different from system) */
@@ -2292,8 +2244,6 @@ export interface TerminalPaymentInstrumentUpdate {
     terminal_financial_institution_code?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalPaymentInstrumentUpdateTerminalSpecificParameters;
-    /** Status of the terminal payment instrument */
-    status?: TerminalPaymentInstrumentUpdateStatus;
 }
 
 /**
@@ -2870,26 +2820,6 @@ export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV
         asc: "asc",
         desc: "desc"
     } as const;
-
-export type SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByDirectionEnigmaV1SystemPaymentInstrumentsByDirectionDirectionIdGetParams =
-    {
-        /**
-         * List of payment type codes to filter by. If not provided, all payment types are considered.
-         */
-        payment_types?: string[] | null;
-    };
-
-export type SystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentsByMerchantEnigmaV1SystemPaymentInstrumentsByMerchantMerchantIdGetParams =
-    {
-        /**
-         * List of payment type codes to filter by. If not provided, all payment types are considered.
-         */
-        payment_types?: string[] | null;
-        /**
-         * List of currency codes to filter by. If not provided, all currencies are considered.
-         */
-        currencies?: string[] | null;
-    };
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams =
     {

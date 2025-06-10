@@ -9,7 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { FinancialInstitutionCreate as IFinancialInstitutionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    DirectionType,
+    FinancialInstitutionCreate as IFinancialInstitutionCreate,
+    TerminalPaymentInstrumentStatus
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { TerminalsDataProvider } from "@/data";
@@ -17,6 +21,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 
 export interface TerminalPaymentInstrumentsCreateProps {
     onClose?: () => void;
@@ -33,6 +46,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
+    const statuses = Object.keys(TerminalPaymentInstrumentStatus);
 
     const [systemPaymentInstrumentValueName, setSystemPaymentInstrumentValueName] = useState("");
     const [terminalValueName, setTerminalValueName] = useState("");
@@ -57,6 +71,11 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         system_payment_instrument_id: z
             .string()
             .min(1, translate("resources.paymentTools.terminalPaymentInstruments.errors.system_payment_instrument_id")),
+        status: z
+            .enum(statuses as [string, ...string[]])
+            .default(TerminalPaymentInstrumentStatus.ACTIVE)
+            .transform(status => status as TerminalPaymentInstrumentStatus),
+        direction: z.nativeEnum(DirectionType).default(DirectionType.deposit),
         terminal_payment_type_code: z.string().trim().optional(),
         terminal_currency_code: z.string().trim().optional(),
         terminal_financial_institution_code: z.string().trim().optional(),
@@ -68,6 +87,8 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         defaultValues: {
             terminal_id: "",
             system_payment_instrument_id: "",
+            status: TerminalPaymentInstrumentStatus.ACTIVE,
+            direction: DirectionType.deposit,
             terminal_payment_type_code: "",
             terminal_currency_code: "",
             terminal_financial_institution_code: "",
@@ -183,6 +204,78 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             errorMessage={fieldState.error?.message}
                                             disabled={systemPaymentInstrumentsDataLoading}
                                         />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="status"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <Label>
+                                            {translate("resources.paymentTools.systemPaymentInstruments.fields.status")}
+                                        </Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {statuses.map(status => (
+                                                        <SelectItem
+                                                            key={status}
+                                                            value={status}
+                                                            variant={SelectType.GRAY}>
+                                                            {translate(
+                                                                `resources.paymentTools.systemPaymentInstruments.statuses.${status.toLowerCase()}`
+                                                            )}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="direction"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <Label>
+                                            {translate(
+                                                "resources.paymentTools.systemPaymentInstruments.fields.direction"
+                                            )}
+                                        </Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {Object.keys(DirectionType)
+                                                        .filter(el => el !== "universal")
+                                                        .map(direction => (
+                                                            <SelectItem
+                                                                key={direction}
+                                                                value={direction}
+                                                                variant={SelectType.GRAY}>
+                                                                {translate(`resources.direction.types.${direction}`)}
+                                                            </SelectItem>
+                                                        ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </FormItem>
                                 )}
                             />
