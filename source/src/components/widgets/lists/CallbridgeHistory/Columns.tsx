@@ -44,13 +44,18 @@ export const useGetCallbridgeHistory = () => {
                     <p className="text-nowrap">
                         {new Date(row.original.created_at).toLocaleDateString(locale) +
                             " " +
-                            new Date(row.original.created_at).toLocaleTimeString(locale)}
+                            new Date(row.original.created_at).toLocaleTimeString(locale) +
+                            "." +
+                            new Date(row.original.created_at).getMilliseconds()}
                     </p>
                     <p className="text-nowrap text-neutral-70">
-                        {row.original.delivered_at &&
-                            new Date(row.original.delivered_at).toLocaleDateString(locale) +
-                                " " +
-                                new Date(row.original.delivered_at).toLocaleTimeString(locale)}
+                        {row.original.delivered_at
+                            ? new Date(row.original.delivered_at).toLocaleDateString(locale) +
+                              " " +
+                              new Date(row.original.delivered_at).toLocaleTimeString(locale) +
+                              "." +
+                              new Date(row.original.delivered_at).getMilliseconds()
+                            : "-"}
                     </p>
                 </>
             )
