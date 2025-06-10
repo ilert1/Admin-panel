@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider, useEditController, EditContextProvider } from "react-admin";
+import { useTranslate, useEditController, EditContextProvider } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +26,7 @@ import { X } from "lucide-react";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentTypesProvider } from "@/data/payment_types";
+import { CurrenciesDataProvider } from "@/data";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -33,7 +34,7 @@ export interface PaymentTypeEditProps {
 }
 
 export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps) => {
-    const dataProvider = useDataProvider();
+    const currenciesDataProvider = new CurrenciesDataProvider();
     const paymentTypesDataProvider = new PaymentTypesProvider();
     const controllerProps = useEditController({ resource: "payment_type", id });
     const { theme } = useTheme();
@@ -49,10 +50,11 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const { data: currenciesList, isLoading: isLoadingCurrencies } = useQuery({
         queryKey: ["currencies"],
         queryFn: () => {
-            return dataProvider.getList("currency", {});
+            return currenciesDataProvider.getListWithoutPagination();
         },
         select: data => data.data
     });
+    console.log(currenciesList);
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
@@ -105,7 +107,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         const currenciesToDelete = oldCurrencies.difference(new Set(currencies));
 
         try {
-            await dataProvider.update("payment_type", {
+            await paymentTypesDataProvider.update("payment_type", {
                 id,
                 data: { ...data, required_fields_for_payment },
                 previousData: undefined
