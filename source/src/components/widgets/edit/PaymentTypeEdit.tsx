@@ -151,7 +151,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     usePreventFocus({});
 
-    if (controllerProps.isLoading || theme.length === 0 || isLoadingCurrencies) return <Loading />;
+    if (controllerProps.isLoading || theme.length === 0 || isLoadingCurrencies)
+        return (
+            <div className="h-[300px]">
+                <Loading />
+            </div>
+        );
 
     return (
         <EditContextProvider value={controllerProps}>

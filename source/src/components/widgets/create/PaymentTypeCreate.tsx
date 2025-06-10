@@ -93,7 +93,12 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
         }
     };
 
-    if (controllerProps.isLoading || theme.length === 0) return <Loading />;
+    if (controllerProps.isLoading || theme.length === 0)
+        return (
+            <div className="h-[300px]">
+                <Loading />
+            </div>
+        );
 
     return (
         <CreateContextProvider value={controllerProps}>
