@@ -71,15 +71,23 @@ export const PaymentTypeIcon = memo(
         type,
         className,
         tooltip = false,
-        metaIcon
+        metaIcon,
+        metaIconMargin = false
     }: {
         type: string;
         className?: string;
         tooltip?: boolean;
         metaIcon?: string;
+        metaIconMargin?: boolean;
     }) => {
         if (metaIcon) {
-            return <img src={metaIcon} alt="icon" className="mr-2 h-6 w-6 fill-white object-contain" />;
+            return (
+                <img
+                    src={metaIcon}
+                    alt="icon"
+                    className={cn("h-6 w-6 fill-white object-contain", metaIconMargin ? "mr-2" : "")}
+                />
+            );
         }
         const Icon = iconsRecord[type];
 
