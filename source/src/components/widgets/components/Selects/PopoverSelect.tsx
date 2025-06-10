@@ -73,7 +73,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                             <div className="flex flex-wrap items-center">{value}</div>
                         ) : (
                             <div className="flex flex-wrap items-center">
-                                <span className="!text-neutral-60">{placeholder}</span>
+                                <span className="text-neutral-60 dark:text-neutral-70">{placeholder}</span>
                             </div>
                         )}
 

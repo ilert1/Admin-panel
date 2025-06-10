@@ -169,7 +169,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         isFocused && "border-green-50",
                         shadow && "shadow-1",
                         error && "border-red-40 dark:border-red-40",
-                        "bg-neutral-0 text-neutral-80 dark:bg-neutral-100 dark:text-neutral-0 dark:placeholder:text-neutral-70",
+                        "bg-neutral-0 text-neutral-80 placeholder:text-neutral-60 dark:bg-neutral-100 dark:text-neutral-0",
                         variant === InputTypes.GRAY && "gray-autofill bg-white dark:bg-muted",
                         disabled &&
                             "pointer-events-none bg-neutral-20 !text-neutral-80 dark:bg-neutral-90 dark:!text-neutral-60"
@@ -191,7 +191,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         disabled={disabled}
                         spellCheck="false"
                         className={cn(
-                            "z-1 flex h-9 w-full rounded-4 bg-transparent px-3 py-2 text-sm text-inherit ring-offset-background file:border-0 file:text-sm file:font-medium focus:outline-none",
+                            "z-1 flex h-9 w-full rounded-4 bg-transparent px-3 py-2 text-sm text-inherit ring-offset-background file:border-0 file:text-sm file:font-medium placeholder:text-neutral-60 focus:outline-none dark:placeholder:text-neutral-70",
                             type === "password_masked" && !showPassword && "input-masked",
                             className
                         )}
