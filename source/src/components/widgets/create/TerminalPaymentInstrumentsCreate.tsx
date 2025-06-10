@@ -199,7 +199,9 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             setIdValue={e => field.onChange(e)}
                                             onChange={e => setSystemPaymentInstrumentValueName(e)}
                                             variantKey="name"
-                                            notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                            notFoundMessage={translate(
+                                                "resources.paymentTools.systemPaymentInstruments.notFoundMessage"
+                                            )}
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                             disabled={systemPaymentInstrumentsDataLoading}

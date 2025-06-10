@@ -121,6 +121,7 @@
             "name": "Name",
             "currencyCode": "Currency code"
         },
+        "notFoundMessage": "System payment instruments not found.",
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",
