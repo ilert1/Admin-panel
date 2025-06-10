@@ -71,6 +71,9 @@
             "invalidUrl": "Неправильный формат URL",
             "errorWhenCreating": "Произошла ошибка при создании"
         },
+        "placeholders": {
+            "name": "Название маппинга"
+        },
         "create": "Добавить маппинг",
         "createSuccess": "Маппинг успешно создан",
         "updateSuccess": "Маппинг успешно обновлён",

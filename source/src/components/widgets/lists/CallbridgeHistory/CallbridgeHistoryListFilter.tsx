@@ -61,6 +61,7 @@ export const CallbridgeHistoryListFilter = () => {
                                 disabled={isLoadingMappings}
                                 idField="id"
                                 setIdValue={onMappingIdChanged}
+                                placeholder={translate("resources.callbridge.mapping.placeholders.name")}
                             />
                         </div>
                         <Input
@@ -69,6 +70,7 @@ export const CallbridgeHistoryListFilter = () => {
                             value={callbackId}
                             onChange={onCallbackIdChanged}
                             className="max-w-6C min-w-40"
+                            placeholder={translate("resources.callbridge.history.fields.callback_id")}
                         />
                         <Input
                             label={translate("resources.callbridge.history.fields.transaction_id")}
@@ -76,6 +78,7 @@ export const CallbridgeHistoryListFilter = () => {
                             value={txId}
                             onChange={onTxIdChanged}
                             className="max-w-6C min-w-40"
+                            placeholder={translate("resources.callbridge.history.fields.transaction_id")}
                         />
                         <Input
                             label={translate("resources.callbridge.history.fields.external_order_id")}
@@ -83,6 +86,7 @@ export const CallbridgeHistoryListFilter = () => {
                             value={extOrderId}
                             onChange={onExtOrderIdChanged}
                             className="max-w-6C min-w-40"
+                            placeholder={translate("resources.callbridge.history.fields.external_order_id")}
                         />
                     </div>
 
