@@ -28,6 +28,9 @@ import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/Curre
 import { CurrenciesDataProvider } from "@/data";
 import { FinancialInstitutionType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
+import { all as AllCountryCodes } from "iso-3166-1";
+import { Country } from "iso-3166-1/dist/iso-3166";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 export interface FinancialInstitutionProps {
     id: string;
@@ -67,6 +70,18 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
+
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
+    const countryCodes: (Country & { name: string })[] = [
+        {
+            name: "AB - Abhazia",
+            country: "Abhazia",
+            alpha2: "AB",
+            alpha3: "ABH",
+            numeric: "895"
+        },
+        ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
+    ];
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
@@ -111,6 +126,10 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                 payment_types: financialInstitutionData.payment_types?.map(pt => pt.code) || [],
                 meta: JSON.stringify(financialInstitutionData.meta, null, 2) || ""
             };
+
+            setCurrentCountryCodeName(
+                countryCodes.find(code => code.alpha2 === financialInstitutionData.country_code)?.name || ""
+            );
 
             form.reset(updatedValues);
             setIsFinished(true);
@@ -309,21 +328,31 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                         <FormField
                             control={form.control}
                             name="country_code"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate(
+                            render={({ field, fieldState }) => {
+                                return (
+                                    <FormItem className="w-full p-2">
+                                        <Label>
+                                            {translate(
                                                 "resources.paymentTools.financialInstitution.fields.country_code"
                                             )}
+                                        </Label>
+
+                                        <PopoverSelect
+                                            variants={countryCodes}
+                                            value={currentCountryCodeName}
+                                            idField="alpha2"
+                                            setIdValue={field.onChange}
+                                            placeholder="RU"
+                                            onChange={setCurrentCountryCodeName}
+                                            variantKey="name"
+                                            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                            notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
                                         />
-                                    </FormControl>
-                                </FormItem>
-                            )}
+                                    </FormItem>
+                                );
+                            }}
                         />
 
                         <FormField

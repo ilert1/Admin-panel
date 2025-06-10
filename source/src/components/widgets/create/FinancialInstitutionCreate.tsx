@@ -31,6 +31,9 @@ import { CurrenciesDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
+import { all as AllCountryCodes } from "iso-3166-1";
+import { Country } from "iso-3166-1/dist/iso-3166";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 export interface FinancialInstitutionCreateProps {
     onClose?: () => void;
@@ -51,6 +54,18 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
     const [hasErrors, setHasErrors] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
+    const countryCodes: (Country & { name: string })[] = [
+        {
+            name: "AB - Abhazia",
+            country: "Abhazia",
+            alpha2: "AB",
+            alpha3: "ABH",
+            numeric: "895"
+        },
+        ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
+    ];
 
     const { isLoading: currenciesLoading, data: currencies } = useQuery({
         queryKey: ["currencies"],
@@ -248,21 +263,33 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                             <FormField
                                 control={form.control}
                                 name="country_code"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
+                                render={({ field, fieldState }) => {
+                                    return (
+                                        <FormItem className="w-full p-2">
+                                            <Label>
+                                                {translate(
                                                     "resources.paymentTools.financialInstitution.fields.country_code"
                                                 )}
+                                            </Label>
+
+                                            <PopoverSelect
+                                                variants={countryCodes}
+                                                value={currentCountryCodeName}
+                                                idField="alpha2"
+                                                setIdValue={field.onChange}
+                                                placeholder="RU"
+                                                onChange={setCurrentCountryCodeName}
+                                                variantKey="name"
+                                                commandPlaceholder={translate(
+                                                    "app.widgets.multiSelect.searchPlaceholder"
+                                                )}
+                                                notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
                                             />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
+                                        </FormItem>
+                                    );
+                                }}
                             />
 
                             <FormField
