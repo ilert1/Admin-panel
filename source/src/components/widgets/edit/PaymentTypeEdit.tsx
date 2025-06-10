@@ -54,7 +54,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         },
         select: data => data.data
     });
-    console.log(currenciesList);
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),

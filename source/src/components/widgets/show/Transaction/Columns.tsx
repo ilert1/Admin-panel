@@ -76,8 +76,6 @@ export const useGetTransactionShowColumns = () => {
             accessorKey: "state",
             header: translate("resources.transactions.fields.state.title"),
             cell: ({ row }) => {
-                console.log(row.original.state.state_description);
-
                 return (
                     translate(
                         `resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`
