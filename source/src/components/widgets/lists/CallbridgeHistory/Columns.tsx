@@ -7,11 +7,13 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CallbridgeDataProvider } from "@/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useRefresh, useTranslate } from "react-admin";
+import { useLocaleState, useRefresh, useTranslate } from "react-admin";
 
 export const useGetCallbridgeHistory = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
+    const [locale] = useLocaleState();
+
     const appToast = useAppToast();
     const refresh = useRefresh();
 
@@ -34,6 +36,25 @@ export const useGetCallbridgeHistory = () => {
     };
 
     const columns: ColumnDef<CallbackHistoryRead>[] = [
+        {
+            id: "dates",
+            header: translate("resources.callbridge.history.fields.createdAtDeliveredAt"),
+            cell: ({ row }) => (
+                <>
+                    <p className="text-nowrap">
+                        {new Date(row.original.created_at).toLocaleDateString(locale) +
+                            " " +
+                            new Date(row.original.created_at).toLocaleTimeString(locale)}
+                    </p>
+                    <p className="text-nowrap text-neutral-70">
+                        {row.original.delivered_at &&
+                            new Date(row.original.delivered_at).toLocaleDateString(locale) +
+                                " " +
+                                new Date(row.original.delivered_at).toLocaleTimeString(locale)}
+                    </p>
+                </>
+            )
+        },
         {
             id: "mapping_id",
             accessorKey: "external_path",

@@ -93,7 +93,8 @@
             "callback_id": "Callback ID",
             "mapping_name": "Mapping name",
             "transaction_id": "Transaction ID",
-            "external_order_id": "External order ID"
+            "external_order_id": "External order ID",
+            "createdAtDeliveredAt": "Created at / Delivered at"
         },
         "callbacksStatus": {
             "retryCallback": "Retry",

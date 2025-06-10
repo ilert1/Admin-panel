@@ -95,7 +95,8 @@
             "callback_id": "ID коллбека",
             "mapping_name": "Название маппинга",
             "transaction_id": "ID транзакции",
-            "external_order_id": "ID внешней транзации"
+            "external_order_id": "ID внешней транзации",
+            "createdAtDeliveredAt": "Создано / Доставлено"
         },
         "callbacksStatus": {
             "retryCallback": "Повторить",
