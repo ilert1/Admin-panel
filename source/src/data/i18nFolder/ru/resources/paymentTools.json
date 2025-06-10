@@ -1,6 +1,7 @@
 {
     "resources.paymentTools.name": "Настройки платежей",
     "resources.paymentTools.noAvailable": "Ничего не найдено",
+    "resources.paymentTools.countryCodeNotFoundMessage": "Код страны не найден.",
     "resources.paymentTools.paymentType": {
         "name": "Платёжные типы",
         "admin": {
