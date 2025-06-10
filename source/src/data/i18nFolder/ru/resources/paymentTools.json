@@ -13,21 +13,21 @@
         "fields": {
             "code": "Код",
             "title": "Описание",
-            "payment_types": "Платежные типы",
+            "payment_types": "Платёжные типы",
             "category": "Категория",
             "required_fields_for_payment": "Обязательные поля для платежа",
             "icon": "Иконка",
             "currencies": "Валюты"
         },
         "placeholders": {
-            "code": "Код платежного типа",
-            "title": "Описание платежного типа"
+            "code": "Код платёжного типа",
+            "title": "Описание платёжного типа"
         },
 
-        "deletePaymentTypeQuestion": "Удалить платежные тип?",
-        "creatingPaymentType": "Создание платежного типа",
-        "editingPaymentType": "Изменение платежного типа",
-        "createNew": "Добавить платежный тип",
+        "deletePaymentTypeQuestion": "Удалить платёжные тип?",
+        "creatingPaymentType": "Создание платёжного типа",
+        "editingPaymentType": "Изменение платёжного типа",
+        "createNew": "Добавить платёжный тип",
         "duplicateCode": "Введенный код уже используется",
         "uploadIcon": "Загрузить иконку"
     },
@@ -78,11 +78,11 @@
         "deleteFinancialInstitution": "Удалить фин. институт?"
     },
     "resources.paymentTools.systemPaymentInstruments": {
-        "name": "Системные платежные инструменты",
-        "show": "Системный платежный инструмент",
+        "name": "Системные платёжные инструменты",
+        "show": "Системный платёжный инструмент",
         "fields": {
             "name": "Название",
-            "payment_type_code": "Платежный тип",
+            "payment_type_code": "Платёжный тип",
             "currency_code": "Валюта",
             "financial_institution_id": "Финансовая институт",
             "direction": "Направление",
@@ -95,8 +95,8 @@
             "updatedAt": "Обновлён",
             "id": "ID",
             "name": "Название",
-            "paymentType": "Платежный тип",
-            "paymentTypeCode": "Код Платежного типа",
+            "paymentType": "Платёжный тип",
+            "paymentTypeCode": "Код Платёжного типа",
             "financialInstitution": "Фин. институт",
             "direction": "Направление операций"
         },
@@ -111,33 +111,33 @@
             "test_only": "Тестовый"
         },
         "success": {
-            "editActivity": "Активность системного платежного инструмента %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность системного платёжного инструмента %{name} успешно изменена на: %{state}."
         },
         "placeholders": {
             "name": "Название",
             "currencyCode": "Код валюты"
         },
-        "creatingPaymentInstrument": "Создание системного платежного инструмента",
-        "editingPaymentInstrument": "Изменение системного платежного инструмента",
+        "creatingPaymentInstrument": "Создание системного платёжного инструмента",
+        "editingPaymentInstrument": "Изменение системного платёжного инструмента",
         "createNew": "Добавить инструмент",
-        "deletePaymentInstrumentQuestion": "Удалить системный платежный инструмент?"
+        "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
-        "name": "Терминальные платежные инструменты",
-        "show": "Терминальный платежный инструмент",
+        "name": "Терминальные платёжные инструменты",
+        "show": "Терминальный платёжный инструмент",
         "fields": {
             "created_at": "Дата и время создания",
             "updated_at": "Дата и время обновления",
             "terminal_id": "Терминал",
-            "system_payment_instrument_id": "Системный платежный инструмент",
-            "terminal_payment_type_code": "Код платежного типа терминала",
+            "system_payment_instrument_id": "Системный платёжный инструмент",
+            "terminal_payment_type_code": "Код платёжного типа терминала",
             "terminal_currency_code": "Код валюты терминала",
             "terminal_financial_institution_code": "Код фин. института терминала",
             "terminal_specific_parameters": "Параметры",
             "status": "Статус",
             "id": "ID",
             "terminalToChoose": "Выберите терминал",
-            "systemPaymentInstrumentsToChoose": "Выберите системный платежный инструмент"
+            "systemPaymentInstrumentsToChoose": "Выберите системный платёжный инструмент"
         },
         "success": {
             "ACTIVE": "активна",
@@ -145,9 +145,9 @@
             "editActivity": "Активность интегарций терминала %{name} успешно изменена на: %{state}."
         },
         "createTerminalPaymentInstrument": "Добавить инструмент",
-        "creatingTerminalPaymentInstrument": "Добавление терминального платежного инструмента",
-        "editingTerminalPaymentInstrument": "Изменение терминального платежного инструмента",
-        "deleteTerminalPaymentInstrument": "Удалить терминальный платежный инструмент?",
+        "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",
+        "editingTerminalPaymentInstrument": "Изменение терминального платёжного инструмента",
+        "deleteTerminalPaymentInstrument": "Удалить терминальный платёжный инструмент?",
         "initInstruments": "Инициализировать инструменты",
         "terminalPaymentInstrumentInitialized": "Терминальный платёжный инструмент успешно инициализирован"
     },
@@ -157,14 +157,14 @@
     "resources.paymentTools.deletion": {
         "attention": "Внимание!",
         "attentionDescriptionPaymentType": "Удаление платёжного типа приведет к удалению связанных с ним платёжных инструментов",
-        "consequencesPaymentType": "Вы уверены, что хотите удалить платежный тип и связанные с ним платёжные инструменты?",
+        "consequencesPaymentType": "Вы уверены, что хотите удалить платёжный тип и связанные с ним платёжные инструменты?",
         "attentionDescriptionFinOrganization": "Удаление финансового института приведет к удалению связанных с ним платёжных инструментов",
         "consequencesFinOrganization": "Вы уверены, что хотите удалить финансовой институт и связанные с ним платёжные инструменты?",
-        "attentionDescriptionSystemInstrument": "Удаление системного платёжного инструмента приведет к удалению связанных с ним терминальных платежных инструментов",
-        "consequencesSystemInstrument": "Вы уверены, что хотите удалить системный плажетный инструмент и связанные с ним терминальные платежные инструменты?",
+        "attentionDescriptionSystemInstrument": "Удаление системного платёжного инструмента приведет к удалению связанных с ним терминальных платёжных инструментов",
+        "consequencesSystemInstrument": "Вы уверены, что хотите удалить системный плажетный инструмент и связанные с ним терминальные платёжные инструменты?",
         "attentionDescriptionTerminalPaymentInstrument": "Вы выполняете удаление терминального платёжного инструмента",
         "consequencesTerminalPaymentInstrument": "Вы уверены, что хотите удалить терминальный платёжный инструмент?",
         "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платёжных инструментов",
-        "consequencesCurrency": "Вы уверены, что хотите удалить валюту и связанные с ней платежные инструменты?"
+        "consequencesCurrency": "Вы уверены, что хотите удалить валюту и связанные с ней платёжные инструменты?"
     }
 }
