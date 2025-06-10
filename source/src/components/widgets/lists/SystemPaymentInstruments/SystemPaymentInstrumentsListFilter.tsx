@@ -100,7 +100,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 onChange={(e: any) => onPaymentTypeCodeChanged(e)}
                                 variantKey={"code"}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                notFoundMessage={translate("resources.paymentTools.paymentType.notFoundMessage")}
                                 disabled={isLoadingPaymentTypes}
                                 style="Black"
                                 placeholder={translate("resources.paymentTools.paymentType.placeholders.code")}

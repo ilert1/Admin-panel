@@ -41,6 +41,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
                 onValueChange={onValueChange}
                 defaultValue={value}
                 placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
+                notFoundMessage={translate("resources.paymentTools.paymentType.notFoundMessage")}
                 animation={0}
                 maxCount={10}
                 modalPopover

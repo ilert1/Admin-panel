@@ -1,6 +1,7 @@
 {
     "resources.paymentTools.name": "Payment Settings",
     "resources.paymentTools.noAvailable": "Nothing was found",
+    "resources.paymentTools.countryCodeNotFoundMessage": "Country codes not found.",
     "resources.paymentTools.paymentType": {
         "admin": {
             "name": "Payment Types"
@@ -23,6 +24,7 @@
             "code": "Payment type code",
             "title": "Payment type description"
         },
+        "notFoundMessage": "Payment types not found.",
         "deletePaymentTypeQuestion": "Delete payment type?",
         "creatingPaymentType": "Creating payment type",
         "editingPaymentType": "Editing payment type",
@@ -71,6 +73,7 @@
         "placeholders": {
             "name": "Financial Institution name"
         },
+        "notFoundMessage": "Financial institutions not found.",
         "createFinancialInstitutionBtn": "Create institution",
         "createFinancialInstitutionTitle": "Create a financial institution",
         "editingFinancialInstitution": "Editing a financial institution",
@@ -118,6 +121,7 @@
             "name": "Name",
             "currencyCode": "Currency code"
         },
+        "notFoundMessage": "System payment instruments not found.",
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",

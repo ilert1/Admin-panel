@@ -191,7 +191,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         onChange={e => setTerminalValueName(e)}
                                         variantKey="verbose_name"
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                        notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={terminalsDataLoading}
@@ -219,7 +219,9 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setSystemPaymentInstrumentValueName(e)}
                                         variantKey="name"
-                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                        notFoundMessage={translate(
+                                            "resources.paymentTools.systemPaymentInstruments.notFoundMessage"
+                                        )}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={systemPaymentInstrumentsDataLoading}

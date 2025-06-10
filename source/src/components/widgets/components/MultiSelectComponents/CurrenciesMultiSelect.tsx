@@ -27,6 +27,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 options={modifiedOptions}
                 onValueChange={onValueChange}
                 defaultValue={value}
+                notFoundMessage={translate("resources.currency.notFoundMessage")}
                 placeholder={translate("app.widgets.multiSelect.selectCurrencies")}
                 animation={0}
                 maxCount={10}

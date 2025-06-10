@@ -348,7 +348,9 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                             onChange={setCurrentCountryCodeName}
                                             variantKey="name"
                                             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                            notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                            notFoundMessage={translate(
+                                                "resources.paymentTools.countryCodeNotFoundMessage"
+                                            )}
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                         />

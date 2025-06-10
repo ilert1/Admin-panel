@@ -1,6 +1,7 @@
 {
     "resources.paymentTools.name": "Настройки платежей",
     "resources.paymentTools.noAvailable": "Ничего не найдено",
+    "resources.paymentTools.countryCodeNotFoundMessage": "Коды стран не найдены.",
     "resources.paymentTools.paymentType": {
         "name": "Платёжные типы",
         "admin": {
@@ -23,7 +24,7 @@
             "code": "Код платёжного типа",
             "title": "Описание платёжного типа"
         },
-
+        "notFoundMessage": "Платежные типы не найдены.",
         "deletePaymentTypeQuestion": "Удалить платёжные тип?",
         "creatingPaymentType": "Создание платёжного типа",
         "editingPaymentType": "Изменение платёжного типа",
@@ -72,6 +73,7 @@
         "placeholders": {
             "name": "Наименование фин. института"
         },
+        "notFoundMessage": "Фин. институты не найдены.",
         "createFinancialInstitutionBtn": "Добавить фин. институт",
         "createFinancialInstitutionTitle": "Добавление финансового института",
         "editingFinancialInstitution": "Изменение финансового института",
@@ -117,6 +119,7 @@
             "name": "Название",
             "currencyCode": "Код валюты"
         },
+        "notFoundMessage": "Системные платёжные инструменты не найдены.",
         "creatingPaymentInstrument": "Создание системного платёжного инструмента",
         "editingPaymentInstrument": "Изменение системного платёжного инструмента",
         "createNew": "Добавить инструмент",
