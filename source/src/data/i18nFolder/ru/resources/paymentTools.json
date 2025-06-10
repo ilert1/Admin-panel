@@ -1,7 +1,7 @@
 {
     "resources.paymentTools.name": "Настройки платежей",
     "resources.paymentTools.noAvailable": "Ничего не найдено",
-    "resources.paymentTools.countryCodeNotFoundMessage": "Код страны не найден.",
+    "resources.paymentTools.countryCodeNotFoundMessage": "Коды стран не найдены.",
     "resources.paymentTools.paymentType": {
         "name": "Платёжные типы",
         "admin": {
@@ -73,6 +73,7 @@
         "placeholders": {
             "name": "Наименование фин. института"
         },
+        "notFoundMessage": "Фин. институты не найдены.",
         "createFinancialInstitutionBtn": "Добавить фин. институт",
         "createFinancialInstitutionTitle": "Добавление финансового института",
         "editingFinancialInstitution": "Изменение финансового института",

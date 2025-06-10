@@ -128,7 +128,9 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         onChange={e => setFinancialInstitutionValueName(e)}
                                         variantKey="name"
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                        notFoundMessage={translate(
+                                            "resources.paymentTools.financialInstitution.notFoundMessage"
+                                        )}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={financialInstitutionsDisabled}
