@@ -277,7 +277,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 value={currentCountryCodeName}
                                                 idField="alpha2"
                                                 setIdValue={field.onChange}
-                                                placeholder="RU"
+                                                placeholder={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.countryCodePlaceholder"
+                                                )}
                                                 onChange={setCurrentCountryCodeName}
                                                 variantKey="name"
                                                 commandPlaceholder={translate(

@@ -42,6 +42,7 @@
             "legal_name": "Full legal name",
             "institution_type": "Institution type",
             "country_code": "Country code",
+            "countryCodePlaceholder": "Select a country",
             "bic": "SWIFT BIC",
             "tax_id_number": "Tax identification number",
             "registration_number": "Registration number",
