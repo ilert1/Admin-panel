@@ -166,6 +166,6 @@
         "attentionDescriptionTerminalPaymentInstrument": "Terminal payment instrument deletion",
         "consequencesTerminalPaymentInstrument": "Terminal payment instrument deletion",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
-        "consequencesCurrency": "Currency deletion will lead to the deletion of associated payment instruments"
+        "consequencesCurrency": "Currency deletion will lead to the deletion of associated payment instruments. Proceed?"
     }
 }
