@@ -28,5 +28,6 @@
     "resources.currency.editDialogTitle": "Изменить валюту",
     "resources.currency.deleteDialogTitle": "Удалить валюту?",
     "resources.currency.showTitle": "Детальная информацию о валюте",
+    "resources.currency.notFoundMessage": "Валюты не найдены.",
     "resources.currency.showDescription": "Детальная информацию о валюте"
 }

@@ -102,6 +102,8 @@ interface MultiSelectProps
      * Optional, can be used to add custom styles.
      */
     className?: string;
+
+    notFoundMessage?: string;
 }
 
 export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
@@ -116,6 +118,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             maxCount = 3,
             modalPopover = false,
             asChild = false,
+            notFoundMessage,
             className,
             ...props
         },
@@ -257,7 +260,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             onKeyDown={handleInputKeyDown}
                         />
                         <CommandList>
-                            <CommandEmpty>{translate("app.widgets.multiSelect.noResultFound")}</CommandEmpty>
+                            <CommandEmpty>
+                                {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
+                            </CommandEmpty>
                             <CommandGroup>
                                 <CommandItem
                                     key="all"

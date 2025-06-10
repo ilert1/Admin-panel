@@ -28,5 +28,6 @@
     "resources.currency.editDialogTitle": "Edit currency",
     "resources.currency.deleteDialogTitle": "Delete a currency?",
     "resources.currency.showTitle": "Detailed information about currency",
+    "resources.currency.notFoundMessage": "Currencies not found.",
     "resources.currency.showDescription": "Detailed information about currency"
 }
