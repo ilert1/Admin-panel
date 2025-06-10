@@ -3,7 +3,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
-import { Link, MessageCircle } from "lucide-react";
+import { Link } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
