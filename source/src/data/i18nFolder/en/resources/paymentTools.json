@@ -24,6 +24,7 @@
             "code": "Payment type code",
             "title": "Payment type description"
         },
+        "notFoundMessage": "Payment types not found.",
         "deletePaymentTypeQuestion": "Delete payment type?",
         "creatingPaymentType": "Creating payment type",
         "editingPaymentType": "Editing payment type",
@@ -120,7 +121,6 @@
             "name": "Name",
             "currencyCode": "Currency code"
         },
-        "notFoundPaymentTypeCode": "Payment types not found.",
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",

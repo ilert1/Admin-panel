@@ -24,7 +24,7 @@
             "code": "Код платёжного типа",
             "title": "Описание платёжного типа"
         },
-
+        "notFoundMessage": "Платежные типы не найдены.",
         "deletePaymentTypeQuestion": "Удалить платёжные тип?",
         "creatingPaymentType": "Создание платёжного типа",
         "editingPaymentType": "Изменение платёжного типа",
@@ -119,7 +119,6 @@
             "name": "Название",
             "currencyCode": "Код валюты"
         },
-        "notFoundPaymentTypeCode": "Платежные типы не найдены.",
         "creatingPaymentInstrument": "Создание системного платёжного инструмента",
         "editingPaymentInstrument": "Изменение системного платёжного инструмента",
         "createNew": "Добавить инструмент",
