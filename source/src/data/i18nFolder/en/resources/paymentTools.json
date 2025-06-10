@@ -120,6 +120,7 @@
             "name": "Name",
             "currencyCode": "Currency code"
         },
+        "notFoundPaymentTypeCode": "Payment types not found.",
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",

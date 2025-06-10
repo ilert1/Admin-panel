@@ -155,7 +155,9 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         onChange={e => field.onChange(e)}
                                         variantKey={"code"}
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                        notFoundMessage={translate("resources.paymentTools.noAvailable")}
+                                        notFoundMessage={translate(
+                                            "resources.paymentTools.systemPaymentInstruments.notFoundPaymentTypeCode"
+                                        )}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={paymentsDisabled}
