@@ -64,7 +64,7 @@
             "deactivatePolicy": "Деактивировать политику?",
             "ipAdressListUpdatedSuccessfully": "Список IP адресов успешно обновлен",
             "youHaveUnsavedChanges": "Найдены несохраненные изменения",
-            "saveOrDeleteThem": "Удалить или сохранить их?"
+            "saveOrDeleteThem": "Сохранить их?"
         },
         "errors": {
             "cantBeEmpty": "Поле не может быть пустым",

@@ -23,11 +23,21 @@ import {
 // /system-payment-instruments
 export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<SystemPaymentInstrument>> {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item => item === "name" || item === "currency_code" || item === "payment_type_code"
+              )
+            : [];
+
         const res =
             await systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet(
                 {
                     currentPage: params?.pagination?.page,
-                    pageSize: params?.pagination?.perPage
+                    pageSize: params?.pagination?.perPage,
+                    ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                    ...(fieldsForSearch.length > 0 && {
+                        searchString: fieldsForSearch.map(item => params.filter?.[item])
+                    })
                 },
                 {
                     headers: {

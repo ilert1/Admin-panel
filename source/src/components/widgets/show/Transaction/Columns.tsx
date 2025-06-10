@@ -75,8 +75,15 @@ export const useGetTransactionShowColumns = () => {
             id: "state",
             accessorKey: "state",
             header: translate("resources.transactions.fields.state.title"),
-            cell: ({ row }) =>
-                translate(`resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`) || ""
+            cell: ({ row }) => {
+                console.log(row.original.state.state_description);
+
+                return (
+                    translate(
+                        `resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`
+                    ) || ""
+                );
+            }
         },
         {
             id: "source_amount",

@@ -13,7 +13,6 @@ import {
     ChevronLeft,
     Circle,
     CirclePlus,
-    Dot,
     LockKeyhole,
     LockKeyholeOpen,
     Vault,

@@ -46,7 +46,8 @@
             "details": "Подробнее",
             "generateCallback": "Создать callback",
             "clear": "Очистить",
-            "continue": "Продолжить"
+            "continue": "Продолжить",
+            "back": "Вернуться"
         },
         "pagination": {
             "next": "Далее",
@@ -168,6 +169,7 @@
                 "lastName": "Фамилия",
                 "lastNameMessage": "Допускается ввод кириллицы, латиницы и специальных символов (:'-.,_@+). Максимум 255",
                 "login": "Логин",
+
                 "loginMessage": "Допускается ввод латиницы и специальных символов (:'-.,_@+). Минимум 3 символа, максимум 255",
                 "email": "Адрес эл.почты",
                 "emailMessage": "Неправильный формат адреса",
@@ -221,7 +223,8 @@
             "selectAll": "Выбрать все",
             "noResultFound": "Нет результатов",
             "selectPaymentTypes": "Выберите типы платежей",
-            "searchPlaceholder": "Поиск..."
+            "searchPlaceholder": "Поиск...",
+            "selectCurrencies": "Выберите валюты"
         }
     },
 
@@ -229,6 +232,7 @@
         "usernameOrEmail": "Логин или e-mail",
         "password": "Пароль",
         "login": "Войти",
+        "logout": "Выйти",
         "logPassError": "Неправильные данные входа",
         "networkError": "Ошибка сети",
         "accountError": "Завершите настройку профиля и повторите попытку входа",

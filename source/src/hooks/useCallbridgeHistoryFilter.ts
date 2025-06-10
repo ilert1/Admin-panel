@@ -1,7 +1,7 @@
-import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { CallbackMappingRead, CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useDataProvider, useListContext, useTranslate } from "react-admin";
 
 const useCallbridgeHistoryFilter = () => {
@@ -10,20 +10,25 @@ const useCallbridgeHistoryFilter = () => {
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
+    const { data: mappings, isLoading: isLoadingMappings } = useQuery({
+        queryKey: ["mappingListForFilter"],
+        queryFn: () => dataProvider.getList<CallbackMappingRead>("callbridge/v1/mapping", {}),
+        select: data => data.data
+    });
+
     const [status, setStatus] = useState(filterValues?.status || "");
     const [mappingId, setMappingId] = useState(filterValues?.mapping_id || "");
     const [callbackId, setCallbackId] = useState(filterValues?.callback_id || "");
     const [txId, settxId] = useState(filterValues?.transaction_id || "");
     const [extOrderId, setExtOrderId] = useState(filterValues?.external_order_id || "");
-    const [mappingName, setMappingName] = useState(displayedFilters?.mapping_name || "");
+    const [mappingName, setMappingName] = useState("");
 
-    const { data: mappings, isLoading: isLoadingMappings } = useQuery({
-        queryKey: ["mappingListForFilter"],
-        queryFn: () => dataProvider.getList("callbridge/v1/mapping", {}),
-        select: data => data.data
-    });
-
-    // const filterBufferRef = useRef<Record<string, any>>({ ...filterValues });
+    useEffect(() => {
+        if (filterValues?.mapping_id) {
+            setMappingName(mappings?.find(item => item.id === filterValues?.mapping_id)?.name || "");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mappings]);
 
     const onPropertySelected = debounce(
         (value: string, type: "status" | "mapping_id" | "callback_id" | "transaction_id" | "external_order_id") => {

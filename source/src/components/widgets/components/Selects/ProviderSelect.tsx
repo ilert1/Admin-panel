@@ -13,7 +13,8 @@ export const ProviderSelect = ({
     providers,
     isError,
     errorMessage,
-    disabled
+    disabled,
+    placeholder
 }: ProviderSelectProps) => {
     const translate = useTranslate();
     return (
@@ -22,10 +23,12 @@ export const ProviderSelect = ({
             value={value}
             onChange={onChange}
             variantKey={"name"}
+            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
             notFoundMessage={translate("resources.direction.noProviders")}
             isError={isError}
             errorMessage={errorMessage}
             disabled={disabled}
+            placeholder={placeholder}
         />
     );
 };

@@ -60,8 +60,8 @@ export const getTerminalPaymentInstrumentEndpointsListTerminalPaymentInstruments
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments`;
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments`;
     };
 
 export const terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet =
@@ -108,7 +108,7 @@ export type terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEni
 
 export const getTerminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPostUrl =
     () => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments`;
     };
 
 export const terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost =
@@ -169,8 +169,8 @@ export const getTerminalPaymentInstrumentEndpointsListProviderPaymentInstruments
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/providers/${providerName}?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/providers/${providerName}`;
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/providers/${providerName}?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/providers/${providerName}`;
     };
 
 export const terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet =
@@ -233,8 +233,8 @@ export const getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsB
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}`;
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/terminals/${terminalId}?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/terminals/${terminalId}`;
     };
 
 export const terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGet =
@@ -283,7 +283,7 @@ export type terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumen
 
 export const getTerminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePostUrl =
     (terminalId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/terminals/${terminalId}/initialize`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/terminals/${terminalId}/initialize`;
     };
 
 export const terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost =
@@ -333,7 +333,7 @@ export type terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigma
 
 export const getTerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGetUrl =
     (terminalPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/${terminalPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/${terminalPaymentInstrumentId}`;
     };
 
 export const terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet =
@@ -380,7 +380,7 @@ export type terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnig
 
 export const getTerminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatchUrl =
     (terminalPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/${terminalPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/${terminalPaymentInstrumentId}`;
     };
 
 export const terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch =
@@ -430,7 +430,7 @@ export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEni
 
 export const getTerminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteUrl =
     (terminalPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal-payment-instruments/${terminalPaymentInstrumentId}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/${terminalPaymentInstrumentId}`;
     };
 
 export const terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete =

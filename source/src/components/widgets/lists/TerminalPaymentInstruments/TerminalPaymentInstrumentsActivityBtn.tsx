@@ -60,7 +60,7 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
             setBtnDisabled(false);
         }
     };
-
+    ``;
     return (
         <div className="flex items-center justify-center">
             <button
@@ -73,7 +73,9 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
                 <span
                     className={clsx(
                         "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
-                        currentState ? "translate-x-0" : "translate-x-full"
+                        currentState ? "translate-x-full" : "translate-x-0"
+
+                        // currentState ? "translate-x-0" : "translate-x-full"
                     )}>
                     {currentState ? (
                         <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />

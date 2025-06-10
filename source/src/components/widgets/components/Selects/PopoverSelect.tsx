@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { ReactNode, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
+import { PaymentTypeIcon } from "../PaymentTypeIcon";
 
 export interface IPopoverSelect {
     value: string;
@@ -15,14 +16,11 @@ export interface IPopoverSelect {
     isError?: boolean;
     errorMessage?: string | ReactNode;
     disabled?: boolean;
+    style?: "Grey" | "Black";
+    placeholder?: string;
 }
 
-interface PopoverSelectProps {
-    value: string;
-    setIdValue?: (value: string) => void;
-    idField?: string;
-    onChange: (value: string) => void;
-
+interface PopoverSelectProps extends IPopoverSelect {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     variants: any[];
     variantKey: string;
@@ -30,11 +28,7 @@ interface PopoverSelectProps {
 
     notFoundMessage: string;
     commandPlaceholder?: string;
-
-    isError?: boolean;
-    errorMessage?: string | React.ReactNode;
-    disabled?: boolean;
-    style?: "Grey" | "Black";
+    iconForPaymentTypes?: boolean;
 }
 
 export const PopoverSelect = (props: PopoverSelectProps) => {
@@ -45,16 +39,17 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         variantKey,
         variantTitleKey,
         notFoundMessage,
+        placeholder,
         isError,
         errorMessage = "",
         disabled = false,
         commandPlaceholder = "",
         style = "Grey",
+        iconForPaymentTypes = false,
         onChange,
         setIdValue
     } = props;
     const [open, setOpen] = useState(false);
-    console.log(value);
 
     return (
         <Popover modal={true} open={open} onOpenChange={setOpen}>
@@ -67,14 +62,20 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                         style === "Black"
                             ? "bg-black hover:!bg-white hover:dark:!bg-black"
                             : "!bg-white hover:!bg-white dark:!bg-muted hover:dark:!bg-muted",
-                        `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
+                        `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                         "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
                         "border-neutral-40 bg-neutral-0 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
                         "hover:!border-green-20 dark:hover:text-neutral-40",
                         isError ? "!border-red-40 dark:!border-red-40" : ""
                     )}>
                     <div className="flex w-full items-center justify-between">
-                        <div className="flex flex-wrap items-center">{value}</div>
+                        {value ? (
+                            <div className="flex flex-wrap items-center">{value}</div>
+                        ) : (
+                            <div className="flex flex-wrap items-center">
+                                <span className="text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                            </div>
+                        )}
 
                         <div className="flex items-center justify-between">
                             {value && (
@@ -137,7 +138,18 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                             value === variant[variantKey] ? "opacity-100" : "opacity-0"
                                         )}
                                     />
-                                    {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
+                                    <>
+                                        {iconForPaymentTypes ? (
+                                            <PaymentTypeIcon
+                                                type={variant[variantKey]}
+                                                metaIcon={variant.meta?.["icon"] as string}
+                                                metaIconMargin
+                                            />
+                                        ) : (
+                                            ""
+                                        )}
+                                        {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
+                                    </>
                                 </CommandItem>
                             ))}
                         </CommandGroup>

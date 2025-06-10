@@ -19,7 +19,14 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
         options?.map(option => ({
             label: option.code,
             value: option.code,
-            icon: (props: object) => <PaymentTypeIcon type={option.code} {...props} />
+            icon: (props: object) => (
+                <PaymentTypeIcon
+                    type={option.code}
+                    metaIcon={option.meta?.["icon"] as string}
+                    metaIconMargin
+                    {...props}
+                />
+            )
         })) || [];
 
     const onValueChange = (values: string[]) => {
@@ -36,6 +43,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
                 placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
                 animation={0}
                 maxCount={10}
+                modalPopover
             />
         </div>
     );

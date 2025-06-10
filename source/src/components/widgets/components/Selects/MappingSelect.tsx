@@ -1,10 +1,9 @@
-import { Provider } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { IPopoverSelect, PopoverSelect } from "./PopoverSelect";
-import { ProviderWithId } from "@/data/providers";
 import { useTranslate } from "react-admin";
+import { CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface MappingSelectProps extends IPopoverSelect {
-    mappings: ProviderWithId[] | Provider[];
+    mappings: CallbackMappingRead[];
 }
 
 export const MappingSelect = ({
@@ -15,7 +14,9 @@ export const MappingSelect = ({
     mappings,
     isError,
     errorMessage,
-    disabled
+    disabled,
+    placeholder,
+    style = "Black"
 }: MappingSelectProps) => {
     const translate = useTranslate();
 
@@ -27,11 +28,13 @@ export const MappingSelect = ({
             value={value}
             onChange={onChange}
             variantKey={"name"}
+            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
             notFoundMessage={translate("resources.callbridge.history.notFoundMessage")}
             isError={isError}
             errorMessage={errorMessage}
             disabled={disabled}
-            style="Black"
+            style={style}
+            placeholder={placeholder}
         />
     );
 };

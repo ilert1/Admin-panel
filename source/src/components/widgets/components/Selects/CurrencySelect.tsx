@@ -13,12 +13,15 @@ export const CurrencySelect = ({
     currencies,
     isError,
     errorMessage,
-    disabled = false
+    disabled = false,
+    style = "Grey",
+    placeholder
 }: CurrencySelectProps) => {
     const translate = useTranslate();
 
     return (
         <PopoverSelect
+            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
             variants={currencies}
             value={value}
             onChange={onChange}
@@ -27,6 +30,8 @@ export const CurrencySelect = ({
             isError={isError}
             errorMessage={errorMessage}
             disabled={disabled}
+            style={style}
+            placeholder={placeholder}
         />
     );
 };

@@ -125,7 +125,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             .int(translate("resources.direction.errors.weightError"))
             .min(0, translate("resources.direction.errors.weightError"))
             .max(1000, translate("resources.direction.errors.weightError")),
-        type: z.enum(["universal", "withdraw", "deposit"], {
+        type: z.enum(["withdraw", "deposit"], {
             message: translate("resources.direction.errors.typeError")
         })
     });
@@ -142,7 +142,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             provider: "",
             terminal: "",
             weight: 0,
-            type: "universal"
+            type: "withdraw"
         }
     });
 

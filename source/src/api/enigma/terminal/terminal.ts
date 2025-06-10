@@ -6,6 +6,7 @@
  */
 import type {
     ApiResponseListAccountInfo,
+    ApiResponseListTerminal,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationTerminal,
     ApiResponseTerminal,
@@ -71,6 +72,48 @@ export const poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
 ): Promise<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse> => {
     return authFetch<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse>(
         getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
+ * Retrieves a list of unique Terminal entities associated with a specific Merchant ID.
+ * @summary Retrieve Terminals by Merchant ID
+ */
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200 = {
+    data: ApiResponseListTerminal;
+    status: 200;
+};
+
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite =
+    | poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200
+    | poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422;
+
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse =
+    poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPoolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl = (
+    merchantId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/by_merchant/${merchantId}`;
+};
+
+export const poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGet = async (
+    merchantId: string,
+    options?: RequestInit
+): Promise<poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse> => {
+    return authFetch<poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse>(
+        getPoolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl(merchantId),
         {
             ...options,
             method: "GET"

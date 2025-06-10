@@ -1,30 +1,30 @@
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { FinancialInstitutionProvider } from "@/data/financialInstitution";
+import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 
-interface IFinancialInstitutionActivityBtn {
+interface SystemPaymentInstrumentsActivityBtnProps {
     id: string;
-    financialInstitutionName: string;
+    systemPaymentInstrumentName: string;
     activityState: boolean;
     isFetching?: boolean;
 }
 
-export const FinancialInstitutionActivityBtn = ({
+export const SystemPaymentInstrumentsActivityBtn = ({
     id,
-    financialInstitutionName,
+    systemPaymentInstrumentName,
     activityState,
     isFetching
-}: IFinancialInstitutionActivityBtn) => {
+}: SystemPaymentInstrumentsActivityBtnProps) => {
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
 
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
-    const financialInstitutionProvider = new FinancialInstitutionProvider();
+    const dataProvider = useDataProvider();
 
     useEffect(() => {
         if (currentState !== activityState) {
@@ -39,7 +39,7 @@ export const FinancialInstitutionActivityBtn = ({
         try {
             setBtnDisabled(true);
 
-            await financialInstitutionProvider.update("financialInstitution", {
+            await dataProvider.update("systemPaymentInstruments", {
                 id,
                 data: { status: currentStateData },
                 previousData: undefined
@@ -47,9 +47,9 @@ export const FinancialInstitutionActivityBtn = ({
 
             appToast(
                 "success",
-                translate("resources.paymentTools.financialInstitution.success.editActivity", {
-                    name: financialInstitutionName,
-                    state: translate(`resources.paymentTools.financialInstitution.success.${currentStateData}`)
+                translate("resources.paymentTools.systemPaymentInstruments.success.editActivity", {
+                    name: systemPaymentInstrumentName,
+                    state: translate(`resources.paymentTools.terminalPaymentInstruments.success.${currentStateData}`)
                 })
             );
 
@@ -73,7 +73,7 @@ export const FinancialInstitutionActivityBtn = ({
                 <span
                     className={clsx(
                         "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
-                        currentState ? "translate-x-0" : "translate-x-full"
+                        currentState ? "translate-x-full" : "translate-x-0"
                     )}>
                     {currentState ? (
                         <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />

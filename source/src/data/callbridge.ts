@@ -32,8 +32,6 @@ import {
 // /history/{history_id}/retry
 export class CallbridgeDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
-        console.log(params.filter);
-
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(
                   item =>

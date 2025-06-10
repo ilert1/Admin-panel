@@ -1694,6 +1694,47 @@
                 }
             }
         },
+        "/enigma/v1/terminal/by_merchant/{merchant_id}": {
+            "get": {
+                "tags": ["Terminal"],
+                "summary": "Retrieve Terminals by Merchant ID",
+                "description": "Retrieves a list of unique Terminal entities associated with a specific Merchant ID.",
+                "operationId": "PoolTerminalEndpoints_get_terminals_by_merchant_enigma_v1_terminal_by_merchant__merchant_id__get",
+                "parameters": [
+                    {
+                        "name": "merchant_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Merchant Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_Terminal__"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/enigma/v1/provider/{provider_name}/terminal": {
             "get": {
                 "tags": ["Terminal"],
@@ -5300,7 +5341,7 @@
                 }
             }
         },
-        "/enigma/v1/system-payment-instruments": {
+        "/enigma/v1/system_payment_instruments": {
             "get": {
                 "tags": ["System Payment Instruments"],
                 "summary": "Retrieve a list of System Payment Instruments",
@@ -5579,7 +5620,7 @@
                 }
             }
         },
-        "/enigma/v1/system-payment-instruments/{system_payment_instrument_id}": {
+        "/enigma/v1/system_payment_instruments/{system_payment_instrument_id}": {
             "get": {
                 "tags": ["System Payment Instruments"],
                 "summary": "Retrieve a single System Payment Instrument by ID",
@@ -5711,7 +5752,7 @@
                 }
             }
         },
-        "/enigma/v1/terminal-payment-instruments": {
+        "/enigma/v1/terminal_payment_instruments": {
             "get": {
                 "tags": ["Terminal Payment Instruments"],
                 "summary": "Get a paginated list of terminal payment instruments",
@@ -5990,7 +6031,7 @@
                 }
             }
         },
-        "/enigma/v1/terminal-payment-instruments/providers/{provider_name}": {
+        "/enigma/v1/terminal_payment_instruments/providers/{provider_name}": {
             "get": {
                 "tags": ["Terminal Payment Instruments"],
                 "summary": "Get payment instruments for all terminals within a specific provider",
@@ -6243,7 +6284,7 @@
                 }
             }
         },
-        "/enigma/v1/terminal-payment-instruments/terminals/{terminal_id}": {
+        "/enigma/v1/terminal_payment_instruments/terminals/{terminal_id}": {
             "get": {
                 "tags": ["Terminal Payment Instruments"],
                 "summary": "Get terminal payment instruments for a specific terminal",
@@ -6497,7 +6538,7 @@
                 }
             }
         },
-        "/enigma/v1/terminal-payment-instruments/terminals/{terminal_id}/initialize": {
+        "/enigma/v1/terminal_payment_instruments/terminals/{terminal_id}/initialize": {
             "post": {
                 "tags": ["Terminal Payment Instruments"],
                 "summary": "Initialize terminal payment instruments for a terminal based on a payment type",
@@ -6552,7 +6593,7 @@
                 }
             }
         },
-        "/enigma/v1/terminal-payment-instruments/{terminal_payment_instrument_id}": {
+        "/enigma/v1/terminal_payment_instruments/{terminal_payment_instrument_id}": {
             "get": {
                 "tags": ["Terminal Payment Instruments"],
                 "summary": "Get a single terminal payment instrument by ID",
@@ -7804,6 +7845,49 @@
                 "required": ["data"],
                 "title": "ApiResponse[list[PaymentCategoryItem]]"
             },
+            "ApiResponse_list_Terminal__": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful",
+                        "default": true
+                    },
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/Terminal"
+                        },
+                        "type": "array",
+                        "title": "Data",
+                        "description": "The actual response data if the request was successful"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful"
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[list[Terminal]]"
+            },
             "CurrenciesLink": {
                 "properties": {
                     "codes": {
@@ -8914,14 +8998,7 @@
                         "examples": ["Example Bank"]
                     },
                     "short_name": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Short Name",
                         "description": "Short name or abbreviation",
                         "examples": ["EB"]
@@ -8946,49 +9023,10 @@
                     },
                     "country_code": {
                         "type": "string",
-                        "pattern": "^\\w{2}$",
+                        "pattern": "^[A-Z]{2}$",
                         "title": "Country Code",
-                        "description": "ISO 3166-1 alpha-2 country code",
+                        "description": "Country code",
                         "examples": ["US"]
-                    },
-                    "bic": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Bic",
-                        "description": "SWIFT/BIC code",
-                        "examples": ["EXAMPLBANK"]
-                    },
-                    "tax_id_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Tax Id Number",
-                        "description": "Tax identification number",
-                        "examples": ["123456789"]
-                    },
-                    "registration_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Registration Number",
-                        "description": "Registration number",
-                        "examples": ["REG12345"]
                     },
                     "nspk_member_id": {
                         "anyOf": [
@@ -9002,11 +9040,6 @@
                         "title": "Nspk Member Id",
                         "description": "NSPK member ID (for Russia)",
                         "examples": ["NSPK98765"]
-                    },
-                    "status": {
-                        "$ref": "#/components/schemas/FinancialInstitutionStatus",
-                        "description": "Status of the financial institution",
-                        "default": "ACTIVE"
                     },
                     "meta": {
                         "additionalProperties": true,
@@ -9053,7 +9086,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "country_code", "id", "created_at", "updated_at"],
+                "required": ["name", "short_name", "country_code", "id", "created_at", "updated_at"],
                 "title": "FinancialInstitution"
             },
             "FinancialInstitutionBase": {
@@ -9065,14 +9098,7 @@
                         "examples": ["Example Bank"]
                     },
                     "short_name": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Short Name",
                         "description": "Short name or abbreviation",
                         "examples": ["EB"]
@@ -9097,49 +9123,10 @@
                     },
                     "country_code": {
                         "type": "string",
-                        "pattern": "^\\w{2}$",
+                        "pattern": "^[A-Z]{2}$",
                         "title": "Country Code",
-                        "description": "ISO 3166-1 alpha-2 country code",
+                        "description": "Country code",
                         "examples": ["US"]
-                    },
-                    "bic": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Bic",
-                        "description": "SWIFT/BIC code",
-                        "examples": ["EXAMPLBANK"]
-                    },
-                    "tax_id_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Tax Id Number",
-                        "description": "Tax identification number",
-                        "examples": ["123456789"]
-                    },
-                    "registration_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Registration Number",
-                        "description": "Registration number",
-                        "examples": ["REG12345"]
                     },
                     "nspk_member_id": {
                         "anyOf": [
@@ -9154,11 +9141,6 @@
                         "description": "NSPK member ID (for Russia)",
                         "examples": ["NSPK98765"]
                     },
-                    "status": {
-                        "$ref": "#/components/schemas/FinancialInstitutionStatus",
-                        "description": "Status of the financial institution",
-                        "default": "ACTIVE"
-                    },
                     "meta": {
                         "additionalProperties": true,
                         "type": "object",
@@ -9167,7 +9149,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "country_code"],
+                "required": ["name", "short_name", "country_code"],
                 "title": "FinancialInstitutionBase"
             },
             "FinancialInstitutionCreate": {
@@ -9179,14 +9161,7 @@
                         "examples": ["Example Bank"]
                     },
                     "short_name": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Short Name",
                         "description": "Short name or abbreviation",
                         "examples": ["EB"]
@@ -9211,49 +9186,10 @@
                     },
                     "country_code": {
                         "type": "string",
-                        "pattern": "^\\w{2}$",
+                        "pattern": "^[A-Z]{2}$",
                         "title": "Country Code",
-                        "description": "ISO 3166-1 alpha-2 country code",
+                        "description": "Country code",
                         "examples": ["US"]
-                    },
-                    "bic": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Bic",
-                        "description": "SWIFT/BIC code",
-                        "examples": ["EXAMPLBANK"]
-                    },
-                    "tax_id_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Tax Id Number",
-                        "description": "Tax identification number",
-                        "examples": ["123456789"]
-                    },
-                    "registration_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Registration Number",
-                        "description": "Registration number",
-                        "examples": ["REG12345"]
                     },
                     "nspk_member_id": {
                         "anyOf": [
@@ -9268,11 +9204,6 @@
                         "description": "NSPK member ID (for Russia)",
                         "examples": ["NSPK98765"]
                     },
-                    "status": {
-                        "$ref": "#/components/schemas/FinancialInstitutionStatus",
-                        "description": "Status of the financial institution",
-                        "default": "ACTIVE"
-                    },
                     "meta": {
                         "additionalProperties": true,
                         "type": "object",
@@ -9281,7 +9212,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "country_code"],
+                "required": ["name", "short_name", "country_code"],
                 "title": "FinancialInstitutionCreate"
             },
             "FinancialInstitutionCurrenciesLink": {
@@ -9317,33 +9248,37 @@
                 "required": ["codes"],
                 "title": "FinancialInstitutionPaymentTypesLink"
             },
-            "FinancialInstitutionStatus": {
-                "type": "string",
-                "enum": ["ACTIVE", "INACTIVE", "SUSPENDED"],
-                "title": "FinancialInstitutionStatus"
-            },
             "FinancialInstitutionType": {
                 "type": "string",
-                "enum": ["BANK", "OTHER"],
+                "enum": [
+                    "BANK",
+                    "MICROFINANCE",
+                    "CREDIT_UNION",
+                    "EMI",
+                    "MOBILE_MONEY_OPERATOR",
+                    "PSP",
+                    "PAYMENT_AGGREGATOR",
+                    "REMITTANCE_COMPANY",
+                    "CRYPTO_EXCHANGE",
+                    "OTHER"
+                ],
                 "title": "FinancialInstitutionType"
             },
             "FinancialInstitutionTypeItem": {
                 "properties": {
-                    "name": {
+                    "label": {
                         "type": "string",
-                        "title": "Name",
-                        "description": "Name of the financial institution type",
-                        "examples": ["BANK"]
+                        "title": "Label",
+                        "description": "Human-readable name for UI"
                     },
                     "value": {
                         "type": "string",
                         "title": "Value",
-                        "description": "Value of the financial institution type",
-                        "examples": ["BANK"]
+                        "description": "Enum value used by API / DB"
                     }
                 },
                 "type": "object",
-                "required": ["name", "value"],
+                "required": ["label", "value"],
                 "title": "FinancialInstitutionTypeItem"
             },
             "FinancialInstitutionUpdate": {
@@ -9402,54 +9337,15 @@
                         "anyOf": [
                             {
                                 "type": "string",
-                                "pattern": "^\\w{2}$"
+                                "pattern": "^[A-Z]{2}$"
                             },
                             {
                                 "type": "null"
                             }
                         ],
                         "title": "Country Code",
-                        "description": "ISO 3166-1 alpha-2 country code",
+                        "description": "Country code",
                         "examples": ["US"]
-                    },
-                    "bic": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Bic",
-                        "description": "SWIFT/BIC code",
-                        "examples": ["EXAMPLBANK"]
-                    },
-                    "tax_id_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Tax Id Number",
-                        "description": "Tax identification number",
-                        "examples": ["123456789"]
-                    },
-                    "registration_number": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Registration Number",
-                        "description": "Registration number",
-                        "examples": ["REG12345"]
                     },
                     "nspk_member_id": {
                         "anyOf": [
@@ -9462,18 +9358,7 @@
                         ],
                         "title": "Nspk Member Id",
                         "description": "NSPK member ID (for Russia)",
-                        "examples": ["NSPK98765"]
-                    },
-                    "status": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/FinancialInstitutionStatus"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "Status of the financial institution"
+                        "examples": ["100000000001"]
                     },
                     "meta": {
                         "anyOf": [
@@ -10835,12 +10720,6 @@
             },
             "SystemPaymentInstrument": {
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name",
-                        "description": "Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'.",
-                        "examples": ["MainCardProcessor_USD_Deposit"]
-                    },
                     "payment_type_code": {
                         "type": "string",
                         "title": "Payment Type Code",
@@ -10859,17 +10738,6 @@
                         "title": "Financial Institution Id",
                         "description": "Unique identifier of the associated financial institution.",
                         "examples": ["a1b2c3d4-e5f6-7890-1234-567890abcdef"]
-                    },
-                    "direction": {
-                        "$ref": "#/components/schemas/DirectionType",
-                        "description": "Direction of the payment instrument, e.g., 'deposit' or 'withdraw'.",
-                        "examples": ["deposit"]
-                    },
-                    "status": {
-                        "$ref": "#/components/schemas/SystemPaymentInstrumentStatus",
-                        "description": "Current operational status of the payment instrument.",
-                        "default": "active",
-                        "examples": ["active"]
                     },
                     "description": {
                         "anyOf": [
@@ -10895,6 +10763,12 @@
                                 "region": "US"
                             }
                         ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Unique name for the system payment instrument",
+                        "examples": ["sberbank SBP/RUB"]
                     },
                     "id": {
                         "type": "string",
@@ -10932,11 +10806,10 @@
                 },
                 "type": "object",
                 "required": [
-                    "name",
                     "payment_type_code",
                     "currency_code",
                     "financial_institution_id",
-                    "direction",
+                    "name",
                     "id",
                     "payment_type",
                     "currency",
@@ -10946,82 +10819,8 @@
                 ],
                 "title": "SystemPaymentInstrument"
             },
-            "SystemPaymentInstrumentBase": {
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name",
-                        "description": "Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'.",
-                        "examples": ["MainCardProcessor_USD_Deposit"]
-                    },
-                    "payment_type_code": {
-                        "type": "string",
-                        "title": "Payment Type Code",
-                        "description": "Code of the associated payment type, e.g., 'card2card' or 'sbp'.",
-                        "examples": ["card2card"]
-                    },
-                    "currency_code": {
-                        "type": "string",
-                        "title": "Currency Code",
-                        "description": "Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'.",
-                        "examples": ["USD"]
-                    },
-                    "financial_institution_id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "title": "Financial Institution Id",
-                        "description": "Unique identifier of the associated financial institution.",
-                        "examples": ["a1b2c3d4-e5f6-7890-1234-567890abcdef"]
-                    },
-                    "direction": {
-                        "$ref": "#/components/schemas/DirectionType",
-                        "description": "Direction of the payment instrument, e.g., 'deposit' or 'withdraw'.",
-                        "examples": ["deposit"]
-                    },
-                    "status": {
-                        "$ref": "#/components/schemas/SystemPaymentInstrumentStatus",
-                        "description": "Current operational status of the payment instrument.",
-                        "default": "active",
-                        "examples": ["active"]
-                    },
-                    "description": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Description",
-                        "description": "Optional detailed description of the payment instrument's purpose or configuration.",
-                        "examples": ["Primary instrument for USD card deposits via MainCardProcessor."]
-                    },
-                    "meta": {
-                        "additionalProperties": true,
-                        "type": "object",
-                        "title": "Meta",
-                        "description": "Additional metadata in JSON format, useful for custom configurations or notes.",
-                        "examples": [
-                            {
-                                "processor_id": "proc_001",
-                                "region": "US"
-                            }
-                        ]
-                    }
-                },
-                "type": "object",
-                "required": ["name", "payment_type_code", "currency_code", "financial_institution_id", "direction"],
-                "title": "SystemPaymentInstrumentBase"
-            },
             "SystemPaymentInstrumentCreate": {
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name",
-                        "description": "Unique name for the system payment instrument, e.g., 'MainCardProcessor_USD_Deposit'.",
-                        "examples": ["MainCardProcessor_USD_Deposit"]
-                    },
                     "payment_type_code": {
                         "type": "string",
                         "title": "Payment Type Code",
@@ -11040,17 +10839,6 @@
                         "title": "Financial Institution Id",
                         "description": "Unique identifier of the associated financial institution.",
                         "examples": ["a1b2c3d4-e5f6-7890-1234-567890abcdef"]
-                    },
-                    "direction": {
-                        "$ref": "#/components/schemas/DirectionType",
-                        "description": "Direction of the payment instrument, e.g., 'deposit' or 'withdraw'.",
-                        "examples": ["deposit"]
-                    },
-                    "status": {
-                        "$ref": "#/components/schemas/SystemPaymentInstrumentStatus",
-                        "description": "Current operational status of the payment instrument.",
-                        "default": "active",
-                        "examples": ["active"]
                     },
                     "description": {
                         "anyOf": [
@@ -11079,53 +10867,68 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "payment_type_code", "currency_code", "financial_institution_id", "direction"],
+                "required": ["payment_type_code", "currency_code", "financial_institution_id"],
                 "title": "SystemPaymentInstrumentCreate"
             },
-            "SystemPaymentInstrumentStatus": {
-                "type": "string",
-                "enum": ["active", "inactive", "test_only"],
-                "title": "SystemPaymentInstrumentStatus"
+            "SystemPaymentInstrumentRead": {
+                "properties": {
+                    "payment_type_code": {
+                        "type": "string",
+                        "title": "Payment Type Code",
+                        "description": "Code of the associated payment type, e.g., 'card2card' or 'sbp'.",
+                        "examples": ["card2card"]
+                    },
+                    "currency_code": {
+                        "type": "string",
+                        "title": "Currency Code",
+                        "description": "Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'.",
+                        "examples": ["USD"]
+                    },
+                    "financial_institution_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Financial Institution Id",
+                        "description": "Unique identifier of the associated financial institution.",
+                        "examples": ["a1b2c3d4-e5f6-7890-1234-567890abcdef"]
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description",
+                        "description": "Optional detailed description of the payment instrument's purpose or configuration.",
+                        "examples": ["Primary instrument for USD card deposits via MainCardProcessor."]
+                    },
+                    "meta": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Meta",
+                        "description": "Additional metadata in JSON format, useful for custom configurations or notes.",
+                        "examples": [
+                            {
+                                "processor_id": "proc_001",
+                                "region": "US"
+                            }
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Unique name for the system payment instrument",
+                        "examples": ["sberbank SBP/RUB"]
+                    }
+                },
+                "type": "object",
+                "required": ["payment_type_code", "currency_code", "financial_institution_id", "name"],
+                "title": "SystemPaymentInstrumentRead"
             },
             "SystemPaymentInstrumentUpdate": {
                 "properties": {
-                    "name": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Name",
-                        "description": "New unique name for the system payment instrument.",
-                        "examples": ["UpdatedCardProcessor_USD_Deposit"]
-                    },
-                    "direction": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/DirectionType"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "New direction of the payment instrument.",
-                        "examples": ["withdraw"]
-                    },
-                    "status": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/SystemPaymentInstrumentStatus"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "New operational status of the payment instrument.",
-                        "examples": ["inactive"]
-                    },
                     "description": {
                         "anyOf": [
                             {
@@ -11139,7 +10942,7 @@
                         "description": "Updated detailed description of the payment instrument.",
                         "examples": ["Updated description for primary USD card deposits."]
                     },
-                    "metadata": {
+                    "meta": {
                         "anyOf": [
                             {
                                 "additionalProperties": true,
@@ -11149,7 +10952,7 @@
                                 "type": "null"
                             }
                         ],
-                        "title": "Metadata",
+                        "title": "Meta",
                         "description": "Updated additional metadata in JSON format.",
                         "examples": [
                             {
@@ -11385,6 +11188,11 @@
                         "title": "System Payment Instrument Id",
                         "description": "ID of the system payment instrument"
                     },
+                    "direction": {
+                        "$ref": "#/components/schemas/DirectionType",
+                        "description": "Direction of the payment instrument, e.g., 'deposit' or 'withdraw'.",
+                        "examples": ["deposit"]
+                    },
                     "terminal_payment_type_code": {
                         "anyOf": [
                             {
@@ -11452,7 +11260,7 @@
                         "description": "Related Terminal object"
                     },
                     "system_payment_instrument": {
-                        "$ref": "#/components/schemas/SystemPaymentInstrumentBase",
+                        "$ref": "#/components/schemas/SystemPaymentInstrumentRead",
                         "description": "Related SystemPaymentInstrument object"
                     },
                     "created_at": {
@@ -11474,6 +11282,7 @@
                 "required": [
                     "terminal_id",
                     "system_payment_instrument_id",
+                    "direction",
                     "id",
                     "terminal",
                     "system_payment_instrument",
@@ -11495,6 +11304,11 @@
                         "format": "uuid",
                         "title": "System Payment Instrument Id",
                         "description": "ID of the system payment instrument"
+                    },
+                    "direction": {
+                        "$ref": "#/components/schemas/DirectionType",
+                        "description": "Direction of the payment instrument, e.g., 'deposit' or 'withdraw'.",
+                        "examples": ["deposit"]
                     },
                     "terminal_payment_type_code": {
                         "anyOf": [
@@ -11554,7 +11368,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["terminal_id", "system_payment_instrument_id"],
+                "required": ["terminal_id", "system_payment_instrument_id", "direction"],
                 "title": "TerminalPaymentInstrumentCreate"
             },
             "TerminalPaymentInstrumentStatus": {
@@ -11589,6 +11403,30 @@
                         ],
                         "title": "System Payment Instrument Id",
                         "description": "ID of the system payment instrument"
+                    },
+                    "direction": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/DirectionType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "New direction of the payment instrument.",
+                        "examples": ["withdraw"]
+                    },
+                    "status": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/TerminalPaymentInstrumentStatus"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Status of the terminal payment instrument",
+                        "examples": ["ACTIVE"]
                     },
                     "terminal_payment_type_code": {
                         "anyOf": [
@@ -11646,18 +11484,6 @@
                                 "key": "value"
                             }
                         ]
-                    },
-                    "status": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/TerminalPaymentInstrumentStatus"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "Status of the terminal payment instrument",
-                        "examples": ["ACTIVE"]
                     }
                 },
                 "type": "object",

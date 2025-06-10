@@ -10,7 +10,7 @@ import { DeleteFinancialInstitutionDialog } from "./DeleteFinancialInstitutionDi
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { EditFinancialInstitutionDialog } from "./EditFinancialInstitutionDialog";
-import { FinancialInstitutionActivityBtn } from "../../lists/FinancialInstitution/FinancialInstitutionActivityBtn";
+import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 
 export interface FinancialInstitutionShowProps {
     id: string;
@@ -26,6 +26,9 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
+    const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
+        useFetchFinancialInstitutionTypes();
+
     const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);
     }, []);
@@ -34,7 +37,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
         setEditDialogOpen(prev => !prev);
     }, []);
 
-    if (context.isLoading || !context.record || !data) {
+    if (context.isLoading || !context.record || !data || financialInstitutionTypesLoading) {
         return <Loading />;
     }
 
@@ -42,15 +45,6 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
                 <TextField text={context.record.name} copyValue className="text-neutral-70 dark:text-neutral-30" />
-
-                <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
-                    <FinancialInstitutionActivityBtn
-                        id={context.record.id}
-                        financialInstitutionName={context.record.name}
-                        activityState={context.record.status === "ACTIVE" ? true : false}
-                        isFetching={context.isFetching}
-                    />
-                </div>
             </div>
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
@@ -101,22 +95,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.tax_id_number")}
-                        text={context.record.tax_id_number || ""}
-                        wrap
-                        copyValue
-                    />
-
-                    <TextField
                         label={translate("resources.paymentTools.financialInstitution.fields.nspk_member_id")}
                         text={context.record.nspk_member_id || ""}
-                        wrap
-                        copyValue
-                    />
-
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.registration_number")}
-                        text={context.record.registration_number || ""}
                         wrap
                         copyValue
                     />
@@ -125,9 +105,9 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         label={translate("resources.paymentTools.financialInstitution.fields.institution_type")}
                         text={
                             context.record.institution_type
-                                ? translate(
-                                      `resources.paymentTools.financialInstitution.fields.types.${context.record.institution_type}`
-                                  )
+                                ? financialInstitutionTypes?.find(
+                                      type => type.value === context.record.institution_type
+                                  )?.label || ""
                                 : ""
                         }
                     />
@@ -140,7 +120,17 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         <div className="max-w-auto flex flex-wrap gap-2">
                             {context.record.payment_types && context.record.payment_types?.length > 0 ? (
                                 context.record.payment_types.map(pt => {
-                                    return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                                    console.log(pt);
+
+                                    return (
+                                        <PaymentTypeIcon
+                                            className="h-7 w-7"
+                                            key={pt.code}
+                                            type={pt.code}
+                                            metaIcon={pt.meta?.["icon"] as string}
+                                            tooltip
+                                        />
+                                    );
                                 })
                             ) : (
                                 <span className="title-1">-</span>
@@ -160,11 +150,6 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                                 ? context.record.currencies?.map(item => item.code).join(", ")
                                 : ""
                         }
-                    />
-
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.bic")}
-                        text={context.record.bic || ""}
                     />
                 </div>
 
