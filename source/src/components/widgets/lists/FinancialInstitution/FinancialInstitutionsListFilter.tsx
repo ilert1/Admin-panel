@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import useFinancialInstitutionsListFilter from "./useFinancialInstitutionsListFilter";
-import { FinancialInstitutionType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 
