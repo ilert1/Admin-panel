@@ -69,6 +69,9 @@
             "invalidUrl": "Wrong URL format",
             "errorWhenCreating": "An error occurred while creating mapping"
         },
+        "placeholders": {
+            "name": "Mapping name"
+        },
         "create": "Add mapping",
         "createSuccess": "Mapping created successfully",
         "updateSuccess": "Mapping updated successfully",

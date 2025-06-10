@@ -24,20 +24,31 @@ export const useGetMappingsColumns = () => {
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
         {
-            id: "id",
-            accessorKey: "id",
-            header: "ID",
+            id: "mapping",
+            accessorKey: "mapping",
+            header: translate("resources.callbridge.mapping.mapping"),
             cell: ({ row }) => {
                 return (
-                    <div className="flex flex-col gap-2">
+                    <div>
                         <TextField
-                            text={row.original.name}
+                            text={row.original.name ?? ""}
+                            onClick={
+                                row.original.id
+                                    ? () =>
+                                          openSheet("callbridgeMappings", {
+                                              id: row.original.id ?? ""
+                                          })
+                                    : undefined
+                            }
+                        />
+                        <TextField
+                            text={row.original.id}
+                            copyValue
                             lineClamp
                             linesCount={1}
                             maxWidth="100%"
                             className="text-note-1 text-neutral-70"
                         />
-                        <TextField text={row.original.id} copyValue lineClamp linesCount={1} maxWidth="100%" />
                     </div>
                 );
             }

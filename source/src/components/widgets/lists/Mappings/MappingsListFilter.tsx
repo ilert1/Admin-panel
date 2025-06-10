@@ -60,24 +60,28 @@ export const MappingsListFilter = ({ setCreateMappingClicked }: MappingsListFilt
                             onChange={onNameValueChanged}
                             label={translate("resources.callbridge.mapping.fields.name")}
                             labelSize="title-2"
+                            placeholder={translate("resources.callbridge.mapping.placeholders.name")}
                         />
                         <Input
                             value={descriptionValue}
                             onChange={onDescriptionValueChanged}
                             label={translate("resources.callbridge.mapping.fields.description")}
                             labelSize="title-2"
+                            placeholder={translate("resources.callbridge.mapping.fields.description")}
                         />
                         <Input
                             value={extPathValue}
                             onChange={onExtPathValueChanged}
                             label={translate("resources.callbridge.mapping.fields.ext_path")}
                             labelSize="title-2"
+                            placeholder={translate("resources.callbridge.mapping.placeholders.ext_path")}
                         />
                         <Input
                             value={intPathValue}
                             onChange={onIntPathValueChanged}
                             label={translate("resources.callbridge.mapping.fields.int_path")}
                             labelSize="title-2"
+                            placeholder={translate("resources.callbridge.mapping.fields.int_path")}
                         />
                     </div>
                 </AnimatedContainer>
