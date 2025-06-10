@@ -9,6 +9,7 @@ import { CirclePlus } from "lucide-react";
 import useFinancialInstitutionsListFilter from "./useFinancialInstitutionsListFilter";
 import { FinancialInstitutionType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 
 interface FinancialInstitutionsListFilterProps {
     handleCreateClicked: () => void;
@@ -32,10 +33,12 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         onNameChanged
     } = useFinancialInstitutionsListFilter();
 
+    const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
+        useFetchFinancialInstitutionTypes();
+
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
     const clearDisabled = !name && !shortName && !institutionType && !countryCode && !nspkMemberId;
-    const financialInstitutionTypes = Object.keys(FinancialInstitutionType);
 
     return (
         <div className="mb-4">
@@ -113,7 +116,9 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 onValueChange={value =>
                                     value === "null" ? onInstitutionTypeChanged("") : onInstitutionTypeChanged(value)
                                 }>
-                                <SelectTrigger className="h-[38px] !w-full text-ellipsis">
+                                <SelectTrigger
+                                    disabled={financialInstitutionTypesLoading}
+                                    className="h-[38px] !w-full text-ellipsis">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
                                     />
@@ -124,13 +129,12 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                         <SelectItem value="null">
                                             {translate("resources.transactions.filter.showAll")}
                                         </SelectItem>
-                                        {financialInstitutionTypes.map(el => {
-                                            return (
-                                                <SelectItem key={el} value={el}>
-                                                    {el}
-                                                </SelectItem>
-                                            );
-                                        })}
+
+                                        {financialInstitutionTypes?.map(type => (
+                                            <SelectItem key={type.value} value={type.value}>
+                                                {type.label}
+                                            </SelectItem>
+                                        ))}
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
