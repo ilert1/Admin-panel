@@ -8,6 +8,7 @@
             "ext_path": "External url",
             "target": "Target",
             "int_path": "Internal url",
+            "nats_subject": "NATS subject",
             "description": "Description",
             "created_at": "Created at",
             "callback_url": "Callback URL",

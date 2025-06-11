@@ -154,6 +154,12 @@ export const MappingShow = (props: MappingShowProps) => {
                                 className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
+                                label={translate("resources.callbridge.mapping.fields.nats_subject")}
+                                text={context.record.adapter_nats_subject ?? ""}
+                                copyValue
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
                                 label={translate("resources.callbridge.mapping.fields.created_at")}
                                 text={new Date(context.record.created_at).toLocaleDateString()}
                                 className="text-neutral-70 dark:text-neutral-30"
