@@ -18,7 +18,6 @@ import {
     terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPost,
     terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDelete,
     terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGet,
-    terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet,
     terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete,
     terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPut
 } from "@/api/enigma/terminal/terminal";
@@ -33,12 +32,11 @@ export type TerminalWithId = Terminal & { id: string };
 
 export class TerminalsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalWithId>> {
-        // resource === "${providerName}/terminal"
-        const providerName = resource.split("/")[0];
-        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "verbose_name");
+        const fieldsForSearch = Object.keys(params.filter).filter(
+            item => item === "verbose_name" || item === "provider"
+        );
 
-        const res = await terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet(
-            providerName,
+        const res = await poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet(
             {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
@@ -77,11 +75,13 @@ export class TerminalsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination() {
+    async getListWithoutPagination(searchField?: string[], searchString?: string[]) {
         const res = await poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 1000,
+                ...(searchField && searchField.length > 0 && { searchField }),
+                ...(searchString && searchString.length > 0 && { searchString })
             },
             {
                 headers: {

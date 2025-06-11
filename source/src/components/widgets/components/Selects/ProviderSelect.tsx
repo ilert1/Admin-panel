@@ -12,6 +12,7 @@ export const ProviderSelect = ({
     onChange,
     providers,
     isError,
+    style = "Grey",
     errorMessage,
     disabled,
     placeholder
@@ -26,6 +27,7 @@ export const ProviderSelect = ({
             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
             notFoundMessage={translate("resources.provider.notFoundMessage")}
             isError={isError}
+            style={style}
             errorMessage={errorMessage}
             disabled={disabled}
             placeholder={placeholder}
