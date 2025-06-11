@@ -46,7 +46,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
 
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[providerName]}
+                        filterList={[providerName, terminalName]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}

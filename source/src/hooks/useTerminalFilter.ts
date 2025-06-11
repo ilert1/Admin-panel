@@ -67,12 +67,12 @@ const useTerminalFilter = () => {
     }, 300);
 
     const onProviderChanged = (provider: string) => {
-        setProviderName(provider ? provider : "");
+        setProviderName(provider);
         onPropertySelected(provider, "provider");
     };
 
     const onTerminalChanged = (terminal: string) => {
-        setTerminalName(terminal ? terminal : "");
+        setTerminalName(terminal);
         onPropertySelected(terminal, "verbose_name");
     };
 
