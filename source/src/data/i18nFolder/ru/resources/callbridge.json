@@ -97,7 +97,8 @@
             "mapping_name": "Название маппинга",
             "transaction_id": "ID транзакции",
             "external_order_id": "ID внешней транзации",
-            "createdAtDeliveredAt": "Создано / Доставлено"
+            "createdAt": "Создано",
+            "deliveredAt": "Доставлено"
         },
         "callbacksStatus": {
             "retryCallback": "Повторить",
