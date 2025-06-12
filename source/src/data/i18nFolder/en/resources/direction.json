@@ -42,6 +42,11 @@
         "directionFieldError": "The direction must be selected",
         "currencyFieldError": "The currency must be selected",
         "valueFieldError": "The commission must be a positive number. For example: 0.1",
+        "valueMinError": "Value cannot be less than 0",
+        "valueMaxError": "Value cannot exceed 100%",
+        "valueMustBeFinite": "Value must be a finite number",
+        "valueMaxPrecisionError": "Up to 2 decimal places allowed",
+
         "smallFeeDialog": {
             "title": "Fee amount",
             "lessThenOne": " is less than 1%",

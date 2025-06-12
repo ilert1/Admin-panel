@@ -21,7 +21,7 @@ import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { memo, useState } from "react";
+import { useState } from "react";
 import { SmallFeeDialog } from "./SmallFeeDialog";
 
 enum FeeEnum {
@@ -42,7 +42,7 @@ export interface AddFeeCardProps {
     providerName?: string;
 }
 
-export const AddFeeCard = memo((props: AddFeeCardProps) => {
+export const AddFeeCard = (props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, setFees, variants, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -51,16 +51,28 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
     const data = fetchDictionaries();
     const { isLoading } = useCreateController({ resource });
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
-    const [tempData, setTempData] = useState<z.infer<typeof formSchema> | undefined>(undefined);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [smallDialogOpen, setSmallDialogOpen] = useState(false);
 
     const formSchema = z
         .object({
             currency: z.optional(z.string()),
+            // value: z.coerce
+            //     .number({ message: translate("resources.direction.fees.valueFieldError") })
+            //     .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
             value: z.coerce
-                .number({ message: translate("resources.direction.fees.valueFieldError") })
-                .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
+                .number({
+                    invalid_type_error: translate("resources.direction.fees.valueFieldError"),
+                    required_error: translate("resources.direction.fees.valueFieldError")
+                })
+                .min(0, { message: translate("resources.direction.fees.valueMinError") })
+                .max(100, { message: translate("resources.direction.fees.valueMaxError") })
+                .refine(val => Number.isFinite(val), {
+                    message: translate("resources.direction.fees.valueMustBeFinite")
+                })
+                .refine(val => Number(val.toFixed(2)) === val, {
+                    message: translate("resources.direction.fees.valueMaxPrecisionError")
+                }),
             type: z.custom<IFeeType>(),
             description: z.string(),
             direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
@@ -76,6 +88,7 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
         });
 
     const onSubmit = async () => {
+        const tempData = form.getValues();
         if (!tempData) return;
         setSubmitButtonDisabled(true);
         if (feeType === "inner") {
@@ -124,14 +137,10 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
     };
 
     const onSubmitPreliminary = (data: z.infer<typeof formSchema>) => {
-        setTempData(data);
-
         if (data.value < 1) {
             setSmallDialogOpen(true);
         } else {
-            if (tempData) {
-                onSubmit();
-            }
+            onSubmit();
         }
     };
 
@@ -207,15 +216,18 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
                                     render={({ field, fieldState }) => (
                                         <FormItem className="col-span-2 p-2">
                                             <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    label={translate("resources.direction.fees.feeAmount")}
-                                                    labelSize="note-1"
-                                                    error={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}
-                                                    variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
-                                                />
+                                                <div className="relative">
+                                                    <Input
+                                                        {...field}
+                                                        label={translate("resources.direction.fees.feeAmount")}
+                                                        labelSize="note-1"
+                                                        error={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}
+                                                        variant={InputTypes.GRAY}
+                                                        borderColor="border-neutral-60"
+                                                    />
+                                                    <span className="absolute right-[40px] top-[50%]">%</span>
+                                                </div>
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -369,6 +381,4 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
             <SmallFeeDialog open={smallDialogOpen} onOpenChange={setSmallDialogOpen} onSubmit={onSubmit} />
         </>
     );
-});
-
-AddFeeCard.displayName = "AddFeeCard";
+};
