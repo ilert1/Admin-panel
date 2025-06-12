@@ -126,13 +126,13 @@
         "success": {
             "ACTIVE": "активна",
             "INACTIVE": "деактивирована",
-            "editActivity": "Активность интеграции терминала %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность терминального платежного инструмента %{name} успешно изменена на: %{state}."
         },
-        "createTerminalPaymentInstrument": "Добавить интеграцию терминала",
-        "editingTerminalPaymentInstrument": "Изменение интеграции терминала",
-        "deleteTerminalPaymentInstrument": "Удалить интеграцию терминала?",
+        "createTerminalPaymentInstrument": "Добавить терминальный платежный инструмент",
+        "editingTerminalPaymentInstrument": "Изменение терминального платежного инструмента",
+        "deleteTerminalPaymentInstrument": "Удалить терминальный платежный инструмент?",
         "initInstruments": "Инициализировать инструменты",
-        "terminalPaymentInstrumentInitialized": "Платёжный инструмент терминала успешно инициализирован"
+        "terminalPaymentInstrumentInitialized": "Терминальный платежный инструмент успешно инициализирован"
     },
     "resources.paymentTools.currency": {
         "name": "Валюты"
