@@ -46,7 +46,7 @@ export const ConfirmCloseDialog = (props: ConfirmCloseDialogProps) => {
                                 }}>
                                 {translate("app.ui.actions.save")}
                             </Button>
-                            <Button onClick={() => onOpenChange(false)}>{translate("app.ui.actions.back")}</Button>
+                            <Button onClick={() => onOpenChange(false)}>{translate("app.ui.actions.edit")}</Button>
                             <Button
                                 onClick={() => {
                                     onOpenChange(false);

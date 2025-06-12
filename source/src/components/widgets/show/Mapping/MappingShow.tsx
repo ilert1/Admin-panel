@@ -226,15 +226,15 @@ export const MappingShow = (props: MappingShowProps) => {
                                     <div className="flex flex-col flex-wrap gap-2 md:flex-row">
                                         <Button
                                             onClick={() => {
-                                                setEditAllowedIPsClicked(true);
-                                            }}>
-                                            {translate("resources.callbridge.mapping.fields.whiteListEdit")}
-                                        </Button>
-                                        <Button
-                                            onClick={() => {
                                                 setEditBlockedIPsClicked(true);
                                             }}>
                                             {translate("resources.callbridge.mapping.fields.blackListEdit")}
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                setEditAllowedIPsClicked(true);
+                                            }}>
+                                            {translate("resources.callbridge.mapping.fields.whiteListEdit")}
                                         </Button>
                                     </div>
                                 </div>
