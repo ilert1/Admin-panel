@@ -14,6 +14,7 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { CirclePlus } from "lucide-react";
 import { Input } from "@/components/ui/Input/input";
+import { useRefresh } from "react-admin";
 
 interface TerminalPaymentInstrumentFilterProps {
     terminalPaymentTypes?: PaymentTypeBase[] | undefined;
@@ -48,6 +49,7 @@ export const TerminalPaymentInstrumentFilter = ({
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const terminalsDataProvider = new TerminalPaymentInstrumentsProvider();
     const appToast = useAppToast();
+    const refresh = useRefresh();
 
     const handleInit = async () => {
         try {
@@ -55,6 +57,7 @@ export const TerminalPaymentInstrumentFilter = ({
                 terminalFilterId,
                 terminalPaymentTypes ? terminalPaymentTypes.map(el => el.code) : []
             );
+            refresh();
             appToast(
                 "success",
                 translate("resources.paymentTools.terminalPaymentInstruments.terminalPaymentInstrumentInitialized")
