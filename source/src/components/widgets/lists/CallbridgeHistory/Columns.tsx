@@ -7,12 +7,12 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CallbridgeDataProvider } from "@/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useLocaleState, useRefresh, useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 
 export const useGetCallbridgeHistory = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const [locale] = useLocaleState();
+
     const appToast = useAppToast();
     const refresh = useRefresh();
 
@@ -34,47 +34,54 @@ export const useGetCallbridgeHistory = () => {
         }
     };
 
+    const formatDateTime = (date: Date) => {
+        const pad = (num: number, size = 2) => String(num).padStart(size, "0");
+        if (!date) return "-";
+        return (
+            pad(date.getDate()) +
+            "." +
+            pad(date.getMonth() + 1) +
+            "." +
+            date.getFullYear() +
+            " " +
+            pad(date.getHours()) +
+            ":" +
+            pad(date.getMinutes()) +
+            ":" +
+            pad(date.getSeconds()) +
+            "." +
+            pad(date.getMilliseconds(), 3)
+        );
+    };
+
     const columns: ColumnDef<CallbackHistoryRead>[] = [
         {
-            accessorKey: "created_at",
-            header: translate("resources.transactions.fields.createdAt"),
+            id: "dates",
+            header: () => {
+                return (
+                    <div className="flex flex-col">
+                        <p>{translate("resources.callbridge.history.fields.createdAt")}</p>
+                        <p>{translate("resources.callbridge.history.fields.deliveredAt")}</p>
+                    </div>
+                );
+            },
             cell: ({ row }) => (
                 <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
+                    <p className="text-nowrap">{formatDateTime(new Date(row.original.created_at))}</p>
                     <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
+                        {formatDateTime(new Date(row.original.delivered_at ?? ""))}
                     </p>
                 </>
             )
         },
         {
-            id: "external_path",
-            accessorKey: "external_path",
-            header: translate("resources.callbridge.history.fields.request_url"),
-            cell: ({ row }) => {
-                return (
-                    <TextField text={row.original.request_url} maxWidth="500px" lineClamp linesCount={1} copyValue />
-                );
-            }
-        },
-        {
-            id: "internal_path",
-            accessorKey: "internal_path",
-            header: translate("resources.callbridge.history.fields.original_url"),
-            cell: ({ row }) => {
-                return (
-                    <TextField text={row.original.original_url} maxWidth="100%" lineClamp linesCount={1} copyValue />
-                );
-            }
-        },
-        {
             id: "mapping_id",
             accessorKey: "external_path",
-            header: translate("resources.callbridge.history.fields.mapping_id"),
+            header: translate("resources.callbridge.history.fields.mapping_name"),
             cell: ({ row }) => {
                 return (
                     <TextField
-                        text={row.original.mapping_id}
+                        text={row.original.mapping?.name ?? ""}
                         maxWidth="100%"
                         lineClamp
                         linesCount={1}
@@ -84,6 +91,42 @@ export const useGetCallbridgeHistory = () => {
                         }}
                     />
                 );
+            }
+        },
+        {
+            id: "callback_id",
+            header: translate("resources.callbridge.history.fields.callback_id"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.callback_id} lineClamp linesCount={1} copyValue />;
+            }
+        },
+        {
+            id: "transaction_id",
+            header: translate("resources.callbridge.history.fields.transaction_id"),
+            cell: ({ row }) => {
+                const txId = row.original.transaction_id;
+                return (
+                    <TextField
+                        text={txId ?? ""}
+                        lineClamp
+                        linesCount={1}
+                        copyValue
+                        onClick={
+                            txId
+                                ? () => {
+                                      openSheet("transaction", { id: txId });
+                                  }
+                                : undefined
+                        }
+                    />
+                );
+            }
+        },
+        {
+            id: "external_order_id",
+            header: translate("resources.callbridge.history.fields.external_order_id"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.external_order_id ?? ""} lineClamp linesCount={1} copyValue />;
             }
         },
         {

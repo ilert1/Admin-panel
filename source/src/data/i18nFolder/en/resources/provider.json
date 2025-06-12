@@ -34,6 +34,7 @@
     "resources.provider.deleteProviderQuestion": "Delete provider?",
     "resources.provider.keysCreating": "Test keys creating",
     "resources.provider.realKeysCreating": "Keys generation",
+    "resources.provider.notFoundMessage": "Providers not found.",
     "resources.provider.editingProvider": "Editing provider",
     "resources.provider.creatingProvider": "Creating provider"
 }

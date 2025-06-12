@@ -7,6 +7,7 @@ import { useTranslate } from "react-admin";
 import { NavLink, useLocation } from "react-router-dom";
 import SystemToolsIcon from "@/lib/icons/System_tools.svg?react";
 import TerminalIntegrationsIcon from "@/lib/icons/integrations.svg?react";
+import { ADMIN_PAYMENT_TOOLS_OPEN } from "@/helpers/localStorage";
 
 interface ICustomViewRoute {
     name: string;
@@ -22,35 +23,37 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
     const translate = useTranslate();
     const location = useLocation();
 
-    const [openAccordion, setOpenAccordion] = useState(true);
+    const [openAccordion, setOpenAccordion] = useState(
+        localStorage.getItem(ADMIN_PAYMENT_TOOLS_OPEN) === "true" ? true : false
+    );
 
     const customViewRoutes: ICustomViewRoute = {
-        name: "paymentTools",
+        name: "paymentSettings",
         icon: <Pickaxe />,
         childrens: [
             {
                 name: "currency",
-                path: "/paymentTools/currency",
+                path: "/paymentSettings/currency",
                 icon: <BanknoteIcon />
             },
             {
                 name: "paymentType",
-                path: "/paymentTools/paymentType",
+                path: "/paymentSettings/paymentType",
                 icon: <HandCoins />
             },
             {
                 name: "financialInstitution",
-                path: "/paymentTools/financialInstitution",
+                path: "/paymentSettings/financialInstitution",
                 icon: <Landmark />
             },
             {
                 name: "systemPaymentInstruments",
-                path: "/paymentTools/systemPaymentInstruments",
+                path: "/paymentSettings/systemPaymentInstruments",
                 icon: <SystemToolsIcon className="stroke-current" />
             },
             {
                 name: "terminalPaymentInstruments",
-                path: "/paymentTools/terminalPaymentInstruments",
+                path: "/paymentSettings/terminalPaymentInstruments",
                 icon: <TerminalIntegrationsIcon className="stroke-current" />
             }
         ]
@@ -62,7 +65,10 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <button
-                            onClick={() => setOpenAccordion(!openAccordion)}
+                            onClick={() => {
+                                localStorage.setItem(ADMIN_PAYMENT_TOOLS_OPEN, String(!openAccordion));
+                                setOpenAccordion(!openAccordion);
+                            }}
                             className={`pointer flex w-full items-center justify-between pl-6 text-left transition-colors duration-150 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
@@ -71,7 +77,7 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
 
                                 {showCaptions && (
                                     <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
-                                        {translate(`resources.${customViewRoutes?.name}.name`)}
+                                        {translate(`resources.paymentTools.name`)}
                                     </span>
                                 )}
                             </div>
@@ -112,18 +118,18 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                                     <NavLink
                                         to={customRoute.path}
                                         className={cn(
-                                            "flex items-center gap-3 py-2 pl-4 text-black transition-colors duration-150 animate-in fade-in-0",
+                                            "flex items-center gap-3 py-2 pl-4 leading-normal text-black transition-colors duration-150 animate-in fade-in-0",
                                             showCaptions ? "" : "ml-2",
                                             location.pathname === customRoute.path
                                                 ? "text-controlElements dark:bg-muted [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all dark:[&>svg>path]:stroke-controlElements"
                                                 : "text-black hover:text-controlElements dark:text-neutral-0 dark:hover:bg-muted dark:hover:text-controlElements [&:hover>svg>path]:stroke-controlElements dark:[&:hover>svg>path]:stroke-controlElements [&>svg>path]:stroke-neutral-90 [&>svg>path]:transition-all dark:[&>svg>path]:stroke-neutral-0"
                                         )}>
                                         {customRoute.icon}
-
                                         {showCaptions && (
                                             <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
                                                 {translate(
-                                                    `resources.${customViewRoutes.name}.${customRoute.name}.name`
+                                                    // `resources.${customViewRoutes.name}.${customRoute.name}.name`
+                                                    `resources.paymentTools.${customRoute.name}.name`
                                                 )}
                                             </span>
                                         )}
@@ -138,7 +144,9 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                                     }
                                     sideOffset={12}
                                     side="right">
-                                    {translate(`resources.${customViewRoutes.name}.${customRoute.name}.name`)}
+                                    {/* {translate(`resources.${customViewRoutes.name}.${customRoute.name}.name`)} */}
+                                    {translate(`resources.paymentTools.${customRoute.name}.name`)}
+
                                     <ChevronLeft
                                         className="absolute -left-[13px] top-1.5 text-green-40"
                                         width={20}

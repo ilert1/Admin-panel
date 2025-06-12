@@ -79,6 +79,9 @@ export const EditRetryStatusDialog = (props: EditRetryStatusDialogProps) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
+                onCloseAutoFocus={() => {
+                    setRetryStatus(oldStatuses ? oldStatuses?.join(", ") : "");
+                }}
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[400px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">

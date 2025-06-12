@@ -9,7 +9,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { FinancialInstitutionCreate as IFinancialInstitutionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    FinancialInstitutionType,
+    FinancialInstitutionCreate as IFinancialInstitutionCreate
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Label } from "@/components/ui/label";
 import {
     Select,
@@ -23,10 +26,14 @@ import {
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
-import { FinancialInstitutionProvider, FinancialInstitutionTypes } from "@/data/financialInstitution";
+import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import { CurrenciesDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
+import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
+import { all as AllCountryCodes } from "iso-3166-1";
+import { Country } from "iso-3166-1/dist/iso-3166";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 export interface FinancialInstitutionCreateProps {
     onClose?: () => void;
@@ -48,21 +55,33 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
+    const countryCodes: (Country & { name: string })[] = [
+        {
+            name: "AB - Abhazia",
+            country: "Abhazia",
+            alpha2: "AB",
+            alpha3: "ABH",
+            numeric: "895"
+        },
+        ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
+    ];
+
     const { isLoading: currenciesLoading, data: currencies } = useQuery({
         queryKey: ["currencies"],
         queryFn: async () => await currenciesDataProvider.getListWithoutPagination()
     });
 
+    const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
+        useFetchFinancialInstitutionTypes();
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
         short_name: z.string().trim().optional(),
         legal_name: z.string().trim().optional(),
-        tax_id_number: z.string().trim().optional(),
-        registration_number: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
-        bic: z.string().trim().optional(),
         currencies: z.array(z.string()).optional(),
-        institution_type: z.enum([FinancialInstitutionTypes.BANK, FinancialInstitutionTypes.OTHER]),
+        institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         country_code: z
             .string()
             .regex(/^\w{2}$/, translate("resources.paymentTools.financialInstitution.errors.country_code"))
@@ -78,12 +97,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             country_code: "",
             short_name: "",
             legal_name: "",
-            tax_id_number: "",
-            registration_number: "",
             nspk_member_id: "",
-            bic: "",
             currencies: [],
-            institution_type: FinancialInstitutionTypes.BANK,
+            institution_type: undefined,
             payment_types: [],
             meta: ""
         }
@@ -223,48 +239,6 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                             )}
                         />
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2">
-                            <FormField
-                                control={form.control}
-                                name="tax_id_number"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.tax_id_number"
-                                                )}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="registration_number"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.registration_number"
-                                                )}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-
                         <div className="grid grid-cols-1 sm:grid-cols-3">
                             <FormField
                                 control={form.control}
@@ -289,45 +263,39 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                             <FormField
                                 control={form.control}
                                 name="country_code"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
+                                render={({ field, fieldState }) => {
+                                    return (
+                                        <FormItem className="w-full p-2">
+                                            <Label>
+                                                {translate(
                                                     "resources.paymentTools.financialInstitution.fields.country_code"
                                                 )}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                                            </Label>
 
-                            <FormField
-                                control={form.control}
-                                name="bic"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.bic"
+                                            <PopoverSelect
+                                                variants={countryCodes}
+                                                value={currentCountryCodeName}
+                                                idField="alpha2"
+                                                setIdValue={field.onChange}
+                                                placeholder={translate(
+                                                    "resources.paymentTools.financialInstitution.fields.countryCodePlaceholder"
                                                 )}
+                                                onChange={setCurrentCountryCodeName}
+                                                variantKey="name"
+                                                commandPlaceholder={translate(
+                                                    "app.widgets.multiSelect.searchPlaceholder"
+                                                )}
+                                                notFoundMessage={translate(
+                                                    "resources.paymentTools.countryCodeNotFoundMessage"
+                                                )}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
                                             />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
+                                        </FormItem>
+                                    );
+                                }}
                             />
-                        </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="institution_type"
@@ -342,22 +310,21 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                             <Select value={field.value} onValueChange={field.onChange}>
                                                 <FormControl>
                                                     <SelectTrigger
+                                                        disabled={financialInstitutionTypesLoading}
                                                         variant={SelectType.GRAY}
                                                         isError={fieldState.invalid}
                                                         errorMessage={<FormMessage />}>
-                                                        <SelectValue defaultValue={FinancialInstitutionTypes.BANK} />
+                                                        <SelectValue placeholder={"Bank"} />
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
                                                     <SelectGroup>
-                                                        {Object.keys(FinancialInstitutionTypes).map(type => (
+                                                        {financialInstitutionTypes?.map(type => (
                                                             <SelectItem
-                                                                key={type}
-                                                                value={type}
+                                                                key={type.value}
+                                                                value={type.value}
                                                                 variant={SelectType.GRAY}>
-                                                                {translate(
-                                                                    `resources.paymentTools.financialInstitution.fields.types.${type}`
-                                                                )}
+                                                                {type.label}
                                                             </SelectItem>
                                                         ))}
                                                     </SelectGroup>
@@ -367,7 +334,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                     );
                                 }}
                             />
+                        </div>
 
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="currencies"
@@ -381,23 +350,23 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                     </FormItem>
                                 )}
                             />
-                        </div>
 
-                        <FormField
-                            control={form.control}
-                            name="payment_types"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <PaymentTypeMultiSelect
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            options={allPaymentTypes || []}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="payment_types"
+                                render={({ field }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <PaymentTypeMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={allPaymentTypes || []}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         <FormField
                             control={form.control}

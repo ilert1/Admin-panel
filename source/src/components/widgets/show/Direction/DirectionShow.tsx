@@ -127,7 +127,13 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
                         <TextField
                             label={translate("resources.direction.provider")}
+                            className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                             text={context.record.provider.name}
+                            onClick={() => {
+                                openSheet("provider", {
+                                    id: context.record.provider.name
+                                });
+                            }}
                         />
 
                         <TextField

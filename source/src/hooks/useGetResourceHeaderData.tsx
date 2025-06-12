@@ -41,8 +41,10 @@ export const useGetResourceHeaderData = () => {
                 } else {
                     return getResLabel(`${resourceName[0]}.manage`, permissions);
                 }
-            } else if (resourceName[0] === "callbridge" || resourceName[0] === "paymentTools") {
+            } else if (resourceName[0] === "callbridge") {
                 return getResLabel(`${resourceName[0]}.${resourceName[1]}`);
+            } else if (resourceName[0] === "paymentSettings") {
+                return getResLabel(`paymentTools.${resourceName[1]}`);
             }
 
             return getResLabel(resourceName[0], permissions);

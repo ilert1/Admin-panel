@@ -19,7 +19,14 @@ export const PaymentsTypesShowComponent = (props: PaymentsTypesShowProps) => {
             <div className="flex flex-wrap gap-2">
                 {payment_types && payment_types.length > 0
                     ? payment_types.map(type => {
-                          return <PaymentTypeIcon type={type.code} key={type.code} tooltip />;
+                          return (
+                              <PaymentTypeIcon
+                                  type={type.code}
+                                  key={type.code}
+                                  metaIcon={type.meta?.["icon"] as string}
+                                  tooltip
+                              />
+                          );
                       })
                     : "-"}
             </div>

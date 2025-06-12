@@ -11,12 +11,14 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { PaymentTypeCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CurrenciesLink, PaymentTypeCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch,
     paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
     paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
     paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
     paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
+    paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete,
     paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut
 } from "@/api/enigma/payment-type/payment-type";
 
@@ -24,10 +26,16 @@ export type PaymentTypeWithId = PaymentTypeModel & { id: string };
 
 export class PaymentTypesProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<PaymentTypeWithId>> {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
+            : [];
+
         const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {
                 currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
             },
             {
                 headers: {
@@ -170,7 +178,61 @@ export class PaymentTypesProvider extends IBaseDataProvider {
 
         return Promise.reject();
     }
+    async addCurrencies(params: UpdateParams): Promise<UpdateResult<PaymentTypeWithId>> {
+        const res =
+            await paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch(
+                params.id,
+                params.data as CurrenciesLink,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
 
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.code,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async deleteCurrency(params: UpdateParams & { code: string }): Promise<UpdateResult<PaymentTypeWithId>> {
+        const res =
+            await paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete(
+                params.id,
+                params.code,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.code,
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<PaymentTypeWithId, "id">>> {
         const res = await paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete(params.id, {
             headers: {

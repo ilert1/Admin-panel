@@ -7,13 +7,15 @@ import { TextField } from "@/components/ui/text-field";
 import { EyeIcon } from "lucide-react";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
-import { FinancialInstitutionActivityBtn } from "./FinancialInstitutionActivityBtn";
+import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 
-export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
+export const useGetFinancialInstitutionColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+    const { data: financialInstitutionTypes } = useFetchFinancialInstitutionTypes();
 
     const columns: ColumnDef<FinancialInstitution>[] = [
         {
@@ -25,9 +27,8 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
                     <TextField
                         text={
                             row.original.institution_type
-                                ? translate(
-                                      `resources.paymentTools.financialInstitution.fields.types.${row.original.institution_type}`
-                                  )
+                                ? financialInstitutionTypes?.find(type => type.value === row.original.institution_type)
+                                      ?.label || ""
                                 : ""
                         }
                     />
@@ -37,7 +38,7 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.paymentTools.financialInstitution.fields.nameWithId"),
+            header: translate("resources.paymentTools.financialInstitution.fields.name"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -50,16 +51,6 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
                             }}>
                             {row.original.name}
                         </Button>
-
-                        <TextField
-                            className="text-neutral-70"
-                            wrap
-                            copyValue
-                            lineClamp
-                            linesCount={1}
-                            minWidth="150px"
-                            text={row.original.id || ""}
-                        />
                     </div>
                 );
             }
@@ -96,31 +87,29 @@ export const useGetFinancialInstitutionColumns = ({ isFetching = false }: { isFe
                 return (
                     <div className="max-w-auto flex min-w-28 flex-wrap gap-2">
                         {row.original.payment_types?.map(pt => {
-                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                            return (
+                                <PaymentTypeIcon
+                                    className="h-7 w-7"
+                                    key={pt.code}
+                                    type={pt.code}
+                                    metaIcon={pt.meta?.["icon"] as string}
+                                    tooltip
+                                />
+                            );
                         })}
                     </div>
                 );
             }
         },
         {
+            id: "nspk_code",
+            header: translate("resources.paymentTools.financialInstitution.fields.nspk_member_id"),
+            accessorKey: "nspk_member_id"
+        },
+        {
             id: "country_code",
             accessorKey: "country_code",
             header: translate("resources.paymentTools.financialInstitution.fields.country_code")
-        },
-        {
-            id: "status",
-            accessorKey: "status",
-            header: translate("resources.paymentTools.financialInstitution.fields.status"),
-            cell: ({ row }) => {
-                return (
-                    <FinancialInstitutionActivityBtn
-                        id={row.original.id}
-                        financialInstitutionName={row.original.name}
-                        activityState={row.original.status === "ACTIVE" ? true : false}
-                        isFetching={isFetching}
-                    />
-                );
-            }
         },
         {
             id: "show",

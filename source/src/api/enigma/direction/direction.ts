@@ -8,7 +8,9 @@ import type {
     ApiResponseDirection,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationDirection,
+    ApiResponseOffsetPaginationPaymentTypeModel,
     DirectionCreate,
+    DirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetParams,
     DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetParams,
     DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams,
     DirectionUpdate,
@@ -645,6 +647,60 @@ export const directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDel
 };
 
 /**
+ * Returns a list of payment types that are common across the specified merchant, provider, and terminal. If no parameters are provided, all payment types are returned.
+ * @summary Get available payment types based on merchant, provider, and terminal
+ */
+export type directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse200 = {
+    data: ApiResponseOffsetPaginationPaymentTypeModel;
+    status: 200;
+};
+
+export type directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponseComposite =
+    | directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse200
+    | directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse422;
+
+export type directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse =
+    directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getDirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetUrl = (
+    params?: DirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/available_payment_types?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/available_payment_types`;
+};
+
+export const directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGet = async (
+    params?: DirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetParams,
+    options?: RequestInit
+): Promise<directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse> => {
+    return authFetch<directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse>(
+        getDirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
  * Associates existing payment types with a direction. Skips already linked types.
  * @summary Add payment types to direction
  */
@@ -689,6 +745,53 @@ export const directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirect
         }
     );
 };
+
+/**
+ * Automatically associates all available payment types with a direction based on merchant and terminal intersection.
+ * @summary Automatically add available payment types to direction
+ */
+export type directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse200 =
+    {
+        data: ApiResponseDirection;
+        status: 200;
+    };
+
+export type directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponseComposite =
+
+        | directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse200
+        | directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse422;
+
+export type directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse =
+    directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getDirectionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchUrl =
+    (directionId: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/direction/${directionId}/auto_add_payment_types`;
+    };
+
+export const directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatch =
+    async (
+        directionId: string,
+        options?: RequestInit
+    ): Promise<directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse> => {
+        return authFetch<directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse>(
+            getDirectionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchUrl(
+                directionId
+            ),
+            {
+                ...options,
+                method: "PATCH"
+            }
+        );
+    };
 
 /**
  * Disassociates a payment type from a direction by its code.

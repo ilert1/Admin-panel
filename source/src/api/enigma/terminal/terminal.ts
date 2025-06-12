@@ -6,6 +6,7 @@
  */
 import type {
     ApiResponseListAccountInfo,
+    ApiResponseListTerminal,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationTerminal,
     ApiResponseTerminal,
@@ -71,6 +72,48 @@ export const poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
 ): Promise<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse> => {
     return authFetch<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse>(
         getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
+ * Retrieves a list of unique Terminal entities associated with a specific Merchant ID.
+ * @summary Retrieve Terminals by Merchant ID
+ */
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200 = {
+    data: ApiResponseListTerminal;
+    status: 200;
+};
+
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite =
+    | poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200
+    | poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422;
+
+export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse =
+    poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPoolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl = (
+    merchantId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/by_merchant/${merchantId}`;
+};
+
+export const poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGet = async (
+    merchantId: string,
+    options?: RequestInit
+): Promise<poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse> => {
+    return authFetch<poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse>(
+        getPoolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl(merchantId),
         {
             ...options,
             method: "GET"
@@ -872,6 +915,55 @@ export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderN
                 method: "PATCH",
                 headers: { "Content-Type": "application/json", ...options?.headers },
                 body: JSON.stringify(paymentTypesLink)
+            }
+        );
+    };
+
+/**
+ * Automatically associates all available payment types with a terminal based on its provider's payment types.
+ * @summary Automatically add available payment types to terminal
+ */
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse200 =
+    {
+        data: ApiResponseTerminal;
+        status: 200;
+    };
+
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite =
+
+        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse200
+        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse422;
+
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse =
+    terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchUrl =
+    (providerName: string, terminalId: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auto_add_payment_types`;
+    };
+
+export const terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatch =
+    async (
+        providerName: string,
+        terminalId: string,
+        options?: RequestInit
+    ): Promise<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse> => {
+        return authFetch<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse>(
+            getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchUrl(
+                providerName,
+                terminalId
+            ),
+            {
+                ...options,
+                method: "PATCH"
             }
         );
     };

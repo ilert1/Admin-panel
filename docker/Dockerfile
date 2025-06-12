@@ -1,5 +1,6 @@
 # build
 FROM node:18.18.2-alpine as build
+
 WORKDIR /app
 
 ARG VITE_API_URL
@@ -29,22 +30,27 @@ ENV VITE_MONEYGATE_URL=${VITE_MONEYGATE_URL}
 ENV VITE_TEST_POPUP=${VITE_TEST_POPUP}
 ENV VITE_WALLET_URL=${VITE_WALLET_URL}
 
+COPY ./source/package*.json ./
+RUN npm ci --prefer-offline --no-audit --progress=false
+
 COPY ./source ./
 
-RUN npm install
 RUN npm run build
 
 
 # deploy
 FROM nginx:1.26-alpine
 
-RUN set -ex && \
-    apk add --no-cache tzdata
+RUN set -eux \
+    && apk --no-cache add tzdata bash \
+    && rm -rf /var/cache/apk/*
 
 ENV TZ=Europe/Moscow
 
 COPY ./docker/nginx.conf /etc/nginx/conf.d/default.conf
+
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]

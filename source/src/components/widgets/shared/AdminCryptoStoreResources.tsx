@@ -8,11 +8,21 @@ import {
     WalletLinkedTransactionsIcon
 } from "@/lib/icons/WalletStore";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronLeft, CirclePlus, LockKeyhole, LockKeyholeOpen, Vault, WalletCards } from "lucide-react";
+import {
+    ChevronDown,
+    ChevronLeft,
+    Circle,
+    CirclePlus,
+    LockKeyhole,
+    LockKeyholeOpen,
+    Vault,
+    WalletCards
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { NavLink, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { CRYPTO_STORE_OPEN } from "@/helpers/localStorage";
 
 interface ICustomViewRoute {
     name: string;
@@ -31,7 +41,10 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
     const location = useLocation();
     const { permissions } = usePermissions();
 
-    const [openAccordion, setOpenAccordion] = useState(true);
+    const [openAccordion, setOpenAccordion] = useState(
+        localStorage.getItem(CRYPTO_STORE_OPEN) === "true" ? true : false
+    );
+
     const { data: storageState, isLoading: storageStateLoading } = useQuery({
         queryKey: ["walletStorage"],
         queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal),
@@ -140,7 +153,10 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <button
-                            onClick={() => setOpenAccordion(!openAccordion)}
+                            onClick={() => {
+                                localStorage.setItem(CRYPTO_STORE_OPEN, String(!openAccordion));
+                                setOpenAccordion(!openAccordion);
+                            }}
                             className={`pointer flex items-center pl-6 text-left transition-colors duration-150 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
@@ -151,7 +167,16 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     {translate(`resources.${customViewRoutes?.name}.name`)}
                                 </span>
                             )}
-
+                            {showCaptions && (
+                                <Circle
+                                    className={cn("stroke-transparent", {
+                                        "fill-neutral-50": !storageState?.initiated,
+                                        "fill-yellow-40": storageState?.state === "waiting" && storageState?.initiated,
+                                        "fill-green-50": storageState?.state === "sealed" && storageState?.initiated,
+                                        "fill-red-40": storageState?.state === "unsealed" && storageState?.initiated
+                                    })}
+                                />
+                            )}
                             <ChevronDown
                                 className={`transition-transform ${openAccordion ? "rotate-180" : ""} ${
                                     showCaptions ? "mr-6 w-full max-w-6" : ""
@@ -196,7 +221,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     <NavLink
                                         to={customRoute.path}
                                         className={cn(
-                                            "flex items-center gap-3 py-2 pl-4 transition-colors duration-150 animate-in fade-in-0",
+                                            "flex items-center gap-3 py-2 pl-4 leading-normal transition-colors duration-150 animate-in fade-in-0",
                                             showCaptions ? "" : "ml-2",
                                             location.pathname === customRoute.path
                                                 ? "text-controlElements dark:bg-muted [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all dark:[&>svg>path]:stroke-controlElements"

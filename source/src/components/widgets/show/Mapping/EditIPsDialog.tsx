@@ -251,6 +251,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         } finally {
             onOpenChange(false);
             setSaveButtonDisabled(false);
+            setDeleteButtonDisabled(true);
         }
     };
 
@@ -267,6 +268,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         if (!saveClicked && somethingEdited) {
             setConfirmDialogOpen(true);
         } else {
+            setSaveClicked(false);
             onOpenChange(false);
         }
     };
@@ -276,33 +278,11 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent
                     onInteractOutside={e => dialogCloseFn(e)}
-                    // onCloseAutoFocus={e => dialogCloseFn(e)}
                     onEscapeKeyDown={e => dialogCloseFn(e)}
-                    // onInteractOutside={e => {
-                    //     e.preventDefault();
-                    //     if (!saveClicked && somethingEdited) {
-                    //         setConfirmDialogOpen(true);
-                    //     } else {
-                    //         onOpenChange(false);
-                    //     }
-                    // }}
-                    // onCloseAutoFocus={e => {
-                    //     e.preventDefault();
-                    //     if (!saveClicked && somethingEdited) {
-                    //         setConfirmDialogOpen(true);
-                    //     } else {
-                    //         onOpenChange(false);
-                    //     }
-                    // }}
-                    // onEscapeKeyDown={e => {
-                    //     e.preventDefault();
-                    //     if (!saveClicked && somethingEdited) {
-                    //         setConfirmDialogOpen(true);
-                    //     } else {
-                    //         onOpenChange(false);
-                    //     }
-                    // }}
                     disableOutsideClick
+                    onCloseAutoFocus={() => {
+                        setNewIp("");
+                    }}
                     className="!max-w-[530px] !overflow-x-hidden !overflow-y-hidden bg-muted">
                     <DialogHeader>
                         <DialogTitle className="mb-4 w-full text-center">
@@ -373,9 +353,9 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                 <Button
                                     className="w-full flex-1 sm:w-auto"
                                     variant={"alert"}
-                                    onClick={() => {}}
+                                    onClick={dialogCloseFn}
                                     disabled={saveButtonDisabled}>
-                                    {translate("app.ui.actions.cancel")}
+                                    {translate("app.ui.actions.close")}
                                 </Button>
                             </div>
                         </div>

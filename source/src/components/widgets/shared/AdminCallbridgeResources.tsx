@@ -1,4 +1,5 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ADMIN_CALLBRIDGE_OPEN } from "@/helpers/localStorage";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronLeft, Split, SquareStack, TableProperties } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -21,7 +22,9 @@ export const AdminCallbridgeResources = ({ showCaptions }: { showCaptions: boole
     const location = useLocation();
     const { permissions } = usePermissions();
 
-    const [openAccordion, setOpenAccordion] = useState(true);
+    const [openAccordion, setOpenAccordion] = useState(
+        localStorage.getItem(ADMIN_CALLBRIDGE_OPEN) === "true" ? true : false
+    );
 
     const [customViewRoutes, setCustomViewRoutes] = useState<ICustomViewRoute | null>(null);
 
@@ -55,7 +58,10 @@ export const AdminCallbridgeResources = ({ showCaptions }: { showCaptions: boole
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <button
-                            onClick={() => setOpenAccordion(!openAccordion)}
+                            onClick={() => {
+                                localStorage.setItem(ADMIN_CALLBRIDGE_OPEN, String(!openAccordion));
+                                setOpenAccordion(!openAccordion);
+                            }}
                             className={`pointer flex w-full items-center justify-between pl-6 text-left transition-colors duration-150 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
@@ -105,7 +111,7 @@ export const AdminCallbridgeResources = ({ showCaptions }: { showCaptions: boole
                                     <NavLink
                                         to={customRoute.path}
                                         className={cn(
-                                            "flex items-center gap-3 py-2 pl-4 transition-colors duration-150 animate-in fade-in-0",
+                                            "flex items-center gap-3 py-2 pl-4 leading-normal transition-colors duration-150 animate-in fade-in-0",
                                             showCaptions ? "" : "ml-2",
                                             location.pathname === customRoute.path
                                                 ? "text-controlElements dark:bg-muted [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all dark:[&>svg>path]:stroke-controlElements"

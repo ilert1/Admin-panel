@@ -7,6 +7,7 @@ import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIServic
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
 import useCallbridgeHistoryFilter from "@/hooks/useCallbridgeHistoryFilter";
+import { MappingSelect } from "../../components/Selects/MappingSelect";
 
 export const CallbridgeHistoryListFilter = () => {
     const {
@@ -14,16 +15,23 @@ export const CallbridgeHistoryListFilter = () => {
         status,
         mappingId,
         callbackId,
-        originalUrl,
+        txId,
+        extOrderId,
+        mappings,
+        isLoadingMappings,
         onMappingIdChanged,
         onCallbackIdChanged,
-        onOriginalUrlChanged,
         onStatusChanged,
-        onClearFilters
+        onClearFilters,
+        onTxIdChanged,
+        onExtOrderIdChanged,
+        mappingName,
+        onMappingNameChanged
     } = useCallbridgeHistoryFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !status && !mappingId && !callbackId && !originalUrl;
+
+    const clearDisabled = !status && !mappingId && !callbackId && !txId && !extOrderId;
 
     return (
         <div className="mb-4">
@@ -31,7 +39,7 @@ export const CallbridgeHistoryListFilter = () => {
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[status, mappingId, callbackId, originalUrl]}
+                        filterList={[status, mappingId, callbackId, txId, extOrderId]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -42,26 +50,43 @@ export const CallbridgeHistoryListFilter = () => {
             <AnimatedContainer open={openFiltersClicked}>
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-wrap gap-2 sm:flex-nowrap">
+                        <div className="w-full">
+                            <Label variant={"title-2"}>
+                                {translate("resources.callbridge.history.fields.mapping_name")}
+                            </Label>
+                            <MappingSelect
+                                mappings={mappings ?? []}
+                                value={mappingName}
+                                onChange={onMappingNameChanged}
+                                disabled={isLoadingMappings}
+                                idField="id"
+                                setIdValue={onMappingIdChanged}
+                                placeholder={translate("resources.callbridge.mapping.placeholders.name")}
+                            />
+                        </div>
                         <Input
-                            label={translate("resources.callbridge.history.fields.mapping_id")}
-                            labelSize="title-2"
-                            className="max-w-6C min-w-40"
-                            value={mappingId}
-                            onChange={onMappingIdChanged}
-                        />
-                        <Input
-                            label={translate("resources.callbridge.history.callback_id")}
+                            label={translate("resources.callbridge.history.fields.callback_id")}
                             labelSize="title-2"
                             value={callbackId}
                             onChange={onCallbackIdChanged}
                             className="max-w-6C min-w-40"
+                            placeholder={translate("resources.callbridge.history.fields.callback_id")}
                         />
                         <Input
-                            label={translate("resources.callbridge.history.fields.original_url")}
+                            label={translate("resources.callbridge.history.fields.transaction_id")}
                             labelSize="title-2"
-                            value={originalUrl}
+                            value={txId}
+                            onChange={onTxIdChanged}
                             className="max-w-6C min-w-40"
-                            onChange={onOriginalUrlChanged}
+                            placeholder={translate("resources.callbridge.history.fields.transaction_id")}
+                        />
+                        <Input
+                            label={translate("resources.callbridge.history.fields.external_order_id")}
+                            labelSize="title-2"
+                            value={extOrderId}
+                            onChange={onExtOrderIdChanged}
+                            className="max-w-6C min-w-40"
+                            placeholder={translate("resources.callbridge.history.fields.external_order_id")}
                         />
                     </div>
 

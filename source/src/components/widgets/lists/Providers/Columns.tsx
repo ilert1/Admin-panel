@@ -1,4 +1,4 @@
-import { Button, EditButton, TrashButton } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
@@ -7,27 +7,17 @@ import { useTranslate } from "react-admin";
 import ReloadRoundSvg from "@/lib/icons/reload_round.svg?react";
 import { ProviderWithId } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export const useGetProvidersColumns = () => {
     const translate = useTranslate();
+    const { openSheet } = useSheets();
 
     const [chosenId, setChosenId] = useState("");
     const [chosenProviderName, setChosenProviderName] = useState("");
 
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [confirmKeysCreatingOpen, setConfirmKeysCreatingOpen] = useState(false);
-
-    const handleDeleteClicked = async (id: string) => {
-        setChosenId(id);
-        setDeleteDialogOpen(true);
-    };
-
-    const handleEditClicked = (id: string) => {
-        setChosenId(id);
-        setEditDialogOpen(true);
-    };
 
     const handleClickGenerate = async (id: string, providerName: string) => {
         setChosenId(id);
@@ -39,7 +29,20 @@ export const useGetProvidersColumns = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.provider.fields.name")
+            header: translate("resources.provider.fields.name"),
+            cell: ({ row }) => {
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("provider", {
+                                id: row.original.id
+                            });
+                        }}>
+                        {row.original.name}
+                    </Button>
+                );
+            }
         },
         {
             id: "public_key",
@@ -101,41 +104,33 @@ export const useGetProvidersColumns = () => {
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">
                         {row.original.payment_types?.map(pt => {
-                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                            return (
+                                <PaymentTypeIcon
+                                    className="h-7 w-7"
+                                    key={pt.code}
+                                    type={pt.code}
+                                    metaIcon={pt.meta?.["icon"] as string}
+                                    tooltip
+                                />
+                            );
                         })}
                     </div>
                 );
             }
         },
         {
-            id: "update_field",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.edit")}</div>;
-            },
+            id: "actions",
             cell: ({ row }) => {
-                return <EditButton onClick={() => handleEditClicked(row.original.id)} />;
-            }
-        },
-        {
-            id: "delete_field",
-            header: () => {
-                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
-            },
-            cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.name)} />;
+                return <ShowButton onClick={() => openSheet("provider", { id: row.original.id })} />;
             }
         }
     ];
     return {
         chosenId,
         dialogOpen,
-        deleteDialogOpen,
         columns,
-        editDialogOpen,
         confirmKeysCreatingOpen,
         chosenProviderName,
-        setEditDialogOpen,
-        setDeleteDialogOpen,
         setDialogOpen,
         setConfirmKeysCreatingOpen
     };

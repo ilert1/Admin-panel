@@ -11,32 +11,26 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
 
 interface DeleteProviderDialogProps {
-    open?: boolean;
-    onOpenChange?: (state: boolean) => void;
-    deleteId?: string;
+    open: boolean;
+    onOpenChange: (state: boolean) => void;
+    id: string;
+    onQuickShowOpenChange: (state: boolean) => void;
 }
-export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
+export const DeleteProviderDialog = ({ open, id, onOpenChange, onQuickShowOpenChange }: DeleteProviderDialogProps) => {
     const translate = useTranslate();
-    const { open, deleteId, onOpenChange = () => {} } = props;
     const [deleteOne] = useDelete();
     const refresh = useRefresh();
     const appToast = useAppToast();
 
     const handleDelete = async () => {
-        await deleteOne(
-            "provider",
-            { id: deleteId },
-            {
-                onSuccess: async () => {
-                    appToast("success", translate("app.ui.delete.deletedSuccessfully"));
-                },
-                onError: error => {
-                    if (error instanceof Error) appToast("error", error.message);
-                }
-            }
-        );
-        onOpenChange(false);
-        refresh();
+        try {
+            await deleteOne("provider", { id });
+
+            refresh();
+            onQuickShowOpenChange(false);
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+        }
     };
 
     return (
@@ -46,7 +40,7 @@ export const DeleteProviderDialog = (props: DeleteProviderDialogProps) => {
                     <DialogTitle className="text-center">
                         {translate("resources.provider.deleteProviderQuestion")}
                     </DialogTitle>
-                    <DialogDescription></DialogDescription>
+                    <DialogDescription />
                 </DialogHeader>
                 <DialogFooter>
                     <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-0">

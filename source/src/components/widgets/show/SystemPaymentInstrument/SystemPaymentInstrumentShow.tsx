@@ -1,17 +1,16 @@
 import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TextField } from "@/components/ui/text-field";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useLocale, useTranslate } from "react-admin";
 import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentInstruments/DeleteSystemPaymentInstrumentDialog";
 import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 interface SystemPaymentInstrumentShowProps {
     id: string;
@@ -51,17 +50,6 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center justify-between px-4 md:px-[42px]">
                         <TextField text={context.record.name} copyValue fontSize="title-2" />
-                        <Badge
-                            className={cn("rounded-[20px] px-[12px] py-[6px] !text-title-2 text-white", {
-                                "bg-green-50 hover:bg-green-50": context.record.status === "active",
-                                "bg-red-50 hover:bg-red-50": context.record.status === "inactive",
-                                "bg-extra-2 hover:bg-extra-2": context.record.status === "test_only"
-                            })}
-                            variant="default">
-                            {translate(
-                                `resources.paymentTools.systemPaymentInstruments.statuses.${context.record.status}`
-                            )}
-                        </Badge>
                     </div>
                     <div className="grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
                         <div>
@@ -92,12 +80,24 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             text={context.record.id}
                             copyValue
                         />
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
-                            text={context.record.payment_type_code}
-                            copyValue
-                        />
+
+                        <div>
+                            <Label>
+                                {translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
+                            </Label>
+                            <div className="flex flex-wrap gap-2">
+                                {context.record.payment_type?.meta?.icon ? (
+                                    <img
+                                        src={context.record.payment_type?.meta["icon"]}
+                                        alt="icon"
+                                        className="h-6 w-6 fill-white object-contain"
+                                    />
+                                ) : (
+                                    <PaymentTypeIcon type={context.record.payment_type_code} tooltip />
+                                )}
+                            </div>
+                        </div>
+
                         <TextField
                             fontSize="title-2"
                             label={translate(
@@ -109,11 +109,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             }}
                             copyValue
                         />
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentTools.systemPaymentInstruments.list.direction")}
-                            text={context.record.direction}
-                        />
+
                         <TextField
                             fontSize="title-2"
                             label={translate("resources.paymentTools.systemPaymentInstruments.fields.description")}
@@ -151,7 +147,10 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
             </div>
             <DeleteSystemPaymentInstrumentDialog
                 open={deleteDialogOpen}
-                onOpenChange={setDeleteDialogOpen}
+                onOpenChange={state => {
+                    setDeleteDialogOpen(state);
+                    onOpenChange(state);
+                }}
                 deleteId={context.record?.id}
             />
             <EditPaymentInstrumentDialog

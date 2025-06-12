@@ -154,6 +154,12 @@ export const MappingShow = (props: MappingShowProps) => {
                                 className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
+                                label={translate("resources.callbridge.mapping.fields.nats_subject")}
+                                text={context.record.adapter_nats_subject ?? ""}
+                                copyValue
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                            <TextField
                                 label={translate("resources.callbridge.mapping.fields.created_at")}
                                 text={new Date(context.record.created_at).toLocaleDateString()}
                                 className="text-neutral-70 dark:text-neutral-30"
@@ -220,15 +226,15 @@ export const MappingShow = (props: MappingShowProps) => {
                                     <div className="flex flex-col flex-wrap gap-2 md:flex-row">
                                         <Button
                                             onClick={() => {
-                                                setEditAllowedIPsClicked(true);
-                                            }}>
-                                            {translate("resources.callbridge.mapping.fields.whiteListEdit")}
-                                        </Button>
-                                        <Button
-                                            onClick={() => {
                                                 setEditBlockedIPsClicked(true);
                                             }}>
                                             {translate("resources.callbridge.mapping.fields.blackListEdit")}
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                setEditAllowedIPsClicked(true);
+                                            }}>
+                                            {translate("resources.callbridge.mapping.fields.whiteListEdit")}
                                         </Button>
                                     </div>
                                 </div>

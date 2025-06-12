@@ -3,7 +3,6 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
-import { ProviderWithId } from "@/data/providers";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
@@ -115,8 +114,17 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
             cell: ({ row }) => {
-                const obj: ProviderWithId = row.getValue("provider");
-                return <TextField text={obj.name} wrap />;
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("provider", {
+                                id: row.original.provider.name
+                            });
+                        }}>
+                        {row.original.provider.name}
+                    </Button>
+                );
             }
         },
         {
@@ -158,7 +166,15 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">
                         {row.original.payment_types?.map(pt => {
-                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                            return (
+                                <PaymentTypeIcon
+                                    className="h-7 w-7"
+                                    key={pt.code}
+                                    type={pt.code}
+                                    metaIcon={pt.meta?.["icon"] as string}
+                                    tooltip
+                                />
+                            );
                         })}
                     </div>
                 );

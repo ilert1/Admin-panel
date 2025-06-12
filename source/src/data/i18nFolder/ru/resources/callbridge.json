@@ -8,6 +8,7 @@
             "ext_path": "Внешний путь",
             "target": "Цель",
             "int_path": "Внутренний путь",
+            "nats_subject": "Субъект NATS",
             "description": "Описание",
             "terminal": "Терминал",
 
@@ -64,12 +65,15 @@
             "deactivatePolicy": "Деактивировать политику?",
             "ipAdressListUpdatedSuccessfully": "Список IP адресов успешно обновлен",
             "youHaveUnsavedChanges": "Найдены несохраненные изменения",
-            "saveOrDeleteThem": "Удалить или сохранить их?"
+            "saveOrDeleteThem": "Сохранить их?"
         },
         "errors": {
             "cantBeEmpty": "Поле не может быть пустым",
             "invalidUrl": "Неправильный формат URL",
             "errorWhenCreating": "Произошла ошибка при создании"
+        },
+        "placeholders": {
+            "name": "Название маппинга"
         },
         "create": "Добавить маппинг",
         "createSuccess": "Маппинг успешно создан",
@@ -88,7 +92,13 @@
             "mapping_id": "ID маппинга",
             "created_at": "Дата создания",
             "status": "Статус",
-            "trigger_type": "Тип триггера"
+            "trigger_type": "Тип триггера",
+            "callback_id": "ID коллбека",
+            "mapping_name": "Название маппинга",
+            "transaction_id": "ID транзакции",
+            "external_order_id": "ID внешней транзации",
+            "createdAt": "Создано",
+            "deliveredAt": "Доставлено"
         },
         "callbacksStatus": {
             "retryCallback": "Повторить",
@@ -97,6 +107,7 @@
             "success": "Успех",
             "error": "Ошибка",
             "sync": "Синхронизация"
-        }
+        },
+        "notFoundMessage": "Маппинги не найдены"
     }
 }

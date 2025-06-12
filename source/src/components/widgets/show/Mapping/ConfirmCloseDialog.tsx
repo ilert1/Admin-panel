@@ -7,7 +7,6 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { TextField } from "@/components/ui/text-field";
 import { useTranslate } from "react-admin";
 
 export interface ConfirmCloseDialogProps {
@@ -34,12 +33,7 @@ export const ConfirmCloseDialog = (props: ConfirmCloseDialogProps) => {
                     </span>
                     <DialogDescription />
                     <div>
-                        <div className="flex justify-center">
-                            {/* <TextField
-                                className="!text-title-2"
-                                text={translate("resources.callbridge.mapping.sec_policy_edit.saveOrDeleteThem")}
-                            /> */}
-                        </div>
+                        <div className="flex justify-center"></div>
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
                             <Button
                                 type="submit"
@@ -52,6 +46,7 @@ export const ConfirmCloseDialog = (props: ConfirmCloseDialogProps) => {
                                 }}>
                                 {translate("app.ui.actions.save")}
                             </Button>
+                            <Button onClick={() => onOpenChange(false)}>{translate("app.ui.actions.edit")}</Button>
                             <Button
                                 onClick={() => {
                                     onOpenChange(false);

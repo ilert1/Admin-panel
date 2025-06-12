@@ -3,9 +3,7 @@ import { DataTable } from "@/components/widgets/shared";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { KeysModal } from "../../components/KeysModal";
-import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { useGetProvidersColumns } from "./Columns";
-import { EditProviderDialog } from "./EditProviderDialog";
 import { useState } from "react";
 import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
@@ -31,13 +29,9 @@ export const ProvidersList = () => {
     const {
         chosenId,
         dialogOpen,
-        deleteDialogOpen,
         columns,
-        editDialogOpen,
         confirmKeysCreatingOpen,
         chosenProviderName,
-        setEditDialogOpen,
-        setDeleteDialogOpen,
         setDialogOpen,
         setConfirmKeysCreatingOpen
     } = useGetProvidersColumns();
@@ -64,14 +58,6 @@ export const ProvidersList = () => {
                         />
 
                         <CreateProviderDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
-
-                        <EditProviderDialog id={chosenId} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
-
-                        <DeleteProviderDialog
-                            open={deleteDialogOpen}
-                            onOpenChange={setDeleteDialogOpen}
-                            deleteId={chosenId}
-                        />
 
                         <KeysModal
                             open={dialogOpen}

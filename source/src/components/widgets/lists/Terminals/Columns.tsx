@@ -104,7 +104,17 @@ export const useGetTerminalColumns = () => {
             accessorKey: "provider",
             header: translate("resources.terminals.fields.provider"),
             cell: ({ row }) => {
-                return <TextField text={row.original.provider} />;
+                return (
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("provider", {
+                                id: row.original.provider
+                            });
+                        }}>
+                        {row.original.provider}
+                    </Button>
+                );
             }
         },
         {
@@ -128,9 +138,9 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => {
                 const entries = Object.entries(row.original.fees ?? {});
                 const d1 = entries.find(el => el[1].direction === 1);
-                const payInValue = d1 && `${String((d1[1].value.quantity ?? 0) / (d1[1].value.accuracy ?? 1))}`;
+                const payInValue = d1 && `${String((d1[1].value.quantity ?? 0) * 100 / (d1[1].value.accuracy ?? 1))}`;
                 const d2 = entries.find(el => el[1].direction === 2);
-                const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) / (d2[1].value.accuracy ?? 1))}`;
+                const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) * 100 / (d2[1].value.accuracy ?? 1))}`;
 
                 return (
                     <div className="flex justify-start gap-1">
@@ -221,7 +231,15 @@ export const useGetTerminalColumns = () => {
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">
                         {row.original.payment_types?.map(pt => {
-                            return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" tooltip />;
+                            return (
+                                <PaymentTypeIcon
+                                    className="h-7 w-7"
+                                    key={pt.code}
+                                    type={pt.code}
+                                    metaIcon={pt.meta?.["icon"] as string}
+                                    tooltip
+                                />
+                            );
                         })}
                     </div>
                 );
