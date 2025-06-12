@@ -1,13 +1,13 @@
 import { FeesResource } from "@/data";
 import { useEffect, useRef, useState } from "react";
-import { FeeCard } from "./FeeCard";
-import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
 import { useTranslate } from "react-admin";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { DirectionFees, FeeCreate, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { FeeCard } from "./Fees/ui/FeeCard";
+import { AddFeeCard, FeeType } from "./Fees/ui/AddFeeCard";
 
 interface FeesProps {
     className?: string;

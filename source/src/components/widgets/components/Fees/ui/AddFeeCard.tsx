@@ -21,6 +21,8 @@ import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { memo, useState } from "react";
+import { SmallFeeDialog } from "./SmallFeeDialog";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -40,19 +42,18 @@ export interface AddFeeCardProps {
     providerName?: string;
 }
 
-export const AddFeeCard = (props: AddFeeCardProps) => {
+export const AddFeeCard = memo((props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, setFees, variants, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-
     const appToast = useAppToast();
-
     const feeDataProvider = feesDataProvider({ id, resource, providerName });
     const data = fetchDictionaries();
-
     const { isLoading } = useCreateController({ resource });
-
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
+    const [tempData, setTempData] = useState<z.infer<typeof formSchema> | undefined>(undefined);
+
+    const [smallDialogOpen, setSmallDialogOpen] = useState(false);
 
     const formSchema = z
         .object({
@@ -74,15 +75,17 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             }
         });
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const onSubmit = async () => {
+        if (!tempData) return;
         if (feeType === "inner") {
             if (setFees) {
                 setFees(prev => [
                     ...prev,
                     {
-                        ...data,
-                        type: data.type,
-                        direction: Number(data.direction),
+                        ...tempData,
+                        value: tempData.value / 100,
+                        type: tempData.type,
+                        direction: Number(tempData.direction),
                         recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
                         innerId: new Date().getTime()
                     }
@@ -92,9 +95,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             return;
         }
         const reqData: FeeCreate = {
-            ...data,
-            type: data.type,
-            direction: Number(data.direction),
+            ...tempData,
+            value: tempData.value / 100,
+            type: tempData.type,
+            direction: Number(tempData.direction),
             recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
         };
 
@@ -107,7 +111,24 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 refresh();
                 onOpenChange(false);
             } catch (error) {
-                appToast("error", translate("resources.direction.fees.errorWhenCreating"));
+                if (error instanceof Error) {
+                    appToast("error", error.message);
+                } else {
+                    appToast("error", translate("resources.direction.fees.errorWhenCreating"));
+                }
+            }
+        }
+    };
+
+    const onSubmitPreliminary = (data: z.infer<typeof formSchema>) => {
+        setTempData(data);
+
+        if (data.value < 1) {
+            setSmallDialogOpen(true);
+            return;
+        } else {
+            if (tempData) {
+                onSubmit();
             }
         }
     };
@@ -325,7 +346,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 </form>
             </Form>
             <div className="ml-auto flex w-full space-x-2 p-2 pb-5 md:w-2/5">
-                <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
+                <Button onClick={form.handleSubmit(onSubmitPreliminary)} variant="default" className="flex-1">
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button
@@ -339,6 +360,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     {translate("app.ui.actions.cancel")}
                 </Button>
             </div>
+            <SmallFeeDialog open={smallDialogOpen} onOpenChange={setSmallDialogOpen} onSubmit={onSubmit} />
         </>
     );
-};
+});
+
+AddFeeCard.displayName = "AddFeeCard";

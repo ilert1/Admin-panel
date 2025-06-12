@@ -28,7 +28,7 @@
     "resources.direction.fees": {
         "fees": "Комиссии",
         "accountNumber": "ID счета",
-        "feeAmount": "Размер комиссии",
+        "feeAmount": "Размер комиссии, %",
         "feeType": "Тип комиссии",
         "currency": "Валюта",
         "descr": "Описание",
@@ -41,7 +41,12 @@
 
         "directionFieldError": "Направление обязательно должно быть выбрано",
         "currencyFieldError": "Валюта обязательно должна быть выбрана",
-        "valueFieldError": "Коммиссия должна быть положительным числом, например 0.1"
+        "valueFieldError": "Коммиссия должна быть положительным числом, например 0.1",
+        "smallFeeDialog": {
+            "title": "Размер комиссии",
+            "lessThenOne": " меньше 1%",
+            "save": "Сохранить?"
+        }
     },
     "resources.direction.errors": {
         "name": "У направления обязательно должно быть имя",
