@@ -7,12 +7,11 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CallbridgeDataProvider } from "@/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useLocaleState, useRefresh, useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 
 export const useGetCallbridgeHistory = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const [locale] = useLocaleState();
 
     const appToast = useAppToast();
     const refresh = useRefresh();
@@ -35,27 +34,42 @@ export const useGetCallbridgeHistory = () => {
         }
     };
 
+    const formatDateTime = (date: Date) => {
+        const pad = (num: number, size = 2) => String(num).padStart(size, "0");
+        if (!date) return "-";
+        return (
+            pad(date.getDate()) +
+            "." +
+            pad(date.getMonth() + 1) +
+            "." +
+            date.getFullYear() +
+            " " +
+            pad(date.getHours()) +
+            ":" +
+            pad(date.getMinutes()) +
+            ":" +
+            pad(date.getSeconds()) +
+            "." +
+            pad(date.getMilliseconds(), 3)
+        );
+    };
+
     const columns: ColumnDef<CallbackHistoryRead>[] = [
         {
             id: "dates",
-            header: translate("resources.callbridge.history.fields.createdAtDeliveredAt"),
+            header: () => {
+                return (
+                    <div className="flex flex-col">
+                        <p>{translate("resources.callbridge.history.fields.createdAt")}</p>
+                        <p>{translate("resources.callbridge.history.fields.deliveredAt")}</p>
+                    </div>
+                );
+            },
             cell: ({ row }) => (
                 <>
-                    <p className="text-nowrap">
-                        {new Date(row.original.created_at).toLocaleDateString(locale) +
-                            " " +
-                            new Date(row.original.created_at).toLocaleTimeString(locale) +
-                            "." +
-                            new Date(row.original.created_at).getMilliseconds()}
-                    </p>
+                    <p className="text-nowrap">{formatDateTime(new Date(row.original.created_at))}</p>
                     <p className="text-nowrap text-neutral-70">
-                        {row.original.delivered_at
-                            ? new Date(row.original.delivered_at).toLocaleDateString(locale) +
-                              " " +
-                              new Date(row.original.delivered_at).toLocaleTimeString(locale) +
-                              "." +
-                              new Date(row.original.delivered_at).getMilliseconds()
-                            : "-"}
+                        {formatDateTime(new Date(row.original.delivered_at ?? ""))}
                     </p>
                 </>
             )
