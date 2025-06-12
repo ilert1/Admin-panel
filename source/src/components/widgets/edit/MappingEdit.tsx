@@ -129,7 +129,7 @@ export const MappingEdit = (props: MappingEditProps) => {
                                             <Input
                                                 {...field}
                                                 variant={InputTypes.GRAY}
-                                                label={translate("resources.callbridge.mapping.fields.ext_path")}
+                                                label={translate("resources.callbridge.mapping.fields.int_path")}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                             />
@@ -146,7 +146,7 @@ export const MappingEdit = (props: MappingEditProps) => {
                                             <Input
                                                 {...field}
                                                 variant={InputTypes.GRAY}
-                                                label={translate("resources.callbridge.mapping.fields.int_path")}
+                                                label={translate("resources.callbridge.mapping.fields.ext_path")}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                             />
