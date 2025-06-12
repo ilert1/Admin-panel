@@ -70,7 +70,6 @@ export const useGetMerchantColumns = () => {
             },
             cell: ({ row }) => {
                 const entries = Object.entries(row.original.fees ?? {});
-                console.log(entries);
                 const d1 = entries.find(el => el[1].direction === 1);
                 const payInValue = d1 && `${String(((d1[1].value.quantity ?? 0) * 100) / (d1[1].value.accuracy ?? 1))}`;
                 const d2 = entries.find(el => el[1].direction === 2);

@@ -52,7 +52,7 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
     const { isLoading } = useCreateController({ resource });
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
     const [tempData, setTempData] = useState<z.infer<typeof formSchema> | undefined>(undefined);
-
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [smallDialogOpen, setSmallDialogOpen] = useState(false);
 
     const formSchema = z
@@ -77,6 +77,7 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
 
     const onSubmit = async () => {
         if (!tempData) return;
+        setSubmitButtonDisabled(true);
         if (feeType === "inner") {
             if (setFees) {
                 setFees(prev => [
@@ -118,6 +119,8 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
                 }
             }
         }
+
+        setSubmitButtonDisabled(false);
     };
 
     const onSubmitPreliminary = (data: z.infer<typeof formSchema>) => {
@@ -125,7 +128,6 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
 
         if (data.value < 1) {
             setSmallDialogOpen(true);
-            return;
         } else {
             if (tempData) {
                 onSubmit();
@@ -346,7 +348,11 @@ export const AddFeeCard = memo((props: AddFeeCardProps) => {
                 </form>
             </Form>
             <div className="ml-auto flex w-full space-x-2 p-2 pb-5 md:w-2/5">
-                <Button onClick={form.handleSubmit(onSubmitPreliminary)} variant="default" className="flex-1">
+                <Button
+                    onClick={form.handleSubmit(onSubmitPreliminary)}
+                    variant="default"
+                    className="flex-1"
+                    disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button
