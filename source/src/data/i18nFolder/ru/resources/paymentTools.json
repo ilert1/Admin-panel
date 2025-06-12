@@ -145,7 +145,7 @@
         "success": {
             "ACTIVE": "активна",
             "INACTIVE": "деактивирована",
-            "editActivity": "Активность интегарций терминала %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность терминального платежного инструмента %{name} успешно изменена на: %{state}."
         },
         "createTerminalPaymentInstrument": "Добавить инструмент",
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",
