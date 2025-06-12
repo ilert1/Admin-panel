@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useRefresh } from "react-admin";
 
 interface TerminalPaymentInstrumentFilterProps {
     selectProvider: React.Dispatch<React.SetStateAction<string>>;
@@ -34,6 +35,7 @@ export const TerminalPaymentInstrumentFilter = ({
 
     const terminalsDataProvider = new TerminalPaymentInstrumentsProvider();
     const appToast = useAppToast();
+    const refresh = useRefresh();
 
     const handleInit = async () => {
         try {
@@ -41,6 +43,7 @@ export const TerminalPaymentInstrumentFilter = ({
                 termId,
                 terminalPaymentTypes ? terminalPaymentTypes.map(el => el.code) : []
             );
+            refresh();
             appToast(
                 "success",
                 translate("resources.paymentTools.terminalPaymentInstruments.terminalPaymentInstrumentInitialized")
