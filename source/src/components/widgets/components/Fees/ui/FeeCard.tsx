@@ -94,7 +94,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
                             labelSize="text-xs"
                         />
                         <TextField
-                            text={String(feeAmount * 100)}
+                            text={String(parseFloat((feeAmount * 100).toFixed(2)))}
                             label={translate("resources.direction.fees.feeAmount")}
                             labelSize="text-xs"
                         />

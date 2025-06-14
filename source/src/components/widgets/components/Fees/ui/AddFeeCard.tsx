@@ -97,7 +97,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     ...prev,
                     {
                         ...tempData,
-                        value: tempData.value / 100,
+                        value: (tempData.value / 100).toFixed(4),
                         type: tempData.type,
                         direction: Number(tempData.direction),
                         recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
@@ -110,7 +110,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         }
         const reqData: FeeCreate = {
             ...tempData,
-            value: tempData.value / 100,
+            value: (tempData.value / 100).toFixed(4),
             type: tempData.type,
             direction: Number(tempData.direction),
             recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
