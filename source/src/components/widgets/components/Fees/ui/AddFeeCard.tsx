@@ -23,6 +23,7 @@ import { FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPISe
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { SmallFeeDialog } from "./SmallFeeDialog";
+import Big from "big.js";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -90,6 +91,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const onSubmit = async () => {
         const tempData = form.getValues();
         if (!tempData) return;
+
+        const accurateFeeAmount = new Big(tempData.value).div(100).toString();
+        
         setSubmitButtonDisabled(true);
         if (feeType === "inner") {
             if (setFees) {
@@ -97,7 +101,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     ...prev,
                     {
                         ...tempData,
-                        value: (tempData.value / 100).toFixed(4),
+                        value: accurateFeeAmount,
                         type: tempData.type,
                         direction: Number(tempData.direction),
                         recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
@@ -110,7 +114,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         }
         const reqData: FeeCreate = {
             ...tempData,
-            value: (tempData.value / 100).toFixed(4),
+            value: accurateFeeAmount,
             type: tempData.type,
             direction: Number(tempData.direction),
             recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
