@@ -60,8 +60,8 @@ export const useGetCallbridgeHistory = () => {
             header: () => {
                 return (
                     <div className="flex flex-col">
-                        <p>{translate("resources.callbridge.history.fields.createdAt")}</p>
-                        <p>{translate("resources.callbridge.history.fields.deliveredAt")}</p>
+                        <p className="text-base">{translate("resources.callbridge.history.fields.createdAt")}</p>
+                        <p className="text-base">{translate("resources.callbridge.history.fields.deliveredAt")}</p>
                     </div>
                 );
             },
