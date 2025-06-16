@@ -1,62 +1,104 @@
-import { UIEvent, useEffect, useMemo } from "react";
-import { useTranslate } from "react-admin";
-import { useAbortableInfiniteGetList } from "./useAbortableInfiniteGetList";
-import { ProviderWithId } from "@/data/providers";
+import { useEffect, useMemo, useState } from "react";
+import { useListContext, useTranslate } from "react-admin";
+import { ProvidersDataProvider } from "@/data/providers";
+import { debounce } from "lodash";
+import { useQuery } from "@tanstack/react-query";
+import { TerminalsDataProvider } from "@/data";
 
-const useTerminalFilter = ({
-    selectProvider = () => {}
-}: {
-    selectProvider: React.Dispatch<React.SetStateAction<string>>;
-}) => {
-    const {
-        data: providersData,
-        isFetchingNextPage,
-        hasNextPage,
-        isFetching,
-        isFetched,
-        fetchNextPage: providersNextPage
-    } = useAbortableInfiniteGetList<ProviderWithId>("provider", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
-
+const useTerminalFilter = () => {
+    const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const providersDataProvider = new ProvidersDataProvider();
+    const terminalsDataProvider = new TerminalsDataProvider();
     const translate = useTranslate();
 
-    const providersLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
+    const [providerName, setProviderName] = useState(filterValues?.provider || "");
+    const [terminalName, setTerminalName] = useState(filterValues?.verbose_name || "");
 
-    const onProviderChanged = (provider: string) => {
-        localStorage.setItem("providerInTerminals", provider);
-        selectProvider(provider);
-    };
+    const {
+        data: providersData,
+        isLoading: isProvidersLoading,
+        isFetching: isProvidersFetching
+    } = useQuery({
+        queryKey: ["providers", "filter"],
+        queryFn: () => providersDataProvider.getListWithoutPagination(),
+        select: data => data.data
+    });
+
+    const {
+        data: terminalsData,
+        isLoading: isTerminalsLoading,
+        isFetching: isTerminalsFetching,
+        refetch: refetchTerminalsData
+    } = useQuery({
+        queryKey: ["terminals", "filter"],
+        queryFn: () => {
+            if (!providerName) {
+                return terminalsDataProvider.getListWithoutPagination();
+            }
+
+            return terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]);
+        },
+        select: data => data.data
+    });
 
     useEffect(() => {
-        const previousProvider = localStorage.getItem("providerInTerminals");
-
-        if (
-            previousProvider &&
-            isFetched &&
-            providersData?.pages.find(providerItem => providerItem.data.find(item => item.name === previousProvider))
-        ) {
-            selectProvider(previousProvider);
-        }
+        refetchTerminalsData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [providersLoadingProcess, providersData?.pages]);
+    }, [providerName]);
 
-    const providerScrollHandler = async (e: UIEvent<HTMLDivElement>) => {
-        const target = e.target as HTMLElement;
+    const providersLoadingProcess = useMemo(
+        () => isProvidersLoading || isProvidersFetching,
+        [isProvidersFetching, isProvidersLoading]
+    );
 
-        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
-            providersNextPage();
+    const terminalsLoadingProcess = useMemo(
+        () => isTerminalsLoading || isTerminalsFetching,
+        [isTerminalsFetching, isTerminalsLoading]
+    );
+
+    const onPropertySelected = debounce((value: string, type: "verbose_name" | "provider") => {
+        if (value && type === "provider" && terminalName) {
+            setTerminalName("");
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { verbose_name, ...newFilterValues } = filterValues;
+            setFilters({ ...newFilterValues, [type]: value }, displayedFilters, true);
+        } else if (value) {
+            setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
+        } else {
+            Reflect.deleteProperty(filterValues, type);
+            setFilters(filterValues, displayedFilters, true);
         }
+        setPage(1);
+    }, 300);
+
+    const onProviderChanged = (provider: string) => {
+        setProviderName(provider);
+        onPropertySelected(provider, "provider");
+    };
+
+    const onTerminalChanged = (terminal: string) => {
+        setTerminalName(terminal);
+        onPropertySelected(terminal, "verbose_name");
+    };
+
+    const onClearFilters = () => {
+        setFilters({}, displayedFilters, true);
+        setPage(1);
+        setProviderName("");
+        setTerminalName("");
     };
 
     return {
-        providersData,
-        isFetching,
-        providersLoadingProcess,
+        providerName,
         onProviderChanged,
+        terminalName,
+        onTerminalChanged,
+        providersData,
+        providersLoadingProcess,
+        terminalsData,
+        terminalsLoadingProcess,
         translate,
-        providerScrollHandler
+        onClearFilters
     };
 };
 

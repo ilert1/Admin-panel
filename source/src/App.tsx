@@ -83,7 +83,7 @@ const dataProvider = combineDataProviders(resource => {
         return new MerchantsDataProvider();
     } else if (resource === "provider") {
         return new ProvidersDataProvider();
-    } else if (resource?.endsWith("/terminal")) {
+    } else if (resource === "terminals" || resource?.endsWith("/terminal")) {
         return new TerminalsDataProvider();
     } else if (resource === "direction") {
         return new DirectionsDataProvider();

@@ -22,6 +22,7 @@
         "filterByName": "Terminal"
     },
     "resources.terminals.errors": {
+        "provider": "The terminal must have a provider",
         "verbose_name": "The terminal must have a name",
         "description": "The terminal must have a description",
         "auth_data_toggle": "To switch the mode, fix the errors",
