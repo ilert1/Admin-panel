@@ -1,9 +1,8 @@
 import { ListContextProvider } from "react-admin";
 import { useState } from "react";
 import { CreateTerminalDialog } from "./CreateTerminalDialog";
-
 import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
-import { TerminalsListFilter } from "./TerminalsListFilter/TerminalsListFilter";
+import { TerminalsListFilter } from "./TerminalsListFilter";
 import { useGetTerminalColumns } from "./Columns";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { LoadingBlock } from "@/components/ui/loading";
