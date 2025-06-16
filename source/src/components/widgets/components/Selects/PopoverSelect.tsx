@@ -51,13 +51,19 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     } = props;
     const [open, setOpen] = useState(false);
 
+    const handleTogglePopover = () => {
+        setOpen(prev => !prev);
+    };
+
     return (
-        <Popover modal={true} open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild className="mt-0" disabled={disabled}>
                 <Button
                     variant={"outline_gray"}
                     role="combobox"
-                    aria-expanded={open}
+                    onClick={handleTogglePopover}
+                    // aria-expanded={open}
+                    // onClick={handleTogglePopover}
                     className={cn(
                         style === "Black"
                             ? "bg-black hover:!bg-white hover:dark:!bg-black"
@@ -109,7 +115,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     </div>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+            <PopoverContent className="w-[--radix-popover-trigger-width] p-0" onEscapeKeyDown={() => setOpen(false)}>
                 <Command>
                     <CommandInput placeholder={commandPlaceholder} />
                     <CommandList>
