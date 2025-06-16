@@ -8,6 +8,7 @@
             "ext_path": "Внешний путь",
             "target": "Цель",
             "int_path": "Внутренний путь",
+            "nats_subject": "Субъект NATS",
             "description": "Описание",
             "terminal": "Терминал",
 
@@ -96,7 +97,8 @@
             "mapping_name": "Название маппинга",
             "transaction_id": "ID транзакции",
             "external_order_id": "ID внешней транзации",
-            "createdAtDeliveredAt": "Создано / Доставлено"
+            "createdAt": "Создано",
+            "deliveredAt": "Доставлено"
         },
         "callbacksStatus": {
             "retryCallback": "Повторить",
