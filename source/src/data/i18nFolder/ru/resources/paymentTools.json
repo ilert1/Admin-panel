@@ -123,7 +123,9 @@
         "creatingPaymentInstrument": "Создание системного платёжного инструмента",
         "editingPaymentInstrument": "Изменение системного платёжного инструмента",
         "createNew": "Добавить инструмент",
-        "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?"
+        "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?",
+        "chooseFinInstitution": "Выберите финансовый институт",
+        "noAvailablePaymentTypes": "Нет доступных платёжных типов"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
         "name": "Терминальные платёжные инструменты",

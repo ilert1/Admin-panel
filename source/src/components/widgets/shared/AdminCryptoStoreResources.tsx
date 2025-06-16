@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import {
     ChevronDown,
     ChevronLeft,
-    Circle,
+    // Circle,
     CirclePlus,
     LockKeyhole,
     LockKeyholeOpen,
@@ -100,7 +100,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const CurrentStateIcon = () => {
+    const CurrentStateIcon = (className?: string) => {
         if (storageStateLoading) {
             return <LoadingBalance className="ml-auto mr-5 h-6 w-6" />;
         }
@@ -108,41 +108,45 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
         if (!storageState?.initiated) {
             return (
                 <CirclePlus
-                    className={
+                    className={cn(
                         showCaptions
                             ? "ml-auto mr-5 w-full max-w-6 text-controlElements [&>path]:!stroke-controlElements"
-                            : "text-controlElements [&>path]:!stroke-controlElements"
-                    }
+                            : "text-controlElements [&>path]:!stroke-controlElements",
+                        className
+                    )}
                 />
             );
         } else if (storageState?.state === "sealed" && storageState?.initiated) {
             return (
                 <LockKeyhole
-                    className={
+                    className={cn(
                         showCaptions
                             ? "ml-auto mr-5 w-full max-w-6 text-controlElements [&>path]:!stroke-controlElements"
-                            : "text-controlElements [&>path]:!stroke-controlElements"
-                    }
+                            : "text-controlElements [&>path]:!stroke-controlElements",
+                        className
+                    )}
                 />
             );
         } else if (storageState?.state === "unsealed" && storageState?.initiated) {
             return (
                 <LockKeyholeOpen
-                    className={
+                    className={cn(
                         showCaptions
                             ? "ml-auto mr-5 w-full max-w-6 text-red-40 [&>path]:!stroke-red-40"
-                            : "text-red-40 [&>path]:!stroke-red-40"
-                    }
+                            : "text-red-40 [&>path]:!stroke-red-40",
+                        className
+                    )}
                 />
             );
         } else if (storageState?.state === "waiting" && storageState?.initiated) {
             return (
                 <RearLockKeyhole
-                    className={
+                    className={cn(
                         showCaptions
                             ? "ml-auto mr-5 w-full max-w-6 text-yellow-40 [&>path]:!stroke-yellow-40"
-                            : "text-yellow-40 [&>path]:!stroke-yellow-40"
-                    }
+                            : "text-yellow-40 [&>path]:!stroke-yellow-40",
+                        className
+                    )}
                 />
             );
         }
@@ -167,16 +171,16 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     {translate(`resources.${customViewRoutes?.name}.name`)}
                                 </span>
                             )}
-                            {showCaptions && (
-                                <Circle
-                                    className={cn("stroke-transparent", {
-                                        "fill-neutral-50": !storageState?.initiated,
-                                        "fill-yellow-40": storageState?.state === "waiting" && storageState?.initiated,
-                                        "fill-green-50": storageState?.state === "sealed" && storageState?.initiated,
-                                        "fill-red-40": storageState?.state === "unsealed" && storageState?.initiated
-                                    })}
-                                />
-                            )}
+                            {showCaptions &&
+                                // <Circle
+                                //     className={cn("stroke-transparent", {
+                                //         "fill-neutral-50": !storageState?.initiated,
+                                //         "fill-yellow-40": storageState?.state === "waiting" && storageState?.initiated,
+                                //         "fill-green-50": storageState?.state === "sealed" && storageState?.initiated,
+                                //         "fill-red-40": storageState?.state === "unsealed" && storageState?.initiated
+                                //     })}
+                                // />
+                                CurrentStateIcon("w-5 h-5 mr-0")}
                             <ChevronDown
                                 className={`transition-transform ${openAccordion ? "rotate-180" : ""} ${
                                     showCaptions ? "mr-6 w-full max-w-6" : ""
@@ -236,7 +240,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                             </span>
                                         )}
 
-                                        {customRoute.showLock && permissions === "admin" && <CurrentStateIcon />}
+                                        {customRoute.showLock && permissions === "admin" && CurrentStateIcon()}
                                     </NavLink>
                                 </TooltipTrigger>
 

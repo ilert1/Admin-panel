@@ -43,14 +43,12 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
     const financialInstitutionProvider = new FinancialInstitutionProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
-
     const { theme } = useTheme();
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
-
     const [hasErrors, setHasErrors] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
