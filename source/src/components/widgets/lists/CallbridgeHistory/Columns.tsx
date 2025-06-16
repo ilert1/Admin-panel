@@ -71,7 +71,7 @@ export const useGetCallbridgeHistory = () => {
                 <>
                     <p className="text-nowrap">{formatDateTime(new Date(row.original.created_at))}</p>
                     <p className="text-nowrap text-neutral-70">
-                        {formatDateTime(new Date(row.original.delivered_at ?? ""))}
+                        {row.original.delivered_at ? formatDateTime(new Date(row.original.delivered_at)) : "-"}
                     </p>
                 </>
             )
