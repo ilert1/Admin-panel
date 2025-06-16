@@ -56,7 +56,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                         signal: params.signal || params.filter?.signal
                     }
                 );
-        } else if (params.filter.provider && params.filter.provider !== "Show All") {
+        } else if (params.filter.provider) {
             res =
                 await terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet(
                     params.filter.provider,

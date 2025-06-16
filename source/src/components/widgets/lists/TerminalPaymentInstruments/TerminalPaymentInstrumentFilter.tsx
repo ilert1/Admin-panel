@@ -1,7 +1,4 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LoadingBalance } from "@/components/ui/loading";
 import { Label } from "@/components/ui/label";
-import { TerminalSelectFilter } from "../Terminals/TerminalsListFilter/TerminalSelectFilter";
 import useTerminalPaymentInstrumentFilter from "./useTerminalPaymentInstrumentFilter";
 import { Button } from "@/components/ui/Button";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
@@ -15,6 +12,8 @@ import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { CirclePlus } from "lucide-react";
 import { Input } from "@/components/ui/Input/input";
 import { useRefresh } from "react-admin";
+import { ProviderSelect } from "../../components/Selects/ProviderSelect";
+import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 
 interface TerminalPaymentInstrumentFilterProps {
     terminalPaymentTypes?: PaymentTypeBase[] | undefined;
@@ -27,23 +26,23 @@ export const TerminalPaymentInstrumentFilter = ({
 }: TerminalPaymentInstrumentFilterProps) => {
     const {
         providersData,
-        isFetching,
         providersLoadingProcess,
         onClearFilters,
         onProviderChanged,
         translate,
-        providerScrollHandler,
         terminalPaymentTypeCode,
         terminalCurrencyCode,
         terminalFinancialInstitutionCode,
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
-        currentProvider,
+        terminalsLoadingProcess,
+        providerName,
         terminalFilterName,
+        terminalsData,
         terminalFilterId,
-        onTerminalIdFieldChanged,
-        onTerminalNameChanged
+        onTerminalNameChanged,
+        onTerminalIdFieldChanged
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -70,7 +69,7 @@ export const TerminalPaymentInstrumentFilter = ({
     };
 
     const clearDisabled =
-        !currentProvider &&
+        !providerName &&
         !terminalFilterId &&
         !terminalPaymentTypeCode &&
         !terminalCurrencyCode &&
@@ -85,7 +84,7 @@ export const TerminalPaymentInstrumentFilter = ({
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
                         filterList={[
-                            currentProvider,
+                            providerName,
                             terminalFilterId,
                             terminalPaymentTypeCode,
                             terminalCurrencyCode,
@@ -118,44 +117,13 @@ export const TerminalPaymentInstrumentFilter = ({
                                 {translate("resources.terminals.selectHeader")}
                             </Label>
 
-                            <Select
-                                onValueChange={(val: string) => {
-                                    if (val !== "Show All") {
-                                        onProviderChanged(val);
-                                    } else {
-                                        onProviderChanged("");
-                                    }
-                                }}
-                                value={currentProvider}>
-                                <SelectTrigger className="text-ellipsis">
-                                    <SelectValue placeholder={translate("resources.terminals.selectPlaceholder")} />
-                                </SelectTrigger>
-
-                                <SelectContent align="start" onScrollCapture={providerScrollHandler}>
-                                    <SelectItem key={"Show all"} value={"Show All"}>
-                                        <p className="max-w-36 truncate">
-                                            {translate("resources.transactions.filter.showAll")}
-                                        </p>
-                                    </SelectItem>
-
-                                    {providersData?.pages.map(page => {
-                                        return page.data.map(provider => (
-                                            <SelectItem key={provider.name} value={provider.name}>
-                                                <p className="max-w-36 truncate">{provider.name}</p>
-                                            </SelectItem>
-                                        ));
-                                    })}
-
-                                    {(providersLoadingProcess ||
-                                        (!providersLoadingProcess && isFetching && !providersData)) && (
-                                        <SelectItem value="null" disabled className="h-8">
-                                            <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center">
-                                                <LoadingBalance className="h-[20px] w-[20px] overflow-hidden" />
-                                            </div>
-                                        </SelectItem>
-                                    )}
-                                </SelectContent>
-                            </Select>
+                            <ProviderSelect
+                                style="Black"
+                                providers={providersData || []}
+                                value={providerName}
+                                onChange={onProviderChanged}
+                                disabled={providersLoadingProcess}
+                            />
                         </div>
 
                         <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]">
@@ -163,22 +131,23 @@ export const TerminalPaymentInstrumentFilter = ({
                                 {translate("resources.terminals.filter.filterByName")}
                             </Label>
 
-                            <TerminalSelectFilter
-                                currentProvider={currentProvider}
-                                onChangeTerminalFilter={onTerminalNameChanged}
-                                terminalFilterName={terminalFilterName}
-                                disabled={
-                                    providersLoadingProcess ||
-                                    (!providersLoadingProcess && isFetching && !providersData) ||
-                                    currentProvider === "Show All"
-                                }
-                                setTerminalFilterId={onTerminalIdFieldChanged}
+                            <PopoverSelect
+                                style="Black"
+                                variants={terminalsData || []}
+                                variantKey="verbose_name"
+                                value={terminalFilterName}
+                                onChange={onTerminalNameChanged}
+                                idField="terminal_id"
+                                setIdValue={onTerminalIdFieldChanged}
+                                disabled={terminalsLoadingProcess}
+                                commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                notFoundMessage={translate("resources.provider.notFoundMessage")}
                             />
                         </div>
                         <div className="">
                             <Button
                                 onClick={handleInit}
-                                disabled={!(Boolean(currentProvider) && Boolean(terminalFilterName))}>
+                                disabled={!(Boolean(providerName) && Boolean(terminalFilterName))}>
                                 {translate("resources.paymentTools.terminalPaymentInstruments.initInstruments")}
                             </Button>
                         </div>
