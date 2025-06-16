@@ -61,7 +61,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     );
 
     const formSchema = z.object({
-        provider: z.string(),
+        provider: z.string().min(1, translate("resources.terminals.errors.provider")),
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")]),
         details: z.string(),
