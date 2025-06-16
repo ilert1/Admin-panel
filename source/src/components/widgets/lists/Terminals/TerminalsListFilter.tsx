@@ -29,7 +29,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
     } = useTerminalFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !providerName;
+    const clearDisabled = !providerName && !terminalName;
 
     return (
         <>
