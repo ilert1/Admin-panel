@@ -57,7 +57,12 @@ const useTerminalFilter = () => {
     );
 
     const onPropertySelected = debounce((value: string, type: "verbose_name" | "provider") => {
-        if (value) {
+        if (value && type === "provider" && terminalName) {
+            setTerminalName("");
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { verbose_name, ...newFilterValues } = filterValues;
+            setFilters({ ...newFilterValues, [type]: value }, displayedFilters, true);
+        } else if (value) {
             setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
         } else {
             Reflect.deleteProperty(filterValues, type);
