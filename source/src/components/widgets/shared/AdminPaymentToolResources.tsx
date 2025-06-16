@@ -77,7 +77,7 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
 
                                 {showCaptions && (
                                     <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
-                                        {translate(`resources.paymentTools.name`)}
+                                        {translate(`resources.paymentSettings.name`)}
                                     </span>
                                 )}
                             </div>
@@ -129,7 +129,7 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                                             <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
                                                 {translate(
                                                     // `resources.${customViewRoutes.name}.${customRoute.name}.name`
-                                                    `resources.paymentTools.${customRoute.name}.name`
+                                                    `resources.paymentSettings.${customRoute.name}.name`
                                                 )}
                                             </span>
                                         )}
@@ -145,7 +145,7 @@ export const AdminPaymentToolResources = ({ showCaptions }: { showCaptions: bool
                                     sideOffset={12}
                                     side="right">
                                     {/* {translate(`resources.${customViewRoutes.name}.${customRoute.name}.name`)} */}
-                                    {translate(`resources.paymentTools.${customRoute.name}.name`)}
+                                    {translate(`resources.paymentSettings.${customRoute.name}.name`)}
 
                                     <ChevronLeft
                                         className="absolute -left-[13px] top-1.5 text-green-40"

@@ -14,7 +14,7 @@ export const PaymentsTypesShowComponent = (props: PaymentsTypesShowProps) => {
     return (
         <div>
             <Label className="text-sm dark:!text-neutral-60" variant={"note-1"}>
-                {translate("resources.paymentTools.paymentType.name")}
+                {translate("resources.paymentSettings.paymentType.name")}
             </Label>
             <div className="flex flex-wrap gap-2">
                 {payment_types && payment_types.length > 0

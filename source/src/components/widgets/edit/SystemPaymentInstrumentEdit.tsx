@@ -44,7 +44,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
             } catch {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: translate("resources.paymentTools.systemPaymentInstruments.errors.wrongJson")
+                    message: translate("resources.paymentSettings.systemPaymentInstruments.errors.wrongJson")
                 });
                 return z.NEVER;
             }
@@ -112,7 +112,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                                                 {...field}
                                                 variant={InputTypes.GRAY}
                                                 label={translate(
-                                                    "resources.paymentTools.systemPaymentInstruments.fields.description"
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.description"
                                                 )}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
@@ -129,7 +129,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                             render={({ field }) => (
                                 <FormItem className="col-span-1 sm:col-span-2">
                                     <Label className="!mb-0">
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.meta")}
+                                        {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                                     </Label>
                                     <FormControl>
                                         <MonacoEditor

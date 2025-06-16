@@ -59,7 +59,7 @@ export const TerminalPaymentInstrumentFilter = ({
             refresh();
             appToast(
                 "success",
-                translate("resources.paymentTools.terminalPaymentInstruments.terminalPaymentInstrumentInitialized")
+                translate("resources.paymentSettings.terminalPaymentInstruments.terminalPaymentInstrumentInitialized")
             );
         } catch (error) {
             if (error instanceof Error) {
@@ -102,7 +102,7 @@ export const TerminalPaymentInstrumentFilter = ({
 
                             <span className="text-title-1">
                                 {translate(
-                                    "resources.paymentTools.terminalPaymentInstruments.createTerminalPaymentInstrument"
+                                    "resources.paymentSettings.terminalPaymentInstruments.createTerminalPaymentInstrument"
                                 )}
                             </span>
                         </Button>
@@ -148,7 +148,7 @@ export const TerminalPaymentInstrumentFilter = ({
                             <Button
                                 onClick={handleInit}
                                 disabled={!(Boolean(providerName) && Boolean(terminalFilterName))}>
-                                {translate("resources.paymentTools.terminalPaymentInstruments.initInstruments")}
+                                {translate("resources.paymentSettings.terminalPaymentInstruments.initInstruments")}
                             </Button>
                         </div>
                     </div>
@@ -159,10 +159,10 @@ export const TerminalPaymentInstrumentFilter = ({
                                     value={terminalFinancialInstitutionCode}
                                     onChange={onTerminalFinancialInstitutionCodeChanged}
                                     label={translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                                     )}
                                     placeholder={translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                                     )}
                                 />
                             </div>
@@ -171,10 +171,10 @@ export const TerminalPaymentInstrumentFilter = ({
                                     value={terminalCurrencyCode}
                                     onChange={onTerminalCurrencyCodeChanged}
                                     label={translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
                                     )}
                                     placeholder={translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
                                     )}
                                 />
                             </div>
@@ -183,10 +183,10 @@ export const TerminalPaymentInstrumentFilter = ({
                                     value={terminalPaymentTypeCode}
                                     onChange={onTerminalPaymentTypeCodeChanged}
                                     label={translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
                                     )}
                                     placeholder={translate(
-                                        "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
                                     )}
                                 />
                             </div>

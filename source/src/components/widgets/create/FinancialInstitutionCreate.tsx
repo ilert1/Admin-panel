@@ -76,7 +76,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         useFetchFinancialInstitutionTypes();
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
+        name: z.string().min(1, translate("resources.paymentSettings.financialInstitution.errors.name")).trim(),
         short_name: z.string().trim().optional(),
         legal_name: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
@@ -84,7 +84,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         country_code: z
             .string()
-            .regex(/^\w{2}$/, translate("resources.paymentTools.financialInstitution.errors.country_code"))
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
             .trim(),
         payment_types: z.array(z.string()).optional(),
         meta: z.string().trim().optional()
@@ -190,7 +190,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.name"
+                                                    "resources.paymentSettings.financialInstitution.fields.name"
                                                 )}
                                             />
                                         </FormControl>
@@ -210,7 +210,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.short_name"
+                                                    "resources.paymentSettings.financialInstitution.fields.short_name"
                                                 )}
                                             />
                                         </FormControl>
@@ -231,7 +231,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentTools.financialInstitution.fields.legal_name"
+                                                "resources.paymentSettings.financialInstitution.fields.legal_name"
                                             )}
                                         />
                                     </FormControl>
@@ -252,7 +252,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.nspk_member_id"
+                                                    "resources.paymentSettings.financialInstitution.fields.nspk_member_id"
                                                 )}
                                             />
                                         </FormControl>
@@ -268,7 +268,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                         <FormItem className="w-full p-2">
                                             <Label>
                                                 {translate(
-                                                    "resources.paymentTools.financialInstitution.fields.country_code"
+                                                    "resources.paymentSettings.financialInstitution.fields.country_code"
                                                 )}
                                             </Label>
 
@@ -278,7 +278,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 idField="alpha2"
                                                 setIdValue={field.onChange}
                                                 placeholder={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.countryCodePlaceholder"
+                                                    "resources.paymentSettings.financialInstitution.fields.countryCodePlaceholder"
                                                 )}
                                                 onChange={setCurrentCountryCodeName}
                                                 variantKey="name"
@@ -286,7 +286,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                     "app.widgets.multiSelect.searchPlaceholder"
                                                 )}
                                                 notFoundMessage={translate(
-                                                    "resources.paymentTools.countryCodeNotFoundMessage"
+                                                    "resources.paymentSettings.countryCodeNotFoundMessage"
                                                 )}
                                                 isError={fieldState.invalid}
                                                 errorMessage={fieldState.error?.message}
@@ -304,7 +304,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                         <FormItem className="w-full p-2">
                                             <Label>
                                                 {translate(
-                                                    "resources.paymentTools.financialInstitution.fields.institution_type"
+                                                    "resources.paymentSettings.financialInstitution.fields.institution_type"
                                                 )}
                                             </Label>
                                             <Select value={field.value} onValueChange={field.onChange}>
@@ -376,7 +376,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                     <FormItem className="w-full p-2">
                                         <FormLabel>
                                             <span className="!text-note-1 !text-neutral-30">
-                                                {translate("resources.paymentTools.financialInstitution.fields.meta")}
+                                                {translate(
+                                                    "resources.paymentSettings.financialInstitution.fields.meta"
+                                                )}
                                             </span>
                                         </FormLabel>
 

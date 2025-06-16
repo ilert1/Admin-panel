@@ -1,8 +1,8 @@
 {
-    "resources.paymentTools.name": "Настройки платежей",
-    "resources.paymentTools.noAvailable": "Ничего не найдено",
-    "resources.paymentTools.countryCodeNotFoundMessage": "Коды стран не найдены.",
-    "resources.paymentTools.paymentType": {
+    "resources.paymentSettings.name": "Настройки платежей",
+    "resources.paymentSettings.noAvailable": "Ничего не найдено",
+    "resources.paymentSettings.countryCodeNotFoundMessage": "Коды стран не найдены.",
+    "resources.paymentSettings.paymentType": {
         "name": "Платёжные типы",
         "admin": {
             "name": "Платёжные типы"
@@ -32,7 +32,7 @@
         "duplicateCode": "Введенный код уже используется",
         "uploadIcon": "Загрузить иконку"
     },
-    "resources.paymentTools.financialInstitution": {
+    "resources.paymentSettings.financialInstitution": {
         "name": "Финансовые институты",
         "show": "Финансовый институт",
         "fields": {
@@ -79,7 +79,7 @@
         "editingFinancialInstitution": "Изменение финансового института",
         "deleteFinancialInstitution": "Удалить фин. институт?"
     },
-    "resources.paymentTools.systemPaymentInstruments": {
+    "resources.paymentSettings.systemPaymentInstruments": {
         "name": "Системные платёжные инструменты",
         "show": "Системный платёжный инструмент",
         "fields": {
@@ -125,7 +125,7 @@
         "createNew": "Добавить инструмент",
         "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?"
     },
-    "resources.paymentTools.terminalPaymentInstruments": {
+    "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Терминальные платёжные инструменты",
         "show": "Терминальный платёжный инструмент",
         "fields": {
@@ -154,10 +154,10 @@
         "initInstruments": "Инициализировать инструменты",
         "terminalPaymentInstrumentInitialized": "Терминальный платёжный инструмент успешно инициализирован"
     },
-    "resources.paymentTools.currency": {
+    "resources.paymentSettings.currency": {
         "name": "Валюты"
     },
-    "resources.paymentTools.deletion": {
+    "resources.paymentSettings.deletion": {
         "attention": "Внимание!",
         "attentionDescriptionPaymentType": "Удаление платёжного типа приведет к удалению связанных с ним платёжных инструментов",
         "consequencesPaymentType": "Вы уверены, что хотите удалить платёжный тип и связанные с ним платёжные инструменты?",

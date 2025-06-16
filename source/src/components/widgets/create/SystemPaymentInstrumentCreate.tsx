@@ -52,14 +52,14 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const formSchema = z.object({
         payment_type_code: z
             .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         currency_code: z
             .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         financial_institution_id: z
             .string()
             .uuid()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         description: z.string().optional(),
         meta: z.string()
     });
@@ -116,7 +116,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.financial_institution_id"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.financial_institution_id"
                                         )}
                                     </Label>
 
@@ -129,7 +129,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         variantKey="name"
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate(
-                                            "resources.paymentTools.financialInstitution.notFoundMessage"
+                                            "resources.paymentSettings.financialInstitution.notFoundMessage"
                                         )}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
@@ -146,7 +146,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.payment_type_code"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.payment_type_code"
                                         )}
                                     </Label>
                                     <PopoverSelect
@@ -156,7 +156,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         variantKey={"code"}
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate(
-                                            "resources.paymentTools.paymentType.notFoundMessage"
+                                            "resources.paymentSettings.paymentType.notFoundMessage"
                                         )}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
@@ -174,7 +174,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.currency_code"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.currency_code"
                                         )}
                                     </Label>
                                     <CurrencySelect
@@ -199,7 +199,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                                 {...field}
                                                 variant={InputTypes.GRAY}
                                                 label={translate(
-                                                    "resources.paymentTools.systemPaymentInstruments.fields.description"
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.description"
                                                 )}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
@@ -216,7 +216,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                             render={({ field }) => (
                                 <FormItem className="col-span-1 p-2 sm:col-span-2">
                                     <Label className="!mb-0">
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.meta")}
+                                        {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                                     </Label>
                                     <FormControl>
                                         <MonacoEditor

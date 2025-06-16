@@ -64,7 +64,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
                     <div className="flex flex-col">
                         <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.financialInstitution.fields.payment_types")}
+                            {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>
 
                         <div className="max-w-auto flex flex-wrap gap-2">

@@ -1,8 +1,8 @@
 {
-    "resources.paymentTools.name": "Payment Settings",
-    "resources.paymentTools.noAvailable": "Nothing was found",
-    "resources.paymentTools.countryCodeNotFoundMessage": "Country codes not found.",
-    "resources.paymentTools.paymentType": {
+    "resources.paymentSettings.name": "Payment Settings",
+    "resources.paymentSettings.noAvailable": "Nothing was found",
+    "resources.paymentSettings.countryCodeNotFoundMessage": "Country codes not found.",
+    "resources.paymentSettings.paymentType": {
         "admin": {
             "name": "Payment Types"
         },
@@ -32,7 +32,7 @@
         "duplicateCode": "This code is already in use",
         "uploadIcon": "Upload icon"
     },
-    "resources.paymentTools.financialInstitution": {
+    "resources.paymentSettings.financialInstitution": {
         "name": "Financial Institutions",
         "show": "Financial institution",
         "fields": {
@@ -79,7 +79,7 @@
         "editingFinancialInstitution": "Editing a financial institution",
         "deleteFinancialInstitution": "Delete financial institution?"
     },
-    "resources.paymentTools.systemPaymentInstruments": {
+    "resources.paymentSettings.systemPaymentInstruments": {
         "name": "System Payment Instruments",
         "show": "System Payment instrument",
         "fields": {
@@ -127,7 +127,7 @@
         "createNew": "Add instrument",
         "deletePaymentInstrumentQuestion": "Delete system payment instrument?"
     },
-    "resources.paymentTools.terminalPaymentInstruments": {
+    "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",
         "show": "Terminal payment instrument",
         "fields": {
@@ -156,10 +156,10 @@
         "initInstruments": "Initialize instruments",
         "terminalPaymentInstrumentInitialized": "Terminal payment instrument initialized successfully"
     },
-    "resources.paymentTools.currency": {
+    "resources.paymentSettings.currency": {
         "name": "Currencies"
     },
-    "resources.paymentTools.deletion": {
+    "resources.paymentSettings.deletion": {
         "attention": "Attention!",
         "attentionDescriptionPaymentType": "Payment type deletion will lead to the deletion of associated payment instruments",
         "consequencesPaymentType": "You are going to delete payment type and associated payment instruments. Proceed?",

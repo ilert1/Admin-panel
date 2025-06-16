@@ -21,7 +21,7 @@ export const ShowFinancialInstitutionSheet = ({ id, open, onOpenChange }: IShowF
                     <div className="flex-shrink-0 p-4 pb-0 md:p-[42px] md:pb-0">
                         <div className="flex items-center justify-between">
                             <SheetTitle className="!text-display-1">
-                                {translate("resources.paymentTools.financialInstitution.show")}
+                                {translate("resources.paymentSettings.financialInstitution.show")}
                             </SheetTitle>
 
                             <button
