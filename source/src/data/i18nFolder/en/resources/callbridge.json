@@ -107,5 +107,8 @@
             "sync": "Sync"
         },
         "notFoundMessage": "Mappings not found"
+    },
+    "resources.callbridge.history_backup": {
+        "name": "History backup"
     }
 }

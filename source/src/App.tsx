@@ -69,6 +69,8 @@ import { TerminalPaymentInstrumentsList } from "./components/widgets/lists/Termi
 import { FinancialInstitutionProvider } from "./data/financialInstitution";
 import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
+import { CallbackBackupsList } from "./components/widgets/lists/CallbackBackup/CallbackBackupsList";
+import { CallbackBackupsDataProvider } from "./data/callback_backup";
 
 const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
 
@@ -100,6 +102,8 @@ const dataProvider = combineDataProviders(resource => {
         return new VaultDataProvider();
     } else if (resource === "operations") {
         return new OperationsDataProvider();
+    } else if (resource === "callback_backup") {
+        return new CallbackBackupsDataProvider();
     } else if (resource.includes("callbridge")) {
         return new CallbridgeDataProvider();
     } else if (resource.includes("payout")) {
@@ -191,6 +195,7 @@ export const App = () => {
                                                 <Resource name="callbridge" icon={Split}>
                                                     <Route path="mapping" element={<MappingsList />} />
                                                     <Route path="history" element={<CallbackHistoryList />} />
+                                                    <Route path="history/backup" element={<CallbackBackupsList />} />
                                                 </Resource>
                                             )}
                                         </>

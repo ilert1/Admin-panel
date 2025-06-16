@@ -109,5 +109,8 @@
             "sync": "Синхронизация"
         },
         "notFoundMessage": "Маппинги не найдены"
+    },
+    "resources.callbridge.history_backup": {
+        "name": "Бэкап истории"
     }
 }
