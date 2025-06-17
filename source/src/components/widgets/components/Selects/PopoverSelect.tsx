@@ -139,14 +139,13 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                         )}
                                     />
                                     <>
-                                        {iconForPaymentTypes ? (
+                                        {iconForPaymentTypes && (
                                             <PaymentTypeIcon
+                                                className="mr-2"
                                                 type={variant[variantKey]}
                                                 metaIcon={variant.meta?.["icon"] as string}
                                                 metaIconMargin
                                             />
-                                        ) : (
-                                            ""
                                         )}
                                         {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
                                     </>
