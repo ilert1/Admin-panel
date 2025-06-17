@@ -53,7 +53,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const formSchema = z.object({
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")]),
-        details: z.string(),
+        details: z.string().trim().optional(),
         allocation_timeout_seconds: z
             .literal("")
             .transform(() => undefined)
@@ -73,7 +73,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         defaultValues: {
             verbose_name: "",
             description: "",
-            details: "",
+            details: "{}",
             allocation_timeout_seconds: 2,
             payment_types: []
         }
@@ -84,7 +84,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             const updatedValues = {
                 verbose_name: terminal.verbose_name || "",
                 description: terminal.description || "",
-                details: JSON.stringify(terminal.details, null, 2) || "",
+                details: JSON.stringify(terminal.details, null, 2) || "{}",
                 allocation_timeout_seconds: terminal?.allocation_timeout_seconds ?? 2,
                 payment_types: terminal?.payment_types?.map(pt => pt.code) || []
             };
@@ -99,8 +99,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         if (submitButtonDisabled) return;
 
         try {
-            const parseDetails = JSON.parse(data.details);
-
             setSubmitButtonDisabled(true);
 
             let payment_types: string[] = [];
@@ -122,7 +120,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 data: {
                     verbose_name: data.verbose_name,
                     description: data.description,
-                    details: parseDetails,
+                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     allocation_timeout_seconds:
                         data.allocation_timeout_seconds !== undefined ? data.allocation_timeout_seconds : null
                 } as TerminalUpdate,
@@ -252,7 +250,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                         width="100%"
                                         onMountEditor={() => setMonacoEditorMounted(true)}
                                         onErrorsChange={setHasErrors}
-                                        code={field.value}
+                                        code={field.value ?? "{}"}
                                         setCode={field.onChange}
                                     />
                                 </FormControl>
