@@ -107,6 +107,23 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         }
     });
 
+    const errorCombineMessage = (msg: string): string => {
+        if (msg.includes("already exists")) {
+            const msgMatch = msg.match(/Key \(([^)]+)\)=\(([^)]+)\)/);
+
+            if (msgMatch?.length === 3) {
+                return translate("resources.paymentTools.financialInstitution.errors.alreadyExistWithField", {
+                    field: msgMatch[1],
+                    value: msgMatch[2]
+                });
+            }
+
+            return translate("resources.paymentTools.financialInstitution.errors.alreadyExist");
+        }
+
+        return msg;
+    };
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 
@@ -158,7 +175,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             onClose();
         } catch (error) {
             if (error instanceof Error) {
-                appToast("error", error.message);
+                appToast("error", errorCombineMessage(error.message));
             } else {
                 appToast("error", translate("app.ui.create.createError"));
             }
