@@ -24,7 +24,7 @@
             "code": "Код платёжного типа",
             "title": "Описание платёжного типа"
         },
-        "notFoundMessage": "Платежные типы не найдены.",
+        "notFoundMessage": "Платёжные типы не найдены.",
         "deletePaymentTypeQuestion": "Удалить платёжные тип?",
         "creatingPaymentType": "Создание платёжного типа",
         "editingPaymentType": "Изменение платёжного типа",
@@ -63,7 +63,11 @@
         },
         "errors": {
             "name": "Наименование финансового института обязательно",
-            "country_code": "Код страны введен не правильно"
+            "short_name": "Код финансового института обязателен",
+            "short_name_regex": "Код института может содержать символы 0-9, a-z и _",
+            "country_code": "Код страны введен не правильно",
+            "alreadyExist": "Финансовый институт уже существует",
+            "alreadyExistWithField": "Финансовый интститут с таким именем (%{value}) в поле (%{field}) уже существует"
         },
         "success": {
             "ACTIVE": "активна",
@@ -86,7 +90,7 @@
             "name": "Название",
             "payment_type_code": "Платёжный тип",
             "currency_code": "Валюта",
-            "financial_institution_id": "Финансовая институт",
+            "financial_institution_id": "Финансовый институт",
             "direction": "Направление",
             "status": "Статус",
             "description": "Описание",
@@ -123,7 +127,9 @@
         "creatingPaymentInstrument": "Создание системного платёжного инструмента",
         "editingPaymentInstrument": "Изменение системного платёжного инструмента",
         "createNew": "Добавить инструмент",
-        "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?"
+        "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?",
+        "chooseFinInstitution": "Выберите финансовый институт",
+        "noAvailablePaymentTypes": "Нет доступных платёжных типов"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Терминальные платёжные инструменты",
@@ -145,7 +151,7 @@
         "success": {
             "ACTIVE": "активна",
             "INACTIVE": "деактивирована",
-            "editActivity": "Активность терминального платежного инструмента %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность терминального платёжного инструмента %{name} успешно изменена на: %{state}."
         },
         "createTerminalPaymentInstrument": "Добавить инструмент",
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",

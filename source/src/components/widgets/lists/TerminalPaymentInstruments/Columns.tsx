@@ -15,14 +15,14 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<TerminalPaymentInstrument>[] = [
-        {
+        /* {
             id: "id",
             accessorKey: "id",
             header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.id"),
             cell: ({ row }) => {
                 return <TextField wrap copyValue lineClamp linesCount={1} minWidth="150px" text={row.original.id} />;
             }
-        },
+        }, */
         {
             id: "terminal_id",
             accessorKey: "terminal_id",
@@ -73,7 +73,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
                             {row.original.system_payment_instrument.name}
                         </Button>
 
-                        <TextField
+                        {/* <TextField
                             className="text-neutral-70"
                             text={row.original.system_payment_instrument_id}
                             wrap
@@ -81,7 +81,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
                             lineClamp
                             linesCount={1}
                             minWidth="50px"
-                        />
+                        /> */}
                     </div>
                 );
             }

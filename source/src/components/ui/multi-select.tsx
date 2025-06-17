@@ -92,12 +92,6 @@ interface MultiSelectProps
     modalPopover?: boolean;
 
     /**
-     * If true, renders the multi-select component as a child of another component.
-     * Optional, defaults to false.
-     */
-    asChild?: boolean;
-
-    /**
      * Additional class names to apply custom styles to the multi-select component.
      * Optional, can be used to add custom styles.
      */
@@ -117,7 +111,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             animation = 0,
             maxCount = 3,
             modalPopover = false,
-            asChild = false,
             notFoundMessage,
             className,
             ...props
@@ -254,7 +247,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start" onEscapeKeyDown={() => setIsPopoverOpen(false)}>
-                    <Command>
+                    <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
                             placeholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                             onKeyDown={handleInputKeyDown}

@@ -7,7 +7,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,12 +30,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
-
-    const { data: paymentTypes, isLoading: paymentTypesLoading } = useQuery({
-        queryKey: ["paymentTypes"],
-        queryFn: () => dataProvider.getListWithoutPagination("payment_type"),
-        select: data => data.data
-    });
+    const [paymentTypes, setPaymentTypes] = useState([]);
 
     const { data: currencies, isLoading: currenciesLoading } = useQuery({
         queryKey: ["currencies"],
@@ -61,7 +56,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
             .uuid()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         description: z.string().optional(),
-        meta: z.string()
+        meta: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -80,7 +75,9 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         setButtonDisabled(true);
 
         try {
-            await dataProvider.create("systemPaymentInstruments", { data: { ...data, meta: JSON.parse(data.meta) } });
+            await dataProvider.create("systemPaymentInstruments", {
+                data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} }
+            });
 
             appToast("success", translate("app.ui.toast.success"));
             refresh();
@@ -93,7 +90,19 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         }
     };
 
-    if (paymentTypesLoading || currenciesLoading || financialInstitutionsLoading)
+    const finInstValue = form.watch("financial_institution_id");
+    useEffect(() => {
+        if (!finInstValue) {
+            setPaymentTypes([]);
+        } else if (financialInstitutions && finInstValue) {
+            form.resetField("payment_type_code");
+            const found = financialInstitutions?.find((item: { id: string }) => item.id === finInstValue).payment_types;
+            setPaymentTypes(found);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [finInstValue, financialInstitutions]);
+
+    if (currenciesLoading || financialInstitutionsLoading)
         return (
             <div className="h-[300px]">
                 <Loading />
@@ -151,7 +160,17 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                     </Label>
                                     <PopoverSelect
                                         variants={paymentTypes}
-                                        value={field.value}
+                                        value={
+                                            paymentsDisabled
+                                                ? finInstValue
+                                                    ? translate(
+                                                          "resources.paymentTools.systemPaymentInstruments.noAvailablePaymentTypes"
+                                                      )
+                                                    : translate(
+                                                          "resources.paymentTools.systemPaymentInstruments.chooseFinInstitution"
+                                                      )
+                                                : field.value
+                                        }
                                         onChange={e => field.onChange(e)}
                                         variantKey={"code"}
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}

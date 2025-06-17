@@ -51,6 +51,17 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     } = props;
     const [open, setOpen] = useState(false);
 
+    const onSelectChange = (currentValue: string) => {
+        onChange(currentValue === value ? "" : currentValue);
+
+        if (setIdValue && idField) {
+            const variantId = variants.find(el => el[variantKey] === currentValue)[idField];
+            setIdValue(variantId);
+        }
+
+        setOpen(false);
+    };
+
     return (
         <Popover modal={true} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild className="mt-0" disabled={disabled}>
@@ -70,10 +81,10 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     )}>
                     <div className="flex w-full items-center justify-between">
                         {value ? (
-                            <div className="flex flex-wrap items-center">{value}</div>
+                            <p className="truncate">{value}</p>
                         ) : (
                             <div className="flex flex-wrap items-center">
-                                <span className="text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                                <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
                             </div>
                         )}
 
@@ -110,45 +121,32 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                <Command>
+                <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                     <CommandInput placeholder={commandPlaceholder} />
                     <CommandList>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
                             {variants.map(variant => (
                                 <CommandItem
-                                    className="bg-muted"
+                                    className="flex items-center gap-2 bg-muted"
                                     key={variant[variantKey]}
                                     value={variant[variantKey]}
-                                    onSelect={currentValue => {
-                                        onChange(currentValue === value ? "" : currentValue);
-
-                                        if (setIdValue && idField) {
-                                            const variantId = variants.find(el => el[variantKey] === currentValue)[
-                                                idField
-                                            ];
-                                            setIdValue(variantId);
-                                        }
-
-                                        setOpen(false);
-                                    }}>
+                                    onSelect={onSelectChange}>
                                     <CheckIcon
                                         className={cn(
-                                            "mr-2 h-4 w-4",
+                                            "h-4 w-full max-w-4",
                                             value === variant[variantKey] ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                     <>
-                                        {iconForPaymentTypes ? (
+                                        {iconForPaymentTypes && (
                                             <PaymentTypeIcon
                                                 type={variant[variantKey]}
                                                 metaIcon={variant.meta?.["icon"] as string}
                                                 metaIconMargin
                                             />
-                                        ) : (
-                                            ""
                                         )}
-                                        {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
+                                        <p>{variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}</p>
                                     </>
                                 </CommandItem>
                             ))}

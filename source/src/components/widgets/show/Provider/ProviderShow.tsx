@@ -9,6 +9,8 @@ import { ProviderWithId } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
+import { Label } from "@/components/ui/label";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface ProviderShowProps {
     id: string;
@@ -62,7 +64,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         }
                     />
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col md:col-span-2">
                         <small className="mb-1 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>
@@ -75,6 +77,20 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             ) : (
                                 <span className="title-1">-</span>
                             )}
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2">
+                        <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                            {translate("resources.provider.fields.methods")}
+                        </Label>
+                        <div className="flex h-full">
+                            <MonacoEditor
+                                disabled
+                                height="h-48"
+                                width="100%"
+                                code={JSON.stringify(context.record.methods || "{}", null, 2)}
+                            />
                         </div>
                     </div>
                 </div>

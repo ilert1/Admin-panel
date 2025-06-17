@@ -63,7 +63,11 @@
         },
         "errors": {
             "name": "The name of the financial institution is required",
-            "country_code": "The country code is entered incorrectly"
+            "short_name": "The code of the financial institution is required",
+            "short_name_regex": "The institute's code can contain characters 0-9, a-z and _",
+            "country_code": "The country code is entered incorrectly",
+            "alreadyExist": "The financial institution already exists",
+            "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists in the field (%{field})"
         },
         "success": {
             "ACTIVE": "active",
@@ -125,7 +129,9 @@
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",
-        "deletePaymentInstrumentQuestion": "Delete system payment instrument?"
+        "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
+        "chooseFinInstitution": "Choose financial institution",
+        "noAvailablePaymentTypes": "No available payment types"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",

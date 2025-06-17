@@ -51,7 +51,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         enabled: true,
         select: data => data.data
     });
-
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -85,7 +84,11 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentSettings.financialInstitution.errors.name")).trim(),
-        short_name: z.string().trim().optional(),
+        short_name: z
+            .string()
+            .min(1, translate("resources.paymentSettings.financialInstitution.errors.short_name"))
+            .regex(/^[a-z0-9_]+$/, translate("resources.paymentSettings.financialInstitution.errors.short_name_regex"))
+            .trim(),
         legal_name: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
@@ -109,7 +112,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             institution_type: undefined,
             currencies: [],
             payment_types: [],
-            meta: ""
+            meta: "{}"
         }
     });
 
@@ -124,7 +127,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                 currencies: financialInstitutionData.currencies?.map(c => c.code) || [],
                 institution_type: financialInstitutionData.institution_type || undefined,
                 payment_types: financialInstitutionData.payment_types?.map(pt => pt.code) || [],
-                meta: JSON.stringify(financialInstitutionData.meta, null, 2) || ""
+                meta: JSON.stringify(financialInstitutionData.meta, null, 2) || "{}"
             };
 
             setCurrentCountryCodeName(
@@ -136,6 +139,23 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [financialInstitutionData, isLoadingFinancialInstitutionData, isFetchedAfterMount]);
+
+    const errorCombineMessage = (msg: string): string => {
+        if (msg.includes("already exists")) {
+            const msgMatch = msg.match(/Key \(([^)]+)\)=\(([^)]+)\)/);
+
+            if (msgMatch?.length === 3) {
+                return translate("resources.paymentTools.financialInstitution.errors.alreadyExistWithField", {
+                    field: msgMatch[1],
+                    value: msgMatch[2]
+                });
+            }
+
+            return translate("resources.paymentTools.financialInstitution.errors.alreadyExist");
+        }
+
+        return msg;
+    };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -216,7 +236,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             onClose();
         } catch (error) {
             if (error instanceof Error) {
-                appToast("error", error.message);
+                appToast("error", errorCombineMessage(error.message));
             } else {
                 appToast("error", translate("app.ui.create.createError"));
             }
@@ -449,7 +469,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                         <MonacoEditor
                                             onErrorsChange={setHasErrors}
                                             onMountEditor={() => setMonacoEditorMounted(true)}
-                                            code={field.value || "{}"}
+                                            code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
                                     </FormControl>

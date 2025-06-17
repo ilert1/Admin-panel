@@ -101,7 +101,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
             terminal_payment_type_code: "",
             terminal_currency_code: "",
             terminal_financial_institution_code: "",
-            terminal_specific_parameters: ""
+            terminal_specific_parameters: "{}"
         }
     });
 
@@ -117,7 +117,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                 terminal_financial_institution_code:
                     terminalPaymentInstrumentsData.terminal_financial_institution_code || "",
                 terminal_specific_parameters:
-                    JSON.stringify(terminalPaymentInstrumentsData.terminal_specific_parameters, null, 2) || ""
+                    JSON.stringify(terminalPaymentInstrumentsData.terminal_specific_parameters, null, 2) || "{}"
             };
 
             setSystemPaymentInstrumentValueName(terminalPaymentInstrumentsData.system_payment_instrument.name);
@@ -381,7 +381,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         <MonacoEditor
                                             onErrorsChange={setHasErrors}
                                             onMountEditor={() => setMonacoEditorMounted(true)}
-                                            code={field.value || "{}"}
+                                            code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
                                     </FormControl>

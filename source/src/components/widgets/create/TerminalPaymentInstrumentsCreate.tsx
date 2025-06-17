@@ -95,7 +95,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
             terminal_payment_type_code: "",
             terminal_currency_code: "",
             terminal_financial_institution_code: "",
-            terminal_specific_parameters: ""
+            terminal_specific_parameters: "{}"
         }
     });
 
@@ -366,7 +366,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value || "{}"}
+                                                code={field.value ?? "{}"}
                                                 setCode={field.onChange}
                                             />
                                         </FormControl>
