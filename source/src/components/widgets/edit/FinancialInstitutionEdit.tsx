@@ -145,13 +145,13 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             const msgMatch = msg.match(/Key \(([^)]+)\)=\(([^)]+)\)/);
 
             if (msgMatch?.length === 3) {
-                return translate("resources.paymentTools.financialInstitution.errors.alreadyExistWithField", {
+                return translate("resources.paymentSettings.financialInstitution.errors.alreadyExistWithField", {
                     field: msgMatch[1],
                     value: msgMatch[2]
                 });
             }
 
-            return translate("resources.paymentTools.financialInstitution.errors.alreadyExist");
+            return translate("resources.paymentSettings.financialInstitution.errors.alreadyExist");
         }
 
         return msg;

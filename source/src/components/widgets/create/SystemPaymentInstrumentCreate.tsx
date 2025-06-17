@@ -164,10 +164,10 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                             paymentsDisabled
                                                 ? finInstValue
                                                     ? translate(
-                                                          "resources.paymentTools.systemPaymentInstruments.noAvailablePaymentTypes"
+                                                          "resources.paymentSettings.systemPaymentInstruments.noAvailablePaymentTypes"
                                                       )
                                                     : translate(
-                                                          "resources.paymentTools.systemPaymentInstruments.chooseFinInstitution"
+                                                          "resources.paymentSettings.systemPaymentInstruments.chooseFinInstitution"
                                                       )
                                                 : field.value
                                         }
