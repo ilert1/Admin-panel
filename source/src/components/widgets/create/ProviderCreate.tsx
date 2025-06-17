@@ -32,7 +32,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         fields_json_schema: z.string().optional().default(""),
-        methods: z.string()
+        methods: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -40,7 +40,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         defaultValues: {
             name: "",
             fields_json_schema: "",
-            methods: ""
+            methods: "{}"
         }
     });
 
@@ -120,7 +120,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value || "{}"}
+                                                code={field.value ?? "{}"}
                                                 setCode={field.onChange}
                                             />
                                         </FormControl>

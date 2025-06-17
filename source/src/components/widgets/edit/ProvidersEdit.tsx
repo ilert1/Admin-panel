@@ -51,7 +51,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
-        methods: z.string(),
+        methods: z.string().trim().optional(),
         payment_types: z.array(z.string()).optional()
     });
 
@@ -61,7 +61,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
             name: "",
             public_key: "",
             fields_json_schema: "",
-            methods: "",
+            methods: "{}",
             payment_types: []
         }
     });
@@ -72,7 +72,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                 name: provider.name || "",
                 public_key: provider.public_key || "",
                 fields_json_schema: provider.fields_json_schema || "",
-                methods: JSON.stringify(provider.methods, null, 2) || "",
+                methods: JSON.stringify(provider.methods, null, 2) || "{}",
                 payment_types: provider?.payment_types?.map(pt => pt.code) || []
             };
 
@@ -85,7 +85,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-        data.methods = JSON.parse(data.methods);
 
         let payment_types: string[] = [];
         let oldPaymentTypes: Set<string> = new Set();
@@ -104,7 +103,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         try {
             await dataProvider.update<ProviderWithId>("provider", {
                 id,
-                data,
+                data: { ...data, methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {} },
                 previousData: undefined
             });
 
@@ -193,7 +192,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                         width="100%"
                                         onMountEditor={() => setMonacoEditorMounted(true)}
                                         onErrorsChange={setHasErrors}
-                                        code={field.value}
+                                        code={field.value ?? "{}"}
                                         setCode={field.onChange}
                                     />
                                 </FormControl>

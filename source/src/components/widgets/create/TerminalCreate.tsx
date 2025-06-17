@@ -64,7 +64,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         provider: z.string().min(1, translate("resources.terminals.errors.provider")),
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")]),
-        details: z.string(),
+        details: z.string().trim().optional(),
         allocation_timeout_seconds: z
             .literal("")
             .transform(() => undefined)
@@ -106,16 +106,14 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         setSubmitButtonDisabled(true);
 
         try {
-            const parseDetails = JSON.parse(data.details);
-
             const res = await dataProvider.create<TerminalWithId>(`${data.provider}/terminal`, {
                 data: {
                     verbose_name: data.verbose_name,
                     description: data.description,
+                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     ...(data.allocation_timeout_seconds !== undefined && {
                         allocation_timeout_seconds: data.allocation_timeout_seconds
-                    }),
-                    ...(parseDetails && Object.keys(parseDetails).length !== 0 && { details: parseDetails })
+                    })
                 } as ITerminalCreate
             });
 
@@ -256,7 +254,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                             width="100%"
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             onErrorsChange={setHasErrors}
-                                            code={field.value}
+                                            code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
                                     </FormControl>
