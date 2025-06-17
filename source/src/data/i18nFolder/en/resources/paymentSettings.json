@@ -159,6 +159,7 @@
         "creatingTerminalPaymentInstrument": "Creating terminal payment instrument",
         "editingTerminalPaymentInstrument": "Editing terminal payment instrument",
         "deleteTerminalPaymentInstrument": "Delete terminal payment instrument?",
+        "initializeTerminalPaymentInstrument": "Initialization of the terminal payment instrument",
         "initInstruments": "Initialize instruments",
         "terminalPaymentInstrumentInitialized": "Terminal payment instrument initialized successfully"
     },

@@ -142,12 +142,13 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async initialize(termId: string, codes: string[]) {
+    async initialize(terminalId: string, payment_type_codes: string[], currency_codes?: string[]) {
         const res =
             await terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost(
-                termId,
+                terminalId,
                 {
-                    payment_type_codes: codes
+                    payment_type_codes,
+                    ...(currency_codes && { currency_codes })
                 },
                 {
                     headers: {

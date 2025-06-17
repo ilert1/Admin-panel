@@ -1,9 +1,6 @@
 import { Label } from "@/components/ui/label";
 import useTerminalPaymentInstrumentFilter from "./useTerminalPaymentInstrumentFilter";
 import { Button } from "@/components/ui/Button";
-import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { useState } from "react";
 import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
@@ -11,19 +8,15 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { CirclePlus } from "lucide-react";
 import { Input } from "@/components/ui/Input/input";
-import { useRefresh } from "react-admin";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
+import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
 
 interface TerminalPaymentInstrumentFilterProps {
-    terminalPaymentTypes?: PaymentTypeBase[] | undefined;
     createFn: () => void;
 }
 
-export const TerminalPaymentInstrumentFilter = ({
-    createFn,
-    terminalPaymentTypes
-}: TerminalPaymentInstrumentFilterProps) => {
+export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentInstrumentFilterProps) => {
     const {
         providersData,
         providersLoadingProcess,
@@ -46,27 +39,7 @@ export const TerminalPaymentInstrumentFilter = ({
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const terminalsDataProvider = new TerminalPaymentInstrumentsProvider();
-    const appToast = useAppToast();
-    const refresh = useRefresh();
-
-    const handleInit = async () => {
-        try {
-            await terminalsDataProvider.initialize(
-                terminalFilterId,
-                terminalPaymentTypes ? terminalPaymentTypes.map(el => el.code) : []
-            );
-            refresh();
-            appToast(
-                "success",
-                translate("resources.paymentSettings.terminalPaymentInstruments.terminalPaymentInstrumentInitialized")
-            );
-        } catch (error) {
-            if (error instanceof Error) {
-                appToast("error", error.message);
-            }
-        }
-    };
+    const [showInitializeDialog, setShowInitializeDialog] = useState(false);
 
     const clearDisabled =
         !providerName &&
@@ -144,13 +117,12 @@ export const TerminalPaymentInstrumentFilter = ({
                                 notFoundMessage={translate("resources.provider.notFoundMessage")}
                             />
                         </div>
-                        <div className="">
-                            <Button
-                                onClick={handleInit}
-                                disabled={!(Boolean(providerName) && Boolean(terminalFilterName))}>
-                                {translate("resources.paymentSettings.terminalPaymentInstruments.initInstruments")}
-                            </Button>
-                        </div>
+
+                        <Button
+                            onClick={() => setShowInitializeDialog(true)}
+                            disabled={!terminalFilterId || terminalsLoadingProcess}>
+                            {translate("resources.paymentSettings.terminalPaymentInstruments.initInstruments")}
+                        </Button>
                     </div>
                     <div>
                         <div className="flex flex-wrap gap-2 sm:flex-nowrap">
@@ -194,6 +166,12 @@ export const TerminalPaymentInstrumentFilter = ({
                     </div>
                 </div>
             </AnimatedContainer>
+
+            <InitializeTerminalPaymentInstrumentsDialog
+                terminalId={terminalFilterId}
+                open={showInitializeDialog}
+                onOpenChange={setShowInitializeDialog}
+            />
         </>
     );
 };

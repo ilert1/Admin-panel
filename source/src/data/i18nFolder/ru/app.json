@@ -43,6 +43,7 @@
             "confirm": "Потвердить",
             "search": "Поиск...",
             "refresh": "Обновить",
+            "initialize": "Инициализировать",
             "details": "Подробнее",
             "generateCallback": "Создать callback",
             "clear": "Очистить",
