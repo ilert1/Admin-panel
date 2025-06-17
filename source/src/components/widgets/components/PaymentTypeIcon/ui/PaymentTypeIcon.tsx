@@ -93,20 +93,31 @@ export const PaymentTypeIcon = memo(
 
         if (!Icon) {
             return (
-                <div
-                    className={cn(
-                        className,
-                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white"
-                    )}>
-                    {type
-                        .toUpperCase()
-                        .split("_")
-                        .map(el => el[0])
-                        .join("")}
-                </div>
+                <TooltipProvider>
+                    <Tooltip delayDuration={300}>
+                        <TooltipTrigger asChild>
+                            <Button variant="text_btn" className="cursor-default p-0">
+                                <div
+                                    className={cn(
+                                        className,
+                                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white"
+                                    )}>
+                                    {type
+                                        .toUpperCase()
+                                        .split("_")
+                                        .map(el => el[0])
+                                        .join("")}
+                                </div>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent tabIndex={-1} sideOffset={5} align="center">
+                            <p>{type}</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             );
         }
-        return tooltip ? (
+        return (
             <TooltipProvider>
                 <Tooltip delayDuration={300}>
                     <TooltipTrigger asChild>
@@ -119,9 +130,11 @@ export const PaymentTypeIcon = memo(
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-        ) : (
-            <Icon className={cn(className)} />
         );
+        // tooltip ? (
+        // ) : (
+        //     <Icon className={cn(className)} />
+        // );
     }
 );
 
