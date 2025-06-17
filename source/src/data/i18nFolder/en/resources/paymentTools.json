@@ -127,7 +127,9 @@
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",
-        "deletePaymentInstrumentQuestion": "Delete system payment instrument?"
+        "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
+        "chooseFinInstitution": "Choose financial institution",
+        "noAvailablePaymentTypes": "No available payment types"
     },
     "resources.paymentTools.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",
