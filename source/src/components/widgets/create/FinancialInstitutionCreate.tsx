@@ -79,7 +79,8 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
         short_name: z
             .string()
-            .regex(/^[a-z0-9_]+$/, translate("resources.paymentTools.financialInstitution.errors.short_name"))
+            .min(1, translate("resources.paymentTools.financialInstitution.errors.short_name"))
+            .regex(/^[a-z0-9_]+$/, translate("resources.paymentTools.financialInstitution.errors.short_name_regex"))
             .trim(),
         legal_name: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
