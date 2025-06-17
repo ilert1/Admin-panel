@@ -104,7 +104,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             currencies: [],
             institution_type: undefined,
             payment_types: [],
-            meta: ""
+            meta: "{}"
         }
     });
 
@@ -387,7 +387,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value || "{}"}
+                                                code={field.value ?? "{}"}
                                                 setCode={field.onChange}
                                             />
                                         </FormControl>

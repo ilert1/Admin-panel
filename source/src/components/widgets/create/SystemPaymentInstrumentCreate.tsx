@@ -61,7 +61,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
             .uuid()
             .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
         description: z.string().optional(),
-        meta: z.string()
+        meta: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -80,7 +80,9 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         setButtonDisabled(true);
 
         try {
-            await dataProvider.create("systemPaymentInstruments", { data: { ...data, meta: JSON.parse(data.meta) } });
+            await dataProvider.create("systemPaymentInstruments", {
+                data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} }
+            });
 
             appToast("success", translate("app.ui.toast.success"));
             refresh();

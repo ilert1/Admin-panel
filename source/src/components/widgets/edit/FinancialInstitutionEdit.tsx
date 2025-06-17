@@ -112,7 +112,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             institution_type: undefined,
             currencies: [],
             payment_types: [],
-            meta: ""
+            meta: "{}"
         }
     });
 
@@ -127,7 +127,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                 currencies: financialInstitutionData.currencies?.map(c => c.code) || [],
                 institution_type: financialInstitutionData.institution_type || undefined,
                 payment_types: financialInstitutionData.payment_types?.map(pt => pt.code) || [],
-                meta: JSON.stringify(financialInstitutionData.meta, null, 2) || ""
+                meta: JSON.stringify(financialInstitutionData.meta, null, 2) || "{}"
             };
 
             setCurrentCountryCodeName(
@@ -450,7 +450,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                         <MonacoEditor
                                             onErrorsChange={setHasErrors}
                                             onMountEditor={() => setMonacoEditorMounted(true)}
-                                            code={field.value || "{}"}
+                                            code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
                                     </FormControl>
