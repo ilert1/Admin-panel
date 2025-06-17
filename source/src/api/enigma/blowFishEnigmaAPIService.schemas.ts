@@ -106,6 +106,31 @@ export interface ApiResponseFinancialInstitution {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseImportResponseError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseImportResponseMeta = unknown | null;
+
+export interface ApiResponseImportResponse {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: ImportResponse;
+    /** The error details if the request was not successful */
+    error?: ApiResponseImportResponseError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseImportResponseMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseKeyPairError = ErrorBody | null;
 
 /**
@@ -676,6 +701,21 @@ export interface ApiResponseListTerminal {
      * @deprecated
      */
     meta?: ApiResponseListTerminalMeta;
+}
+
+export interface BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost {
+    /** Upload CSV file with data for import */
+    csv_file: Blob;
+}
+
+export interface BodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost {
+    /** Upload CSV file with data for import */
+    csv_file: Blob;
+}
+
+export interface BodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost {
+    /** Upload CSV file with data for import */
+    csv_file: Blob;
 }
 
 export interface CurrenciesLink {
@@ -1306,7 +1346,10 @@ export type FinancialInstitutionCreateMeta = { [key: string]: unknown };
 export interface FinancialInstitutionCreate {
     /** Name of the financial institution */
     name: string;
-    /** Short name or abbreviation */
+    /**
+     * Short name or abbreviation
+     * @pattern ^[a-z0-9_.-]+$
+     */
     short_name: string;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionCreateLegalName;
@@ -1412,6 +1455,23 @@ export interface FinancialInstitutionUpdate {
 
 export interface HTTPValidationError {
     detail?: ValidationError[];
+}
+
+export type ImportMode = (typeof ImportMode)[keyof typeof ImportMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ImportMode = {
+    strict: "strict",
+    ignore: "ignore"
+} as const;
+
+export interface ImportResponse {
+    /** Number strings in file */
+    total: number;
+    /** Number of inserted strings */
+    inserted?: number;
+    /** Number of skipped strings */
+    skipped?: number;
 }
 
 export interface KeyPair {
@@ -1706,7 +1766,7 @@ export type PaymentTypeCreateMeta = { [key: string]: unknown };
 export interface PaymentTypeCreate {
     /**
      * Unique payment type code
-     * @pattern ^[A-Za-z0-9_-]+$
+     * @pattern ^[a-z0-9_]+$
      */
     code: string;
     /** Human-readable payment type title */
@@ -1957,31 +2017,6 @@ export interface SystemPaymentInstrumentCreate {
 }
 
 /**
- * Optional detailed description of the payment instrument's purpose or configuration.
- */
-export type SystemPaymentInstrumentReadDescription = string | null;
-
-/**
- * Additional metadata in JSON format, useful for custom configurations or notes.
- */
-export type SystemPaymentInstrumentReadMeta = { [key: string]: unknown };
-
-export interface SystemPaymentInstrumentRead {
-    /** Code of the associated payment type, e.g., 'card2card' or 'sbp'. */
-    payment_type_code: string;
-    /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
-    currency_code: string;
-    /** Unique identifier of the associated financial institution. */
-    financial_institution_id: string;
-    /** Optional detailed description of the payment instrument's purpose or configuration. */
-    description?: SystemPaymentInstrumentReadDescription;
-    /** Additional metadata in JSON format, useful for custom configurations or notes. */
-    meta?: SystemPaymentInstrumentReadMeta;
-    /** Unique name for the system payment instrument */
-    name: string;
-}
-
-/**
  * Updated detailed description of the payment instrument.
  */
 export type SystemPaymentInstrumentUpdateDescription = string | null;
@@ -2085,6 +2120,8 @@ export interface TerminalDeleteAuth {
 export interface TerminalInitializePaymentInstrumentsRequest {
     /** The list of payment type codes to initialize instruments for */
     payment_type_codes: string[];
+    /** The list of currency codes to filter instruments by */
+    currency_codes?: string[];
 }
 
 /**
@@ -2129,7 +2166,7 @@ export interface TerminalPaymentInstrument {
     /** Related Terminal object */
     terminal: Terminal;
     /** Related SystemPaymentInstrument object */
-    system_payment_instrument: SystemPaymentInstrumentRead;
+    system_payment_instrument: SystemPaymentInstrument;
     /** Timestamp of creation */
     created_at: string;
     /** Timestamp of last update */
@@ -2700,6 +2737,49 @@ export const PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder
     desc: "desc"
 } as const;
 
+export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder;
+};
+
+export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder =
+    (typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder)[keyof typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type PaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostParams = {
+    /**
+     * Import strategy: 'strict' or 'ignore'
+     */
+    mode?: ImportMode;
+};
+
 export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetParams = {
     /**
      * List of identifiers for filtering
@@ -2759,6 +2839,65 @@ export const FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1Finan
     asc: "asc",
     desc: "desc"
 } as const;
+
+export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder;
+};
+
+export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder =
+    (typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder)[keyof typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams = {
+    /**
+     * Import strategy: 'strict' or 'ignore'
+     */
+    mode?: ImportMode;
+};
 
 export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetParams = {
     /**
@@ -2820,6 +2959,68 @@ export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV
         asc: "asc",
         desc: "desc"
     } as const;
+
+export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetParams =
+    {
+        /**
+         * List of identifiers for filtering
+         */
+        ids?: string[] | null;
+        /**
+         * Upper bound for creation date filter
+         */
+        createdBefore?: string | null;
+        /**
+         * Lower bound for creation date filter
+         */
+        createdAfter?: string | null;
+        /**
+         * Upper bound for update date filter
+         */
+        updatedBefore?: string | null;
+        /**
+         * Lower bound for update date filter
+         */
+        updatedAfter?: string | null;
+        /**
+         * Names of the fields to search (comma-separated or repeated).
+         */
+        searchField?: string[] | null;
+        /**
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         */
+        searchString?: string[] | null;
+        /**
+         * If true, the search will be case-insensitive.
+         */
+        searchIgnoreCase?: boolean;
+        /**
+         * Field to sort the results by
+         */
+        orderBy?: string | null;
+        /**
+         * Sort order: 'asc' or 'desc'
+         */
+        sortOrder?: SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder;
+    };
+
+export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder =
+    (typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder)[keyof typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
+
+export type SystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostParams =
+    {
+        /**
+         * Import strategy: 'strict' or 'ignore'
+         */
+        mode?: ImportMode;
+    };
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams =
     {

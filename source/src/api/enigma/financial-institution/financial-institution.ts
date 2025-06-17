@@ -6,11 +6,15 @@
  */
 import type {
     ApiResponseFinancialInstitution,
+    ApiResponseImportResponse,
     ApiResponseListFinancialInstitutionTypeItem,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationFinancialInstitution,
+    BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
+    FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetParams,
+    FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams,
     FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetParams,
     FinancialInstitutionPaymentTypesLink,
     FinancialInstitutionUpdate,
@@ -145,6 +149,126 @@ export const financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1Fina
             method: "POST",
             headers: { "Content-Type": "application/json", ...options?.headers },
             body: JSON.stringify(financialInstitutionCreate)
+        }
+    );
+};
+
+/**
+ * Exports Financial Institutions to a CSV file and download it
+ * @summary Export Financial Institutions to CSV
+ */
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse200 = {
+    data: unknown;
+    status: 200;
+};
+
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponseComposite =
+
+        | financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse200
+        | financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse422;
+
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse =
+    financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl = (
+    params?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/export?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/export`;
+};
+
+export const financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGet = async (
+    params?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetParams,
+    options?: RequestInit
+): Promise<financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse> => {
+    return authFetch<financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse>(
+        getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
+ * Upload CSV file and import Financial Institutions from it to system.
+ * @summary Financialinstitutionendpoints.Import Financial Institutions
+ */
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse200 =
+    {
+        data: ApiResponseImportResponse;
+        status: 200;
+    };
+
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponseComposite =
+
+        | financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse200
+        | financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse422;
+
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse =
+    financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostUrl = (
+    params?: FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/import?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/import`;
+};
+
+export const financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost = async (
+    bodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost: BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
+    params?: FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams,
+    options?: RequestInit
+): Promise<financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse> => {
+    const formData = new FormData();
+    formData.append(
+        "csv_file",
+        bodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost.csv_file
+    );
+
+    return authFetch<financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse>(
+        getFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostUrl(params),
+        {
+            ...options,
+            method: "POST",
+            body: formData
         }
     );
 };
