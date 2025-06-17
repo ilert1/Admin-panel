@@ -51,7 +51,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         enabled: true,
         select: data => data.data
     });
-
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
