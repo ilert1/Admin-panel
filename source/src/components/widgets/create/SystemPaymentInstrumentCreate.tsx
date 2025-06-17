@@ -134,6 +134,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={financialInstitutionsDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -162,6 +163,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         errorMessage={fieldState.error?.message}
                                         disabled={paymentsDisabled}
                                         iconForPaymentTypes
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -184,6 +186,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         disabled={currenciesDisabled}
                                         isError={fieldState.invalid}
                                         errorMessage={<FormMessage />}
+                                        modal
                                     />
                                 </FormItem>
                             )}

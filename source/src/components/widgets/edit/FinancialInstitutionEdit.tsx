@@ -353,6 +353,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                             )}
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
+                                            modal
                                         />
                                     </FormItem>
                                 );

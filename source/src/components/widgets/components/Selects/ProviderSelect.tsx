@@ -15,7 +15,8 @@ export const ProviderSelect = ({
     style = "Grey",
     errorMessage,
     disabled,
-    placeholder
+    placeholder,
+    modal
 }: ProviderSelectProps) => {
     const translate = useTranslate();
     return (
@@ -31,6 +32,7 @@ export const ProviderSelect = ({
             errorMessage={errorMessage}
             disabled={disabled}
             placeholder={placeholder}
+            modal={modal}
         />
     );
 };

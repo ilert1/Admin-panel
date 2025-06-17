@@ -77,6 +77,7 @@ export const MerchantListFilter = () => {
                             merchant={merchantId}
                             onMerchantChanged={onMerchantChanged}
                             resource="merchant"
+                            modal={false}
                         />
                     </div>
                 </AnimatedContainer>

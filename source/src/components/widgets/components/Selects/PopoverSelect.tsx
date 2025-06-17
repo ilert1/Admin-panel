@@ -18,6 +18,7 @@ export interface IPopoverSelect {
     disabled?: boolean;
     style?: "Grey" | "Black";
     placeholder?: string;
+    modal?: boolean;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -46,6 +47,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         commandPlaceholder = "",
         style = "Grey",
         iconForPaymentTypes = false,
+        modal = false,
         onChange,
         setIdValue
     } = props;
@@ -56,7 +58,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     };
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen} modal={modal}>
             <PopoverTrigger asChild className="mt-0" disabled={disabled}>
                 <Button
                     variant={"outline_gray"}
@@ -123,7 +125,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                         <CommandGroup>
                             {variants.map(variant => (
                                 <CommandItem
-                                    className="bg-muted"
+                                    className="gap-2 bg-muted"
                                     key={variant[variantKey]}
                                     value={variant[variantKey]}
                                     onSelect={currentValue => {
@@ -140,7 +142,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                     }}>
                                     <CheckIcon
                                         className={cn(
-                                            "mr-2 h-4 w-4",
+                                            "h-4 min-w-[24px]",
                                             value === variant[variantKey] ? "opacity-100" : "opacity-0"
                                         )}
                                     />
@@ -150,10 +152,9 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                                 type={variant[variantKey]}
                                                 metaIcon={variant.meta?.["icon"] as string}
                                                 metaIconMargin
+                                                className="min-w-[24px]"
                                             />
-                                        ) : (
-                                            ""
-                                        )}
+                                        ) : undefined}
                                         {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
                                     </>
                                 </CommandItem>
