@@ -71,9 +71,10 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 const entries = Object.entries(row.original.fees ?? {});
                 const d1 = entries.find(el => el[1].direction === 1);
-                const payInValue = d1 && `${String((d1[1].value.quantity ?? 0) * 100 / (d1[1].value.accuracy ?? 1))}`;
+                const payInValue = d1 && `${String(((d1[1].value.quantity ?? 0) * 100) / (d1[1].value.accuracy ?? 1))}`;
                 const d2 = entries.find(el => el[1].direction === 2);
-                const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) * 100 / (d2[1].value.accuracy ?? 1))}`;
+                const payOutValue =
+                    d2 && `${String(((d2[1].value.quantity ?? 0) * 100) / (d2[1].value.accuracy ?? 1))}`;
 
                 return (
                     <div className="flex justify-start gap-1">

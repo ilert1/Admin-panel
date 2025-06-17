@@ -1,5 +1,4 @@
 import { useDataProvider, useTranslate } from "react-admin";
-import { Fees } from "../../components/Fees";
 import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -14,6 +13,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { Fees } from "../../components/Fees";
 
 interface TerminalShowProps {
     id: string;
