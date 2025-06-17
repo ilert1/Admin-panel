@@ -24,7 +24,7 @@
             "code": "Код платёжного типа",
             "title": "Описание платёжного типа"
         },
-        "notFoundMessage": "Платежные типы не найдены.",
+        "notFoundMessage": "Платёжные типы не найдены.",
         "deletePaymentTypeQuestion": "Удалить платёжные тип?",
         "creatingPaymentType": "Создание платёжного типа",
         "editingPaymentType": "Изменение платёжного типа",
@@ -145,7 +145,7 @@
         "success": {
             "ACTIVE": "активна",
             "INACTIVE": "деактивирована",
-            "editActivity": "Активность терминального платежного инструмента %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность терминального платёжного инструмента %{name} успешно изменена на: %{state}."
         },
         "createTerminalPaymentInstrument": "Добавить инструмент",
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",
