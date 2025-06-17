@@ -86,7 +86,7 @@
             "name": "Название",
             "payment_type_code": "Платёжный тип",
             "currency_code": "Валюта",
-            "financial_institution_id": "Финансовая институт",
+            "financial_institution_id": "Финансовый институт",
             "direction": "Направление",
             "status": "Статус",
             "description": "Описание",
