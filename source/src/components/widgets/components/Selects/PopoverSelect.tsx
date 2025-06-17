@@ -81,10 +81,10 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     )}>
                     <div className="flex w-full items-center justify-between">
                         {value ? (
-                            <div className="flex flex-wrap items-center">{value}</div>
+                            <p className="truncate">{value}</p>
                         ) : (
                             <div className="flex flex-wrap items-center">
-                                <span className="text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                                <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
                             </div>
                         )}
 
@@ -128,26 +128,25 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                         <CommandGroup>
                             {variants.map(variant => (
                                 <CommandItem
-                                    className="bg-muted"
+                                    className="flex items-center gap-2 bg-muted"
                                     key={variant[variantKey]}
                                     value={variant[variantKey]}
                                     onSelect={onSelectChange}>
                                     <CheckIcon
                                         className={cn(
-                                            "mr-2 h-4 w-4",
+                                            "h-4 w-full max-w-4",
                                             value === variant[variantKey] ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                     <>
                                         {iconForPaymentTypes && (
                                             <PaymentTypeIcon
-                                                className="mr-2"
                                                 type={variant[variantKey]}
                                                 metaIcon={variant.meta?.["icon"] as string}
                                                 metaIconMargin
                                             />
                                         )}
-                                        {variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}
+                                        <p>{variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}</p>
                                     </>
                                 </CommandItem>
                             ))}
