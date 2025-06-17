@@ -77,7 +77,10 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
-        short_name: z.string().trim().optional(),
+        short_name: z
+            .string()
+            .regex(/^[a-z0-9_]+$/, translate("resources.paymentTools.financialInstitution.errors.short_name"))
+            .trim(),
         legal_name: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
         currencies: z.array(z.string()).optional(),

@@ -63,6 +63,7 @@
         },
         "errors": {
             "name": "The name of the financial institution is required",
+            "short_name": "The code of the financial institution is required",
             "country_code": "The country code is entered incorrectly"
         },
         "success": {
