@@ -51,6 +51,17 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     } = props;
     const [open, setOpen] = useState(false);
 
+    const onSelectChange = (currentValue: string) => {
+        onChange(currentValue === value ? "" : currentValue);
+
+        if (setIdValue && idField) {
+            const variantId = variants.find(el => el[variantKey] === currentValue)[idField];
+            setIdValue(variantId);
+        }
+
+        setOpen(false);
+    };
+
     return (
         <Popover modal={true} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild className="mt-0" disabled={disabled}>
@@ -110,7 +121,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                <Command>
+                <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                     <CommandInput placeholder={commandPlaceholder} />
                     <CommandList>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
@@ -120,18 +131,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                     className="bg-muted"
                                     key={variant[variantKey]}
                                     value={variant[variantKey]}
-                                    onSelect={currentValue => {
-                                        onChange(currentValue === value ? "" : currentValue);
-
-                                        if (setIdValue && idField) {
-                                            const variantId = variants.find(el => el[variantKey] === currentValue)[
-                                                idField
-                                            ];
-                                            setIdValue(variantId);
-                                        }
-
-                                        setOpen(false);
-                                    }}>
+                                    onSelect={onSelectChange}>
                                     <CheckIcon
                                         className={cn(
                                             "mr-2 h-4 w-4",
