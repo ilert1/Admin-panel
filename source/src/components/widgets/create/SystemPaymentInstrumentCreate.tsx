@@ -93,9 +93,11 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         if (!finInstValue) {
             setPaymentTypes([]);
         } else if (financialInstitutions && finInstValue) {
+            form.resetField("payment_type_code");
             const found = financialInstitutions?.find((item: { id: string }) => item.id === finInstValue).payment_types;
             setPaymentTypes(found);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [finInstValue, financialInstitutions]);
 
     if (currenciesLoading || financialInstitutionsLoading)
