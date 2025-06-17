@@ -111,6 +111,12 @@
         "notFoundMessage": "Маппинги не найдены"
     },
     "resources.callbridge.history_backup": {
-        "name": "Бэкап истории"
+        "name": "История бэкапов",
+        "fields": {
+            "file_name": "Название файла",
+            "file_size": "Размер файла",
+            "created": "Дата создания",
+            "records_count": "Количество записей"
+        }
     }
 }

@@ -40,31 +40,32 @@ import { callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet }
  */
 export class CallbackBackupsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
+        console.log(params.filter);
+
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(
-                  item =>
-                      item === "name" ||
-                      item === "description" ||
-                      item === "internal_path" ||
-                      item === "external_path" ||
-                      item === "mapping_id" ||
-                      item === "callback_id" ||
-                      item === "original_url" ||
-                      item === "trigger_type" ||
-                      item === "status" ||
-                      item === "transaction_id" ||
-                      item === "external_order_id"
+                  item => item === "createdAfter" || item === "createdBefore"
+                  //   item === "description" ||
+                  //   item === "internal_path" ||
+                  //   item === "external_path" ||
+                  //   item === "mapping_id" ||
+                  //   item === "callback_id" ||
+                  //   item === "original_url" ||
+                  //   item === "trigger_type" ||
+                  //   item === "status" ||
+                  //   item === "transaction_id" ||
+                  //   item === "external_order_id"
               )
             : [];
 
         const res = await callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet(
             {
                 currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
-                // ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                // ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
-                // ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
-                // ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
+                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
             },
             {
                 headers: {
@@ -73,11 +74,9 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
                 signal: params.signal || params.filter?.signal
             }
         );
-        console.log(res.data);
-
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items,
+                data: res.data.data.items.map(el => ({ ...el, id: el.file_name })),
                 total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {

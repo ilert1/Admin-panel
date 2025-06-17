@@ -4,21 +4,20 @@ import { ListContextProvider } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { useGetCallbackBackupColumns } from "./Columns";
+import { CallbackBackupListFilter } from "./CallbackBackupListFilter";
 
 export const CallbackBackupsList = () => {
     const listContext = useAbortableListController({ resource: "callback_backup" });
-    console.log(listContext.data);
+    const { columns } = useGetCallbackBackupColumns();
 
-    const { columns, createDialogOpen, setCreateDialogOpen } = useGetCallbackBackupColumns();
-
-    const handleCreateClicked = () => {
-        setCreateDialogOpen(true);
-    };
+    // const handleCreateClicked = () => {
+    //     setCreateDialogOpen(true);
+    // };
 
     return (
         <>
             <ListContextProvider value={listContext}>
-                {/* <FinancialInstitutionsListFilter handleCreateClicked={handleCreateClicked} /> */}
+                <CallbackBackupListFilter />
 
                 {listContext.isLoading || !listContext.data ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>

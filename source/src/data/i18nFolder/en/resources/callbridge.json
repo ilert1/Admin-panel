@@ -109,6 +109,12 @@
         "notFoundMessage": "Mappings not found"
     },
     "resources.callbridge.history_backup": {
-        "name": "History backup"
+        "name": "Backup history",
+        "fields": {
+            "file_name": "File name",
+            "file_size": "File size",
+            "created": "Created",
+            "records_count": "Records count"
+        }
     }
 }
