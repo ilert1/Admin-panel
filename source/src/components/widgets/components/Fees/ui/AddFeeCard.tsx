@@ -93,7 +93,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         if (!tempData) return;
 
         const accurateFeeAmount = new Big(tempData.value).div(100).toString();
-        
+
         setSubmitButtonDisabled(true);
         if (feeType === "inner") {
             if (setFees) {
@@ -214,6 +214,31 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                         </FormItem>
                                     )}
                                 />
+                                {/* <FormField
+                                    control={form.control}
+                                    name="value"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="col-span-2 p-2">
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <Input
+                                                        {...field}
+                                                        onChange={() => {}}
+                                                        label={translate("resources.direction.fees.feeAmount")}
+                                                        labelSize="note-1"
+                                                        error={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}
+                                                        variant={InputTypes.GRAY}
+                                                        borderColor="border-neutral-60"
+                                                        className="max-w-[85%]"
+                                                        inputMode="numeric"
+                                                    />
+                                                    <span className="absolute right-[15px] top-[50%]">%</span>
+                                                </div>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                /> */}
                                 <FormField
                                     control={form.control}
                                     name="value"
@@ -223,14 +248,36 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                 <div className="relative">
                                                     <Input
                                                         {...field}
+                                                        onChange={e => {
+                                                            let value = e.target.value;
+                                                            value = value.replace(/[^0-9.]/g, "");
+                                                            const parts = value.split(".");
+                                                            if (parts.length > 2) {
+                                                                value = parts[0] + "." + parts[1];
+                                                            }
+                                                            if (
+                                                                value.length > 1 &&
+                                                                value.startsWith("0") &&
+                                                                !value.startsWith("0.")
+                                                            ) {
+                                                                value = value.replace(/^0+/, "") || "0";
+                                                            }
+                                                            if (value === ".") {
+                                                                value = "0.";
+                                                            }
+                                                            field.onChange(value);
+                                                        }}
+                                                        value={field.value}
                                                         label={translate("resources.direction.fees.feeAmount")}
                                                         labelSize="note-1"
                                                         error={fieldState.invalid}
                                                         errorMessage={<FormMessage />}
                                                         variant={InputTypes.GRAY}
                                                         borderColor="border-neutral-60"
+                                                        className="max-w-[85%]"
+                                                        inputMode="decimal"
                                                     />
-                                                    <span className="absolute right-[40px] top-[50%]">%</span>
+                                                    <span className="absolute right-[15px] top-[50%]">%</span>
                                                 </div>
                                             </FormControl>
                                         </FormItem>
