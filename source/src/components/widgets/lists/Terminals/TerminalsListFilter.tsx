@@ -93,7 +93,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                                 onChange={onTerminalChanged}
                                 disabled={terminalsLoadingProcess}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                notFoundMessage={translate("resources.provider.notFoundMessage")}
+                                notFoundMessage={translate("resources.terminals.notFoundMessage")}
                             />
                         </div>
                     </div>
