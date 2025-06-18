@@ -1,6 +1,6 @@
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
-import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -140,6 +140,9 @@ export const MerchantSelectFilter = ({
                     />
                     {/* isTabletOrMobile ? "!max-h-[100px]" : "" */}
                     <CommandList>
+                        <CommandEmpty className={cn(variant === "outline" ? "dark:bg-muted" : "dark:bg-neutral-100")}>
+                            {translate("resources.merchant.notFoundMessage")}
+                        </CommandEmpty>
                         <CommandGroup>
                             <CommandItem
                                 value={"null"}
