@@ -148,7 +148,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                 terminalId,
                 {
                     payment_type_codes,
-                    ...(currency_codes && { currency_codes })
+                    ...(currency_codes && currency_codes.length > 0 && { currency_codes })
                 },
                 {
                     headers: {

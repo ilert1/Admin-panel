@@ -8,23 +8,29 @@ import {
 } from "@/components/ui/dialog";
 import { useRefresh, useTranslate } from "react-admin";
 import { Button } from "@/components/ui/Button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
-import { DirectionsDataProvider } from "@/data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
+import { CurrenciesDataProvider } from "@/data";
+import { Loading } from "@/components/ui/loading";
 
 interface InitializeFinancialInstitutionDialogProps {
     terminalId: string;
+    terminalPaymentTypes: PaymentTypeBase[];
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
 export const InitializeTerminalPaymentInstrumentsDialog = ({
     terminalId,
+    terminalPaymentTypes,
     open,
     onOpenChange = () => {}
 }: InitializeFinancialInstitutionDialogProps) => {
@@ -33,25 +39,25 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     const refresh = useRefresh();
 
     const terminalsDataProvider = new TerminalPaymentInstrumentsProvider();
-    const directionsDataProvider = new DirectionsDataProvider();
+    const currenciesDataProvider = new CurrenciesDataProvider();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const { isLoading, data } = useQuery({
-        queryKey: ["getAvailablePaymentTypes", "terminal"],
-        queryFn: async ({ signal }) => await directionsDataProvider.getAvailablePaymentTypes({ terminalId, signal }),
-        enabled: !!terminalId
+    const { isLoading: currenciesLoading, data: currencies } = useQuery({
+        queryKey: ["currencies"],
+        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination(signal)
     });
-    console.log(data);
 
     const formSchema = z.object({
-        payment_type_codes: z.string()
+        payment_type_codes: z.array(z.string()),
+        currency_codes: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            payment_type_codes: ""
+            payment_type_codes: [],
+            currency_codes: []
         }
     });
 
@@ -59,7 +65,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
         setSubmitButtonDisabled(true);
 
         try {
-            await terminalsDataProvider.initialize(terminalId, []);
+            await terminalsDataProvider.initialize(terminalId, data.payment_type_codes, data.currency_codes);
 
             appToast("success", translate("app.ui.create.createSuccess"));
 
@@ -75,6 +81,13 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
             setSubmitButtonDisabled(false);
         }
     };
+
+    if (currenciesLoading)
+        return (
+            <div className="h-[400px]">
+                <Loading />
+            </div>
+        );
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -92,14 +105,48 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                             <div className="flex flex-col flex-wrap">
-                                <div className="grid grid-cols-1 sm:grid-cols-2"></div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2">
+                                    <FormField
+                                        control={form.control}
+                                        name="payment_type_codes"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full p-2">
+                                                <FormControl>
+                                                    <PaymentTypeMultiSelect
+                                                        value={field.value}
+                                                        onChange={field.onChange}
+                                                        options={terminalPaymentTypes}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="currency_codes"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full p-2">
+                                                <CurrenciesMultiSelect
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                    options={currencies?.data || []}
+                                                />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
 
                                 <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                                     <Button
                                         type="submit"
                                         variant="default"
                                         className="w-full sm:w-auto"
-                                        disabled={submitButtonDisabled}>
+                                        disabled={
+                                            submitButtonDisabled ||
+                                            terminalPaymentTypes.length === 0 ||
+                                            form.getValues("payment_type_codes").length === 0
+                                        }>
                                         {translate("app.ui.actions.initialize")}
                                     </Button>
 

@@ -5,9 +5,10 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { CreateTerminalPaymentInstrumentsDialog } from "./CreateTerminalPaymentInstrumentsDialog";
 import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilter";
+import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const TerminalPaymentInstrumentsList = () => {
-    const listContext = useAbortableListController({
+    const listContext = useAbortableListController<TerminalPaymentInstrument>({
         resource: "terminalPaymentInstruments"
     });
 
