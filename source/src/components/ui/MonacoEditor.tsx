@@ -44,6 +44,8 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
 
                     if (
                         typeof parsed !== "object" ||
+                        parsed === null ||
+                        Array.isArray(parsed) ||
                         Object.keys(parsed).includes("") ||
                         Object.values(parsed).includes("")
                     ) {
