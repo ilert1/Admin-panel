@@ -40,10 +40,10 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
         (value: string) => {
             if (onValidChange) {
                 try {
-                    const parsed = JSON.parse(value || "{}");
+                    const parsed = JSON.parse(value);
+
                     if (
-                        value.trim() === "" ||
-                        Object.keys(parsed).length === 0 ||
+                        typeof parsed !== "object" ||
                         Object.keys(parsed).includes("") ||
                         Object.values(parsed).includes("")
                     ) {
