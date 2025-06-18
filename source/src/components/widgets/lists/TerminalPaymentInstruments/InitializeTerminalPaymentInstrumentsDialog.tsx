@@ -14,7 +14,7 @@ import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { Terminal } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
@@ -54,11 +54,21 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            terminal_id: terminal?.terminal_id || "",
+            terminal_id: "",
             payment_type_codes: [],
             currency_codes: []
         }
     });
+
+    useEffect(() => {
+        if (terminal) {
+            form.reset({
+                terminal_id: terminal.terminal_id,
+                payment_type_codes: [],
+                currency_codes: []
+            });
+        }
+    }, [form, terminal]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setSubmitButtonDisabled(true);

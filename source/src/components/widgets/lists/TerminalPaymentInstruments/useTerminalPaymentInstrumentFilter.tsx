@@ -128,7 +128,6 @@ const useTerminalPaymentInstrumentFilter = () => {
     };
 
     const onTerminalIdFieldChanged = (value: string) => {
-        console.log(value);
         setTerminalFilterId(value);
         onPropertySelected(value, "terminalFilterId");
     };
