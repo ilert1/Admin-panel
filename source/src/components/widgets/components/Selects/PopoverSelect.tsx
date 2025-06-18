@@ -88,7 +88,9 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     )}>
                     <div className="flex w-full items-center justify-between">
                         {value ? (
-                            <p className="truncate">{value}</p>
+                            <div className="block max-w-[80%] flex-wrap items-center overflow-hidden text-ellipsis break-words">
+                                {value}
+                            </div>
                         ) : (
                             <div className="flex flex-wrap items-center">
                                 <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
