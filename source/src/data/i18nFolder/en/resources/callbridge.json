@@ -106,6 +106,6 @@
             "error": "Error",
             "sync": "Sync"
         },
-        "notFoundMessage": "Mappings not found"
+        "notFoundMessage": "Mappings not found."
     }
 }
