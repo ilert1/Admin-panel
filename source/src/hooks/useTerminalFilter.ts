@@ -12,7 +12,8 @@ const useTerminalFilter = () => {
     const translate = useTranslate();
 
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
-    const [terminalName, setTerminalName] = useState(filterValues?.verbose_name || "");
+    const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminal_id || "");
+    const [terminalFilterName, setTerminalFilterName] = useState("");
 
     const {
         data: providersData,
@@ -42,6 +43,15 @@ const useTerminalFilter = () => {
     });
 
     useEffect(() => {
+        if (terminalsData) {
+            setTerminalFilterName(
+                terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminal_id)?.verbose_name || ""
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [terminalsData]);
+
+    useEffect(() => {
         refetchTerminalsData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providerName]);
@@ -56,11 +66,12 @@ const useTerminalFilter = () => {
         [isTerminalsFetching, isTerminalsLoading]
     );
 
-    const onPropertySelected = debounce((value: string, type: "verbose_name" | "provider") => {
-        if (value && type === "provider" && terminalName) {
-            setTerminalName("");
+    const onPropertySelected = debounce((value: string, type: "terminal_id" | "provider") => {
+        if (value && type === "provider" && terminalFilterId && terminalFilterName) {
+            setTerminalFilterId("");
+            setTerminalFilterName("");
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { verbose_name, ...newFilterValues } = filterValues;
+            const { terminal_id, ...newFilterValues } = filterValues;
             setFilters({ ...newFilterValues, [type]: value }, displayedFilters, true);
         } else if (value) {
             setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
@@ -76,23 +87,28 @@ const useTerminalFilter = () => {
         onPropertySelected(provider, "provider");
     };
 
-    const onTerminalChanged = (terminal: string) => {
-        setTerminalName(terminal);
-        onPropertySelected(terminal, "verbose_name");
+    const onTerminalIdFieldChanged = (terminalId: string) => {
+        setTerminalFilterId(terminalId);
+        onPropertySelected(terminalId, "terminal_id");
+    };
+
+    const onTerminalNameChanged = (terminal: string) => {
+        setTerminalFilterName(terminal);
     };
 
     const onClearFilters = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
         setProviderName("");
-        setTerminalName("");
+        setTerminalFilterName("");
     };
 
     return {
         providerName,
         onProviderChanged,
-        terminalName,
-        onTerminalChanged,
+        onTerminalIdFieldChanged,
+        terminalFilterName,
+        onTerminalNameChanged,
         providersData,
         providersLoadingProcess,
         terminalsData,

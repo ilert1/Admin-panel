@@ -33,7 +33,7 @@ export type TerminalWithId = Terminal & { id: string };
 export class TerminalsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalWithId>> {
         const fieldsForSearch = Object.keys(params.filter).filter(
-            item => item === "verbose_name" || item === "provider"
+            item => item === "terminal_id" || item === "verbose_name" || item === "provider"
         );
 
         const res = await poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet(

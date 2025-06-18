@@ -18,8 +18,9 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
     const {
         providerName,
         onProviderChanged,
-        terminalName,
-        onTerminalChanged,
+        terminalFilterName,
+        onTerminalIdFieldChanged,
+        onTerminalNameChanged,
         providersData,
         providersLoadingProcess,
         terminalsData,
@@ -29,7 +30,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
     } = useTerminalFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !providerName && !terminalName;
+    const clearDisabled = !providerName && !terminalFilterName;
 
     return (
         <>
@@ -46,7 +47,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
 
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[providerName, terminalName]}
+                        filterList={[providerName, terminalFilterName]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -89,8 +90,10 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                                 style="Black"
                                 variants={terminalsData || []}
                                 variantKey="verbose_name"
-                                value={terminalName}
-                                onChange={onTerminalChanged}
+                                value={terminalFilterName}
+                                onChange={onTerminalNameChanged}
+                                idField="terminal_id"
+                                setIdValue={onTerminalIdFieldChanged}
                                 disabled={terminalsLoadingProcess}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.provider.notFoundMessage")}
