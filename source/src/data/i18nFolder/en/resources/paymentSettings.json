@@ -64,7 +64,7 @@
         "errors": {
             "name": "The name of the financial institution is required",
             "short_name": "The code of the financial institution is required",
-            "short_name_regex": "The institute's code can contain characters 0-9, a-z and _",
+            "short_name_regex": "The code can contain characters 0-9, a-z and _",
             "country_code": "The country code is entered incorrectly",
             "alreadyExist": "The financial institution already exists",
             "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists in the field (%{field})"
