@@ -70,7 +70,9 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     )}>
                     <div className="flex w-full items-center justify-between">
                         {value ? (
-                            <div className="flex flex-wrap items-center">{value}</div>
+                            <div className="block max-w-[80%] flex-wrap items-center overflow-hidden text-ellipsis break-words">
+                                {value}
+                            </div>
                         ) : (
                             <div className="flex flex-wrap items-center">
                                 <span className="text-neutral-60 dark:text-neutral-70">{placeholder}</span>
