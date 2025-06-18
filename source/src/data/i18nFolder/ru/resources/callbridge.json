@@ -108,6 +108,17 @@
             "error": "Ошибка",
             "sync": "Синхронизация"
         },
+        "backupRestoring": {
+            "restoreBackup": "Восстановить из бэкапа",
+            "restoringFromBackup": "Восстановление из бэкапа",
+            "strategy": "Стратегия Восстановления",
+            "file": "Файл бэкапа",
+            "strategies": {
+                "merge": "Объединить",
+                "skip": "Пропустить",
+                "overwrite": "Перезаписать"
+            }
+        },
         "notFoundMessage": "Маппинги не найдены"
     },
     "resources.callbridge.history_backup": {
@@ -116,7 +127,15 @@
             "file_name": "Название файла",
             "file_size": "Размер файла",
             "created": "Дата создания",
-            "records_count": "Количество записей"
+            "records_count": "Количество записей",
+            "download": "Скачать"
+        },
+        "filter": {
+            "sortBy": "Сортировать по"
+        },
+        "sortDirections": {
+            "asc": "По возрастанию",
+            "desc": "По убыванию"
         }
     }
 }

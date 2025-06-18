@@ -106,6 +106,17 @@
             "error": "Error",
             "sync": "Sync"
         },
+        "backupRestoring": {
+            "restoreBackup": "Restore from backup",
+            "restoringFromBackup": "Restoring from backup",
+            "strategy": "Restoring strategy",
+            "file": "Backup file",
+            "strategies": {
+                "merge": "Merge",
+                "skip": "Skip",
+                "overwrite": "Overwrite"
+            }
+        },
         "notFoundMessage": "Mappings not found"
     },
     "resources.callbridge.history_backup": {
@@ -114,7 +125,15 @@
             "file_name": "File name",
             "file_size": "File size",
             "created": "Created",
-            "records_count": "Records count"
+            "records_count": "Records count",
+            "download": "Download"
+        },
+        "filter": {
+            "sortBy": "Sort by"
+        },
+        "sortDirections": {
+            "asc": "By ascending",
+            "desc": "By descending"
         }
     }
 }

@@ -17,30 +17,10 @@ const useCallbackListFilter = () => {
         filterValues?.createdBefore ? new Date(filterValues?.createdBefore) : undefined
     );
 
-    const [status, setStatus] = useState(filterValues?.status || "");
-    const [mappingId, setMappingId] = useState(filterValues?.mapping_id || "");
-    const [callbackId, setCallbackId] = useState(filterValues?.callback_id || "");
-    const [txId, settxId] = useState(filterValues?.transaction_id || "");
-    const [extOrderId, setExtOrderId] = useState(filterValues?.external_order_id || "");
-    const [mappingName, setMappingName] = useState("");
+    const [sortDirection, setSortDirection] = useState<"asc" | "desc">(filterValues?.sortOrder || "asc");
 
-    // const onPropertySelected = debounce(
-    //     (value: string, type: "status" | "mapping_id" | "callback_id" | "transaction_id" | "external_order_id") => {
-    //         if (value) {
-    //             setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
-    //         } else {
-    //             Reflect.deleteProperty(filterValues, type);
-    //             setFilters(filterValues, displayedFilters, true);
-    //         }
-    //         setPage(1);
-    //     },
-    //     300
-    // );
     const onPropertySelected = debounce(
-        (
-            value: string | { from: string; to: string } | number,
-            type: "id" | "dst_address" | "date" | "order_type" | "accountId" | "order_state"
-        ) => {
+        (value: string | { from: string; to: string } | number, type: "date" | "sortOrder") => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
                     setFilters(
@@ -74,58 +54,26 @@ const useCallbackListFilter = () => {
         }
     };
 
-    // const onMappingIdChanged = (val: string) => {
-    //     setMappingId(val);
-    //     onPropertySelected(val, "mapping_id");
-    // };
-
-    // const onMappingNameChanged = (val: string) => {
-    //     setMappingName(val);
-    // };
-
-    // const onCallbackIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setCallbackId(e.target.value);
-    //     onPropertySelected(e.target.value, "callback_id");
-    // };
-
-    // const onTxIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
-    //     settxId(e.target.value);
-    //     onPropertySelected(e.target.value, "transaction_id");
-    // };
-
-    // const onExtOrderIdChanged = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setExtOrderId(e.target.value);
-    //     onPropertySelected(e.target.value, "external_order_id");
-    // };
-
-    // const onStatusChanged = (value: CallbackStatusEnum | "") => {
-    //     setStatus(value);
-    //     onPropertySelected(value, "status");
-    // };
+    const onSortDirectionChanged = (val: "asc" | "desc") => {
+        setSortDirection(val);
+        onPropertySelected(val, "sortOrder");
+    };
 
     const onClearFilters = () => {
-        setStatus("");
-        setMappingId("");
-        setCallbackId("");
         setFilters({}, displayedFilters, true);
         setPage(1);
-        settxId("");
-        setExtOrderId("");
-        setMappingName("");
+        setStartDate(undefined);
+        setEndDate(undefined);
+        setSortDirection("asc");
     };
 
     return {
         translate,
-        status,
-        mappingId,
-        callbackId,
-        txId,
-        extOrderId,
         startDate,
         endDate,
+        sortDirection,
+        onSortDirectionChanged,
         changeDate,
-        mappingName,
-        setMappingName,
         onClearFilters
     };
 };
