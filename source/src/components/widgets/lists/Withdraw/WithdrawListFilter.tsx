@@ -135,6 +135,7 @@ export const WithdrawListFilter = () => {
                                     merchant={merchantId}
                                     onMerchantChanged={onMerchantChanged}
                                     resource="accounts"
+                                    modal={false}
                                 />
                             </div>
                         )}

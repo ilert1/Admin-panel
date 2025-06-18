@@ -178,6 +178,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                             disabled={terminalsDataLoading}
+                                            modal
                                         />
                                     </FormItem>
                                 )}
@@ -208,6 +209,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                             disabled={systemPaymentInstrumentsDataLoading}
+                                            modal
                                         />
                                     </FormItem>
                                 )}

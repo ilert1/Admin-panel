@@ -150,6 +150,7 @@ export const TransactionListFilter = () => {
                                     merchant={account}
                                     onMerchantChanged={onAccountChanged}
                                     resource="accounts"
+                                    modal={false}
                                 />
                             </div>
                         )}

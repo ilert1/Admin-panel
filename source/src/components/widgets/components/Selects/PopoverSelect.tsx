@@ -18,6 +18,7 @@ export interface IPopoverSelect {
     disabled?: boolean;
     style?: "Grey" | "Black";
     placeholder?: string;
+    modal?: boolean;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -46,6 +47,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         commandPlaceholder = "",
         style = "Grey",
         iconForPaymentTypes = false,
+        modal = false,
         onChange,
         setIdValue
     } = props;
@@ -61,14 +63,19 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
         setOpen(false);
     };
+    const handleTogglePopover = () => {
+        setOpen(prev => !prev);
+    };
 
     return (
-        <Popover modal={true} open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen} modal={modal}>
             <PopoverTrigger asChild className="mt-0" disabled={disabled}>
                 <Button
                     variant={"outline_gray"}
                     role="combobox"
-                    aria-expanded={open}
+                    onClick={handleTogglePopover}
+                    // aria-expanded={open}
+                    // onClick={handleTogglePopover}
                     className={cn(
                         style === "Black"
                             ? "bg-black hover:!bg-white hover:dark:!bg-black"
@@ -120,7 +127,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     </div>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+            <PopoverContent className="w-[--radix-popover-trigger-width] p-0" onEscapeKeyDown={() => setOpen(false)}>
                 <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                     <CommandInput placeholder={commandPlaceholder} />
                     <CommandList>
@@ -139,13 +146,14 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                         )}
                                     />
                                     <>
-                                        {iconForPaymentTypes && (
+                                        {iconForPaymentTypes ? (
                                             <PaymentTypeIcon
                                                 type={variant[variantKey]}
                                                 metaIcon={variant.meta?.["icon"] as string}
                                                 metaIconMargin
+                                                className="min-w-[24px]"
                                             />
-                                        )}
+                                        ) : undefined}
                                         <p>{variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}</p>
                                     </>
                                 </CommandItem>

@@ -198,6 +198,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={terminalsDataLoading}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -228,6 +229,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={systemPaymentInstrumentsDataLoading}
+                                        modal
                                     />
                                 </FormItem>
                             )}

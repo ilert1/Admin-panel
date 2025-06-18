@@ -163,6 +163,7 @@ export const AccountListFilter = () => {
                                         merchant={merchantId}
                                         onMerchantChanged={onMerchantChanged}
                                         resource="merchant"
+                                        modal={false}
                                     />
                                 </div>
                             )}
