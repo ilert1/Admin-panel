@@ -57,6 +57,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
@@ -469,6 +470,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                     <FormControl>
                                         <MonacoEditor
                                             onErrorsChange={setHasErrors}
+                                            onValidChange={setHasValid}
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
@@ -482,7 +484,12 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                         <Button
-                            disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
+                            disabled={
+                                hasErrors ||
+                                (!hasValid && form.watch("meta")?.length !== 0) ||
+                                !monacoEditorMounted ||
+                                submitButtonDisabled
+                            }
                             type="submit"
                             variant="default"
                             className="flex-1">

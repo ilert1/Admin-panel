@@ -67,6 +67,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
     const [terminalValueName, setTerminalValueName] = useState("");
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
@@ -382,6 +383,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                     <FormControl>
                                         <MonacoEditor
                                             onErrorsChange={setHasErrors}
+                                            onValidChange={setHasValid}
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
@@ -395,7 +397,12 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                         <Button
-                            disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
+                            disabled={
+                                hasErrors ||
+                                (!hasValid && form.watch("terminal_specific_parameters")?.length !== 0) ||
+                                !monacoEditorMounted ||
+                                submitButtonDisabled
+                            }
                             type="submit"
                             variant="default"
                             className="flex-1">

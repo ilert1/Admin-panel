@@ -29,6 +29,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
 
     const { data: record, isLoading: isLoadingPaymentInstrument } = useQuery({
         queryKey: ["paymentInstrument", id],
@@ -126,6 +127,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                                             width="100%"
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             onErrorsChange={setHasErrors}
+                                            onValidChange={setHasValid}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
@@ -141,7 +143,12 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                             type="submit"
                             variant="default"
                             className="w-full sm:w-auto"
-                            disabled={hasErrors || !monacoEditorMounted || buttonDisabled}>
+                            disabled={
+                                hasErrors ||
+                                (!hasValid && form.watch("meta")?.length !== 0) ||
+                                !monacoEditorMounted ||
+                                buttonDisabled
+                            }>
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button

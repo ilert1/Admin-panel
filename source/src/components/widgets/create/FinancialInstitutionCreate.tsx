@@ -50,6 +50,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -405,6 +406,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                         <FormControl>
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
+                                                onValidChange={setHasValid}
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
                                                 code={field.value ?? "{}"}
                                                 setCode={field.onChange}
@@ -421,7 +423,12 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}>
+                                disabled={
+                                    hasErrors ||
+                                    (!hasValid && form.watch("meta")?.length !== 0) ||
+                                    !monacoEditorMounted ||
+                                    submitButtonDisabled
+                                }>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

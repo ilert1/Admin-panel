@@ -43,6 +43,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const providersDataProvider = new ProvidersDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const {
@@ -254,6 +255,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                             width="100%"
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             onErrorsChange={setHasErrors}
+                                            onValidChange={setHasValid}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
@@ -267,7 +269,12 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}>
+                                disabled={
+                                    hasErrors ||
+                                    (!hasValid && form.watch("details")?.length !== 0) ||
+                                    !monacoEditorMounted ||
+                                    submitButtonDisabled
+                                }>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

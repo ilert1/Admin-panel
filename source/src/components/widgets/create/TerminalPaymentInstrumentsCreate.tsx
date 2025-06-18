@@ -51,6 +51,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const [systemPaymentInstrumentValueName, setSystemPaymentInstrumentValueName] = useState("");
     const [terminalValueName, setTerminalValueName] = useState("");
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -367,6 +368,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                         <FormControl>
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
+                                                onValidChange={setHasValid}
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
                                                 code={field.value ?? "{}"}
                                                 setCode={field.onChange}
@@ -386,6 +388,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                 disabled={
                                     hasErrors ||
                                     !monacoEditorMounted ||
+                                    (!hasValid && form.watch("terminal_specific_parameters")?.length !== 0) ||
                                     submitButtonDisabled ||
                                     terminalsDataLoading ||
                                     systemPaymentInstrumentsDataLoading

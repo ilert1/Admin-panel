@@ -42,6 +42,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
@@ -191,6 +192,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                     <MonacoEditor
                                         width="100%"
                                         onMountEditor={() => setMonacoEditorMounted(true)}
+                                        onValidChange={setHasValid}
                                         onErrorsChange={setHasErrors}
                                         code={field.value ?? "{}"}
                                         setCode={field.onChange}
@@ -218,7 +220,12 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                         <Button
-                            disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
+                            disabled={
+                                hasErrors ||
+                                (!hasValid && form.watch("methods")?.length !== 0) ||
+                                !monacoEditorMounted ||
+                                submitButtonDisabled
+                            }
                             type="submit"
                             variant="default"
                             className="flex-1">

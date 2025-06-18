@@ -32,6 +32,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const terminalsDataProvider = new TerminalsDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const queryClient = useQueryClient();
     const [isFinished, setIsFinished] = useState(false);
 
@@ -250,6 +251,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                         width="100%"
                                         onMountEditor={() => setMonacoEditorMounted(true)}
                                         onErrorsChange={setHasErrors}
+                                        onValidChange={setHasValid}
                                         code={field.value ?? "{}"}
                                         setCode={field.onChange}
                                     />
@@ -276,7 +278,12 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                         <Button
-                            disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
+                            disabled={
+                                hasErrors ||
+                                (!hasValid && form.watch("details")?.length !== 0) ||
+                                !monacoEditorMounted ||
+                                submitButtonDisabled
+                            }
                             type="submit"
                             variant="default"
                             className="flex-1">
