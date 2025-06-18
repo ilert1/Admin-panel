@@ -16,21 +16,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Terminal } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { CurrenciesDataProvider } from "@/data";
-import { Loading } from "@/components/ui/loading";
 
 interface InitializeFinancialInstitutionDialogProps {
-    terminalId: string;
-    terminalPaymentTypes: PaymentTypeBase[];
+    terminal: Terminal | undefined;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
 export const InitializeTerminalPaymentInstrumentsDialog = ({
-    terminalId,
-    terminalPaymentTypes,
+    terminal,
     open,
     onOpenChange = () => {}
 }: InitializeFinancialInstitutionDialogProps) => {
@@ -49,6 +46,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     });
 
     const formSchema = z.object({
+        terminal_id: z.string(),
         payment_type_codes: z.array(z.string()),
         currency_codes: z.array(z.string()).optional()
     });
@@ -56,6 +54,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            terminal_id: terminal?.terminal_id || "",
             payment_type_codes: [],
             currency_codes: []
         }
@@ -65,7 +64,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
         setSubmitButtonDisabled(true);
 
         try {
-            await terminalsDataProvider.initialize(terminalId, data.payment_type_codes, data.currency_codes);
+            await terminalsDataProvider.initialize(data.terminal_id, data.payment_type_codes, data.currency_codes);
 
             appToast("success", translate("app.ui.create.createSuccess"));
 
@@ -82,13 +81,6 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
         }
     };
 
-    if (currenciesLoading)
-        return (
-            <div className="h-[400px]">
-                <Loading />
-            </div>
-        );
-
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -97,7 +89,8 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">
                         {translate(
-                            "resources.paymentSettings.terminalPaymentInstruments.initializeTerminalPaymentInstrument"
+                            "resources.paymentSettings.terminalPaymentInstruments.initializeTerminalPaymentInstrument",
+                            { terminal: terminal?.verbose_name }
                         )}
                     </DialogTitle>
                     <DialogDescription />
@@ -115,7 +108,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                                                     <PaymentTypeMultiSelect
                                                         value={field.value}
                                                         onChange={field.onChange}
-                                                        options={terminalPaymentTypes}
+                                                        options={terminal?.payment_types}
                                                     />
                                                 </FormControl>
                                             </FormItem>
@@ -144,7 +137,8 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                                         className="w-full sm:w-auto"
                                         disabled={
                                             submitButtonDisabled ||
-                                            terminalPaymentTypes.length === 0 ||
+                                            currenciesLoading ||
+                                            terminal?.payment_types?.length === 0 ||
                                             form.getValues("payment_type_codes").length === 0
                                         }>
                                         {translate("app.ui.actions.initialize")}

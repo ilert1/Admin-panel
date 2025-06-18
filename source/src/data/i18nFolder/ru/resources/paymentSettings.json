@@ -157,7 +157,7 @@
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",
         "editingTerminalPaymentInstrument": "Изменение терминального платёжного инструмента",
         "deleteTerminalPaymentInstrument": "Удалить терминальный платёжный инструмент?",
-        "initializeTerminalPaymentInstrument": "Инициализация терминального платёжного инструмента",
+        "initializeTerminalPaymentInstrument": "Инициализация терминальных платёжных инструментов для терминала: %{terminal}",
         "initInstruments": "Инициализировать инструменты",
         "terminalPaymentInstrumentInitialized": "Терминальный платёжный инструмент успешно инициализирован"
     },

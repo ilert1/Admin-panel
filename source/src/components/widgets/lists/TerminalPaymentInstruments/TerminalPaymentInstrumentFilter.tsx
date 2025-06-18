@@ -168,10 +168,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
             </AnimatedContainer>
 
             <InitializeTerminalPaymentInstrumentsDialog
-                terminalId={terminalFilterId}
-                terminalPaymentTypes={
-                    terminalsData?.find(item => item.terminal_id === terminalFilterId)?.payment_types || []
-                }
+                terminal={terminalsData?.find(item => item.terminal_id === terminalFilterId)}
                 open={showInitializeDialog}
                 onOpenChange={setShowInitializeDialog}
             />
