@@ -188,33 +188,37 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         )}>
                         {selectedValues.length > 0 ? (
                             <div className="flex w-full items-center justify-between">
-                                <div className="flex flex-wrap items-center">
-                                    {selectedValues.slice(0, maxCount).map(value => {
-                                        const option = options.find(o => o.value === value);
-                                        const IconComponent = option?.icon;
+                                <div className="flex max-h-32 flex-wrap items-center overflow-y-auto">
+                                    {selectedValues
+                                        // .slice(0, maxCount)
+                                        .map(value => {
+                                            const option = options.find(o => o.value === value);
+                                            const IconComponent = option?.icon;
 
-                                        return (
-                                            <Badge
-                                                key={value}
-                                                className={cn(
-                                                    isAnimating ? "animate-bounce" : "",
-                                                    multiSelectVariants({ variant }),
-                                                    "bg-muted font-normal"
-                                                )}
-                                                style={{ animationDuration: `${animation}s` }}>
-                                                {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
-                                                {option?.label}
-                                                <XCircle
-                                                    className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
-                                                    onClick={event => {
-                                                        event.stopPropagation();
-                                                        toggleOption(value);
-                                                    }}
-                                                />
-                                            </Badge>
-                                        );
-                                    })}
-                                    {selectedValues.length > maxCount && (
+                                            return (
+                                                <Badge
+                                                    key={value}
+                                                    className={cn(
+                                                        isAnimating ? "animate-bounce" : "",
+                                                        multiSelectVariants({ variant }),
+                                                        "bg-muted font-normal"
+                                                    )}
+                                                    style={{ animationDuration: `${animation}s` }}>
+                                                    {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
+                                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                                        {option?.label}
+                                                    </span>
+                                                    <XCircle
+                                                        className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            toggleOption(value);
+                                                        }}
+                                                    />
+                                                </Badge>
+                                            );
+                                        })}
+                                    {/* {selectedValues.length > maxCount && (
                                         <Badge
                                             className={cn(
                                                 "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
@@ -231,7 +235,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 }}
                                             />
                                         </Badge>
-                                    )}
+                                    )} */}
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <XIcon
