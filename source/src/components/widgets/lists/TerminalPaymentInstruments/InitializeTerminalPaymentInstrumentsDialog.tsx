@@ -14,7 +14,7 @@ import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { Terminal } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
@@ -46,7 +46,6 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     });
 
     const formSchema = z.object({
-        terminal_id: z.string(),
         payment_type_codes: z.array(z.string()),
         currency_codes: z.array(z.string()).optional()
     });
@@ -54,32 +53,29 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            terminal_id: "",
             payment_type_codes: [],
             currency_codes: []
         }
     });
 
-    useEffect(() => {
-        if (terminal) {
-            form.reset({
-                terminal_id: terminal.terminal_id,
-                payment_type_codes: [],
-                currency_codes: []
-            });
-        }
-    }, [form, terminal]);
-
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setSubmitButtonDisabled(true);
 
         try {
-            await terminalsDataProvider.initialize(data.terminal_id, data.payment_type_codes, data.currency_codes);
+            if (terminal) {
+                await terminalsDataProvider.initialize(
+                    terminal.terminal_id,
+                    data.payment_type_codes,
+                    data.currency_codes
+                );
 
-            appToast("success", translate("app.ui.create.createSuccess"));
+                appToast("success", translate("app.ui.create.createSuccess"));
 
-            refresh();
-            onOpenChange(false);
+                refresh();
+                onOpenChange(false);
+            } else {
+                throw new Error("Terminal is undefined");
+            }
         } catch (error) {
             if (error instanceof Error) {
                 appToast("error", error.message);
@@ -87,6 +83,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                 appToast("error", translate("app.ui.create.createError"));
             }
         } finally {
+            form.reset();
             setSubmitButtonDisabled(false);
         }
     };
@@ -146,6 +143,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                                         variant="default"
                                         className="w-full sm:w-auto"
                                         disabled={
+                                            !terminal ||
                                             submitButtonDisabled ||
                                             currenciesLoading ||
                                             terminal?.payment_types?.length === 0 ||
