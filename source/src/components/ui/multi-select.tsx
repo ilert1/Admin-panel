@@ -304,9 +304,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 )}>
                                                 <CheckIcon className="h-4 w-4" />
                                             </div>
-                                            {option.icon && (
-                                                <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-                                            )}
+                                            {option.icon && <option.icon className="mr-2 text-muted-foreground" />}
                                             <span>{option.label}</span>
                                         </CommandItem>
                                     );
