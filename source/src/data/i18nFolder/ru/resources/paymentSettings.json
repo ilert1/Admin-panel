@@ -153,6 +153,7 @@
             "INACTIVE": "деактивирована",
             "editActivity": "Активность терминального платёжного инструмента %{name} успешно изменена на: %{state}."
         },
+        "providerNotSelect": "Выберите провайдера для получения данных",
         "createTerminalPaymentInstrument": "Добавить инструмент",
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",
         "editingTerminalPaymentInstrument": "Изменение терминального платёжного инструмента",

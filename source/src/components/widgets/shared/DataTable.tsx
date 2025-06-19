@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
+    placeholder?: string;
     data?: TData[];
     pagination?: boolean;
     total?: number;
@@ -22,6 +23,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     const {
         columns,
+        placeholder,
         pagination = true,
         data: propData = [],
         total: propTotal = 0,
@@ -181,7 +183,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             <TableCell
                                 colSpan={columns.length}
                                 className="h-24 border border-muted bg-white text-center text-sm text-neutral-90 dark:bg-black dark:text-neutral-30">
-                                {translate("resources.transactions.undefined")}
+                                {placeholder ? placeholder : translate("resources.transactions.undefined")}
                             </TableCell>
                         </TableRow>
                     )}

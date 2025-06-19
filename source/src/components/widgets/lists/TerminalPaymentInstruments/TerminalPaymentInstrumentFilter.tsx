@@ -2,7 +2,7 @@ import { Label } from "@/components/ui/label";
 import useTerminalPaymentInstrumentFilter from "../../../../hooks/useTerminalPaymentInstrumentFilter";
 import { Button } from "@/components/ui/Button";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
@@ -13,10 +13,14 @@ import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
 
 interface TerminalPaymentInstrumentFilterProps {
+    setProviderNameCallback: React.Dispatch<React.SetStateAction<string>>;
     createFn: () => void;
 }
 
-export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentInstrumentFilterProps) => {
+export const TerminalPaymentInstrumentFilter = ({
+    createFn,
+    setProviderNameCallback
+}: TerminalPaymentInstrumentFilterProps) => {
     const {
         providersData,
         providersLoadingProcess,
@@ -40,6 +44,10 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
     const [showInitializeDialog, setShowInitializeDialog] = useState(false);
+
+    useEffect(() => {
+        setProviderNameCallback(providerName);
+    }, [providerName, setProviderNameCallback]);
 
     const clearDisabled =
         !providerName &&

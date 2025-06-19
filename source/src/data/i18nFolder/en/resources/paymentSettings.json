@@ -155,6 +155,7 @@
             "INACTIVE": "inactive",
             "editActivity": "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
         },
+        "providerNotSelect": "Select the provider to receive the data",
         "createTerminalPaymentInstrument": "Create instrument",
         "creatingTerminalPaymentInstrument": "Creating terminal payment instrument",
         "editingTerminalPaymentInstrument": "Editing terminal payment instrument",

@@ -75,24 +75,12 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                         signal: params.signal || params.filter?.signal
                     }
                 );
-        } else
-            res =
-                await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
-                    {
-                        currentPage: params?.pagination?.page,
-                        pageSize: params?.pagination?.perPage,
-                        ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                        ...(fieldsForSearch.length > 0 && {
-                            searchString: fieldsForSearch.map(item => params.filter?.[item])
-                        })
-                    },
-                    {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem("access-token")}`
-                        },
-                        signal: params.signal || params.filter?.signal
-                    }
-                );
+        } else {
+            return {
+                data: [],
+                total: 0
+            };
+        }
 
         if ("data" in res.data && res.data.success) {
             return {
