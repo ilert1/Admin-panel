@@ -12,7 +12,6 @@ const useTerminalFilter = () => {
     const translate = useTranslate();
 
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
-    const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminal_id || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
 
     const {
@@ -59,7 +58,6 @@ const useTerminalFilter = () => {
         const { ...newFilterValues } = filterValues;
 
         if (type === "provider" && newFilterValues?.["terminal_id"]) {
-            setTerminalFilterId("");
             setTerminalFilterName("");
             delete newFilterValues["terminal_id"];
         }
@@ -79,7 +77,6 @@ const useTerminalFilter = () => {
     };
 
     const onTerminalIdFieldChanged = (terminalId: string) => {
-        setTerminalFilterId(terminalId);
         onPropertySelected(terminalId, "terminal_id");
     };
 
@@ -91,7 +88,6 @@ const useTerminalFilter = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
         setProviderName("");
-        setTerminalFilterId("");
         setTerminalFilterName("");
     };
 
