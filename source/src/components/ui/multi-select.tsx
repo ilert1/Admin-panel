@@ -173,10 +173,12 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     <Button
                         ref={ref}
                         {...props}
+                        role="combobox"
                         onClick={handleTogglePopover}
                         variant={"outline_sec"}
                         className={cn(
                             "flex h-auto min-h-10 w-full items-center justify-between rounded-md border p-1 hover:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
+                            "[&:is([data-state='open'])_#multiSelectToggleIcon]:rotate-180",
                             className
                         )}>
                         {selectedValues.length > 0 ? (
@@ -235,13 +237,19 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         }}
                                     />
                                     <Separator orientation="vertical" className="flex h-full min-h-6" />
-                                    <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                                    <ChevronDown
+                                        id="multiSelectToggleIcon"
+                                        className="mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                    />
                                 </div>
                             </div>
                         ) : (
                             <div className="mx-auto flex w-full items-center justify-between">
                                 <span className="mx-3 text-sm text-muted-foreground">{placeholder}</span>
-                                <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                                <ChevronDown
+                                    id="multiSelectToggleIcon"
+                                    className="mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                />
                             </div>
                         )}
                     </Button>
