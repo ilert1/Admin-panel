@@ -2,7 +2,7 @@ import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -16,7 +16,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
+import { useFetchDataForDirections, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
@@ -24,11 +24,12 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { DirectionsDataProvider } from "@/data";
+import { DirectionsDataProvider, TerminalsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 export interface DirectionEditProps {
     id?: string;
@@ -37,6 +38,7 @@ export interface DirectionEditProps {
 
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
+    const terminalsDataProvider = new TerminalsDataProvider();
     const directionDataProvider = new DirectionsDataProvider();
 
     const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
@@ -54,7 +56,24 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     });
     const appToast = useAppToast();
 
-    const { terminals, getTerminals } = useGetTerminals();
+    const [terminalValueName, setTerminalValueName] = useState(direction?.terminal.verbose_name || "");
+    const [providerName, setProviderName] = useState(direction?.provider.name || "");
+
+    const {
+        data: terminalsData,
+        isLoading: isTerminalsLoading,
+        isFetching: isTerminalsFetching
+    } = useQuery({
+        queryKey: ["terminals", "filter", providerName],
+        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        enabled: !!providerName,
+        select: data => data.data
+    });
+
+    const terminalsLoadingProcess = useMemo(
+        () => isTerminalsLoading || isTerminalsFetching,
+        [isTerminalsFetching, isTerminalsLoading]
+    );
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -101,7 +120,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
-        terminal: z.string().optional(),
+        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
         weight: z.coerce
             .number({ message: translate("resources.direction.errors.weightError") })
             .int(translate("resources.direction.errors.weightError"))
@@ -146,6 +165,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 payment_types: direction?.payment_types?.map(pt => pt.code) || []
             };
 
+            setProviderName(direction.provider.name);
+            setTerminalValueName(direction.terminal.verbose_name);
             form.reset(updatedValues);
             setIsFinished(true);
         }
@@ -155,8 +176,6 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-
-        if (!data.terminal) delete data.terminal;
 
         let payment_types: string[] = [];
         let oldPaymentTypes: Set<string> = new Set();
@@ -200,19 +219,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            setSubmitButtonDisabled(false);
             appToast("error", translate("app.ui.edit.editError"));
+        } finally {
+            setSubmitButtonDisabled(false);
         }
     };
 
-    useEffect(() => {
-        getTerminals(direction?.provider.name);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [direction?.provider.name, direction?.provider]);
-
     usePreventFocus({ dependencies: [direction] });
-
-    const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
     if (
         isLoadingDirection ||
@@ -312,9 +325,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     providers={providers.data}
                                     value={field.value}
                                     onChange={e => {
-                                        getTerminals(e);
-                                        if (e !== form.getValues().provider) form.setValue("terminal", "");
+                                        setProviderName(e);
                                         field.onChange(e);
+
+                                        if (!e) {
+                                            setTerminalValueName("");
+                                            form.setValue("terminal", "");
+                                        }
                                     }}
                                     isError={fieldState.invalid}
                                     errorMessage={<FormMessage />}
@@ -329,36 +346,25 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         render={({ field, fieldState }) => (
                             <FormItem className="w-full p-2 sm:w-1/2">
                                 <Label>{translate("resources.direction.fields.terminal")}</Label>
-                                <Select value={field.value} onValueChange={field.onChange} disabled={terminalsDisabled}>
-                                    <FormControl>
-                                        <SelectTrigger
-                                            variant={SelectType.GRAY}
-                                            isError={fieldState.invalid}
-                                            errorMessage={<FormMessage />}>
-                                            <SelectValue
-                                                placeholder={
-                                                    terminalsDisabled
-                                                        ? translate("resources.direction.noTerminals")
-                                                        : ""
-                                                }
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {!terminalsDisabled
-                                                ? terminals.map(terminal => (
-                                                      <SelectItem
-                                                          key={terminal.terminal_id}
-                                                          value={terminal.terminal_id}
-                                                          variant={SelectType.GRAY}>
-                                                          {terminal.verbose_name}
-                                                      </SelectItem>
-                                                  ))
-                                                : ""}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                <PopoverSelect
+                                    variants={terminalsData || []}
+                                    value={terminalValueName}
+                                    idField="terminal_id"
+                                    setIdValue={field.onChange}
+                                    onChange={setTerminalValueName}
+                                    variantKey="verbose_name"
+                                    placeholder={
+                                        providerName
+                                            ? translate("resources.terminals.selectPlaceholder")
+                                            : translate("resources.direction.noTerminals")
+                                    }
+                                    commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                    notFoundMessage={translate("resources.terminals.notFoundMessage")}
+                                    isError={fieldState.invalid}
+                                    errorMessage={fieldState.error?.message}
+                                    disabled={terminalsLoadingProcess || !providerName}
+                                    modal
+                                />
                             </FormItem>
                         )}
                     />
