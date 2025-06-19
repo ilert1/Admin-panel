@@ -19,11 +19,12 @@ import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
-import { FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Currency, FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { SmallFeeDialog } from "./SmallFeeDialog";
 import Big from "big.js";
+import { CurrencySelect } from "../../Selects/CurrencySelect";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -38,7 +39,7 @@ export interface AddFeeCardProps {
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
-    variants?: string[];
+    variants?: Currency[];
     feeType?: FeeType;
     providerName?: string;
 }
@@ -336,53 +337,28 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                         <FormItem className="col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.currency")}</Label>
                                             <FormControl>
-                                                <Select
-                                                    value={field.value}
-                                                    onValueChange={field.onChange}
-                                                    disabled={currenciesDisabled}>
-                                                    <FormControl>
-                                                        <SelectTrigger
-                                                            variant={SelectType.GRAY}
-                                                            isError={fieldState.invalid}
-                                                            errorMessage={<FormMessage />}
-                                                            className="border-neutral-60">
-                                                            <SelectValue
-                                                                placeholder={
-                                                                    currenciesDisabled
-                                                                        ? typeValue !== IFeeType.NUMBER_3
-                                                                            ? translate(
-                                                                                  "resources.direction.errors.onlyThirdTypeError"
-                                                                              )
-                                                                            : translate(
-                                                                                  "resources.direction.noCurrencies"
-                                                                              )
-                                                                        : ""
-                                                                }
-                                                            />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            {!currenciesDisabled && !variants?.length
-                                                                ? currencies.data.map(currency => (
-                                                                      <SelectItem
-                                                                          variant={SelectType.GRAY}
-                                                                          key={currency.code}
-                                                                          value={currency.code}>
-                                                                          {currency.code}
-                                                                      </SelectItem>
-                                                                  ))
-                                                                : variants?.map(currency => (
-                                                                      <SelectItem
-                                                                          key={currency}
-                                                                          value={currency}
-                                                                          variant={SelectType.GRAY}>
-                                                                          {currency}
-                                                                      </SelectItem>
-                                                                  ))}
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
+                                                <CurrencySelect
+                                                    value={field.value ?? ""}
+                                                    onChange={field.onChange}
+                                                    currencies={
+                                                        !currenciesDisabled && !variants?.length
+                                                            ? currencies.data
+                                                            : (variants ?? [])
+                                                    }
+                                                    disabled={currenciesDisabled}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    placeholder={
+                                                        currenciesDisabled
+                                                            ? typeValue !== IFeeType.NUMBER_3
+                                                                ? translate(
+                                                                      "resources.direction.errors.onlyThirdTypeError"
+                                                                  )
+                                                                : translate("resources.direction.noCurrencies")
+                                                            : ""
+                                                    }
+                                                    modal
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}

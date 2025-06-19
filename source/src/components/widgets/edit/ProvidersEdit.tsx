@@ -108,13 +108,15 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                 previousData: undefined
             });
 
-            paymentsToDelete.forEach(async payment => {
-                await providersDataProvider.removePaymentType({
-                    id,
-                    data: { code: payment },
-                    previousData: undefined
-                });
-            });
+            await Promise.all(
+                [...paymentsToDelete].map(payment =>
+                    providersDataProvider.removePaymentType({
+                        id,
+                        data: { code: payment },
+                        previousData: undefined
+                    })
+                )
+            );
 
             await providersDataProvider.addPaymentTypes({
                 id,

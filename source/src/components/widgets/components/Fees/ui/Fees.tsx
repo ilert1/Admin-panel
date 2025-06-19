@@ -16,7 +16,7 @@ interface FeesProps {
     fees?: FeeCreate[] | MerchantFees | DirectionFees;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     feesResource?: FeesResource;
-    feesVariants?: string[];
+    feesVariants?: Currency[];
     padding?: boolean;
     feeType?: FeeType;
     providerName?: string;

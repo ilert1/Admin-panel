@@ -199,13 +199,15 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                 previousData: undefined
             });
 
-            paymentsToDelete.forEach(async payment => {
-                await financialInstitutionProvider.removePaymentType({
-                    id,
-                    data: { code: payment },
-                    previousData: undefined
-                });
-            });
+            await Promise.all(
+                [...paymentsToDelete].map(payment =>
+                    financialInstitutionProvider.removePaymentType({
+                        id,
+                        data: { code: payment },
+                        previousData: undefined
+                    })
+                )
+            );
 
             await financialInstitutionProvider.addPaymentTypes({
                 id,

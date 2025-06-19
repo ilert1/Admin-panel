@@ -48,9 +48,9 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
         return <Loading />;
     }
 
-    const feesVariants = [context.record.src_currency.code];
+    const feesVariants = [context.record.src_currency];
     !(context.record.dst_currency.code === context.record.src_currency.code) &&
-        feesVariants.push(context.record.dst_currency.code);
+        feesVariants.push(context.record.dst_currency);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">

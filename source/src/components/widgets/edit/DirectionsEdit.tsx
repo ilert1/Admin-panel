@@ -198,13 +198,15 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 previousData: undefined
             });
 
-            paymentsToDelete.forEach(async payment => {
-                await directionDataProvider.removePaymentType({
-                    id,
-                    data: { code: payment },
-                    previousData: undefined
-                });
-            });
+            await Promise.all(
+                [...paymentsToDelete].map(payment =>
+                    directionDataProvider.removePaymentType({
+                        id,
+                        data: { code: payment },
+                        previousData: undefined
+                    })
+                )
+            );
 
             await directionDataProvider.addPaymentTypes({
                 id,

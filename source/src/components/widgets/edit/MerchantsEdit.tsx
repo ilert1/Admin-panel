@@ -111,13 +111,15 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 previousData: undefined
             });
 
-            paymentsToDelete.forEach(async payment => {
-                await merchantsDataProvider.removePaymentType({
-                    id,
-                    data: { code: payment },
-                    previousData: undefined
-                });
-            });
+            await Promise.all(
+                [...paymentsToDelete].map(payment =>
+                    merchantsDataProvider.removePaymentType({
+                        id,
+                        data: { code: payment },
+                        previousData: undefined
+                    })
+                )
+            );
 
             await merchantsDataProvider.addPaymentTypes({
                 id,
