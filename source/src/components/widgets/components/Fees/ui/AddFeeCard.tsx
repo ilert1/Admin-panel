@@ -58,22 +58,25 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const formSchema = z
         .object({
             currency: z.optional(z.string()),
-            // value: z.coerce
-            //     .number({ message: translate("resources.direction.fees.valueFieldError") })
-            //     .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
-            value: z.coerce
-                .number({
-                    invalid_type_error: translate("resources.direction.fees.valueFieldError"),
-                    required_error: translate("resources.direction.fees.valueFieldError")
-                })
-                .min(0, { message: translate("resources.direction.fees.valueMinError") })
-                .max(100, { message: translate("resources.direction.fees.valueMaxError") })
-                .refine(val => Number.isFinite(val), {
-                    message: translate("resources.direction.fees.valueMustBeFinite")
-                })
-                .refine(val => Number(val.toFixed(2)) === val, {
-                    message: translate("resources.direction.fees.valueMaxPrecisionError")
-                }),
+            value: z.preprocess(
+                val => {
+                    if (val === "" || val === null || val === undefined) return undefined;
+                    return Number(val);
+                },
+                z
+                    .number({
+                        invalid_type_error: translate("resources.direction.fees.valueFieldError"),
+                        required_error: translate("resources.direction.fees.valueFieldError")
+                    })
+                    .min(0, { message: translate("resources.direction.fees.valueMinError") })
+                    .max(100, { message: translate("resources.direction.fees.valueMaxError") })
+                    .refine(val => Number.isFinite(val), {
+                        message: translate("resources.direction.fees.valueMustBeFinite")
+                    })
+                    .refine(val => Number(val.toFixed(2)) === val, {
+                        message: translate("resources.direction.fees.valueMaxPrecisionError")
+                    })
+            ),
             type: z.custom<IFeeType>(),
             description: z.string(),
             direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
@@ -276,8 +279,8 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                         borderColor="border-neutral-60"
                                                         className="max-w-[85%]"
                                                         inputMode="decimal"
+                                                        percentage
                                                     />
-                                                    <span className="absolute right-[15px] top-[50%]">%</span>
                                                 </div>
                                             </FormControl>
                                         </FormItem>
