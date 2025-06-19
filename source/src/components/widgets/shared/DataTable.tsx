@@ -142,7 +142,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
     return (
         <>
-            <Table className={clsx("min-h-20", data?.length > 1 && "min-h-44")}>
+            <Table className={clsx("min-h-20", data?.length > 1 && "min-h-44")} page={page}>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
                         <TableRow key={i} className="relative bg-green-50 hover:bg-green-50">
@@ -189,6 +189,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                     )}
                 </TableBody>
             </Table>
+            {/* </div> */}
 
             <div
                 className={`mb-2 flex min-h-[1.5rem] w-full items-center justify-between gap-4 overflow-x-auto overflow-y-hidden p-1 sm:flex-row sm:gap-8 ${
