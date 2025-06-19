@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
-import useFinancialInstitutionsListFilter from "./useFinancialInstitutionsListFilter";
+import useFinancialInstitutionsListFilter from "../../../../hooks/useFinancialInstitutionsListFilter";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 
