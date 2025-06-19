@@ -8,10 +8,11 @@ interface CurrenciesMultiSelectProps {
     onChange: (values: string[]) => void;
     options?: CurrencyWithId[];
     label?: boolean;
+    modal?: boolean;
 }
 
 export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
-    const { value, onChange, options, label = true } = props;
+    const { value, onChange, options, label = true, modal = true } = props;
     const translate = useTranslate();
 
     const modifiedOptions = options?.map(option => ({ label: option.code, value: option.code })) || [];
@@ -31,7 +32,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 placeholder={translate("app.widgets.multiSelect.selectCurrencies")}
                 animation={0}
                 maxCount={10}
-                modalPopover={true}
+                modalPopover={modal}
             />
         </div>
     );
