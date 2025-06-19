@@ -31,7 +31,7 @@ export const ProviderSelect = ({
             style={style}
             errorMessage={errorMessage}
             disabled={disabled}
-            placeholder={placeholder}
+            placeholder={placeholder || translate("resources.provider.selectPlaceholder")}
             modal={modal}
         />
     );
