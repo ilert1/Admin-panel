@@ -146,12 +146,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         />
 
                         <TextField
-                            label={translate("resources.direction.fields.accountNumber")}
-                            text={context.record.account_id || ""}
-                            wrap
-                            copyValue
-                        />
-                        <TextField
                             label={translate("resources.direction.fields.description")}
                             text={context.record.description ?? ""}
                         />
