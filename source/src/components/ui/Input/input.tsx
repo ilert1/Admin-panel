@@ -166,7 +166,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 )}
                 <div
                     className={cn(
-                        "relative flex w-full items-center rounded-4 border transition-colors duration-200 hover:border-green-40 dark:border-neutral-60 hover:dark:border-green-40",
+                        "relative flex w-full items-center justify-between rounded-4 border transition-colors duration-200 hover:border-green-40 dark:border-neutral-60 hover:dark:border-green-40",
                         borderColor,
                         isFocused && "border-green-50",
                         shadow && "shadow-1",
@@ -218,7 +218,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                                 setShowPassword={setShowPassword}
                             />
                         )}
-                        {percentage && <span className="text-center">%</span>}
+                        {percentage && <span className="pl-[2px] text-center">%</span>}
                     </span>
                 </div>
                 {error && errorMessage && <span className="inline !text-note-1 text-red-40">{errorMessage}</span>}

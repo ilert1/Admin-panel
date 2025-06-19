@@ -41,7 +41,7 @@
 
         "directionFieldError": "The direction must be selected",
         "currencyFieldError": "The currency must be selected",
-        "valueFieldError": "The commission must be a positive number. For example: 0.1",
+        "valueFieldError": "The commission must be a positive number.",
         "valueMinError": "Value cannot be less than 0",
         "valueMaxError": "Value cannot exceed 100%",
         "valueMustBeFinite": "Value must be a finite number",
