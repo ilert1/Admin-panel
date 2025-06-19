@@ -85,21 +85,18 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={context.record.dst_currency.code}
                         />
 
-                        {context.record.terminal?.verbose_name ? (
-                            <TextField
-                                label={translate("resources.direction.fields.terminal")}
-                                className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                                text={context.record.terminal?.verbose_name || ""}
-                                onClick={() => {
-                                    openSheet("terminal", {
-                                        id: context.record?.terminal?.terminal_id,
-                                        provider: context.record?.terminal?.provider
-                                    });
-                                }}
-                            />
-                        ) : (
-                            <TextField label={translate("resources.direction.fields.terminal")} text="" />
-                        )}
+                        <TextField
+                            label={translate("resources.direction.fields.terminal")}
+                            className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                            text={context.record.terminal.verbose_name}
+                            onClick={() => {
+                                openSheet("terminal", {
+                                    id: context.record.terminal.terminal_id,
+                                    provider: context.record.terminal.provider
+                                });
+                            }}
+                        />
+
                         <TextField
                             label={translate("resources.direction.fields.accountNumber")}
                             text={context.record.account_id || ""}
