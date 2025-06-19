@@ -1,9 +1,10 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-    ({ className, ...props }, ref) => {
+const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement> & { page?: number }>(
+    ({ className, page, ...props }, ref) => {
         const [isScrollableLeft, setIsScrollableLeft] = React.useState(false);
         const [isScrollableRight, setIsScrollableRight] = React.useState(false);
         const tableRef = React.useRef<HTMLDivElement | null>(null);
@@ -17,6 +18,10 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
             setIsScrollableLeft(hasHorizontalScroll && scrollLeft > 10);
             setIsScrollableRight(hasHorizontalScroll && scrollLeft + 10 < scrollWidth - clientWidth);
         };
+
+        useEffect(() => {
+            tableRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+        }, [page]);
 
         React.useEffect(() => {
             checkScrollState();
