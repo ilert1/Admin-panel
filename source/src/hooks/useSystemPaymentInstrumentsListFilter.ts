@@ -14,8 +14,8 @@ const useSystemPaymentInstrumentsListFilter = () => {
     const [paymentTypeCode, setPaymentTypeCode] = useState(filterValues?.payment_type_code || "");
 
     const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
-        queryKey: ["getCurrencies"],
-        queryFn: () => dataProvider.getList("currency", {}),
+        queryKey: ["currencies"],
+        queryFn: ({ signal }) => dataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });
 

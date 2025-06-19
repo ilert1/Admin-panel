@@ -35,7 +35,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
     const { data: currencies, isLoading: currenciesLoading } = useQuery({
         queryKey: ["currencies"],
-        queryFn: () => dataProvider.getListWithoutPagination("currency"),
+        queryFn: ({ signal }) => dataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });
 
