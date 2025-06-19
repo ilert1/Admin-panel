@@ -224,6 +224,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={currenciesDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -241,6 +242,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={currenciesDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -278,6 +280,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={providersDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}

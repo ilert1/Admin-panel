@@ -263,6 +263,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     onChange={field.onChange}
                                     isError={fieldState.invalid}
                                     errorMessage={<FormMessage />}
+                                    modal
                                 />
                             </FormItem>
                         )}
@@ -295,6 +296,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     onChange={field.onChange}
                                     isError={fieldState.invalid}
                                     errorMessage={<FormMessage />}
+                                    modal
                                 />
                             </FormItem>
                         )}
@@ -316,6 +318,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     }}
                                     isError={fieldState.invalid}
                                     errorMessage={<FormMessage />}
+                                    modal
                                 />
                             </FormItem>
                         )}
