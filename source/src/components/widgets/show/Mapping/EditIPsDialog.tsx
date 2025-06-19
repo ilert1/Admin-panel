@@ -197,6 +197,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         setSaveButtonDisabled(true);
 
         if (val) {
+            setSomethingEdited(true);
             setNewIpList(prev => prev.filter(el => el !== val));
         } else {
             if (!isValidIP(newIp)) {
@@ -205,6 +206,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                 appToast("error", translate("resources.callbridge.mapping.sec_policy_edit.errors.notExist"));
             } else {
                 setSomethingEdited(true);
+                setDeleteButtonDisabled(true);
                 setNewIpList(prev => prev.filter(el => el !== newIp));
                 appToast("success", translate("resources.callbridge.mapping.sec_policy_edit.deletedSuccessfully"));
                 setNewIp("");
