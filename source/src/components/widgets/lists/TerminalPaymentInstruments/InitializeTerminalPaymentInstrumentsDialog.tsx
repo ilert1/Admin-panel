@@ -42,7 +42,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
 
     const { isLoading: currenciesLoading, data: currencies } = useQuery({
         queryKey: ["currencies"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination(signal)
+        queryFn: async () => await currenciesDataProvider.getListWithoutPagination()
     });
 
     const formSchema = z.object({

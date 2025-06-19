@@ -60,7 +60,7 @@ export class CurrenciesDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(signal?: AbortSignal): Promise<GetListResult<CurrencyWithId>> {
+    async getListWithoutPagination(): Promise<GetListResult<CurrencyWithId>> {
         const res = await currencyEndpointsListCurrenciesEnigmaV1CurrencyGet(
             {
                 currentPage: 1,
@@ -69,8 +69,7 @@ export class CurrenciesDataProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                },
-                signal
+                }
             }
         );
 

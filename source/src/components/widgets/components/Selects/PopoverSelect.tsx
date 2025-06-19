@@ -135,31 +135,32 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     <CommandList>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
-                            {variants.map(variant => (
-                                <CommandItem
-                                    className="flex items-center gap-2 bg-muted"
-                                    key={variant[variantKey]}
-                                    value={variant[variantKey]}
-                                    onSelect={onSelectChange}>
-                                    <CheckIcon
-                                        className={cn(
-                                            "h-4 w-full max-w-4",
-                                            value === variant[variantKey] ? "opacity-100" : "opacity-0"
-                                        )}
-                                    />
-                                    <>
-                                        {iconForPaymentTypes ? (
-                                            <PaymentTypeIcon
-                                                type={variant[variantKey]}
-                                                metaIcon={variant.meta?.["icon"] as string}
-                                                metaIconMargin
-                                                className="min-w-[24px]"
-                                            />
-                                        ) : undefined}
-                                        <p>{variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}</p>
-                                    </>
-                                </CommandItem>
-                            ))}
+                            {variants &&
+                                variants.map(variant => (
+                                    <CommandItem
+                                        className="flex items-center gap-2 bg-muted"
+                                        key={variant[variantKey]}
+                                        value={variant[variantKey]}
+                                        onSelect={onSelectChange}>
+                                        <CheckIcon
+                                            className={cn(
+                                                "h-4 w-full max-w-4",
+                                                value === variant[variantKey] ? "opacity-100" : "opacity-0"
+                                            )}
+                                        />
+                                        <>
+                                            {iconForPaymentTypes ? (
+                                                <PaymentTypeIcon
+                                                    type={variant[variantKey]}
+                                                    metaIcon={variant.meta?.["icon"] as string}
+                                                    metaIconMargin
+                                                    className="min-w-[24px]"
+                                                />
+                                            ) : undefined}
+                                            <p>{variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}</p>
+                                        </>
+                                    </CommandItem>
+                                ))}
                         </CommandGroup>
                     </CommandList>
                 </Command>
