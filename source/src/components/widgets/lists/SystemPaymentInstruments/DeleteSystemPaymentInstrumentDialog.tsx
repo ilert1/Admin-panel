@@ -55,12 +55,12 @@ export const DeleteSystemPaymentInstrumentDialog = (props: DeleteSystemPaymentIn
                 }}>
                 <DialogHeader>
                     <DialogTitle className="text-center !text-display-2 text-red-40 dark:text-red-40">
-                        {translate("resources.paymentTools.deletion.attention")}
+                        {translate("resources.paymentSettings.deletion.attention")}
                     </DialogTitle>
                     <DialogDescription className="text-center !text-title-1 text-red-400">
                         {!continueClicked
-                            ? translate("resources.paymentTools.deletion.attentionDescriptionSystemInstrument")
-                            : translate("resources.paymentTools.deletion.consequencesSystemInstrument")}
+                            ? translate("resources.paymentSettings.deletion.attentionDescriptionSystemInstrument")
+                            : translate("resources.paymentSettings.deletion.consequencesSystemInstrument")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

@@ -22,7 +22,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
 
     return (
         <div>
-            {label && <Label>{translate("resources.paymentTools.financialInstitution.fields.currencies")}</Label>}
+            {label && <Label>{translate("resources.paymentSettings.financialInstitution.fields.currencies")}</Label>}
             <MultiSelect
                 options={modifiedOptions}
                 onValueChange={onValueChange}

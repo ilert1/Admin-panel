@@ -21,7 +21,7 @@ export const useGetFinancialInstitutionColumns = () => {
         {
             id: "institution_type",
             accessorKey: "institution_type",
-            header: translate("resources.paymentTools.financialInstitution.fields.institution_type"),
+            header: translate("resources.paymentSettings.financialInstitution.fields.institution_type"),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -38,7 +38,7 @@ export const useGetFinancialInstitutionColumns = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.paymentTools.financialInstitution.fields.name"),
+            header: translate("resources.paymentSettings.financialInstitution.fields.name"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -58,7 +58,7 @@ export const useGetFinancialInstitutionColumns = () => {
         {
             id: "short_name",
             accessorKey: "short_name",
-            header: translate("resources.paymentTools.financialInstitution.fields.short_name"),
+            header: translate("resources.paymentSettings.financialInstitution.fields.short_name"),
             cell: ({ row }) => {
                 return <TextField text={row.original.short_name || ""} />;
             }
@@ -66,7 +66,7 @@ export const useGetFinancialInstitutionColumns = () => {
         {
             id: "currencies",
             accessorKey: "currencies",
-            header: translate("resources.paymentTools.financialInstitution.fields.currencies"),
+            header: translate("resources.paymentSettings.financialInstitution.fields.currencies"),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -82,7 +82,7 @@ export const useGetFinancialInstitutionColumns = () => {
         {
             id: "payment_types",
             accessorKey: "payment_types",
-            header: translate("resources.paymentTools.financialInstitution.fields.payment_types"),
+            header: translate("resources.paymentSettings.financialInstitution.fields.payment_types"),
             cell: ({ row }) => {
                 return (
                     <div className="max-w-auto flex min-w-28 flex-wrap gap-2">
@@ -103,13 +103,13 @@ export const useGetFinancialInstitutionColumns = () => {
         },
         {
             id: "nspk_code",
-            header: translate("resources.paymentTools.financialInstitution.fields.nspk_member_id"),
+            header: translate("resources.paymentSettings.financialInstitution.fields.nspk_member_id"),
             accessorKey: "nspk_member_id"
         },
         {
             id: "country_code",
             accessorKey: "country_code",
-            header: translate("resources.paymentTools.financialInstitution.fields.country_code")
+            header: translate("resources.paymentSettings.financialInstitution.fields.country_code")
         },
         {
             id: "show",

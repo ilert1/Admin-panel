@@ -54,7 +54,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             <CirclePlus className="h-[16px] w-[16px]" />
 
                             <span className="text-title-1">
-                                {translate("resources.paymentTools.systemPaymentInstruments.createNew")}
+                                {translate("resources.paymentSettings.systemPaymentInstruments.createNew")}
                             </span>
                         </Button>
                     </div>
@@ -65,18 +65,18 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                     <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                         <div className="w-full">
                             <Input
-                                label={translate("resources.paymentTools.systemPaymentInstruments.list.name")}
+                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.name")}
                                 labelSize="title-2"
                                 value={name}
                                 placeholder={translate(
-                                    "resources.paymentTools.systemPaymentInstruments.placeholders.name"
+                                    "resources.paymentSettings.systemPaymentInstruments.placeholders.name"
                                 )}
                                 onChange={onNameChanged}
                             />
                         </div>
                         <div className="w-full">
                             <Label variant={"title-2"}>
-                                {translate("resources.paymentTools.systemPaymentInstruments.fields.currency_code")}
+                                {translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
                             </Label>
                             <CurrencySelect
                                 currencies={currencies ?? []}
@@ -85,13 +85,13 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 disabled={isLoadingCurrencies}
                                 style="Black"
                                 placeholder={translate(
-                                    "resources.paymentTools.systemPaymentInstruments.placeholders.currencyCode"
+                                    "resources.paymentSettings.systemPaymentInstruments.placeholders.currencyCode"
                                 )}
                             />
                         </div>
                         <div className="w-full">
                             <Label variant={"title-2"}>
-                                {translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
+                                {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                             </Label>
                             <PopoverSelect
                                 variants={paymentTypes ?? []}
@@ -100,10 +100,10 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                                 onChange={(e: any) => onPaymentTypeCodeChanged(e)}
                                 variantKey={"code"}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                notFoundMessage={translate("resources.paymentTools.paymentType.notFoundMessage")}
+                                notFoundMessage={translate("resources.paymentSettings.paymentType.notFoundMessage")}
                                 disabled={isLoadingPaymentTypes}
                                 style="Black"
-                                placeholder={translate("resources.paymentTools.paymentType.placeholders.code")}
+                                placeholder={translate("resources.paymentSettings.paymentType.placeholders.code")}
                                 iconForPaymentTypes
                             />
                         </div>

@@ -38,17 +38,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
 
     const formSchema = z.object({
         description: z.string().optional(),
-        meta: z.string().transform((val, ctx) => {
-            try {
-                return JSON.parse(val);
-            } catch {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: translate("resources.paymentTools.systemPaymentInstruments.errors.wrongJson")
-                });
-                return z.NEVER;
-            }
-        })
+        meta: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -62,8 +52,8 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
     useEffect(() => {
         if (!isLoadingPaymentInstrument) {
             form.reset({
-                description: record.description,
-                meta: JSON.stringify(record.meta, null, 2)
+                description: record.description || "",
+                meta: JSON.stringify(record.meta, null, 2) || "{}"
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,7 +65,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
         try {
             await dataProvider.update("systemPaymentInstruments", {
                 id,
-                data,
+                data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} },
                 previousData: undefined
             });
             appToast("success", translate("app.ui.toast.success"));
@@ -112,7 +102,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                                                 {...field}
                                                 variant={InputTypes.GRAY}
                                                 label={translate(
-                                                    "resources.paymentTools.systemPaymentInstruments.fields.description"
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.description"
                                                 )}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
@@ -129,7 +119,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                             render={({ field }) => (
                                 <FormItem className="col-span-1 sm:col-span-2">
                                     <Label className="!mb-0">
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.meta")}
+                                        {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                                     </Label>
                                     <FormControl>
                                         <MonacoEditor

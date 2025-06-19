@@ -92,12 +92,6 @@ interface MultiSelectProps
     modalPopover?: boolean;
 
     /**
-     * If true, renders the multi-select component as a child of another component.
-     * Optional, defaults to false.
-     */
-    asChild?: boolean;
-
-    /**
      * Additional class names to apply custom styles to the multi-select component.
      * Optional, can be used to add custom styles.
      */
@@ -117,7 +111,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             animation = 0,
             maxCount = 3,
             modalPopover = false,
-            asChild = false,
             notFoundMessage,
             className,
             ...props
@@ -254,7 +247,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start" onEscapeKeyDown={() => setIsPopoverOpen(false)}>
-                    <Command>
+                    <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
                             placeholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                             onKeyDown={handleInputKeyDown}
@@ -264,21 +257,23 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                 {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
                             </CommandEmpty>
                             <CommandGroup>
-                                <CommandItem
-                                    key="all"
-                                    onSelect={toggleAll}
-                                    className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
-                                    <div
-                                        className={cn(
-                                            "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
-                                            selectedValues.length === options.length
-                                                ? "border-transparent bg-green-50 text-white dark:bg-green-50"
-                                                : "opacity-50 [&_svg]:invisible"
-                                        )}>
-                                        <CheckIcon className="h-4 w-4" />
-                                    </div>
-                                    <span>({translate("app.widgets.multiSelect.selectAll")})</span>
-                                </CommandItem>
+                                {options.length > 0 && (
+                                    <CommandItem
+                                        key="all"
+                                        onSelect={toggleAll}
+                                        className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
+                                        <div
+                                            className={cn(
+                                                "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
+                                                selectedValues.length === options.length
+                                                    ? "border-transparent bg-green-50 text-white dark:bg-green-50"
+                                                    : "opacity-50 [&_svg]:invisible"
+                                            )}>
+                                            <CheckIcon className="h-4 w-4" />
+                                        </div>
+                                        <span>({translate("app.widgets.multiSelect.selectAll")})</span>
+                                    </CommandItem>
+                                )}
                                 {options.map(option => {
                                     const isSelected = selectedValues.includes(option.value);
                                     return (

@@ -43,6 +43,7 @@
             "confirm": "Confirm",
             "search": "Search...",
             "refresh": "Refresh",
+            "initialize": "Initialize",
             "details": "More detailed",
             "generateCallback": "Generate callback",
             "clear": "Clear",

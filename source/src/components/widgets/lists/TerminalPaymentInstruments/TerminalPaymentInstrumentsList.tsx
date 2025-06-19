@@ -5,9 +5,10 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { CreateTerminalPaymentInstrumentsDialog } from "./CreateTerminalPaymentInstrumentsDialog";
 import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilter";
+import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const TerminalPaymentInstrumentsList = () => {
-    const listContext = useAbortableListController({
+    const listContext = useAbortableListController<TerminalPaymentInstrument>({
         resource: "terminalPaymentInstruments"
     });
 
@@ -23,11 +24,7 @@ export const TerminalPaymentInstrumentsList = () => {
         <>
             <ListContextProvider value={listContext}>
                 <div>
-                    <TerminalPaymentInstrumentFilter
-                        createFn={createFn}
-                        // total={listContext.total ?? 0}
-                        terminalPaymentTypes={listContext.data?.[0]?.terminal.payment_types ?? undefined}
-                    />
+                    <TerminalPaymentInstrumentFilter createFn={createFn} />
                 </div>
 
                 {listContext.isLoading || !listContext.data ? <LoadingBlock /> : <DataTable columns={columns} />}

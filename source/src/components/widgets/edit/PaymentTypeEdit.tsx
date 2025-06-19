@@ -56,7 +56,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     });
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
+        code: z.string().min(1, translate("resources.paymentSettings.paymentType.errors.code")).trim(),
         title: z.string().optional().default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
         required_fields_for_payment: z.string().optional(),
@@ -144,7 +144,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             //     appToast("error", error.message);
             // }
 
-            appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
+            appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
 
             setSubmitButtonDisabled(false);
         }
@@ -176,7 +176,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.code")}
+                                                label={translate("resources.paymentSettings.paymentType.fields.code")}
                                                 disabled
                                             />
                                         </FormControl>
@@ -194,7 +194,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.title")}
+                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -205,7 +205,9 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 name="category"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.paymentTools.paymentType.fields.category")}</Label>
+                                        <Label>
+                                            {translate("resources.paymentSettings.paymentType.fields.category")}
+                                        </Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
                                                 <SelectTrigger
@@ -243,7 +245,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.paymentType.fields.required_fields_for_payment"
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment"
                                                 )}
                                             />
                                         </FormControl>
@@ -271,7 +273,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 name="meta.icon"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.paymentTools.paymentType.fields.icon")}</Label>
+                                        <Label>{translate("resources.paymentSettings.paymentType.fields.icon")}</Label>
                                         <div className="!mt-0 flex items-center gap-4">
                                             {field.value && (
                                                 <div className="h-10 w-10">
@@ -289,12 +291,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                     className="block w-full cursor-pointer rounded-4 bg-green-50 px-4 py-2 text-center !text-white transition-all duration-300 hover:bg-green-40"
                                                     title={
                                                         iconFileName ||
-                                                        translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                        translate("resources.paymentSettings.paymentType.uploadIcon") +
                                                             "..."
                                                     }>
                                                     <span className="block truncate">
                                                         {iconFileName ||
-                                                            translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                            translate("resources.paymentSettings.paymentType.uploadIcon") +
                                                                 "..."}
                                                     </span>
                                                 </label>

@@ -14,6 +14,7 @@ import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Trash2 } from "lucide-react";
 import fetchDictionaries from "@/helpers/get-dictionaries";
+import Big from "big.js";
 
 interface FeeCardProps {
     account: string;
@@ -82,6 +83,8 @@ export const FeeCard = memo((props: FeeCardProps) => {
         }
     }, [data, direction]);
 
+    const accurateFeeAmount = new Big(feeAmount).times(100).toString();
+
     return (
         <>
             <div className="mb-[16px] mt-[2px]">
@@ -94,7 +97,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
                             labelSize="text-xs"
                         />
                         <TextField
-                            text={String(feeAmount)}
+                            text={accurateFeeAmount}
                             label={translate("resources.direction.fees.feeAmount")}
                             labelSize="text-xs"
                         />

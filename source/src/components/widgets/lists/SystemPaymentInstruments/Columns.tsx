@@ -28,7 +28,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
         {
             id: "instrument",
             accessorKey: "id",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.name"),
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.name"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -54,7 +54,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
         },
         {
             id: "paymentType",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentType"),
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType"),
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -74,7 +74,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
         {
             id: "financial_institution_id",
             accessorKey: "financial_institution_id",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.financialInstitution"),
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.financialInstitution"),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -93,7 +93,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
         },
         {
             id: "Currency",
-            header: translate("resources.paymentTools.systemPaymentInstruments.fields.currency_code"),
+            header: translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code"),
             cell: ({ row }) => {
                 return <TextField text={row.original.currency_code} />;
             }

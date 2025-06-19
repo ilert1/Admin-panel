@@ -1,8 +1,8 @@
 {
-    "resources.paymentTools.name": "Payment Settings",
-    "resources.paymentTools.noAvailable": "Nothing was found",
-    "resources.paymentTools.countryCodeNotFoundMessage": "Country codes not found.",
-    "resources.paymentTools.paymentType": {
+    "resources.paymentSettings.name": "Payment Settings",
+    "resources.paymentSettings.noAvailable": "Nothing was found",
+    "resources.paymentSettings.countryCodeNotFoundMessage": "Country codes not found.",
+    "resources.paymentSettings.paymentType": {
         "admin": {
             "name": "Payment Types"
         },
@@ -32,7 +32,7 @@
         "duplicateCode": "This code is already in use",
         "uploadIcon": "Upload icon"
     },
-    "resources.paymentTools.financialInstitution": {
+    "resources.paymentSettings.financialInstitution": {
         "name": "Financial Institutions",
         "show": "Financial institution",
         "fields": {
@@ -63,7 +63,11 @@
         },
         "errors": {
             "name": "The name of the financial institution is required",
-            "country_code": "The country code is entered incorrectly"
+            "short_name": "The code of the financial institution is required",
+            "short_name_regex": "The institute's code can contain characters 0-9, a-z and _",
+            "country_code": "The country code is entered incorrectly",
+            "alreadyExist": "The financial institution already exists",
+            "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists in the field (%{field})"
         },
         "success": {
             "ACTIVE": "active",
@@ -79,7 +83,7 @@
         "editingFinancialInstitution": "Editing a financial institution",
         "deleteFinancialInstitution": "Delete financial institution?"
     },
-    "resources.paymentTools.systemPaymentInstruments": {
+    "resources.paymentSettings.systemPaymentInstruments": {
         "name": "System Payment Instruments",
         "show": "System Payment instrument",
         "fields": {
@@ -125,9 +129,11 @@
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",
-        "deletePaymentInstrumentQuestion": "Delete system payment instrument?"
+        "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
+        "chooseFinInstitution": "Choose financial institution",
+        "noAvailablePaymentTypes": "No available payment types"
     },
-    "resources.paymentTools.terminalPaymentInstruments": {
+    "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",
         "show": "Terminal payment instrument",
         "fields": {
@@ -153,13 +159,14 @@
         "creatingTerminalPaymentInstrument": "Creating terminal payment instrument",
         "editingTerminalPaymentInstrument": "Editing terminal payment instrument",
         "deleteTerminalPaymentInstrument": "Delete terminal payment instrument?",
+        "initializeTerminalPaymentInstrument": "Initialization of the terminal payment instruments for terminal: %{terminal}",
         "initInstruments": "Initialize instruments",
         "terminalPaymentInstrumentInitialized": "Terminal payment instrument initialized successfully"
     },
-    "resources.paymentTools.currency": {
+    "resources.paymentSettings.currency": {
         "name": "Currencies"
     },
-    "resources.paymentTools.deletion": {
+    "resources.paymentSettings.deletion": {
         "attention": "Attention!",
         "attentionDescriptionPaymentType": "Payment type deletion will lead to the deletion of associated payment instruments",
         "consequencesPaymentType": "You are going to delete payment type and associated payment instruments. Proceed?",

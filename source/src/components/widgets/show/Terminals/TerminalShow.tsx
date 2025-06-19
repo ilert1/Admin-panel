@@ -1,5 +1,4 @@
 import { useDataProvider, useTranslate } from "react-admin";
-import { Fees } from "../../components/Fees";
 import { FeesResource } from "@/data";
 import { TextField } from "@/components/ui/text-field";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -14,6 +13,9 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { Fees } from "../../components/Fees";
+import { Label } from "@/components/ui/label";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 interface TerminalShowProps {
     id: string;
@@ -113,6 +115,22 @@ export const TerminalShow = (props: TerminalShowProps) => {
                                 </Button>
                             </div>
                         </div>
+
+                        {data.details && Object.keys(data.details).length > 0 && (
+                            <div className="mt-5 border-t-[1px] border-neutral-90 pt-3 md:mt-10 md:pt-8">
+                                <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                                    {translate("resources.terminals.fields.details")}
+                                </Label>
+                                <div className="flex h-full">
+                                    <MonacoEditor
+                                        disabled
+                                        height="h-48"
+                                        width="100%"
+                                        code={JSON.stringify(data.details || "{}", null, 2)}
+                                    />
+                                </div>
+                            </div>
+                        )}
 
                         <div className="my-5 border-y-[1px] border-neutral-90 py-5 md:my-10 md:py-10">
                             <AuthDataViewer

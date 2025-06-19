@@ -55,7 +55,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         <div>
                             <TextField
                                 fontSize="title-2"
-                                label={translate("resources.paymentTools.systemPaymentInstruments.list.createdAt")}
+                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.createdAt")}
                                 text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
                             />
                             <TextField
@@ -66,7 +66,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         <div>
                             <TextField
                                 fontSize="title-2"
-                                label={translate("resources.paymentTools.systemPaymentInstruments.list.updatedAt")}
+                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.updatedAt")}
                                 text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
                             />
                             <TextField
@@ -76,14 +76,14 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         </div>
                         <TextField
                             fontSize="title-2"
-                            label={translate("resources.paymentTools.systemPaymentInstruments.list.id")}
+                            label={translate("resources.paymentSettings.systemPaymentInstruments.list.id")}
                             text={context.record.id}
                             copyValue
                         />
 
                         <div>
                             <Label>
-                                {translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
+                                {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                             </Label>
                             <div className="flex flex-wrap gap-2">
                                 {context.record.payment_type?.meta?.icon ? (
@@ -101,7 +101,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         <TextField
                             fontSize="title-2"
                             label={translate(
-                                "resources.paymentTools.systemPaymentInstruments.list.financialInstitution"
+                                "resources.paymentSettings.systemPaymentInstruments.list.financialInstitution"
                             )}
                             text={context.record.financial_institution.name}
                             onClick={() => {
@@ -112,12 +112,12 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
 
                         <TextField
                             fontSize="title-2"
-                            label={translate("resources.paymentTools.systemPaymentInstruments.fields.description")}
+                            label={translate("resources.paymentSettings.systemPaymentInstruments.fields.description")}
                             text={context.record.description ?? ""}
                         />
                         <div className="col-span-2 flex flex-col">
                             <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
-                                {translate("resources.paymentTools.systemPaymentInstruments.fields.meta")}
+                                {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                             </Label>
                             <div className="flex h-full">
                                 <MonacoEditor

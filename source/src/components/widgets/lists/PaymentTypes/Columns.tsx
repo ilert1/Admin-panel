@@ -29,7 +29,7 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "icon",
             header: () => (
-                <div className="text-center">{translate("resources.paymentTools.paymentType.fields.icon")}</div>
+                <div className="text-center">{translate("resources.paymentSettings.paymentType.fields.icon")}</div>
             ),
             cell: ({ row }) => {
                 return (
@@ -42,22 +42,22 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "code",
             accessorKey: "code",
-            header: translate("resources.paymentTools.paymentType.fields.code")
+            header: translate("resources.paymentSettings.paymentType.fields.code")
         },
         {
             id: "title",
             accessorKey: "title",
-            header: translate("resources.paymentTools.paymentType.fields.title")
+            header: translate("resources.paymentSettings.paymentType.fields.title")
         },
         {
             id: "category",
             accessorKey: "category",
-            header: translate("resources.paymentTools.paymentType.fields.category")
+            header: translate("resources.paymentSettings.paymentType.fields.category")
         },
         {
             id: "required_fields_for_payment",
             accessorKey: "required_fields_for_payment",
-            header: translate("resources.paymentTools.paymentType.fields.required_fields_for_payment"),
+            header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment"),
             cell: ({ row }) => {
                 return <TextField text={row.original.required_fields_for_payment?.join(", ") || ""} lineClamp wrap />;
             }
@@ -65,7 +65,7 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "currencies",
             accessorKey: "currencies",
-            header: translate("resources.paymentTools.paymentType.fields.currencies"),
+            header: translate("resources.paymentSettings.paymentType.fields.currencies"),
             cell: ({ row }) => {
                 return (
                     <TextField

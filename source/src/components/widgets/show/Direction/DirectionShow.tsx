@@ -138,7 +138,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
                         <TextField
                             label={translate("resources.direction.types.type")}
-                            text={context.record.type ?? ""}
+                            text={
+                                context.record.type
+                                    ? translate(`resources.direction.types.${context.record.type}`)
+                                    : "-"
+                            }
                         />
 
                         <TextField

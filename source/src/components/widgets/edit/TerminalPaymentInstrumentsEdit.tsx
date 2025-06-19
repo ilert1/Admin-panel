@@ -73,10 +73,13 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
     const formSchema = z.object({
         terminal_id: z
             .string()
-            .min(1, translate("resources.paymentTools.terminalPaymentInstruments.errors.terminal_id")),
+            .min(1, translate("resources.paymentSettings.terminalPaymentInstruments.errors.terminal_id")),
         system_payment_instrument_id: z
             .string()
-            .min(1, translate("resources.paymentTools.terminalPaymentInstruments.errors.system_payment_instrument_id")),
+            .min(
+                1,
+                translate("resources.paymentSettings.terminalPaymentInstruments.errors.system_payment_instrument_id")
+            ),
         status: z
             .enum(statuses as [string, ...string[]])
             .default(TerminalPaymentInstrumentStatus.ACTIVE)
@@ -98,7 +101,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
             terminal_payment_type_code: "",
             terminal_currency_code: "",
             terminal_financial_institution_code: "",
-            terminal_specific_parameters: ""
+            terminal_specific_parameters: "{}"
         }
     });
 
@@ -114,7 +117,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                 terminal_financial_institution_code:
                     terminalPaymentInstrumentsData.terminal_financial_institution_code || "",
                 terminal_specific_parameters:
-                    JSON.stringify(terminalPaymentInstrumentsData.terminal_specific_parameters, null, 2) || ""
+                    JSON.stringify(terminalPaymentInstrumentsData.terminal_specific_parameters, null, 2) || "{}"
             };
 
             setSystemPaymentInstrumentValueName(terminalPaymentInstrumentsData.system_payment_instrument.name);
@@ -179,7 +182,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                 <FormItem className="w-full p-2">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.terminalPaymentInstruments.fields.terminal_id"
+                                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id"
                                         )}
                                     </Label>
 
@@ -208,7 +211,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                 <FormItem className="w-full p-2">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                                            "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_id"
                                         )}
                                     </Label>
 
@@ -221,7 +224,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         onChange={e => setSystemPaymentInstrumentValueName(e)}
                                         variantKey="name"
                                         notFoundMessage={translate(
-                                            "resources.paymentTools.systemPaymentInstruments.notFoundMessage"
+                                            "resources.paymentSettings.systemPaymentInstruments.notFoundMessage"
                                         )}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
@@ -237,7 +240,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2">
                                     <Label>
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.status")}
+                                        {translate("resources.paymentSettings.systemPaymentInstruments.fields.status")}
                                     </Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -253,7 +256,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                                 {statuses.map(status => (
                                                     <SelectItem key={status} value={status} variant={SelectType.GRAY}>
                                                         {translate(
-                                                            `resources.paymentTools.systemPaymentInstruments.statuses.${status.toLowerCase()}`
+                                                            `resources.paymentSettings.systemPaymentInstruments.statuses.${status.toLowerCase()}`
                                                         )}
                                                     </SelectItem>
                                                 ))}
@@ -269,7 +272,9 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2">
                                     <Label>
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.direction")}
+                                        {translate(
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.direction"
+                                        )}
                                     </Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -311,7 +316,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
                                             )}
                                         />
                                     </FormControl>
@@ -331,7 +336,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
                                             )}
                                         />
                                     </FormControl>
@@ -351,7 +356,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                                             )}
                                         />
                                     </FormControl>
@@ -369,7 +374,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                     <FormLabel>
                                         <span className="!text-note-1 !text-neutral-30">
                                             {translate(
-                                                "resources.paymentTools.terminalPaymentInstruments.fields.terminal_specific_parameters"
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
                                             )}
                                         </span>
                                     </FormLabel>
@@ -378,7 +383,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         <MonacoEditor
                                             onErrorsChange={setHasErrors}
                                             onMountEditor={() => setMonacoEditorMounted(true)}
-                                            code={field.value || "{}"}
+                                            code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
                                     </FormControl>

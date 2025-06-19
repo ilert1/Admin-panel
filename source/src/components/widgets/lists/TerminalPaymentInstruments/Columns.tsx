@@ -15,18 +15,18 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<TerminalPaymentInstrument>[] = [
-        {
+        /* {
             id: "id",
             accessorKey: "id",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.id"),
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.id"),
             cell: ({ row }) => {
                 return <TextField wrap copyValue lineClamp linesCount={1} minWidth="150px" text={row.original.id} />;
             }
-        },
+        }, */
         {
             id: "terminal_id",
             accessorKey: "terminal_id",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id"),
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id"),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -57,7 +57,9 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
         {
             id: "system_payment_instrument_id",
             accessorKey: "system_payment_instrument_id",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"),
+            header: translate(
+                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_id"
+            ),
             cell: ({ row }) => {
                 return (
                     <div>
@@ -71,7 +73,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
                             {row.original.system_payment_instrument.name}
                         </Button>
 
-                        <TextField
+                        {/* <TextField
                             className="text-neutral-70"
                             text={row.original.system_payment_instrument_id}
                             wrap
@@ -79,7 +81,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
                             lineClamp
                             linesCount={1}
                             minWidth="50px"
-                        />
+                        /> */}
                     </div>
                 );
             }
@@ -87,25 +89,25 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
         {
             id: "terminal_currency_code",
             accessorKey: "terminal_currency_code",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"),
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"),
             cell: ({ row }) => <TextField text={row.original.terminal_currency_code || ""} />
         },
         {
             id: "terminal_financial_institution_code",
             accessorKey: "terminal_financial_institution_code",
             header: translate(
-                "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
             ),
             cell: ({ row }) => <TextField text={row.original.terminal_financial_institution_code || ""} />
         },
         {
             id: "terminal_payment_type_code",
             accessorKey: "terminal_payment_type_code",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code")
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code")
         },
         {
             id: "direction",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.direction"),
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.direction"),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -121,7 +123,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false
         {
             id: "status",
             accessorKey: "status",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.status"),
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.status"),
             cell: ({ row }) => {
                 return (
                     <TerminalPaymentInstrumentsActivityBtn

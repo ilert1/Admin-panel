@@ -51,7 +51,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <div className="flex flex-col">
                         <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.financialInstitution.fields.created_at")}
+                            {translate("resources.paymentSettings.financialInstitution.fields.created_at")}
                         </small>
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.created_at).toLocaleDateString(locale)}
@@ -63,7 +63,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
 
                     <div className="flex flex-col">
                         <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.financialInstitution.fields.updated_at")}
+                            {translate("resources.paymentSettings.financialInstitution.fields.updated_at")}
                         </small>
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.updated_at).toLocaleDateString(locale)}
@@ -74,35 +74,35 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     </div>
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.short_name")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.short_name")}
                         text={context.record.short_name || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.legal_name")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.legal_name")}
                         text={context.record.legal_name || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.id")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.id")}
                         text={context.record.id || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.nspk_member_id")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.nspk_member_id")}
                         text={context.record.nspk_member_id || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.institution_type")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.institution_type")}
                         text={
                             context.record.institution_type
                                 ? financialInstitutionTypes?.find(
@@ -114,7 +114,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
 
                     <div className="flex flex-col">
                         <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.financialInstitution.fields.payment_types")}
+                            {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>
 
                         <div className="max-w-auto flex flex-wrap gap-2">
@@ -135,12 +135,12 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     </div>
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.country_code")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
                         text={context.record.country_code}
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.currencies")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                         text={
                             context.record.currencies && context.record.currencies?.length > 0
                                 ? context.record.currencies?.map(item => item.code).join(", ")
@@ -151,7 +151,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
 
                 <div className="flex flex-col gap-1">
                     <small className="text-sm text-neutral-60">
-                        {translate("resources.paymentTools.financialInstitution.fields.meta")}
+                        {translate("resources.paymentSettings.financialInstitution.fields.meta")}
                     </small>
 
                     <MonacoEditor disabled code={JSON.stringify(context.record.meta || "{}", null, 2)} />

@@ -35,13 +35,13 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
 
     return (
         <div>
-            {label && <Label>{translate("resources.paymentTools.paymentType.name")}</Label>}
+            {label && <Label>{translate("resources.paymentSettings.paymentType.name")}</Label>}
             <MultiSelect
                 options={modifiedOptions}
                 onValueChange={onValueChange}
                 defaultValue={value}
                 placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
-                notFoundMessage={translate("resources.paymentTools.paymentType.notFoundMessage")}
+                notFoundMessage={translate("resources.paymentSettings.paymentType.notFoundMessage")}
                 animation={0}
                 maxCount={10}
                 modalPopover
