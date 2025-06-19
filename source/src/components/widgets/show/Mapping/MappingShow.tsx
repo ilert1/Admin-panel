@@ -102,8 +102,21 @@ export const MappingShow = (props: MappingShowProps) => {
                 previousData: undefined
             });
             refresh();
-            appToast("success", translate("app.ui.toast.success"));
-            // onOpenChange(false);
+            if (context.record.security_policy?.blocked) {
+                appToast(
+                    "success",
+                    translate("resources.callbridge.mapping.statusActivatedSuccessfully", {
+                        mappingName: context.record.name
+                    })
+                );
+            } else {
+                appToast(
+                    "success",
+                    translate("resources.callbridge.mapping.statusDeactivatedSuccessfully", {
+                        mappingName: context.record.name
+                    })
+                );
+            }
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
         } finally {

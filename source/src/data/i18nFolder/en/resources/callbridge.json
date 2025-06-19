@@ -74,7 +74,9 @@
         "updateSuccess": "Mapping updated successfully",
         "creatingMapping": "Creating mapping",
         "deleteMapping": "Delete the mapping?",
-        "editingMapping": "Edit mapping"
+        "editingMapping": "Edit mapping",
+        "statusActivatedSuccessfully": "Security policy for %{mappingName} mappings was activated successfully",
+        "statusDeactivatedSuccessfully": "Security policy for %{mappingName} mappings was deactivated successfully"
     },
     "resources.callbridge.history": {
         "name": "History",
