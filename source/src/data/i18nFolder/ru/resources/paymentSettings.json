@@ -121,7 +121,7 @@
         },
         "placeholders": {
             "name": "Название",
-            "currencyCode": "Код валюты"
+            "currencyCode": "Выберите код валюты"
         },
         "notFoundMessage": "Системные платёжные инструменты не найдены.",
         "creatingPaymentInstrument": "Создание системного платёжного инструмента",
