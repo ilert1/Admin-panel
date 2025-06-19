@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import useTerminalPaymentInstrumentFilter from "./useTerminalPaymentInstrumentFilter";
+import useTerminalPaymentInstrumentFilter from "../../../../hooks/useTerminalPaymentInstrumentFilter";
 import { Button } from "@/components/ui/Button";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { useState } from "react";
