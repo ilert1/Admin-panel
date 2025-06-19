@@ -94,7 +94,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                                 onChange={onTerminalNameChanged}
                                 idField="terminal_id"
                                 setIdValue={onTerminalIdFieldChanged}
-                                disabled={terminalsLoadingProcess}
+                                disabled={terminalsLoadingProcess || !providerName}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.terminals.notFoundMessage")}
                             />

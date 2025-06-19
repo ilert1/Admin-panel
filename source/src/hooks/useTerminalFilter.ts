@@ -28,17 +28,11 @@ const useTerminalFilter = () => {
     const {
         data: terminalsData,
         isLoading: isTerminalsLoading,
-        isFetching: isTerminalsFetching,
-        refetch: refetchTerminalsData
+        isFetching: isTerminalsFetching
     } = useQuery({
-        queryKey: ["terminals", "filter"],
-        queryFn: () => {
-            if (!providerName) {
-                return terminalsDataProvider.getListWithoutPagination();
-            }
-
-            return terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]);
-        },
+        queryKey: ["terminals", "filter", providerName],
+        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        enabled: !!providerName,
         select: data => data.data
     });
 
@@ -51,11 +45,6 @@ const useTerminalFilter = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
 
-    useEffect(() => {
-        refetchTerminalsData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [providerName]);
-
     const providersLoadingProcess = useMemo(
         () => isProvidersLoading || isProvidersFetching,
         [isProvidersFetching, isProvidersLoading]
@@ -67,17 +56,19 @@ const useTerminalFilter = () => {
     );
 
     const onPropertySelected = debounce((value: string, type: "terminal_id" | "provider") => {
-        if (value && type === "provider" && terminalFilterId && terminalFilterName) {
+        const { ...newFilterValues } = filterValues;
+
+        if (type === "provider" && newFilterValues?.["terminal_id"]) {
             setTerminalFilterId("");
             setTerminalFilterName("");
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { terminal_id, ...newFilterValues } = filterValues;
+            delete newFilterValues["terminal_id"];
+        }
+
+        if (value) {
             setFilters({ ...newFilterValues, [type]: value }, displayedFilters, true);
-        } else if (value) {
-            setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
         } else {
-            Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters, true);
+            Reflect.deleteProperty(newFilterValues, type);
+            setFilters(newFilterValues, displayedFilters, true);
         }
         setPage(1);
     }, 300);
@@ -100,6 +91,7 @@ const useTerminalFilter = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
         setProviderName("");
+        setTerminalFilterId("");
         setTerminalFilterName("");
     };
 
