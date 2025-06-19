@@ -150,7 +150,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
             if (msgMatch?.length === 3) {
                 return translate("resources.paymentSettings.financialInstitution.errors.alreadyExistWithField", {
-                    field: msgMatch[1],
                     value: msgMatch[2]
                 });
             }

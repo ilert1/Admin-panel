@@ -67,7 +67,7 @@
             "short_name_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
             "country_code": "The country code is entered incorrectly",
             "alreadyExist": "The financial institution already exists",
-            "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists in the field (%{field})"
+            "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists"
         },
         "success": {
             "ACTIVE": "active",
