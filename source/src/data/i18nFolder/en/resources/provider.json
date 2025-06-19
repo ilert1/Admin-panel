@@ -35,7 +35,7 @@
     "resources.provider.keysCreating": "Test keys creating",
     "resources.provider.realKeysCreating": "Keys generation",
     "resources.provider.notFoundMessage": "Providers not found.",
-    "resources.provider.selectPlaceholder": "Выберите провайдера",
+    "resources.provider.selectPlaceholder": "Select provider",
     "resources.provider.editingProvider": "Editing provider",
     "resources.provider.creatingProvider": "Creating provider"
 }

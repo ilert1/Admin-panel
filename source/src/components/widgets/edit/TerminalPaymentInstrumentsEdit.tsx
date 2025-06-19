@@ -194,6 +194,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setTerminalValueName(e)}
                                         variantKey="verbose_name"
+                                        placeholder={translate("resources.terminals.selectPlaceholder")}
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                         isError={fieldState.invalid}

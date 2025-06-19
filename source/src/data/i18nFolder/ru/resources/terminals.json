@@ -41,7 +41,7 @@
     "resources.terminals.urlTemplate": "Шаблон URL",
     "resources.terminals.create": "Создать терминал",
     "resources.terminals.selectHeader": "Провайдер",
-    "resources.terminals.selectPlaceholder": "Выберите провайдера",
+    "resources.terminals.selectPlaceholder": "Выберите терминал",
     "resources.terminals.creatingTerminal": "Создание терминала",
     "resources.terminals.deleteHeader": "Удалить терминал?",
     "resources.terminals.editingTerminal": "Изменить терминал",

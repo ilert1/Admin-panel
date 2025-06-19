@@ -41,7 +41,7 @@
     "resources.terminals.urlTemplate": "URL template",
     "resources.terminals.create": "Create terminal",
     "resources.terminals.selectHeader": "Provider",
-    "resources.terminals.selectPlaceholder": "Select provider",
+    "resources.terminals.selectPlaceholder": "Select terminal",
     "resources.terminals.creatingTerminal": "Creating terminal",
     "resources.terminals.deleteHeader": "Delete terminal?",
     "resources.terminals.editingTerminal": "Editing terminal",
