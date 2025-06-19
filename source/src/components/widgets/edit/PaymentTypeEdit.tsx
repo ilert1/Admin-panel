@@ -2,7 +2,7 @@ import { useTranslate, useEditController, EditContextProvider } from "react-admi
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { X } from "lucide-react";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentTypesProvider } from "@/data/payment_types";
@@ -40,18 +39,14 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const { theme } = useTheme();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const [iconFileName, setIconFileName] = useState<string>("");
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const { data: currenciesList, isLoading: isLoadingCurrencies } = useQuery({
         queryKey: ["currencies"],
-        queryFn: () => {
-            return currenciesDataProvider.getListWithoutPagination();
-        },
+        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });
 
