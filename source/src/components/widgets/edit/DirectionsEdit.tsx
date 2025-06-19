@@ -2,7 +2,7 @@ import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -19,17 +19,14 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDataForDirections, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { DirectionsDataProvider, TerminalsDataProvider } from "@/data";
+import { DirectionsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
-import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 export interface DirectionEditProps {
     id?: string;
@@ -38,10 +35,9 @@ export interface DirectionEditProps {
 
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
-    const terminalsDataProvider = new TerminalsDataProvider();
     const directionDataProvider = new DirectionsDataProvider();
 
-    const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
+    const { currencies, isLoading: loadingData } = useFetchDataForDirections();
     const [isFinished, setIsFinished] = useState(false);
 
     const {
@@ -55,25 +51,6 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         select: data => data.data
     });
     const appToast = useAppToast();
-
-    const [terminalValueName, setTerminalValueName] = useState(direction?.terminal.verbose_name || "");
-    const [providerName, setProviderName] = useState(direction?.provider.name || "");
-
-    const {
-        data: terminalsData,
-        isLoading: isTerminalsLoading,
-        isFetching: isTerminalsFetching
-    } = useQuery({
-        queryKey: ["terminals", "filter", providerName],
-        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
-        enabled: !!providerName,
-        select: data => data.data
-    });
-
-    const terminalsLoadingProcess = useMemo(
-        () => isTerminalsLoading || isTerminalsFetching,
-        [isTerminalsFetching, isTerminalsLoading]
-    );
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -159,14 +136,12 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 dst_currency: direction.dst_currency.code || "",
                 merchant: direction.merchant.id || "",
                 provider: direction.provider.name || "",
-                terminal: direction.terminal?.terminal_id || "",
+                terminal: direction.terminal.terminal_id || "",
                 weight: direction.weight || 0,
                 type: direction.type || undefined,
                 payment_types: direction?.payment_types?.map(pt => pt.code) || []
             };
 
-            setProviderName(direction.provider.name);
-            setTerminalValueName(direction.terminal.verbose_name);
             form.reset(updatedValues);
             setIsFinished(true);
         }
@@ -283,22 +258,16 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="merchant"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <Label>{translate("resources.direction.merchant")}</Label>
-                                <MerchantSelectFilter
-                                    variant="outline"
-                                    error={fieldState.error?.message}
-                                    merchant={field.value}
-                                    onMerchantChanged={field.onChange}
-                                    resource="merchant"
-                                />
-                            </FormItem>
-                        )}
-                    />
+
+                    <div className="w-full p-2 sm:w-1/2">
+                        <Input
+                            value={direction.merchant.name || ""}
+                            disabled
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.direction.merchant")}
+                        />
+                    </div>
+
                     <FormField
                         control={form.control}
                         name="dst_currency"
@@ -317,59 +286,24 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                         )}
                     />
 
-                    <FormField
-                        control={form.control}
-                        name="provider"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <Label>{translate("resources.direction.provider")}</Label>
-                                <ProviderSelect
-                                    providers={providers.data}
-                                    value={field.value}
-                                    onChange={e => {
-                                        setProviderName(e);
-                                        field.onChange(e);
+                    <div className="w-full p-2 sm:w-1/2">
+                        <Input
+                            value={direction.provider.name || ""}
+                            disabled
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.direction.provider")}
+                        />
+                    </div>
 
-                                        if (!e) {
-                                            setTerminalValueName("");
-                                            form.setValue("terminal", "");
-                                        }
-                                    }}
-                                    isError={fieldState.invalid}
-                                    errorMessage={<FormMessage />}
-                                    modal
-                                />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="terminal"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <Label>{translate("resources.direction.fields.terminal")}</Label>
-                                <PopoverSelect
-                                    variants={terminalsData || []}
-                                    value={terminalValueName}
-                                    idField="terminal_id"
-                                    setIdValue={field.onChange}
-                                    onChange={setTerminalValueName}
-                                    variantKey="verbose_name"
-                                    placeholder={
-                                        providerName
-                                            ? translate("resources.terminals.selectPlaceholder")
-                                            : translate("resources.direction.noTerminals")
-                                    }
-                                    commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                    notFoundMessage={translate("resources.terminals.notFoundMessage")}
-                                    isError={fieldState.invalid}
-                                    errorMessage={fieldState.error?.message}
-                                    disabled={terminalsLoadingProcess || !providerName}
-                                    modal
-                                />
-                            </FormItem>
-                        )}
-                    />
+                    <div className="w-full p-2 sm:w-1/2">
+                        <Input
+                            value={direction.terminal.verbose_name || ""}
+                            disabled
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.direction.fields.terminal")}
+                        />
+                    </div>
+
                     <FormField
                         control={form.control}
                         name="state"
