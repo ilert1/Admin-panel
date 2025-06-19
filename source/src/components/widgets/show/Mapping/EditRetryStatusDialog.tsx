@@ -44,7 +44,9 @@ export const EditRetryStatusDialog = (props: EditRetryStatusDialogProps) => {
         if (!/^\d+(?:\s*,\s*\d+)*$/.test(retryStatus.trim())) {
             appToast(
                 "error",
-                translate("resources.callbridge.mapping.fields.allowedSymbols"),
+                <span className="!text-note-1 text-red-30">
+                    {translate("resources.callbridge.mapping.fields.enterSepWithCommas")} (500, 400,300)
+                </span>,
                 translate("resources.callbridge.mapping.fields.wrongFormat")
             );
             return;
