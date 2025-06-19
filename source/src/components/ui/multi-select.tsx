@@ -239,7 +239,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                     <Separator orientation="vertical" className="flex h-full min-h-6" />
                                     <ChevronDown
                                         id="multiSelectToggleIcon"
-                                        className="mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                        className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                        pointerEvents="none !important"
                                     />
                                 </div>
                             </div>
@@ -248,7 +249,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                 <span className="mx-3 text-sm text-muted-foreground">{placeholder}</span>
                                 <ChevronDown
                                     id="multiSelectToggleIcon"
-                                    className="mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                    className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                    pointerEvents="none !important"
                                 />
                             </div>
                         )}
