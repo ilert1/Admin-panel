@@ -6,12 +6,9 @@ import { DataTable } from "../../shared";
 import { CreateTerminalPaymentInstrumentsDialog } from "./CreateTerminalPaymentInstrumentsDialog";
 import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilter";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { useState } from "react";
 
 export const TerminalPaymentInstrumentsList = () => {
     const translate = useTranslate();
-
-    const [providerName, setProviderName] = useState("");
 
     const listContext = useAbortableListController<TerminalPaymentInstrument>({
         resource: "terminalPaymentInstruments"
@@ -28,16 +25,16 @@ export const TerminalPaymentInstrumentsList = () => {
     return (
         <ListContextProvider value={listContext}>
             <div>
-                <TerminalPaymentInstrumentFilter setProviderNameCallback={setProviderName} createFn={createFn} />
+                <TerminalPaymentInstrumentFilter createFn={createFn} />
             </div>
 
-            {listContext.isLoading || listContext.isFetching ? (
+            {listContext.isLoading ? (
                 <LoadingBlock />
             ) : (
                 <DataTable
                     columns={columns}
                     placeholder={
-                        !providerName
+                        !listContext.filterValues?.["provider"]
                             ? translate("resources.paymentSettings.terminalPaymentInstruments.providerNotSelect")
                             : undefined
                     }
