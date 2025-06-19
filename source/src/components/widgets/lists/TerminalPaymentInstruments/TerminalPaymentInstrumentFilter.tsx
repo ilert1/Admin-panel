@@ -38,7 +38,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         onTerminalIdFieldChanged
     } = useTerminalPaymentInstrumentFilter();
 
-    const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+    const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
     const [showInitializeDialog, setShowInitializeDialog] = useState(false);
 
     const clearDisabled =
@@ -112,7 +112,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 onChange={onTerminalNameChanged}
                                 idField="terminal_id"
                                 setIdValue={onTerminalIdFieldChanged}
-                                disabled={terminalsLoadingProcess}
+                                disabled={terminalsLoadingProcess || !providerName}
                                 placeholder={translate("resources.terminals.selectPlaceholder")}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.terminals.notFoundMessage")}
@@ -121,7 +121,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
 
                         <Button
                             onClick={() => setShowInitializeDialog(true)}
-                            disabled={!terminalFilterId || terminalsLoadingProcess}>
+                            disabled={!terminalFilterId || terminalsLoadingProcess || !providerName}>
                             {translate("resources.paymentSettings.terminalPaymentInstruments.initInstruments")}
                         </Button>
                     </div>
@@ -137,6 +137,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     placeholder={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                                     )}
+                                    disabled={!providerName}
                                 />
                             </div>
                             <div className="w-full">
@@ -149,6 +150,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     placeholder={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
                                     )}
+                                    disabled={!providerName}
                                 />
                             </div>
                             <div className="w-full">
@@ -161,6 +163,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     placeholder={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
                                     )}
+                                    disabled={!providerName}
                                 />
                             </div>
                         </div>
