@@ -140,6 +140,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     />
 
                     <TextField
+                        wrap
                         label={translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                         text={
                             context.record.currencies && context.record.currencies?.length > 0

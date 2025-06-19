@@ -70,6 +70,7 @@ export const useGetFinancialInstitutionColumns = () => {
             cell: ({ row }) => {
                 return (
                     <TextField
+                        wrap
                         text={
                             row.original.currencies && row.original.currencies?.length > 0
                                 ? row.original.currencies?.map(item => item.code).join(", ")
