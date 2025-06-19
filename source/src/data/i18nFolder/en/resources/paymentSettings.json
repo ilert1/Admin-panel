@@ -109,7 +109,8 @@
         "errors": {
             "cantBeEmpty": "Field can't be empty",
             "nameRegex": "Name can only contain latin letters, numbers, underscores, and hyphens",
-            "wrongJson": "Invalid JSON"
+            "wrongJson": "Invalid JSON",
+            "alreadyExist": "The system payment instrument already exists"
         },
         "statuses": {
             "active": "Active",

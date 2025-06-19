@@ -81,13 +81,20 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
             });
 
             appToast("success", translate("app.ui.toast.success"));
+
             refresh();
+            onOpenChange(false);
         } catch (error) {
-            if (error instanceof Error) appToast("error", error.message);
+            if (error instanceof Error)
+                appToast(
+                    "error",
+                    error.message.includes("already exists")
+                        ? translate("resources.paymentSettings.systemPaymentInstruments.errors.alreadyExist")
+                        : error.message
+                );
             else appToast("error", translate("app.ui.toast.error"));
         } finally {
             setButtonDisabled(false);
-            onOpenChange(false);
         }
     };
 
