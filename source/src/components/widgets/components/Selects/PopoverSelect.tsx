@@ -52,7 +52,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         setIdValue
     } = props;
     const [open, setOpen] = useState(false);
-
+    // const [ttpOpen, setTtpOpen] = useState(false);
     const onSelectChange = (currentValue: string) => {
         onChange(currentValue === value ? "" : currentValue);
 
@@ -75,7 +75,6 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     role="combobox"
                     onClick={handleTogglePopover}
                     // aria-expanded={open}
-                    // onClick={handleTogglePopover}
                     className={cn(
                         style === "Black"
                             ? "bg-black hover:!bg-white hover:dark:!bg-black"
@@ -92,8 +91,10 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                 {value}
                             </div>
                         ) : (
-                            <div className="flex flex-wrap items-center">
-                                <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                            <div className="overflow-hidden text-ellipsis break-words">
+                                <div className="flex flex-wrap items-center !overflow-hidden">
+                                    <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                                </div>
                             </div>
                         )}
 
