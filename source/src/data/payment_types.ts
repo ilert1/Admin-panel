@@ -264,14 +264,25 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
             : [];
+        // const res = await fetch();
+        // const res = await fetch(`https://api.manager.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export`, {
+        //     method: "GET",
+        //     headers: {
+        //         "Content-Type": "application/octet-stream",
+        //         Authorization: `Bearer ${localStorage.getItem("access-token")}`
+        //     }
+        // });
+        // return res;
+        // console.log(res.blob());
 
         const res = await paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGet(
             {
-                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+                // ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                // ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
             },
             {
                 headers: {
+                    "content-type": "application/octet-stream",
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
                 }
             }

@@ -100,6 +100,75 @@ const usePaymentTypesListFilter = () => {
         }
     };
 
+    // const handleDownloadReport = async (type: "pdf" | "csv" | "xlsx" = "xlsx") => {
+    //     // if (!startDate || !endDate || (adminOnly && !merchantId)) {
+    //     //     appToast("error", translate("resources.transactions.download.bothError"));
+    //     //     return;
+    //     // }
+    //     setReportLoading(true);
+
+    //     try {
+    //         // const url = new URL(`${API_URL}/transactions/balance_report`);
+    //         // url.searchParams.set("start_date", formattedDate(startDate));
+    //         // url.searchParams.set("end_date", formattedDate(endDate));
+    //         // url.searchParams.set("merchantId", merchantId);
+    //         let filename = `report_1`;
+    //         dataProvider
+    //             .downloadReport({})
+    //             .then(response => {
+    //                 const contentDisposition = response?.headers?.get("Content-Disposition");
+    //                 const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
+    //                 filename = matches?.[1] ? matches[1] : filename;
+
+    //                 return response.blob();
+    //             })
+    //             .then(blob => {
+    //                 const fileUrl = window.URL.createObjectURL(blob);
+
+    //                 const a = document.createElement("a");
+    //                 a.href = fileUrl;
+    //                 a.download = filename;
+    //                 document.body.appendChild(a);
+    //                 a.click();
+    //                 a.remove();
+    //                 window.URL.revokeObjectURL(fileUrl);
+    //             })
+    //             .catch(error => {
+    //                 appToast("error", translate("resources.transactions.download.bothError"));
+    //                 console.error("There was an error downloading the file:", error);
+    //             })
+    //             .finally(() => {
+    //                 setReportLoading(false);
+    //             });
+    //         // .then(response => {
+    //         //     const contentDisposition = response?.headers?.get("Content-Disposition");
+    //         //     const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
+    //         //     filename = matches?.[1] ? matches[1] : filename;
+    //         //     return response.blob();
+    //         // })
+    //         // .then(blob => {
+    //         //     const fileUrl = window.URL.createObjectURL(blob);
+    //         //     const a = document.createElement("a");
+    //         //     a.href = fileUrl;
+    //         //     a.download = filename;
+    //         //     document.body.appendChild(a);
+    //         //     a.click();
+    //         //     a.remove();
+    //         //     window.URL.revokeObjectURL(fileUrl);
+    //         // })
+    //         // .catch(error => {
+    //         //     appToast("error", translate("resources.transactions.download.bothError"));
+    //         //     console.error("There was an error downloading the file:", error);
+    //         // })
+    //         // .finally(() => {
+    //         //     setReportLoading(false);
+    //         // });
+    //     } catch (error) {
+    //         appToast("error", translate("resources.transactions.download.bothError"));
+    //         console.error("There was an error downloading the file:", error);
+    //     }
+    // };
+
     return {
         translate,
         code,
