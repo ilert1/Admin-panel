@@ -186,7 +186,7 @@ export const systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigm
 
 /**
  * Upload CSV file and import System Payment Instruments from it to system.
- * @summary Systempaymentinstrumentendpoints.Import System Payment Instrument
+ * @summary Imports system payment instruments records from a CSV file.
  */
 export type systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse200 =
     {

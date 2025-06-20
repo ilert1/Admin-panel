@@ -210,7 +210,7 @@ export const financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fin
 
 /**
  * Upload CSV file and import Financial Institutions from it to system.
- * @summary Financialinstitutionendpoints.Import Financial Institutions
+ * @summary Imports financial institutes records from a CSV file.
  */
 export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse200 =
     {

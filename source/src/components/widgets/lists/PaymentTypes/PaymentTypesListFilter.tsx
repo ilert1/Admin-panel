@@ -17,8 +17,17 @@ interface PaymentTypesListFilterProps {
 export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
     const { handleCreateClicked } = props;
 
-    const { translate, code, title, category, onCategoryChanged, onClearFilters, onCodeChanged, onTitleChanged } =
-        usePaymentTypesListFilter();
+    const {
+        translate,
+        code,
+        title,
+        category,
+        onCategoryChanged,
+        onClearFilters,
+        onCodeChanged,
+        onTitleChanged,
+        handleDownloadReport
+    } = usePaymentTypesListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const paymentTypeCategories = Object.keys(PaymentCategory);
@@ -68,7 +77,7 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                             className="min-w-40"
                             placeholder={translate("resources.paymentSettings.paymentType.placeholders.title")}
                         />
-                        <div className="flex w-full flex-wrap gap-2 sm:flex-nowrap">
+                        <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                             <div className="flex min-w-[50%] max-w-full flex-1 flex-col gap-1 sm:min-w-44 sm:max-w-[25%]">
                                 <Label variant="title-2" className="mb-0">
                                     {translate("resources.paymentSettings.paymentType.fields.category")}
@@ -104,6 +113,20 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                                 </Select>
                             </div>
                         </div>
+                        <Button
+                            onClick={() => handleDownloadReport("xlsx")}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end"
+                            // disabled={!startDate || (&& !merchantId) || reportLoading}
+                        >
+                            <span>{translate("resources.paymentSettings.reports.export")}</span>
+                        </Button>
+                        <Button
+                            onClick={() => handleDownloadReport("xlsx")}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end"
+                            // disabled={!startDate || (adminOnly && !merchantId) || reportLoading}
+                        >
+                            <span>{translate("resources.paymentSettings.reports.import")}</span>
+                        </Button>
                     </div>
                 </div>
             </AnimatedContainer>

@@ -180,5 +180,9 @@
         "consequencesTerminalPaymentInstrument": "You are going to delete terminal payment instrument. Proceed?",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
         "consequencesCurrency": "You are going to delete сurrency and associated payment instruments. Proceed?"
+    },
+    "resources.paymentSettings.reports": {
+        "import": "Import",
+        "export": "Export"
     }
 }

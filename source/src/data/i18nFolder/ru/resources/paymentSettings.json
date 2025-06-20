@@ -178,5 +178,9 @@
         "consequencesTerminalPaymentInstrument": "Вы уверены, что хотите удалить терминальный платёжный инструмент?",
         "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платёжных инструментов",
         "consequencesCurrency": "Вы уверены, что хотите удалить валюту и связанные с ней платёжные инструменты?"
+    },
+    "resources.paymentSettings.reports": {
+        "import": "Импорт",
+        "export": "Экспорт"
     }
 }

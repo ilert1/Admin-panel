@@ -207,7 +207,7 @@ export const paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGet 
 
 /**
  * Import payment types from a CSV file
- * @summary Paymenttypeendpoints.Import Payment Types
+ * @summary Imports payment types records from a CSV file.
  */
 export type paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse200 = {
     data: ApiResponseImportResponse;
