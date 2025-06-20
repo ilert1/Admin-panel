@@ -3,7 +3,7 @@ import { CheckIcon, ChevronDown, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Button } from "@/components/ui/Button";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
@@ -76,6 +76,15 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
         setOpen(false);
     };
+
+    useEffect(() => {
+        return () => {
+            if (hoverTimeoutRef.current) {
+                clearTimeout(hoverTimeoutRef.current);
+            }
+        };
+    }, []);
+
     const handleTogglePopover = () => {
         setOpen(prev => !prev);
     };
