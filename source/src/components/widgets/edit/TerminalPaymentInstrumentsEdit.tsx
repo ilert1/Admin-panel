@@ -74,13 +74,10 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
     const formSchema = z.object({
         terminal_id: z
             .string()
-            .min(1, translate("resources.paymentSettings.terminalPaymentInstruments.errors.terminal_id")),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         system_payment_instrument_id: z
             .string()
-            .min(
-                1,
-                translate("resources.paymentSettings.terminalPaymentInstruments.errors.system_payment_instrument_id")
-            ),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         status: z
             .enum(statuses as [string, ...string[]])
             .default(TerminalPaymentInstrumentStatus.ACTIVE)
