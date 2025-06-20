@@ -91,7 +91,7 @@
     "resources.direction.noProviders": "Нет доступных провайдеров",
     "resources.direction.noMerchants": "Нет доступных мерчантов",
     "resources.direction.noCurrencies": "Нет доступных валют",
-    "resources.direction.noTerminals": "Выберите провайдера перед выбором терминала",
+    "resources.direction.noTerminals": "Сначала выберите провайдера",
     "resources.direction.deleteDirection": "Удалить направление?",
     "resources.direction.editingDirection": "Изменить направление",
     "resources.direction.creatingDirection": "Добавление направления"
