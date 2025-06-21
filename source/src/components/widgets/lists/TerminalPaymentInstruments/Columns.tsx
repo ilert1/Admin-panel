@@ -23,6 +23,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
     const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
@@ -36,6 +37,8 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         >
     ) => {
         try {
+            setIsDataUpdating(true);
+
             await terminalPaymentInstrumentsProvider.update("terminalPaymentInstruments", {
                 id,
                 data,
@@ -45,6 +48,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             appToast("success", translate("app.ui.edit.editSuccess"));
 
             listContext.refetch();
+
             setCurrentCellEdit({
                 row: undefined,
                 column: undefined
@@ -55,6 +59,8 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             } else {
                 appToast("error", translate("app.ui.create.createError"));
             }
+        } finally {
+            setIsDataUpdating(false);
         }
     };
 
@@ -110,19 +116,23 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             id: "terminal_currency_code",
             accessorKey: "terminal_currency_code",
             header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"),
-            cell: ({ row, cell }) => (
-                <TableEditableCell
-                    initValue={row.original.terminal_currency_code || ""}
-                    cell={cell}
-                    showEdit={
-                        currentCellEdit.row === cell.row.index &&
-                        currentCellEdit.column === cell.column.getIndex() &&
-                        !listContext.isFetching
-                    }
-                    onSubmit={value => onSubmit(row.original.id, { terminal_currency_code: value })}
-                    setShowEdit={setCurrentCellEdit}
-                />
-            )
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.terminal_currency_code || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.id, { terminal_currency_code: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
         },
         {
             id: "terminal_financial_institution_code",
@@ -130,37 +140,45 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             header: translate(
                 "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
             ),
-            cell: ({ row, cell }) => (
-                <TableEditableCell
-                    initValue={row.original.terminal_financial_institution_code || ""}
-                    cell={cell}
-                    showEdit={
-                        currentCellEdit.row === cell.row.index &&
-                        currentCellEdit.column === cell.column.getIndex() &&
-                        !listContext.isFetching
-                    }
-                    onSubmit={value => onSubmit(row.original.id, { terminal_financial_institution_code: value })}
-                    setShowEdit={setCurrentCellEdit}
-                />
-            )
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.terminal_financial_institution_code || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.id, { terminal_financial_institution_code: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
         },
         {
             id: "terminal_payment_type_code",
             accessorKey: "terminal_payment_type_code",
             header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"),
-            cell: ({ row, cell }) => (
-                <TableEditableCell
-                    initValue={row.original.terminal_payment_type_code || ""}
-                    cell={cell}
-                    showEdit={
-                        currentCellEdit.row === cell.row.index &&
-                        currentCellEdit.column === cell.column.getIndex() &&
-                        !listContext.isFetching
-                    }
-                    onSubmit={value => onSubmit(row.original.id, { terminal_payment_type_code: value })}
-                    setShowEdit={setCurrentCellEdit}
-                />
-            )
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.terminal_payment_type_code || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.id, { terminal_payment_type_code: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
         },
         {
             id: "direction",

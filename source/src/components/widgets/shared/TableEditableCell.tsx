@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
+import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Cell } from "@tanstack/react-table";
 import { Check, X } from "lucide-react";
@@ -13,9 +14,17 @@ interface IEditableCell<T> {
     showEdit: boolean;
     setShowEdit: (val: CurrentCell) => void;
     onSubmit: (val: string) => void;
+    isFetching?: boolean;
 }
 
-export function TableEditableCell<T>({ initValue, cell, showEdit, setShowEdit, onSubmit }: IEditableCell<T>) {
+export function TableEditableCell<T>({
+    initValue,
+    cell,
+    showEdit,
+    setShowEdit,
+    onSubmit,
+    isFetching
+}: IEditableCell<T>) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(initValue);
 
@@ -51,11 +60,21 @@ export function TableEditableCell<T>({ initValue, cell, showEdit, setShowEdit, o
                     />
 
                     <div className="flex items-center gap-1">
-                        <Button onClick={() => onSubmit(value)} variant="secondary" className="p-0">
-                            <Check />
-                        </Button>
+                        {isFetching ? (
+                            <div className="flex items-center justify-center">
+                                <LoadingBalance className="h-6 w-6 overflow-hidden" />
+                            </div>
+                        ) : (
+                            <Button onClick={() => onSubmit(value)} variant="secondary" className="p-0">
+                                <Check />
+                            </Button>
+                        )}
 
-                        <Button onClick={onExit} variant="secondary" className="p-0 text-red-50 hover:text-red-40">
+                        <Button
+                            disabled={isFetching}
+                            onClick={onExit}
+                            variant="secondary"
+                            className="p-0 text-red-50 hover:text-red-40 disabled:bg-transparent">
                             <X />
                         </Button>
                     </div>
@@ -65,7 +84,7 @@ export function TableEditableCell<T>({ initValue, cell, showEdit, setShowEdit, o
                     type="text"
                     onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
                     lineClamp
-                    text={value}
+                    text={initValue}
                 />
             )}
         </div>
