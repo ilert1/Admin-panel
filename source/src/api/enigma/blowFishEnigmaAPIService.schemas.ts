@@ -206,31 +206,6 @@ export interface ApiResponseNoneType {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationCurrencyError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationCurrencyMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationCurrency {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationCurrency;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationCurrencyError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationCurrencyMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
 export type ApiResponseOffsetPaginationDirectionError = ErrorBody | null;
 
 /**
@@ -251,56 +226,6 @@ export interface ApiResponseOffsetPaginationDirection {
      * @deprecated
      */
     meta?: ApiResponseOffsetPaginationDirectionMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
-export type ApiResponseOffsetPaginationFinancialInstitutionError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationFinancialInstitutionMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationFinancialInstitution {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationFinancialInstitution;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationFinancialInstitutionError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationFinancialInstitutionMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
-export type ApiResponseOffsetPaginationMerchantError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationMerchantMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationMerchant {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationMerchant;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationMerchantError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationMerchantMeta;
 }
 
 /**
@@ -331,56 +256,6 @@ export interface ApiResponseOffsetPaginationPaymentTypeModel {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationProviderError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationProviderMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationProvider {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationProvider;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationProviderError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationProviderMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
-export type ApiResponseOffsetPaginationSystemPaymentInstrumentError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationSystemPaymentInstrumentMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationSystemPaymentInstrument {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationSystemPaymentInstrument;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationSystemPaymentInstrumentError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationSystemPaymentInstrumentMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
 export type ApiResponseOffsetPaginationTerminalPaymentInstrumentError = ErrorBody | null;
 
 /**
@@ -401,31 +276,6 @@ export interface ApiResponseOffsetPaginationTerminalPaymentInstrument {
      * @deprecated
      */
     meta?: ApiResponseOffsetPaginationTerminalPaymentInstrumentMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
-export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationTerminalMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationTerminal {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationTerminal;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationTerminalError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationTerminalMeta;
 }
 
 /**
@@ -803,11 +653,6 @@ export interface CurrencyUpdate {
 }
 
 /**
- * Account identifier associated with the direction
- */
-export type DirectionAccountId = string | null;
-
-/**
  * Description of the direction
  */
 export type DirectionDescription = string | null;
@@ -817,13 +662,16 @@ export type DirectionDescription = string | null;
  */
 export type DirectionFees = { [key: string]: Fee };
 
+/**
+ * Account identifier associated with the direction
+ */
+export type DirectionAccountId = string | null;
+
 export interface Direction {
     /** Unique identifier for the direction */
     id: string;
     /** Name of the direction */
     name: string;
-    /** Account identifier associated with the direction */
-    account_id?: DirectionAccountId;
     /** State of the direction; can be 'active' or 'inactive' */
     state?: DirectionState;
     /** Type of the direction; can be 'universal', 'deposit', or 'withdraw' */
@@ -832,22 +680,24 @@ export interface Direction {
     description?: DirectionDescription;
     /** Weight of the direction */
     weight: number;
-    /** Merchant ID associated with the direction */
-    merchant: Merchant;
-    /** Provider name associated with the direction */
-    provider: Provider;
-    /** Terminal ID associated with the direction */
-    terminal: Terminal;
-    /** Source currency code */
-    src_currency: Currency;
-    /** Destination currency code */
-    dst_currency: Currency;
     /** Mapping of fee configurations with fee.id as key */
     fees?: DirectionFees;
     /** Direction limits (payin, payout, reward) with min and max values */
     limits: Limits;
+    /** Account identifier associated with the direction */
+    account_id?: DirectionAccountId;
+    /** Merchant ID associated with the direction */
+    merchant: MerchantBase;
+    /** Provider name associated with the direction */
+    provider: ProviderBase;
+    /** Terminal ID associated with the direction */
+    terminal: TerminalBase;
+    /** Source currency code */
+    src_currency: Currency;
+    /** Destination currency code */
+    dst_currency: Currency;
     /** List of payment types associated with this direction */
-    payment_types?: PaymentTypeModel[];
+    payment_types?: PaymentTypeBase[];
 }
 
 /**
@@ -1560,12 +1410,40 @@ export interface Merchant {
     name: string;
     /** Description of the merchant */
     description?: MerchantDescription;
-    /** List of payment types associated with this merchant */
-    payment_types?: PaymentTypeBase[];
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantKeycloakId;
     /** Mapping of fee configurations with fee.id as key */
     fees?: MerchantFees;
+    /** List of payment types associated with this merchant */
+    payment_types?: PaymentTypeBase[];
+}
+
+/**
+ * Description of the merchant
+ */
+export type MerchantBaseDescription = string | null;
+
+/**
+ * Keycloak identifier for the merchant
+ */
+export type MerchantBaseKeycloakId = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantBaseFees = { [key: string]: Fee };
+
+export interface MerchantBase {
+    /** Unique identifier of the merchant */
+    id: string;
+    /** Name of the merchant */
+    name: string;
+    /** Description of the merchant */
+    description?: MerchantBaseDescription;
+    /** Keycloak identifier for the merchant */
+    keycloak_id?: MerchantBaseKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantBaseFees;
 }
 
 /**
@@ -1613,42 +1491,9 @@ export interface MerchantUpdate {
     keycloak_id?: MerchantUpdateKeycloakId;
 }
 
-export interface OffsetPaginationCurrency {
-    /** A list of items in the current page */
-    items: Currency[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
 export interface OffsetPaginationDirection {
     /** A list of items in the current page */
     items: Direction[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
-export interface OffsetPaginationFinancialInstitution {
-    /** A list of items in the current page */
-    items: FinancialInstitution[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
-export interface OffsetPaginationMerchant {
-    /** A list of items in the current page */
-    items: Merchant[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -1668,42 +1513,9 @@ export interface OffsetPaginationPaymentTypeModel {
     total: number;
 }
 
-export interface OffsetPaginationProvider {
-    /** A list of items in the current page */
-    items: Provider[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
-export interface OffsetPaginationSystemPaymentInstrument {
-    /** A list of items in the current page */
-    items: SystemPaymentInstrument[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
 export interface OffsetPaginationTerminalPaymentInstrument {
     /** A list of items in the current page */
     items: TerminalPaymentInstrument[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
-export interface OffsetPaginationTerminal {
-    /** A list of items in the current page */
-    items: Terminal[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -1865,10 +1677,10 @@ export interface Provider {
     fields_json_schema: string;
     /** The public key encoded in base58, corresponding to the private key. */
     public_key?: ProviderPublicKey;
-    /** List of payment types associated with this provider */
-    payment_types?: PaymentTypeBase[];
     /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
     methods: ProviderMethods;
+    /** List of payment types associated with this provider */
+    payment_types?: PaymentTypeBase[];
 }
 
 export interface ProviderAddKeypair {
@@ -1876,6 +1688,30 @@ export interface ProviderAddKeypair {
     provider: Provider;
     /** The key pair details (public and private keys) to be associated with the provider */
     keypair: KeyPair;
+}
+
+/**
+ * The public key encoded in base58, corresponding to the private key.
+ */
+export type ProviderBasePublicKey = string | null;
+
+/**
+ * Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.
+ */
+export type ProviderBaseMethods = { [key: string]: ExecutionMethodOutput };
+
+export interface ProviderBase {
+    /**
+     * Provider name
+     * @minLength 1
+     */
+    name: string;
+    /** JSON schema for provider fields */
+    fields_json_schema: string;
+    /** The public key encoded in base58, corresponding to the private key. */
+    public_key?: ProviderBasePublicKey;
+    /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
+    methods: ProviderBaseMethods;
 }
 
 /**
@@ -2079,10 +1915,58 @@ export interface Terminal {
     account_created?: boolean;
     /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
     callback_url?: TerminalCallbackUrl;
-    /** List of payment types associated with this terminal */
-    payment_types?: PaymentTypeBase[];
     /** Additional details about the terminal */
     details?: TerminalDetails;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
+}
+
+/**
+ * Description of the terminal
+ */
+export type TerminalBaseDescription = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type TerminalBaseFees = { [key: string]: Fee };
+
+/**
+ * Authentication data for the terminal
+ */
+export type TerminalBaseAuth = { [key: string]: unknown };
+
+/**
+ * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
+ */
+export type TerminalBaseCallbackUrl = string | null;
+
+/**
+ * Additional details about the terminal
+ */
+export type TerminalBaseDetails = { [key: string]: unknown };
+
+export interface TerminalBase {
+    /** Unique identifier of the terminal */
+    terminal_id: string;
+    /** Name of the terminal */
+    verbose_name: string;
+    /** Description of the terminal */
+    description?: TerminalBaseDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: TerminalBaseFees;
+    /** Provider name associated with the terminal */
+    provider: string;
+    /** Authentication data for the terminal */
+    auth?: TerminalBaseAuth;
+    /** Indicates if the account is created */
+    account_created?: boolean;
+    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
+    callback_url?: TerminalBaseCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalBaseDetails;
 }
 
 /**
@@ -2164,7 +2048,7 @@ export interface TerminalPaymentInstrument {
     /** Unique ID of the configuration */
     id: string;
     /** Related Terminal object */
-    terminal: Terminal;
+    terminal: TerminalBase;
     /** Related SystemPaymentInstrument object */
     system_payment_instrument: SystemPaymentInstrument;
     /** Timestamp of creation */

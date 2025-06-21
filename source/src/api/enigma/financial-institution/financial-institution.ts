@@ -9,7 +9,6 @@ import type {
     ApiResponseImportResponse,
     ApiResponseListFinancialInstitutionTypeItem,
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationFinancialInstitution,
     BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
@@ -62,7 +61,7 @@ export const financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1Fi
  * @summary Retrieve a paginated list of financial institutions
  */
 export type financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetResponse200 = {
-    data: ApiResponseOffsetPaginationFinancialInstitution;
+    data: unknown;
     status: 200;
 };
 
@@ -210,7 +209,7 @@ export const financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fin
 
 /**
  * Upload CSV file and import Financial Institutions from it to system.
- * @summary Financialinstitutionendpoints.Import Financial Institutions
+ * @summary Imports financial institutes records from a CSV file.
  */
 export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse200 =
     {

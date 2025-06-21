@@ -8,7 +8,6 @@ import type {
     ApiResponseImportResponse,
     ApiResponseListPaymentCategoryItem,
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationPaymentTypeModel,
     ApiResponsePaymentTypeModel,
     BodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
     CurrenciesLink,
@@ -60,7 +59,7 @@ export const paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCate
  * @summary Get a list of payment types with filtering and pagination
  */
 export type paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetResponse200 = {
-    data: ApiResponseOffsetPaginationPaymentTypeModel;
+    data: unknown;
     status: 200;
 };
 
@@ -207,7 +206,7 @@ export const paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGet 
 
 /**
  * Import payment types from a CSV file
- * @summary Paymenttypeendpoints.Import Payment Types
+ * @summary Imports payment types records from a CSV file.
  */
 export type paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse200 = {
     data: ApiResponseImportResponse;

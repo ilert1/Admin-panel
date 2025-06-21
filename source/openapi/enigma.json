@@ -191,9 +191,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__"
-                }
+                "schema": {}
               }
             }
           },
@@ -545,9 +543,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__"
-                }
+                "schema": {}
               }
             }
           },
@@ -1196,9 +1192,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__"
-                }
+                "schema": {}
               }
             }
           },
@@ -1739,9 +1733,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
-                }
+                "schema": {}
               }
             }
           },
@@ -1964,9 +1956,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
-                }
+                "schema": {}
               }
             }
           },
@@ -3265,9 +3255,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
-                }
+                "schema": {}
               }
             }
           },
@@ -3487,9 +3475,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
-                }
+                "schema": {}
               }
             }
           },
@@ -4520,9 +4506,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_PaymentTypeModel__"
-                }
+                "schema": {}
               }
             }
           },
@@ -4726,7 +4710,7 @@
         "tags": [
           "Payment Type"
         ],
-        "summary": "Paymenttypeendpoints.Import Payment Types",
+        "summary": "Imports payment types records from a CSV file.",
         "description": "Import payment types from a CSV file",
         "operationId": "PaymentTypeEndpoints_import_payment_types_enigma_v1_payment_type_import_post",
         "parameters": [
@@ -5288,9 +5272,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_FinancialInstitution__"
-                }
+                "schema": {}
               }
             }
           },
@@ -5570,7 +5552,7 @@
         "tags": [
           "Financial Institution"
         ],
-        "summary": "Financialinstitutionendpoints.Import Financial Institutions",
+        "summary": "Imports financial institutes records from a CSV file.",
         "description": "Upload CSV file and import Financial Institutions from it to system.",
         "operationId": "FinancialInstitutionEndpoints_import_financial_institutions_enigma_v1_financial_institution_import_post",
         "parameters": [
@@ -6241,9 +6223,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_SystemPaymentInstrument__"
-                }
+                "schema": {}
               }
             }
           },
@@ -6523,7 +6503,7 @@
         "tags": [
           "System Payment Instruments"
         ],
-        "summary": "Systempaymentinstrumentendpoints.Import System Payment Instrument",
+        "summary": "Imports system payment instruments records from a CSV file.",
         "description": "Upload CSV file and import System Payment Instruments from it to system.",
         "operationId": "SystemPaymentInstrumentEndpoints_import_system_payment_instrument_enigma_v1_system_payment_instruments_import_post",
         "parameters": [
@@ -6938,9 +6918,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalPaymentInstrument__"
-                }
+                "schema": {}
               }
             }
           },
@@ -8146,47 +8124,6 @@
         ],
         "title": "ApiResponse[NoneType]"
       },
-      "ApiResponse_OffsetPagination_Currency__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_Currency_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[Currency]]"
-      },
       "ApiResponse_OffsetPagination_Direction__": {
         "properties": {
           "success": {
@@ -8227,88 +8164,6 @@
           "data"
         ],
         "title": "ApiResponse[OffsetPagination[Direction]]"
-      },
-      "ApiResponse_OffsetPagination_FinancialInstitution__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_FinancialInstitution_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[FinancialInstitution]]"
-      },
-      "ApiResponse_OffsetPagination_Merchant__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_Merchant_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[Merchant]]"
       },
       "ApiResponse_OffsetPagination_PaymentTypeModel__": {
         "properties": {
@@ -8351,88 +8206,6 @@
         ],
         "title": "ApiResponse[OffsetPagination[PaymentTypeModel]]"
       },
-      "ApiResponse_OffsetPagination_Provider__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_Provider_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[Provider]]"
-      },
-      "ApiResponse_OffsetPagination_SystemPaymentInstrument__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_SystemPaymentInstrument_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[SystemPaymentInstrument]]"
-      },
       "ApiResponse_OffsetPagination_TerminalPaymentInstrument__": {
         "properties": {
           "success": {
@@ -8473,47 +8246,6 @@
           "data"
         ],
         "title": "ApiResponse[OffsetPagination[TerminalPaymentInstrument]]"
-      },
-      "ApiResponse_OffsetPagination_Terminal__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_Terminal_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[Terminal]]"
       },
       "ApiResponse_PaymentTypeModel_": {
         "properties": {
@@ -9268,21 +9000,6 @@
               "Direction A"
             ]
           },
-          "account_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Account Id",
-            "description": "Account identifier associated with the direction",
-            "examples": [
-              "acc_123"
-            ]
-          },
           "state": {
             "$ref": "#/components/schemas/DirectionState",
             "description": "State of the direction; can be 'active' or 'inactive'",
@@ -9322,26 +9039,6 @@
               10
             ]
           },
-          "merchant": {
-            "$ref": "#/components/schemas/Merchant",
-            "description": "Merchant ID associated with the direction"
-          },
-          "provider": {
-            "$ref": "#/components/schemas/Provider",
-            "description": "Provider name associated with the direction"
-          },
-          "terminal": {
-            "$ref": "#/components/schemas/Terminal",
-            "description": "Terminal ID associated with the direction"
-          },
-          "src_currency": {
-            "$ref": "#/components/schemas/Currency",
-            "description": "Source currency code"
-          },
-          "dst_currency": {
-            "$ref": "#/components/schemas/Currency",
-            "description": "Destination currency code"
-          },
           "fees": {
             "additionalProperties": {
               "$ref": "#/components/schemas/Fee"
@@ -9357,9 +9054,44 @@
             "$ref": "#/components/schemas/Limits",
             "description": "Direction limits (payin, payout, reward) with min and max values"
           },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Id",
+            "description": "Account identifier associated with the direction",
+            "examples": [
+              "acc_123"
+            ]
+          },
+          "merchant": {
+            "$ref": "#/components/schemas/MerchantBase",
+            "description": "Merchant ID associated with the direction"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/ProviderBase",
+            "description": "Provider name associated with the direction"
+          },
+          "terminal": {
+            "$ref": "#/components/schemas/TerminalBase",
+            "description": "Terminal ID associated with the direction"
+          },
+          "src_currency": {
+            "$ref": "#/components/schemas/Currency",
+            "description": "Source currency code"
+          },
+          "dst_currency": {
+            "$ref": "#/components/schemas/Currency",
+            "description": "Destination currency code"
+          },
           "payment_types": {
             "items": {
-              "$ref": "#/components/schemas/PaymentTypeModel"
+              "$ref": "#/components/schemas/PaymentTypeBase"
             },
             "type": "array",
             "title": "Payment Types",
@@ -9371,12 +9103,12 @@
           "id",
           "name",
           "weight",
+          "limits",
           "merchant",
           "provider",
           "terminal",
           "src_currency",
-          "dst_currency",
-          "limits"
+          "dst_currency"
         ],
         "title": "Direction"
       },
@@ -11077,6 +10809,48 @@
               "Leading merchant in the region"
             ]
           },
+          "keycloak_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Keycloak Id",
+            "description": "Keycloak identifier for the merchant",
+            "examples": [
+              "keycloak_123"
+            ]
+          },
+          "fees": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Fee"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "type": "object",
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key",
+            "examples": [
+              {
+                "123e4567-e89b-12d3-a456-426614174000": {
+                  "currency": "USD",
+                  "description": "Fee for service",
+                  "direction": 1,
+                  "id": "123e4567-e89b-12d3-a456-426614174000",
+                  "recipient": "recipient@example.com",
+                  "type": 3,
+                  "value": {
+                    "accuracy": 100,
+                    "quantity": 1234
+                  }
+                }
+              }
+            ]
+          },
           "payment_types": {
             "items": {
               "$ref": "#/components/schemas/PaymentTypeBase"
@@ -11084,6 +10858,47 @@
             "type": "array",
             "title": "Payment Types",
             "description": "List of payment types associated with this merchant"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "Merchant"
+      },
+      "MerchantBase": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the merchant",
+            "examples": [
+              "merchant_001"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the merchant",
+            "examples": [
+              "Merchant A"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the merchant",
+            "examples": [
+              "Leading merchant in the region"
+            ]
           },
           "keycloak_id": {
             "anyOf": [
@@ -11133,7 +10948,7 @@
           "id",
           "name"
         ],
-        "title": "Merchant"
+        "title": "MerchantBase"
       },
       "MerchantCreate": {
         "properties": {
@@ -11242,50 +11057,6 @@
         "type": "object",
         "title": "MerchantUpdate"
       },
-      "OffsetPagination_Currency_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/Currency"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[Currency]"
-      },
       "OffsetPagination_Direction_": {
         "properties": {
           "items": {
@@ -11329,94 +11100,6 @@
           "total"
         ],
         "title": "OffsetPagination[Direction]"
-      },
-      "OffsetPagination_FinancialInstitution_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/FinancialInstitution"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[FinancialInstitution]"
-      },
-      "OffsetPagination_Merchant_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/Merchant"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[Merchant]"
       },
       "OffsetPagination_PaymentTypeModel_": {
         "properties": {
@@ -11462,94 +11145,6 @@
         ],
         "title": "OffsetPagination[PaymentTypeModel]"
       },
-      "OffsetPagination_Provider_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/Provider"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[Provider]"
-      },
-      "OffsetPagination_SystemPaymentInstrument_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/SystemPaymentInstrument"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[SystemPaymentInstrument]"
-      },
       "OffsetPagination_TerminalPaymentInstrument_": {
         "properties": {
           "items": {
@@ -11593,50 +11188,6 @@
           "total"
         ],
         "title": "OffsetPagination[TerminalPaymentInstrument]"
-      },
-      "OffsetPagination_Terminal_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/Terminal"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[Terminal]"
       },
       "PaymentCategory": {
         "type": "string",
@@ -12024,6 +11575,94 @@
               "GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"
             ]
           },
+          "methods": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ExecutionMethod-Output"
+            },
+            "type": "object",
+            "title": "Methods",
+            "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
+            "examples": [
+              {
+                "get_trade_methods_payin": {
+                  "execution_name": "api_get_trade_methods",
+                  "retry_policy": {
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 5
+                  },
+                  "task_queue": "pay4u-activities",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s"
+                  },
+                  "type": "trade_methods_payin"
+                },
+                "get_trade_methods_payout": {
+                  "execution_name": "api_get_trade_methods_payout",
+                  "retry_policy": {
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 5
+                  },
+                  "task_queue": "pay4u-activities",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s"
+                  },
+                  "type": "trade_methods_payout"
+                },
+                "h2h_async": {
+                  "execution_name": "PayIn_h2h_async",
+                  "retry_policy": {
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
+                    "maximum_attempts": 1
+                  },
+                  "task_queue": "pay4u-workflows",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s"
+                  },
+                  "type": "withdraw"
+                },
+                "h2h_sync": {
+                  "execution_name": "PayIn_h2h_sync",
+                  "retry_policy": {
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 10,
+                    "non_retryable_error_types": [
+                      "ProviderError",
+                      "ValidationError"
+                    ]
+                  },
+                  "task_queue": "pay4u-workflows",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s",
+                    "wait_condition_timeout": "15s"
+                  },
+                  "type": "deposit"
+                },
+                "h2h_sync_out": {
+                  "execution_name": "PayOut_h2h",
+                  "retry_policy": {
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 10,
+                    "non_retryable_error_types": []
+                  },
+                  "task_queue": "pay4u-workflows",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s",
+                    "wait_condition_timeout": "15s"
+                  },
+                  "type": "transfer"
+                }
+              }
+            ]
+          },
           "payment_types": {
             "items": {
               "$ref": "#/components/schemas/PaymentTypeBase"
@@ -12031,6 +11670,67 @@
             "type": "array",
             "title": "Payment Types",
             "description": "List of payment types associated with this provider"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "fields_json_schema",
+          "methods"
+        ],
+        "title": "Provider"
+      },
+      "ProviderAddKeypair": {
+        "properties": {
+          "provider": {
+            "$ref": "#/components/schemas/Provider",
+            "description": "Detailed information about the provider"
+          },
+          "keypair": {
+            "$ref": "#/components/schemas/KeyPair",
+            "description": "The key pair details (public and private keys) to be associated with the provider"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "keypair"
+        ],
+        "title": "ProviderAddKeypair"
+      },
+      "ProviderBase": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Provider name",
+            "examples": [
+              "ProviderA"
+            ]
+          },
+          "fields_json_schema": {
+            "type": "string",
+            "title": "Fields Json Schema",
+            "description": "JSON schema for provider fields",
+            "examples": [
+              "string"
+            ]
+          },
+          "public_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Key",
+            "description": "The public key encoded in base58, corresponding to the private key.",
+            "examples": [
+              "GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"
+            ]
           },
           "methods": {
             "additionalProperties": {
@@ -12127,25 +11827,7 @@
           "fields_json_schema",
           "methods"
         ],
-        "title": "Provider"
-      },
-      "ProviderAddKeypair": {
-        "properties": {
-          "provider": {
-            "$ref": "#/components/schemas/Provider",
-            "description": "Detailed information about the provider"
-          },
-          "keypair": {
-            "$ref": "#/components/schemas/KeyPair",
-            "description": "The key pair details (public and private keys) to be associated with the provider"
-          }
-        },
-        "type": "object",
-        "required": [
-          "provider",
-          "keypair"
-        ],
-        "title": "ProviderAddKeypair"
+        "title": "ProviderBase"
       },
       "ProviderCreate": {
         "properties": {
@@ -12811,6 +12493,17 @@
             "title": "Callback Url",
             "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
           },
+          "details": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Details",
+            "description": "Additional details about the terminal",
+            "examples": [
+              {
+                "key": "value"
+              }
+            ]
+          },
           "payment_types": {
             "items": {
               "$ref": "#/components/schemas/PaymentTypeBase"
@@ -12818,6 +12511,126 @@
             "type": "array",
             "title": "Payment Types",
             "description": "List of payment types associated with this terminal"
+          }
+        },
+        "type": "object",
+        "required": [
+          "terminal_id",
+          "verbose_name",
+          "provider"
+        ],
+        "title": "Terminal"
+      },
+      "TerminalBase": {
+        "properties": {
+          "terminal_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Terminal Id",
+            "description": "Unique identifier of the terminal",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "verbose_name": {
+            "type": "string",
+            "title": "Verbose Name",
+            "description": "Name of the terminal",
+            "examples": [
+              "Main Terminal"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the terminal",
+            "examples": [
+              "This is the main terminal"
+            ]
+          },
+          "allocation_timeout_seconds": {
+            "type": "integer",
+            "title": "Allocation Timeout Seconds",
+            "description": "Timeout for allocation in seconds",
+            "default": 2,
+            "examples": [
+              2
+            ]
+          },
+          "fees": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Fee"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "type": "object",
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key",
+            "examples": [
+              {
+                "123e4567-e89b-12d3-a456-426614174000": {
+                  "currency": "USD",
+                  "description": "Fee for service",
+                  "direction": 1,
+                  "id": "123e4567-e89b-12d3-a456-426614174000",
+                  "recipient": "recipient@example.com",
+                  "type": 3,
+                  "value": {
+                    "accuracy": 100,
+                    "quantity": 1234
+                  }
+                }
+              }
+            ]
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider",
+            "description": "Provider name associated with the terminal",
+            "examples": [
+              "ProviderA"
+            ]
+          },
+          "auth": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Auth",
+            "description": "Authentication data for the terminal",
+            "examples": [
+              {
+                "password": "pass",
+                "username": "user"
+              }
+            ]
+          },
+          "account_created": {
+            "type": "boolean",
+            "title": "Account Created",
+            "description": "Indicates if the account is created",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "callback_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Callback Url",
+            "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
           },
           "details": {
             "additionalProperties": true,
@@ -12837,7 +12650,7 @@
           "verbose_name",
           "provider"
         ],
-        "title": "Terminal"
+        "title": "TerminalBase"
       },
       "TerminalCreate": {
         "properties": {
@@ -13053,7 +12866,7 @@
             "description": "Unique ID of the configuration"
           },
           "terminal": {
-            "$ref": "#/components/schemas/Terminal",
+            "$ref": "#/components/schemas/TerminalBase",
             "description": "Related Terminal object"
           },
           "system_payment_instrument": {

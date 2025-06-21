@@ -7,7 +7,6 @@
 import type {
     ApiResponseImportResponse,
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationSystemPaymentInstrument,
     ApiResponseSystemPaymentInstrument,
     BodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost,
     HTTPValidationError,
@@ -26,7 +25,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  */
 export type systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetResponse200 =
     {
-        data: ApiResponseOffsetPaginationSystemPaymentInstrument;
+        data: unknown;
         status: 200;
     };
 
@@ -186,7 +185,7 @@ export const systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigm
 
 /**
  * Upload CSV file and import System Payment Instruments from it to system.
- * @summary Systempaymentinstrumentendpoints.Import System Payment Instrument
+ * @summary Imports system payment instruments records from a CSV file.
  */
 export type systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse200 =
     {

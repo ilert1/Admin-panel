@@ -6,7 +6,6 @@
  */
 import type {
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationProvider,
     ApiResponseProvider,
     ApiResponseProviderAddKeypair,
     HTTPValidationError,
@@ -24,7 +23,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * @summary Retrieve a paginated list of providers
  */
 export type providerEndpointsListProvidersEnigmaV1ProviderGetResponse200 = {
-    data: ApiResponseOffsetPaginationProvider;
+    data: unknown;
     status: 200;
 };
 

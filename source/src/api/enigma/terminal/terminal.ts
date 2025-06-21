@@ -8,7 +8,6 @@ import type {
     ApiResponseListAccountInfo,
     ApiResponseListTerminal,
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationTerminal,
     ApiResponseTerminal,
     FeeCreate,
     FeeUpdate,
@@ -30,7 +29,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * @summary Get a paginated list of terminals
  */
 export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200 = {
-    data: ApiResponseOffsetPaginationTerminal;
+    data: unknown;
     status: 200;
 };
 
@@ -126,7 +125,7 @@ export const poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMercha
  * @summary Get a paginated list of terminals via provider
  */
 export type terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse200 = {
-    data: ApiResponseOffsetPaginationTerminal;
+    data: unknown;
     status: 200;
 };
 

@@ -31,7 +31,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * @summary Get a paginated list of directions
  */
 export type directionEndpointsListDirectionsEnigmaV1DirectionGetResponse200 = {
-    data: ApiResponseOffsetPaginationDirection;
+    data: unknown;
     status: 200;
 };
 
@@ -127,7 +127,7 @@ export const directionEndpointsCreateDirectionEnigmaV1DirectionPost = async (
  * @summary Get a paginated list of directions by merchant
  */
 export type directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetResponse200 = {
-    data: ApiResponseOffsetPaginationDirection;
+    data: unknown;
     status: 200;
 };
 
