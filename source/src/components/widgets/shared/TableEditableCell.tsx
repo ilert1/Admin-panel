@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/Input/input";
 import { TextField } from "@/components/ui/text-field";
 import { Cell } from "@tanstack/react-table";
 import { Check, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type CurrentCell = { row: number | undefined; column: number | undefined };
 
@@ -16,6 +16,7 @@ interface IEditableCell<T> {
 }
 
 export function TableEditableCell<T>({ initValue, cell, showEdit, setShowEdit, onSubmit }: IEditableCell<T>) {
+    const inputRef = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(initValue);
 
     const onExit = () => {
@@ -31,11 +32,23 @@ export function TableEditableCell<T>({ initValue, cell, showEdit, setShowEdit, o
         }
     };
 
+    useEffect(() => {
+        if (showEdit) {
+            inputRef?.current?.focus();
+            inputRef?.current?.select();
+        }
+    }, [showEdit]);
+
     return (
         <div className="flex w-full max-w-48 items-center gap-2">
             {showEdit ? (
                 <>
-                    <Input onKeyDown={onKeyPress} value={value} onChange={e => setValue(e.target.value)} />
+                    <Input
+                        ref={inputRef}
+                        onKeyDown={onKeyPress}
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                    />
 
                     <div className="flex items-center gap-1">
                         <Button onClick={() => onSubmit(value)} variant="secondary" className="p-0">
