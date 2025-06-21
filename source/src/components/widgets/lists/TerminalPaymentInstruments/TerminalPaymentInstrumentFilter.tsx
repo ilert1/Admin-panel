@@ -129,6 +129,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                         <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                             <div className="w-full">
                                 <Input
+                                    labelSize="title-2"
                                     value={terminalFinancialInstitutionCode}
                                     onChange={onTerminalFinancialInstitutionCodeChanged}
                                     label={translate(
@@ -142,6 +143,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             </div>
                             <div className="w-full">
                                 <Input
+                                    labelSize="title-2"
                                     value={terminalCurrencyCode}
                                     onChange={onTerminalCurrencyCodeChanged}
                                     label={translate(
@@ -155,6 +157,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             </div>
                             <div className="w-full">
                                 <Input
+                                    labelSize="title-2"
                                     value={terminalPaymentTypeCode}
                                     onChange={onTerminalPaymentTypeCodeChanged}
                                     label={translate(
