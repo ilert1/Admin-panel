@@ -29,7 +29,7 @@ function EditableCell<T>({ initValue, cell, showEdit, setShowEdit, onSubmit }: I
     };
 
     return (
-        <div className="flex w-40 items-center gap-2">
+        <div className="flex w-full max-w-48 items-center gap-2">
             {showEdit ? (
                 <>
                     <Input value={value} onChange={e => setValue(e.target.value)} />
