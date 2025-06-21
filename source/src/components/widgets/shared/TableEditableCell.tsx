@@ -71,10 +71,10 @@ export function TableEditableCell<T>({
                                     onClick={onExit}
                                     variant="secondary"
                                     className="h-auto p-0 text-red-50 hover:text-red-40 disabled:bg-transparent">
-                                    <X />
+                                    <X className="h-5" />
                                 </Button>
                                 <Button onClick={() => onSubmit(value)} variant="secondary" className="h-auto p-0">
-                                    <Check />
+                                    <Check className="h-5" />
                                 </Button>
                             </>
                         )}
