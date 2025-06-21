@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { Cell, ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { ListControllerResult, useTranslate } from "react-admin";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
@@ -7,54 +6,10 @@ import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrume
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Check, EyeIcon, X } from "lucide-react";
-import { Input } from "@/components/ui/Input/input";
+import { EyeIcon } from "lucide-react";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-
-interface IEditableCell<T> {
-    initValue: string;
-    cell: Cell<T, unknown>;
-    showEdit: boolean;
-    setShowEdit: (val: { row: number | undefined; column: number | undefined }) => void;
-    onSubmit: (val: string) => void;
-}
-
-function EditableCell<T>({ initValue, cell, showEdit, setShowEdit, onSubmit }: IEditableCell<T>) {
-    const [value, setValue] = useState(initValue);
-
-    const onExit = () => {
-        setShowEdit({ row: undefined, column: undefined });
-        setValue(initValue);
-    };
-
-    return (
-        <div className="flex w-full max-w-48 items-center gap-2">
-            {showEdit ? (
-                <>
-                    <Input value={value} onChange={e => setValue(e.target.value)} />
-
-                    <div className="flex items-center gap-1">
-                        <Button onClick={() => onSubmit(value)} variant="secondary" className="p-0">
-                            <Check />
-                        </Button>
-
-                        <Button onClick={onExit} variant="secondary" className="p-0 text-red-50 hover:text-red-40">
-                            <X />
-                        </Button>
-                    </div>
-                </>
-            ) : (
-                <TextField
-                    type="text"
-                    onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
-                    lineClamp
-                    text={value}
-                />
-            )}
-        </div>
-    );
-}
+import { TableEditableCell, CurrentCell } from "../../shared";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({
     listContext
@@ -68,7 +23,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
     const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
-    const [currentCellEdit, setCurrentCellEdit] = useState<{ row: number | undefined; column: number | undefined }>({
+    const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
     });
@@ -156,7 +111,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             accessorKey: "terminal_currency_code",
             header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"),
             cell: ({ row, cell }) => (
-                <EditableCell
+                <TableEditableCell
                     initValue={row.original.terminal_currency_code || ""}
                     cell={cell}
                     showEdit={
@@ -176,7 +131,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
                 "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
             ),
             cell: ({ row, cell }) => (
-                <EditableCell
+                <TableEditableCell
                     initValue={row.original.terminal_financial_institution_code || ""}
                     cell={cell}
                     showEdit={
@@ -194,7 +149,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             accessorKey: "terminal_payment_type_code",
             header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"),
             cell: ({ row, cell }) => (
-                <EditableCell
+                <TableEditableCell
                     initValue={row.original.terminal_payment_type_code || ""}
                     cell={cell}
                     showEdit={
