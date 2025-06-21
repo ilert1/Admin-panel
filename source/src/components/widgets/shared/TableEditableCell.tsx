@@ -23,11 +23,19 @@ export function TableEditableCell<T>({ initValue, cell, showEdit, setShowEdit, o
         setValue(initValue);
     };
 
+    const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            onSubmit(value);
+        } else if (e.key === "Escape") {
+            onExit();
+        }
+    };
+
     return (
         <div className="flex w-full max-w-48 items-center gap-2">
             {showEdit ? (
                 <>
-                    <Input value={value} onChange={e => setValue(e.target.value)} />
+                    <Input onKeyDown={onKeyPress} value={value} onChange={e => setValue(e.target.value)} />
 
                     <div className="flex items-center gap-1">
                         <Button onClick={() => onSubmit(value)} variant="secondary" className="p-0">
