@@ -90,7 +90,7 @@
             "name": "Name",
             "payment_type_code": "Payment type",
             "currency_code": "Currency",
-            "financial_institution_id": "Financial institution",
+            "financial_institution_code": "Financial institution",
             "direction": "Direction",
             "status": "Status",
             "description": "Description",
@@ -100,7 +100,7 @@
             "createdAt": "Created at",
             "updatedAt": "Updated at",
             "id": "ID",
-            "name": "Name",
+            "code": "Code",
             "paymentType": "Payment type",
             "paymentTypeCode": "Payment type code",
             "financialInstitution": "Financial institution",
@@ -123,7 +123,7 @@
             "editActivity": "The activity of the system payment instrument %{name} has been successfully changed to: %{state}."
         },
         "placeholders": {
-            "name": "Name",
+            "code": "Code",
             "currencyCode": "Select currency code"
         },
         "notFoundMessage": "System payment instruments not found.",
@@ -141,7 +141,7 @@
             "created_at": "Created at",
             "updated_at": "Updated at",
             "terminal_id": "Terminal",
-            "system_payment_instrument_id": "System payment instrument",
+            "system_payment_instrument_code": "System payment instrument",
             "terminal_payment_type_code": "Terminal payment type code",
             "terminal_currency_code": "Terminal currency code",
             "terminal_financial_institution_code": "Terminal financial institution code",

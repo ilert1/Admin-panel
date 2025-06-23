@@ -95,20 +95,20 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             )
         },
         {
-            id: "system_payment_instrument_id",
-            accessorKey: "system_payment_instrument_id",
+            id: "system_payment_instrument_code",
+            accessorKey: "system_payment_instrument_code",
             header: translate(
-                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
             ),
             cell: ({ row }) => (
                 <Button
                     variant={"resourceLink"}
                     onClick={() => {
                         openSheet("systemPaymentInstrument", {
-                            id: row.original.system_payment_instrument_id
+                            id: row.original.system_payment_instrument_code
                         });
                     }}>
-                    {row.original.system_payment_instrument.name}
+                    {row.original.system_payment_instrument_code}
                 </Button>
             )
         },

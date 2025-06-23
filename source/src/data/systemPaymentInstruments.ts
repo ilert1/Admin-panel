@@ -27,7 +27,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<SystemPaymentInstrumentWithId>> {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(
-                  item => item === "name" || item === "currency_code" || item === "payment_type_code"
+                  item => item === "code" || item === "currency_code" || item === "payment_type_code"
               )
             : [];
 

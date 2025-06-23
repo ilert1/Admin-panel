@@ -48,7 +48,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const translate = useTranslate();
     const statuses = Object.keys(TerminalPaymentInstrumentStatus);
 
-    const [systemPaymentInstrumentValueName, setSystemPaymentInstrumentValueName] = useState("");
+    const [systemPaymentInstrumentCode, setSystemPaymentInstrumentCode] = useState("");
     const [terminalValueName, setTerminalValueName] = useState("");
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
@@ -69,7 +69,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         terminal_id: z
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
-        system_payment_instrument_id: z
+        system_payment_instrument_code: z
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         status: z
@@ -87,7 +87,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         resolver: zodResolver(formSchema),
         defaultValues: {
             terminal_id: "",
-            system_payment_instrument_id: "",
+            system_payment_instrument_code: "",
             status: TerminalPaymentInstrumentStatus.ACTIVE,
             direction: DirectionType.deposit,
             terminal_payment_type_code: "",
@@ -168,8 +168,8 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             variants={terminalsData?.data || []}
                                             value={terminalValueName}
                                             idField="terminal_id"
-                                            setIdValue={e => field.onChange(e)}
-                                            onChange={e => setTerminalValueName(e)}
+                                            setIdValue={field.onChange}
+                                            onChange={setTerminalValueName}
                                             variantKey="verbose_name"
                                             placeholder={translate("resources.terminals.selectPlaceholder")}
                                             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
@@ -185,23 +185,23 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
 
                             <FormField
                                 control={form.control}
-                                name="system_payment_instrument_id"
+                                name="system_payment_instrument_code"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
                                         <Label>
                                             {translate(
-                                                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
                                             )}
                                         </Label>
 
                                         <PopoverSelect
                                             variants={systemPaymentInstrumentsData?.data || []}
-                                            value={systemPaymentInstrumentValueName}
-                                            idField="id"
+                                            value={systemPaymentInstrumentCode}
+                                            idField="code"
                                             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                            setIdValue={e => field.onChange(e)}
-                                            onChange={e => setSystemPaymentInstrumentValueName(e)}
-                                            variantKey="name"
+                                            setIdValue={field.onChange}
+                                            onChange={setSystemPaymentInstrumentCode}
+                                            variantKey="code"
                                             notFoundMessage={translate(
                                                 "resources.paymentSettings.systemPaymentInstruments.notFoundMessage"
                                             )}

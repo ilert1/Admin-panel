@@ -102,13 +102,13 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
 
                     <TextField
                         label={translate(
-                            "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
                         )}
                         className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                        text={context.record.system_payment_instrument.name}
+                        text={context.record.system_payment_instrument_code}
                         onClick={() => {
                             openSheet("systemPaymentInstrument", {
-                                id: context.record.system_payment_instrument_id
+                                id: context.record.system_payment_instrument_code
                             });
                         }}
                     />

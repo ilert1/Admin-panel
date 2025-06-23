@@ -63,7 +63,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
     const translate = useTranslate();
     const appToast = useAppToast();
 
-    const [systemPaymentInstrumentValueName, setSystemPaymentInstrumentValueName] = useState("");
+    const [systemPaymentInstrumentCode, setSystemPaymentInstrumentCode] = useState("");
     const [terminalValueName, setTerminalValueName] = useState("");
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
@@ -75,7 +75,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         terminal_id: z
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
-        system_payment_instrument_id: z
+        system_payment_instrument_code: z
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         status: z
@@ -93,9 +93,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         resolver: zodResolver(formSchema),
         defaultValues: {
             terminal_id: "",
-            system_payment_instrument_id: "",
-            // status: TerminalPaymentInstrumentStatus.ACTIVE,
-            // direction: DirectionType.deposit,
+            system_payment_instrument_code: "",
             terminal_payment_type_code: "",
             terminal_currency_code: "",
             terminal_financial_institution_code: "",
@@ -107,7 +105,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         if (!isLoadingTerminalPaymentInstrumentsData && terminalPaymentInstrumentsData && isFetchedAfterMount) {
             const updatedValues = {
                 terminal_id: terminalPaymentInstrumentsData.terminal_id || "",
-                system_payment_instrument_id: terminalPaymentInstrumentsData.system_payment_instrument_id || "",
+                system_payment_instrument_code: terminalPaymentInstrumentsData.system_payment_instrument_code || "",
                 terminal_payment_type_code: terminalPaymentInstrumentsData.terminal_payment_type_code || "",
                 terminal_currency_code: terminalPaymentInstrumentsData.terminal_currency_code || "",
                 status: terminalPaymentInstrumentsData.status || TerminalPaymentInstrumentStatus.INACTIVE,
@@ -118,7 +116,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                     JSON.stringify(terminalPaymentInstrumentsData.terminal_specific_parameters, null, 2) || "{}"
             };
 
-            setSystemPaymentInstrumentValueName(terminalPaymentInstrumentsData.system_payment_instrument.name);
+            setSystemPaymentInstrumentCode(terminalPaymentInstrumentsData.system_payment_instrument_code);
             setTerminalValueName(terminalPaymentInstrumentsData.terminal.verbose_name);
 
             form.reset(updatedValues);
@@ -188,8 +186,8 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                         variants={terminalsData?.data || []}
                                         value={terminalValueName}
                                         idField="terminal_id"
-                                        setIdValue={e => field.onChange(e)}
-                                        onChange={e => setTerminalValueName(e)}
+                                        setIdValue={field.onChange}
+                                        onChange={setTerminalValueName}
                                         variantKey="verbose_name"
                                         placeholder={translate("resources.terminals.selectPlaceholder")}
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
@@ -205,23 +203,23 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
 
                         <FormField
                             control={form.control}
-                            name="system_payment_instrument_id"
+                            name="system_payment_instrument_code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2">
                                     <Label>
                                         {translate(
-                                            "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                                            "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
                                         )}
                                     </Label>
 
                                     <PopoverSelect
                                         variants={systemPaymentInstrumentsData?.data || []}
-                                        value={systemPaymentInstrumentValueName}
-                                        idField="id"
+                                        value={systemPaymentInstrumentCode}
+                                        idField="code"
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                        setIdValue={e => field.onChange(e)}
-                                        onChange={e => setSystemPaymentInstrumentValueName(e)}
-                                        variantKey="name"
+                                        setIdValue={field.onChange}
+                                        onChange={setSystemPaymentInstrumentCode}
+                                        variantKey="code"
                                         notFoundMessage={translate(
                                             "resources.paymentSettings.systemPaymentInstruments.notFoundMessage"
                                         )}

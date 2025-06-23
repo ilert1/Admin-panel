@@ -9,7 +9,7 @@ const useSystemPaymentInstrumentsListFilter = () => {
     const dataProvider = useDataProvider();
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const [name, setName] = useState(filterValues?.name || "");
+    const [code, setCode] = useState(filterValues?.code || "");
     const [currencyCode, setCurrencyCode] = useState(filterValues?.currency_code || "");
     const [paymentTypeCode, setPaymentTypeCode] = useState(filterValues?.payment_type_code || "");
 
@@ -25,7 +25,7 @@ const useSystemPaymentInstrumentsListFilter = () => {
         select: data => data.data
     });
 
-    const onPropertySelected = debounce((value: string, type: "name" | "currency_code" | "payment_type_code") => {
+    const onPropertySelected = debounce((value: string, type: "code" | "currency_code" | "payment_type_code") => {
         if (value) {
             setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
         } else {
@@ -35,9 +35,9 @@ const useSystemPaymentInstrumentsListFilter = () => {
         setPage(1);
     }, 300);
 
-    const onNameChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        setName(e.target.value);
-        onPropertySelected(e.target.value, "name");
+    const onCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setCode(e.target.value);
+        onPropertySelected(e.target.value, "code");
     };
 
     const onCurrencyCodeChanged = (e: string) => {
@@ -53,14 +53,14 @@ const useSystemPaymentInstrumentsListFilter = () => {
     const onClearFilters = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
-        setName("");
+        setCode("");
         setCurrencyCode("");
         setPaymentTypeCode("");
     };
 
     return {
         translate,
-        name,
+        code,
         currencyCode,
         paymentTypeCode,
         currencies,
@@ -69,7 +69,7 @@ const useSystemPaymentInstrumentsListFilter = () => {
         isLoadingPaymentTypes,
         onPaymentTypeCodeChanged,
         onClearFilters,
-        onNameChanged,
+        onCodeChanged,
         onCurrencyCodeChanged
     };
 };

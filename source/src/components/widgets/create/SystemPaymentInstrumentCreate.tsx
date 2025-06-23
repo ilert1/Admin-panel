@@ -52,9 +52,8 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         currency_code: z
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
-        financial_institution_id: z
+        financial_institution_code: z
             .string()
-            .uuid()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         description: z.string().optional(),
         meta: z.string().trim().optional()
@@ -65,7 +64,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         defaultValues: {
             payment_type_code: "",
             currency_code: "",
-            financial_institution_id: "",
+            financial_institution_code: "",
             description: "",
             meta: "{}"
         }
@@ -98,13 +97,13 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         }
     };
 
-    const finInstValue = form.watch("financial_institution_id");
+    const finInstValue = form.watch("financial_institution_code");
     useEffect(() => {
         if (!finInstValue) {
             setPaymentTypes([]);
         } else if (financialInstitutions && finInstValue) {
             form.resetField("payment_type_code");
-            const found = financialInstitutions?.find((item: { id: string }) => item.id === finInstValue).payment_types;
+            const found = financialInstitutions?.find(item => item.code === finInstValue).payment_types;
             setPaymentTypes(found);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,19 +127,19 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <FormField
                             control={form.control}
-                            name="financial_institution_id"
+                            name="financial_institution_code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentSettings.systemPaymentInstruments.fields.financial_institution_id"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.financial_institution_code"
                                         )}
                                     </Label>
 
                                     <PopoverSelect
                                         variants={financialInstitutions}
                                         value={financialInstitutionValueName}
-                                        idField="id"
+                                        idField="code"
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setFinancialInstitutionValueName(e)}
                                         variantKey="name"

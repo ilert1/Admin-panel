@@ -90,7 +90,7 @@
             "name": "Название",
             "payment_type_code": "Платёжный тип",
             "currency_code": "Валюта",
-            "financial_institution_id": "Финансовый институт",
+            "financial_institution_code": "Финансовый институт",
             "direction": "Направление",
             "status": "Статус",
             "description": "Описание",
@@ -100,7 +100,7 @@
             "createdAt": "Создан",
             "updatedAt": "Обновлён",
             "id": "ID",
-            "name": "Название",
+            "code": "Код",
             "paymentType": "Платёжный тип",
             "paymentTypeCode": "Код Платёжного типа",
             "financialInstitution": "Фин. институт",
@@ -121,7 +121,7 @@
             "editActivity": "Активность системного платёжного инструмента %{name} успешно изменена на: %{state}."
         },
         "placeholders": {
-            "name": "Название",
+            "code": "Код",
             "currencyCode": "Выберите код валюты"
         },
         "notFoundMessage": "Системные платёжные инструменты не найдены.",
@@ -139,7 +139,7 @@
             "created_at": "Дата и время создания",
             "updated_at": "Дата и время обновления",
             "terminal_id": "Терминал",
-            "system_payment_instrument_id": "Системный платёжный инструмент",
+            "system_payment_instrument_code": "Системный платёжный инструмент",
             "terminal_payment_type_code": "Код платёжного типа терминала",
             "terminal_currency_code": "Код валюты терминала",
             "terminal_financial_institution_code": "Код фин. института терминала",
