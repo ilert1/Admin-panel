@@ -7,6 +7,7 @@
 import type {
     ApiResponseMerchant,
     ApiResponseNoneType,
+    ApiResponseOffsetPaginationMerchant,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
@@ -23,7 +24,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * @summary Get a list of merchants with filtering and pagination
  */
 export type merchantEndpointsListMerchantsEnigmaV1MerchantGetResponse200 = {
-    data: unknown;
+    data: ApiResponseOffsetPaginationMerchant;
     status: 200;
 };
 

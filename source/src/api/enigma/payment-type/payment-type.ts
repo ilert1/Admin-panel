@@ -8,6 +8,7 @@ import type {
     ApiResponseImportResponse,
     ApiResponseListPaymentCategoryItem,
     ApiResponseNoneType,
+    ApiResponseOffsetPaginationPaymentTypeModel,
     ApiResponsePaymentTypeModel,
     BodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
     CurrenciesLink,
@@ -59,7 +60,7 @@ export const paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCate
  * @summary Get a list of payment types with filtering and pagination
  */
 export type paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetResponse200 = {
-    data: unknown;
+    data: ApiResponseOffsetPaginationPaymentTypeModel;
     status: 200;
 };
 

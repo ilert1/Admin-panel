@@ -9,6 +9,7 @@ import type {
     ApiResponseImportResponse,
     ApiResponseListFinancialInstitutionTypeItem,
     ApiResponseNoneType,
+    ApiResponseOffsetPaginationFinancialInstitution,
     BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
@@ -61,7 +62,7 @@ export const financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1Fi
  * @summary Retrieve a paginated list of financial institutions
  */
 export type financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetResponse200 = {
-    data: unknown;
+    data: ApiResponseOffsetPaginationFinancialInstitution;
     status: 200;
 };
 

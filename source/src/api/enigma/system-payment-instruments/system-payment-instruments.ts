@@ -7,6 +7,7 @@
 import type {
     ApiResponseImportResponse,
     ApiResponseNoneType,
+    ApiResponseOffsetPaginationSystemPaymentInstrument,
     ApiResponseSystemPaymentInstrument,
     BodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost,
     HTTPValidationError,
@@ -25,7 +26,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  */
 export type systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetResponse200 =
     {
-        data: unknown;
+        data: ApiResponseOffsetPaginationSystemPaymentInstrument;
         status: 200;
     };
 

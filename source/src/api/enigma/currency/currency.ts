@@ -7,6 +7,7 @@
 import type {
     ApiResponseCurrency,
     ApiResponseNoneType,
+    ApiResponseOffsetPaginationCurrency,
     CurrencyCreate,
     CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams,
     CurrencyUpdate,
@@ -20,7 +21,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * @summary Get a list of currencies with filtering and pagination
  */
 export type currencyEndpointsListCurrenciesEnigmaV1CurrencyGetResponse200 = {
-    data: unknown;
+    data: ApiResponseOffsetPaginationCurrency;
     status: 200;
 };
 

@@ -8,11 +8,13 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { GetListResult, useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 
 interface SystemPaymentInstrumentCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -31,7 +33,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
-    const [paymentTypes, setPaymentTypes] = useState([]);
+    const [paymentTypes, setPaymentTypes] = useState<PaymentTypeBase[]>([]);
 
     const { data: currencies, isLoading: currenciesLoading } = useQuery({
         queryKey: ["currencies"],
@@ -41,7 +43,8 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
     const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
         queryKey: ["financialInstitutions"],
-        queryFn: () => dataProvider.getListWithoutPagination("financialInstitution"),
+        queryFn: (): GetListResult<FinancialInstitutionWithId> =>
+            dataProvider.getListWithoutPagination("financialInstitution"),
         select: data => data.data
     });
 
@@ -103,8 +106,10 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
             setPaymentTypes([]);
         } else if (financialInstitutions && finInstValue) {
             form.resetField("payment_type_code");
-            const found = financialInstitutions?.find(item => item.code === finInstValue).payment_types;
-            setPaymentTypes(found);
+            const found = financialInstitutions?.find(item => item.code === finInstValue)?.payment_types;
+            if (found) {
+                setPaymentTypes(found);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [finInstValue, financialInstitutions]);
@@ -137,7 +142,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                     </Label>
 
                                     <PopoverSelect
-                                        variants={financialInstitutions}
+                                        variants={financialInstitutions || []}
                                         value={financialInstitutionValueName}
                                         idField="code"
                                         setIdValue={e => field.onChange(e)}

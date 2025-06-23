@@ -206,6 +206,31 @@ export interface ApiResponseNoneType {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseOffsetPaginationCurrencyError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationCurrencyMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationCurrency {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationCurrency;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationCurrencyError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationCurrencyMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseOffsetPaginationDirectionError = ErrorBody | null;
 
 /**
@@ -226,6 +251,56 @@ export interface ApiResponseOffsetPaginationDirection {
      * @deprecated
      */
     meta?: ApiResponseOffsetPaginationDirectionMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationFinancialInstitutionError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationFinancialInstitutionMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationFinancialInstitution {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationFinancialInstitution;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationFinancialInstitutionError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationFinancialInstitutionMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationMerchantError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationMerchantMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationMerchant {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationMerchant;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationMerchantError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationMerchantMeta;
 }
 
 /**
@@ -256,6 +331,56 @@ export interface ApiResponseOffsetPaginationPaymentTypeModel {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseOffsetPaginationProviderError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationProviderMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationProvider {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationProvider;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationProviderError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationProviderMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationSystemPaymentInstrumentError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationSystemPaymentInstrumentMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationSystemPaymentInstrument {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationSystemPaymentInstrument;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationSystemPaymentInstrumentError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationSystemPaymentInstrumentMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseOffsetPaginationTerminalPaymentInstrumentError = ErrorBody | null;
 
 /**
@@ -276,6 +401,31 @@ export interface ApiResponseOffsetPaginationTerminalPaymentInstrument {
      * @deprecated
      */
     meta?: ApiResponseOffsetPaginationTerminalPaymentInstrumentMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationTerminalMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationTerminal {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationTerminal;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationTerminalError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationTerminalMeta;
 }
 
 /**
@@ -1495,9 +1645,42 @@ export interface MerchantUpdate {
     keycloak_id?: MerchantUpdateKeycloakId;
 }
 
+export interface OffsetPaginationCurrency {
+    /** A list of items in the current page */
+    items: Currency[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
 export interface OffsetPaginationDirection {
     /** A list of items in the current page */
     items: Direction[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationFinancialInstitution {
+    /** A list of items in the current page */
+    items: FinancialInstitution[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationMerchant {
+    /** A list of items in the current page */
+    items: Merchant[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -1517,9 +1700,42 @@ export interface OffsetPaginationPaymentTypeModel {
     total: number;
 }
 
+export interface OffsetPaginationProvider {
+    /** A list of items in the current page */
+    items: Provider[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationSystemPaymentInstrument {
+    /** A list of items in the current page */
+    items: SystemPaymentInstrument[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
 export interface OffsetPaginationTerminalPaymentInstrument {
     /** A list of items in the current page */
     items: TerminalPaymentInstrument[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationTerminal {
+    /** A list of items in the current page */
+    items: Terminal[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */

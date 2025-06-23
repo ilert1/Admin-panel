@@ -26,7 +26,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  */
 export type terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetResponse200 =
     {
-        data: unknown;
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
         status: 200;
     };
 

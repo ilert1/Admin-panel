@@ -191,7 +191,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Currency__"
+                }
               }
             }
           },
@@ -543,7 +545,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__"
+                }
               }
             }
           },
@@ -1192,7 +1196,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Provider__"
+                }
               }
             }
           },
@@ -1733,7 +1739,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
+                }
               }
             }
           },
@@ -1956,7 +1964,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
+                }
               }
             }
           },
@@ -3255,7 +3265,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                }
               }
             }
           },
@@ -3475,7 +3487,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Direction__"
+                }
               }
             }
           },
@@ -4506,7 +4520,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_PaymentTypeModel__"
+                }
               }
             }
           },
@@ -5272,7 +5288,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_FinancialInstitution__"
+                }
               }
             }
           },
@@ -6202,7 +6220,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_SystemPaymentInstrument__"
+                }
               }
             }
           },
@@ -6903,7 +6923,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalPaymentInstrument__"
+                }
               }
             }
           },
@@ -8296,6 +8318,47 @@
         ],
         "title": "ApiResponse[NoneType]"
       },
+      "ApiResponse_OffsetPagination_Currency__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_Currency_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[Currency]]"
+      },
       "ApiResponse_OffsetPagination_Direction__": {
         "properties": {
           "success": {
@@ -8336,6 +8399,88 @@
           "data"
         ],
         "title": "ApiResponse[OffsetPagination[Direction]]"
+      },
+      "ApiResponse_OffsetPagination_FinancialInstitution__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_FinancialInstitution_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[FinancialInstitution]]"
+      },
+      "ApiResponse_OffsetPagination_Merchant__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_Merchant_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[Merchant]]"
       },
       "ApiResponse_OffsetPagination_PaymentTypeModel__": {
         "properties": {
@@ -8378,6 +8523,88 @@
         ],
         "title": "ApiResponse[OffsetPagination[PaymentTypeModel]]"
       },
+      "ApiResponse_OffsetPagination_Provider__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_Provider_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[Provider]]"
+      },
+      "ApiResponse_OffsetPagination_SystemPaymentInstrument__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_SystemPaymentInstrument_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[SystemPaymentInstrument]]"
+      },
       "ApiResponse_OffsetPagination_TerminalPaymentInstrument__": {
         "properties": {
           "success": {
@@ -8418,6 +8645,47 @@
           "data"
         ],
         "title": "ApiResponse[OffsetPagination[TerminalPaymentInstrument]]"
+      },
+      "ApiResponse_OffsetPagination_Terminal__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_Terminal_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[Terminal]]"
       },
       "ApiResponse_PaymentTypeModel_": {
         "properties": {
@@ -11223,6 +11491,50 @@
         "type": "object",
         "title": "MerchantUpdate"
       },
+      "OffsetPagination_Currency_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Currency"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[Currency]"
+      },
       "OffsetPagination_Direction_": {
         "properties": {
           "items": {
@@ -11266,6 +11578,94 @@
           "total"
         ],
         "title": "OffsetPagination[Direction]"
+      },
+      "OffsetPagination_FinancialInstitution_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FinancialInstitution"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[FinancialInstitution]"
+      },
+      "OffsetPagination_Merchant_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Merchant"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[Merchant]"
       },
       "OffsetPagination_PaymentTypeModel_": {
         "properties": {
@@ -11311,6 +11711,94 @@
         ],
         "title": "OffsetPagination[PaymentTypeModel]"
       },
+      "OffsetPagination_Provider_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Provider"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[Provider]"
+      },
+      "OffsetPagination_SystemPaymentInstrument_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SystemPaymentInstrument"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[SystemPaymentInstrument]"
+      },
       "OffsetPagination_TerminalPaymentInstrument_": {
         "properties": {
           "items": {
@@ -11354,6 +11842,50 @@
           "total"
         ],
         "title": "OffsetPagination[TerminalPaymentInstrument]"
+      },
+      "OffsetPagination_Terminal_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Terminal"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[Terminal]"
       },
       "PaymentCategory": {
         "type": "string",
