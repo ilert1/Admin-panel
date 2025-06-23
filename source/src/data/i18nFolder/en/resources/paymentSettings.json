@@ -40,7 +40,7 @@
             "updated_at": "Updated at",
             "name": "Name",
             "nameWithId": "Name",
-            "short_name": "Code",
+            "code": "Code",
             "legal_name": "Full legal name",
             "institution_type": "Institution type",
             "country_code": "Country code",
@@ -63,8 +63,8 @@
         },
         "errors": {
             "name": "The name of the financial institution is required",
-            "short_name": "The code of the financial institution is required",
-            "short_name_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
+            "code": "The code of the financial institution is required",
+            "code_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
             "country_code": "The country code is entered incorrectly",
             "alreadyExist": "The financial institution already exists",
             "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists"

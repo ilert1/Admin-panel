@@ -20,11 +20,11 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
     const {
         translate,
         name,
-        shortName,
+        code,
         institutionType,
         countryCode,
         nspkMemberId,
-        onShortNameChanged,
+        onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,
@@ -37,7 +37,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
-    const clearDisabled = !name && !shortName && !institutionType && !countryCode && !nspkMemberId;
+    const clearDisabled = !name && !code && !institutionType && !countryCode && !nspkMemberId;
 
     return (
         <div className="mb-4">
@@ -45,7 +45,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[name, shortName, institutionType, countryCode, nspkMemberId]}
+                        filterList={[name, code, institutionType, countryCode, nspkMemberId]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -81,13 +81,11 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                         </div>
                         <div className="w-full">
                             <Input
-                                label={translate("resources.paymentSettings.financialInstitution.fields.short_name")}
+                                label={translate("resources.paymentSettings.financialInstitution.fields.code")}
                                 labelSize="title-2"
-                                value={shortName}
-                                onChange={onShortNameChanged}
-                                placeholder={translate(
-                                    "resources.paymentSettings.financialInstitution.fields.short_name"
-                                )}
+                                value={code}
+                                onChange={onCodeChanged}
+                                placeholder={translate("resources.paymentSettings.financialInstitution.fields.code")}
                             />
                         </div>
                         <div className="w-full">

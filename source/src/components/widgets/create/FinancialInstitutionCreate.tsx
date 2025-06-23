@@ -76,13 +76,10 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentSettings.financialInstitution.errors.name")).trim(),
-        short_name: z
+        code: z
             .string()
-            .min(1, translate("resources.paymentSettings.financialInstitution.errors.short_name"))
-            .regex(
-                /^[a-z0-9_.-]+$/,
-                translate("resources.paymentSettings.financialInstitution.errors.short_name_regex")
-            )
+            .min(1, translate("resources.paymentSettings.financialInstitution.errors.code"))
+            .regex(/^[a-z0-9_.-]+$/, translate("resources.paymentSettings.financialInstitution.errors.code_regex"))
             .trim(),
         legal_name: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
@@ -101,7 +98,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         defaultValues: {
             name: "",
             country_code: "",
-            short_name: "",
+            code: "",
             legal_name: "",
             nspk_member_id: "",
             currencies: [],
@@ -222,7 +219,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
 
                             <FormField
                                 control={form.control}
-                                name="short_name"
+                                name="code"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
                                         <FormControl>
@@ -232,7 +229,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentSettings.financialInstitution.fields.short_name"
+                                                    "resources.paymentSettings.financialInstitution.fields.code"
                                                 )}
                                             />
                                         </FormControl>

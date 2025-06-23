@@ -46,7 +46,7 @@ export const useGetFinancialInstitutionColumns = () => {
                             variant={"resourceLink"}
                             onClick={() => {
                                 openSheet("financialInstitution", {
-                                    id: row.original.id
+                                    id: row.original.code
                                 });
                             }}>
                             {row.original.name}
@@ -56,11 +56,11 @@ export const useGetFinancialInstitutionColumns = () => {
             }
         },
         {
-            id: "short_name",
-            accessorKey: "short_name",
-            header: translate("resources.paymentSettings.financialInstitution.fields.short_name"),
+            id: "code",
+            accessorKey: "code",
+            header: translate("resources.paymentSettings.financialInstitution.fields.code"),
             cell: ({ row }) => {
-                return <TextField text={row.original.short_name || ""} />;
+                return <TextField text={row.original.code || ""} />;
             }
         },
         {
@@ -118,7 +118,7 @@ export const useGetFinancialInstitutionColumns = () => {
                 return (
                     <div className="flex items-center justify-center">
                         <Button
-                            onClick={() => openSheet("financialInstitution", { id: row.original.id })}
+                            onClick={() => openSheet("financialInstitution", { id: row.original.code })}
                             variant={"text_btn"}>
                             <EyeIcon className="text-green-50 hover:text-green-40" />
                         </Button>
