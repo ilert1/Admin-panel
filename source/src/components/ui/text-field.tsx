@@ -94,7 +94,7 @@ export const TextField = ({
                             className={cn(
                                 textStyle(),
                                 "block cursor-default",
-                                onDoubleClick && "cursor-pointer",
+                                onDoubleClick && "min-h-5 cursor-pointer",
                                 onClick &&
                                     "cursor-pointer !text-green-50 underline transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50",
                                 fontSize && `${fontSize}`
