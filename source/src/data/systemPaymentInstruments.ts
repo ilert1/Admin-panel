@@ -14,15 +14,17 @@ import { IBaseDataProvider } from "./base";
 import { SystemPaymentInstrument, SystemPaymentInstrumentCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost,
-    systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDelete,
-    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGet,
+    systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDelete,
+    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGet,
     systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet,
-    systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatch
+    systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatch
 } from "@/api/enigma/system-payment-instruments/system-payment-instruments";
+
+export type SystemPaymentInstrumentWithId = SystemPaymentInstrument & { id: string };
 
 // /system-payment-instruments
 export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<SystemPaymentInstrument>> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<SystemPaymentInstrumentWithId>> {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(
                   item => item === "name" || item === "currency_code" || item === "payment_type_code"
@@ -49,9 +51,10 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items.map(elem => {
+                data: res.data.data.items.map(item => {
                     return {
-                        ...elem
+                        id: item.code,
+                        ...item
                     };
                 }),
                 total: res.data.data.total
@@ -68,7 +71,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<SystemPaymentInstrument>> {
+    async getListWithoutPagination(): Promise<GetListResult<SystemPaymentInstrumentWithId>> {
         const res =
             await systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet(
                 {
@@ -84,9 +87,10 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items.map(elem => {
+                data: res.data.data.items.map(item => {
                     return {
-                        ...elem
+                        id: item.code,
+                        ...item
                     };
                 }),
                 total: res.data.data.total
@@ -103,9 +107,9 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<SystemPaymentInstrument>> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<SystemPaymentInstrumentWithId>> {
         const res =
-            await systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGet(
+            await systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGet(
                 params.id,
                 {
                     headers: {
@@ -118,6 +122,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
+                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -130,7 +135,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams): Promise<CreateResult<SystemPaymentInstrument>> {
+    async create(resource: string, params: CreateParams): Promise<CreateResult<SystemPaymentInstrumentWithId>> {
         const res =
             await systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost(
                 params.data as SystemPaymentInstrumentCreate,
@@ -144,6 +149,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
+                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -156,9 +162,9 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<SystemPaymentInstrument>> {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<SystemPaymentInstrumentWithId>> {
         const res =
-            await systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatch(
+            await systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatch(
                 params.id,
                 params.data,
                 {
@@ -171,6 +177,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         if ("data" in res.data && res.data.success) {
             return {
                 data: {
+                    id: res.data.data.code,
                     ...res.data.data
                 }
             };
@@ -183,9 +190,9 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<SystemPaymentInstrument, "id">>> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
         const res =
-            await systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDelete(
+            await systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDelete(
                 params.id,
                 {
                     headers: {
