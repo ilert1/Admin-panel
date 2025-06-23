@@ -5246,7 +5246,7 @@
               ],
               "title": "Sorting field",
               "description": "Field to sort the results by",
-              "default": "name"
+              "default": "code"
             },
             "description": "Field to sort the results by"
           },
@@ -5504,7 +5504,7 @@
               ],
               "title": "Sorting field",
               "description": "Field to sort the results by",
-              "default": "name"
+              "default": "code"
             },
             "description": "Field to sort the results by"
           },
@@ -5602,29 +5602,26 @@
         }
       }
     },
-    "/enigma/v1/financial_institution/{financial_institution_id}": {
+    "/enigma/v1/financial_institution/{financial_institution_code}": {
       "get": {
         "tags": [
           "Financial Institution"
         ],
-        "summary": "Get financial institution details by ID",
-        "description": "Retrieves details of a specific financial institution using its unique ID",
-        "operationId": "FinancialInstitutionEndpoints_get_financial_institution_enigma_v1_financial_institution__financial_institution_id__get",
+        "summary": "Get financial institution details by Code",
+        "description": "Retrieves details of a specific financial institution using its unique Code",
+        "operationId": "FinancialInstitutionEndpoints_get_financial_institution_enigma_v1_financial_institution__financial_institution_code__get",
         "parameters": [
           {
-            "name": "financial_institution_id",
+            "name": "financial_institution_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "description": "Unique identifier of the financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
-              "title": "Financial Institution Id"
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
             },
-            "description": "Unique identifier of the financial institution"
+            "description": "Code of the financial institution",
+            "example": "sberbank"
           }
         ],
         "responses": {
@@ -5655,23 +5652,20 @@
           "Financial Institution"
         ],
         "summary": "Update financial institution details",
-        "description": "Updates the details of an existing financial institution identified by its ID",
-        "operationId": "FinancialInstitutionEndpoints_update_financial_institution_enigma_v1_financial_institution__financial_institution_id__put",
+        "description": "Updates the details of an existing financial institution identified by its Code",
+        "operationId": "FinancialInstitutionEndpoints_update_financial_institution_enigma_v1_financial_institution__financial_institution_code__put",
         "parameters": [
           {
-            "name": "financial_institution_id",
+            "name": "financial_institution_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "description": "Unique identifier of the financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
-              "title": "Financial Institution Id"
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
             },
-            "description": "Unique identifier of the financial institution"
+            "description": "Code of the financial institution",
+            "example": "sberbank"
           }
         ],
         "requestBody": {
@@ -5712,23 +5706,20 @@
           "Financial Institution"
         ],
         "summary": "Delete a financial institution",
-        "description": "Removes a financial institution from the system using its unique ID",
-        "operationId": "FinancialInstitutionEndpoints_delete_financial_institution_enigma_v1_financial_institution__financial_institution_id__delete",
+        "description": "Removes a financial institution from the system using its unique Code",
+        "operationId": "FinancialInstitutionEndpoints_delete_financial_institution_enigma_v1_financial_institution__financial_institution_code__delete",
         "parameters": [
           {
-            "name": "financial_institution_id",
+            "name": "financial_institution_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "description": "Unique identifier of the financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
-              "title": "Financial Institution Id"
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
             },
-            "description": "Unique identifier of the financial institution"
+            "description": "Code of the financial institution",
+            "example": "sberbank"
           }
         ],
         "responses": {
@@ -5755,29 +5746,26 @@
         }
       }
     },
-    "/enigma/v1/financial_institution/{financial_institution_id}/add_payment_types": {
+    "/enigma/v1/financial_institution/{financial_institution_code}/add_payment_types": {
       "patch": {
         "tags": [
           "Financial Institution"
         ],
         "summary": "Add payment types to financial institution",
         "description": "Associates existing payment types with a financial institution. Skips already linked types.",
-        "operationId": "FinancialInstitutionEndpoints_add_payment_types_to_financial_institution_enigma_v1_financial_institution__financial_institution_id__add_payment_types_patch",
+        "operationId": "FinancialInstitutionEndpoints_add_payment_types_to_financial_institution_enigma_v1_financial_institution__financial_institution_code__add_payment_types_patch",
         "parameters": [
           {
-            "name": "financial_institution_id",
+            "name": "financial_institution_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "description": "Unique identifier of the financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
-              "title": "Financial Institution Id"
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
             },
-            "description": "Unique identifier of the financial institution"
+            "description": "Code of the financial institution",
+            "example": "sberbank"
           }
         ],
         "requestBody": {
@@ -5814,29 +5802,26 @@
         }
       }
     },
-    "/enigma/v1/financial_institution/{financial_institution_id}/remove_payment_type/{payment_type_code}": {
+    "/enigma/v1/financial_institution/{financial_institution_code}/remove_payment_type/{payment_type_code}": {
       "delete": {
         "tags": [
           "Financial Institution"
         ],
         "summary": "Remove payment type from financial institution",
         "description": "Disassociates a payment type from a financial institution by its code.",
-        "operationId": "FinancialInstitutionEndpoints_remove_payment_type_from_financial_institution_enigma_v1_financial_institution__financial_institution_id__remove_payment_type__payment_type_code__delete",
+        "operationId": "FinancialInstitutionEndpoints_remove_payment_type_from_financial_institution_enigma_v1_financial_institution__financial_institution_code__remove_payment_type__payment_type_code__delete",
         "parameters": [
           {
-            "name": "financial_institution_id",
+            "name": "financial_institution_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "description": "Unique identifier of the financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
-              "title": "Financial Institution Id"
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
             },
-            "description": "Unique identifier of the financial institution"
+            "description": "Code of the financial institution",
+            "example": "sberbank"
           },
           {
             "name": "payment_type_code",
@@ -5876,29 +5861,26 @@
         }
       }
     },
-    "/enigma/v1/financial_institution/{financial_institution_id}/add_currencies": {
+    "/enigma/v1/financial_institution/{financial_institution_code}/add_currencies": {
       "patch": {
         "tags": [
           "Financial Institution"
         ],
         "summary": "Add currencies to financial institution",
         "description": "Associates existing currencies with a financial institution. Skips already linked currencies.",
-        "operationId": "FinancialInstitutionEndpoints_add_currencies_to_financial_institution_enigma_v1_financial_institution__financial_institution_id__add_currencies_patch",
+        "operationId": "FinancialInstitutionEndpoints_add_currencies_to_financial_institution_enigma_v1_financial_institution__financial_institution_code__add_currencies_patch",
         "parameters": [
           {
-            "name": "financial_institution_id",
+            "name": "financial_institution_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "description": "Unique identifier of the financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
-              "title": "Financial Institution Id"
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
             },
-            "description": "Unique identifier of the financial institution"
+            "description": "Code of the financial institution",
+            "example": "sberbank"
           }
         ],
         "requestBody": {
@@ -5935,29 +5917,26 @@
         }
       }
     },
-    "/enigma/v1/financial_institution/{financial_institution_id}/remove_currency/{currency_code}": {
+    "/enigma/v1/financial_institution/{financial_institution_code}/remove_currency/{currency_code}": {
       "delete": {
         "tags": [
           "Financial Institution"
         ],
         "summary": "Remove currency from financial institution",
         "description": "Disassociates a currency from a financial institution by its code.",
-        "operationId": "FinancialInstitutionEndpoints_remove_currency_from_financial_institution_enigma_v1_financial_institution__financial_institution_id__remove_currency__currency_code__delete",
+        "operationId": "FinancialInstitutionEndpoints_remove_currency_from_financial_institution_enigma_v1_financial_institution__financial_institution_code__remove_currency__currency_code__delete",
         "parameters": [
           {
-            "name": "financial_institution_id",
+            "name": "financial_institution_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "description": "Unique identifier of the financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
-              "title": "Financial Institution Id"
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
             },
-            "description": "Unique identifier of the financial institution"
+            "description": "Code of the financial institution",
+            "example": "sberbank"
           },
           {
             "name": "currency_code",
@@ -6197,7 +6176,7 @@
               ],
               "title": "Sorting field",
               "description": "Field to sort the results by",
-              "default": "name"
+              "default": "code"
             },
             "description": "Field to sort the results by"
           },
@@ -6455,7 +6434,7 @@
               ],
               "title": "Sorting field",
               "description": "Field to sort the results by",
-              "default": "name"
+              "default": "code"
             },
             "description": "Field to sort the results by"
           },
@@ -6553,24 +6532,26 @@
         }
       }
     },
-    "/enigma/v1/system_payment_instruments/{system_payment_instrument_id}": {
+    "/enigma/v1/system_payment_instruments/{system_payment_instrument_code}": {
       "get": {
         "tags": [
           "System Payment Instruments"
         ],
-        "summary": "Retrieve a single System Payment Instrument by ID",
-        "description": "Retrieves detailed information about a specific system payment instrument by its unique ID.",
-        "operationId": "SystemPaymentInstrumentEndpoints_get_system_payment_instrument_enigma_v1_system_payment_instruments__system_payment_instrument_id__get",
+        "summary": "Retrieve a single System Payment Instrument by Code",
+        "description": "Retrieves detailed information about a specific system payment instrument by its unique Code.",
+        "operationId": "SystemPaymentInstrumentEndpoints_get_system_payment_instrument_enigma_v1_system_payment_instruments__system_payment_instrument_code__get",
         "parameters": [
           {
-            "name": "system_payment_instrument_id",
+            "name": "system_payment_instrument_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "title": "System Payment Instrument Id"
-            }
+              "description": "Unique identifier of the system payment instrument",
+              "title": "System Payment Instrument Code"
+            },
+            "description": "Unique identifier of the system payment instrument",
+            "example": "sberbank_sbp_rub"
           }
         ],
         "responses": {
@@ -6600,19 +6581,21 @@
         "tags": [
           "System Payment Instruments"
         ],
-        "summary": "Partially update a System Payment Instrument by ID",
-        "description": "Partially updates an existing system payment instrument identified by its ID with the provided data. Only the fields present in the request body will be updated.",
-        "operationId": "SystemPaymentInstrumentEndpoints_patch_system_payment_instrument_enigma_v1_system_payment_instruments__system_payment_instrument_id__patch",
+        "summary": "Partially update a System Payment Instrument by Code",
+        "description": "Partially updates an existing system payment instrument identified by its Code with the provided data. Only the fields present in the request body will be updated.",
+        "operationId": "SystemPaymentInstrumentEndpoints_patch_system_payment_instrument_enigma_v1_system_payment_instruments__system_payment_instrument_code__patch",
         "parameters": [
           {
-            "name": "system_payment_instrument_id",
+            "name": "system_payment_instrument_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "title": "System Payment Instrument Id"
-            }
+              "description": "Unique identifier of the system payment instrument",
+              "title": "System Payment Instrument Code"
+            },
+            "description": "Unique identifier of the system payment instrument",
+            "example": "sberbank_sbp_rub"
           }
         ],
         "requestBody": {
@@ -6652,19 +6635,21 @@
         "tags": [
           "System Payment Instruments"
         ],
-        "summary": "Delete a System Payment Instrument by ID",
-        "description": "Deletes a system payment instrument by its unique ID.",
-        "operationId": "SystemPaymentInstrumentEndpoints_delete_system_payment_instrument_enigma_v1_system_payment_instruments__system_payment_instrument_id__delete",
+        "summary": "Delete a System Payment Instrument by Code",
+        "description": "Deletes a system payment instrument by its unique Code.",
+        "operationId": "SystemPaymentInstrumentEndpoints_delete_system_payment_instrument_enigma_v1_system_payment_instruments__system_payment_instrument_code__delete",
         "parameters": [
           {
-            "name": "system_payment_instrument_id",
+            "name": "system_payment_instrument_code",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
-              "title": "System Payment Instrument Id"
-            }
+              "description": "Unique identifier of the system payment instrument",
+              "title": "System Payment Instrument Code"
+            },
+            "description": "Unique identifier of the system payment instrument",
+            "example": "sberbank_sbp_rub"
           }
         ],
         "responses": {
@@ -7549,6 +7534,199 @@
         }
       }
     },
+    "/enigma/v1/terminal_payment_instruments/terminals/{terminal_id}/financial_institution/{financial_institution_code}": {
+      "post": {
+        "tags": [
+          "Terminal Payment Instruments"
+        ],
+        "summary": "Add terminal payment instruments by financial institution",
+        "description": "Adds terminal payment instruments for a specific terminal based on a financial institution code.",
+        "operationId": "TerminalPaymentInstrumentEndpoints_add_terminal_payment_instruments_by_fi_enigma_v1_terminal_payment_instruments_terminals__terminal_id__financial_institution__financial_institution_code__post",
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "The unique identifier of the terminal",
+              "title": "Terminal Id"
+            },
+            "description": "The unique identifier of the terminal",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "financial_institution_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
+            },
+            "description": "Code of the financial institution",
+            "example": "sberbank"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminalPaymentInstrumentFIData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalPaymentInstrument__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Terminal Payment Instruments"
+        ],
+        "summary": "Update terminal payment instruments by financial institution",
+        "description": "Updates terminal payment instruments for a specific terminal based on financial institution code",
+        "operationId": "TerminalPaymentInstrumentEndpoints_update_terminal_payment_instruments_by_fi_enigma_v1_terminal_payment_instruments_terminals__terminal_id__financial_institution__financial_institution_code__patch",
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "The unique identifier of the terminal",
+              "title": "Terminal Id"
+            },
+            "description": "The unique identifier of the terminal",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "financial_institution_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
+            },
+            "description": "Code of the financial institution",
+            "example": "sberbank"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminalPaymentInstrumentFIData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalPaymentInstrument__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Terminal Payment Instruments"
+        ],
+        "summary": "Delete terminal payment instruments by financial institution",
+        "description": "Deletes terminal payment instruments for a specific terminal based on financial institution code",
+        "operationId": "TerminalPaymentInstrumentEndpoints_delete_terminal_payment_instruments_by_fi_enigma_v1_terminal_payment_instruments_terminals__terminal_id__financial_institution__financial_institution_code__delete",
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "The unique identifier of the terminal",
+              "title": "Terminal Id"
+            },
+            "description": "The unique identifier of the terminal",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "financial_institution_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Code of the financial institution",
+              "title": "Financial Institution Code"
+            },
+            "description": "Code of the financial institution",
+            "example": "sberbank"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/enigma/v1/terminal_payment_instruments/{terminal_payment_instrument_id}": {
       "get": {
         "tags": [
@@ -7565,13 +7743,11 @@
             "schema": {
               "type": "string",
               "format": "uuid",
-              "description": "Unique identifier of the terminal financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
+              "description": "Unique identifier of the terminal payment instrument",
               "title": "Terminal Payment Instrument Id"
             },
-            "description": "Unique identifier of the terminal financial institution"
+            "description": "Unique identifier of the terminal payment instrument",
+            "example": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
           }
         ],
         "responses": {
@@ -7612,13 +7788,11 @@
             "schema": {
               "type": "string",
               "format": "uuid",
-              "description": "Unique identifier of the terminal financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
+              "description": "Unique identifier of the terminal payment instrument",
               "title": "Terminal Payment Instrument Id"
             },
-            "description": "Unique identifier of the terminal financial institution"
+            "description": "Unique identifier of the terminal payment instrument",
+            "example": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
           }
         ],
         "requestBody": {
@@ -7669,13 +7843,11 @@
             "schema": {
               "type": "string",
               "format": "uuid",
-              "description": "Unique identifier of the terminal financial institution",
-              "examples": [
-                "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-              ],
+              "description": "Unique identifier of the terminal payment instrument",
               "title": "Terminal Payment Instrument Id"
             },
-            "description": "Unique identifier of the terminal financial institution"
+            "description": "Unique identifier of the terminal payment instrument",
+            "example": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
           }
         ],
         "responses": {
@@ -10093,20 +10265,22 @@
       },
       "FinancialInstitution": {
         "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$",
+            "title": "Code",
+            "description": "Code or abbreviation",
+            "examples": [
+              "sberbank",
+              "vtb"
+            ]
+          },
           "name": {
             "type": "string",
             "title": "Name",
             "description": "Name of the financial institution",
             "examples": [
               "Example Bank"
-            ]
-          },
-          "short_name": {
-            "type": "string",
-            "title": "Short Name",
-            "description": "Short name or abbreviation",
-            "examples": [
-              "EB"
             ]
           },
           "legal_name": {
@@ -10158,15 +10332,6 @@
             "type": "object",
             "title": "Meta",
             "description": "Additional metadata"
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id",
-            "description": "Unique identifier of the financial institution",
-            "examples": [
-              "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-            ]
           },
           "payment_types": {
             "items": {
@@ -10205,10 +10370,9 @@
         },
         "type": "object",
         "required": [
+          "code",
           "name",
-          "short_name",
           "country_code",
-          "id",
           "created_at",
           "updated_at"
         ],
@@ -10216,20 +10380,22 @@
       },
       "FinancialInstitutionBase": {
         "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$",
+            "title": "Code",
+            "description": "Code or abbreviation",
+            "examples": [
+              "sberbank",
+              "vtb"
+            ]
+          },
           "name": {
             "type": "string",
             "title": "Name",
             "description": "Name of the financial institution",
             "examples": [
               "Example Bank"
-            ]
-          },
-          "short_name": {
-            "type": "string",
-            "title": "Short Name",
-            "description": "Short name or abbreviation",
-            "examples": [
-              "EB"
             ]
           },
           "legal_name": {
@@ -10285,14 +10451,24 @@
         },
         "type": "object",
         "required": [
+          "code",
           "name",
-          "short_name",
           "country_code"
         ],
         "title": "FinancialInstitutionBase"
       },
       "FinancialInstitutionCreate": {
         "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$",
+            "title": "Code",
+            "description": "Code or abbreviation",
+            "examples": [
+              "sberbank",
+              "vtb"
+            ]
+          },
           "name": {
             "type": "string",
             "title": "Name",
@@ -10300,16 +10476,6 @@
             "examples": [
               "Sberbank",
               "VTB"
-            ]
-          },
-          "short_name": {
-            "type": "string",
-            "pattern": "^[a-z0-9_.-]+$",
-            "title": "Short Name",
-            "description": "Short name or abbreviation",
-            "examples": [
-              "sberbank",
-              "vtb"
             ]
           },
           "legal_name": {
@@ -10366,8 +10532,8 @@
         },
         "type": "object",
         "required": [
+          "code",
           "name",
-          "short_name",
           "country_code"
         ],
         "title": "FinancialInstitutionCreate"
@@ -10472,7 +10638,7 @@
               "VTB"
             ]
           },
-          "short_name": {
+          "code": {
             "anyOf": [
               {
                 "type": "string"
@@ -10481,8 +10647,8 @@
                 "type": "null"
               }
             ],
-            "title": "Short Name",
-            "description": "Short name or abbreviation",
+            "title": "Code",
+            "description": "Code or abbreviation",
             "examples": [
               "sberbank",
               "vtb"
@@ -12179,13 +12345,12 @@
               "USD"
             ]
           },
-          "financial_institution_id": {
+          "financial_institution_code": {
             "type": "string",
-            "format": "uuid",
-            "title": "Financial Institution Id",
-            "description": "Unique identifier of the associated financial institution.",
+            "title": "Financial Institution Code",
+            "description": "Code identifier of the associated financial institution.",
             "examples": [
-              "a1b2c3d4-e5f6-7890-1234-567890abcdef"
+              "sberbank"
             ]
           },
           "description": {
@@ -12215,21 +12380,12 @@
               }
             ]
           },
-          "name": {
+          "code": {
             "type": "string",
-            "title": "Name",
-            "description": "Unique name for the system payment instrument",
+            "title": "Code",
+            "description": "Composite code of the payment instrument.",
             "examples": [
-              "sberbank SBP/RUB"
-            ]
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id",
-            "description": "Unique identifier of the system payment instrument.",
-            "examples": [
-              "123e4567-e89b-12d3-a456-426614174000"
+              "sberbank [sbp/RUB]"
             ]
           },
           "payment_type": {
@@ -12267,9 +12423,8 @@
         "required": [
           "payment_type_code",
           "currency_code",
-          "financial_institution_id",
-          "name",
-          "id",
+          "financial_institution_code",
+          "code",
           "payment_type",
           "currency",
           "financial_institution",
@@ -12296,14 +12451,10 @@
               "USD"
             ]
           },
-          "financial_institution_id": {
+          "financial_institution_code": {
             "type": "string",
-            "format": "uuid",
-            "title": "Financial Institution Id",
-            "description": "Unique identifier of the associated financial institution.",
-            "examples": [
-              "a1b2c3d4-e5f6-7890-1234-567890abcdef"
-            ]
+            "title": "Financial Institution Code",
+            "description": "Code identifier of the associated financial institution."
           },
           "description": {
             "anyOf": [
@@ -12337,7 +12488,7 @@
         "required": [
           "payment_type_code",
           "currency_code",
-          "financial_institution_id"
+          "financial_institution_code"
         ],
         "title": "SystemPaymentInstrumentCreate"
       },
@@ -12782,11 +12933,10 @@
             "title": "Terminal Id",
             "description": "ID of the terminal"
           },
-          "system_payment_instrument_id": {
+          "system_payment_instrument_code": {
             "type": "string",
-            "format": "uuid",
-            "title": "System Payment Instrument Id",
-            "description": "ID of the system payment instrument"
+            "title": "System Payment Instrument Code",
+            "description": "Code of the system payment instrument"
           },
           "direction": {
             "$ref": "#/components/schemas/DirectionType",
@@ -12895,7 +13045,7 @@
         "type": "object",
         "required": [
           "terminal_id",
-          "system_payment_instrument_id",
+          "system_payment_instrument_code",
           "direction",
           "id",
           "terminal",
@@ -12913,11 +13063,10 @@
             "title": "Terminal Id",
             "description": "ID of the terminal"
           },
-          "system_payment_instrument_id": {
+          "system_payment_instrument_code": {
             "type": "string",
-            "format": "uuid",
-            "title": "System Payment Instrument Id",
-            "description": "ID of the system payment instrument"
+            "title": "System Payment Instrument Code",
+            "description": "Code of the system payment instrument"
           },
           "direction": {
             "$ref": "#/components/schemas/DirectionType",
@@ -12994,10 +13143,90 @@
         "type": "object",
         "required": [
           "terminal_id",
-          "system_payment_instrument_id",
+          "system_payment_instrument_code",
           "direction"
         ],
         "title": "TerminalPaymentInstrumentCreate"
+      },
+      "TerminalPaymentInstrumentFIData": {
+        "properties": {
+          "direction": {
+            "$ref": "#/components/schemas/DirectionType",
+            "description": "Direction of the payment instrument, e.g., 'deposit' or 'withdraw'.",
+            "examples": [
+              "deposit"
+            ]
+          },
+          "terminal_payment_type_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Payment Type Code",
+            "description": "Provider's code for the payment type (e.g., SBP)",
+            "examples": [
+              "SBP"
+            ]
+          },
+          "terminal_currency_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Currency Code",
+            "description": "Provider's code for the currency (if different from system)",
+            "examples": [
+              "WRUB"
+            ]
+          },
+          "terminal_financial_institution_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Code",
+            "description": "Provider's code for the financial institution",
+            "examples": [
+              "TINKOFF"
+            ]
+          },
+          "terminal_specific_parameters": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Terminal Specific Parameters",
+            "description": "Additional terminal-specific parameters in JSON format",
+            "examples": [
+              {
+                "key": "value"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/TerminalPaymentInstrumentStatus",
+            "description": "Status of the terminal instrument configuration",
+            "default": "ACTIVE",
+            "examples": [
+              "ACTIVE"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "direction"
+        ],
+        "title": "TerminalPaymentInstrumentFIData"
       },
       "TerminalPaymentInstrumentStatus": {
         "type": "string",
@@ -13022,18 +13251,17 @@
             "title": "Terminal Id",
             "description": "ID of the terminal"
           },
-          "system_payment_instrument_id": {
+          "system_payment_instrument_code": {
             "anyOf": [
               {
-                "type": "string",
-                "format": "uuid"
+                "type": "string"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "System Payment Instrument Id",
-            "description": "ID of the system payment instrument"
+            "title": "System Payment Instrument Code",
+            "description": "Code of the system payment instrument"
           },
           "direction": {
             "anyOf": [
