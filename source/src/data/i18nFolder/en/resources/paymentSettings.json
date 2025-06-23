@@ -133,6 +133,7 @@
         "createNew": "Add instrument",
         "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
         "chooseFinInstitution": "Choose financial institution",
+        "selectPaymentType": "Select payment type",
         "noAvailablePaymentTypes": "No available payment types"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {

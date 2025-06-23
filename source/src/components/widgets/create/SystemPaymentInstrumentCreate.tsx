@@ -185,6 +185,15 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         notFoundMessage={translate(
                                             "resources.paymentSettings.paymentType.notFoundMessage"
                                         )}
+                                        placeholder={
+                                            finInstValue
+                                                ? translate(
+                                                      "resources.paymentSettings.systemPaymentInstruments.selectPaymentType"
+                                                  )
+                                                : translate(
+                                                      "resources.paymentSettings.systemPaymentInstruments.chooseFinInstitution"
+                                                  )
+                                        }
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={paymentsDisabled}

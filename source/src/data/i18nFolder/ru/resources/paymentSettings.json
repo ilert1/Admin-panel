@@ -131,6 +131,7 @@
         "createNew": "Добавить инструмент",
         "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?",
         "chooseFinInstitution": "Выберите финансовый институт",
+        "selectPaymentType": "Выберите платёжный тип",
         "noAvailablePaymentTypes": "Нет доступных платёжных типов"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
