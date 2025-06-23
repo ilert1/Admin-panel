@@ -72,20 +72,27 @@ const useTerminalPaymentInstrumentFilter = () => {
                 | "terminalFilterId"
                 | "provider"
         ) => {
-            const { ...newFilterValues } = filterValues;
-
-            if (type === "provider" && newFilterValues?.["terminalFilterId"]) {
+            if (type === "provider") {
                 setTerminalFilterId("");
                 setTerminalFilterName("");
-                delete newFilterValues["terminalFilterId"];
+                setTerminalPaymentTypeCode("");
+                setTerminalCurrencyCode("");
+                setTerminalFinancialInstitutionCode("");
+
+                if (value) {
+                    setFilters({ [type]: value }, displayedFilters, true);
+                } else {
+                    setFilters({}, displayedFilters, true);
+                }
+            } else {
+                if (value) {
+                    setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
+                } else {
+                    Reflect.deleteProperty(filterValues, type);
+                    setFilters(filterValues, displayedFilters, true);
+                }
             }
 
-            if (value) {
-                setFilters({ ...newFilterValues, [type]: value }, displayedFilters, true);
-            } else {
-                Reflect.deleteProperty(newFilterValues, type);
-                setFilters(newFilterValues, displayedFilters, true);
-            }
             setPage(1);
         },
         300
