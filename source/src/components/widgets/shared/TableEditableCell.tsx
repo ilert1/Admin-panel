@@ -49,7 +49,7 @@ export function TableEditableCell<T>({
     }, [showEdit]);
 
     return (
-        <div className="flex w-48 items-center gap-2">
+        <div className="flex w-48 items-center gap-2 before:absolute before:inset-0 before:border-2 before:border-transparent before:transition-colors hover:before:border-green-20 hover:before:bg-neutral-20 hover:before:dark:border-green-60 hover:dark:before:bg-[#13232C]">
             {showEdit ? (
                 <>
                     <Input
@@ -59,7 +59,7 @@ export function TableEditableCell<T>({
                         onChange={e => setValue(e.target.value)}
                     />
 
-                    <div className="flex flex-col items-center">
+                    <div className="z-10 flex flex-col items-center">
                         {isFetching ? (
                             <div className="flex items-center justify-center">
                                 <LoadingBalance className="h-6 w-6 overflow-hidden" />

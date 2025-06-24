@@ -168,7 +168,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                                     <TableCell
                                         key={j}
                                         className={cn(
-                                            "border border-neutral-40 bg-neutral-0 py-2 text-sm text-neutral-90 dark:border-muted dark:bg-neutral-100 dark:text-neutral-0",
+                                            "relative border border-neutral-40 bg-neutral-0 py-2 text-sm text-neutral-90 dark:border-muted dark:bg-neutral-100 dark:text-neutral-0",
                                             i % 2
                                                 ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                                 : "bg-neutral-0 dark:bg-neutral-100"
