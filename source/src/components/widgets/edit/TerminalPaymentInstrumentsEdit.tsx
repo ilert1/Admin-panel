@@ -148,7 +148,12 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
             onClose();
         } catch (error) {
             if (error instanceof Error) {
-                appToast("error", error.message);
+                appToast(
+                    "error",
+                    error.message.includes("already exists")
+                        ? translate("resources.paymentSettings.terminalPaymentInstruments.errors.alreadyExist")
+                        : error.message
+                );
             } else {
                 appToast("error", translate("app.ui.create.createError"));
             }
