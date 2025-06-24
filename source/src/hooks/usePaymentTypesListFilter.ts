@@ -67,7 +67,8 @@ const usePaymentTypesListFilter = () => {
             }
 
             const blob = await response.blob();
-            if (!blob.text.length) {
+
+            if ((await blob.text()).length <= 4) {
                 appToast("error", translate("resources.paymentSettings.reports.noData"));
                 return;
             }

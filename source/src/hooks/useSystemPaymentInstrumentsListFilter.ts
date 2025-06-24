@@ -86,10 +86,11 @@ const useSystemPaymentInstrumentsListFilter = () => {
 
             const blob = await response.blob();
 
-            if (!blob.text.length) {
+            if ((await blob.text()).length <= 4) {
                 appToast("error", translate("resources.paymentSettings.reports.noData"));
                 return;
             }
+
             const fileUrl = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = fileUrl;
