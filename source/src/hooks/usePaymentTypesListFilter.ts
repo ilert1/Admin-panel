@@ -113,8 +113,7 @@ const usePaymentTypesListFilter = () => {
                         translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
                             field: parsed.loc.join(" > "),
                             input: parsed.input
-                        }),
-                        translate("resources.paymentSettings.reports.csvValidationError")
+                        })
                     );
                 } else {
                     appToast("error", error.message);
