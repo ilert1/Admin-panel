@@ -26,29 +26,18 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
 
     const columns: ColumnDef<SystemPaymentInstrument>[] = [
         {
-            id: "instrument",
-            accessorKey: "id",
-            header: translate("resources.paymentSettings.systemPaymentInstruments.list.name"),
+            id: "code",
+            accessorKey: "code",
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.code"),
             cell: ({ row }) => {
                 return (
-                    <div>
-                        <Button
-                            variant={"resourceLink"}
-                            onClick={() => {
-                                openSheet("systemPaymentInstrument", { id: row.original.id });
-                            }}>
-                            {row.original.name ?? ""}
-                        </Button>
-                        <TextField
-                            text={row.original.id}
-                            wrap
-                            copyValue
-                            lineClamp
-                            linesCount={1}
-                            minWidth="50px"
-                            className="text-neutral-70"
-                        />
-                    </div>
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("systemPaymentInstrument", { id: row.original.code });
+                        }}>
+                        {row.original.code ?? ""}
+                    </Button>
                 );
             }
         },
@@ -72,15 +61,15 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             }
         },
         {
-            id: "financial_institution_id",
-            accessorKey: "financial_institution_id",
+            id: "financial_institution_code",
+            accessorKey: "financial_institution_code",
             header: translate("resources.paymentSettings.systemPaymentInstruments.list.financialInstitution"),
             cell: ({ row }) => {
                 return (
                     <TextField
                         text={row.original.financial_institution.name}
                         onClick={() => {
-                            openSheet("financialInstitution", { id: row.original.financial_institution_id });
+                            openSheet("financialInstitution", { id: row.original.financial_institution_code });
                         }}
                         wrap
                         copyValue
@@ -104,7 +93,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.code)} />;
             }
         },
         {
@@ -113,7 +102,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return (
                     <ShowButton
                         onClick={() => {
-                            openSheet("systemPaymentInstrument", { id: row.original.id });
+                            openSheet("systemPaymentInstrument", { id: row.original.code });
                         }}
                     />
                 );

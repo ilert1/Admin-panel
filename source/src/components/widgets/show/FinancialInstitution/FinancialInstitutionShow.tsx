@@ -2,7 +2,6 @@ import { useLocaleState, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
-import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { Button } from "@/components/ui/Button";
 import { useCallback, useState } from "react";
@@ -11,6 +10,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { EditFinancialInstitutionDialog } from "./EditFinancialInstitutionDialog";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
+import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 
 export interface FinancialInstitutionShowProps {
     id: string;
@@ -18,7 +18,7 @@ export interface FinancialInstitutionShowProps {
 }
 
 export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitutionShowProps) => {
-    const context = useAbortableShowController<FinancialInstitution>({ resource: "financialInstitution", id });
+    const context = useAbortableShowController<FinancialInstitutionWithId>({ resource: "financialInstitution", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
@@ -74,8 +74,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     </div>
 
                     <TextField
-                        label={translate("resources.paymentSettings.financialInstitution.fields.short_name")}
-                        text={context.record.short_name || ""}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.code")}
+                        text={context.record.code || ""}
                         wrap
                         copyValue
                     />
@@ -83,13 +83,6 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     <TextField
                         label={translate("resources.paymentSettings.financialInstitution.fields.legal_name")}
                         text={context.record.legal_name || ""}
-                        wrap
-                        copyValue
-                    />
-
-                    <TextField
-                        label={translate("resources.paymentSettings.financialInstitution.fields.id")}
-                        text={context.record.id || ""}
                         wrap
                         copyValue
                     />

@@ -1,4 +1,3 @@
-import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
@@ -11,6 +10,7 @@ import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentIn
 import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { SystemPaymentInstrumentWithId } from "@/data/systemPaymentInstruments";
 
 interface SystemPaymentInstrumentShowProps {
     id: string;
@@ -25,7 +25,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { openSheet } = useSheets();
-    const context = useAbortableShowController<SystemPaymentInstrument>({
+    const context = useAbortableShowController<SystemPaymentInstrumentWithId>({
         resource: "systemPaymentInstruments",
         id
     });
@@ -49,7 +49,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center justify-between px-4 md:px-[42px]">
-                        <TextField text={context.record.name} copyValue fontSize="title-2" />
+                        <TextField text={context.record.code} copyValue fontSize="title-2" />
                     </div>
                     <div className="grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
                         <div>
@@ -74,12 +74,6 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                 text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
                             />
                         </div>
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentSettings.systemPaymentInstruments.list.id")}
-                            text={context.record.id}
-                            copyValue
-                        />
 
                         <div>
                             <Label>
@@ -105,7 +99,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             )}
                             text={context.record.financial_institution.name}
                             onClick={() => {
-                                openSheet("financialInstitution", { id: context.record.financial_institution_id });
+                                openSheet("financialInstitution", { id: context.record.financial_institution_code });
                             }}
                             copyValue
                         />

@@ -8,11 +8,13 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { GetListResult, useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 
 interface SystemPaymentInstrumentCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -31,7 +33,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
-    const [paymentTypes, setPaymentTypes] = useState([]);
+    const [paymentTypes, setPaymentTypes] = useState<PaymentTypeBase[]>([]);
 
     const { data: currencies, isLoading: currenciesLoading } = useQuery({
         queryKey: ["currencies"],
@@ -41,7 +43,8 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
 
     const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
         queryKey: ["financialInstitutions"],
-        queryFn: () => dataProvider.getListWithoutPagination("financialInstitution"),
+        queryFn: (): GetListResult<FinancialInstitutionWithId> =>
+            dataProvider.getListWithoutPagination("financialInstitution"),
         select: data => data.data
     });
 
@@ -52,9 +55,8 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         currency_code: z
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
-        financial_institution_id: z
+        financial_institution_code: z
             .string()
-            .uuid()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         description: z.string().optional(),
         meta: z.string().trim().optional()
@@ -65,7 +67,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         defaultValues: {
             payment_type_code: "",
             currency_code: "",
-            financial_institution_id: "",
+            financial_institution_code: "",
             description: "",
             meta: "{}"
         }
@@ -98,14 +100,16 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         }
     };
 
-    const finInstValue = form.watch("financial_institution_id");
+    const finInstValue = form.watch("financial_institution_code");
     useEffect(() => {
         if (!finInstValue) {
             setPaymentTypes([]);
         } else if (financialInstitutions && finInstValue) {
             form.resetField("payment_type_code");
-            const found = financialInstitutions?.find((item: { id: string }) => item.id === finInstValue).payment_types;
-            setPaymentTypes(found);
+            const found = financialInstitutions?.find(item => item.code === finInstValue)?.payment_types;
+            if (found) {
+                setPaymentTypes(found);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [finInstValue, financialInstitutions]);
@@ -128,19 +132,19 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <FormField
                             control={form.control}
-                            name="financial_institution_id"
+                            name="financial_institution_code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentSettings.systemPaymentInstruments.fields.financial_institution_id"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.financial_institution_code"
                                         )}
                                     </Label>
 
                                     <PopoverSelect
-                                        variants={financialInstitutions}
+                                        variants={financialInstitutions || []}
                                         value={financialInstitutionValueName}
-                                        idField="id"
+                                        idField="code"
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setFinancialInstitutionValueName(e)}
                                         variantKey="name"
@@ -186,6 +190,15 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         notFoundMessage={translate(
                                             "resources.paymentSettings.paymentType.notFoundMessage"
                                         )}
+                                        placeholder={
+                                            finInstValue
+                                                ? translate(
+                                                      "resources.paymentSettings.systemPaymentInstruments.selectPaymentType"
+                                                  )
+                                                : translate(
+                                                      "resources.paymentSettings.systemPaymentInstruments.chooseFinInstitution"
+                                                  )
+                                        }
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={paymentsDisabled}

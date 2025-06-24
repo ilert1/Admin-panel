@@ -803,11 +803,6 @@ export interface CurrencyUpdate {
 }
 
 /**
- * Account identifier associated with the direction
- */
-export type DirectionAccountId = string | null;
-
-/**
  * Description of the direction
  */
 export type DirectionDescription = string | null;
@@ -817,13 +812,16 @@ export type DirectionDescription = string | null;
  */
 export type DirectionFees = { [key: string]: Fee };
 
+/**
+ * Account identifier associated with the direction
+ */
+export type DirectionAccountId = string | null;
+
 export interface Direction {
     /** Unique identifier for the direction */
     id: string;
     /** Name of the direction */
     name: string;
-    /** Account identifier associated with the direction */
-    account_id?: DirectionAccountId;
     /** State of the direction; can be 'active' or 'inactive' */
     state?: DirectionState;
     /** Type of the direction; can be 'universal', 'deposit', or 'withdraw' */
@@ -832,22 +830,24 @@ export interface Direction {
     description?: DirectionDescription;
     /** Weight of the direction */
     weight: number;
-    /** Merchant ID associated with the direction */
-    merchant: Merchant;
-    /** Provider name associated with the direction */
-    provider: Provider;
-    /** Terminal ID associated with the direction */
-    terminal: Terminal;
-    /** Source currency code */
-    src_currency: Currency;
-    /** Destination currency code */
-    dst_currency: Currency;
     /** Mapping of fee configurations with fee.id as key */
     fees?: DirectionFees;
     /** Direction limits (payin, payout, reward) with min and max values */
     limits: Limits;
+    /** Account identifier associated with the direction */
+    account_id?: DirectionAccountId;
+    /** Merchant ID associated with the direction */
+    merchant: MerchantBase;
+    /** Provider name associated with the direction */
+    provider: ProviderBase;
+    /** Terminal ID associated with the direction */
+    terminal: TerminalBase;
+    /** Source currency code */
+    src_currency: Currency;
+    /** Destination currency code */
+    dst_currency: Currency;
     /** List of payment types associated with this direction */
-    payment_types?: PaymentTypeModel[];
+    payment_types?: PaymentTypeBase[];
 }
 
 /**
@@ -1264,10 +1264,13 @@ export type FinancialInstitutionNspkMemberId = string | null;
 export type FinancialInstitutionMeta = { [key: string]: unknown };
 
 export interface FinancialInstitution {
+    /**
+     * Code or abbreviation
+     * @pattern ^[a-z0-9_.-]+$
+     */
+    code: string;
     /** Name of the financial institution */
     name: string;
-    /** Short name or abbreviation */
-    short_name: string;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionLegalName;
     /** Type of financial institution */
@@ -1281,8 +1284,6 @@ export interface FinancialInstitution {
     nspk_member_id?: FinancialInstitutionNspkMemberId;
     /** Additional metadata */
     meta?: FinancialInstitutionMeta;
-    /** Unique identifier of the financial institution */
-    id: string;
     /** Associated payment types */
     payment_types?: PaymentTypeBase[];
     /** Associated currencies */
@@ -1309,10 +1310,13 @@ export type FinancialInstitutionBaseNspkMemberId = string | null;
 export type FinancialInstitutionBaseMeta = { [key: string]: unknown };
 
 export interface FinancialInstitutionBase {
+    /**
+     * Code or abbreviation
+     * @pattern ^[a-z0-9_.-]+$
+     */
+    code: string;
     /** Name of the financial institution */
     name: string;
-    /** Short name or abbreviation */
-    short_name: string;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionBaseLegalName;
     /** Type of financial institution */
@@ -1344,13 +1348,13 @@ export type FinancialInstitutionCreateNspkMemberId = string | null;
 export type FinancialInstitutionCreateMeta = { [key: string]: unknown };
 
 export interface FinancialInstitutionCreate {
-    /** Name of the financial institution */
-    name: string;
     /**
-     * Short name or abbreviation
+     * Code or abbreviation
      * @pattern ^[a-z0-9_.-]+$
      */
-    short_name: string;
+    code: string;
+    /** Name of the financial institution */
+    name: string;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionCreateLegalName;
     /** Type of financial institution */
@@ -1405,9 +1409,9 @@ export interface FinancialInstitutionTypeItem {
 export type FinancialInstitutionUpdateName = string | null;
 
 /**
- * Short name or abbreviation
+ * Code or abbreviation
  */
-export type FinancialInstitutionUpdateShortName = string | null;
+export type FinancialInstitutionUpdateCode = string | null;
 
 /**
  * Full legal name of the institution
@@ -1439,8 +1443,8 @@ export type FinancialInstitutionUpdateMeta = FinancialInstitutionUpdateMetaAnyOf
 export interface FinancialInstitutionUpdate {
     /** Name of the financial institution */
     name?: FinancialInstitutionUpdateName;
-    /** Short name or abbreviation */
-    short_name?: FinancialInstitutionUpdateShortName;
+    /** Code or abbreviation */
+    code?: FinancialInstitutionUpdateCode;
     /** Full legal name of the institution */
     legal_name?: FinancialInstitutionUpdateLegalName;
     /** Type of financial institution */
@@ -1560,12 +1564,40 @@ export interface Merchant {
     name: string;
     /** Description of the merchant */
     description?: MerchantDescription;
-    /** List of payment types associated with this merchant */
-    payment_types?: PaymentTypeBase[];
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantKeycloakId;
     /** Mapping of fee configurations with fee.id as key */
     fees?: MerchantFees;
+    /** List of payment types associated with this merchant */
+    payment_types?: PaymentTypeBase[];
+}
+
+/**
+ * Description of the merchant
+ */
+export type MerchantBaseDescription = string | null;
+
+/**
+ * Keycloak identifier for the merchant
+ */
+export type MerchantBaseKeycloakId = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantBaseFees = { [key: string]: Fee };
+
+export interface MerchantBase {
+    /** Unique identifier of the merchant */
+    id: string;
+    /** Name of the merchant */
+    name: string;
+    /** Description of the merchant */
+    description?: MerchantBaseDescription;
+    /** Keycloak identifier for the merchant */
+    keycloak_id?: MerchantBaseKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantBaseFees;
 }
 
 /**
@@ -1865,10 +1897,10 @@ export interface Provider {
     fields_json_schema: string;
     /** The public key encoded in base58, corresponding to the private key. */
     public_key?: ProviderPublicKey;
-    /** List of payment types associated with this provider */
-    payment_types?: PaymentTypeBase[];
     /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
     methods: ProviderMethods;
+    /** List of payment types associated with this provider */
+    payment_types?: PaymentTypeBase[];
 }
 
 export interface ProviderAddKeypair {
@@ -1876,6 +1908,30 @@ export interface ProviderAddKeypair {
     provider: Provider;
     /** The key pair details (public and private keys) to be associated with the provider */
     keypair: KeyPair;
+}
+
+/**
+ * The public key encoded in base58, corresponding to the private key.
+ */
+export type ProviderBasePublicKey = string | null;
+
+/**
+ * Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.
+ */
+export type ProviderBaseMethods = { [key: string]: ExecutionMethodOutput };
+
+export interface ProviderBase {
+    /**
+     * Provider name
+     * @minLength 1
+     */
+    name: string;
+    /** JSON schema for provider fields */
+    fields_json_schema: string;
+    /** The public key encoded in base58, corresponding to the private key. */
+    public_key?: ProviderBasePublicKey;
+    /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
+    methods: ProviderBaseMethods;
 }
 
 /**
@@ -1971,16 +2027,14 @@ export interface SystemPaymentInstrument {
     payment_type_code: string;
     /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
     currency_code: string;
-    /** Unique identifier of the associated financial institution. */
-    financial_institution_id: string;
+    /** Code identifier of the associated financial institution. */
+    financial_institution_code: string;
     /** Optional detailed description of the payment instrument's purpose or configuration. */
     description?: SystemPaymentInstrumentDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
     meta?: SystemPaymentInstrumentMeta;
-    /** Unique name for the system payment instrument */
-    name: string;
-    /** Unique identifier of the system payment instrument. */
-    id: string;
+    /** Composite code of the payment instrument. */
+    code: string;
     /** Details of the associated payment type. */
     payment_type: PaymentTypeBase;
     /** Details of the associated currency. */
@@ -2008,8 +2062,8 @@ export interface SystemPaymentInstrumentCreate {
     payment_type_code: string;
     /** Code of the associated currency (ISO 4217), e.g., 'USD' or 'RUB'. */
     currency_code: string;
-    /** Unique identifier of the associated financial institution. */
-    financial_institution_id: string;
+    /** Code identifier of the associated financial institution. */
+    financial_institution_code: string;
     /** Optional detailed description of the payment instrument's purpose or configuration. */
     description?: SystemPaymentInstrumentCreateDescription;
     /** Additional metadata in JSON format, useful for custom configurations or notes. */
@@ -2079,10 +2133,58 @@ export interface Terminal {
     account_created?: boolean;
     /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
     callback_url?: TerminalCallbackUrl;
-    /** List of payment types associated with this terminal */
-    payment_types?: PaymentTypeBase[];
     /** Additional details about the terminal */
     details?: TerminalDetails;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
+}
+
+/**
+ * Description of the terminal
+ */
+export type TerminalBaseDescription = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type TerminalBaseFees = { [key: string]: Fee };
+
+/**
+ * Authentication data for the terminal
+ */
+export type TerminalBaseAuth = { [key: string]: unknown };
+
+/**
+ * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
+ */
+export type TerminalBaseCallbackUrl = string | null;
+
+/**
+ * Additional details about the terminal
+ */
+export type TerminalBaseDetails = { [key: string]: unknown };
+
+export interface TerminalBase {
+    /** Unique identifier of the terminal */
+    terminal_id: string;
+    /** Name of the terminal */
+    verbose_name: string;
+    /** Description of the terminal */
+    description?: TerminalBaseDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: TerminalBaseFees;
+    /** Provider name associated with the terminal */
+    provider: string;
+    /** Authentication data for the terminal */
+    auth?: TerminalBaseAuth;
+    /** Indicates if the account is created */
+    account_created?: boolean;
+    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
+    callback_url?: TerminalBaseCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalBaseDetails;
 }
 
 /**
@@ -2147,8 +2249,8 @@ export type TerminalPaymentInstrumentTerminalSpecificParameters = { [key: string
 export interface TerminalPaymentInstrument {
     /** ID of the terminal */
     terminal_id: string;
-    /** ID of the system payment instrument */
-    system_payment_instrument_id: string;
+    /** Code of the system payment instrument */
+    system_payment_instrument_code: string;
     /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
     direction: DirectionType;
     /** Provider's code for the payment type (e.g., SBP) */
@@ -2164,7 +2266,7 @@ export interface TerminalPaymentInstrument {
     /** Unique ID of the configuration */
     id: string;
     /** Related Terminal object */
-    terminal: Terminal;
+    terminal: TerminalBase;
     /** Related SystemPaymentInstrument object */
     system_payment_instrument: SystemPaymentInstrument;
     /** Timestamp of creation */
@@ -2196,8 +2298,8 @@ export type TerminalPaymentInstrumentCreateTerminalSpecificParameters = { [key: 
 export interface TerminalPaymentInstrumentCreate {
     /** ID of the terminal */
     terminal_id: string;
-    /** ID of the system payment instrument */
-    system_payment_instrument_id: string;
+    /** Code of the system payment instrument */
+    system_payment_instrument_code: string;
     /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
     direction: DirectionType;
     /** Provider's code for the payment type (e.g., SBP) */
@@ -2208,6 +2310,41 @@ export interface TerminalPaymentInstrumentCreate {
     terminal_financial_institution_code?: TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCode;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalPaymentInstrumentCreateTerminalSpecificParameters;
+    /** Status of the terminal instrument configuration */
+    status?: TerminalPaymentInstrumentStatus;
+}
+
+/**
+ * Provider's code for the payment type (e.g., SBP)
+ */
+export type TerminalPaymentInstrumentFIDataTerminalPaymentTypeCode = string | null;
+
+/**
+ * Provider's code for the currency (if different from system)
+ */
+export type TerminalPaymentInstrumentFIDataTerminalCurrencyCode = string | null;
+
+/**
+ * Provider's code for the financial institution
+ */
+export type TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCode = string | null;
+
+/**
+ * Additional terminal-specific parameters in JSON format
+ */
+export type TerminalPaymentInstrumentFIDataTerminalSpecificParameters = { [key: string]: unknown };
+
+export interface TerminalPaymentInstrumentFIData {
+    /** Direction of the payment instrument, e.g., 'deposit' or 'withdraw'. */
+    direction: DirectionType;
+    /** Provider's code for the payment type (e.g., SBP) */
+    terminal_payment_type_code?: TerminalPaymentInstrumentFIDataTerminalPaymentTypeCode;
+    /** Provider's code for the currency (if different from system) */
+    terminal_currency_code?: TerminalPaymentInstrumentFIDataTerminalCurrencyCode;
+    /** Provider's code for the financial institution */
+    terminal_financial_institution_code?: TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCode;
+    /** Additional terminal-specific parameters in JSON format */
+    terminal_specific_parameters?: TerminalPaymentInstrumentFIDataTerminalSpecificParameters;
     /** Status of the terminal instrument configuration */
     status?: TerminalPaymentInstrumentStatus;
 }
@@ -2227,9 +2364,9 @@ export const TerminalPaymentInstrumentStatus = {
 export type TerminalPaymentInstrumentUpdateTerminalId = string | null;
 
 /**
- * ID of the system payment instrument
+ * Code of the system payment instrument
  */
-export type TerminalPaymentInstrumentUpdateSystemPaymentInstrumentId = string | null;
+export type TerminalPaymentInstrumentUpdateSystemPaymentInstrumentCode = string | null;
 
 /**
  * New direction of the payment instrument.
@@ -2267,8 +2404,8 @@ export type TerminalPaymentInstrumentUpdateTerminalSpecificParameters =
 export interface TerminalPaymentInstrumentUpdate {
     /** ID of the terminal */
     terminal_id?: TerminalPaymentInstrumentUpdateTerminalId;
-    /** ID of the system payment instrument */
-    system_payment_instrument_id?: TerminalPaymentInstrumentUpdateSystemPaymentInstrumentId;
+    /** Code of the system payment instrument */
+    system_payment_instrument_code?: TerminalPaymentInstrumentUpdateSystemPaymentInstrumentCode;
     /** New direction of the payment instrument. */
     direction?: TerminalPaymentInstrumentUpdateDirection;
     /** Status of the terminal payment instrument */

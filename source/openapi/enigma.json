@@ -4563,7 +4563,7 @@
         "/enigma/v1/payment_type/import": {
             "post": {
                 "tags": ["Payment Type"],
-                "summary": "Imports payment types records from a CSV file.",
+                "summary": "Paymenttypeendpoints.Import Payment Types",
                 "description": "Import payment types from a CSV file",
                 "operationId": "PaymentTypeEndpoints_import_payment_types_enigma_v1_payment_type_import_post",
                 "parameters": [
@@ -5381,7 +5381,7 @@
         "/enigma/v1/financial_institution/import": {
             "post": {
                 "tags": ["Financial Institution"],
-                "summary": "Imports financial institutes records from a CSV file.",
+                "summary": "Financialinstitutionendpoints.Import Financial Institutions",
                 "description": "Upload CSV file and import Financial Institutions from it to system.",
                 "operationId": "FinancialInstitutionEndpoints_import_financial_institutions_enigma_v1_financial_institution_import_post",
                 "parameters": [
@@ -6292,7 +6292,7 @@
         "/enigma/v1/system_payment_instruments/import": {
             "post": {
                 "tags": ["System Payment Instruments"],
-                "summary": "Imports system payment instruments records from a CSV file.",
+                "summary": "Systempaymentinstrumentendpoints.Import System Payment Instrument",
                 "description": "Upload CSV file and import System Payment Instruments from it to system.",
                 "operationId": "SystemPaymentInstrumentEndpoints_import_system_payment_instrument_enigma_v1_system_payment_instruments_import_post",
                 "parameters": [

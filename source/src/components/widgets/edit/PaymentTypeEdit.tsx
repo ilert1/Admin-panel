@@ -84,7 +84,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
         const required_fields_for_payment = data.required_fields_for_payment?.trim()
             ? data.required_fields_for_payment?.split(",").map(item => item.trim())
-            : undefined;
+            : [];
 
         let currencies: string[] = [];
         let oldCurrencies: Set<string> = new Set();
@@ -101,6 +101,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         const currenciesToDelete = oldCurrencies.difference(new Set(currencies));
 
         try {
+            required_fields_for_payment.forEach(item => {
+                if (!item.match(/^[a-z0-9_]+$/)) {
+                    throw new Error("paymentFieldsRegex");
+                }
+            });
+
             await paymentTypesDataProvider.update("payment_type", {
                 id,
                 data: { ...data, required_fields_for_payment },
@@ -134,12 +140,11 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             refresh();
             onClose();
         } catch (error) {
-            // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так
-            // if (error instanceof Error) {
-            //     appToast("error", error.message);
-            // }
-
-            appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
+            if (error instanceof Error && error.message.includes("paymentFieldsRegex")) {
+                appToast("error", translate(`resources.paymentSettings.paymentType.errors.${error.message}`));
+            } else {
+                appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
+            }
 
             setSubmitButtonDisabled(false);
         }

@@ -7,13 +7,13 @@ const useFinancialInstitutionsListFilter = () => {
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const [name, setName] = useState(filterValues?.name || "");
-    const [shortName, setShortName] = useState(filterValues?.short_name || "");
+    const [code, setCode] = useState(filterValues?.code || "");
     const [institutionType, setInstitutionType] = useState(filterValues?.institution_type || "");
     const [countryCode, setCountryCode] = useState(filterValues?.country_code || "");
     const [nspkMemberId, setNspkMemberId] = useState(filterValues?.nspk_member_id || "");
 
     const onPropertySelected = debounce(
-        (value: string, type: "name" | "short_name" | "institution_type" | "country_code" | "nspk_member_id") => {
+        (value: string, type: "name" | "code" | "institution_type" | "country_code" | "nspk_member_id") => {
             if (value) {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
             } else {
@@ -30,9 +30,9 @@ const useFinancialInstitutionsListFilter = () => {
         onPropertySelected(e.target.value, "name");
     };
 
-    const onShortNameChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        setShortName(e.target.value);
-        onPropertySelected(e.target.value, "short_name");
+    const onCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setCode(e.target.value);
+        onPropertySelected(e.target.value, "code");
     };
 
     const onInstitutionTypeChanged = (value: string) => {
@@ -54,7 +54,7 @@ const useFinancialInstitutionsListFilter = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
         setName("");
-        setShortName("");
+        setCode("");
         setInstitutionType("");
         setCountryCode("");
         setNspkMemberId("");
@@ -63,11 +63,11 @@ const useFinancialInstitutionsListFilter = () => {
     return {
         translate,
         name,
-        shortName,
+        code,
         institutionType,
         countryCode,
         nspkMemberId,
-        onShortNameChanged,
+        onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,

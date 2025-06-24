@@ -8,7 +8,8 @@
         },
         "errors": {
             "code": "Code is required",
-            "codeRegex": "Code can only contain letters, numbers, underscores, and hyphens"
+            "codeRegex": "Code can only contain letters, numbers, underscores, and hyphens",
+            "paymentFieldsRegex": "Payment fields can contain only lowercase Latin letters, numbers, and underscores, and must be separated by commas"
         },
         "name": "Payment Types",
         "fields": {
@@ -40,7 +41,7 @@
             "updated_at": "Updated at",
             "name": "Name",
             "nameWithId": "Name",
-            "short_name": "Code",
+            "code": "Code",
             "legal_name": "Full legal name",
             "institution_type": "Institution type",
             "country_code": "Country code",
@@ -63,8 +64,8 @@
         },
         "errors": {
             "name": "The name of the financial institution is required",
-            "short_name": "The code of the financial institution is required",
-            "short_name_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
+            "code": "The code of the financial institution is required",
+            "code_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
             "country_code": "The country code is entered incorrectly",
             "alreadyExist": "The financial institution already exists",
             "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists"
@@ -90,7 +91,7 @@
             "name": "Name",
             "payment_type_code": "Payment type",
             "currency_code": "Currency",
-            "financial_institution_id": "Financial institution",
+            "financial_institution_code": "Financial institution",
             "direction": "Direction",
             "status": "Status",
             "description": "Description",
@@ -100,7 +101,7 @@
             "createdAt": "Created at",
             "updatedAt": "Updated at",
             "id": "ID",
-            "name": "Name",
+            "code": "Code",
             "paymentType": "Payment type",
             "paymentTypeCode": "Payment type code",
             "financialInstitution": "Financial institution",
@@ -123,7 +124,7 @@
             "editActivity": "The activity of the system payment instrument %{name} has been successfully changed to: %{state}."
         },
         "placeholders": {
-            "name": "Name",
+            "code": "Code",
             "currencyCode": "Select currency code"
         },
         "notFoundMessage": "System payment instruments not found.",
@@ -132,6 +133,7 @@
         "createNew": "Add instrument",
         "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
         "chooseFinInstitution": "Choose financial institution",
+        "selectPaymentType": "Select payment type",
         "noAvailablePaymentTypes": "No available payment types"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
@@ -141,7 +143,7 @@
             "created_at": "Created at",
             "updated_at": "Updated at",
             "terminal_id": "Terminal",
-            "system_payment_instrument_id": "System payment instrument",
+            "system_payment_instrument_code": "System payment instrument",
             "terminal_payment_type_code": "Terminal payment type code",
             "terminal_currency_code": "Terminal currency code",
             "terminal_financial_institution_code": "Terminal financial institution code",

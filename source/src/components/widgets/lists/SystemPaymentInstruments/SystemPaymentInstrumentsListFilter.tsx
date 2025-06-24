@@ -19,7 +19,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
 
     const {
         translate,
-        name,
+        code,
         currencyCode,
         paymentTypeCode,
         currencies,
@@ -28,13 +28,13 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
         isLoadingPaymentTypes,
         onPaymentTypeCodeChanged,
         onClearFilters,
-        onNameChanged,
+        onCodeChanged,
         onCurrencyCodeChanged
     } = useSystemPaymentInstrumentsListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
-    const clearDisabled = !name && !currencyCode && !paymentTypeCode;
+    const clearDisabled = !code && !currencyCode && !paymentTypeCode;
 
     return (
         <div className="mb-4">
@@ -42,7 +42,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[name, currencyCode, paymentTypeCode]}
+                        filterList={[code, currencyCode, paymentTypeCode]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -65,13 +65,13 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                     <div className="flex flex-wrap gap-2 sm:flex-nowrap">
                         <div className="w-full">
                             <Input
-                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.name")}
+                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.code")}
                                 labelSize="title-2"
-                                value={name}
+                                value={code}
                                 placeholder={translate(
-                                    "resources.paymentSettings.systemPaymentInstruments.placeholders.name"
+                                    "resources.paymentSettings.systemPaymentInstruments.placeholders.code"
                                 )}
-                                onChange={onNameChanged}
+                                onChange={onCodeChanged}
                             />
                         </div>
                         <div className="w-full">

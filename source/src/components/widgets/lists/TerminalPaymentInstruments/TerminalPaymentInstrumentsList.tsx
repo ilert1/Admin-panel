@@ -15,7 +15,7 @@ export const TerminalPaymentInstrumentsList = () => {
     });
 
     const { columns, createDialogOpen, setCreateDialogOpen } = useGetTerminalPaymentInstrumentsListColumns({
-        isFetching: listContext.isFetching
+        listContext
     });
 
     const createFn = () => {

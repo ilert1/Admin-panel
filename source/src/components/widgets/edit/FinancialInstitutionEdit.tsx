@@ -85,14 +85,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentSettings.financialInstitution.errors.name")).trim(),
-        short_name: z
-            .string()
-            .min(1, translate("resources.paymentSettings.financialInstitution.errors.short_name"))
-            .regex(
-                /^[a-z0-9_.-]+$/,
-                translate("resources.paymentSettings.financialInstitution.errors.short_name_regex")
-            )
-            .trim(),
         legal_name: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
@@ -110,7 +102,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         defaultValues: {
             name: "",
             country_code: "",
-            short_name: "",
             legal_name: "",
             nspk_member_id: "",
             institution_type: undefined,
@@ -125,7 +116,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             const updatedValues = {
                 name: financialInstitutionData.name || "",
                 country_code: financialInstitutionData.country_code || "",
-                short_name: financialInstitutionData.short_name || "",
                 legal_name: financialInstitutionData.legal_name || "",
                 nspk_member_id: financialInstitutionData.nspk_member_id || "",
                 currencies: financialInstitutionData.currencies?.map(c => c.code) || [],
@@ -292,7 +282,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
                         <FormField
                             control={form.control}
-                            name="short_name"
+                            name="legal_name"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2">
                                     <FormControl>
@@ -302,7 +292,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentSettings.financialInstitution.fields.short_name"
+                                                "resources.paymentSettings.financialInstitution.fields.legal_name"
                                             )}
                                         />
                                     </FormControl>
@@ -310,26 +300,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                             )}
                         />
                     </div>
-
-                    <FormField
-                        control={form.control}
-                        name="legal_name"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                        label={translate(
-                                            "resources.paymentSettings.financialInstitution.fields.legal_name"
-                                        )}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
 
                     <div className="grid grid-cols-1 sm:grid-cols-3">
                         <FormField
