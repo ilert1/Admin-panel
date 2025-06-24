@@ -195,6 +195,7 @@
         "uploadSuccess": "File successfully uploaded. Inserted: %{inserted}, skipped: %{skipped}, total: %{total}",
         "inputMode": "Input mode",
         "strict": "Strict",
-        "ignore": "Ignore"
+        "ignore": "Ignore",
+        "wrongFileFormat": "Wrong file format. Select a CSV file"
     }
 }

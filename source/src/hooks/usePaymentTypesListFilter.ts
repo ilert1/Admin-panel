@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
+import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { PaymentTypesProvider } from "@/data/payment_types";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -14,6 +14,7 @@ const usePaymentTypesListFilter = () => {
     const [title, setTitle] = useState(filterValues?.title || "");
     const [category, setCategory] = useState(filterValues?.category || "");
     const [reportLoading, setReportLoading] = useState(false);
+    const refresh = useRefresh();
     const appToast = useAppToast();
     const onPropertySelected = debounce((value: string, type: "code" | "title" | "category") => {
         if (value) {
@@ -79,6 +80,7 @@ const usePaymentTypesListFilter = () => {
             }
         } finally {
             setReportLoading(false);
+            refresh();
         }
     };
 
@@ -100,6 +102,7 @@ const usePaymentTypesListFilter = () => {
                 appToast("error", error.message);
             }
         } finally {
+            refresh();
             setReportLoading(false);
         }
     };

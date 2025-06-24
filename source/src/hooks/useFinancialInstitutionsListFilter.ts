@@ -3,7 +3,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
+import { useListContext, useRefresh, useTranslate } from "react-admin";
 
 const useFinancialInstitutionsListFilter = () => {
     const translate = useTranslate();
@@ -17,6 +17,7 @@ const useFinancialInstitutionsListFilter = () => {
     const [reportLoading, setReportLoading] = useState(false);
 
     const appToast = useAppToast();
+    const refresh = useRefresh();
     const dataProvider = new FinancialInstitutionProvider();
 
     const onPropertySelected = debounce(
@@ -98,6 +99,7 @@ const useFinancialInstitutionsListFilter = () => {
             }
         } finally {
             setReportLoading(false);
+            refresh();
         }
     };
 
@@ -120,6 +122,7 @@ const useFinancialInstitutionsListFilter = () => {
             }
         } finally {
             setReportLoading(false);
+            refresh();
         }
     };
 

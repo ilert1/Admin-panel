@@ -2,7 +2,7 @@ import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIServic
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
-import { useDataProvider, useListContext, useTranslate } from "react-admin";
+import { useDataProvider, useListContext, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
@@ -18,8 +18,10 @@ const useSystemPaymentInstrumentsListFilter = () => {
     const [paymentTypeCode, setPaymentTypeCode] = useState<CallbackStatusEnum | "">(
         filterValues?.payment_type_code || ""
     );
+
     const [reportLoading, setReportLoading] = useState(false);
     const appToast = useAppToast();
+    const refresh = useRefresh();
 
     const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
         queryKey: ["currencies"],
@@ -96,6 +98,7 @@ const useSystemPaymentInstrumentsListFilter = () => {
             }
         } finally {
             setReportLoading(false);
+            refresh();
         }
     };
 
@@ -118,6 +121,7 @@ const useSystemPaymentInstrumentsListFilter = () => {
             }
         } finally {
             setReportLoading(false);
+            refresh();
         }
     };
 
