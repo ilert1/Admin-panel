@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ListControllerResult, useTranslate } from "react-admin";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { EyeIcon } from "lucide-react";
 import { useSheets } from "@/components/providers/SheetProvider";
@@ -31,6 +31,16 @@ export const useGetFinancialInstitutionColumns = ({
     });
 
     const { data: financialInstitutionTypes } = useFetchFinancialInstitutionTypes();
+
+    useEffect(() => {
+        if (currentCellEdit.row || currentCellEdit.column) {
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listContext.filterValues]);
 
     const onSubmit = async (id: string, data: Pick<FinancialInstitutionWithId, "nspk_member_id">) => {
         try {

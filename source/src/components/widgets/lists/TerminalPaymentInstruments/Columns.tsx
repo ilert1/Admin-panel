@@ -3,7 +3,7 @@ import { ListControllerResult, useTranslate } from "react-admin";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrumentsActivityBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { EyeIcon } from "lucide-react";
@@ -28,6 +28,16 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         row: undefined,
         column: undefined
     });
+
+    useEffect(() => {
+        if (currentCellEdit.row || currentCellEdit.column) {
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listContext.filterValues]);
 
     const onSubmit = async (
         id: string,
