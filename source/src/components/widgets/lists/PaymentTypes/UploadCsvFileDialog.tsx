@@ -35,7 +35,6 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
         multiple: false,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onFilesSelected: (file: any) => {
-            console.log(file.filesContent[0].type);
             if (file.filesContent[0].type !== "text/csv" && file.filesContent[0].type !== "application/vnd.ms-excel") {
                 appToast("error", translate("resources.paymentSettings.reports.wrongFileFormat"));
                 if (!inputVal) clear();
