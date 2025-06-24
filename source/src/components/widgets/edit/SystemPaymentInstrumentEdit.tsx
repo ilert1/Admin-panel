@@ -69,7 +69,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                 data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} },
                 previousData: undefined
             });
-            appToast("success", translate("app.ui.toast.success"));
+            appToast("success", translate("app.ui.edit.editSuccess"));
             refresh();
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);

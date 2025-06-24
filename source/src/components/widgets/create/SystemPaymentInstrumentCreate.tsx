@@ -82,7 +82,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                 data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} }
             });
 
-            appToast("success", translate("app.ui.toast.success"));
+            appToast("success", translate("app.ui.create.createSuccess"));
 
             refresh();
             onOpenChange(false);
