@@ -1,4 +1,5 @@
 import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { authProvider } from "@/components/providers";
 import { Button } from "@/components/ui/Button";
 import {
     Dialog,
@@ -29,6 +30,7 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
     const importModes = Object.values(ImportMode);
     const [inputVal, setInputVal] = useState("");
     const [importMode, setImportMode] = useState<ImportMode>("strict");
+    const { checkAuth } = authProvider;
 
     const { openFilePicker, filesContent, loading, plainFiles, clear } = useFilePicker({
         accept: ".csv",
@@ -92,7 +94,8 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full"
-                                onClick={() => {
+                                onClick={async () => {
+                                    await checkAuth({});
                                     handleUplaod(plainFiles?.[0] ?? null, importMode);
                                     onOpenChange(false);
                                 }}>
