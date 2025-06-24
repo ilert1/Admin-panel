@@ -67,6 +67,11 @@ const usePaymentTypesListFilter = () => {
             }
 
             const blob = await response.blob();
+            if (!blob.text.length) {
+                appToast("error", translate("resources.paymentSettings.reports.noData"));
+                return;
+            }
+
             const fileUrl = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = fileUrl;
