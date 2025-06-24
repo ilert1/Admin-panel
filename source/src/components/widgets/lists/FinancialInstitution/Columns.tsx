@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useTranslate } from "react-admin";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
@@ -8,14 +8,58 @@ import { EyeIcon } from "lucide-react";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
+import { CurrentCell, TableEditableCell } from "../../shared";
+import { FinancialInstitutionProvider, FinancialInstitutionWithId } from "@/data/financialInstitution";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
-export const useGetFinancialInstitutionColumns = () => {
+export const useGetFinancialInstitutionColumns = ({
+    listContext
+}: {
+    listContext: ListControllerResult<FinancialInstitutionWithId>;
+}) => {
+    const financialInstitutionProvider = new FinancialInstitutionProvider();
+
     const translate = useTranslate();
+    const appToast = useAppToast();
     const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
+        row: undefined,
+        column: undefined
+    });
 
     const { data: financialInstitutionTypes } = useFetchFinancialInstitutionTypes();
+
+    const onSubmit = async (id: string, data: Pick<FinancialInstitutionWithId, "nspk_member_id">) => {
+        try {
+            setIsDataUpdating(true);
+
+            await financialInstitutionProvider.update("financialInstitution", {
+                id,
+                data,
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
+
+            listContext.refetch();
+
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
+            setIsDataUpdating(false);
+        }
+    };
 
     const columns: ColumnDef<FinancialInstitution>[] = [
         {
@@ -105,7 +149,24 @@ export const useGetFinancialInstitutionColumns = () => {
         {
             id: "nspk_code",
             header: translate("resources.paymentSettings.financialInstitution.fields.nspk_member_id"),
-            accessorKey: "nspk_member_id"
+            accessorKey: "nspk_member_id",
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.nspk_member_id || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.code, { nspk_member_id: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
         },
         {
             id: "country_code",
