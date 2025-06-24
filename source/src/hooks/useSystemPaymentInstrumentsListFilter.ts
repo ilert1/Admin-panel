@@ -6,6 +6,7 @@ import { useDataProvider, useListContext, useRefresh, useTranslate } from "react
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
+import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
 
 const useSystemPaymentInstrumentsListFilter = () => {
     const translate = useTranslate();
@@ -117,7 +118,19 @@ const useSystemPaymentInstrumentsListFilter = () => {
             );
         } catch (error) {
             if (error instanceof Error) {
-                appToast("error", error.message);
+                const parsed = extractFieldsFromErrorMessage(error.message);
+                if (parsed.type === "string_pattern_mismatch") {
+                    appToast(
+                        "error",
+                        translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+                            field: parsed.loc.join(" > "),
+                            input: parsed.input
+                        }),
+                        translate("resources.paymentSettings.reports.csvValidationError")
+                    );
+                } else {
+                    appToast("error", error.message);
+                }
             }
         } finally {
             setReportLoading(false);

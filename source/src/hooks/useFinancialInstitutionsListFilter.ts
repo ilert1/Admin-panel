@@ -1,6 +1,7 @@
 import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
+import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
 import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
 import { useListContext, useRefresh, useTranslate } from "react-admin";
@@ -118,7 +119,19 @@ const useFinancialInstitutionsListFilter = () => {
             );
         } catch (error) {
             if (error instanceof Error) {
-                appToast("error", error.message);
+                const parsed = extractFieldsFromErrorMessage(error.message);
+                if (parsed.type === "string_pattern_mismatch") {
+                    appToast(
+                        "error",
+                        translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+                            field: parsed.loc.join(" > "),
+                            input: parsed.input
+                        }),
+                        translate("resources.paymentSettings.reports.csvValidationError")
+                    );
+                } else {
+                    appToast("error", error.message);
+                }
             }
         } finally {
             setReportLoading(false);
