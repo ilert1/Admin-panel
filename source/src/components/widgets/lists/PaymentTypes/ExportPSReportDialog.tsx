@@ -21,7 +21,7 @@ export const ExportPSReportDialog = (props: ExportPSReportDialogProps) => {
                         {translate("resources.paymentSettings.reports.downloadReport")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
+                    <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:self-end">
                         <Button
                             type="submit"
                             variant="default"
@@ -36,7 +36,7 @@ export const ExportPSReportDialog = (props: ExportPSReportDialogProps) => {
                             onClick={() => onOpenChange(false)}
                             variant="outline_gray"
                             type="button"
-                            className="w-full rounded-4 border border-neutral-50 hover:border-neutral-100 sm:w-auto">
+                            className="hover:border-neutral-scale-100 w-full rounded-4 border border-neutral-50">
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

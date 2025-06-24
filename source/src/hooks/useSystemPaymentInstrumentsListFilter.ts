@@ -3,15 +3,23 @@ import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
 import { useDataProvider, useListContext, useTranslate } from "react-admin";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
 
 const useSystemPaymentInstrumentsListFilter = () => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
+    const systemPIDataProvider = new SystemPaymentInstrumentsProvider();
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const [code, setCode] = useState(filterValues?.code || "");
     const [currencyCode, setCurrencyCode] = useState(filterValues?.currency_code || "");
-    const [paymentTypeCode, setPaymentTypeCode] = useState(filterValues?.payment_type_code || "");
+    const [paymentTypeCode, setPaymentTypeCode] = useState<CallbackStatusEnum | "">(
+        filterValues?.payment_type_code || ""
+    );
+    const [reportLoading, setReportLoading] = useState(false);
+    const appToast = useAppToast();
 
     const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
         queryKey: ["currencies"],
@@ -57,6 +65,61 @@ const useSystemPaymentInstrumentsListFilter = () => {
         setCurrencyCode("");
         setPaymentTypeCode("");
     };
+    const handleDownloadReport = async () => {
+        setReportLoading(true);
+
+        try {
+            const response = await systemPIDataProvider.downloadReport({
+                filter: filterValues
+            });
+            const contentDisposition = response?.headers?.get("Content-Disposition");
+            let filename = "report.csv";
+            if (contentDisposition) {
+                const matches = contentDisposition.match(/filename\*?=["']?(.*?)["']?(;|$)/i);
+                if (matches?.[1]) {
+                    filename = decodeURIComponent(matches[1]);
+                }
+            }
+
+            const blob = await response.blob();
+            const fileUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = fileUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(fileUrl);
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            }
+        } finally {
+            setReportLoading(false);
+        }
+    };
+
+    const handleUploadReport = async (file: File, mode: ImportMode) => {
+        setReportLoading(true);
+
+        try {
+            const data = await systemPIDataProvider.uploadReport(file, mode);
+            appToast(
+                "success",
+                translate("resources.paymentSettings.reports.uploadSuccess", {
+                    inserted: data?.data?.inserted,
+                    skipped: data?.data?.skipped,
+                    total: data?.data?.total
+                })
+            );
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            }
+        } finally {
+            setReportLoading(false);
+        }
+    };
 
     return {
         translate,
@@ -70,7 +133,10 @@ const useSystemPaymentInstrumentsListFilter = () => {
         onPaymentTypeCodeChanged,
         onClearFilters,
         onCodeChanged,
-        onCurrencyCodeChanged
+        onCurrencyCodeChanged,
+        handleDownloadReport,
+        handleUploadReport,
+        reportLoading
     };
 };
 

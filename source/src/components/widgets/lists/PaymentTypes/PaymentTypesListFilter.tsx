@@ -23,6 +23,7 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
         translate,
         code,
         title,
+        reportLoading,
         category,
         onCategoryChanged,
         onClearFilters,
@@ -125,11 +126,13 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                             <div className="flex flex-col gap-2 sm:flex-row">
                                 <Button
                                     onClick={() => setExportDialogOpen(true)}
+                                    disabled={reportLoading}
                                     className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                                     <span>{translate("resources.paymentSettings.reports.export")}</span>
                                 </Button>
                                 <Button
                                     onClick={() => setUploadDialogOpen(true)}
+                                    disabled={reportLoading}
                                     className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                                     <span>{translate("resources.paymentSettings.reports.import")}</span>
                                 </Button>

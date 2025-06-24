@@ -83,6 +83,8 @@ const usePaymentTypesListFilter = () => {
     };
 
     const handleUploadReport = async (file: File, mode: ImportMode) => {
+        setReportLoading(true);
+
         try {
             const data = await dataProvider.uploadReport(file, mode);
             appToast(
@@ -97,6 +99,8 @@ const usePaymentTypesListFilter = () => {
             if (error instanceof Error) {
                 appToast("error", error.message);
             }
+        } finally {
+            setReportLoading(false);
         }
     };
 
