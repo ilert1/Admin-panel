@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
 import { useTranslate } from "react-admin";
 
 interface SmallFeeDialogProps {
@@ -24,6 +25,7 @@ export const SmallFeeDialog = ({ open, onOpenChange = () => {}, onSubmit }: Smal
                         </span>
                     </DialogTitle>
                     <DialogTitle>{translate("resources.direction.fees.smallFeeDialog.save")}</DialogTitle>
+                    <DialogDescription />
                 </DialogHeader>
                 <DialogFooter>
                     <div className="flex w-full gap-6">
