@@ -140,12 +140,18 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             refresh();
             onClose();
         } catch (error) {
-            if (error instanceof Error && error.message.includes("paymentFieldsRegex")) {
-                appToast("error", translate(`resources.paymentSettings.paymentType.errors.${error.message}`));
+            if (error instanceof Error) {
+                if (error.message.includes("already exists")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
+                } else if (error.message.includes("paymentFieldsRegex")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.errors.paymentFieldsRegex"));
+                } else {
+                    appToast("error", error.message);
+                }
             } else {
-                appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
+                appToast("error", translate("app.ui.toast.error"));
             }
-
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };

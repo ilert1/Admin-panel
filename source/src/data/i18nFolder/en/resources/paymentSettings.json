@@ -8,8 +8,8 @@
         },
         "errors": {
             "code": "Code is required",
-            "codeRegex": "Code can only contain letters, numbers, underscores, and hyphens",
-            "paymentFieldsRegex": "Payment fields can contain only lowercase Latin letters, numbers, and underscores, and must be separated by commas"
+            "codeRegex": "The code can contain only lowercase Latin letters, numbers and underscores.",
+            "paymentFieldsRegex": "Payment fields can contain only lowercase Latin letters, numbers and underscores, and must be separated by commas"
         },
         "name": "Payment Types",
         "fields": {

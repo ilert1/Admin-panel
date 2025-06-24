@@ -23,7 +23,6 @@ import {
     SelectType,
     SelectItem
 } from "@/components/ui/select";
-import { X } from "lucide-react";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
@@ -44,7 +43,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
         code: z
             .string()
             .min(1, translate("resources.paymentSettings.paymentType.errors.code"))
-            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentSettings.paymentType.errors.codeRegex"))
+            .regex(/^[a-z0-9_]+$/, translate("resources.paymentSettings.paymentType.errors.codeRegex"))
             .trim(),
         title: z.string().optional().default(""),
         required_fields_for_payment: z.string().optional(),
@@ -86,17 +85,23 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             });
 
             await dataProvider.create("payment_type", { data: { ...data, required_fields_for_payment } });
-            appToast("success", translate("app.ui.create.createSuccess"));
-        } catch (error) {
-            if (error instanceof Error && error.message.includes("paymentFieldsRegex")) {
-                appToast("error", translate(`resources.paymentSettings.paymentType.errors.${error.message}`));
-            } else {
-                appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
-            }
 
-            setSubmitButtonDisabled(false);
-        } finally {
+            appToast("success", translate("app.ui.create.createSuccess"));
             onClose();
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message.includes("already exists")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
+                } else if (error.message.includes("paymentFieldsRegex")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.errors.paymentFieldsRegex"));
+                } else {
+                    appToast("error", error.message);
+                }
+            } else {
+                appToast("error", translate("app.ui.toast.error"));
+            }
+        } finally {
+            setSubmitButtonDisabled(false);
         }
     };
 
