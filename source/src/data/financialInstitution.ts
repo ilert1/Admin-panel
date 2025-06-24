@@ -15,6 +15,7 @@ import {
     FinancialInstitution,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
+    ImportMode,
     PaymentTypesLink
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
@@ -24,10 +25,12 @@ import {
     financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDelete,
     financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGet,
     financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1FinancialInstitutionTypesGet,
+    financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
     financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet,
     financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDelete,
     financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDelete,
-    financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePut
+    financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePut,
+    getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl
 } from "@/api/enigma/financial-institution/financial-institution";
 
 export type FinancialInstitutionWithId = FinancialInstitution & { id: string };
@@ -335,5 +338,60 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+    async downloadReport(params: GetListParams) {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item =>
+                      item === "code" ||
+                      item === "name" ||
+                      item === "institution_type" ||
+                      item === "country_code" ||
+                      item === "nspk_member_id"
+              )
+            : [];
+
+        const url = getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl(
+            {
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+            }
+        );
+
+        return await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+    }
+
+    async uploadReport(file: File, mode: ImportMode = "strict") {
+        const res =
+            await financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost(
+                {
+                    csv_file: file
+                },
+                {
+                    mode
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
     }
 }

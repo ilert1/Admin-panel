@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/Input/input";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
-
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
 }
@@ -126,8 +125,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                         </Button>
                     </div>
                     <div>
-                        <div className="flex flex-wrap gap-2 sm:flex-nowrap">
-                            <div className="w-full">
+                        <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalFinancialInstitutionCode}
@@ -141,7 +140,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     disabled={!providerName}
                                 />
                             </div>
-                            <div className="w-full">
+
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalCurrencyCode}
@@ -155,7 +155,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     disabled={!providerName}
                                 />
                             </div>
-                            <div className="w-full">
+
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalPaymentTypeCode}
@@ -169,11 +170,24 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     disabled={!providerName}
                                 />
                             </div>
+                            {/* <div className="flex flex-col gap-4 sm:flex-row sm:gap-2">
+                                <Button
+                                    onClick={() => setExportDialogOpen(true)}
+                                    disabled={reportLoading}
+                                    className="mt-2 flex flex-1 items-center justify-center gap-1 font-normal sm:mt-0 sm:flex-none sm:self-end">
+                                    <span>{translate("resources.paymentSettings.reports.export")}</span>
+                                </Button>
+                                <Button
+                                    onClick={() => setUploadDialogOpen(true)}
+                                    disabled={reportLoading}
+                                    className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                                    <span>{translate("resources.paymentSettings.reports.import")}</span>
+                                </Button>
+                            </div> */}
                         </div>
                     </div>
                 </div>
             </AnimatedContainer>
-
             <InitializeTerminalPaymentInstrumentsDialog
                 terminal={terminalsData?.find(item => item.terminal_id === terminalFilterId)}
                 open={showInitializeDialog}

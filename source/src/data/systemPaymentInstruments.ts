@@ -11,11 +11,17 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { SystemPaymentInstrument, SystemPaymentInstrumentCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    ImportMode,
+    SystemPaymentInstrument,
+    SystemPaymentInstrumentCreate
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetUrl,
     systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost,
     systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDelete,
     systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGet,
+    systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost,
     systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet,
     systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatch
 } from "@/api/enigma/system-payment-instruments/system-payment-instruments";
@@ -212,5 +218,59 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async downloadReport(params: GetListParams) {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item => item === "code" || item === "currency_code" || item === "payment_type_code"
+              )
+            : [];
+
+        const url =
+            getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetUrl(
+                {
+                    ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                    ...(fieldsForSearch.length > 0 && {
+                        searchString: fieldsForSearch.map(item => params.filter?.[item])
+                    })
+                }
+            );
+
+        return await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+    }
+
+    async uploadReport(file: File, mode: ImportMode = "strict") {
+        const res =
+            await systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost(
+                {
+                    csv_file: file
+                },
+                {
+                    mode
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
     }
 }

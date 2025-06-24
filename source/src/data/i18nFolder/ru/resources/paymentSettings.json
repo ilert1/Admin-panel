@@ -183,5 +183,21 @@
         "consequencesTerminalPaymentInstrument": "Вы уверены, что хотите удалить терминальный платёжный инструмент?",
         "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платёжных инструментов",
         "consequencesCurrency": "Вы уверены, что хотите удалить валюту и связанные с ней платёжные инструменты?"
+    },
+    "resources.paymentSettings.reports": {
+        "import": "Импорт",
+        "export": "Экспорт",
+        "uploadingFile": "Загрузка файла",
+        "downloadReport": "Скачать отчет?",
+        "pickFile": "Выберите файл формата CSV",
+        "upload": "Загрузить",
+        "selectFileFirst": "Выберите файл",
+        "selectFile": "Выбрать файл",
+        "selectOtherFile": "Выбрать другой файл",
+        "uploadSuccess": "Файл успешно загружен. Вставлено %{inserted}, пропущено %{skipped}, всего %{total}",
+        "inputMode": "Режим ввода",
+        "strict": "Строгий",
+        "ignore": "Пропускать",
+        "wrongFileFormat": "Неправильный формат файла. Выберите файл формата CSV"
     }
 }

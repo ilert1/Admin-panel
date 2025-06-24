@@ -3,11 +3,13 @@ import { useListContext, useTranslate } from "react-admin";
 import { debounce } from "lodash";
 import { useQuery } from "@tanstack/react-query";
 import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
+// import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const providersDataProvider = new ProvidersDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
+    // const terminalPaymentInstrumentsDataProvider = new TerminalPaymentInstrumentsProvider();
     const translate = useTranslate();
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(

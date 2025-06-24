@@ -11,12 +11,19 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { CurrenciesLink, PaymentTypeCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    CurrenciesLink,
+    ImportMode,
+    PaymentTypeCreate,
+    PaymentTypeModel
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl,
     paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch,
     paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
     paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
     paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
+    paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
     paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
     paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete,
     paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut
@@ -251,5 +258,51 @@ export class PaymentTypesProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async downloadReport(params: GetListParams) {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
+            : [];
+
+        const url = getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl({
+            ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+            ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+        });
+
+        return await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+    }
+
+    async uploadReport(file: File, mode: ImportMode = "strict") {
+        const res = await paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost(
+            {
+                csv_file: file
+            },
+            {
+                mode
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
     }
 }

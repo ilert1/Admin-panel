@@ -185,5 +185,20 @@
         "consequencesTerminalPaymentInstrument": "You are going to delete terminal payment instrument. Proceed?",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
         "consequencesCurrency": "You are going to delete сurrency and associated payment instruments. Proceed?"
+    },
+    "resources.paymentSettings.reports": {
+        "import": "Import",
+        "export": "Export",
+        "uploadingFile": "Uploading file",
+        "downloadReport": "Download report?",
+        "pickFile": "Select a CSV file",
+        "upload": "Upload",
+        "selectFile": "Select file",
+        "selectOtherFile": "Select other file",
+        "uploadSuccess": "File successfully uploaded. Inserted: %{inserted}, skipped: %{skipped}, total: %{total}",
+        "inputMode": "Input mode",
+        "strict": "Strict",
+        "ignore": "Ignore",
+        "wrongFileFormat": "Wrong file format. Select a CSV file"
     }
 }
