@@ -134,7 +134,12 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 onOpenChange(false);
             } catch (error) {
                 if (error instanceof Error) {
-                    appToast("error", error.message);
+                    appToast(
+                        "error",
+                        error.message.includes("already exists")
+                            ? translate("resources.direction.fees.errorAlreadyExist")
+                            : error.message
+                    );
                 } else {
                     appToast("error", translate("resources.direction.fees.errorWhenCreating"));
                 }

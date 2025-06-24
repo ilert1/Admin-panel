@@ -46,6 +46,7 @@
         "valueMaxError": "Значение не может превышать 100%",
         "valueMustBeFinite": "Значение должно быть конечным числом",
         "valueMaxPrecisionError": "Допускается максимум 2 знака после запятой",
+        "errorAlreadyExist": "Комиссия с таким типом уже существует",
 
         "smallFeeDialog": {
             "title": "Размер комиссии",

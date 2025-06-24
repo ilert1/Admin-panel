@@ -46,6 +46,7 @@
         "valueMaxError": "Value cannot exceed 100%",
         "valueMustBeFinite": "Value must be a finite number",
         "valueMaxPrecisionError": "Up to 2 decimal places allowed",
+        "errorAlreadyExist": "Fee with this type already exists",
 
         "smallFeeDialog": {
             "title": "Fee amount",
