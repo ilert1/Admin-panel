@@ -49,7 +49,7 @@ export function TableEditableCell<T>({
     }, [showEdit]);
 
     return (
-        <div className="flex w-full max-w-48 items-center gap-2">
+        <div className="flex w-48 items-center gap-2">
             {showEdit ? (
                 <>
                     <Input
@@ -82,6 +82,7 @@ export function TableEditableCell<T>({
                 </>
             ) : (
                 <TextField
+                    className="min-h-10"
                     type="text"
                     onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
                     lineClamp
