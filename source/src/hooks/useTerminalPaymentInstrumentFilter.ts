@@ -70,27 +70,12 @@ const useTerminalPaymentInstrumentFilter = () => {
                 | "terminal_currency_code"
                 | "terminal_financial_institution_code"
                 | "terminalFilterId"
-                | "provider"
         ) => {
-            if (type === "provider") {
-                setTerminalFilterId("");
-                setTerminalFilterName("");
-                setTerminalPaymentTypeCode("");
-                setTerminalCurrencyCode("");
-                setTerminalFinancialInstitutionCode("");
-
-                if (value) {
-                    setFilters({ [type]: value }, displayedFilters, true);
-                } else {
-                    setFilters({}, displayedFilters, true);
-                }
+            if (value) {
+                setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
             } else {
-                if (value) {
-                    setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
-                } else {
-                    Reflect.deleteProperty(filterValues, type);
-                    setFilters(filterValues, displayedFilters, true);
-                }
+                Reflect.deleteProperty(filterValues, type);
+                setFilters(filterValues, displayedFilters, true);
             }
 
             setPage(1);
@@ -100,7 +85,20 @@ const useTerminalPaymentInstrumentFilter = () => {
 
     const onProviderChanged = (provider: string) => {
         setProviderName(provider);
-        onPropertySelected(provider, "provider");
+
+        setTerminalFilterId("");
+        setTerminalFilterName("");
+        setTerminalPaymentTypeCode("");
+        setTerminalCurrencyCode("");
+        setTerminalFinancialInstitutionCode("");
+
+        if (provider) {
+            setFilters({ ["provider"]: provider }, displayedFilters, true);
+        } else {
+            setFilters({}, displayedFilters, true);
+        }
+
+        setPage(1);
     };
 
     const onTerminalPaymentTypeCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
