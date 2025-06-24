@@ -94,6 +94,7 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full"
+                                disabled={!plainFiles?.[0]}
                                 onClick={async () => {
                                     await checkAuth({});
                                     handleUplaod(plainFiles?.[0] ?? null, importMode);
