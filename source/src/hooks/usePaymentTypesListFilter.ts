@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { PaymentTypesProvider } from "@/data/payment_types";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import Papa from "papaparse";
 
 const usePaymentTypesListFilter = () => {
     const translate = useTranslate();
@@ -46,22 +47,46 @@ const usePaymentTypesListFilter = () => {
         setTitle("");
         setCategory("");
     };
-    const handleDownloadReport = async (type: "pdf" | "csv" | "xlsx" = "xlsx") => {
-        // if (!startDate || !endDate || (adminOnly && !merchantId)) {
-        //     appToast("error", translate("resources.transactions.download.bothError"));
-        //     return;
-        // }
+
+    const handleDownloadReport = async () => {
         setReportLoading(true);
 
         try {
-            // const url = new URL(`${API_URL}/transactions/balance_report`);
-            // url.searchParams.set("start_date", formattedDate(startDate));
-            // url.searchParams.set("end_date", formattedDate(endDate));
-            // url.searchParams.set("merchantId", merchantId);
-            // let filename = `report_${merchantId && `merchantId_${merchantId}_`}${formattedDate(startDate)}_to_${formattedDate(endDate)}.${type}`;
-            const filename = new Date().toISOString();
-            const data = await dataProvider.downloadReport({});
-            const blob = await data?.data?.blob();
+            const response = await dataProvider.downloadReport({}); // Параметры при необходимости
+
+            const contentDisposition = response?.headers?.get("Content-Disposition");
+            let filename = "report.csv";
+            if (contentDisposition) {
+                const matches = contentDisposition.match(/filename\*?=["']?(.*?)["']?(;|$)/i);
+                if (matches?.[1]) {
+                    filename = decodeURIComponent(matches[1]);
+                }
+            }
+
+            const blob = await response.blob();
+            const csvText = await blob.text();
+
+            const result = Papa.parse<Record<string, string>>(csvText, {
+                header: true,
+                skipEmptyLines: true
+            });
+
+            const parsedData = result.data.map(row => {
+                const parsedRow: Record<string, any> = { ...row };
+
+                ["meta", "currencies", "financial_institutions"].forEach(key => {
+                    try {
+                        parsedRow[key] = row[key] ? JSON.parse(row[key]) : null;
+                    } catch (e) {
+                        parsedRow[key] = row[key];
+                    }
+                });
+
+                return parsedRow;
+            });
+
+            console.log("Parsed report data:", parsedData);
+
             const fileUrl = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = fileUrl;
@@ -70,115 +95,28 @@ const usePaymentTypesListFilter = () => {
             a.click();
             a.remove();
             window.URL.revokeObjectURL(fileUrl);
-            setReportLoading(false);
-            // .then(response => {
-            //     const contentDisposition = response?.headers?.get("Content-Disposition");
-            //     const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
-            //     filename = matches?.[1] ? matches[1] : filename;
-            //     return response.blob();
-            // })
-            // .then(blob => {
-            //     const fileUrl = window.URL.createObjectURL(blob);
-            //     const a = document.createElement("a");
-            //     a.href = fileUrl;
-            //     a.download = filename;
-            //     document.body.appendChild(a);
-            //     a.click();
-            //     a.remove();
-            //     window.URL.revokeObjectURL(fileUrl);
-            // })
-            // .catch(error => {
-            //     appToast("error", translate("resources.transactions.download.bothError"));
-            //     console.error("There was an error downloading the file:", error);
-            // })
-            // .finally(() => {
-            //     setReportLoading(false);
-            // });
         } catch (error) {
+            console.error("Ошибка при загрузке или разборе файла:", error);
             appToast("error", translate("resources.transactions.download.bothError"));
-            console.error("There was an error downloading the file:", error);
+        } finally {
+            setReportLoading(false);
         }
     };
 
-    // const handleDownloadReport = async (type: "pdf" | "csv" | "xlsx" = "xlsx") => {
-    //     // if (!startDate || !endDate || (adminOnly && !merchantId)) {
-    //     //     appToast("error", translate("resources.transactions.download.bothError"));
-    //     //     return;
-    //     // }
-    //     setReportLoading(true);
-
-    //     try {
-    //         // const url = new URL(`${API_URL}/transactions/balance_report`);
-    //         // url.searchParams.set("start_date", formattedDate(startDate));
-    //         // url.searchParams.set("end_date", formattedDate(endDate));
-    //         // url.searchParams.set("merchantId", merchantId);
-    //         let filename = `report_1`;
-    //         dataProvider
-    //             .downloadReport({})
-    //             .then(response => {
-    //                 const contentDisposition = response?.headers?.get("Content-Disposition");
-    //                 const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
-    //                 filename = matches?.[1] ? matches[1] : filename;
-
-    //                 return response.blob();
-    //             })
-    //             .then(blob => {
-    //                 const fileUrl = window.URL.createObjectURL(blob);
-
-    //                 const a = document.createElement("a");
-    //                 a.href = fileUrl;
-    //                 a.download = filename;
-    //                 document.body.appendChild(a);
-    //                 a.click();
-    //                 a.remove();
-    //                 window.URL.revokeObjectURL(fileUrl);
-    //             })
-    //             .catch(error => {
-    //                 appToast("error", translate("resources.transactions.download.bothError"));
-    //                 console.error("There was an error downloading the file:", error);
-    //             })
-    //             .finally(() => {
-    //                 setReportLoading(false);
-    //             });
-    //         // .then(response => {
-    //         //     const contentDisposition = response?.headers?.get("Content-Disposition");
-    //         //     const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
-    //         //     filename = matches?.[1] ? matches[1] : filename;
-    //         //     return response.blob();
-    //         // })
-    //         // .then(blob => {
-    //         //     const fileUrl = window.URL.createObjectURL(blob);
-    //         //     const a = document.createElement("a");
-    //         //     a.href = fileUrl;
-    //         //     a.download = filename;
-    //         //     document.body.appendChild(a);
-    //         //     a.click();
-    //         //     a.remove();
-    //         //     window.URL.revokeObjectURL(fileUrl);
-    //         // })
-    //         // .catch(error => {
-    //         //     appToast("error", translate("resources.transactions.download.bothError"));
-    //         //     console.error("There was an error downloading the file:", error);
-    //         // })
-    //         // .finally(() => {
-    //         //     setReportLoading(false);
-    //         // });
-    //     } catch (error) {
-    //         appToast("error", translate("resources.transactions.download.bothError"));
-    //         console.error("There was an error downloading the file:", error);
-    //     }
-    // };
+    const handleUploadReport = async () => {};
 
     return {
         translate,
         code,
         title,
+        reportLoading,
         category,
         onCategoryChanged,
         onClearFilters,
         onCodeChanged,
         onTitleChanged,
-        handleDownloadReport
+        handleDownloadReport,
+        handleUploadReport
     };
 };
 

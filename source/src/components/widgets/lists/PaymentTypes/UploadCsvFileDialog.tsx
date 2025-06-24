@@ -1,0 +1,38 @@
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import { useRefresh, useTranslate } from "react-admin";
+import { PaymentTypeCreate } from "../../create/PaymentTypeCreate";
+
+interface UploadCsvFileDialogProps {
+    open?: boolean;
+    onOpenChange?: (state: boolean) => void;
+    handleUplaod: () => void;
+}
+export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
+    const { open, onOpenChange = () => {}, handleUplaod } = props;
+    const refresh = useRefresh();
+    const translate = useTranslate();
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent
+                disableOutsideClick
+                className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
+                <DialogHeader>
+                    <DialogTitle className="mb-4 text-center">
+                        {translate("resources.paymentSettings.paymentType.creatingPaymentType")}
+                    </DialogTitle>
+                    <DialogDescription></DialogDescription>
+                    <div></div>
+                </DialogHeader>
+                <DialogFooter></DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+};

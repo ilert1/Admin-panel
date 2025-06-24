@@ -26,7 +26,8 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
         onClearFilters,
         onCodeChanged,
         onTitleChanged,
-        handleDownloadReport
+        handleDownloadReport,
+        handleUploadReport
     } = usePaymentTypesListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -118,12 +119,12 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                             </div>
                             <div className="flex flex-col gap-2 sm:flex-row">
                                 <Button
-                                    onClick={() => handleDownloadReport("xlsx")}
+                                    onClick={() => handleDownloadReport()}
                                     className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                                     <span>{translate("resources.paymentSettings.reports.export")}</span>
                                 </Button>
                                 <Button
-                                    onClick={() => handleDownloadReport("xlsx")}
+                                    onClick={() => handleUploadReport()}
                                     className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                                     <span>{translate("resources.paymentSettings.reports.import")}</span>
                                 </Button>

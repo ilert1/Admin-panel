@@ -264,43 +264,16 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
             : [];
-        // const res = await fetch();
-        // const res = await fetch(`https://api.manager.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export`, {
-        //     method: "GET",
-        //     headers: {
-        //         "Content-Type": "application/octet-stream",
-        //         Authorization: `Bearer ${localStorage.getItem("access-token")}`
-        //     }
-        // });
-        // return res;
-        // console.log(res.blob());
 
-        const res = await paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGet(
-            {
-                // ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                // ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
-            },
-            {
-                headers: {
-                    "content-type": "application/octet-stream",
-                    authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+        return await fetch(`https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
-        );
-
-        if ("data" in res.data && res.data.success) {
-            return {
-                data: {
-                    id: res.data.data.code,
-                    ...res.data.data
-                }
-            };
-        } else if ("data" in res.data && !res.data.success) {
-            throw new Error(res.data.error?.error_message);
-        } else if ("detail" in res.data) {
-            throw new Error(res.data.detail?.[0].msg);
-        }
+        });
     }
+
     async uploadReport(file: File, mode: ImportMode = "strict") {
         const res = await paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost(
             {
@@ -315,18 +288,19 @@ export class PaymentTypesProvider extends IBaseDataProvider {
                 }
             }
         );
+        console.log(res.data);
 
-        if ("data" in res.data && res.data.success) {
-            return {
-                data: {
-                    id: res.data.data.code,
-                    ...res.data.data
-                }
-            };
-        } else if ("data" in res.data && !res.data.success) {
-            throw new Error(res.data.error?.error_message);
-        } else if ("detail" in res.data) {
-            throw new Error(res.data.detail?.[0].msg);
-        }
+        // if ("data" in res.data && res.data.success) {
+        //     return {
+        //         data: {
+        //             id: res.data.data.id,
+        //             ...res.data.data
+        //         }
+        //     };
+        // } else if ("data" in res.data && !res.data.success) {
+        //     throw new Error(res.data.error?.error_message);
+        // } else if ("detail" in res.data) {
+        //     throw new Error(res.data.detail?.[0].msg);
+        // }
     }
 }
