@@ -181,6 +181,17 @@
     },
     "resources.paymentSettings.reports": {
         "import": "Импорт",
-        "export": "Экспорт"
+        "export": "Экспорт",
+        "uploadingFile": "Загрузка файла",
+        "downloadReport": "Скачать отчет?",
+        "pickFile": "Выберите файл формата CSV",
+        "upload": "Загрузить",
+        "selectFileFirst": "Выберите файл",
+        "selectFile": "Выбрать файл",
+        "selectOtherFile": "Выбрать другой файл",
+        "uploadSuccess": "Файл успешно загружен. Вставлено %{inserted}, пропущено %{skipped}, всего %{total}",
+        "inputMode": "Режим ввода",
+        "strict": "Строгий",
+        "ignore": "Пропускать"
     }
 }

@@ -9,6 +9,8 @@ import usePaymentTypesListFilter from "../../../../hooks/usePaymentTypesListFilt
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { UploadCsvFileDialog } from "./UploadCsvFileDialog";
+import { ExportPSReportDialog } from "./ExportPSReportDialog";
 
 interface PaymentTypesListFilterProps {
     handleCreateClicked: () => void;
@@ -31,6 +33,9 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
     } = usePaymentTypesListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+    const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+    const [exportDialogOpen, setExportDialogOpen] = useState(false);
+
     const paymentTypeCategories = Object.keys(PaymentCategory);
     const clearDisabled = !code && !title && !category;
 
@@ -119,12 +124,12 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                             </div>
                             <div className="flex flex-col gap-2 sm:flex-row">
                                 <Button
-                                    onClick={() => handleDownloadReport()}
+                                    onClick={() => setExportDialogOpen(true)}
                                     className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                                     <span>{translate("resources.paymentSettings.reports.export")}</span>
                                 </Button>
                                 <Button
-                                    onClick={() => handleUploadReport()}
+                                    onClick={() => setUploadDialogOpen(true)}
                                     className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                                     <span>{translate("resources.paymentSettings.reports.import")}</span>
                                 </Button>
@@ -133,6 +138,16 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                     </div>
                 </div>
             </AnimatedContainer>
+            <UploadCsvFileDialog
+                open={uploadDialogOpen}
+                onOpenChange={setUploadDialogOpen}
+                handleUplaod={handleUploadReport}
+            />
+            <ExportPSReportDialog
+                open={exportDialogOpen}
+                onOpenChange={setExportDialogOpen}
+                handleExport={handleDownloadReport}
+            />
         </div>
     );
 };

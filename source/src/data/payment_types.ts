@@ -18,10 +18,10 @@ import {
     PaymentTypeModel
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl,
     paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch,
     paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
     paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
-    paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGet,
     paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
     paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
     paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
@@ -265,7 +265,12 @@ export class PaymentTypesProvider extends IBaseDataProvider {
             ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
             : [];
 
-        return await fetch(`https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export`, {
+        const url = getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl({
+            ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+            ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+        });
+
+        return await fetch(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/octet-stream",
@@ -288,19 +293,16 @@ export class PaymentTypesProvider extends IBaseDataProvider {
                 }
             }
         );
-        console.log(res.data);
-
-        // if ("data" in res.data && res.data.success) {
-        //     return {
-        //         data: {
-        //             id: res.data.data.id,
-        //             ...res.data.data
-        //         }
-        //     };
-        // } else if ("data" in res.data && !res.data.success) {
-        //     throw new Error(res.data.error?.error_message);
-        // } else if ("detail" in res.data) {
-        //     throw new Error(res.data.detail?.[0].msg);
-        // }
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
     }
 }

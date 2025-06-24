@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { PaymentTypesProvider } from "@/data/payment_types";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import Papa from "papaparse";
+import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 const usePaymentTypesListFilter = () => {
     const translate = useTranslate();
@@ -52,8 +52,9 @@ const usePaymentTypesListFilter = () => {
         setReportLoading(true);
 
         try {
-            const response = await dataProvider.downloadReport({}); // Параметры при необходимости
-
+            const response = await dataProvider.downloadReport({
+                filter: filterValues
+            });
             const contentDisposition = response?.headers?.get("Content-Disposition");
             let filename = "report.csv";
             if (contentDisposition) {
@@ -64,29 +65,6 @@ const usePaymentTypesListFilter = () => {
             }
 
             const blob = await response.blob();
-            const csvText = await blob.text();
-
-            const result = Papa.parse<Record<string, string>>(csvText, {
-                header: true,
-                skipEmptyLines: true
-            });
-
-            const parsedData = result.data.map(row => {
-                const parsedRow: Record<string, any> = { ...row };
-
-                ["meta", "currencies", "financial_institutions"].forEach(key => {
-                    try {
-                        parsedRow[key] = row[key] ? JSON.parse(row[key]) : null;
-                    } catch (e) {
-                        parsedRow[key] = row[key];
-                    }
-                });
-
-                return parsedRow;
-            });
-
-            console.log("Parsed report data:", parsedData);
-
             const fileUrl = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = fileUrl;
@@ -96,14 +74,31 @@ const usePaymentTypesListFilter = () => {
             a.remove();
             window.URL.revokeObjectURL(fileUrl);
         } catch (error) {
-            console.error("Ошибка при загрузке или разборе файла:", error);
-            appToast("error", translate("resources.transactions.download.bothError"));
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            }
         } finally {
             setReportLoading(false);
         }
     };
 
-    const handleUploadReport = async () => {};
+    const handleUploadReport = async (file: File, mode: ImportMode) => {
+        try {
+            const data = await dataProvider.uploadReport(file, mode);
+            appToast(
+                "success",
+                translate("resources.paymentSettings.reports.uploadSuccess", {
+                    inserted: data?.data?.inserted,
+                    skipped: data?.data?.skipped,
+                    total: data?.data?.total
+                })
+            );
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            }
+        }
+    };
 
     return {
         translate,
@@ -121,3 +116,27 @@ const usePaymentTypesListFilter = () => {
 };
 
 export default usePaymentTypesListFilter;
+
+// Saving just in case we need it
+
+// import Papa from "papaparse";
+// const csvText = await blob.text();
+
+// const result = Papa.parse<Record<string, string>>(csvText, {
+//     header: true,
+//     skipEmptyLines: true
+// });
+
+// // const parsedData = result.data.map(row => {
+// //     const parsedRow: Record<string, any> = { ...row };
+
+// //     ["meta", "currencies", "financial_institutions"].forEach(key => {
+// //         try {
+// //             parsedRow[key] = row[key] ? JSON.parse(row[key]) : null;
+// //         } catch (e) {
+// //             parsedRow[key] = row[key];
+// //         }
+// //     });
+
+// //     return parsedRow;
+// // });

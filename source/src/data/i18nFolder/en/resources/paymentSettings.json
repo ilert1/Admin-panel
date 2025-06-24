@@ -183,6 +183,16 @@
     },
     "resources.paymentSettings.reports": {
         "import": "Import",
-        "export": "Export"
+        "export": "Export",
+        "uploadingFile": "Uploading file",
+        "downloadReport": "Download report?",
+        "pickFile": "Select a CSV file",
+        "upload": "Upload",
+        "selectFile": "Select file",
+        "selectOtherFile": "Select other file",
+        "uploadSuccess": "File successfully uploaded. Inserted: %{inserted}, skipped: %{skipped}, total: %{total}",
+        "inputMode": "Input mode",
+        "strict": "Strict",
+        "ignore": "Ignore"
     }
 }
