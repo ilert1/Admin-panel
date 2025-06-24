@@ -187,15 +187,15 @@
         "import": "Import",
         "export": "Export",
         "uploadingFile": "Uploading file",
-        "downloadReport": "Download report?",
+        "downloadReport": "Export data?",
         "pickFile": "Select a CSV file",
         "upload": "Upload",
         "selectFile": "Select file",
         "selectOtherFile": "Select other file",
         "uploadSuccess": "File successfully uploaded. Inserted: %{inserted}, skipped: %{skipped}, total: %{total}",
         "inputMode": "Input mode",
-        "strict": "Strict",
-        "ignore": "Ignore",
+        "strict": "Stop import on first error",
+        "ignore": "Ignore errors",
         "wrongFileFormat": "Wrong file format. Select a CSV file"
     }
 }

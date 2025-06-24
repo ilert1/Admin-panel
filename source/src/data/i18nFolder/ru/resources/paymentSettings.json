@@ -185,7 +185,7 @@
         "import": "Импорт",
         "export": "Экспорт",
         "uploadingFile": "Загрузка файла",
-        "downloadReport": "Скачать отчет?",
+        "downloadReport": "Выполнить экспорт данных?",
         "pickFile": "Выберите файл формата CSV",
         "upload": "Загрузить",
         "selectFileFirst": "Выберите файл",
@@ -193,8 +193,8 @@
         "selectOtherFile": "Выбрать другой файл",
         "uploadSuccess": "Файл успешно загружен. Вставлено %{inserted}, пропущено %{skipped}, всего %{total}",
         "inputMode": "Режим ввода",
-        "strict": "Строгий",
-        "ignore": "Пропускать",
+        "strict": "Прекратить импорт при первой ошибке",
+        "ignore": "Игнорировать ошибки",
         "wrongFileFormat": "Неправильный формат файла. Выберите файл формата CSV"
     }
 }

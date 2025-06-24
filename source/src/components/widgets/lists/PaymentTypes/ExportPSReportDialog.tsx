@@ -1,3 +1,4 @@
+import { authProvider } from "@/components/providers";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
@@ -10,6 +11,7 @@ interface ExportPSReportDialogProps {
 export const ExportPSReportDialog = (props: ExportPSReportDialogProps) => {
     const { open, onOpenChange = () => {}, handleExport } = props;
     const translate = useTranslate();
+    const { checkAuth } = authProvider;
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -26,7 +28,8 @@ export const ExportPSReportDialog = (props: ExportPSReportDialogProps) => {
                             type="submit"
                             variant="default"
                             className="w-full"
-                            onClick={() => {
+                            onClick={async () => {
+                                await checkAuth({});
                                 handleExport();
                                 onOpenChange(false);
                             }}>
