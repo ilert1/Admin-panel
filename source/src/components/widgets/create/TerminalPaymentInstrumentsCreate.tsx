@@ -95,9 +95,6 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     );
 
     const formSchema = z.object({
-        provider_id: z
-            .string()
-            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         terminal_id: z
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
@@ -118,7 +115,6 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            provider_id: "",
             terminal_id: "",
             system_payment_instrument_code: "",
             status: TerminalPaymentInstrumentStatus.ACTIVE,
@@ -130,33 +126,28 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         }
     });
 
-    const providerVal = form.watch("provider_id");
-
     useEffect(() => {
         if (filterValues?.provider && providersData && providersData?.length > 0) {
             const providerFromFilter = providersData.find(item => item.name === filterValues.provider);
-
-            if (providerFromFilter) {
-                setProviderName(providerFromFilter.name);
-                form.setValue("provider_id", providerFromFilter.name);
-            }
+            setProviderName(providerFromFilter?.name || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData]);
 
     useEffect(() => {
-        if (terminalsData) {
-            const terminal = terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminalFilterId);
+        if (filterValues?.terminalFilterId && terminalsData && terminalsData?.length > 0) {
+            const terminal = terminalsData.find(terminal => terminal.terminal_id === filterValues.terminalFilterId);
             setTerminalValueName(terminal?.verbose_name || "");
             form.setValue("terminal_id", terminal?.terminal_id || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
 
-    useEffect(() => {
-        form.resetField("terminal_id");
+    const onChangeProviderName = (val: string) => {
+        setProviderName(val);
         setTerminalValueName("");
-    }, [providerVal]);
+        form.setValue("terminal_id", "");
+    };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setSubmitButtonDisabled(true);
@@ -205,31 +196,22 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col flex-wrap">
                         <div className="grid grid-cols-1 sm:grid-cols-2">
-                            <FormField
-                                control={form.control}
-                                name="provider_id"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.terminals.selectHeader")}</Label>
+                            <div className="w-full p-2">
+                                <Label>{translate("resources.terminals.selectHeader")}</Label>
 
-                                        <ProviderSelect
-                                            style="Grey"
-                                            providers={providersData || []}
-                                            value={field.value}
-                                            onChange={val => {
-                                                // if (!form.getValues("terminal_id")) {
-                                                //     form.resetField("terminal_id");
-                                                // }
-                                                field.onChange(val);
-                                            }}
-                                            disabled={providersLoadingProcess}
-                                            isError={fieldState.invalid}
-                                            errorMessage={fieldState.error?.message}
-                                            modal
-                                        />
-                                    </FormItem>
-                                )}
-                            />
+                                <ProviderSelect
+                                    style="Grey"
+                                    providers={providersData || []}
+                                    value={providerName}
+                                    onChange={onChangeProviderName}
+                                    disabled={providersLoadingProcess}
+                                    isError={!providerName && form.getFieldState("terminal_id").invalid}
+                                    errorMessage={translate(
+                                        "resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"
+                                    )}
+                                    modal
+                                />
+                            </div>
 
                             <FormField
                                 control={form.control}
