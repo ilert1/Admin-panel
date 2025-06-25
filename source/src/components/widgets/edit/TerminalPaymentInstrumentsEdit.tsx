@@ -1,7 +1,7 @@
 import { useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
@@ -14,7 +14,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
-import { TerminalsDataProvider } from "@/data";
+import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { DirectionType, TerminalPaymentInstrumentStatus } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
@@ -26,6 +26,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { ProviderSelect } from "../components/Selects/ProviderSelect";
 
 export interface TerminalPaymentInstrumentsEditProps {
     id: string;
@@ -35,8 +36,11 @@ export interface TerminalPaymentInstrumentsEditProps {
 export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: TerminalPaymentInstrumentsEditProps) => {
     const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
+    const providersDataProvider = new ProvidersDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
     const statuses = Object.keys(TerminalPaymentInstrumentStatus);
+
+    const [providerName, setProviderName] = useState("");
 
     const {
         data: terminalPaymentInstrumentsData,
@@ -54,10 +58,36 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         queryFn: async () => await systemPaymentInstrumentsProvider.getListWithoutPagination()
     });
 
-    const { isLoading: terminalsDataLoading, data: terminalsData } = useQuery({
-        queryKey: ["terminals"],
-        queryFn: async () => await terminalsDataProvider.getListWithoutPagination()
+    const {
+        data: providersData,
+        isLoading: isProvidersLoading,
+        isFetching: isProvidersFetching
+    } = useQuery({
+        queryKey: ["providers", "filter"],
+        queryFn: () => providersDataProvider.getListWithoutPagination(),
+        select: data => data.data
     });
+
+    const {
+        data: terminalsData,
+        isLoading: isTerminalsLoading,
+        isFetching: isTerminalsFetching
+    } = useQuery({
+        queryKey: ["terminals", "filter", providerName],
+        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        enabled: !!providerName,
+        select: data => data.data
+    });
+
+    const providersLoadingProcess = useMemo(
+        () => isProvidersLoading || isProvidersFetching,
+        [isProvidersFetching, isProvidersLoading]
+    );
+
+    const terminalsLoadingProcess = useMemo(
+        () => isTerminalsLoading || isTerminalsFetching,
+        [isTerminalsFetching, isTerminalsLoading]
+    );
 
     const refresh = useRefresh();
     const translate = useTranslate();
@@ -116,6 +146,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                     JSON.stringify(terminalPaymentInstrumentsData.terminal_specific_parameters, null, 2) || "{}"
             };
 
+            setProviderName(terminalPaymentInstrumentsData.terminal.provider);
             setSystemPaymentInstrumentCode(terminalPaymentInstrumentsData.system_payment_instrument_code);
             setTerminalValueName(terminalPaymentInstrumentsData.terminal.verbose_name);
 
@@ -124,6 +155,12 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalPaymentInstrumentsData, isLoadingTerminalPaymentInstrumentsData, isFetchedAfterMount]);
+
+    const onChangeProviderName = (val: string) => {
+        setProviderName(val);
+        setTerminalValueName("");
+        form.setValue("terminal_id", "");
+    };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -176,6 +213,19 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap">
                     <div className="grid grid-cols-1 sm:grid-cols-2">
+                        <div className="w-full p-2">
+                            <Label>{translate("resources.terminals.selectHeader")}</Label>
+
+                            <ProviderSelect
+                                style="Grey"
+                                providers={providersData || []}
+                                value={providerName}
+                                onChange={onChangeProviderName}
+                                disabled={providersLoadingProcess}
+                                modal
+                            />
+                        </div>
+
                         <FormField
                             control={form.control}
                             name="terminal_id"
@@ -188,18 +238,22 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                     </Label>
 
                                     <PopoverSelect
-                                        variants={terminalsData?.data || []}
+                                        variants={terminalsData || []}
                                         value={terminalValueName}
                                         idField="terminal_id"
                                         setIdValue={field.onChange}
                                         onChange={setTerminalValueName}
                                         variantKey="verbose_name"
-                                        placeholder={translate("resources.terminals.selectPlaceholder")}
+                                        placeholder={
+                                            providerName
+                                                ? translate("resources.terminals.selectPlaceholder")
+                                                : translate("resources.direction.noTerminals")
+                                        }
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
-                                        disabled={terminalsDataLoading}
+                                        disabled={terminalsLoadingProcess || !providerName}
                                         modal
                                     />
                                 </FormItem>
@@ -210,7 +264,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                             control={form.control}
                             name="system_payment_instrument_code"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-full p-2 sm:col-span-2">
                                     <Label>
                                         {translate(
                                             "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
@@ -236,6 +290,9 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                 </FormItem>
                             )}
                         />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="status"
@@ -402,6 +459,8 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                 hasErrors ||
                                 (!hasValid && form.watch("terminal_specific_parameters")?.length !== 0) ||
                                 !monacoEditorMounted ||
+                                providersLoadingProcess ||
+                                terminalsLoadingProcess ||
                                 submitButtonDisabled
                             }
                             type="submit"
