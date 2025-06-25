@@ -11,6 +11,7 @@ import { CirclePlus } from "lucide-react";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { UploadCsvFileDialog } from "./UploadCsvFileDialog";
 import { ExportPSReportDialog } from "./ExportPSReportDialog";
+import { useListContext } from "react-admin";
 
 interface PaymentTypesListFilterProps {
     handleCreateClicked: () => void;
@@ -36,6 +37,7 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
+    const { total } = useListContext();
 
     const paymentTypeCategories = Object.keys(PaymentCategory);
     const clearDisabled = !code && !title && !category;
@@ -54,13 +56,25 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                             clearButtonDisabled={clearDisabled}
                         />
                     </div>
-                    <div className="flex justify-end">
+                    <div className="flex flex-wrap justify-end gap-2">
                         <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
 
                             <span className="text-title-1">
                                 {translate("resources.paymentSettings.paymentType.createNew")}
                             </span>
+                        </Button>
+                        <Button
+                            onClick={() => setExportDialogOpen(true)}
+                            disabled={!total || reportLoading}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                            <span>{translate("resources.paymentSettings.reports.export")}</span>
+                        </Button>
+                        <Button
+                            onClick={() => setUploadDialogOpen(true)}
+                            disabled={!total || reportLoading}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                            <span>{translate("resources.paymentSettings.reports.import")}</span>
                         </Button>
                     </div>
                 </div>
@@ -122,20 +136,6 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                                         </Select>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="flex flex-col gap-2 sm:flex-row">
-                                <Button
-                                    onClick={() => setExportDialogOpen(true)}
-                                    disabled={reportLoading}
-                                    className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
-                                    <span>{translate("resources.paymentSettings.reports.export")}</span>
-                                </Button>
-                                <Button
-                                    onClick={() => setUploadDialogOpen(true)}
-                                    disabled={reportLoading}
-                                    className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
-                                    <span>{translate("resources.paymentSettings.reports.import")}</span>
-                                </Button>
                             </div>
                         </div>
                     </div>
