@@ -67,7 +67,8 @@ const usePaymentTypesListFilter = () => {
             }
 
             const blob = await response.blob();
-            if (!blob.text.length) {
+
+            if ((await blob.text()).length <= 4) {
                 appToast("error", translate("resources.paymentSettings.reports.noData"));
                 return;
             }
@@ -112,8 +113,7 @@ const usePaymentTypesListFilter = () => {
                         translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
                             field: parsed.loc.join(" > "),
                             input: parsed.input
-                        }),
-                        translate("resources.paymentSettings.reports.csvValidationError")
+                        })
                     );
                 } else {
                     appToast("error", error.message);
