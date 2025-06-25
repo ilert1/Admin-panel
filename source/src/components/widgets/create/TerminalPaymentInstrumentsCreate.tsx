@@ -131,26 +131,32 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     });
 
     const providerVal = form.watch("provider_id");
+
     useEffect(() => {
-        if (providerVal && providersData && providersData?.length > 0) {
-            const providerFromFilter = providersData.find(item => item.name === providerVal);
+        if (filterValues?.provider && providersData && providersData?.length > 0) {
+            const providerFromFilter = providersData.find(item => item.name === filterValues.provider);
 
             if (providerFromFilter) {
                 setProviderName(providerFromFilter.name);
+                form.setValue("provider_id", providerFromFilter.name);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [providersData, providerVal]);
+    }, [providersData]);
 
     useEffect(() => {
         if (terminalsData) {
             const terminal = terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminalFilterId);
-
             setTerminalValueName(terminal?.verbose_name || "");
             form.setValue("terminal_id", terminal?.terminal_id || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [terminalsData, providerVal]);
+    }, [terminalsData]);
+
+    useEffect(() => {
+        form.resetField("terminal_id");
+        setTerminalValueName("");
+    }, [providerVal]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setSubmitButtonDisabled(true);
@@ -210,7 +216,12 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             style="Grey"
                                             providers={providersData || []}
                                             value={field.value}
-                                            onChange={field.onChange}
+                                            onChange={val => {
+                                                // if (!form.getValues("terminal_id")) {
+                                                //     form.resetField("terminal_id");
+                                                // }
+                                                field.onChange(val);
+                                            }}
                                             disabled={providersLoadingProcess}
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
