@@ -11,6 +11,7 @@ import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInst
 import { CurrentCell, TableEditableCell } from "../../shared";
 import { FinancialInstitutionProvider, FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetFinancialInstitutionColumns = ({
     listContext
@@ -123,14 +124,18 @@ export const useGetFinancialInstitutionColumns = ({
             header: translate("resources.paymentSettings.financialInstitution.fields.currencies"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        wrap
-                        text={
-                            row.original.currencies && row.original.currencies?.length > 0
-                                ? row.original.currencies?.map(item => item.code).join(", ")
-                                : ""
-                        }
-                    />
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {row.original.currencies &&
+                            row.original.currencies.map(value => (
+                                <Badge
+                                    key={value.code}
+                                    className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {value.code}
+                                    </span>
+                                </Badge>
+                            ))}
+                    </div>
                 );
             }
         },

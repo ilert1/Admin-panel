@@ -6,6 +6,7 @@ import { useTranslate } from "react-admin";
 import { PaymentTypeWithId } from "@/data/payment_types";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { TextField } from "@/components/ui/text-field";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetPaymentTypesColumns = () => {
     const translate = useTranslate();
@@ -68,11 +69,18 @@ export const useGetPaymentTypesColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.currencies"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        text={row.original.currencies?.map((c: { code: string }) => c.code)?.join(", ") || ""}
-                        lineClamp
-                        wrap
-                    />
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {row.original.currencies &&
+                            row.original.currencies.map(value => (
+                                <Badge
+                                    key={value.code}
+                                    className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {value.code}
+                                    </span>
+                                </Badge>
+                            ))}
+                    </div>
                 );
             }
         },

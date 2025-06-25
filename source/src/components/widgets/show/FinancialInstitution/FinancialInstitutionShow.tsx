@@ -11,6 +11,7 @@ import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { EditFinancialInstitutionDialog } from "./EditFinancialInstitutionDialog";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 import { FinancialInstitutionWithId } from "@/data/financialInstitution";
+import { Badge } from "@/components/ui/badge";
 
 export interface FinancialInstitutionShowProps {
     id: string;
@@ -132,15 +133,24 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         text={context.record.country_code}
                     />
 
-                    <TextField
-                        wrap
-                        label={translate("resources.paymentSettings.financialInstitution.fields.currencies")}
-                        text={
-                            context.record.currencies && context.record.currencies?.length > 0
-                                ? context.record.currencies?.map(item => item.code).join(", ")
-                                : ""
-                        }
-                    />
+                    <div className="flex flex-col md:col-span-2">
+                        <small className="mb-1 text-sm text-neutral-60">
+                            {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                        </small>
+
+                        <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                            {context.record.currencies &&
+                                context.record.currencies.map(value => (
+                                    <Badge
+                                        key={value.code}
+                                        className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                            {value.code}
+                                        </span>
+                                    </Badge>
+                                ))}
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-1">
