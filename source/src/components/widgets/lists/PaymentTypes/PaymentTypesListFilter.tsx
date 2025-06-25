@@ -72,7 +72,7 @@ export const PaymentTypesListFilter = (props: PaymentTypesListFilterProps) => {
                         </Button>
                         <Button
                             onClick={() => setUploadDialogOpen(true)}
-                            disabled={!total || reportLoading}
+                            disabled={reportLoading}
                             className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                             <span>{translate("resources.paymentSettings.reports.import")}</span>
                         </Button>
