@@ -48,12 +48,13 @@ export const CreateMapping = (props: CreateWalletProps) => {
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
         external_path: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
-        // .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
         internal_path: z
             .string()
-            .min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
-            .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
-        description: z.optional(z.string())
+            .url(translate("resources.callbridge.mapping.errors.invalidUrl"))
+            .optional()
+            .or(z.literal("")),
+        description: z.optional(z.string()),
+        adapter_nats_subject: z.optional(z.string())
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -62,7 +63,8 @@ export const CreateMapping = (props: CreateWalletProps) => {
             name: "",
             external_path: "",
             internal_path: "",
-            description: ""
+            description: "",
+            adapter_nats_subject: ""
         }
     });
 
@@ -92,6 +94,7 @@ export const CreateMapping = (props: CreateWalletProps) => {
                                 );
                             }}
                         />
+
                         <FormField
                             control={form.control}
                             name="internal_path"
@@ -109,6 +112,7 @@ export const CreateMapping = (props: CreateWalletProps) => {
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="external_path"
@@ -126,11 +130,30 @@ export const CreateMapping = (props: CreateWalletProps) => {
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="adapter_nats_subject"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.callbridge.mapping.fields.nats_subject")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem>
+                                <FormItem className="md:col-span-2">
                                     <FormControl>
                                         <Input
                                             {...field}
