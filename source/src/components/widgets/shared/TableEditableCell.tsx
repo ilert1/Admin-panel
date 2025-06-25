@@ -49,7 +49,7 @@ export function TableEditableCell<T>({
     }, [showEdit]);
 
     return (
-        <div className="flex w-48 items-center gap-2 before:absolute before:inset-0 before:border-2 before:border-transparent before:transition-colors hover:before:border-green-20 hover:before:bg-neutral-20 hover:before:dark:border-green-60 hover:dark:before:bg-[#13232C]">
+        <div className="flex w-48 items-center gap-2">
             {showEdit ? (
                 <>
                     <Input
