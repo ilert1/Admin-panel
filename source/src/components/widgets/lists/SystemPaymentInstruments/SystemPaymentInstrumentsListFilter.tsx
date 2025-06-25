@@ -11,6 +11,7 @@ import { CurrencySelect } from "../../components/Selects/CurrencySelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 import { ExportPSReportDialog } from "../PaymentTypes/ExportPSReportDialog";
 import { UploadCsvFileDialog } from "../PaymentTypes/UploadCsvFileDialog";
+import { useListContext } from "react-admin";
 
 interface SystemPaymentInstrumentsListFilterProps {
     handleCreateClicked: () => void;
@@ -40,6 +41,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+    const { total } = useListContext();
 
     const clearDisabled = !code && !currencyCode && !paymentTypeCode;
 
@@ -56,13 +58,24 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                         clearButtonDisabled={clearDisabled}
                     />
 
-                    <div className="flex justify-end">
+                    <div className="flex flex-wrap justify-end gap-2">
                         <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
-
                             <span className="text-title-1">
                                 {translate("resources.paymentSettings.systemPaymentInstruments.createNew")}
                             </span>
+                        </Button>
+                        <Button
+                            onClick={() => setExportDialogOpen(true)}
+                            disabled={!total || reportLoading}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                            <span>{translate("resources.paymentSettings.reports.export")}</span>
+                        </Button>
+                        <Button
+                            onClick={() => setUploadDialogOpen(true)}
+                            disabled={!total || reportLoading}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                            <span>{translate("resources.paymentSettings.reports.import")}</span>
                         </Button>
                     </div>
                 </div>
@@ -112,20 +125,6 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             placeholder={translate("resources.paymentSettings.paymentType.placeholders.code")}
                             iconForPaymentTypes
                         />
-                    </div>
-                    <div className="flex flex-col gap-4 sm:flex-row sm:gap-2">
-                        <Button
-                            onClick={() => setExportDialogOpen(true)}
-                            disabled={reportLoading}
-                            className="mt-2 flex flex-1 items-center justify-center gap-1 font-normal sm:mt-0 sm:flex-none sm:self-end">
-                            <span>{translate("resources.paymentSettings.reports.export")}</span>
-                        </Button>
-                        <Button
-                            onClick={() => setUploadDialogOpen(true)}
-                            disabled={reportLoading}
-                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
-                            <span>{translate("resources.paymentSettings.reports.import")}</span>
-                        </Button>
                     </div>
                 </div>
             </AnimatedContainer>
