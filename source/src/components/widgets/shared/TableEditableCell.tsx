@@ -59,7 +59,7 @@ export function TableEditableCell<T>({
                         onChange={e => setValue(e.target.value)}
                     />
 
-                    <div className="z-10 flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                         {isFetching ? (
                             <div className="flex items-center justify-center">
                                 <LoadingBalance className="h-6 w-6 overflow-hidden" />
