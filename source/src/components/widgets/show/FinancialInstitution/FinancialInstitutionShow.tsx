@@ -51,7 +51,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
+                        <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.created_at")}
                         </small>
                         <p className="text-nowrap text-base leading-[18px]">
@@ -63,7 +63,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     </div>
 
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
+                        <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.updated_at")}
                         </small>
                         <p className="text-nowrap text-base leading-[18px]">
@@ -107,7 +107,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     />
 
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
+                        <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>
 
@@ -134,7 +134,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     />
 
                     <div className="flex flex-col md:col-span-2">
-                        <small className="mb-1 text-sm text-neutral-60">
+                        <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                         </small>
 

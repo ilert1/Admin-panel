@@ -61,7 +61,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
+                        <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
                         </small>
 
@@ -75,7 +75,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                     </div>
 
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
+                        <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
                         </small>
 

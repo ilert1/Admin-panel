@@ -108,7 +108,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         />
 
                         <div className="flex flex-col">
-                            <small className="mb-1 text-sm text-neutral-60">
+                            <small className="mb-0.5 text-sm text-neutral-60">
                                 {translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
                             </small>
 

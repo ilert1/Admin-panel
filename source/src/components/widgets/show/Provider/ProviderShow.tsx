@@ -65,7 +65,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     />
 
                     <div className="flex flex-col md:col-span-2">
-                        <small className="mb-1 text-sm text-neutral-60">
+                        <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>
 
