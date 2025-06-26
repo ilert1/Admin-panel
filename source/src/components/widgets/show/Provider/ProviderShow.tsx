@@ -11,6 +11,7 @@ import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { ProviderMethodsViewer } from "./ProviderMethodsViewer";
 
 export interface ProviderShowProps {
     id: string;
@@ -104,6 +105,8 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
+
+                <ProviderMethodsViewer methods={context.record.methods} />
             </div>
 
             <DeleteProviderDialog
