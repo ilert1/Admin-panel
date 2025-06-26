@@ -63,6 +63,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                 text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
                             />
                         </div>
+
                         <div>
                             <TextField
                                 fontSize="title-2"
@@ -76,11 +77,12 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         </div>
 
                         <div>
-                            <Label>
+                            <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
                                 {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                             </Label>
                             <div className="flex flex-wrap gap-2">
-                                {context.record.payment_type?.meta?.icon ? (
+                                {context.record.payment_type?.meta?.icon &&
+                                typeof context.record.payment_type?.meta?.icon === "string" ? (
                                     <img
                                         src={context.record.payment_type?.meta["icon"]}
                                         alt="icon"
@@ -106,9 +108,16 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
 
                         <TextField
                             fontSize="title-2"
+                            label={translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
+                            text={context.record.currency_code}
+                        />
+
+                        <TextField
+                            fontSize="title-2"
                             label={translate("resources.paymentSettings.systemPaymentInstruments.fields.description")}
                             text={context.record.description ?? ""}
                         />
+
                         <div className="col-span-2 flex flex-col">
                             <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
                                 {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
