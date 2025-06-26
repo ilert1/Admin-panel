@@ -11,6 +11,7 @@ import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { SystemPaymentInstrumentWithId } from "@/data/systemPaymentInstruments";
+import { Badge } from "@/components/ui/badge";
 
 interface SystemPaymentInstrumentShowProps {
     id: string;
@@ -106,11 +107,19 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             copyValue
                         />
 
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
-                            text={context.record.currency_code}
-                        />
+                        <div className="flex flex-col">
+                            <small className="mb-1 text-sm text-neutral-60">
+                                {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                            </small>
+
+                            <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {context.record.currency_code}
+                                    </span>
+                                </Badge>
+                            </div>
+                        </div>
 
                         <TextField
                             fontSize="title-2"

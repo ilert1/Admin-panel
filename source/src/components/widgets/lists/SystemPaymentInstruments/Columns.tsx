@@ -6,6 +6,7 @@ import { TextField } from "@/components/ui/text-field";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetSystemPaymentInstrumentsColumns = () => {
     const translate = useTranslate();
@@ -84,7 +85,15 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             id: "Currency",
             header: translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code"),
             cell: ({ row }) => {
-                return <TextField text={row.original.currency_code} />;
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                            <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                {row.original.currency_code}
+                            </span>
+                        </Badge>
+                    </div>
+                );
             }
         },
         {
