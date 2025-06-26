@@ -13,6 +13,7 @@ import { LimitsList } from "../../components/Limits/ui/LimitsList";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
+import { Badge } from "@/components/ui/badge";
 
 export interface DirectionsShowProps {
     id: string;
@@ -75,15 +76,33 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     <div className="flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
                         <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
 
-                        <TextField
-                            label={translate("resources.direction.fields.srcCurr")}
-                            text={context.record.src_currency.code}
-                        />
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.direction.fields.srcCurr")}
+                            </small>
 
-                        <TextField
-                            label={translate("resources.direction.fields.destCurr")}
-                            text={context.record.dst_currency.code}
-                        />
+                            <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {context.record.src_currency.code}
+                                    </span>
+                                </Badge>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.direction.fields.destCurr")}
+                            </small>
+
+                            <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {context.record.dst_currency.code}
+                                    </span>
+                                </Badge>
+                            </div>
+                        </div>
 
                         <TextField
                             label={translate("resources.direction.fields.terminal")}
