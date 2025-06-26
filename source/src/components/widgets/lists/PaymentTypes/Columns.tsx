@@ -48,7 +48,10 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "title",
             accessorKey: "title",
-            header: translate("resources.paymentSettings.paymentType.fields.title")
+            header: translate("resources.paymentSettings.paymentType.fields.title"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.title || ""} />;
+            }
         },
         {
             id: "category",
@@ -70,16 +73,17 @@ export const useGetPaymentTypesColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                        {row.original.currencies &&
-                            row.original.currencies.map(value => (
-                                <Badge
-                                    key={value.code}
-                                    className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                        {value.code}
-                                    </span>
-                                </Badge>
-                            ))}
+                        {row.original.currencies && row.original.currencies.length > 0
+                            ? row.original.currencies.map(value => (
+                                  <Badge
+                                      key={value.code}
+                                      className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                      <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                          {value.code}
+                                      </span>
+                                  </Badge>
+                              ))
+                            : "-"}
                     </div>
                 );
             }

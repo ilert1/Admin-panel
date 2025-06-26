@@ -139,7 +139,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         </small>
 
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                            {context.record.currencies &&
+                            {context.record.currencies && context.record.currencies.length > 0 ? (
                                 context.record.currencies.map(value => (
                                     <Badge
                                         key={value.code}
@@ -148,7 +148,10 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                                             {value.code}
                                         </span>
                                     </Badge>
-                                ))}
+                                ))
+                            ) : (
+                                <span className="title-1">-</span>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -125,16 +125,17 @@ export const useGetFinancialInstitutionColumns = ({
             cell: ({ row }) => {
                 return (
                     <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                        {row.original.currencies &&
-                            row.original.currencies.map(value => (
-                                <Badge
-                                    key={value.code}
-                                    className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                        {value.code}
-                                    </span>
-                                </Badge>
-                            ))}
+                        {row.original.currencies && row.original.currencies.length > 0
+                            ? row.original.currencies.map(value => (
+                                  <Badge
+                                      key={value.code}
+                                      className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                      <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                          {value.code}
+                                      </span>
+                                  </Badge>
+                              ))
+                            : "-"}
                     </div>
                 );
             }
@@ -146,17 +147,19 @@ export const useGetFinancialInstitutionColumns = ({
             cell: ({ row }) => {
                 return (
                     <div className="max-w-auto flex min-w-28 flex-wrap gap-2">
-                        {row.original.payment_types?.map(pt => {
-                            return (
-                                <PaymentTypeIcon
-                                    className="h-7 w-7"
-                                    key={pt.code}
-                                    type={pt.code}
-                                    metaIcon={pt.meta?.["icon"] as string}
-                                    tooltip
-                                />
-                            );
-                        })}
+                        {row.original.payment_types && row.original.payment_types.length > 0
+                            ? row.original.payment_types?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"] as string}
+                                          tooltip
+                                      />
+                                  );
+                              })
+                            : "-"}
                     </div>
                 );
             }
