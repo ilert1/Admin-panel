@@ -25,17 +25,17 @@ export const ProviderMethodsViewer = ({ methods }: IProviderMethodsViewer) => {
                                 </div>
 
                                 <div className="grid grid-cols-2 border-b">
-                                    <p className="border-r p-2">backoff_coefficient</p>
+                                    <p className="border-r p-2">initial_interval</p>
                                     <p className="p-2">{methods[methodKey].retry_policy?.initial_interval}</p>
                                 </div>
 
                                 <div className="grid grid-cols-2 border-b">
-                                    <p className="border-r p-2">backoff_coefficient</p>
+                                    <p className="border-r p-2">maximum_attempts</p>
                                     <p className="p-2">{methods[methodKey].retry_policy?.maximum_attempts}</p>
                                 </div>
 
                                 <div className="grid grid-cols-2 border-b">
-                                    <p className="border-r p-2">backoff_coefficient</p>
+                                    <p className="border-r p-2">maximum_interval</p>
                                     <p className="p-2">{methods[methodKey].retry_policy?.maximum_interval}</p>
                                 </div>
 
