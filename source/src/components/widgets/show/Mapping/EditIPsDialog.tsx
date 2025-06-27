@@ -284,9 +284,6 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                     onEscapeKeyDown={e => dialogCloseFn(e)}
                     onCloseAutoFocus={e => dialogCloseFn(e)}
                     disableOutsideClick
-                    onCloseAutoFocus={() => {
-                        setNewIp("");
-                    }}
                     className="!max-w-[530px] !overflow-x-hidden !overflow-y-hidden bg-muted">
                     <DialogHeader>
                         <DialogTitle className="mb-4 w-full text-center">
