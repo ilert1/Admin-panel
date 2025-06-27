@@ -92,10 +92,20 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
                 data: data,
                 previousData: undefined
             });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
+
             refresh();
             closeDialog();
         } catch (error) {
-            appToast("error", translate("resources.currency.errors.alreadyInUse"));
+            if (error instanceof Error)
+                appToast(
+                    "error",
+                    error.message.includes("already exists")
+                        ? translate("resources.currency.errors.alreadyInUse")
+                        : error.message
+                );
+            else appToast("error", translate("app.ui.toast.error"));
             setSubmitButtonDisabled(false);
         }
     };

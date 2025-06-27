@@ -43,6 +43,7 @@
             "confirm": "Потвердить",
             "search": "Поиск...",
             "refresh": "Обновить",
+            "initialize": "Инициализировать",
             "details": "Подробнее",
             "generateCallback": "Создать callback",
             "clear": "Очистить",
@@ -222,7 +223,7 @@
         "multiSelect": {
             "selectAll": "Выбрать все",
             "noResultFound": "Нет результатов",
-            "selectPaymentTypes": "Выберите типы платежей",
+            "selectPaymentTypes": "Выберите платёжные типы",
             "searchPlaceholder": "Поиск...",
             "selectCurrencies": "Выберите валюты"
         }

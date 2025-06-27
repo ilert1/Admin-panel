@@ -28,7 +28,7 @@
     "resources.direction.fees": {
         "fees": "Fees",
         "accountNumber": "Account number",
-        "feeAmount": "Fee amount",
+        "feeAmount": "Fee amount, %",
         "feeType": "Fee type",
         "currency": "Currency",
         "descr": "Description",
@@ -38,9 +38,21 @@
         "error": "Error",
         "errorWhenCreating": "An error occurred while creating the fee",
         "successDelete": "Fee successfully deleted",
+
         "directionFieldError": "The direction must be selected",
         "currencyFieldError": "The currency must be selected",
-        "valueFieldError": "The commission must be a positive number. For example: 0.1"
+        "valueFieldError": "The commission must be a positive number.",
+        "valueMinError": "Value cannot be less than 0",
+        "valueMaxError": "Value cannot exceed 100%",
+        "valueMustBeFinite": "Value must be a finite number",
+        "valueMaxPrecisionError": "Up to 2 decimal places allowed",
+        "errorAlreadyExist": "Fee with this type already exists",
+
+        "smallFeeDialog": {
+            "title": "Fee amount",
+            "lessThenOne": " is less than 1%",
+            "save": "Save?"
+        }
     },
     "resources.direction.errors": {
         "name": "The direction must have a name",

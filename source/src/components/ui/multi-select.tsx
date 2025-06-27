@@ -92,12 +92,6 @@ interface MultiSelectProps
     modalPopover?: boolean;
 
     /**
-     * If true, renders the multi-select component as a child of another component.
-     * Optional, defaults to false.
-     */
-    asChild?: boolean;
-
-    /**
      * Additional class names to apply custom styles to the multi-select component.
      * Optional, can be used to add custom styles.
      */
@@ -117,7 +111,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             animation = 0,
             maxCount = 3,
             modalPopover = false,
-            asChild = false,
             notFoundMessage,
             className,
             ...props
@@ -180,41 +173,47 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     <Button
                         ref={ref}
                         {...props}
+                        role="combobox"
                         onClick={handleTogglePopover}
                         variant={"outline_sec"}
                         className={cn(
                             "flex h-auto min-h-10 w-full items-center justify-between rounded-md border p-1 hover:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
+                            "[&:is([data-state='open'])_#multiSelectToggleIcon]:rotate-180",
                             className
                         )}>
                         {selectedValues.length > 0 ? (
                             <div className="flex w-full items-center justify-between">
-                                <div className="flex flex-wrap items-center">
-                                    {selectedValues.slice(0, maxCount).map(value => {
-                                        const option = options.find(o => o.value === value);
-                                        const IconComponent = option?.icon;
+                                <div className="flex max-h-32 flex-wrap items-center overflow-y-auto">
+                                    {selectedValues
+                                        // .slice(0, maxCount)
+                                        .map(value => {
+                                            const option = options.find(o => o.value === value);
+                                            const IconComponent = option?.icon;
 
-                                        return (
-                                            <Badge
-                                                key={value}
-                                                className={cn(
-                                                    isAnimating ? "animate-bounce" : "",
-                                                    multiSelectVariants({ variant }),
-                                                    "bg-muted font-normal"
-                                                )}
-                                                style={{ animationDuration: `${animation}s` }}>
-                                                {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
-                                                {option?.label}
-                                                <XCircle
-                                                    className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
-                                                    onClick={event => {
-                                                        event.stopPropagation();
-                                                        toggleOption(value);
-                                                    }}
-                                                />
-                                            </Badge>
-                                        );
-                                    })}
-                                    {selectedValues.length > maxCount && (
+                                            return (
+                                                <Badge
+                                                    key={value}
+                                                    className={cn(
+                                                        isAnimating ? "animate-bounce" : "",
+                                                        multiSelectVariants({ variant }),
+                                                        "bg-muted font-normal"
+                                                    )}
+                                                    style={{ animationDuration: `${animation}s` }}>
+                                                    {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
+                                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                                        {option?.label}
+                                                    </span>
+                                                    <XCircle
+                                                        className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            toggleOption(value);
+                                                        }}
+                                                    />
+                                                </Badge>
+                                            );
+                                        })}
+                                    {/* {selectedValues.length > maxCount && (
                                         <Badge
                                             className={cn(
                                                 "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
@@ -231,7 +230,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 }}
                                             />
                                         </Badge>
-                                    )}
+                                    )} */}
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <XIcon
@@ -242,19 +241,27 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         }}
                                     />
                                     <Separator orientation="vertical" className="flex h-full min-h-6" />
-                                    <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                                    <ChevronDown
+                                        id="multiSelectToggleIcon"
+                                        className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                        pointerEvents="none !important"
+                                    />
                                 </div>
                             </div>
                         ) : (
                             <div className="mx-auto flex w-full items-center justify-between">
                                 <span className="mx-3 text-sm text-muted-foreground">{placeholder}</span>
-                                <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                                <ChevronDown
+                                    id="multiSelectToggleIcon"
+                                    className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                    pointerEvents="none !important"
+                                />
                             </div>
                         )}
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start" onEscapeKeyDown={() => setIsPopoverOpen(false)}>
-                    <Command>
+                    <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
                             placeholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                             onKeyDown={handleInputKeyDown}
@@ -264,21 +271,23 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                 {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
                             </CommandEmpty>
                             <CommandGroup>
-                                <CommandItem
-                                    key="all"
-                                    onSelect={toggleAll}
-                                    className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
-                                    <div
-                                        className={cn(
-                                            "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
-                                            selectedValues.length === options.length
-                                                ? "border-transparent bg-green-50 text-white dark:bg-green-50"
-                                                : "opacity-50 [&_svg]:invisible"
-                                        )}>
-                                        <CheckIcon className="h-4 w-4" />
-                                    </div>
-                                    <span>({translate("app.widgets.multiSelect.selectAll")})</span>
-                                </CommandItem>
+                                {options.length > 0 && (
+                                    <CommandItem
+                                        key="all"
+                                        onSelect={toggleAll}
+                                        className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
+                                        <div
+                                            className={cn(
+                                                "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
+                                                selectedValues.length === options.length
+                                                    ? "border-transparent bg-green-50 text-white dark:bg-green-50"
+                                                    : "opacity-50 [&_svg]:invisible"
+                                            )}>
+                                            <CheckIcon className="h-4 w-4" />
+                                        </div>
+                                        <span>({translate("app.widgets.multiSelect.selectAll")})</span>
+                                    </CommandItem>
+                                )}
                                 {options.map(option => {
                                     const isSelected = selectedValues.includes(option.value);
                                     return (
@@ -295,9 +304,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 )}>
                                                 <CheckIcon className="h-4 w-4" />
                                             </div>
-                                            {option.icon && (
-                                                <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-                                            )}
+                                            {option.icon && <option.icon className="mr-2 text-muted-foreground" />}
                                             <span>{option.label}</span>
                                         </CommandItem>
                                     );

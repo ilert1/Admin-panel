@@ -150,6 +150,7 @@ export const TransactionListFilter = () => {
                                     merchant={account}
                                     onMerchantChanged={onAccountChanged}
                                     resource="accounts"
+                                    modal={false}
                                 />
                             </div>
                         )}
@@ -157,7 +158,7 @@ export const TransactionListFilter = () => {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
-                                    disabled={!startDate || (adminOnly && !account)}
+                                    disabled={!startDate}
                                     className="mt-1 sm:mt-0 md:ml-auto"
                                     variant="default"
                                     size="sm">

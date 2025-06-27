@@ -1,151 +1,230 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useTranslate } from "react-admin";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrumentsActivityBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { EyeIcon } from "lucide-react";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TableEditableCell, CurrentCell } from "../../shared";
 
-export const useGetTerminalPaymentInstrumentsListColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
+export const useGetTerminalPaymentInstrumentsListColumns = ({
+    listContext
+}: {
+    listContext: ListControllerResult<TerminalPaymentInstrument>;
+}) => {
+    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
+
     const translate = useTranslate();
+    const appToast = useAppToast();
     const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
+        row: undefined,
+        column: undefined
+    });
+
+    useEffect(() => {
+        if (currentCellEdit.row || currentCellEdit.column) {
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listContext.filterValues]);
+
+    const onSubmit = async (
+        id: string,
+        data: Pick<
+            TerminalPaymentInstrument,
+            "terminal_currency_code" | "terminal_financial_institution_code" | "terminal_payment_type_code"
+        >
+    ) => {
+        try {
+            setIsDataUpdating(true);
+
+            await terminalPaymentInstrumentsProvider.update("terminalPaymentInstruments", {
+                id,
+                data,
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
+
+            listContext.refetch();
+
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
+            setIsDataUpdating(false);
+        }
+    };
 
     const columns: ColumnDef<TerminalPaymentInstrument>[] = [
         {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.id"),
-            cell: ({ row }) => {
-                return <TextField wrap copyValue lineClamp linesCount={1} minWidth="150px" text={row.original.id} />;
-            }
-        },
-        {
             id: "terminal_id",
             accessorKey: "terminal_id",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id"),
-            cell: ({ row }) => {
-                return (
-                    <div>
-                        <Button
-                            variant={"resourceLink"}
-                            onClick={() => {
-                                openSheet("terminal", {
-                                    id: row.original.terminal_id,
-                                    provider: row.original.terminal.provider
-                                });
-                            }}>
-                            {row.original.terminal.verbose_name}
-                        </Button>
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id"),
+            cell: ({ row }) => (
+                <div>
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("terminal", {
+                                id: row.original.terminal_id,
+                                provider: row.original.terminal.provider
+                            });
+                        }}>
+                        {row.original.terminal.verbose_name}
+                    </Button>
 
-                        <TextField
-                            className="text-neutral-70"
-                            text={row.original.terminal_id}
-                            wrap
-                            copyValue
-                            lineClamp
-                            linesCount={1}
-                            minWidth="50px"
-                        />
-                    </div>
-                );
-            }
+                    <TextField
+                        className="text-neutral-70"
+                        text={row.original.terminal_id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                </div>
+            )
         },
         {
-            id: "system_payment_instrument_id",
-            accessorKey: "system_payment_instrument_id",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"),
-            cell: ({ row }) => {
-                return (
-                    <div>
-                        <Button
-                            variant={"resourceLink"}
-                            onClick={() => {
-                                openSheet("systemPaymentInstrument", {
-                                    id: row.original.system_payment_instrument_id
-                                });
-                            }}>
-                            {row.original.system_payment_instrument.name}
-                        </Button>
-
-                        <TextField
-                            className="text-neutral-70"
-                            text={row.original.system_payment_instrument_id}
-                            wrap
-                            copyValue
-                            lineClamp
-                            linesCount={1}
-                            minWidth="50px"
-                        />
-                    </div>
-                );
-            }
+            id: "system_payment_instrument_code",
+            accessorKey: "system_payment_instrument_code",
+            header: translate(
+                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
+            ),
+            cell: ({ row }) => (
+                <Button
+                    variant={"resourceLink"}
+                    onClick={() => {
+                        openSheet("systemPaymentInstrument", {
+                            id: row.original.system_payment_instrument_code
+                        });
+                    }}>
+                    {row.original.system_payment_instrument_code}
+                </Button>
+            )
         },
         {
             id: "terminal_currency_code",
             accessorKey: "terminal_currency_code",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"),
-            cell: ({ row }) => <TextField text={row.original.terminal_currency_code || ""} />
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"),
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.terminal_currency_code || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.id, { terminal_currency_code: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
         },
         {
             id: "terminal_financial_institution_code",
             accessorKey: "terminal_financial_institution_code",
             header: translate(
-                "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
             ),
-            cell: ({ row }) => <TextField text={row.original.terminal_financial_institution_code || ""} />
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.terminal_financial_institution_code || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.id, { terminal_financial_institution_code: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
         },
         {
             id: "terminal_payment_type_code",
             accessorKey: "terminal_payment_type_code",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code")
-        },
-        {
-            id: "direction",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.direction"),
-            cell: ({ row }) => {
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"),
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
                 return (
-                    <TextField
-                        text={
-                            row.original.direction
-                                ? translate(`resources.direction.types.${row.original.direction}`)
-                                : ""
+                    <TableEditableCell
+                        initValue={row.original.terminal_payment_type_code || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
                         }
+                        onSubmit={value => onSubmit(row.original.id, { terminal_payment_type_code: value })}
+                        setShowEdit={setCurrentCellEdit}
                     />
                 );
             }
+        },
+        {
+            id: "direction",
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.direction"),
+            cell: ({ row }) => (
+                <TextField
+                    text={
+                        row.original.direction ? translate(`resources.direction.types.${row.original.direction}`) : ""
+                    }
+                />
+            )
         },
         {
             id: "status",
             accessorKey: "status",
-            header: translate("resources.paymentTools.terminalPaymentInstruments.fields.status"),
-            cell: ({ row }) => {
-                return (
-                    <TerminalPaymentInstrumentsActivityBtn
-                        id={row.original.id}
-                        terminalPaymentInstrumentName={row.original.id}
-                        activityState={row.original.status === "ACTIVE" ? true : false}
-                        isFetching={isFetching}
-                    />
-                );
-            }
+            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.status"),
+            cell: ({ row }) => (
+                <TerminalPaymentInstrumentsActivityBtn
+                    id={row.original.id}
+                    terminalPaymentInstrumentName={row.original.id}
+                    activityState={row.original.status === "ACTIVE" ? true : false}
+                    isFetching={listContext.isFetching}
+                />
+            )
         },
         {
             id: "show",
-            cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => openSheet("terminalPaymentInstruments", { id: row.original.id })}
-                            variant={"text_btn"}>
-                            <EyeIcon className="text-green-50 hover:text-green-40" />
-                        </Button>
-                    </div>
-                );
-            }
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center">
+                    <Button
+                        onClick={() => openSheet("terminalPaymentInstruments", { id: row.original.id })}
+                        variant={"text_btn"}>
+                        <EyeIcon className="text-green-50 hover:text-green-40" />
+                    </Button>
+                </div>
+            )
         }
     ];
 

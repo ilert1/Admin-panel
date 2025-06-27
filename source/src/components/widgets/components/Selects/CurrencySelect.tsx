@@ -15,7 +15,8 @@ export const CurrencySelect = ({
     errorMessage,
     disabled = false,
     style = "Grey",
-    placeholder
+    placeholder,
+    modal
 }: CurrencySelectProps) => {
     const translate = useTranslate();
 
@@ -31,7 +32,10 @@ export const CurrencySelect = ({
             errorMessage={errorMessage}
             disabled={disabled}
             style={style}
-            placeholder={placeholder}
+            placeholder={
+                placeholder || translate("resources.paymentSettings.systemPaymentInstruments.placeholders.currencyCode")
+            }
+            modal={modal}
         />
     );
 };

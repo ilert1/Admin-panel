@@ -19,8 +19,12 @@ import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "@/components/ui/label";
-import { FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Currency, FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useState } from "react";
+import { SmallFeeDialog } from "./SmallFeeDialog";
+import Big from "big.js";
+import { CurrencySelect } from "../../Selects/CurrencySelect";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -35,7 +39,7 @@ export interface AddFeeCardProps {
     resource: FeesResource;
     onOpenChange: (state: boolean) => void;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
-    variants?: string[];
+    variants?: Currency[];
     feeType?: FeeType;
     providerName?: string;
 }
@@ -44,22 +48,36 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { id, resource, onOpenChange, setFees, variants, providerName, feeType = "default" } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-
     const appToast = useAppToast();
-
     const feeDataProvider = feesDataProvider({ id, resource, providerName });
     const data = fetchDictionaries();
-
     const { isLoading } = useCreateController({ resource });
-
     const { currencies, isLoading: loadingData } = useFetchDataForDirections();
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [smallDialogOpen, setSmallDialogOpen] = useState(false);
 
     const formSchema = z
         .object({
             currency: z.optional(z.string()),
-            value: z.coerce
-                .number({ message: translate("resources.direction.fees.valueFieldError") })
-                .min(0, { message: translate("resources.direction.fees.valueFieldError") }),
+            value: z.preprocess(
+                val => {
+                    if (val === "" || val === null || val === undefined) return undefined;
+                    return Number(val);
+                },
+                z
+                    .number({
+                        invalid_type_error: translate("resources.direction.fees.valueFieldError"),
+                        required_error: translate("resources.direction.fees.valueFieldError")
+                    })
+                    .min(0, { message: translate("resources.direction.fees.valueMinError") })
+                    .max(100, { message: translate("resources.direction.fees.valueMaxError") })
+                    .refine(val => Number.isFinite(val), {
+                        message: translate("resources.direction.fees.valueMustBeFinite")
+                    })
+                    .refine(val => Number(val.toFixed(2)) === val, {
+                        message: translate("resources.direction.fees.valueMaxPrecisionError")
+                    })
+            ),
             type: z.custom<IFeeType>(),
             description: z.string(),
             direction: z.string().min(1, { message: translate("resources.direction.fees.directionFieldError") })
@@ -74,15 +92,22 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             }
         });
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const onSubmit = async () => {
+        const tempData = form.getValues();
+        if (!tempData) return;
+
+        const accurateFeeAmount = new Big(tempData.value).div(100).toString();
+
+        setSubmitButtonDisabled(true);
         if (feeType === "inner") {
             if (setFees) {
                 setFees(prev => [
                     ...prev,
                     {
-                        ...data,
-                        type: data.type,
-                        direction: Number(data.direction),
+                        ...tempData,
+                        value: accurateFeeAmount,
+                        type: tempData.type,
+                        direction: Number(tempData.direction),
                         recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
                         innerId: new Date().getTime()
                     }
@@ -92,9 +117,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             return;
         }
         const reqData: FeeCreate = {
-            ...data,
-            type: data.type,
-            direction: Number(data.direction),
+            ...tempData,
+            value: accurateFeeAmount,
+            type: tempData.type,
+            direction: Number(tempData.direction),
             recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
         };
 
@@ -107,8 +133,27 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 refresh();
                 onOpenChange(false);
             } catch (error) {
-                appToast("error", translate("resources.direction.fees.errorWhenCreating"));
+                if (error instanceof Error) {
+                    appToast(
+                        "error",
+                        error.message.includes("already exists")
+                            ? translate("resources.direction.fees.errorAlreadyExist")
+                            : error.message
+                    );
+                } else {
+                    appToast("error", translate("resources.direction.fees.errorWhenCreating"));
+                }
             }
+        }
+
+        setSubmitButtonDisabled(false);
+    };
+
+    const onSubmitPreliminary = (data: z.infer<typeof formSchema>) => {
+        if (data.value < 1) {
+            setSmallDialogOpen(true);
+        } else {
+            onSubmit();
         }
     };
 
@@ -178,21 +223,71 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                         </FormItem>
                                     )}
                                 />
+                                {/* <FormField
+                                    control={form.control}
+                                    name="value"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="col-span-2 p-2">
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <Input
+                                                        {...field}
+                                                        onChange={() => {}}
+                                                        label={translate("resources.direction.fees.feeAmount")}
+                                                        labelSize="note-1"
+                                                        error={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}
+                                                        variant={InputTypes.GRAY}
+                                                        borderColor="border-neutral-60"
+                                                        className="max-w-[85%]"
+                                                        inputMode="numeric"
+                                                    />
+                                                    <span className="absolute right-[15px] top-[50%]">%</span>
+                                                </div>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                /> */}
                                 <FormField
                                     control={form.control}
                                     name="value"
                                     render={({ field, fieldState }) => (
                                         <FormItem className="col-span-2 p-2">
                                             <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    label={translate("resources.direction.fees.feeAmount")}
-                                                    labelSize="note-1"
-                                                    error={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}
-                                                    variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
-                                                />
+                                                <div className="relative">
+                                                    <Input
+                                                        {...field}
+                                                        onChange={e => {
+                                                            let value = e.target.value;
+                                                            value = value.replace(/[^0-9.]/g, "");
+                                                            const parts = value.split(".");
+                                                            if (parts.length > 2) {
+                                                                value = parts[0] + "." + parts[1];
+                                                            }
+                                                            if (
+                                                                value.length > 1 &&
+                                                                value.startsWith("0") &&
+                                                                !value.startsWith("0.")
+                                                            ) {
+                                                                value = value.replace(/^0+/, "") || "0";
+                                                            }
+                                                            if (value === ".") {
+                                                                value = "0.";
+                                                            }
+                                                            field.onChange(value);
+                                                        }}
+                                                        value={field.value}
+                                                        label={translate("resources.direction.fees.feeAmount")}
+                                                        labelSize="note-1"
+                                                        error={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}
+                                                        variant={InputTypes.GRAY}
+                                                        borderColor="border-neutral-60"
+                                                        className="max-w-[85%]"
+                                                        inputMode="decimal"
+                                                        percentage
+                                                    />
+                                                </div>
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -247,53 +342,28 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                         <FormItem className="col-span-2 p-2">
                                             <Label>{translate("resources.direction.fees.currency")}</Label>
                                             <FormControl>
-                                                <Select
-                                                    value={field.value}
-                                                    onValueChange={field.onChange}
-                                                    disabled={currenciesDisabled}>
-                                                    <FormControl>
-                                                        <SelectTrigger
-                                                            variant={SelectType.GRAY}
-                                                            isError={fieldState.invalid}
-                                                            errorMessage={<FormMessage />}
-                                                            className="border-neutral-60">
-                                                            <SelectValue
-                                                                placeholder={
-                                                                    currenciesDisabled
-                                                                        ? typeValue !== IFeeType.NUMBER_3
-                                                                            ? translate(
-                                                                                  "resources.direction.errors.onlyThirdTypeError"
-                                                                              )
-                                                                            : translate(
-                                                                                  "resources.direction.noCurrencies"
-                                                                              )
-                                                                        : ""
-                                                                }
-                                                            />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            {!currenciesDisabled && !variants?.length
-                                                                ? currencies.data.map(currency => (
-                                                                      <SelectItem
-                                                                          variant={SelectType.GRAY}
-                                                                          key={currency.code}
-                                                                          value={currency.code}>
-                                                                          {currency.code}
-                                                                      </SelectItem>
-                                                                  ))
-                                                                : variants?.map(currency => (
-                                                                      <SelectItem
-                                                                          key={currency}
-                                                                          value={currency}
-                                                                          variant={SelectType.GRAY}>
-                                                                          {currency}
-                                                                      </SelectItem>
-                                                                  ))}
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
+                                                <CurrencySelect
+                                                    value={field.value ?? ""}
+                                                    onChange={field.onChange}
+                                                    currencies={
+                                                        !currenciesDisabled && !variants?.length
+                                                            ? currencies.data
+                                                            : (variants ?? [])
+                                                    }
+                                                    disabled={currenciesDisabled}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    placeholder={
+                                                        currenciesDisabled
+                                                            ? typeValue !== IFeeType.NUMBER_3
+                                                                ? translate(
+                                                                      "resources.direction.errors.onlyThirdTypeError"
+                                                                  )
+                                                                : translate("resources.direction.noCurrencies")
+                                                            : ""
+                                                    }
+                                                    modal
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -325,7 +395,11 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                 </form>
             </Form>
             <div className="ml-auto flex w-full space-x-2 p-2 pb-5 md:w-2/5">
-                <Button onClick={form.handleSubmit(onSubmit)} variant="default" className="flex-1">
+                <Button
+                    onClick={form.handleSubmit(onSubmitPreliminary)}
+                    variant="default"
+                    className="flex-1"
+                    disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button
@@ -339,6 +413,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                     {translate("app.ui.actions.cancel")}
                 </Button>
             </div>
+            <SmallFeeDialog open={smallDialogOpen} onOpenChange={setSmallDialogOpen} onSubmit={onSubmit} />
         </>
     );
 };

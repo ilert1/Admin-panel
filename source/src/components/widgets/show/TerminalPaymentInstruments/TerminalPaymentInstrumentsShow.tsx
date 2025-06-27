@@ -61,8 +61,8 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.terminalPaymentInstruments.fields.created_at")}
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
                         </small>
 
                         <p className="text-nowrap text-base leading-[18px]">
@@ -75,8 +75,8 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                     </div>
 
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.terminalPaymentInstruments.fields.updated_at")}
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
                         </small>
 
                         <p className="text-nowrap text-base leading-[18px]">
@@ -89,7 +89,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                     </div>
 
                     <TextField
-                        label={translate("resources.paymentTools.terminalPaymentInstruments.fields.terminal_id")}
+                        label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id")}
                         className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                         text={context.record.terminal.verbose_name}
                         onClick={() => {
@@ -102,40 +102,40 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
 
                     <TextField
                         label={translate(
-                            "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
                         )}
                         className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                        text={context.record.system_payment_instrument.name}
+                        text={context.record.system_payment_instrument_code}
                         onClick={() => {
                             openSheet("systemPaymentInstrument", {
-                                id: context.record.system_payment_instrument_id
+                                id: context.record.system_payment_instrument_code
                             });
                         }}
                     />
 
                     <TextField
                         label={translate(
-                            "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
                         )}
                         text={context.record.terminal_payment_type_code || ""}
                     />
 
                     <TextField
                         label={translate(
-                            "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
                         )}
                         text={context.record.terminal_currency_code || ""}
                     />
 
                     <TextField
                         label={translate(
-                            "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                         )}
                         text={context.record.terminal_financial_institution_code || ""}
                     />
                     <TextField
                         fontSize="title-2"
-                        label={translate("resources.paymentTools.systemPaymentInstruments.list.direction")}
+                        label={translate("resources.paymentSettings.systemPaymentInstruments.list.direction")}
                         text={
                             context.record.direction
                                 ? translate(`resources.direction.types.${context.record.direction}`)
@@ -147,7 +147,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                 <div className="flex flex-col gap-1">
                     <small className="text-sm text-neutral-60">
                         {translate(
-                            "resources.paymentTools.terminalPaymentInstruments.fields.terminal_specific_parameters"
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
                         )}
                     </small>
 

@@ -119,10 +119,10 @@ const useTransactionFilter = () => {
     };
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
-        if (adminOnly && !account) {
-            appToast("error", translate("resources.transactions.download.accountField"));
-            return;
-        }
+        // if (adminOnly && !account) {
+        //     appToast("error", translate("resources.transactions.download.accountField"));
+        //     return;
+        // }
 
         if (!startDate) {
             appToast("error", translate("resources.transactions.download.bothError"));

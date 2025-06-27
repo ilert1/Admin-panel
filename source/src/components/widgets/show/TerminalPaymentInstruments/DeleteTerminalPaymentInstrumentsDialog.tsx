@@ -55,12 +55,14 @@ export const DeleteTerminalPaymentInstrumentsDialog = ({
                 }}>
                 <DialogHeader>
                     <DialogTitle className="text-center !text-display-2 text-red-40 dark:text-red-40">
-                        {translate("resources.paymentTools.deletion.attention")}
+                        {translate("resources.paymentSettings.deletion.attention")}
                     </DialogTitle>
                     <DialogDescription className="text-center !text-title-1 text-red-400">
                         {!continueClicked
-                            ? translate("resources.paymentTools.deletion.attentionDescriptionTerminalPaymentInstrument")
-                            : translate("resources.paymentTools.deletion.consequencesTerminalPaymentInstrument")}
+                            ? translate(
+                                  "resources.paymentSettings.deletion.attentionDescriptionTerminalPaymentInstrument"
+                              )
+                            : translate("resources.paymentSettings.deletion.consequencesTerminalPaymentInstrument")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

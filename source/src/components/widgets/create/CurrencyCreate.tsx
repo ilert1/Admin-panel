@@ -31,14 +31,27 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
     const refresh = useRefresh();
     const onSubmit: SubmitHandler<ICurrencyCreate> = async data => {
         if (submitButtonDisabled) return;
+
         setSubmitButtonDisabled(true);
         data.code = data.code.toUpperCase();
+
         try {
             await dataProvider.create("currency", { data: data });
+
+            appToast("success", translate("app.ui.create.createSuccess"));
+
             refresh();
             closeDialog();
         } catch (error) {
-            appToast("error", translate("resources.currency.errors.alreadyInUse"));
+            if (error instanceof Error)
+                appToast(
+                    "error",
+                    error.message.includes("already exists")
+                        ? translate("resources.currency.errors.alreadyInUse")
+                        : error.message
+                );
+            else appToast("error", translate("app.ui.toast.error"));
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };

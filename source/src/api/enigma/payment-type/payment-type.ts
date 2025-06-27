@@ -5,13 +5,17 @@
  * OpenAPI spec version: develop
  */
 import type {
+    ApiResponseImportResponse,
     ApiResponseListPaymentCategoryItem,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationPaymentTypeModel,
     ApiResponsePaymentTypeModel,
+    BodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
     CurrenciesLink,
     HTTPValidationError,
     PaymentTypeCreate,
+    PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetParams,
+    PaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostParams,
     PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams,
     PaymentTypeUpdate
 } from "../blowFishEnigmaAPIService.schemas";
@@ -143,6 +147,119 @@ export const paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost = asyn
             method: "POST",
             headers: { "Content-Type": "application/json", ...options?.headers },
             body: JSON.stringify(paymentTypeCreate)
+        }
+    );
+};
+
+/**
+ * Exports payment types to a CSV file and download it
+ * @summary Export payment types to CSV
+ */
+export type paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponse200 = {
+    data: unknown;
+    status: 200;
+};
+
+export type paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponseComposite =
+    | paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponse200
+    | paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponse422;
+
+export type paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponse =
+    paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl = (
+    params?: PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export`;
+};
+
+export const paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGet = async (
+    params?: PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetParams,
+    options?: RequestInit
+): Promise<paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponse> => {
+    return authFetch<paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetResponse>(
+        getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
+ * Import payment types from a CSV file
+ * @summary Imports payment types records from a CSV file.
+ */
+export type paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse200 = {
+    data: ApiResponseImportResponse;
+    status: 200;
+};
+
+export type paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponseComposite =
+    | paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse200
+    | paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse422;
+
+export type paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse =
+    paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostUrl = (
+    params?: PaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/import?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/import`;
+};
+
+export const paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost = async (
+    bodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost: BodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
+    params?: PaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostParams,
+    options?: RequestInit
+): Promise<paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse> => {
+    const formData = new FormData();
+    formData.append("csv_file", bodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost.csv_file);
+
+    return authFetch<paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostResponse>(
+        getPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostUrl(params),
+        {
+            ...options,
+            method: "POST",
+            body: formData
         }
     );
 };

@@ -7,12 +7,14 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { useEffect, useState } from "react";
+import { GetListResult, useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 
 interface SystemPaymentInstrumentCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -30,38 +32,34 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
-
-    const { data: paymentTypes, isLoading: paymentTypesLoading } = useQuery({
-        queryKey: ["paymentTypes"],
-        queryFn: () => dataProvider.getListWithoutPagination("payment_type"),
-        select: data => data.data
-    });
+    const [hasValid, setHasValid] = useState(true);
+    const [paymentTypes, setPaymentTypes] = useState<PaymentTypeBase[]>([]);
 
     const { data: currencies, isLoading: currenciesLoading } = useQuery({
         queryKey: ["currencies"],
-        queryFn: () => dataProvider.getListWithoutPagination("currency"),
+        queryFn: ({ signal }) => dataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });
 
     const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
         queryKey: ["financialInstitutions"],
-        queryFn: () => dataProvider.getListWithoutPagination("financialInstitution"),
+        queryFn: (): GetListResult<FinancialInstitutionWithId> =>
+            dataProvider.getListWithoutPagination("financialInstitution"),
         select: data => data.data
     });
 
     const formSchema = z.object({
         payment_type_code: z
             .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         currency_code: z
             .string()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
-        financial_institution_id: z
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
+        financial_institution_code: z
             .string()
-            .uuid()
-            .min(1, translate("resources.paymentTools.systemPaymentInstruments.errors.cantBeEmpty")),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         description: z.string().optional(),
-        meta: z.string()
+        meta: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -69,7 +67,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         defaultValues: {
             payment_type_code: "",
             currency_code: "",
-            financial_institution_id: "",
+            financial_institution_code: "",
             description: "",
             meta: "{}"
         }
@@ -80,20 +78,43 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         setButtonDisabled(true);
 
         try {
-            await dataProvider.create("systemPaymentInstruments", { data: { ...data, meta: JSON.parse(data.meta) } });
+            await dataProvider.create("systemPaymentInstruments", {
+                data: { ...data, meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {} }
+            });
 
-            appToast("success", translate("app.ui.toast.success"));
+            appToast("success", translate("app.ui.create.createSuccess"));
+
             refresh();
+            onOpenChange(false);
         } catch (error) {
-            if (error instanceof Error) appToast("error", error.message);
+            if (error instanceof Error)
+                appToast(
+                    "error",
+                    error.message.includes("already exists")
+                        ? translate("resources.paymentSettings.systemPaymentInstruments.errors.alreadyExist")
+                        : error.message
+                );
             else appToast("error", translate("app.ui.toast.error"));
         } finally {
             setButtonDisabled(false);
-            onOpenChange(false);
         }
     };
 
-    if (paymentTypesLoading || currenciesLoading || financialInstitutionsLoading)
+    const finInstValue = form.watch("financial_institution_code");
+    useEffect(() => {
+        if (!finInstValue) {
+            setPaymentTypes([]);
+        } else if (financialInstitutions && finInstValue) {
+            form.resetField("payment_type_code");
+            const found = financialInstitutions?.find(item => item.code === finInstValue)?.payment_types;
+            if (found) {
+                setPaymentTypes(found);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [finInstValue, financialInstitutions]);
+
+    if (currenciesLoading || financialInstitutionsLoading)
         return (
             <div className="h-[300px]">
                 <Loading />
@@ -111,29 +132,30 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <FormField
                             control={form.control}
-                            name="financial_institution_id"
+                            name="financial_institution_code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.financial_institution_id"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.financial_institution_code"
                                         )}
                                     </Label>
 
                                     <PopoverSelect
-                                        variants={financialInstitutions}
+                                        variants={financialInstitutions || []}
                                         value={financialInstitutionValueName}
-                                        idField="id"
+                                        idField="code"
                                         setIdValue={e => field.onChange(e)}
                                         onChange={e => setFinancialInstitutionValueName(e)}
                                         variantKey="name"
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate(
-                                            "resources.paymentTools.financialInstitution.notFoundMessage"
+                                            "resources.paymentSettings.financialInstitution.notFoundMessage"
                                         )}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={financialInstitutionsDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -146,22 +168,42 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.payment_type_code"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.payment_type_code"
                                         )}
                                     </Label>
                                     <PopoverSelect
                                         variants={paymentTypes}
-                                        value={field.value}
+                                        value={
+                                            paymentsDisabled
+                                                ? finInstValue
+                                                    ? translate(
+                                                          "resources.paymentSettings.systemPaymentInstruments.noAvailablePaymentTypes"
+                                                      )
+                                                    : translate(
+                                                          "resources.paymentSettings.systemPaymentInstruments.chooseFinInstitution"
+                                                      )
+                                                : field.value
+                                        }
                                         onChange={e => field.onChange(e)}
                                         variantKey={"code"}
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate(
-                                            "resources.paymentTools.paymentType.notFoundMessage"
+                                            "resources.paymentSettings.paymentType.notFoundMessage"
                                         )}
+                                        placeholder={
+                                            finInstValue
+                                                ? translate(
+                                                      "resources.paymentSettings.systemPaymentInstruments.selectPaymentType"
+                                                  )
+                                                : translate(
+                                                      "resources.paymentSettings.systemPaymentInstruments.chooseFinInstitution"
+                                                  )
+                                        }
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={paymentsDisabled}
                                         iconForPaymentTypes
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -174,7 +216,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                 <FormItem className="">
                                     <Label>
                                         {translate(
-                                            "resources.paymentTools.systemPaymentInstruments.fields.currency_code"
+                                            "resources.paymentSettings.systemPaymentInstruments.fields.currency_code"
                                         )}
                                     </Label>
                                     <CurrencySelect
@@ -184,6 +226,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                         disabled={currenciesDisabled}
                                         isError={fieldState.invalid}
                                         errorMessage={<FormMessage />}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -199,7 +242,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                                 {...field}
                                                 variant={InputTypes.GRAY}
                                                 label={translate(
-                                                    "resources.paymentTools.systemPaymentInstruments.fields.description"
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.description"
                                                 )}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
@@ -216,12 +259,13 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                             render={({ field }) => (
                                 <FormItem className="col-span-1 p-2 sm:col-span-2">
                                     <Label className="!mb-0">
-                                        {translate("resources.paymentTools.systemPaymentInstruments.fields.meta")}
+                                        {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                                     </Label>
                                     <FormControl>
                                         <MonacoEditor
                                             width="100%"
                                             onMountEditor={() => setMonacoEditorMounted(true)}
+                                            onValidChange={setHasValid}
                                             onErrorsChange={setHasErrors}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
@@ -238,7 +282,12 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                             type="submit"
                             variant="default"
                             className="w-full sm:w-auto"
-                            disabled={hasErrors || !monacoEditorMounted || buttonDisabled}>
+                            disabled={
+                                hasErrors ||
+                                (!hasValid && form.watch("meta")?.length !== 0) ||
+                                !monacoEditorMounted ||
+                                buttonDisabled
+                            }>
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button

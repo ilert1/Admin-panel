@@ -23,7 +23,6 @@ import {
     SelectType,
     SelectItem
 } from "@/components/ui/select";
-import { X } from "lucide-react";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
@@ -43,8 +42,8 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
     const formSchema = z.object({
         code: z
             .string()
-            .min(1, translate("resources.paymentTools.paymentType.errors.code"))
-            .regex(/^[A-Za-z0-9_-]+$/, translate("resources.paymentTools.paymentType.errors.codeRegex"))
+            .min(1, translate("resources.paymentSettings.paymentType.errors.code"))
+            .regex(/^[a-z0-9_]+$/, translate("resources.paymentSettings.paymentType.errors.codeRegex"))
             .trim(),
         title: z.string().optional().default(""),
         required_fields_for_payment: z.string().optional(),
@@ -76,20 +75,33 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
         const required_fields_for_payment = data.required_fields_for_payment?.trim()
             ? data.required_fields_for_payment?.split(",").map(item => item.trim())
-            : undefined;
+            : [];
 
         try {
+            required_fields_for_payment.forEach(item => {
+                if (!item.match(/^[a-z0-9_]+$/)) {
+                    throw new Error("paymentFieldsRegex");
+                }
+            });
+
             await dataProvider.create("payment_type", { data: { ...data, required_fields_for_payment } });
+
             appToast("success", translate("app.ui.create.createSuccess"));
-        } catch (error) {
-            // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так
-            // if (error instanceof Error) {
-            //     appToast("error", error.message);
-            // }
-            appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
-            setSubmitButtonDisabled(false);
-        } finally {
             onClose();
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message.includes("already exists")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
+                } else if (error.message.includes("paymentFieldsRegex")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.errors.paymentFieldsRegex"));
+                } else {
+                    appToast("error", error.message);
+                }
+            } else {
+                appToast("error", translate("app.ui.toast.error"));
+            }
+        } finally {
+            setSubmitButtonDisabled(false);
         }
     };
 
@@ -117,7 +129,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.code")}
+                                                label={translate("resources.paymentSettings.paymentType.fields.code")}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -134,7 +146,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.title")}
+                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -145,7 +157,9 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                 name="category"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.paymentTools.paymentType.fields.category")}</Label>
+                                        <Label>
+                                            {translate("resources.paymentSettings.paymentType.fields.category")}
+                                        </Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
                                                 <SelectTrigger
@@ -183,7 +197,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.paymentType.fields.required_fields_for_payment"
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment"
                                                 )}
                                             />
                                         </FormControl>
@@ -195,7 +209,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                 name="meta.icon"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.paymentTools.paymentType.fields.icon")}</Label>
+                                        <Label>{translate("resources.paymentSettings.paymentType.fields.icon")}</Label>
                                         <div className="!mt-0 flex items-center gap-4">
                                             {field.value && (
                                                 <div className="h-10 w-10">
@@ -213,12 +227,12 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                     className="block w-full cursor-pointer rounded-4 bg-green-50 px-4 py-2 text-center !text-white transition-all duration-300 hover:bg-green-40"
                                                     title={
                                                         iconFileName ||
-                                                        translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                        translate("resources.paymentSettings.paymentType.uploadIcon") +
                                                             "..."
                                                     }>
                                                     <span className="block truncate">
                                                         {iconFileName ||
-                                                            translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                            translate("resources.paymentSettings.paymentType.uploadIcon") +
                                                                 "..."}
                                                     </span>
                                                 </label>

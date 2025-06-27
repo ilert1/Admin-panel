@@ -80,6 +80,7 @@ export const DirectionListFilter = () => {
                             merchant={merchantId}
                             onMerchantChanged={onAccountChanged}
                             resource="merchant"
+                            modal={false}
                         />
                     </div>
                 </AnimatedContainer>

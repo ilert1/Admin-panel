@@ -15,6 +15,7 @@ import {
     directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatch,
     directionEndpointsCreateDirectionEnigmaV1DirectionPost,
     directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete,
+    directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGet,
     directionEndpointsGetDirectionEnigmaV1DirectionDirectionIdGet,
     directionEndpointsListDirectionsEnigmaV1DirectionGet,
     directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDelete,
@@ -128,6 +129,44 @@ export class DirectionsDataProvider extends IBaseDataProvider {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         });
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async getAvailablePaymentTypes({
+        merchantId,
+        providerName,
+        terminalId,
+        signal
+    }: {
+        merchantId?: string;
+        providerName?: string;
+        terminalId?: string;
+        signal?: AbortSignal;
+    }) {
+        const res = await directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGet(
+            {
+                ...(merchantId && { merchant_id: merchantId }),
+                ...(providerName && { provider_name: providerName }),
+                ...(terminalId && { terminal_id: terminalId })
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                },
+                signal
+            }
+        );
 
         if ("data" in res.data && res.data.success) {
             return {

@@ -16,10 +16,9 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useFetchDataForDirections, useGetTerminals, usePreventFocus } from "@/hooks";
+import { useFetchDataForDirections, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
@@ -28,7 +27,6 @@ import { DirectionsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
-import { ProviderSelect } from "../components/Selects/ProviderSelect";
 
 export interface DirectionEditProps {
     id?: string;
@@ -39,7 +37,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const directionDataProvider = new DirectionsDataProvider();
 
-    const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
+    const { currencies, isLoading: loadingData } = useFetchDataForDirections();
     const [isFinished, setIsFinished] = useState(false);
 
     const {
@@ -53,8 +51,6 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         select: data => data.data
     });
     const appToast = useAppToast();
-
-    const { terminals, getTerminals } = useGetTerminals();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -101,7 +97,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
-        terminal: z.string().optional(),
+        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
         weight: z.coerce
             .number({ message: translate("resources.direction.errors.weightError") })
             .int(translate("resources.direction.errors.weightError"))
@@ -140,7 +136,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 dst_currency: direction.dst_currency.code || "",
                 merchant: direction.merchant.id || "",
                 provider: direction.provider.name || "",
-                terminal: direction.terminal?.terminal_id || "",
+                terminal: direction.terminal.terminal_id || "",
                 weight: direction.weight || 0,
                 type: direction.type || undefined,
                 payment_types: direction?.payment_types?.map(pt => pt.code) || []
@@ -155,8 +151,6 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-
-        if (!data.terminal) delete data.terminal;
 
         let payment_types: string[] = [];
         let oldPaymentTypes: Set<string> = new Set();
@@ -179,13 +173,15 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 previousData: undefined
             });
 
-            paymentsToDelete.forEach(async payment => {
-                await directionDataProvider.removePaymentType({
-                    id,
-                    data: { code: payment },
-                    previousData: undefined
-                });
-            });
+            await Promise.all(
+                [...paymentsToDelete].map(payment =>
+                    directionDataProvider.removePaymentType({
+                        id,
+                        data: { code: payment },
+                        previousData: undefined
+                    })
+                )
+            );
 
             await directionDataProvider.addPaymentTypes({
                 id,
@@ -200,19 +196,13 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            setSubmitButtonDisabled(false);
             appToast("error", translate("app.ui.edit.editError"));
+        } finally {
+            setSubmitButtonDisabled(false);
         }
     };
 
-    useEffect(() => {
-        getTerminals(direction?.provider.name);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [direction?.provider.name, direction?.provider]);
-
     usePreventFocus({ dependencies: [direction] });
-
-    const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
     if (
         isLoadingDirection ||
@@ -263,26 +253,21 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     onChange={field.onChange}
                                     isError={fieldState.invalid}
                                     errorMessage={<FormMessage />}
+                                    modal
                                 />
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="merchant"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <Label>{translate("resources.direction.merchant")}</Label>
-                                <MerchantSelectFilter
-                                    variant="outline"
-                                    error={fieldState.error?.message}
-                                    merchant={field.value}
-                                    onMerchantChanged={field.onChange}
-                                    resource="merchant"
-                                />
-                            </FormItem>
-                        )}
-                    />
+
+                    <div className="w-full p-2 sm:w-1/2">
+                        <Input
+                            value={direction.merchant.name || ""}
+                            disabled
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.direction.merchant")}
+                        />
+                    </div>
+
                     <FormField
                         control={form.control}
                         name="dst_currency"
@@ -295,70 +280,30 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                     onChange={field.onChange}
                                     isError={fieldState.invalid}
                                     errorMessage={<FormMessage />}
+                                    modal
                                 />
                             </FormItem>
                         )}
                     />
 
-                    <FormField
-                        control={form.control}
-                        name="provider"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <Label>{translate("resources.direction.provider")}</Label>
-                                <ProviderSelect
-                                    providers={providers.data}
-                                    value={field.value}
-                                    onChange={e => {
-                                        getTerminals(e);
-                                        if (e !== form.getValues().provider) form.setValue("terminal", "");
-                                        field.onChange(e);
-                                    }}
-                                    isError={fieldState.invalid}
-                                    errorMessage={<FormMessage />}
-                                />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="terminal"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <Label>{translate("resources.direction.fields.terminal")}</Label>
-                                <Select value={field.value} onValueChange={field.onChange} disabled={terminalsDisabled}>
-                                    <FormControl>
-                                        <SelectTrigger
-                                            variant={SelectType.GRAY}
-                                            isError={fieldState.invalid}
-                                            errorMessage={<FormMessage />}>
-                                            <SelectValue
-                                                placeholder={
-                                                    terminalsDisabled
-                                                        ? translate("resources.direction.noTerminals")
-                                                        : ""
-                                                }
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {!terminalsDisabled
-                                                ? terminals.map(terminal => (
-                                                      <SelectItem
-                                                          key={terminal.terminal_id}
-                                                          value={terminal.terminal_id}
-                                                          variant={SelectType.GRAY}>
-                                                          {terminal.verbose_name}
-                                                      </SelectItem>
-                                                  ))
-                                                : ""}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </FormItem>
-                        )}
-                    />
+                    <div className="w-full p-2 sm:w-1/2">
+                        <Input
+                            value={direction.provider.name || ""}
+                            disabled
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.direction.provider")}
+                        />
+                    </div>
+
+                    <div className="w-full p-2 sm:w-1/2">
+                        <Input
+                            value={direction.terminal.verbose_name || ""}
+                            disabled
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.direction.fields.terminal")}
+                        />
+                    </div>
+
                     <FormField
                         control={form.control}
                         name="state"

@@ -12,5 +12,14 @@
         "9": "October",
         "10": "November",
         "11": "December"
+    },
+    "datePicker.day": {
+        "0": "Su",
+        "1": "Mo",
+        "2": "Tu",
+        "3": "We",
+        "4": "Th",
+        "5": "Fr",
+        "6": "Sa"
     }
 }

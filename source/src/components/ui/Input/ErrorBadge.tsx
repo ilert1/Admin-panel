@@ -22,7 +22,10 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
                         side="left"
                         sideOffset={5}
                         align="center"
-                        className={cn("z-50 border-red-40 text-red-40", disableErrorMessage && "hidden")}>
+                        className={cn(
+                            "z-50 text-wrap border-red-40 text-center text-red-40",
+                            disableErrorMessage && "hidden"
+                        )}>
                         {errorMessage}
                     </TooltipContent>
                 </Tooltip>

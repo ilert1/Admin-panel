@@ -42,6 +42,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
@@ -51,7 +52,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
-        methods: z.string(),
+        methods: z.string().trim().optional(),
         payment_types: z.array(z.string()).optional()
     });
 
@@ -61,7 +62,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
             name: "",
             public_key: "",
             fields_json_schema: "",
-            methods: "",
+            methods: "{}",
             payment_types: []
         }
     });
@@ -72,7 +73,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                 name: provider.name || "",
                 public_key: provider.public_key || "",
                 fields_json_schema: provider.fields_json_schema || "",
-                methods: JSON.stringify(provider.methods, null, 2) || "",
+                methods: JSON.stringify(provider.methods, null, 2) || "{}",
                 payment_types: provider?.payment_types?.map(pt => pt.code) || []
             };
 
@@ -85,7 +86,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-        data.methods = JSON.parse(data.methods);
 
         let payment_types: string[] = [];
         let oldPaymentTypes: Set<string> = new Set();
@@ -104,17 +104,19 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         try {
             await dataProvider.update<ProviderWithId>("provider", {
                 id,
-                data,
+                data: { ...data, methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {} },
                 previousData: undefined
             });
 
-            paymentsToDelete.forEach(async payment => {
-                await providersDataProvider.removePaymentType({
-                    id,
-                    data: { code: payment },
-                    previousData: undefined
-                });
-            });
+            await Promise.all(
+                [...paymentsToDelete].map(payment =>
+                    providersDataProvider.removePaymentType({
+                        id,
+                        data: { code: payment },
+                        previousData: undefined
+                    })
+                )
+            );
 
             await providersDataProvider.addPaymentTypes({
                 id,
@@ -192,8 +194,9 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                     <MonacoEditor
                                         width="100%"
                                         onMountEditor={() => setMonacoEditorMounted(true)}
+                                        onValidChange={setHasValid}
                                         onErrorsChange={setHasErrors}
-                                        code={field.value}
+                                        code={field.value ?? "{}"}
                                         setCode={field.onChange}
                                     />
                                 </FormControl>
@@ -219,7 +222,12 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                         <Button
-                            disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}
+                            disabled={
+                                hasErrors ||
+                                (!hasValid && form.watch("methods")?.length !== 0) ||
+                                !monacoEditorMounted ||
+                                submitButtonDisabled
+                            }
                             type="submit"
                             variant="default"
                             className="flex-1">

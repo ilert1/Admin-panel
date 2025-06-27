@@ -1,8 +1,15 @@
-import { useCreateController, useRefresh, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import {
+    useCreateController,
+    useRefresh,
+    CreateContextProvider,
+    useTranslate,
+    useDataProvider,
+    useListContext
+} from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,13 +22,15 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ProviderSelect } from "../components/Selects/ProviderSelect";
+import { useQuery } from "@tanstack/react-query";
+import { ProvidersDataProvider } from "@/data";
 
 export interface TerminalCreateProps {
-    provider: string;
     onClose: () => void;
 }
 
-export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
+export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -29,15 +38,34 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
     const { theme } = useTheme();
+    const { filterValues } = useListContext();
 
+    const providersDataProvider = new ProvidersDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+    const {
+        data: providersData,
+        isLoading: isProvidersLoading,
+        isFetching: isProvidersFetching
+    } = useQuery({
+        queryKey: ["providers", "filter"],
+        queryFn: () => providersDataProvider.getListWithoutPagination(),
+        select: data => data.data
+    });
+
+    const providersLoadingProcess = useMemo(
+        () => isProvidersLoading || isProvidersFetching,
+        [isProvidersFetching, isProvidersLoading]
+    );
+
     const formSchema = z.object({
+        provider: z.string().min(1, translate("resources.terminals.errors.provider")),
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")]),
-        details: z.string(),
+        details: z.string().trim().optional(),
         allocation_timeout_seconds: z
             .literal("")
             .transform(() => undefined)
@@ -54,6 +82,7 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            provider: "",
             verbose_name: "",
             description: "",
             details: "{}",
@@ -61,22 +90,31 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
         }
     });
 
+    useEffect(() => {
+        if (filterValues?.provider && providersData && providersData?.length > 0) {
+            const providerFromFilter = providersData.find(item => item.id === filterValues.provider);
+
+            if (providerFromFilter) {
+                form.setValue("provider", filterValues.provider);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);
 
         try {
-            const parseDetails = JSON.parse(data.details);
-
-            const res = await dataProvider.create<TerminalWithId>(`${provider}/terminal`, {
+            const res = await dataProvider.create<TerminalWithId>(`${data.provider}/terminal`, {
                 data: {
                     verbose_name: data.verbose_name,
                     description: data.description,
+                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     ...(data.allocation_timeout_seconds !== undefined && {
                         allocation_timeout_seconds: data.allocation_timeout_seconds
-                    }),
-                    ...(parseDetails && Object.keys(parseDetails).length !== 0 && { details: parseDetails })
+                    })
                 } as ITerminalCreate
             });
 
@@ -87,7 +125,7 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
                     <Button
                         className="!pl-1"
                         variant="resourceLink"
-                        onClick={() => openSheet("terminal", { id: res.data.id, provider })}>
+                        onClick={() => openSheet("terminal", { id: res.data.id, provider: data.provider })}>
                         {translate("app.ui.actions.details")}
                     </Button>
                 </span>,
@@ -122,6 +160,24 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="flex flex-wrap">
                         <div className="grid w-full gap-2 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="provider"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2 md:col-span-2">
+                                        <Label>{translate("resources.direction.provider")}</Label>
+                                        <ProviderSelect
+                                            providers={providersData || []}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={providersLoadingProcess}
+                                            modal
+                                        />
+                                    </FormItem>
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="verbose_name"
@@ -200,7 +256,8 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
                                             width="100%"
                                             onMountEditor={() => setMonacoEditorMounted(true)}
                                             onErrorsChange={setHasErrors}
-                                            code={field.value}
+                                            onValidChange={setHasValid}
+                                            code={field.value ?? "{}"}
                                             setCode={field.onChange}
                                         />
                                     </FormControl>
@@ -213,7 +270,12 @@ export const TerminalCreate = ({ onClose, provider }: TerminalCreateProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}>
+                                disabled={
+                                    hasErrors ||
+                                    (!hasValid && form.watch("details")?.length !== 0) ||
+                                    !monacoEditorMounted ||
+                                    submitButtonDisabled
+                                }>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

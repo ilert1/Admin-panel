@@ -1,4 +1,3 @@
-import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
@@ -11,6 +10,8 @@ import { DeleteSystemPaymentInstrumentDialog } from "../../lists/SystemPaymentIn
 import { EditPaymentInstrumentDialog } from "./EditSystemPaymentInstrumentDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { SystemPaymentInstrumentWithId } from "@/data/systemPaymentInstruments";
+import { Badge } from "@/components/ui/badge";
 
 interface SystemPaymentInstrumentShowProps {
     id: string;
@@ -25,7 +26,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const { openSheet } = useSheets();
-    const context = useAbortableShowController<SystemPaymentInstrument>({
+    const context = useAbortableShowController<SystemPaymentInstrumentWithId>({
         resource: "systemPaymentInstruments",
         id
     });
@@ -49,13 +50,13 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
                 <div className="flex flex-col gap-1 md:gap-4">
                     <div className="flex items-center justify-between px-4 md:px-[42px]">
-                        <TextField text={context.record.name} copyValue fontSize="title-2" />
+                        <TextField text={context.record.code} copyValue fontSize="title-2" />
                     </div>
                     <div className="grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
                         <div>
                             <TextField
                                 fontSize="title-2"
-                                label={translate("resources.paymentTools.systemPaymentInstruments.list.createdAt")}
+                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.createdAt")}
                                 text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
                             />
                             <TextField
@@ -63,10 +64,11 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                 text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
                             />
                         </div>
+
                         <div>
                             <TextField
                                 fontSize="title-2"
-                                label={translate("resources.paymentTools.systemPaymentInstruments.list.updatedAt")}
+                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.updatedAt")}
                                 text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
                             />
                             <TextField
@@ -74,19 +76,14 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                 text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
                             />
                         </div>
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentTools.systemPaymentInstruments.list.id")}
-                            text={context.record.id}
-                            copyValue
-                        />
 
                         <div>
-                            <Label>
-                                {translate("resources.paymentTools.systemPaymentInstruments.list.paymentType")}
+                            <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                                {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                             </Label>
                             <div className="flex flex-wrap gap-2">
-                                {context.record.payment_type?.meta?.icon ? (
+                                {context.record.payment_type?.meta?.icon &&
+                                typeof context.record.payment_type?.meta?.icon === "string" ? (
                                     <img
                                         src={context.record.payment_type?.meta["icon"]}
                                         alt="icon"
@@ -101,23 +98,38 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                         <TextField
                             fontSize="title-2"
                             label={translate(
-                                "resources.paymentTools.systemPaymentInstruments.list.financialInstitution"
+                                "resources.paymentSettings.systemPaymentInstruments.list.financialInstitution"
                             )}
                             text={context.record.financial_institution.name}
                             onClick={() => {
-                                openSheet("financialInstitution", { id: context.record.financial_institution_id });
+                                openSheet("financialInstitution", { id: context.record.financial_institution_code });
                             }}
                             copyValue
                         />
 
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
+                            </small>
+
+                            <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {context.record.currency_code}
+                                    </span>
+                                </Badge>
+                            </div>
+                        </div>
+
                         <TextField
                             fontSize="title-2"
-                            label={translate("resources.paymentTools.systemPaymentInstruments.fields.description")}
+                            label={translate("resources.paymentSettings.systemPaymentInstruments.fields.description")}
                             text={context.record.description ?? ""}
                         />
+
                         <div className="col-span-2 flex flex-col">
                             <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
-                                {translate("resources.paymentTools.systemPaymentInstruments.fields.meta")}
+                                {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                             </Label>
                             <div className="flex h-full">
                                 <MonacoEditor

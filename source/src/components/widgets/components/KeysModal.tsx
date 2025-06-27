@@ -74,11 +74,13 @@ export const KeysModal = (props: KeysModalProps) => {
 
     const handlePrivateCopy = useCallback(() => {
         setCopyPrivateClicked(true);
+        setCopyPublicClicked(false);
         navigator.clipboard.writeText(privateKey);
     }, [privateKey]);
 
     const handlePublicCopy = useCallback(() => {
         setCopyPublicClicked(true);
+        setCopyPrivateClicked(false);
         navigator.clipboard.writeText(publicKey);
     }, [publicKey]);
 

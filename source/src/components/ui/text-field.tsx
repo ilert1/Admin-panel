@@ -20,7 +20,8 @@ export const TextField = ({
     minWidth = "150px",
     maxWidth = "100%",
     className = "",
-    onClick
+    onClick,
+    onDoubleClick
 }: {
     text: string;
     label?: string | undefined;
@@ -36,6 +37,7 @@ export const TextField = ({
     maxWidth?: string;
     className?: string;
     onClick?: React.MouseEventHandler<HTMLSpanElement> | undefined;
+    onDoubleClick?: React.MouseEventHandler<HTMLSpanElement> | undefined;
 }) => {
     const currentText = useMemo(() => (text?.length > 0 ? text : "-"), [text]);
     const translate = useTranslate();
@@ -92,10 +94,12 @@ export const TextField = ({
                             className={cn(
                                 textStyle(),
                                 "block cursor-default",
+                                onDoubleClick && "min-h-5 cursor-pointer",
                                 onClick &&
                                     "cursor-pointer !text-green-50 underline transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50",
                                 fontSize && `${fontSize}`
                             )}
+                            onDoubleClick={onDoubleClick}
                             onClick={onClick}
                             style={{
                                 ...(lineClamp

@@ -53,12 +53,12 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
                 }}>
                 <DialogHeader>
                     <DialogTitle className="text-center !text-display-2 text-red-40 dark:text-red-40">
-                        {translate("resources.paymentTools.deletion.attention")}
+                        {translate("resources.paymentSettings.deletion.attention")}
                     </DialogTitle>
                     <DialogDescription className="text-center !text-title-1 text-red-400">
                         {!continueClicked
-                            ? translate("resources.paymentTools.deletion.attentionDescriptionCurrency")
-                            : translate("resources.paymentTools.deletion.consequencesCurrency")}
+                            ? translate("resources.paymentSettings.deletion.attentionDescriptionCurrency")
+                            : translate("resources.paymentSettings.deletion.consequencesCurrency")}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-4">

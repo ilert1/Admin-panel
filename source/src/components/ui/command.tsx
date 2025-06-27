@@ -73,7 +73,9 @@ CommandList.displayName = CommandPrimitive.List.displayName;
 const CommandEmpty = React.forwardRef<
     React.ElementRef<typeof CommandPrimitive.Empty>,
     React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
->((props, ref) => <CommandPrimitive.Empty ref={ref} className="px-2 py-6 text-center text-sm" {...props} />);
+>(({ className, ...props }, ref) => (
+    <CommandPrimitive.Empty ref={ref} className={cn("px-2 py-6 text-center text-sm", className)} {...props} />
+));
 
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 

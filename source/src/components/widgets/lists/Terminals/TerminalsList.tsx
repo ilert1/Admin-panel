@@ -1,67 +1,36 @@
-import { useTranslate } from "react-admin";
+import { ListContextProvider } from "react-admin";
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
-import { PlusCircle } from "lucide-react";
 import { CreateTerminalDialog } from "./CreateTerminalDialog";
-
 import { DeleteTerminalDialog } from "./DeleteTerminalDialog";
-import { TerminalsListFilter } from "./TerminalsListFilter/TerminalsListFilter";
-import { TerminalListTable } from "./TerminalsListTable";
+import { TerminalsListFilter } from "./TerminalsListFilter";
 import { useGetTerminalColumns } from "./Columns";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import { EmptyTable } from "../../shared/EmptyTable";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { LoadingBlock } from "@/components/ui/loading";
+import { DataTable } from "../../shared";
 
 export const TerminalsList = () => {
-    const translate = useTranslate();
-
-    const [filterName, setFilterName] = useState("");
-    const [provider, setProvider] = useState("");
+    const listContext = useAbortableListController({
+        resource: "terminals"
+    });
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const { columns, chosenId, deleteDialogOpen, setDeleteDialogOpen } = useGetTerminalColumns();
+    const { columns, chosenId, chosenTerminalProvider, deleteDialogOpen, setDeleteDialogOpen } =
+        useGetTerminalColumns();
 
     return (
-        <>
-            <div className="mb-4 flex flex-wrap justify-between gap-2 md:mb-6">
-                <ResourceHeaderTitle />
-                <Button
-                    disabled={!provider}
-                    onClick={() => setCreateDialogOpen(true)}
-                    variant="default"
-                    className="flex items-center gap-[4px]">
-                    <PlusCircle className="h-[16px] w-[16px]" />
+        <ListContextProvider value={listContext}>
+            <TerminalsListFilter onCreateDialogOpen={() => setCreateDialogOpen(true)} />
 
-                    <span className="text-title-1">{translate("resources.terminals.create")}</span>
-                </Button>
-            </div>
+            {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
 
-            <TerminalsListFilter
-                selectProvider={setProvider}
-                currentProvider={provider}
-                terminalFilterName={filterName}
-                onChangeTerminalFilter={setFilterName}
+            <CreateTerminalDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+
+            <DeleteTerminalDialog
+                provider={chosenTerminalProvider}
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                deleteId={chosenId}
             />
-
-            {provider ? (
-                <>
-                    <TerminalListTable provider={provider} columns={columns} filterName={filterName} />
-
-                    <CreateTerminalDialog
-                        provider={provider}
-                        open={createDialogOpen}
-                        onOpenChange={setCreateDialogOpen}
-                    />
-
-                    <DeleteTerminalDialog
-                        provider={provider}
-                        open={deleteDialogOpen}
-                        onOpenChange={setDeleteDialogOpen}
-                        deleteId={chosenId}
-                    />
-                </>
-            ) : (
-                <EmptyTable columns={columns} />
-            )}
-        </>
+        </ListContextProvider>
     );
 };

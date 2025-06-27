@@ -6,11 +6,15 @@
  */
 import type {
     ApiResponseFinancialInstitution,
+    ApiResponseImportResponse,
     ApiResponseListFinancialInstitutionTypeItem,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationFinancialInstitution,
+    BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
+    FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetParams,
+    FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams,
     FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetParams,
     FinancialInstitutionPaymentTypesLink,
     FinancialInstitutionUpdate,
@@ -150,44 +154,164 @@ export const financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1Fina
 };
 
 /**
- * Retrieves details of a specific financial institution using its unique ID
- * @summary Get financial institution details by ID
+ * Exports Financial Institutions to a CSV file and download it
+ * @summary Export Financial Institutions to CSV
  */
-export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponse200 =
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse200 = {
+    data: unknown;
+    status: 200;
+};
+
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponseComposite =
+
+        | financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse200
+        | financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse422;
+
+export type financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse =
+    financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl = (
+    params?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/export?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/export`;
+};
+
+export const financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGet = async (
+    params?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetParams,
+    options?: RequestInit
+): Promise<financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse> => {
+    return authFetch<financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetResponse>(
+        getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl(params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
+ * Upload CSV file and import Financial Institutions from it to system.
+ * @summary Imports financial institutes records from a CSV file.
+ */
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse200 =
     {
-        data: ApiResponseFinancialInstitution;
+        data: ApiResponseImportResponse;
         status: 200;
     };
 
-export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponse422 =
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponseComposite =
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponseComposite =
 
-        | financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponse200
-        | financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponse422;
+        | financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse200
+        | financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse422;
 
-export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponse =
-    financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponseComposite & {
+export type financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse =
+    financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponseComposite & {
         headers: Headers;
     };
 
-export const getFinancialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetUrl =
-    (financialInstitutionId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionId}`;
+export const getFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostUrl = (
+    params?: FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/import?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/import`;
+};
+
+export const financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost = async (
+    bodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost: BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
+    params?: FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams,
+    options?: RequestInit
+): Promise<financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse> => {
+    const formData = new FormData();
+    formData.append(
+        "csv_file",
+        bodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost.csv_file
+    );
+
+    return authFetch<financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostResponse>(
+        getFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostUrl(params),
+        {
+            ...options,
+            method: "POST",
+            body: formData
+        }
+    );
+};
+
+/**
+ * Retrieves details of a specific financial institution using its unique Code
+ * @summary Get financial institution details by Code
+ */
+export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponse200 =
+    {
+        data: ApiResponseFinancialInstitution;
+        status: 200;
     };
 
-export const financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet =
+export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponseComposite =
+
+        | financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponse200
+        | financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponse422;
+
+export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponse =
+    financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getFinancialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetUrl =
+    (financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}`;
+    };
+
+export const financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGet =
     async (
-        financialInstitutionId: string,
+        financialInstitutionCode: string,
         options?: RequestInit
-    ): Promise<financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponse> => {
-        return authFetch<financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetResponse>(
-            getFinancialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGetUrl(
-                financialInstitutionId
+    ): Promise<financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponse> => {
+        return authFetch<financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetResponse>(
+            getFinancialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetUrl(
+                financialInstitutionCode
             ),
             {
                 ...options,
@@ -197,45 +321,45 @@ export const financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1Financi
     };
 
 /**
- * Updates the details of an existing financial institution identified by its ID
+ * Updates the details of an existing financial institution identified by its Code
  * @summary Update financial institution details
  */
-export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponse200 =
+export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponse200 =
     {
         data: ApiResponseFinancialInstitution;
         status: 200;
     };
 
-export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponse422 =
+export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponseComposite =
+export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponseComposite =
 
-        | financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponse200
-        | financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponse422;
+        | financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponse200
+        | financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponse422;
 
-export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponse =
-    financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponseComposite & {
+export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponse =
+    financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponseComposite & {
         headers: Headers;
     };
 
-export const getFinancialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutUrl =
-    (financialInstitutionId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionId}`;
+export const getFinancialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutUrl =
+    (financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}`;
     };
 
-export const financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut =
+export const financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePut =
     async (
-        financialInstitutionId: string,
+        financialInstitutionCode: string,
         financialInstitutionUpdate: FinancialInstitutionUpdate,
         options?: RequestInit
-    ): Promise<financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponse> => {
-        return authFetch<financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutResponse>(
-            getFinancialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPutUrl(
-                financialInstitutionId
+    ): Promise<financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponse> => {
+        return authFetch<financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutResponse>(
+            getFinancialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutUrl(
+                financialInstitutionCode
             ),
             {
                 ...options,
@@ -247,44 +371,44 @@ export const financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1Fina
     };
 
 /**
- * Removes a financial institution from the system using its unique ID
+ * Removes a financial institution from the system using its unique Code
  * @summary Delete a financial institution
  */
-export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponse200 =
+export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponse200 =
     {
         data: ApiResponseNoneType;
         status: 200;
     };
 
-export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponse422 =
+export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponseComposite =
+export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponseComposite =
 
-        | financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponse200
-        | financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponse422;
+        | financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponse200
+        | financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponse422;
 
-export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponse =
-    financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponseComposite & {
+export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponse =
+    financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getFinancialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteUrl =
-    (financialInstitutionId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionId}`;
+export const getFinancialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteUrl =
+    (financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}`;
     };
 
-export const financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDelete =
+export const financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDelete =
     async (
-        financialInstitutionId: string,
+        financialInstitutionCode: string,
         options?: RequestInit
-    ): Promise<financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponse> => {
-        return authFetch<financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteResponse>(
-            getFinancialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDeleteUrl(
-                financialInstitutionId
+    ): Promise<financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponse> => {
+        return authFetch<financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteResponse>(
+            getFinancialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteUrl(
+                financialInstitutionCode
             ),
             {
                 ...options,
@@ -297,42 +421,42 @@ export const financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1Fina
  * Associates existing payment types with a financial institution. Skips already linked types.
  * @summary Add payment types to financial institution
  */
-export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponse200 =
+export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponse200 =
     {
         data: ApiResponseFinancialInstitution;
         status: 200;
     };
 
-export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponse422 =
+export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponseComposite =
+export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponseComposite =
 
-        | financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponse200
-        | financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponse422;
+        | financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponse200
+        | financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponse422;
 
-export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponse =
-    financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponseComposite & {
+export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponse =
+    financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getFinancialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchUrl =
-    (financialInstitutionId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionId}/add_payment_types`;
+export const getFinancialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchUrl =
+    (financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/add_payment_types`;
     };
 
-export const financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatch =
+export const financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatch =
     async (
-        financialInstitutionId: string,
+        financialInstitutionCode: string,
         financialInstitutionPaymentTypesLink: FinancialInstitutionPaymentTypesLink,
         options?: RequestInit
-    ): Promise<financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponse> => {
-        return authFetch<financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchResponse>(
-            getFinancialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatchUrl(
-                financialInstitutionId
+    ): Promise<financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponse> => {
+        return authFetch<financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchResponse>(
+            getFinancialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchUrl(
+                financialInstitutionCode
             ),
             {
                 ...options,
@@ -347,42 +471,42 @@ export const financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionE
  * Disassociates a payment type from a financial institution by its code.
  * @summary Remove payment type from financial institution
  */
-export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
+export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
     {
         data: ApiResponseFinancialInstitution;
         status: 200;
     };
 
-export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
+export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
+export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
 
-        | financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponse200
-        | financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponse422;
+        | financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponse200
+        | financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponse422;
 
-export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponse =
-    financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
+export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponse =
+    financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getFinancialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
-    (financialInstitutionId: string, paymentTypeCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionId}/remove_payment_type/${paymentTypeCode}`;
+export const getFinancialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteUrl =
+    (financialInstitutionCode: string, paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/remove_payment_type/${paymentTypeCode}`;
     };
 
-export const financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDelete =
+export const financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDelete =
     async (
-        financialInstitutionId: string,
+        financialInstitutionCode: string,
         paymentTypeCode: string,
         options?: RequestInit
-    ): Promise<financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
-        return authFetch<financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteResponse>(
-            getFinancialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDeleteUrl(
-                financialInstitutionId,
+    ): Promise<financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
+        return authFetch<financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteResponse>(
+            getFinancialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteUrl(
+                financialInstitutionCode,
                 paymentTypeCode
             ),
             {
@@ -396,42 +520,42 @@ export const financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitut
  * Associates existing currencies with a financial institution. Skips already linked currencies.
  * @summary Add currencies to financial institution
  */
-export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponse200 =
+export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponse200 =
     {
         data: ApiResponseFinancialInstitution;
         status: 200;
     };
 
-export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponse422 =
+export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponseComposite =
+export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponseComposite =
 
-        | financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponse200
-        | financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponse422;
+        | financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponse200
+        | financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponse422;
 
-export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponse =
-    financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponseComposite & {
+export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponse =
+    financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getFinancialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchUrl =
-    (financialInstitutionId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionId}/add_currencies`;
+export const getFinancialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchUrl =
+    (financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/add_currencies`;
     };
 
-export const financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatch =
+export const financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatch =
     async (
-        financialInstitutionId: string,
+        financialInstitutionCode: string,
         financialInstitutionCurrenciesLink: FinancialInstitutionCurrenciesLink,
         options?: RequestInit
-    ): Promise<financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponse> => {
-        return authFetch<financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchResponse>(
-            getFinancialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatchUrl(
-                financialInstitutionId
+    ): Promise<financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponse> => {
+        return authFetch<financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchResponse>(
+            getFinancialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchUrl(
+                financialInstitutionCode
             ),
             {
                 ...options,
@@ -446,42 +570,42 @@ export const financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEni
  * Disassociates a currency from a financial institution by its code.
  * @summary Remove currency from financial institution
  */
-export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponse200 =
+export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponse200 =
     {
         data: ApiResponseFinancialInstitution;
         status: 200;
     };
 
-export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponse422 =
+export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponseComposite =
+export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponseComposite =
 
-        | financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponse200
-        | financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponse422;
+        | financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponse200
+        | financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponse422;
 
-export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponse =
-    financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponseComposite & {
+export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponse =
+    financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getFinancialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteUrl =
-    (financialInstitutionId: string, currencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionId}/remove_currency/${currencyCode}`;
+export const getFinancialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteUrl =
+    (financialInstitutionCode: string, currencyCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/remove_currency/${currencyCode}`;
     };
 
-export const financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDelete =
+export const financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDelete =
     async (
-        financialInstitutionId: string,
+        financialInstitutionCode: string,
         currencyCode: string,
         options?: RequestInit
-    ): Promise<financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponse> => {
-        return authFetch<financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteResponse>(
-            getFinancialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDeleteUrl(
-                financialInstitutionId,
+    ): Promise<financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponse> => {
+        return authFetch<financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteResponse>(
+            getFinancialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteUrl(
+                financialInstitutionCode,
                 currencyCode
             ),
             {

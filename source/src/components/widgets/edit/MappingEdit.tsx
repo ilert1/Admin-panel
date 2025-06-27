@@ -62,12 +62,13 @@ export const MappingEdit = (props: MappingEditProps) => {
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
         external_path: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
-        // .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
         internal_path: z
             .string()
-            .min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty"))
-            .url(translate("resources.callbridge.mapping.errors.invalidUrl")),
-        description: z.optional(z.string())
+            .url(translate("resources.callbridge.mapping.errors.invalidUrl"))
+            .optional()
+            .or(z.literal("")),
+        description: z.optional(z.string()),
+        adapter_nats_subject: z.optional(z.string())
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -76,7 +77,8 @@ export const MappingEdit = (props: MappingEditProps) => {
             name: controllerProps.record?.name ?? "",
             external_path: controllerProps.record?.external_path ?? "",
             internal_path: controllerProps.record?.internal_path ?? "",
-            description: controllerProps.record?.description ?? ""
+            description: controllerProps.record?.description ?? "",
+            adapter_nats_subject: controllerProps.record?.adapter_nats_subject ?? ""
         }
     });
 
@@ -86,7 +88,8 @@ export const MappingEdit = (props: MappingEditProps) => {
                 name: controllerProps.record?.name ?? "",
                 external_path: controllerProps.record?.external_path ?? "",
                 internal_path: controllerProps.record?.internal_path ?? "",
-                description: controllerProps.record?.description ?? ""
+                description: controllerProps.record?.description ?? "",
+                adapter_nats_subject: controllerProps.record?.adapter_nats_subject ?? ""
             });
         }
     }, [form, controllerProps.record]);
@@ -120,6 +123,7 @@ export const MappingEdit = (props: MappingEditProps) => {
                                     );
                                 }}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="internal_path"
@@ -137,6 +141,7 @@ export const MappingEdit = (props: MappingEditProps) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="external_path"
@@ -154,6 +159,25 @@ export const MappingEdit = (props: MappingEditProps) => {
                                     </FormItem>
                                 )}
                             />
+
+                            <FormField
+                                control={form.control}
+                                name="adapter_nats_subject"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                label={translate("resources.callbridge.mapping.fields.nats_subject")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
                             <FormField
                                 control={form.control}
                                 name="description"

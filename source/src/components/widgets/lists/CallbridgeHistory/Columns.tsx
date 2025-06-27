@@ -60,8 +60,10 @@ export const useGetCallbridgeHistory = () => {
             header: () => {
                 return (
                     <div className="flex flex-col">
-                        <p>{translate("resources.callbridge.history.fields.createdAt")}</p>
-                        <p>{translate("resources.callbridge.history.fields.deliveredAt")}</p>
+                        <p className="text-base/[1rem]">{translate("resources.callbridge.history.fields.createdAt")}</p>
+                        <p className="text-base/[1rem]">
+                            {translate("resources.callbridge.history.fields.deliveredAt")}
+                        </p>
                     </div>
                 );
             },
@@ -69,7 +71,7 @@ export const useGetCallbridgeHistory = () => {
                 <>
                     <p className="text-nowrap">{formatDateTime(new Date(row.original.created_at))}</p>
                     <p className="text-nowrap text-neutral-70">
-                        {formatDateTime(new Date(row.original.delivered_at ?? ""))}
+                        {row.original.delivered_at ? formatDateTime(new Date(row.original.delivered_at)) : "-"}
                     </p>
                 </>
             )

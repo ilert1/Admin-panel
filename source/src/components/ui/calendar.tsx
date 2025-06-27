@@ -10,16 +10,17 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
 
     return (
         <DayPicker
+            weekStartsOn={1}
             locale={{
                 localize: {
                     ...defaultLocale.localize,
-                    month: n => translate(`datePicker.month.${n}`)
+                    month: n => translate(`datePicker.month.${n}`),
+                    day: d => translate(`datePicker.day.${d}`)
                 }
             }}
             autoFocus
             captionLayout="dropdown"
             showOutsideDays
-            hideWeekdays
             className={cn("p-4 pb-2", className)}
             classNames={{
                 months: "flex flex-col sm:flex-row space-y-4 sm:space-y-0",

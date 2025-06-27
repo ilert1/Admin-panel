@@ -2,7 +2,7 @@ import { useTranslate, useEditController, EditContextProvider } from "react-admi
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { X } from "lucide-react";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentTypesProvider } from "@/data/payment_types";
@@ -40,23 +39,19 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const { theme } = useTheme();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const [iconFileName, setIconFileName] = useState<string>("");
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const { data: currenciesList, isLoading: isLoadingCurrencies } = useQuery({
         queryKey: ["currencies"],
-        queryFn: () => {
-            return currenciesDataProvider.getListWithoutPagination();
-        },
+        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });
 
     const formSchema = z.object({
-        code: z.string().min(1, translate("resources.paymentTools.paymentType.errors.code")).trim(),
+        code: z.string().min(1, translate("resources.paymentSettings.paymentType.errors.code")).trim(),
         title: z.string().optional().default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
         required_fields_for_payment: z.string().optional(),
@@ -89,7 +84,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
         const required_fields_for_payment = data.required_fields_for_payment?.trim()
             ? data.required_fields_for_payment?.split(",").map(item => item.trim())
-            : undefined;
+            : [];
 
         let currencies: string[] = [];
         let oldCurrencies: Set<string> = new Set();
@@ -106,6 +101,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         const currenciesToDelete = oldCurrencies.difference(new Set(currencies));
 
         try {
+            required_fields_for_payment.forEach(item => {
+                if (!item.match(/^[a-z0-9_]+$/)) {
+                    throw new Error("paymentFieldsRegex");
+                }
+            });
+
             await paymentTypesDataProvider.update("payment_type", {
                 id,
                 data: { ...data, required_fields_for_payment },
@@ -139,13 +140,18 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             refresh();
             onClose();
         } catch (error) {
-            // С бэка прилетает нечеловеческая ошибка, поэтому оставлю пока так
-            // if (error instanceof Error) {
-            //     appToast("error", error.message);
-            // }
-
-            appToast("error", translate("resources.paymentTools.paymentType.duplicateCode"));
-
+            if (error instanceof Error) {
+                if (error.message.includes("already exists")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.duplicateCode"));
+                } else if (error.message.includes("paymentFieldsRegex")) {
+                    appToast("error", translate("resources.paymentSettings.paymentType.errors.paymentFieldsRegex"));
+                } else {
+                    appToast("error", error.message);
+                }
+            } else {
+                appToast("error", translate("app.ui.toast.error"));
+            }
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };
@@ -176,7 +182,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.code")}
+                                                label={translate("resources.paymentSettings.paymentType.fields.code")}
                                                 disabled
                                             />
                                         </FormControl>
@@ -194,7 +200,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentTools.paymentType.fields.title")}
+                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -205,7 +211,9 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 name="category"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.paymentTools.paymentType.fields.category")}</Label>
+                                        <Label>
+                                            {translate("resources.paymentSettings.paymentType.fields.category")}
+                                        </Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
                                                 <SelectTrigger
@@ -243,7 +251,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.paymentType.fields.required_fields_for_payment"
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment"
                                                 )}
                                             />
                                         </FormControl>
@@ -271,7 +279,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 name="meta.icon"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.paymentTools.paymentType.fields.icon")}</Label>
+                                        <Label>{translate("resources.paymentSettings.paymentType.fields.icon")}</Label>
                                         <div className="!mt-0 flex items-center gap-4">
                                             {field.value && (
                                                 <div className="h-10 w-10">
@@ -289,12 +297,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                     className="block w-full cursor-pointer rounded-4 bg-green-50 px-4 py-2 text-center !text-white transition-all duration-300 hover:bg-green-40"
                                                     title={
                                                         iconFileName ||
-                                                        translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                        translate("resources.paymentSettings.paymentType.uploadIcon") +
                                                             "..."
                                                     }>
                                                     <span className="block truncate">
                                                         {iconFileName ||
-                                                            translate("resources.paymentTools.paymentType.uploadIcon") +
+                                                            translate("resources.paymentSettings.paymentType.uploadIcon") +
                                                                 "..."}
                                                     </span>
                                                 </label>

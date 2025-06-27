@@ -15,28 +15,33 @@ import {
     FinancialInstitution,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
+    ImportMode,
     PaymentTypesLink
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
-    financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatch,
-    financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatch,
+    financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatch,
+    financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatch,
     financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPost,
-    financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDelete,
-    financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet,
+    financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDelete,
+    financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGet,
     financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1FinancialInstitutionTypesGet,
+    financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost,
     financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet,
-    financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDelete,
-    financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDelete,
-    financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut
+    financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDelete,
+    financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDelete,
+    financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePut,
+    getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl
 } from "@/api/enigma/financial-institution/financial-institution";
 
+export type FinancialInstitutionWithId = FinancialInstitution & { id: string };
+
 export class FinancialInstitutionProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<FinancialInstitution>> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<FinancialInstitutionWithId>> {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(
                   item =>
                       item === "name" ||
-                      item === "short_name" ||
+                      item === "code" ||
                       item === "institution_type" ||
                       item === "country_code" ||
                       item === "nspk_member_id"
@@ -60,7 +65,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items,
+                data: res.data.data.items.map(item => ({ id: item.code, ...item })),
                 total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {
@@ -75,7 +80,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<FinancialInstitution>> {
+    async getListWithoutPagination(): Promise<GetListResult<FinancialInstitutionWithId>> {
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: 1,
@@ -90,7 +95,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items,
+                data: res.data.data.items.map(item => ({ id: item.code, ...item })),
                 total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {
@@ -105,9 +110,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<FinancialInstitution>> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<FinancialInstitutionWithId>> {
         const res =
-            await financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdGet(
+            await financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGet(
                 params.id,
                 {
                     headers: {
@@ -119,7 +124,10 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data
+                data: {
+                    id: res.data.data.code,
+                    ...res.data.data
+                }
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -133,7 +141,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
     async create(
         resource: string,
         params: CreateParams<FinancialInstitutionCreate>
-    ): Promise<CreateResult<FinancialInstitution>> {
+    ): Promise<CreateResult<FinancialInstitutionWithId>> {
         const res = await financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPost(
             params.data as FinancialInstitutionCreate,
             {
@@ -145,7 +153,10 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data
+                data: {
+                    id: res.data.data.code,
+                    ...res.data.data
+                }
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -156,9 +167,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<FinancialInstitution>> {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<FinancialInstitutionWithId>> {
         const res =
-            await financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdPut(
+            await financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePut(
                 params.id,
                 params.data,
                 {
@@ -170,7 +181,10 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data
+                data: {
+                    id: res.data.data.code,
+                    ...res.data.data
+                }
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -202,11 +216,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async addPaymentTypes(
-        params: UpdateParams & { data: PaymentTypesLink }
-    ): Promise<UpdateResult<FinancialInstitution>> {
+    async addPaymentTypes(params: UpdateParams & { data: PaymentTypesLink }): Promise<UpdateResult> {
         const res =
-            await financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddPaymentTypesPatch(
+            await financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatch(
                 params.id,
                 params.data,
                 {
@@ -229,11 +241,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async removePaymentType(
-        params: UpdateParams & { data: { code: string } }
-    ): Promise<UpdateResult<FinancialInstitution>> {
+    async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult> {
         const res =
-            await financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemovePaymentTypePaymentTypeCodeDelete(
+            await financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDelete(
                 params.id,
                 params.data.code,
                 {
@@ -256,11 +266,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async addCurrencies(
-        params: UpdateParams & { data: FinancialInstitutionCurrenciesLink }
-    ): Promise<UpdateResult<FinancialInstitution>> {
+    async addCurrencies(params: UpdateParams & { data: FinancialInstitutionCurrenciesLink }): Promise<UpdateResult> {
         const res =
-            await financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdAddCurrenciesPatch(
+            await financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatch(
                 params.id,
                 params.data,
                 {
@@ -283,11 +291,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async removeCurrency(
-        params: UpdateParams & { data: { code: string } }
-    ): Promise<UpdateResult<FinancialInstitution>> {
+    async removeCurrency(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult> {
         const res =
-            await financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdRemoveCurrencyCurrencyCodeDelete(
+            await financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDelete(
                 params.id,
                 params.data.code,
                 {
@@ -310,9 +316,9 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams<FinancialInstitution>): Promise<DeleteResult> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult> {
         const res =
-            await financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionIdDelete(
+            await financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDelete(
                 params.id,
                 {
                     headers: {
@@ -332,5 +338,60 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+    async downloadReport(params: GetListParams) {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item =>
+                      item === "code" ||
+                      item === "name" ||
+                      item === "institution_type" ||
+                      item === "country_code" ||
+                      item === "nspk_member_id"
+              )
+            : [];
+
+        const url = getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetUrl(
+            {
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+            }
+        );
+
+        return await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+    }
+
+    async uploadReport(file: File, mode: ImportMode = "strict") {
+        const res =
+            await financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost(
+                {
+                    csv_file: file
+                },
+                {
+                    mode
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
     }
 }

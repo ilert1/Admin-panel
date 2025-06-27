@@ -2,13 +2,13 @@ import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schem
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import { CurrencyWithId } from "@/data/currencies";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef } from "@tanstack/react-table";
 import { useCallback, useState } from "react";
 import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "./DirectionActivityBtn";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
@@ -59,19 +59,29 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             id: "src_currency",
             accessorKey: "src_currency",
             header: translate("resources.direction.fields.srcCurr"),
-            cell: ({ row }) => {
-                const obj: CurrencyWithId = row.getValue("src_currency");
-                return <TextField text={obj.code} />;
-            }
+            cell: ({ row }) => (
+                <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                            {row.original.src_currency.code}
+                        </span>
+                    </Badge>
+                </div>
+            )
         },
         {
             id: "dst_currency",
             accessorKey: "dst_currency",
             header: translate("resources.direction.fields.destCurr"),
-            cell: ({ row }) => {
-                const obj: CurrencyWithId = row.getValue("dst_currency");
-                return <TextField text={obj.code} />;
-            }
+            cell: ({ row }) => (
+                <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                            {row.original.dst_currency.code}
+                        </span>
+                    </Badge>
+                </div>
+            )
         },
         {
             id: "merchant",
@@ -161,21 +171,23 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
         },
         {
             id: "payment_types",
-            header: translate("resources.paymentTools.paymentType.fields.payment_types"),
+            header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">
-                        {row.original.payment_types?.map(pt => {
-                            return (
-                                <PaymentTypeIcon
-                                    className="h-7 w-7"
-                                    key={pt.code}
-                                    type={pt.code}
-                                    metaIcon={pt.meta?.["icon"] as string}
-                                    tooltip
-                                />
-                            );
-                        })}
+                        {row.original.payment_types && row.original.payment_types.length > 0
+                            ? row.original.payment_types?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"] as string}
+                                          tooltip
+                                      />
+                                  );
+                              })
+                            : "-"}
                     </div>
                 );
             }

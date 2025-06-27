@@ -28,7 +28,7 @@
     "resources.direction.fees": {
         "fees": "Комиссии",
         "accountNumber": "ID счета",
-        "feeAmount": "Размер комиссии",
+        "feeAmount": "Размер комиссии, %",
         "feeType": "Тип комиссии",
         "currency": "Валюта",
         "descr": "Описание",
@@ -41,7 +41,18 @@
 
         "directionFieldError": "Направление обязательно должно быть выбрано",
         "currencyFieldError": "Валюта обязательно должна быть выбрана",
-        "valueFieldError": "Коммиссия должна быть положительным числом, например 0.1"
+        "valueFieldError": "Коммиссия должна быть положительным числом.",
+        "valueMinError": "Значение не может быть меньше 0",
+        "valueMaxError": "Значение не может превышать 100%",
+        "valueMustBeFinite": "Значение должно быть конечным числом",
+        "valueMaxPrecisionError": "Допускается максимум 2 знака после запятой",
+        "errorAlreadyExist": "Комиссия с таким типом уже существует",
+
+        "smallFeeDialog": {
+            "title": "Размер комиссии",
+            "lessThenOne": " меньше 1%",
+            "save": "Сохранить?"
+        }
     },
     "resources.direction.errors": {
         "name": "У направления обязательно должно быть имя",
@@ -81,7 +92,7 @@
     "resources.direction.noProviders": "Нет доступных провайдеров",
     "resources.direction.noMerchants": "Нет доступных мерчантов",
     "resources.direction.noCurrencies": "Нет доступных валют",
-    "resources.direction.noTerminals": "Выберите провайдера перед выбором терминала",
+    "resources.direction.noTerminals": "Сначала выберите провайдера",
     "resources.direction.deleteDirection": "Удалить направление?",
     "resources.direction.editingDirection": "Изменить направление",
     "resources.direction.creatingDirection": "Добавление направления"

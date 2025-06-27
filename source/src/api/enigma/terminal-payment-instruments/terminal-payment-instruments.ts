@@ -14,6 +14,7 @@ import type {
     TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetParams,
     TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetParams,
     TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams,
+    TerminalPaymentInstrumentFIData,
     TerminalPaymentInstrumentUpdate
 } from "../blowFishEnigmaAPIService.schemas";
 
@@ -301,6 +302,159 @@ export const terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrume
                 method: "POST",
                 headers: { "Content-Type": "application/json", ...options?.headers },
                 body: JSON.stringify(terminalInitializePaymentInstrumentsRequest)
+            }
+        );
+    };
+
+/**
+ * Adds terminal payment instruments for a specific terminal based on a financial institution code.
+ * @summary Add terminal payment instruments by financial institution
+ */
+export type terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponse200 =
+    {
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponse200
+        | terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponse422;
+
+export type terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponse =
+    terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostUrl =
+    (terminalId: string, financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/terminals/${terminalId}/financial_institution/${financialInstitutionCode}`;
+    };
+
+export const terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePost =
+    async (
+        terminalId: string,
+        financialInstitutionCode: string,
+        terminalPaymentInstrumentFIData: TerminalPaymentInstrumentFIData,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostResponse>(
+            getTerminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePostUrl(
+                terminalId,
+                financialInstitutionCode
+            ),
+            {
+                ...options,
+                method: "POST",
+                headers: { "Content-Type": "application/json", ...options?.headers },
+                body: JSON.stringify(terminalPaymentInstrumentFIData)
+            }
+        );
+    };
+
+/**
+ * Updates terminal payment instruments for a specific terminal based on financial institution code
+ * @summary Update terminal payment instruments by financial institution
+ */
+export type terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponse200 =
+    {
+        data: ApiResponseOffsetPaginationTerminalPaymentInstrument;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponse200
+        | terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponse422;
+
+export type terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponse =
+    terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchUrl =
+    (terminalId: string, financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/terminals/${terminalId}/financial_institution/${financialInstitutionCode}`;
+    };
+
+export const terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatch =
+    async (
+        terminalId: string,
+        financialInstitutionCode: string,
+        terminalPaymentInstrumentFIData: TerminalPaymentInstrumentFIData,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchResponse>(
+            getTerminalPaymentInstrumentEndpointsUpdateTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePatchUrl(
+                terminalId,
+                financialInstitutionCode
+            ),
+            {
+                ...options,
+                method: "PATCH",
+                headers: { "Content-Type": "application/json", ...options?.headers },
+                body: JSON.stringify(terminalPaymentInstrumentFIData)
+            }
+        );
+    };
+
+/**
+ * Deletes terminal payment instruments for a specific terminal based on financial institution code
+ * @summary Delete terminal payment instruments by financial institution
+ */
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponse200 =
+    {
+        data: ApiResponseNoneType;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponse200
+        | terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponse422;
+
+export type terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponse =
+    terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteUrl =
+    (terminalId: string, financialInstitutionCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/terminals/${terminalId}/financial_institution/${financialInstitutionCode}`;
+    };
+
+export const terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDelete =
+    async (
+        terminalId: string,
+        financialInstitutionCode: string,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteResponse>(
+            getTerminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodeDeleteUrl(
+                terminalId,
+                financialInstitutionCode
+            ),
+            {
+                ...options,
+                method: "DELETE"
             }
         );
     };

@@ -25,6 +25,7 @@ import {
     terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet,
     terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch
 } from "@/api/enigma/terminal-payment-instruments/terminal-payment-instruments";
+// import { getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetUrl } from "@/api/enigma/system-payment-instruments/system-payment-instruments";
 
 export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
@@ -56,7 +57,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                         signal: params.signal || params.filter?.signal
                     }
                 );
-        } else if (params.filter.provider && params.filter.provider !== "Show All") {
+        } else if (params.filter.provider) {
             res =
                 await terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet(
                     params.filter.provider,
@@ -75,24 +76,12 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                         signal: params.signal || params.filter?.signal
                     }
                 );
-        } else
-            res =
-                await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
-                    {
-                        currentPage: params?.pagination?.page,
-                        pageSize: params?.pagination?.perPage,
-                        ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                        ...(fieldsForSearch.length > 0 && {
-                            searchString: fieldsForSearch.map(item => params.filter?.[item])
-                        })
-                    },
-                    {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem("access-token")}`
-                        },
-                        signal: params.signal || params.filter?.signal
-                    }
-                );
+        } else {
+            return {
+                data: [],
+                total: 0
+            };
+        }
 
         if ("data" in res.data && res.data.success) {
             return {
@@ -142,12 +131,13 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async initialize(termId: string, codes: string[]) {
+    async initialize(terminalId: string, payment_type_codes: string[], currency_codes?: string[]) {
         const res =
             await terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost(
-                termId,
+                terminalId,
                 {
-                    payment_type_codes: codes
+                    payment_type_codes,
+                    ...(currency_codes && currency_codes.length > 0 && { currency_codes })
                 },
                 {
                     headers: {

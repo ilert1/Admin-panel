@@ -2,7 +2,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useRefresh, u
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ import {
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-import { TerminalsDataProvider } from "@/data";
+import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
@@ -30,6 +30,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { ProviderSelect } from "../components/Selects/ProviderSelect";
 
 export interface TerminalPaymentInstrumentsCreateProps {
     onClose?: () => void;
@@ -39,6 +40,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
+    const providersDataProvider = new ProvidersDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
     const { filterValues } = useListContext();
@@ -48,9 +50,11 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const translate = useTranslate();
     const statuses = Object.keys(TerminalPaymentInstrumentStatus);
 
-    const [systemPaymentInstrumentValueName, setSystemPaymentInstrumentValueName] = useState("");
+    const [systemPaymentInstrumentCode, setSystemPaymentInstrumentCode] = useState("");
     const [terminalValueName, setTerminalValueName] = useState("");
+    const [providerName, setProviderName] = useState("");
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -59,18 +63,44 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         queryFn: async () => await systemPaymentInstrumentsProvider.getListWithoutPagination()
     });
 
-    const { isLoading: terminalsDataLoading, data: terminalsData } = useQuery({
-        queryKey: ["terminals"],
-        queryFn: async () => await terminalsDataProvider.getListWithoutPagination()
+    const {
+        data: providersData,
+        isLoading: isProvidersLoading,
+        isFetching: isProvidersFetching
+    } = useQuery({
+        queryKey: ["providers", "filter"],
+        queryFn: () => providersDataProvider.getListWithoutPagination(),
+        select: data => data.data
     });
+
+    const {
+        data: terminalsData,
+        isLoading: isTerminalsLoading,
+        isFetching: isTerminalsFetching
+    } = useQuery({
+        queryKey: ["terminals", "filter", providerName],
+        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        enabled: !!providerName,
+        select: data => data.data
+    });
+
+    const providersLoadingProcess = useMemo(
+        () => isProvidersLoading || isProvidersFetching,
+        [isProvidersFetching, isProvidersLoading]
+    );
+
+    const terminalsLoadingProcess = useMemo(
+        () => isTerminalsLoading || isTerminalsFetching,
+        [isTerminalsFetching, isTerminalsLoading]
+    );
 
     const formSchema = z.object({
         terminal_id: z
             .string()
-            .min(1, translate("resources.paymentTools.terminalPaymentInstruments.errors.terminal_id")),
-        system_payment_instrument_id: z
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
+        system_payment_instrument_code: z
             .string()
-            .min(1, translate("resources.paymentTools.terminalPaymentInstruments.errors.system_payment_instrument_id")),
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty")),
         status: z
             .enum(statuses as [string, ...string[]])
             .default(TerminalPaymentInstrumentStatus.ACTIVE)
@@ -86,29 +116,38 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         resolver: zodResolver(formSchema),
         defaultValues: {
             terminal_id: "",
-            system_payment_instrument_id: "",
+            system_payment_instrument_code: "",
             status: TerminalPaymentInstrumentStatus.ACTIVE,
             direction: DirectionType.deposit,
             terminal_payment_type_code: "",
             terminal_currency_code: "",
             terminal_financial_institution_code: "",
-            terminal_specific_parameters: ""
+            terminal_specific_parameters: "{}"
         }
     });
 
     useEffect(() => {
-        if (filterValues?.terminalFilterId && terminalsData && terminalsData?.data.length > 0) {
-            const terminalFromFilter = terminalsData.data.find(
-                item => item.terminal_id === filterValues.terminalFilterId
-            );
+        if (filterValues?.provider && providersData && providersData?.length > 0) {
+            const providerFromFilter = providersData.find(item => item.name === filterValues.provider);
+            setProviderName(providerFromFilter?.name || "");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
 
-            if (terminalFromFilter) {
-                setTerminalValueName(terminalFromFilter.verbose_name);
-                form.setValue("terminal_id", filterValues.terminalFilterId);
-            }
+    useEffect(() => {
+        if (filterValues?.terminalFilterId && terminalsData && terminalsData?.length > 0) {
+            const terminal = terminalsData.find(terminal => terminal.terminal_id === filterValues.terminalFilterId);
+            setTerminalValueName(terminal?.verbose_name || "");
+            form.setValue("terminal_id", terminal?.terminal_id || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
+
+    const onChangeProviderName = (val: string) => {
+        setProviderName(val);
+        setTerminalValueName("");
+        form.setValue("terminal_id", "");
+    };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setSubmitButtonDisabled(true);
@@ -130,7 +169,12 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
             onClose();
         } catch (error) {
             if (error instanceof Error) {
-                appToast("error", error.message);
+                appToast(
+                    "error",
+                    error.message.includes("already exists")
+                        ? translate("resources.paymentSettings.terminalPaymentInstruments.errors.alreadyExist")
+                        : error.message
+                );
             } else {
                 appToast("error", translate("app.ui.create.createError"));
             }
@@ -152,6 +196,23 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col flex-wrap">
                         <div className="grid grid-cols-1 sm:grid-cols-2">
+                            <div className="w-full p-2">
+                                <Label>{translate("resources.terminals.selectHeader")}</Label>
+
+                                <ProviderSelect
+                                    style="Grey"
+                                    providers={providersData || []}
+                                    value={providerName}
+                                    onChange={onChangeProviderName}
+                                    disabled={providersLoadingProcess}
+                                    isError={!providerName && form.getFieldState("terminal_id").invalid}
+                                    errorMessage={translate(
+                                        "resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"
+                                    )}
+                                    modal
+                                />
+                            </div>
+
                             <FormField
                                 control={form.control}
                                 name="terminal_id"
@@ -159,22 +220,28 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                     <FormItem className="w-full p-2">
                                         <Label>
                                             {translate(
-                                                "resources.paymentTools.terminalPaymentInstruments.fields.terminal_id"
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id"
                                             )}
                                         </Label>
 
                                         <PopoverSelect
-                                            variants={terminalsData?.data || []}
+                                            variants={terminalsData || []}
                                             value={terminalValueName}
                                             idField="terminal_id"
-                                            setIdValue={e => field.onChange(e)}
-                                            onChange={e => setTerminalValueName(e)}
+                                            setIdValue={field.onChange}
+                                            onChange={setTerminalValueName}
                                             variantKey="verbose_name"
+                                            placeholder={
+                                                providerName
+                                                    ? translate("resources.terminals.selectPlaceholder")
+                                                    : translate("resources.direction.noTerminals")
+                                            }
                                             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                             notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
-                                            disabled={terminalsDataLoading}
+                                            disabled={terminalsLoadingProcess || !providerName}
+                                            modal
                                         />
                                     </FormItem>
                                 )}
@@ -182,40 +249,46 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
 
                             <FormField
                                 control={form.control}
-                                name="system_payment_instrument_id"
+                                name="system_payment_instrument_code"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="w-full p-2 sm:col-span-2">
                                         <Label>
                                             {translate(
-                                                "resources.paymentTools.terminalPaymentInstruments.fields.system_payment_instrument_id"
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
                                             )}
                                         </Label>
 
                                         <PopoverSelect
                                             variants={systemPaymentInstrumentsData?.data || []}
-                                            value={systemPaymentInstrumentValueName}
-                                            idField="id"
+                                            value={systemPaymentInstrumentCode}
+                                            idField="code"
                                             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                            setIdValue={e => field.onChange(e)}
-                                            onChange={e => setSystemPaymentInstrumentValueName(e)}
-                                            variantKey="name"
+                                            setIdValue={field.onChange}
+                                            onChange={setSystemPaymentInstrumentCode}
+                                            variantKey="code"
                                             notFoundMessage={translate(
-                                                "resources.paymentTools.systemPaymentInstruments.notFoundMessage"
+                                                "resources.paymentSettings.systemPaymentInstruments.notFoundMessage"
                                             )}
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                             disabled={systemPaymentInstrumentsDataLoading}
+                                            modal
                                         />
                                     </FormItem>
                                 )}
                             />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="status"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
                                         <Label>
-                                            {translate("resources.paymentTools.systemPaymentInstruments.fields.status")}
+                                            {translate(
+                                                "resources.paymentSettings.systemPaymentInstruments.fields.status"
+                                            )}
                                         </Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
@@ -234,7 +307,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                                             value={status}
                                                             variant={SelectType.GRAY}>
                                                             {translate(
-                                                                `resources.paymentTools.systemPaymentInstruments.statuses.${status.toLowerCase()}`
+                                                                `resources.paymentSettings.systemPaymentInstruments.statuses.${status.toLowerCase()}`
                                                             )}
                                                         </SelectItem>
                                                     ))}
@@ -251,7 +324,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                     <FormItem className="w-full p-2">
                                         <Label>
                                             {translate(
-                                                "resources.paymentTools.systemPaymentInstruments.fields.direction"
+                                                "resources.paymentSettings.systemPaymentInstruments.fields.direction"
                                             )}
                                         </Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
@@ -294,7 +367,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                                                    "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
                                                 )}
                                             />
                                         </FormControl>
@@ -314,7 +387,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.terminalPaymentInstruments.fields.terminal_currency_code"
+                                                    "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
                                                 )}
                                             />
                                         </FormControl>
@@ -334,7 +407,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                                    "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                                                 )}
                                             />
                                         </FormControl>
@@ -352,7 +425,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                         <FormLabel>
                                             <span className="!text-note-1 !text-neutral-30">
                                                 {translate(
-                                                    "resources.paymentTools.terminalPaymentInstruments.fields.terminal_specific_parameters"
+                                                    "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
                                                 )}
                                             </span>
                                         </FormLabel>
@@ -360,8 +433,9 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                         <FormControl>
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
+                                                onValidChange={setHasValid}
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value || "{}"}
+                                                code={field.value ?? "{}"}
                                                 setCode={field.onChange}
                                             />
                                         </FormControl>
@@ -379,8 +453,10 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                 disabled={
                                     hasErrors ||
                                     !monacoEditorMounted ||
+                                    (!hasValid && form.watch("terminal_specific_parameters")?.length !== 0) ||
                                     submitButtonDisabled ||
-                                    terminalsDataLoading ||
+                                    terminalsLoadingProcess ||
+                                    providersLoadingProcess ||
                                     systemPaymentInstrumentsDataLoading
                                 }>
                                 {translate("app.ui.actions.save")}

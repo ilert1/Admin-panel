@@ -1,5 +1,5 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
@@ -16,19 +16,23 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useFetchDataForDirections, useGetTerminals } from "@/hooks";
-import { useState } from "react";
+import { useFetchDataForDirections } from "@/hooks";
+import { useMemo, useState } from "react";
 import { Label } from "@/components/ui/label";
-import { Direction, DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
+import { TerminalsDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const dataProvider = useDataProvider();
+    const terminalsDataProvider = new TerminalsDataProvider();
     const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
 
     const controllerProps = useCreateController<IDirectionCreate>();
@@ -41,13 +45,28 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const { directionTypes } = useGetDirectionTypes();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const { terminals, getTerminals } = useGetTerminals();
+    const [terminalValueName, setTerminalValueName] = useState("");
+    const [providerName, setProviderName] = useState("");
 
-    const onSubmit: SubmitHandler<IDirectionCreate> = async data => {
+    const {
+        data: terminalsData,
+        isLoading: isTerminalsLoading,
+        isFetching: isTerminalsFetching
+    } = useQuery({
+        queryKey: ["terminals", "filter", providerName],
+        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        enabled: !!providerName,
+        select: data => data.data
+    });
+
+    const terminalsLoadingProcess = useMemo(
+        () => isTerminalsLoading || isTerminalsFetching,
+        [isTerminalsFetching, isTerminalsLoading]
+    );
+
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
-
-        if (!data.terminal) delete data.terminal;
 
         try {
             const dataWithLimits = {
@@ -86,7 +105,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                 }
             };
 
-            const res = await dataProvider.create<Direction>("direction", { data: dataWithLimits });
+            const res = await dataProvider.create<IDirectionCreate>("direction", { data: dataWithLimits });
 
             appToast(
                 "success",
@@ -95,7 +114,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                     <Button
                         className="!pl-1"
                         variant="resourceLink"
-                        onClick={() => openSheet("direction", { id: res.data.id })}>
+                        onClick={() => openSheet("direction", { id: res.data.id as string })}>
                         {translate("app.ui.actions.details")}
                     </Button>
                 </span>,
@@ -107,6 +126,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             onOpenChange(false);
         } catch (error) {
             appToast("error", translate("resources.provider.errors.alreadyInUse"));
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };
@@ -119,7 +139,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
-        terminal: z.string().optional(),
+        terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
         weight: z.coerce
             .number({ message: translate("resources.direction.errors.weightError") })
             .int(translate("resources.direction.errors.weightError"))
@@ -156,7 +176,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
     const merchantsDisabled = !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0);
     const providersDisabled = !(providers && Array.isArray(providers.data) && providers?.data?.length > 0);
-    const terminalsDisabled = !(terminals && Array.isArray(terminals) && terminals?.length > 0);
 
     return (
         <CreateContextProvider value={controllerProps}>
@@ -224,6 +243,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={currenciesDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -241,6 +261,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={currenciesDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -272,12 +293,18 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         providers={providers.data}
                                         value={field.value}
                                         onChange={e => {
-                                            getTerminals(e);
+                                            setProviderName(e);
                                             field.onChange(e);
+
+                                            if (!e) {
+                                                setTerminalValueName("");
+                                                form.setValue("terminal", "");
+                                            }
                                         }}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={providersDisabled}
+                                        modal
                                     />
                                 </FormItem>
                             )}
@@ -288,39 +315,25 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2 sm:w-1/2">
                                     <Label>{translate("resources.direction.fields.terminal")}</Label>
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={terminalsDisabled}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={
-                                                        terminalsDisabled
-                                                            ? translate("resources.direction.noTerminals")
-                                                            : ""
-                                                    }
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {!terminalsDisabled
-                                                    ? terminals.map(terminal => (
-                                                          <SelectItem
-                                                              key={terminal.terminal_id}
-                                                              value={terminal.terminal_id}
-                                                              variant={SelectType.GRAY}>
-                                                              {terminal.verbose_name}
-                                                          </SelectItem>
-                                                      ))
-                                                    : ""}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <PopoverSelect
+                                        variants={terminalsData || []}
+                                        value={terminalValueName}
+                                        idField="terminal_id"
+                                        setIdValue={field.onChange}
+                                        onChange={setTerminalValueName}
+                                        variantKey="verbose_name"
+                                        placeholder={
+                                            providerName
+                                                ? translate("resources.terminals.selectPlaceholder")
+                                                : translate("resources.direction.noTerminals")
+                                        }
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                        notFoundMessage={translate("resources.terminals.notFoundMessage")}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={terminalsLoadingProcess || !providerName}
+                                        modal
+                                    />
                                 </FormItem>
                             )}
                         />

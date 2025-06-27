@@ -1,15 +1,16 @@
 {
-    "resources.paymentTools.name": "Настройки платежей",
-    "resources.paymentTools.noAvailable": "Ничего не найдено",
-    "resources.paymentTools.countryCodeNotFoundMessage": "Коды стран не найдены.",
-    "resources.paymentTools.paymentType": {
+    "resources.paymentSettings.name": "Настройки платежей",
+    "resources.paymentSettings.noAvailable": "Ничего не найдено",
+    "resources.paymentSettings.countryCodeNotFoundMessage": "Коды стран не найдены.",
+    "resources.paymentSettings.paymentType": {
         "name": "Платёжные типы",
         "admin": {
             "name": "Платёжные типы"
         },
         "errors": {
             "code": "Код не может быть пустым",
-            "codeRegex": "Код может содержать только буквы, цифры, подчеркивание и тире"
+            "codeRegex": "Код может содержать только латинские буквы в нижнем регистре, цифры и подчеркивание",
+            "paymentFieldsRegex": "Поля для платежа могут содержать только латинские буквы в нижнем регистре, цифры и подчеркивание, а также должны быть перечислены через запятую"
         },
         "fields": {
             "code": "Код",
@@ -24,7 +25,7 @@
             "code": "Код платёжного типа",
             "title": "Описание платёжного типа"
         },
-        "notFoundMessage": "Платежные типы не найдены.",
+        "notFoundMessage": "Платёжные типы не найдены.",
         "deletePaymentTypeQuestion": "Удалить платёжные тип?",
         "creatingPaymentType": "Создание платёжного типа",
         "editingPaymentType": "Изменение платёжного типа",
@@ -32,7 +33,7 @@
         "duplicateCode": "Введенный код уже используется",
         "uploadIcon": "Загрузить иконку"
     },
-    "resources.paymentTools.financialInstitution": {
+    "resources.paymentSettings.financialInstitution": {
         "name": "Финансовые институты",
         "show": "Финансовый институт",
         "fields": {
@@ -40,7 +41,7 @@
             "updated_at": "Обновлено",
             "name": "Наименование",
             "nameWithId": "Наименование",
-            "short_name": "Код",
+            "code": "Код",
             "legal_name": "Полное юр. наименование",
             "institution_type": "Тип фин. института",
             "country_code": "Код страны регистрации",
@@ -63,7 +64,11 @@
         },
         "errors": {
             "name": "Наименование финансового института обязательно",
-            "country_code": "Код страны введен не правильно"
+            "code": "Код финансового института обязателен",
+            "code_regex": "Код финансового института может содержать только цифры (0-9), буквы (a-z) и символы (_-.)",
+            "country_code": "Код страны введен не правильно",
+            "alreadyExist": "Финансовый институт уже существует",
+            "alreadyExistWithField": "Финансовый интститут с таким именем (%{value}) уже существует"
         },
         "success": {
             "ACTIVE": "активна",
@@ -79,14 +84,14 @@
         "editingFinancialInstitution": "Изменение финансового института",
         "deleteFinancialInstitution": "Удалить фин. институт?"
     },
-    "resources.paymentTools.systemPaymentInstruments": {
+    "resources.paymentSettings.systemPaymentInstruments": {
         "name": "Системные платёжные инструменты",
         "show": "Системный платёжный инструмент",
         "fields": {
             "name": "Название",
             "payment_type_code": "Платёжный тип",
             "currency_code": "Валюта",
-            "financial_institution_id": "Финансовая институт",
+            "financial_institution_code": "Финансовый институт",
             "direction": "Направление",
             "status": "Статус",
             "description": "Описание",
@@ -96,7 +101,7 @@
             "createdAt": "Создан",
             "updatedAt": "Обновлён",
             "id": "ID",
-            "name": "Название",
+            "code": "Код",
             "paymentType": "Платёжный тип",
             "paymentTypeCode": "Код Платёжного типа",
             "financialInstitution": "Фин. институт",
@@ -105,7 +110,8 @@
         "errors": {
             "cantBeEmpty": "Поле не может быть пустым",
             "nameRegex": "Название может содержать только латинские буквы, цифры, подчеркивание и тире",
-            "wrongJson": "Неправильный формат JSON"
+            "wrongJson": "Неправильный формат JSON",
+            "alreadyExist": "Системный платёжный инструмент уже существует"
         },
         "statuses": {
             "active": "Активен",
@@ -116,23 +122,26 @@
             "editActivity": "Активность системного платёжного инструмента %{name} успешно изменена на: %{state}."
         },
         "placeholders": {
-            "name": "Название",
-            "currencyCode": "Код валюты"
+            "code": "Код",
+            "currencyCode": "Выберите код валюты"
         },
         "notFoundMessage": "Системные платёжные инструменты не найдены.",
         "creatingPaymentInstrument": "Создание системного платёжного инструмента",
         "editingPaymentInstrument": "Изменение системного платёжного инструмента",
         "createNew": "Добавить инструмент",
-        "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?"
+        "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?",
+        "chooseFinInstitution": "Выберите финансовый институт",
+        "selectPaymentType": "Выберите платёжный тип",
+        "noAvailablePaymentTypes": "Нет доступных платёжных типов"
     },
-    "resources.paymentTools.terminalPaymentInstruments": {
+    "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Терминальные платёжные инструменты",
         "show": "Терминальный платёжный инструмент",
         "fields": {
             "created_at": "Дата и время создания",
             "updated_at": "Дата и время обновления",
             "terminal_id": "Терминал",
-            "system_payment_instrument_id": "Системный платёжный инструмент",
+            "system_payment_instrument_code": "Системный платёжный инструмент",
             "terminal_payment_type_code": "Код платёжного типа терминала",
             "terminal_currency_code": "Код валюты терминала",
             "terminal_financial_institution_code": "Код фин. института терминала",
@@ -145,19 +154,24 @@
         "success": {
             "ACTIVE": "активна",
             "INACTIVE": "деактивирована",
-            "editActivity": "Активность терминального платежного инструмента %{name} успешно изменена на: %{state}."
+            "editActivity": "Активность терминального платёжного инструмента %{name} успешно изменена на: %{state}."
         },
+        "errors": {
+            "alreadyExist": "Терминальный платёжный инструмент уже существует"
+        },
+        "providerNotSelect": "Выберите провайдера для получения данных",
         "createTerminalPaymentInstrument": "Добавить инструмент",
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",
         "editingTerminalPaymentInstrument": "Изменение терминального платёжного инструмента",
         "deleteTerminalPaymentInstrument": "Удалить терминальный платёжный инструмент?",
+        "initializeTerminalPaymentInstrument": "Инициализация терминальных платёжных инструментов для терминала: %{terminal}",
         "initInstruments": "Инициализировать инструменты",
         "terminalPaymentInstrumentInitialized": "Терминальный платёжный инструмент успешно инициализирован"
     },
-    "resources.paymentTools.currency": {
+    "resources.paymentSettings.currency": {
         "name": "Валюты"
     },
-    "resources.paymentTools.deletion": {
+    "resources.paymentSettings.deletion": {
         "attention": "Внимание!",
         "attentionDescriptionPaymentType": "Удаление платёжного типа приведет к удалению связанных с ним платёжных инструментов",
         "consequencesPaymentType": "Вы уверены, что хотите удалить платёжный тип и связанные с ним платёжные инструменты?",
@@ -169,5 +183,24 @@
         "consequencesTerminalPaymentInstrument": "Вы уверены, что хотите удалить терминальный платёжный инструмент?",
         "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платёжных инструментов",
         "consequencesCurrency": "Вы уверены, что хотите удалить валюту и связанные с ней платёжные инструменты?"
+    },
+    "resources.paymentSettings.reports": {
+        "import": "Импорт",
+        "export": "Экспорт",
+        "uploadingFile": "Загрузка файла",
+        "downloadReport": "Выполнить экспорт данных?",
+        "pickFile": "Выберите файл формата CSV",
+        "upload": "Загрузить",
+        "selectFileFirst": "Выберите файл",
+        "selectFile": "Выбрать файл",
+        "selectOtherFile": "Выбрать другой файл",
+        "uploadSuccess": "Файл успешно загружен. Вставлено %{inserted}, пропущено %{skipped}, всего %{total}",
+        "inputMode": "Режим ввода",
+        "strict": "Прекратить импорт при первой ошибке",
+        "ignore": "Игнорировать ошибки",
+        "wrongFileFormat": "Неправильный формат файла. Выберите файл формата CSV",
+        "csvValidationError": "Ошибка валидации CSV",
+        "csvValidationErrorDescription": "Поле \"%{field}\": значение \"%{input}\" должно содержать только строчные латинские буквы, цифры и подчёркивания.",
+        "noData": "По заданным параметрам не найдено данных"
     }
 }

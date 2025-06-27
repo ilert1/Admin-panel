@@ -54,12 +54,12 @@ export const DeleteFinancialInstitutionDialog = ({
                 }}>
                 <DialogHeader>
                     <DialogTitle className="text-center !text-display-2 text-red-40 dark:text-red-40">
-                        {translate("resources.paymentTools.deletion.attention")}
+                        {translate("resources.paymentSettings.deletion.attention")}
                     </DialogTitle>
                     <DialogDescription className="text-center !text-title-1 text-red-400">
                         {!continueClicked
-                            ? translate("resources.paymentTools.deletion.attentionDescriptionFinOrganization")
-                            : translate("resources.paymentTools.deletion.consequencesFinOrganization")}
+                            ? translate("resources.paymentSettings.deletion.attentionDescriptionFinOrganization")
+                            : translate("resources.paymentSettings.deletion.consequencesFinOrganization")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

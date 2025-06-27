@@ -4,11 +4,10 @@ import { TerminalCreate } from "../../create/TerminalCreate";
 import { DialogDescription } from "@radix-ui/react-dialog";
 
 interface CreateProviderDialogProps {
-    provider: string;
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
-export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }: CreateProviderDialogProps) => {
+export const CreateTerminalDialog = ({ open, onOpenChange = () => {} }: CreateProviderDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -21,7 +20,7 @@ export const CreateTerminalDialog = ({ open, onOpenChange = () => {}, provider }
                         {translate("resources.terminals.creatingTerminal")}
                     </DialogTitle>
                     <DialogDescription />
-                    <TerminalCreate provider={provider} onClose={() => onOpenChange(false)} />
+                    <TerminalCreate onClose={() => onOpenChange(false)} />
                 </DialogHeader>
             </DialogContent>
         </Dialog>

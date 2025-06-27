@@ -12,9 +12,11 @@ export const ProviderSelect = ({
     onChange,
     providers,
     isError,
+    style = "Grey",
     errorMessage,
     disabled,
-    placeholder
+    placeholder,
+    modal
 }: ProviderSelectProps) => {
     const translate = useTranslate();
     return (
@@ -26,9 +28,11 @@ export const ProviderSelect = ({
             commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
             notFoundMessage={translate("resources.provider.notFoundMessage")}
             isError={isError}
+            style={style}
             errorMessage={errorMessage}
             disabled={disabled}
-            placeholder={placeholder}
+            placeholder={placeholder || translate("resources.provider.selectPlaceholder")}
+            modal={modal}
         />
     );
 };

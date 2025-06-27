@@ -53,12 +53,12 @@ export const DeletePaymentTypeDialog = (props: DeletePaymentTypeDialogProps) => 
                 }}>
                 <DialogHeader>
                     <DialogTitle className="text-center !text-display-2 text-red-40 dark:text-red-40">
-                        {translate("resources.paymentTools.deletion.attention")}
+                        {translate("resources.paymentSettings.deletion.attention")}
                     </DialogTitle>
                     <DialogDescription className="text-center !text-title-1 text-red-400">
                         {!continueClicked
-                            ? translate("resources.paymentTools.deletion.attentionDescriptionPaymentType")
-                            : translate("resources.paymentTools.deletion.consequencesPaymentType")}
+                            ? translate("resources.paymentSettings.deletion.attentionDescriptionPaymentType")
+                            : translate("resources.paymentSettings.deletion.consequencesPaymentType")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

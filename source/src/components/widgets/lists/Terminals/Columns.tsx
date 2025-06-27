@@ -20,11 +20,13 @@ export const useGetTerminalColumns = () => {
 
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
+    const [chosenTerminalProvider, setChosenTerminalProvider] = useState("");
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
-    const handleDeleteClicked = async (id: string) => {
+    const handleDeleteClicked = async (id: string, provider: string) => {
         setChosenId(id);
+        setChosenTerminalProvider(provider);
         setDeleteDialogOpen(true);
     };
 
@@ -138,9 +140,10 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => {
                 const entries = Object.entries(row.original.fees ?? {});
                 const d1 = entries.find(el => el[1].direction === 1);
-                const payInValue = d1 && `${String((d1[1].value.quantity ?? 0) * 100 / (d1[1].value.accuracy ?? 1))}`;
+                const payInValue = d1 && `${String(((d1[1].value.quantity ?? 0) * 100) / (d1[1].value.accuracy ?? 1))}`;
                 const d2 = entries.find(el => el[1].direction === 2);
-                const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) * 100 / (d2[1].value.accuracy ?? 1))}`;
+                const payOutValue =
+                    d2 && `${String(((d2[1].value.quantity ?? 0) * 100) / (d2[1].value.accuracy ?? 1))}`;
 
                 return (
                     <div className="flex justify-start gap-1">
@@ -186,7 +189,7 @@ export const useGetTerminalColumns = () => {
                         <Copy className="text-green-50" />
                     </Button>
                 ) : (
-                    ""
+                    <span className="flex w-full items-center justify-center">-</span>
                 );
             }
         },
@@ -226,21 +229,23 @@ export const useGetTerminalColumns = () => {
         },
         {
             id: "payment_types",
-            header: translate("resources.paymentTools.paymentType.fields.payment_types"),
+            header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">
-                        {row.original.payment_types?.map(pt => {
-                            return (
-                                <PaymentTypeIcon
-                                    className="h-7 w-7"
-                                    key={pt.code}
-                                    type={pt.code}
-                                    metaIcon={pt.meta?.["icon"] as string}
-                                    tooltip
-                                />
-                            );
-                        })}
+                        {row.original.payment_types && row.original.payment_types.length > 0
+                            ? row.original.payment_types?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"] as string}
+                                          tooltip
+                                      />
+                                  );
+                              })
+                            : "-"}
                     </div>
                 );
             }
@@ -251,7 +256,9 @@ export const useGetTerminalColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.terminal_id)} />;
+                return (
+                    <TrashButton onClick={() => handleDeleteClicked(row.original.terminal_id, row.original.provider)} />
+                );
             }
         },
         {
@@ -270,6 +277,7 @@ export const useGetTerminalColumns = () => {
         columns,
         showAuthKeyOpen,
         chosenId,
+        chosenTerminalProvider,
         deleteDialogOpen,
         setShowAuthKeyOpen,
         setDeleteDialogOpen

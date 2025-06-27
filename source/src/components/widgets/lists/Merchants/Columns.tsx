@@ -56,7 +56,10 @@ export const useGetMerchantColumns = () => {
         {
             id: "description",
             accessorKey: "description",
-            header: translate("resources.merchant.fields.descr")
+            header: translate("resources.merchant.fields.descr"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.description || ""} wrap />;
+            }
         },
         {
             id: "fees",
@@ -71,9 +74,10 @@ export const useGetMerchantColumns = () => {
             cell: ({ row }) => {
                 const entries = Object.entries(row.original.fees ?? {});
                 const d1 = entries.find(el => el[1].direction === 1);
-                const payInValue = d1 && `${String((d1[1].value.quantity ?? 0) * 100 / (d1[1].value.accuracy ?? 1))}`;
+                const payInValue = d1 && `${String(((d1[1].value.quantity ?? 0) * 100) / (d1[1].value.accuracy ?? 1))}`;
                 const d2 = entries.find(el => el[1].direction === 2);
-                const payOutValue = d2 && `${String((d2[1].value.quantity ?? 0) * 100 / (d2[1].value.accuracy ?? 1))}`;
+                const payOutValue =
+                    d2 && `${String(((d2[1].value.quantity ?? 0) * 100) / (d2[1].value.accuracy ?? 1))}`;
 
                 return (
                     <div className="flex justify-start gap-1">
@@ -104,21 +108,23 @@ export const useGetMerchantColumns = () => {
         },
         {
             id: "payment_types",
-            header: translate("resources.paymentTools.paymentType.fields.payment_types"),
+            header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
                     <div className="max-w-auto flex flex-wrap gap-2">
-                        {row.original.payment_types?.map(pt => {
-                            return (
-                                <PaymentTypeIcon
-                                    className="h-7 w-7"
-                                    key={pt.code}
-                                    type={pt.code}
-                                    metaIcon={pt.meta?.["icon"] as string}
-                                    tooltip
-                                />
-                            );
-                        })}
+                        {row.original.payment_types && row.original.payment_types.length > 0
+                            ? row.original.payment_types?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"] as string}
+                                          tooltip
+                                      />
+                                  );
+                              })
+                            : "-"}
                     </div>
                 );
             }

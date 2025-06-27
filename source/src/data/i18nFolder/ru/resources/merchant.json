@@ -21,6 +21,7 @@
     "resources.merchant.success": {
         "create": "Мерчант %{name} успешно создан."
     },
+    "resources.merchant.notFoundMessage": "Мерчанты не найдены.",
     "resources.merchant.showTitle": "Детальная инфорация о мерчанте",
     "resources.merchant.createNew": "Создать нового мерчанта",
     "resources.merchant.creatingMerchant": "Создание нового мерчанта",

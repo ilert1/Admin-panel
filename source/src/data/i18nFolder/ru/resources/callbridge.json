@@ -80,7 +80,9 @@
         "updateSuccess": "Маппинг успешно обновлён",
         "creatingMapping": "Создание маппинга",
         "deleteMapping": "Удалить маппинг?",
-        "editingMapping": "Изменить маппинг"
+        "editingMapping": "Изменить маппинг",
+        "statusActivatedSuccessfully": "Политика безопасности маппинга %{mappingName} активирована успешно",
+        "statusDeactivatedSuccessfully": "Политика безопасности маппинга %{mappingName} деактивирована успешно"
     },
     "resources.callbridge.history": {
         "name": "История",
@@ -119,7 +121,7 @@
                 "overwrite": "Перезаписать"
             }
         },
-        "notFoundMessage": "Маппинги не найдены"
+        "notFoundMessage": "Маппинги не найдены."
     },
     "resources.callbridge.history_backup": {
         "name": "История бэкапов",

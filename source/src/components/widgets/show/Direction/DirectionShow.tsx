@@ -13,6 +13,7 @@ import { LimitsList } from "../../components/Limits/ui/LimitsList";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
+import { Badge } from "@/components/ui/badge";
 
 export interface DirectionsShowProps {
     id: string;
@@ -48,9 +49,9 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
         return <Loading />;
     }
 
-    const feesVariants = [context.record.src_currency.code];
+    const feesVariants = [context.record.src_currency];
     !(context.record.dst_currency.code === context.record.src_currency.code) &&
-        feesVariants.push(context.record.dst_currency.code);
+        feesVariants.push(context.record.dst_currency);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -75,31 +76,46 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     <div className="flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
                         <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
 
-                        <TextField
-                            label={translate("resources.direction.fields.srcCurr")}
-                            text={context.record.src_currency.code}
-                        />
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.direction.fields.srcCurr")}
+                            </small>
+
+                            <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {context.record.src_currency.code}
+                                    </span>
+                                </Badge>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.direction.fields.destCurr")}
+                            </small>
+
+                            <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                        {context.record.dst_currency.code}
+                                    </span>
+                                </Badge>
+                            </div>
+                        </div>
 
                         <TextField
-                            label={translate("resources.direction.fields.destCurr")}
-                            text={context.record.dst_currency.code}
+                            label={translate("resources.direction.fields.terminal")}
+                            className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                            text={context.record.terminal.verbose_name}
+                            onClick={() => {
+                                openSheet("terminal", {
+                                    id: context.record.terminal.terminal_id,
+                                    provider: context.record.terminal.provider
+                                });
+                            }}
                         />
 
-                        {context.record.terminal?.verbose_name ? (
-                            <TextField
-                                label={translate("resources.direction.fields.terminal")}
-                                className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                                text={context.record.terminal?.verbose_name || ""}
-                                onClick={() => {
-                                    openSheet("terminal", {
-                                        id: context.record?.terminal?.terminal_id,
-                                        provider: context.record?.terminal?.provider
-                                    });
-                                }}
-                            />
-                        ) : (
-                            <TextField label={translate("resources.direction.fields.terminal")} text="" />
-                        )}
                         <TextField
                             label={translate("resources.direction.fields.accountNumber")}
                             text={context.record.account_id || ""}
@@ -138,15 +154,13 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
 
                         <TextField
                             label={translate("resources.direction.types.type")}
-                            text={context.record.type ?? ""}
+                            text={
+                                context.record.type
+                                    ? translate(`resources.direction.types.${context.record.type}`)
+                                    : "-"
+                            }
                         />
 
-                        <TextField
-                            label={translate("resources.direction.fields.accountNumber")}
-                            text={context.record.account_id || ""}
-                            wrap
-                            copyValue
-                        />
                         <TextField
                             label={translate("resources.direction.fields.description")}
                             text={context.record.description ?? ""}

@@ -1,18 +1,21 @@
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useGetTerminalPaymentInstrumentsListColumns } from "./Columns";
-import { ListContextProvider } from "react-admin";
+import { ListContextProvider, useTranslate } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { CreateTerminalPaymentInstrumentsDialog } from "./CreateTerminalPaymentInstrumentsDialog";
 import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilter";
+import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const TerminalPaymentInstrumentsList = () => {
-    const listContext = useAbortableListController({
+    const translate = useTranslate();
+
+    const listContext = useAbortableListController<TerminalPaymentInstrument>({
         resource: "terminalPaymentInstruments"
     });
 
     const { columns, createDialogOpen, setCreateDialogOpen } = useGetTerminalPaymentInstrumentsListColumns({
-        isFetching: listContext.isFetching
+        listContext
     });
 
     const createFn = () => {
@@ -20,20 +23,25 @@ export const TerminalPaymentInstrumentsList = () => {
     };
 
     return (
-        <>
-            <ListContextProvider value={listContext}>
-                <div>
-                    <TerminalPaymentInstrumentFilter
-                        createFn={createFn}
-                        // total={listContext.total ?? 0}
-                        terminalPaymentTypes={listContext.data?.[0]?.terminal.payment_types ?? undefined}
-                    />
-                </div>
+        <ListContextProvider value={listContext}>
+            <div>
+                <TerminalPaymentInstrumentFilter createFn={createFn} />
+            </div>
 
-                {listContext.isLoading || !listContext.data ? <LoadingBlock /> : <DataTable columns={columns} />}
+            {listContext.isLoading ? (
+                <LoadingBlock />
+            ) : (
+                <DataTable
+                    columns={columns}
+                    placeholder={
+                        !listContext.filterValues?.["provider"]
+                            ? translate("resources.paymentSettings.terminalPaymentInstruments.providerNotSelect")
+                            : undefined
+                    }
+                />
+            )}
 
-                <CreateTerminalPaymentInstrumentsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
-            </ListContextProvider>
-        </>
+            <CreateTerminalPaymentInstrumentsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+        </ListContextProvider>
     );
 };

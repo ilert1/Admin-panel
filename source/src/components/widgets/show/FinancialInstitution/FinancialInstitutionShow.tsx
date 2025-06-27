@@ -2,7 +2,6 @@ import { useLocaleState, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
-import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { Button } from "@/components/ui/Button";
 import { useCallback, useState } from "react";
@@ -11,6 +10,8 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { EditFinancialInstitutionDialog } from "./EditFinancialInstitutionDialog";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
+import { FinancialInstitutionWithId } from "@/data/financialInstitution";
+import { Badge } from "@/components/ui/badge";
 
 export interface FinancialInstitutionShowProps {
     id: string;
@@ -18,7 +19,7 @@ export interface FinancialInstitutionShowProps {
 }
 
 export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitutionShowProps) => {
-    const context = useAbortableShowController<FinancialInstitution>({ resource: "financialInstitution", id });
+    const context = useAbortableShowController<FinancialInstitutionWithId>({ resource: "financialInstitution", id });
     const data = fetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
@@ -50,8 +51,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.financialInstitution.fields.created_at")}
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.paymentSettings.financialInstitution.fields.created_at")}
                         </small>
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.created_at).toLocaleDateString(locale)}
@@ -62,8 +63,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     </div>
 
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.financialInstitution.fields.updated_at")}
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.paymentSettings.financialInstitution.fields.updated_at")}
                         </small>
                         <p className="text-nowrap text-base leading-[18px]">
                             {new Date(context.record.updated_at).toLocaleDateString(locale)}
@@ -74,35 +75,28 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     </div>
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.short_name")}
-                        text={context.record.short_name || ""}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.code")}
+                        text={context.record.code || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.legal_name")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.legal_name")}
                         text={context.record.legal_name || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.id")}
-                        text={context.record.id || ""}
-                        wrap
-                        copyValue
-                    />
-
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.nspk_member_id")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.nspk_member_id")}
                         text={context.record.nspk_member_id || ""}
                         wrap
                         copyValue
                     />
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.institution_type")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.institution_type")}
                         text={
                             context.record.institution_type
                                 ? financialInstitutionTypes?.find(
@@ -113,8 +107,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     />
 
                     <div className="flex flex-col">
-                        <small className="mb-1 text-sm text-neutral-60">
-                            {translate("resources.paymentTools.financialInstitution.fields.payment_types")}
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>
 
                         <div className="max-w-auto flex flex-wrap gap-2">
@@ -135,23 +129,36 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     </div>
 
                     <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.country_code")}
+                        label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
                         text={context.record.country_code}
                     />
 
-                    <TextField
-                        label={translate("resources.paymentTools.financialInstitution.fields.currencies")}
-                        text={
-                            context.record.currencies && context.record.currencies?.length > 0
-                                ? context.record.currencies?.map(item => item.code).join(", ")
-                                : ""
-                        }
-                    />
+                    <div className="flex flex-col md:col-span-2">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                        </small>
+
+                        <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                            {context.record.currencies && context.record.currencies.length > 0 ? (
+                                context.record.currencies.map(value => (
+                                    <Badge
+                                        key={value.code}
+                                        className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                            {value.code}
+                                        </span>
+                                    </Badge>
+                                ))
+                            ) : (
+                                <span className="title-1">-</span>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-1">
                     <small className="text-sm text-neutral-60">
-                        {translate("resources.paymentTools.financialInstitution.fields.meta")}
+                        {translate("resources.paymentSettings.financialInstitution.fields.meta")}
                     </small>
 
                     <MonacoEditor disabled code={JSON.stringify(context.record.meta || "{}", null, 2)} />

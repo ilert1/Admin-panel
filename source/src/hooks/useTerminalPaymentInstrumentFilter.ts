@@ -1,53 +1,16 @@
-import { ChangeEvent, UIEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { ProviderWithId } from "@/data/providers";
-import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 import { debounce } from "lodash";
+import { useQuery } from "@tanstack/react-query";
+import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
+// import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 
 const useTerminalPaymentInstrumentFilter = () => {
-    const {
-        data: providersData,
-        isFetchingNextPage,
-        hasNextPage,
-        isFetching,
-        isFetched,
-        fetchNextPage: providersNextPage
-    } = useAbortableInfiniteGetList<ProviderWithId>("provider", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-
+    const providersDataProvider = new ProvidersDataProvider();
+    const terminalsDataProvider = new TerminalsDataProvider();
+    // const terminalPaymentInstrumentsDataProvider = new TerminalPaymentInstrumentsProvider();
     const translate = useTranslate();
-
-    const providersLoadingProcess = useMemo(() => isFetchingNextPage && hasNextPage, [isFetchingNextPage, hasNextPage]);
-
-    const onProviderChanged = (provider: string) => {
-        localStorage.setItem("providerInTerminalsPaymenInstrument", provider);
-        setCurrentProvider(provider ? provider : "");
-        onPropertySelected(provider, "provider");
-    };
-
-    useEffect(() => {
-        const previousProvider = localStorage.getItem("providerInTerminalsPaymenInstrument");
-
-        if (
-            previousProvider &&
-            isFetched &&
-            providersData?.pages.find(providerItem => providerItem.data.find(item => item.name === previousProvider))
-        ) {
-            setCurrentProvider(previousProvider);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [providersLoadingProcess, providersData?.pages]);
-
-    const providerScrollHandler = async (e: UIEvent<HTMLDivElement>) => {
-        const target = e.target as HTMLElement;
-
-        if (target.scrollHeight - target.scrollTop === target.clientHeight) {
-            providersNextPage();
-        }
-    };
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
         filterValues?.terminal_payment_type_code || ""
@@ -56,10 +19,50 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFinancialInstitutionCode, setTerminalFinancialInstitutionCode] = useState(
         filterValues?.terminal_financial_institution_code || ""
     );
-
+    const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminalFilterId || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
-    const [terminalFilterId, setTerminalFilterId] = useState("");
-    const [currentProvider, setCurrentProvider] = useState("");
+    const [providerName, setProviderName] = useState(filterValues?.provider || "");
+
+    const {
+        data: providersData,
+        isLoading: isProvidersLoading,
+        isFetching: isProvidersFetching
+    } = useQuery({
+        queryKey: ["providers", "filter"],
+        queryFn: () => providersDataProvider.getListWithoutPagination(),
+        select: data => data.data
+    });
+
+    const {
+        data: terminalsData,
+        isLoading: isTerminalsLoading,
+        isFetching: isTerminalsFetching
+    } = useQuery({
+        queryKey: ["terminals", "filter", providerName],
+        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        enabled: !!providerName,
+        select: data => data.data
+    });
+
+    const providersLoadingProcess = useMemo(
+        () => isProvidersLoading || isProvidersFetching,
+        [isProvidersFetching, isProvidersLoading]
+    );
+
+    const terminalsLoadingProcess = useMemo(
+        () => isTerminalsLoading || isTerminalsFetching,
+        [isTerminalsFetching, isTerminalsLoading]
+    );
+
+    useEffect(() => {
+        if (terminalsData) {
+            setTerminalFilterName(
+                terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminalFilterId)
+                    ?.verbose_name || ""
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [terminalsData]);
 
     const onPropertySelected = debounce(
         (
@@ -69,7 +72,6 @@ const useTerminalPaymentInstrumentFilter = () => {
                 | "terminal_currency_code"
                 | "terminal_financial_institution_code"
                 | "terminalFilterId"
-                | "provider"
         ) => {
             if (value) {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
@@ -77,21 +79,28 @@ const useTerminalPaymentInstrumentFilter = () => {
                 Reflect.deleteProperty(filterValues, type);
                 setFilters(filterValues, displayedFilters, true);
             }
+
             setPage(1);
         },
         300
     );
 
-    const onClearFilters = () => {
-        setFilters({}, displayedFilters, true);
-        setPage(1);
+    const onProviderChanged = (provider: string) => {
+        setProviderName(provider);
+
+        setTerminalFilterId("");
+        setTerminalFilterName("");
         setTerminalPaymentTypeCode("");
         setTerminalCurrencyCode("");
         setTerminalFinancialInstitutionCode("");
 
-        setTerminalFilterId("");
-        setCurrentProvider("");
-        setTerminalFilterName("");
+        if (provider) {
+            setFilters({ ["provider"]: provider }, displayedFilters, true);
+        } else {
+            setFilters({}, displayedFilters, true);
+        }
+
+        setPage(1);
     };
 
     const onTerminalPaymentTypeCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
@@ -121,27 +130,36 @@ const useTerminalPaymentInstrumentFilter = () => {
         setTerminalFilterName(value);
     };
 
+    const onClearFilters = () => {
+        setFilters({}, displayedFilters, true);
+        setPage(1);
+        setTerminalPaymentTypeCode("");
+        setTerminalCurrencyCode("");
+        setTerminalFinancialInstitutionCode("");
+        setTerminalFilterId("");
+        setTerminalFilterName("");
+        setProviderName("");
+    };
+
     return {
         providersData,
-        isFetching,
         providersLoadingProcess,
         onClearFilters,
         onProviderChanged,
         translate,
-        providerScrollHandler,
         terminalPaymentTypeCode,
         terminalCurrencyCode,
         terminalFinancialInstitutionCode,
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
-        currentProvider,
+        terminalsLoadingProcess,
+        providerName,
         terminalFilterName,
-        setTerminalFilterName,
+        terminalsData,
         terminalFilterId,
-        setTerminalFilterId,
-        onTerminalIdFieldChanged,
-        onTerminalNameChanged
+        onTerminalNameChanged,
+        onTerminalIdFieldChanged
     };
 };
 

@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { EditButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
@@ -18,7 +19,14 @@ export const useGetCurrencyColumns = () => {
         {
             id: "id",
             accessorKey: "code",
-            header: translate("resources.currency.fields.currency")
+            header: translate("resources.currency.fields.currency"),
+            cell: ({ row }) => (
+                <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">{row.original.code}</span>
+                    </Badge>
+                </div>
+            )
         },
         {
             id: "is_coin",

@@ -9,10 +9,11 @@ interface PaymentTypeMultiSelectProps {
     onChange: (values: string[]) => void;
     options?: PaymentTypeModel[];
     label?: boolean;
+    modal?: boolean;
 }
 
 export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
-    const { value, onChange, options, label = true } = props;
+    const { value, onChange, options, label = true, modal = true } = props;
     const translate = useTranslate();
 
     const modifiedOptions =
@@ -24,6 +25,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
                     type={option.code}
                     metaIcon={option.meta?.["icon"] as string}
                     metaIconMargin
+                    tooltip
                     {...props}
                 />
             )
@@ -35,16 +37,16 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
 
     return (
         <div>
-            {label && <Label>{translate("resources.paymentTools.paymentType.name")}</Label>}
+            {label && <Label>{translate("resources.paymentSettings.paymentType.name")}</Label>}
             <MultiSelect
                 options={modifiedOptions}
                 onValueChange={onValueChange}
                 defaultValue={value}
                 placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
-                notFoundMessage={translate("resources.paymentTools.paymentType.notFoundMessage")}
+                notFoundMessage={translate("resources.paymentSettings.paymentType.notFoundMessage")}
                 animation={0}
                 maxCount={10}
-                modalPopover
+                modalPopover={modal}
             />
         </div>
     );

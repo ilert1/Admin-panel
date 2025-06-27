@@ -43,15 +43,14 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
     const financialInstitutionProvider = new FinancialInstitutionProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
-
     const { theme } = useTheme();
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
-
     const [hasErrors, setHasErrors] = useState(false);
+    const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -69,22 +68,26 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
 
     const { isLoading: currenciesLoading, data: currencies } = useQuery({
         queryKey: ["currencies"],
-        queryFn: async () => await currenciesDataProvider.getListWithoutPagination()
+        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
     });
 
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.paymentTools.financialInstitution.errors.name")).trim(),
-        short_name: z.string().trim().optional(),
+        name: z.string().min(1, translate("resources.paymentSettings.financialInstitution.errors.name")).trim(),
+        code: z
+            .string()
+            .min(1, translate("resources.paymentSettings.financialInstitution.errors.code"))
+            .regex(/^[a-z0-9_.-]+$/, translate("resources.paymentSettings.financialInstitution.errors.code_regex"))
+            .trim(),
         legal_name: z.string().trim().optional(),
         nspk_member_id: z.string().trim().optional(),
         currencies: z.array(z.string()).optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         country_code: z
             .string()
-            .regex(/^\w{2}$/, translate("resources.paymentTools.financialInstitution.errors.country_code"))
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
             .trim(),
         payment_types: z.array(z.string()).optional(),
         meta: z.string().trim().optional()
@@ -95,15 +98,31 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         defaultValues: {
             name: "",
             country_code: "",
-            short_name: "",
+            code: "",
             legal_name: "",
             nspk_member_id: "",
             currencies: [],
             institution_type: undefined,
             payment_types: [],
-            meta: ""
+            meta: "{}"
         }
     });
+
+    const errorCombineMessage = (msg: string): string => {
+        if (msg.includes("already exists")) {
+            const msgMatch = msg.match(/Key \(([^)]+)\)=\(([^)]+)\)/);
+
+            if (msgMatch?.length === 3) {
+                return translate("resources.paymentSettings.financialInstitution.errors.alreadyExistWithField", {
+                    value: msgMatch[2]
+                });
+            }
+
+            return translate("resources.paymentSettings.financialInstitution.errors.alreadyExist");
+        }
+
+        return msg;
+    };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -156,7 +175,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             onClose();
         } catch (error) {
             if (error instanceof Error) {
-                appToast("error", error.message);
+                appToast("error", errorCombineMessage(error.message));
             } else {
                 appToast("error", translate("app.ui.create.createError"));
             }
@@ -190,7 +209,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.name"
+                                                    "resources.paymentSettings.financialInstitution.fields.name"
                                                 )}
                                             />
                                         </FormControl>
@@ -200,7 +219,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
 
                             <FormField
                                 control={form.control}
-                                name="short_name"
+                                name="code"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
                                         <FormControl>
@@ -210,7 +229,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.short_name"
+                                                    "resources.paymentSettings.financialInstitution.fields.code"
                                                 )}
                                             />
                                         </FormControl>
@@ -231,7 +250,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentTools.financialInstitution.fields.legal_name"
+                                                "resources.paymentSettings.financialInstitution.fields.legal_name"
                                             )}
                                         />
                                     </FormControl>
@@ -252,7 +271,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 label={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.nspk_member_id"
+                                                    "resources.paymentSettings.financialInstitution.fields.nspk_member_id"
                                                 )}
                                             />
                                         </FormControl>
@@ -268,7 +287,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                         <FormItem className="w-full p-2">
                                             <Label>
                                                 {translate(
-                                                    "resources.paymentTools.financialInstitution.fields.country_code"
+                                                    "resources.paymentSettings.financialInstitution.fields.country_code"
                                                 )}
                                             </Label>
 
@@ -278,7 +297,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 idField="alpha2"
                                                 setIdValue={field.onChange}
                                                 placeholder={translate(
-                                                    "resources.paymentTools.financialInstitution.fields.countryCodePlaceholder"
+                                                    "resources.paymentSettings.financialInstitution.fields.countryCodePlaceholder"
                                                 )}
                                                 onChange={setCurrentCountryCodeName}
                                                 variantKey="name"
@@ -286,10 +305,11 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                     "app.widgets.multiSelect.searchPlaceholder"
                                                 )}
                                                 notFoundMessage={translate(
-                                                    "resources.paymentTools.countryCodeNotFoundMessage"
+                                                    "resources.paymentSettings.countryCodeNotFoundMessage"
                                                 )}
                                                 isError={fieldState.invalid}
                                                 errorMessage={fieldState.error?.message}
+                                                modal
                                             />
                                         </FormItem>
                                     );
@@ -304,7 +324,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                         <FormItem className="w-full p-2">
                                             <Label>
                                                 {translate(
-                                                    "resources.paymentTools.financialInstitution.fields.institution_type"
+                                                    "resources.paymentSettings.financialInstitution.fields.institution_type"
                                                 )}
                                             </Label>
                                             <Select value={field.value} onValueChange={field.onChange}>
@@ -376,15 +396,18 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                     <FormItem className="w-full p-2">
                                         <FormLabel>
                                             <span className="!text-note-1 !text-neutral-30">
-                                                {translate("resources.paymentTools.financialInstitution.fields.meta")}
+                                                {translate(
+                                                    "resources.paymentSettings.financialInstitution.fields.meta"
+                                                )}
                                             </span>
                                         </FormLabel>
 
                                         <FormControl>
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
+                                                onValidChange={setHasValid}
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value || "{}"}
+                                                code={field.value ?? "{}"}
                                                 setCode={field.onChange}
                                             />
                                         </FormControl>
@@ -399,7 +422,12 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={hasErrors || !monacoEditorMounted || submitButtonDisabled}>
+                                disabled={
+                                    hasErrors ||
+                                    (!hasValid && form.watch("meta")?.length !== 0) ||
+                                    !monacoEditorMounted ||
+                                    submitButtonDisabled
+                                }>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

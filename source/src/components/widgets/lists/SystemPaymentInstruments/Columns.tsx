@@ -6,6 +6,7 @@ import { TextField } from "@/components/ui/text-field";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetSystemPaymentInstrumentsColumns = () => {
     const translate = useTranslate();
@@ -26,35 +27,24 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
 
     const columns: ColumnDef<SystemPaymentInstrument>[] = [
         {
-            id: "instrument",
-            accessorKey: "id",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.name"),
+            id: "code",
+            accessorKey: "code",
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.code"),
             cell: ({ row }) => {
                 return (
-                    <div>
-                        <Button
-                            variant={"resourceLink"}
-                            onClick={() => {
-                                openSheet("systemPaymentInstrument", { id: row.original.id });
-                            }}>
-                            {row.original.name ?? ""}
-                        </Button>
-                        <TextField
-                            text={row.original.id}
-                            wrap
-                            copyValue
-                            lineClamp
-                            linesCount={1}
-                            minWidth="50px"
-                            className="text-neutral-70"
-                        />
-                    </div>
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("systemPaymentInstrument", { id: row.original.code });
+                        }}>
+                        {row.original.code ?? ""}
+                    </Button>
                 );
             }
         },
         {
             id: "paymentType",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.paymentType"),
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType"),
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -72,15 +62,15 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             }
         },
         {
-            id: "financial_institution_id",
-            accessorKey: "financial_institution_id",
-            header: translate("resources.paymentTools.systemPaymentInstruments.list.financialInstitution"),
+            id: "financial_institution_code",
+            accessorKey: "financial_institution_code",
+            header: translate("resources.paymentSettings.systemPaymentInstruments.list.financialInstitution"),
             cell: ({ row }) => {
                 return (
                     <TextField
                         text={row.original.financial_institution.name}
                         onClick={() => {
-                            openSheet("financialInstitution", { id: row.original.financial_institution_id });
+                            openSheet("financialInstitution", { id: row.original.financial_institution_code });
                         }}
                         wrap
                         copyValue
@@ -93,9 +83,17 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
         },
         {
             id: "Currency",
-            header: translate("resources.paymentTools.systemPaymentInstruments.fields.currency_code"),
+            header: translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code"),
             cell: ({ row }) => {
-                return <TextField text={row.original.currency_code} />;
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
+                            <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                {row.original.currency_code}
+                            </span>
+                        </Badge>
+                    </div>
+                );
             }
         },
         {
@@ -104,7 +102,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.code)} />;
             }
         },
         {
@@ -113,7 +111,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                 return (
                     <ShowButton
                         onClick={() => {
-                            openSheet("systemPaymentInstrument", { id: row.original.id });
+                            openSheet("systemPaymentInstrument", { id: row.original.code });
                         }}
                     />
                 );

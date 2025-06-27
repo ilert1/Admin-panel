@@ -23,7 +23,7 @@ export const SystemPaymentInstrumentSheet = (props: SystemPaymentInstrumentSheet
                     <div>
                         <div className="flex items-center justify-between">
                             <SheetTitle className="!text-display-1">
-                                {translate("resources.paymentTools.systemPaymentInstruments.show")}
+                                {translate("resources.paymentSettings.systemPaymentInstruments.show")}
                             </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>

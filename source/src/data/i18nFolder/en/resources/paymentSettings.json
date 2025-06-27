@@ -1,14 +1,15 @@
 {
-    "resources.paymentTools.name": "Payment Settings",
-    "resources.paymentTools.noAvailable": "Nothing was found",
-    "resources.paymentTools.countryCodeNotFoundMessage": "Country codes not found.",
-    "resources.paymentTools.paymentType": {
+    "resources.paymentSettings.name": "Payment Settings",
+    "resources.paymentSettings.noAvailable": "Nothing was found",
+    "resources.paymentSettings.countryCodeNotFoundMessage": "Country codes not found.",
+    "resources.paymentSettings.paymentType": {
         "admin": {
             "name": "Payment Types"
         },
         "errors": {
             "code": "Code is required",
-            "codeRegex": "Code can only contain letters, numbers, underscores, and hyphens"
+            "codeRegex": "The code can contain only lowercase Latin letters, numbers and underscores.",
+            "paymentFieldsRegex": "Payment fields can contain only lowercase Latin letters, numbers and underscores, and must be separated by commas"
         },
         "name": "Payment Types",
         "fields": {
@@ -32,7 +33,7 @@
         "duplicateCode": "This code is already in use",
         "uploadIcon": "Upload icon"
     },
-    "resources.paymentTools.financialInstitution": {
+    "resources.paymentSettings.financialInstitution": {
         "name": "Financial Institutions",
         "show": "Financial institution",
         "fields": {
@@ -40,7 +41,7 @@
             "updated_at": "Updated at",
             "name": "Name",
             "nameWithId": "Name",
-            "short_name": "Code",
+            "code": "Code",
             "legal_name": "Full legal name",
             "institution_type": "Institution type",
             "country_code": "Country code",
@@ -63,7 +64,11 @@
         },
         "errors": {
             "name": "The name of the financial institution is required",
-            "country_code": "The country code is entered incorrectly"
+            "code": "The code of the financial institution is required",
+            "code_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
+            "country_code": "The country code is entered incorrectly",
+            "alreadyExist": "The financial institution already exists",
+            "alreadyExistWithField": "A financial institution with the same name (%{value}) already exists"
         },
         "success": {
             "ACTIVE": "active",
@@ -79,14 +84,14 @@
         "editingFinancialInstitution": "Editing a financial institution",
         "deleteFinancialInstitution": "Delete financial institution?"
     },
-    "resources.paymentTools.systemPaymentInstruments": {
+    "resources.paymentSettings.systemPaymentInstruments": {
         "name": "System Payment Instruments",
         "show": "System Payment instrument",
         "fields": {
             "name": "Name",
             "payment_type_code": "Payment type",
             "currency_code": "Currency",
-            "financial_institution_id": "Financial institution",
+            "financial_institution_code": "Financial institution",
             "direction": "Direction",
             "status": "Status",
             "description": "Description",
@@ -96,7 +101,7 @@
             "createdAt": "Created at",
             "updatedAt": "Updated at",
             "id": "ID",
-            "name": "Name",
+            "code": "Code",
             "paymentType": "Payment type",
             "paymentTypeCode": "Payment type code",
             "financialInstitution": "Financial institution",
@@ -105,7 +110,8 @@
         "errors": {
             "cantBeEmpty": "Field can't be empty",
             "nameRegex": "Name can only contain latin letters, numbers, underscores, and hyphens",
-            "wrongJson": "Invalid JSON"
+            "wrongJson": "Invalid JSON",
+            "alreadyExist": "The system payment instrument already exists"
         },
         "statuses": {
             "active": "Active",
@@ -118,23 +124,26 @@
             "editActivity": "The activity of the system payment instrument %{name} has been successfully changed to: %{state}."
         },
         "placeholders": {
-            "name": "Name",
-            "currencyCode": "Currency code"
+            "code": "Code",
+            "currencyCode": "Select currency code"
         },
         "notFoundMessage": "System payment instruments not found.",
         "creatingPaymentInstrument": "Creating system payment instrument",
         "editingPaymentInstrument": "Editing system payment instrument",
         "createNew": "Add instrument",
-        "deletePaymentInstrumentQuestion": "Delete system payment instrument?"
+        "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
+        "chooseFinInstitution": "Choose financial institution",
+        "selectPaymentType": "Select payment type",
+        "noAvailablePaymentTypes": "No available payment types"
     },
-    "resources.paymentTools.terminalPaymentInstruments": {
+    "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",
         "show": "Terminal payment instrument",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
             "terminal_id": "Terminal",
-            "system_payment_instrument_id": "System payment instrument",
+            "system_payment_instrument_code": "System payment instrument",
             "terminal_payment_type_code": "Terminal payment type code",
             "terminal_currency_code": "Terminal currency code",
             "terminal_financial_institution_code": "Terminal financial institution code",
@@ -149,17 +158,22 @@
             "INACTIVE": "inactive",
             "editActivity": "The activity of the terminal payment instrument %{name} has been successfully changed to: %{state}."
         },
+        "errors": {
+            "alreadyExist": "The terminal payment instrument already exists"
+        },
+        "providerNotSelect": "Select the provider to receive the data",
         "createTerminalPaymentInstrument": "Create instrument",
         "creatingTerminalPaymentInstrument": "Creating terminal payment instrument",
         "editingTerminalPaymentInstrument": "Editing terminal payment instrument",
         "deleteTerminalPaymentInstrument": "Delete terminal payment instrument?",
+        "initializeTerminalPaymentInstrument": "Initialization of the terminal payment instruments for terminal: %{terminal}",
         "initInstruments": "Initialize instruments",
         "terminalPaymentInstrumentInitialized": "Terminal payment instrument initialized successfully"
     },
-    "resources.paymentTools.currency": {
+    "resources.paymentSettings.currency": {
         "name": "Currencies"
     },
-    "resources.paymentTools.deletion": {
+    "resources.paymentSettings.deletion": {
         "attention": "Attention!",
         "attentionDescriptionPaymentType": "Payment type deletion will lead to the deletion of associated payment instruments",
         "consequencesPaymentType": "You are going to delete payment type and associated payment instruments. Proceed?",
@@ -171,5 +185,23 @@
         "consequencesTerminalPaymentInstrument": "You are going to delete terminal payment instrument. Proceed?",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
         "consequencesCurrency": "You are going to delete сurrency and associated payment instruments. Proceed?"
+    },
+    "resources.paymentSettings.reports": {
+        "import": "Import",
+        "export": "Export",
+        "uploadingFile": "Uploading file",
+        "downloadReport": "Export data?",
+        "pickFile": "Select a CSV file",
+        "upload": "Upload",
+        "selectFile": "Select file",
+        "selectOtherFile": "Select other file",
+        "uploadSuccess": "File successfully uploaded. Inserted: %{inserted}, skipped: %{skipped}, total: %{total}",
+        "inputMode": "Input mode",
+        "strict": "Stop import on first error",
+        "ignore": "Ignore errors",
+        "wrongFileFormat": "Wrong file format. Select a CSV file",
+        "csvValidationError": "CSV validation error",
+        "csvValidationErrorDescription": "Field \"%{field}\": value \"%{input}\" must contain only lowercase Latin letters, digits, and underscores.",
+        "noData": "No data found for the specified parameters"
     }
 }

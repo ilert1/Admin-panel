@@ -28,6 +28,7 @@ interface InputProps extends BasicInputProps {
     labelSize?: LabelSize;
     borderColor?: BorderColor;
     disableErrorMessage?: boolean;
+    percentage?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -48,6 +49,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             shadow = false,
             borderColor = "border-neutral-40",
             disableErrorMessage = false,
+            percentage = false,
             ...props
         },
         ref
@@ -164,7 +166,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 )}
                 <div
                     className={cn(
-                        "relative flex w-full items-center rounded-4 border transition-colors duration-200 hover:border-green-40 dark:border-neutral-60 hover:dark:border-green-40",
+                        "relative flex w-full items-center justify-between rounded-4 border transition-colors duration-200 hover:border-green-40 dark:border-neutral-60 hover:dark:border-green-40",
                         borderColor,
                         isFocused && "border-green-50",
                         shadow && "shadow-1",
@@ -205,7 +207,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onContextMenu={type === "password_masked" ? e => e.preventDefault() : onContextMenu}
                         ref={inputRef}
                     />
-                    <span className="flex" ref={iconsBoxRef}>
+                    <span className="flex items-center" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
                         {error && <ErrorBadge errorMessage={errorMessage} disableErrorMessage={disableErrorMessage} />}
                         {(type === "password" || type === "password_masked") && (
@@ -216,6 +218,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                                 setShowPassword={setShowPassword}
                             />
                         )}
+                        {percentage && <span className="pl-[2px] text-center">%</span>}
                     </span>
                 </div>
                 {error && errorMessage && <span className="inline !text-note-1 text-red-40">{errorMessage}</span>}

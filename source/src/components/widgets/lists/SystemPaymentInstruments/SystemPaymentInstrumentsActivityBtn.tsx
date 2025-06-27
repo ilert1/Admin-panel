@@ -47,9 +47,9 @@ export const SystemPaymentInstrumentsActivityBtn = ({
 
             appToast(
                 "success",
-                translate("resources.paymentTools.systemPaymentInstruments.success.editActivity", {
+                translate("resources.paymentSettings.systemPaymentInstruments.success.editActivity", {
                     name: systemPaymentInstrumentName,
-                    state: translate(`resources.paymentTools.terminalPaymentInstruments.success.${currentStateData}`)
+                    state: translate(`resources.paymentSettings.terminalPaymentInstruments.success.${currentStateData}`)
                 })
             );
 

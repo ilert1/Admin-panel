@@ -5,11 +5,15 @@
  * OpenAPI spec version: develop
  */
 import type {
+    ApiResponseImportResponse,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationSystemPaymentInstrument,
     ApiResponseSystemPaymentInstrument,
+    BodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost,
     HTTPValidationError,
     SystemPaymentInstrumentCreate,
+    SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetParams,
+    SystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostParams,
     SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetParams,
     SystemPaymentInstrumentUpdate
 } from "../blowFishEnigmaAPIService.schemas";
@@ -120,44 +124,58 @@ export const systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigma
 };
 
 /**
- * Retrieves detailed information about a specific system payment instrument by its unique ID.
- * @summary Retrieve a single System Payment Instrument by ID
+ * Exports System Payment Instruments to a CSV file and download it
+ * @summary Export System Payment Instruments to CSV
  */
-export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponse200 =
+export type systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponse200 =
     {
-        data: ApiResponseSystemPaymentInstrument;
+        data: unknown;
         status: 200;
     };
 
-export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponse422 =
+export type systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponseComposite =
+export type systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponseComposite =
 
-        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponse200
-        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponse422;
+        | systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponse200
+        | systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponse422;
 
-export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponse =
-    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponseComposite & {
+export type systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponse =
+    systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponseComposite & {
         headers: Headers;
     };
 
-export const getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetUrl =
-    (systemPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentId}`;
+export const getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetUrl =
+    (
+        params?: SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/export?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/export`;
     };
 
-export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGet =
+export const systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGet =
     async (
-        systemPaymentInstrumentId: string,
+        params?: SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetParams,
         options?: RequestInit
-    ): Promise<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponse> => {
-        return authFetch<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetResponse>(
-            getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdGetUrl(
-                systemPaymentInstrumentId
+    ): Promise<systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponse> => {
+        return authFetch<systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetResponse>(
+            getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetUrl(
+                params
             ),
             {
                 ...options,
@@ -167,45 +185,161 @@ export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1S
     };
 
 /**
- * Partially updates an existing system payment instrument identified by its ID with the provided data. Only the fields present in the request body will be updated.
- * @summary Partially update a System Payment Instrument by ID
+ * Upload CSV file and import System Payment Instruments from it to system.
+ * @summary Imports system payment instruments records from a CSV file.
  */
-export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponse200 =
+export type systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse200 =
     {
-        data: ApiResponseSystemPaymentInstrument;
+        data: ApiResponseImportResponse;
         status: 200;
     };
 
-export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponse422 =
+export type systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponseComposite =
+export type systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponseComposite =
 
-        | systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponse200
-        | systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponse422;
+        | systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse200
+        | systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse422;
 
-export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponse =
-    systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponseComposite & {
+export type systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse =
+    systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponseComposite & {
         headers: Headers;
     };
 
-export const getSystemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchUrl =
-    (systemPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentId}`;
+export const getSystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostUrl =
+    (
+        params?: SystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/import?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/import`;
     };
 
-export const systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatch =
+export const systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost =
     async (
-        systemPaymentInstrumentId: string,
+        bodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost: BodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost,
+        params?: SystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostParams,
+        options?: RequestInit
+    ): Promise<systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse> => {
+        const formData = new FormData();
+        formData.append(
+            "csv_file",
+            bodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost.csv_file
+        );
+
+        return authFetch<systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostResponse>(
+            getSystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostUrl(
+                params
+            ),
+            {
+                ...options,
+                method: "POST",
+                body: formData
+            }
+        );
+    };
+
+/**
+ * Retrieves detailed information about a specific system payment instrument by its unique Code.
+ * @summary Retrieve a single System Payment Instrument by Code
+ */
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponse200 =
+    {
+        data: ApiResponseSystemPaymentInstrument;
+        status: 200;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponseComposite =
+
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponse200
+        | systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponse422;
+
+export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponse =
+    systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetUrl =
+    (systemPaymentInstrumentCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
+    };
+
+export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGet =
+    async (
+        systemPaymentInstrumentCode: string,
+        options?: RequestInit
+    ): Promise<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponse> => {
+        return authFetch<systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetResponse>(
+            getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetUrl(
+                systemPaymentInstrumentCode
+            ),
+            {
+                ...options,
+                method: "GET"
+            }
+        );
+    };
+
+/**
+ * Partially updates an existing system payment instrument identified by its Code with the provided data. Only the fields present in the request body will be updated.
+ * @summary Partially update a System Payment Instrument by Code
+ */
+export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponse200 =
+    {
+        data: ApiResponseSystemPaymentInstrument;
+        status: 200;
+    };
+
+export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponseComposite =
+
+        | systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponse200
+        | systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponse422;
+
+export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponse =
+    systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponseComposite & {
+        headers: Headers;
+    };
+
+export const getSystemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchUrl =
+    (systemPaymentInstrumentCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
+    };
+
+export const systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatch =
+    async (
+        systemPaymentInstrumentCode: string,
         systemPaymentInstrumentUpdate: SystemPaymentInstrumentUpdate,
         options?: RequestInit
-    ): Promise<systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponse> => {
-        return authFetch<systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchResponse>(
-            getSystemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdPatchUrl(
-                systemPaymentInstrumentId
+    ): Promise<systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponse> => {
+        return authFetch<systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchResponse>(
+            getSystemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchUrl(
+                systemPaymentInstrumentCode
             ),
             {
                 ...options,
@@ -217,44 +351,44 @@ export const systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV
     };
 
 /**
- * Deletes a system payment instrument by its unique ID.
- * @summary Delete a System Payment Instrument by ID
+ * Deletes a system payment instrument by its unique Code.
+ * @summary Delete a System Payment Instrument by Code
  */
-export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponse200 =
+export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponse200 =
     {
         data: ApiResponseNoneType;
         status: 200;
     };
 
-export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponse422 =
+export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponseComposite =
+export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponseComposite =
 
-        | systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponse200
-        | systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponse422;
+        | systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponse200
+        | systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponse422;
 
-export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponse =
-    systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponseComposite & {
+export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponse =
+    systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getSystemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteUrl =
-    (systemPaymentInstrumentId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentId}`;
+export const getSystemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteUrl =
+    (systemPaymentInstrumentCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
     };
 
-export const systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDelete =
+export const systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDelete =
     async (
-        systemPaymentInstrumentId: string,
+        systemPaymentInstrumentCode: string,
         options?: RequestInit
-    ): Promise<systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponse> => {
-        return authFetch<systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteResponse>(
-            getSystemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentIdDeleteUrl(
-                systemPaymentInstrumentId
+    ): Promise<systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponse> => {
+        return authFetch<systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteResponse>(
+            getSystemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteUrl(
+                systemPaymentInstrumentCode
             ),
             {
                 ...options,

@@ -40,10 +40,12 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
         (value: string) => {
             if (onValidChange) {
                 try {
-                    const parsed = JSON.parse(value || "{}");
+                    const parsed = JSON.parse(value);
+
                     if (
-                        value.trim() === "" ||
-                        Object.keys(parsed).length === 0 ||
+                        typeof parsed !== "object" ||
+                        parsed === null ||
+                        Array.isArray(parsed) ||
                         Object.keys(parsed).includes("") ||
                         Object.values(parsed).includes("")
                     ) {
@@ -155,6 +157,8 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     lineNumbersMinChars: 2,
                     lineDecorationsWidth: 1,
                     readOnly: disabled,
+                    domReadOnly: disabled,
+                    readOnlyMessage: { value: "" },
                     automaticLayout: true
                 }}
                 beforeMount={handleEditorDidMount}

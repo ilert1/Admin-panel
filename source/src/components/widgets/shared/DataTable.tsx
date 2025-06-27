@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
+    placeholder?: string;
     data?: TData[];
     pagination?: boolean;
     total?: number;
@@ -22,6 +23,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     const {
         columns,
+        placeholder,
         pagination = true,
         data: propData = [],
         total: propTotal = 0,
@@ -140,7 +142,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
     return (
         <>
-            <Table className={clsx("min-h-20", data?.length > 1 && "min-h-44")}>
+            <Table className={clsx("min-h-20", data?.length > 1 && "min-h-44")} page={page}>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup, i) => (
                         <TableRow key={i} className="relative bg-green-50 hover:bg-green-50">
@@ -166,7 +168,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                                     <TableCell
                                         key={j}
                                         className={cn(
-                                            "border border-neutral-40 bg-neutral-0 py-2 text-sm text-neutral-90 dark:border-muted dark:bg-neutral-100 dark:text-neutral-0",
+                                            "relative border border-neutral-40 bg-neutral-0 py-2 text-sm text-neutral-90 dark:border-muted dark:bg-neutral-100 dark:text-neutral-0",
                                             i % 2
                                                 ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                                 : "bg-neutral-0 dark:bg-neutral-100"
@@ -181,12 +183,13 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                             <TableCell
                                 colSpan={columns.length}
                                 className="h-24 border border-muted bg-white text-center text-sm text-neutral-90 dark:bg-black dark:text-neutral-30">
-                                {translate("resources.transactions.undefined")}
+                                {placeholder ? placeholder : translate("resources.transactions.undefined")}
                             </TableCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
+            {/* </div> */}
 
             <div
                 className={`mb-2 flex min-h-[1.5rem] w-full items-center justify-between gap-4 overflow-x-auto overflow-y-hidden p-1 sm:flex-row sm:gap-8 ${
