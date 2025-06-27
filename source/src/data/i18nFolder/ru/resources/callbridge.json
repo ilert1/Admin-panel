@@ -114,11 +114,14 @@
             "restoreBackup": "Восстановить из бэкапа",
             "restoringFromBackup": "Восстановление из бэкапа",
             "strategy": "Стратегия Восстановления",
-            "file": "Файл бэкапа",
+            "file": "Выберите файл бэкапа формата jsonl.gz",
             "strategies": {
                 "merge": "Объединить",
                 "skip": "Пропустить",
                 "overwrite": "Перезаписать"
+            },
+            "errors": {
+                "wrongFileFormat": "Неправильный формат файла. Выберите файл формата jsonl.gz"
             }
         },
         "notFoundMessage": "Маппинги не найдены."

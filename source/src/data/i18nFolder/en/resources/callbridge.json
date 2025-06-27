@@ -112,11 +112,14 @@
             "restoreBackup": "Restore from backup",
             "restoringFromBackup": "Restoring from backup",
             "strategy": "Restoring strategy",
-            "file": "Backup file",
+            "file": "Select jsonl.gz backup file",
             "strategies": {
                 "merge": "Merge",
                 "skip": "Skip",
                 "overwrite": "Overwrite"
+            },
+            "errors": {
+                "wrongFileFormat": "Wrong file format. Select a jsonl.gz file"
             }
         },
         "notFoundMessage": "Mappings not found."

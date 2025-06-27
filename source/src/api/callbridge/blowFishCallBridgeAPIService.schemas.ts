@@ -221,6 +221,11 @@ export interface CallbackHistoryBackup {
 }
 
 /**
+ * Full callback URL
+ */
+export type CallbackHistoryReadRequestUrl = string | null;
+
+/**
  * Incoming headers
  */
 export type CallbackHistoryReadRequestHeaders = { [key: string]: unknown };
@@ -290,7 +295,7 @@ export interface CallbackHistoryRead {
     /** HTTP method */
     request_method: string;
     /** Full callback URL */
-    request_url: string;
+    request_url?: CallbackHistoryReadRequestUrl;
     /** Incoming headers */
     request_headers: CallbackHistoryReadRequestHeaders;
     /** Incoming query params */
@@ -350,19 +355,14 @@ export interface CallbackHistoryRestoreResult {
 export type CallbackMappingBaseDescription = string | null;
 
 /**
- * Full internal URL path to route the request to
- */
-export type CallbackMappingBaseInternalPath = string | null;
-
-/**
- * NATS subject for the adapter to publish messages to
- */
-export type CallbackMappingBaseAdapterNatsSubject = string | null;
-
-/**
  * Terminal to which the callback is associated
  */
 export type CallbackMappingBaseTerminal = TerminalOutput | null;
+
+/**
+ * Full internal URL path to route the request to
+ */
+export type CallbackMappingBaseInternalPath = string | null;
 
 /**
  * Retry behavior configuration for delivery attempts
@@ -381,12 +381,12 @@ export interface CallbackMappingBase {
     description?: CallbackMappingBaseDescription;
     /** Full external path exposed to clients */
     external_path: string;
-    /** Full internal URL path to route the request to */
-    internal_path?: CallbackMappingBaseInternalPath;
     /** NATS subject for the adapter to publish messages to */
-    adapter_nats_subject?: CallbackMappingBaseAdapterNatsSubject;
+    adapter_nats_subject?: string;
     /** Terminal to which the callback is associated */
     terminal?: CallbackMappingBaseTerminal;
+    /** Full internal URL path to route the request to */
+    internal_path?: CallbackMappingBaseInternalPath;
     /** Retry behavior configuration for delivery attempts */
     retry_policy?: CallbackMappingBaseRetryPolicy;
     /** Security policy including IP filtering and rate limiting */
@@ -399,19 +399,14 @@ export interface CallbackMappingBase {
 export type CallbackMappingCreateDescription = string | null;
 
 /**
- * Full internal URL path to route the request to
- */
-export type CallbackMappingCreateInternalPath = string | null;
-
-/**
- * NATS subject for the adapter to publish messages to
- */
-export type CallbackMappingCreateAdapterNatsSubject = string | null;
-
-/**
  * Terminal to which the callback is associated
  */
 export type CallbackMappingCreateTerminal = TerminalInput | null;
+
+/**
+ * Full internal URL path to route the request to
+ */
+export type CallbackMappingCreateInternalPath = string | null;
 
 /**
  * Retry behavior configuration for delivery attempts
@@ -430,12 +425,12 @@ export interface CallbackMappingCreate {
     description?: CallbackMappingCreateDescription;
     /** Full external path exposed to clients */
     external_path: string;
-    /** Full internal URL path to route the request to */
-    internal_path?: CallbackMappingCreateInternalPath;
     /** NATS subject for the adapter to publish messages to */
-    adapter_nats_subject?: CallbackMappingCreateAdapterNatsSubject;
+    adapter_nats_subject?: string;
     /** Terminal to which the callback is associated */
     terminal?: CallbackMappingCreateTerminal;
+    /** Full internal URL path to route the request to */
+    internal_path?: CallbackMappingCreateInternalPath;
     /** Retry behavior configuration for delivery attempts */
     retry_policy?: CallbackMappingCreateRetryPolicy;
     /** Security policy including IP filtering and rate limiting */
@@ -448,19 +443,14 @@ export interface CallbackMappingCreate {
 export type CallbackMappingReadDescription = string | null;
 
 /**
- * Full internal URL path to route the request to
- */
-export type CallbackMappingReadInternalPath = string | null;
-
-/**
- * NATS subject for the adapter to publish messages to
- */
-export type CallbackMappingReadAdapterNatsSubject = string | null;
-
-/**
  * Terminal to which the callback is associated
  */
 export type CallbackMappingReadTerminal = TerminalOutput | null;
+
+/**
+ * Full internal URL path to route the request to
+ */
+export type CallbackMappingReadInternalPath = string | null;
 
 /**
  * Retry behavior configuration for delivery attempts
@@ -479,12 +469,12 @@ export interface CallbackMappingRead {
     description?: CallbackMappingReadDescription;
     /** Full external path exposed to clients */
     external_path: string;
-    /** Full internal URL path to route the request to */
-    internal_path?: CallbackMappingReadInternalPath;
     /** NATS subject for the adapter to publish messages to */
-    adapter_nats_subject?: CallbackMappingReadAdapterNatsSubject;
+    adapter_nats_subject?: string;
     /** Terminal to which the callback is associated */
     terminal?: CallbackMappingReadTerminal;
+    /** Full internal URL path to route the request to */
+    internal_path?: CallbackMappingReadInternalPath;
     /** Retry behavior configuration for delivery attempts */
     retry_policy?: CallbackMappingReadRetryPolicy;
     /** Security policy including IP filtering and rate limiting */
@@ -510,11 +500,6 @@ export type CallbackMappingUpdateDescription = string | null;
  * New external path
  */
 export type CallbackMappingUpdateExternalPath = string | null;
-
-/**
- * New internal delivery path
- */
-export type CallbackMappingUpdateInternalPath = string | null;
 
 /**
  * NATS subject for the adapter to publish messages to
@@ -543,8 +528,6 @@ export interface CallbackMappingUpdate {
     description?: CallbackMappingUpdateDescription;
     /** New external path */
     external_path?: CallbackMappingUpdateExternalPath;
-    /** New internal delivery path */
-    internal_path?: CallbackMappingUpdateInternalPath;
     /** NATS subject for the adapter to publish messages to */
     adapter_nats_subject?: CallbackMappingUpdateAdapterNatsSubject;
     /** Terminal to which the callback is associated */
@@ -596,6 +579,11 @@ export const CallbackTriggerType = {
 } as const;
 
 /**
+ * Target internal URL
+ */
+export type DeliveryRequestMessageUrl = string | null;
+
+/**
  * Query parameters
  */
 export type DeliveryRequestMessageParams = { [key: string]: unknown };
@@ -633,7 +621,7 @@ export interface DeliveryRequestMessage {
     /** Target internal URL */
     original_url: string;
     /** Target internal URL */
-    url: string;
+    url?: DeliveryRequestMessageUrl;
     /** HTTP method */
     method: string;
     /** Query parameters */
@@ -741,6 +729,40 @@ export interface OffsetPaginationCallbackMappingRead {
     offset: number;
     /** The total number of available items. */
     total: number;
+}
+
+export type PaymentCategory = (typeof PaymentCategory)[keyof typeof PaymentCategory];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentCategory = {
+    p2p: "p2p",
+    ecom: "ecom"
+} as const;
+
+/**
+ * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
+ */
+export type PaymentTypeBaseRequiredFieldsForPayment = string[] | null;
+
+/**
+ * Arbitrary metadata for the payment type (JSON object)
+ */
+export type PaymentTypeBaseMeta = { [key: string]: unknown };
+
+export interface PaymentTypeBase {
+    /**
+     * Unique payment type code
+     * @pattern ^[A-Za-z0-9_-]+$
+     */
+    code: string;
+    /** Human-readable payment type title */
+    title: string;
+    /** Category of the payment type (H2H or ECOM) */
+    category: PaymentCategory;
+    /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
+    required_fields_for_payment?: PaymentTypeBaseRequiredFieldsForPayment;
+    /** Arbitrary metadata for the payment type (JSON object) */
+    meta?: PaymentTypeBaseMeta;
 }
 
 export interface RateValue {
@@ -868,6 +890,8 @@ export interface TerminalInput {
     verbose_name: string;
     /** Description of the terminal */
     description?: TerminalInputDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
     /** Mapping of fee configurations with fee.id as key */
     fees?: TerminalInputFees;
     /** Provider name associated with the terminal */
@@ -880,6 +904,8 @@ export interface TerminalInput {
     callback_url?: TerminalInputCallbackUrl;
     /** Additional details about the terminal */
     details?: TerminalInputDetails;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
 }
 
 /**
@@ -914,6 +940,8 @@ export interface TerminalOutput {
     verbose_name: string;
     /** Description of the terminal */
     description?: TerminalOutputDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
     /** Mapping of fee configurations with fee.id as key */
     fees?: TerminalOutputFees;
     /** Provider name associated with the terminal */
@@ -926,6 +954,8 @@ export interface TerminalOutput {
     callback_url?: TerminalOutputCallbackUrl;
     /** Additional details about the terminal */
     details?: TerminalOutputDetails;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
 }
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];

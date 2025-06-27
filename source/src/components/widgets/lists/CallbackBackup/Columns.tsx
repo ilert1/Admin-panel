@@ -5,49 +5,42 @@ import { TextField } from "@/components/ui/text-field";
 import { CallbackHistoryBackup } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { CallbackBackupsDataProvider } from "@/data/callback_backup";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 export const useGetCallbackBackupColumns = () => {
     const translate = useTranslate();
     const callbackBackupDataProvider = new CallbackBackupsDataProvider();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
-
+    const appToast = useAppToast();
     const handleDownloadReport = async (id: string) => {
-        // if (adminOnly && !account) {
-        //     appToast("error", translate("resources.transactions.download.accountField"));
-        //     return;
-        // }
-
-        // if (!startDate) {
-        //     appToast("error", translate("resources.transactions.download.bothError"));
-        //     return;
-        // }
-        console.log(id);
-
         try {
             const response = await callbackBackupDataProvider.downloadFile({
                 id
             });
-            // console.log(response);
 
-            if (!response.data) {
+            if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
 
-            const blob = response.data;
-            const fileUrl = window.URL.createObjectURL(blob);
+            const blob = await response.blob();
 
-            const filename = id;
-
+            const downloadUrl = URL.createObjectURL(blob);
             const a = document.createElement("a");
-            a.href = fileUrl;
-            a.download = filename;
+            const contentDisposition = response.headers.get("Content-Disposition");
+            const fileNameMatch = contentDisposition?.match(/filename="?(.+?)"?$/);
+            const fileName = fileNameMatch?.[1] || id;
+
+            a.href = downloadUrl;
+            a.download = fileName;
             document.body.appendChild(a);
             a.click();
             a.remove();
-            window.URL.revokeObjectURL(fileUrl);
+            URL.revokeObjectURL(downloadUrl);
         } catch (error) {
-            console.error("There was an error downloading the file:", error);
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            }
         }
     };
 
@@ -86,12 +79,13 @@ export const useGetCallbackBackupColumns = () => {
         },
         {
             id: "Download",
-            // header: translate("resources.callbridge.history_backup.fields.download"),
             cell: ({ row }) => {
                 return (
-                    <Button onClick={() => handleDownloadReport(row.original.file_name)}>
-                        {translate("resources.callbridge.history_backup.fields.download")}
-                    </Button>
+                    <div className="flex justify-center">
+                        <Button onClick={() => handleDownloadReport(row.original.file_name)}>
+                            {translate("resources.callbridge.history_backup.fields.download")}
+                        </Button>
+                    </div>
                 );
             }
         }

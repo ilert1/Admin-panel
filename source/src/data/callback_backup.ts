@@ -1,9 +1,11 @@
 import { GetListParams, GetListResult, GetOneParams } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    callbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryBackupDownloadGet,
-    callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet
+    callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet,
+    callbackHistoryBackupEndpointsRestoreBackupCallbridgeV1HistoryBackupRestorePost,
+    getCallbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryBackupDownloadGetUrl
 } from "@/api/callbridge/callback-backup/callback-backup";
+import { RestoreStrategy } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 /**
  * Data provider for CallbackBackups resource
@@ -18,22 +20,6 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
         const createdAfter = params.filter?.["createdAfter"];
         const createdBefore = params.filter?.["createdBefore"];
         const sortOrder = params.filter?.["sortOrder"];
-
-        // const fieldsForSearch = params.filter
-        //     ? Object.keys(params.filter).filter(
-        //           item => item === "createdAfter" || item === "createdBefore"
-        //           //   item === "description" ||
-        //           //   item === "internal_path" ||
-        //           //   item === "external_path" ||
-        //           //   item === "mapping_id" ||
-        //           //   item === "callback_id" ||
-        //           //   item === "original_url" ||
-        //           //   item === "trigger_type" ||
-        //           //   item === "status" ||
-        //           //   item === "transaction_id" ||
-        //           //   item === "external_order_id"
-        //       )
-        //     : [];
 
         const res = await callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet(
             {
@@ -54,10 +40,6 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
                           sortOrder: sortOrder
                       }
                     : {})
-                // ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                // ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
-                // ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
-                // ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
             },
             {
                 headers: {
@@ -82,27 +64,45 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
             total: 0
         };
     }
+
     async downloadFile(params: GetOneParams) {
-        const res = await callbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryBackupDownloadGet(
-            { fileName: params.id },
+        const url = getCallbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryBackupDownloadGetUrl({
+            fileName: params.id
+        });
+
+        return await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+    }
+
+    async uploadReport(file: File, mode: RestoreStrategy = "merge") {
+        const res = await callbackHistoryBackupEndpointsRestoreBackupCallbridgeV1HistoryBackupRestorePost(
+            {
+                file: file
+            },
+            {
+                strategy: mode
+            },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
                 }
             }
         );
-        console.log(res);
-
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data
+                data: {
+                    ...res.data.data
+                }
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
         } else if ("detail" in res.data) {
             throw new Error(res.data.detail?.[0].msg);
         }
-
-        return Promise.reject();
     }
 }

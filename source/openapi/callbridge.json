@@ -1643,7 +1643,14 @@
                         "examples": ["POST"]
                     },
                     "request_url": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Request Url",
                         "description": "Full callback URL",
                         "examples": ["https://..."]
@@ -1838,7 +1845,6 @@
                 "required": [
                     "original_url",
                     "request_method",
-                    "request_url",
                     "request_headers",
                     "request_params",
                     "status",
@@ -1908,30 +1914,11 @@
                         "description": "Full external path exposed to clients",
                         "examples": ["/api/health"]
                     },
-                    "internal_path": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Internal Path",
-                        "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
                     "adapter_nats_subject": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
+                        "default": "MISSING ADAPTER NATS SUBJECT",
                         "examples": ["adapters.pay4u.callback.status.update"]
                     },
                     "terminal": {
@@ -1944,6 +1931,19 @@
                             }
                         ],
                         "description": "Terminal to which the callback is associated"
+                    },
+                    "internal_path": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Internal Path",
+                        "description": "Full internal URL path to route the request to",
+                        "examples": ["http://callbridge_api:8000/health"]
                     },
                     "retry_policy": {
                         "anyOf": [
@@ -1999,30 +1999,11 @@
                         "description": "Full external path exposed to clients",
                         "examples": ["/api/health"]
                     },
-                    "internal_path": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Internal Path",
-                        "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
                     "adapter_nats_subject": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
+                        "default": "MISSING ADAPTER NATS SUBJECT",
                         "examples": ["adapters.pay4u.callback.status.update"]
                     },
                     "terminal": {
@@ -2035,6 +2016,19 @@
                             }
                         ],
                         "description": "Terminal to which the callback is associated"
+                    },
+                    "internal_path": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Internal Path",
+                        "description": "Full internal URL path to route the request to",
+                        "examples": ["http://callbridge_api:8000/health"]
                     },
                     "retry_policy": {
                         "anyOf": [
@@ -2090,30 +2084,11 @@
                         "description": "Full external path exposed to clients",
                         "examples": ["/api/health"]
                     },
-                    "internal_path": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Internal Path",
-                        "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
                     "adapter_nats_subject": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
+                        "default": "MISSING ADAPTER NATS SUBJECT",
                         "examples": ["adapters.pay4u.callback.status.update"]
                     },
                     "terminal": {
@@ -2126,6 +2101,19 @@
                             }
                         ],
                         "description": "Terminal to which the callback is associated"
+                    },
+                    "internal_path": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Internal Path",
+                        "description": "Full internal URL path to route the request to",
+                        "examples": ["http://callbridge_api:8000/health"]
                     },
                     "retry_policy": {
                         "anyOf": [
@@ -2216,19 +2204,6 @@
                         "title": "External Path",
                         "description": "New external path",
                         "examples": ["/adapter/v1/callback/new"]
-                    },
-                    "internal_path": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Internal Path",
-                        "description": "New internal delivery path",
-                        "examples": ["http://adapter_callback:8000/new/target"]
                     },
                     "adapter_nats_subject": {
                         "anyOf": [
@@ -2366,7 +2341,14 @@
                         "description": "Target internal URL"
                     },
                     "url": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Url",
                         "description": "Target internal URL"
                     },
@@ -2458,7 +2440,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["callback_id", "mapping_id", "original_url", "url", "method", "trigger_type"],
+                "required": ["callback_id", "mapping_id", "original_url", "method", "trigger_type"],
                 "title": "DeliveryRequestMessage"
             },
             "ErrorBody": {
@@ -2676,6 +2658,63 @@
                 "required": ["items", "limit", "offset", "total"],
                 "title": "OffsetPagination[CallbackMappingRead]"
             },
+            "PaymentCategory": {
+                "type": "string",
+                "enum": ["p2p", "ecom"],
+                "title": "PaymentCategory"
+            },
+            "PaymentTypeBase": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z0-9_-]+$",
+                        "title": "Code",
+                        "description": "Unique payment type code",
+                        "examples": ["card2card", "spb", "tsbp"]
+                    },
+                    "title": {
+                        "type": "string",
+                        "title": "Title",
+                        "description": "Human-readable payment type title",
+                        "examples": ["Bank card"]
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/PaymentCategory",
+                        "description": "Category of the payment type (H2H or ECOM)",
+                        "examples": ["p2p"]
+                    },
+                    "required_fields_for_payment": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Required Fields For Payment",
+                        "description": "List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.",
+                        "examples": [["card_number", "card_lifetime_month", "card_lifetime_year", "card_cvc"]]
+                    },
+                    "meta": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Meta",
+                        "description": "Arbitrary metadata for the payment type (JSON object)",
+                        "examples": [
+                            {
+                                "icon": "mdi:credit-card-outline"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": ["code", "title", "category"],
+                "title": "PaymentTypeBase"
+            },
             "RateValue": {
                 "properties": {
                     "quantity": {
@@ -2873,6 +2912,13 @@
                         "description": "Description of the terminal",
                         "examples": ["This is the main terminal"]
                     },
+                    "allocation_timeout_seconds": {
+                        "type": "integer",
+                        "title": "Allocation Timeout Seconds",
+                        "description": "Timeout for allocation in seconds",
+                        "default": 2,
+                        "examples": [2]
+                    },
                     "fees": {
                         "additionalProperties": {
                             "$ref": "#/components/schemas/Fee"
@@ -2947,6 +2993,14 @@
                                 "key": "value"
                             }
                         ]
+                    },
+                    "payment_types": {
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentTypeBase"
+                        },
+                        "type": "array",
+                        "title": "Payment Types",
+                        "description": "List of payment types associated with this terminal"
                     }
                 },
                 "type": "object",
@@ -2981,6 +3035,13 @@
                         "description": "Description of the terminal",
                         "examples": ["This is the main terminal"]
                     },
+                    "allocation_timeout_seconds": {
+                        "type": "integer",
+                        "title": "Allocation Timeout Seconds",
+                        "description": "Timeout for allocation in seconds",
+                        "default": 2,
+                        "examples": [2]
+                    },
                     "fees": {
                         "additionalProperties": {
                             "$ref": "#/components/schemas/Fee"
@@ -3055,6 +3116,14 @@
                                 "key": "value"
                             }
                         ]
+                    },
+                    "payment_types": {
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentTypeBase"
+                        },
+                        "type": "array",
+                        "title": "Payment Types",
+                        "description": "List of payment types associated with this terminal"
                     }
                 },
                 "type": "object",

@@ -47,7 +47,6 @@ export const CallbackBackupListFilter = () => {
                             <Select
                                 value={sortDirection}
                                 onValueChange={value => {
-                                    console.log(value);
                                     value === "asc" || value === "desc"
                                         ? onSortDirectionChanged(value)
                                         : onSortDirectionChanged("asc");

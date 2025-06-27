@@ -28,7 +28,9 @@ export const CallbridgeHistoryListFilter = () => {
         onTxIdChanged,
         onExtOrderIdChanged,
         mappingName,
-        onMappingNameChanged
+        onMappingNameChanged,
+        handleUploadReport,
+        reportLoading
     } = useCallbridgeHistoryFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -41,7 +43,7 @@ export const CallbridgeHistoryListFilter = () => {
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
-                    <Button onClick={() => setRestoreBackupClicked(true)}>
+                    <Button onClick={() => setRestoreBackupClicked(true)} disabled={reportLoading}>
                         {translate("resources.callbridge.history.backupRestoring.restoreBackup")}
                     </Button>
                     <FilterButtonGroup
@@ -135,7 +137,11 @@ export const CallbridgeHistoryListFilter = () => {
                     </div>
                 </div>
             </AnimatedContainer>
-            <RestoreBackupDialog open={restoreBackupClicked} onOpenChange={setRestoreBackupClicked} />
+            <RestoreBackupDialog
+                open={restoreBackupClicked}
+                onOpenChange={setRestoreBackupClicked}
+                handleUpload={handleUploadReport}
+            />
         </div>
     );
 };
