@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Cell } from "@tanstack/react-table";
-import { Check, X } from "lucide-react";
+import { Check, Pencil, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export type CurrentCell = { row: number | undefined; column: number | undefined };
@@ -81,13 +81,22 @@ export function TableEditableCell<T>({
                     </div>
                 </>
             ) : (
-                <TextField
-                    className="min-h-10"
-                    type="text"
-                    onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
-                    lineClamp
-                    text={initValue}
-                />
+                <>
+                    <TextField
+                        className="mr-7 min-h-10"
+                        type="text"
+                        onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
+                        lineClamp
+                        text={initValue}
+                    />
+
+                    <Button
+                        onClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
+                        variant="secondary"
+                        className="absolute right-2 top-2 flex h-auto items-center p-0">
+                        <Pencil className="h-4 w-4" />
+                    </Button>
+                </>
             )}
         </div>
     );
