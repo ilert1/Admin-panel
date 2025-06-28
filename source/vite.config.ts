@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 import react from "@vitejs/plugin-react";
-import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -16,14 +15,7 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src")
         }
     },
-    plugins: [
-        react(),
-        svgr(),
-        visualizer({
-            open: true,
-            filename: "bundle-analysis.html"
-        })
-    ],
+    plugins: [react(), svgr()],
     server: {
         host: true
     },
