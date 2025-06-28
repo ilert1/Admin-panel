@@ -32,116 +32,72 @@ export default defineConfig({
                 chunkFileNames: "assets/[name].[hash].js",
                 // Хеши для ассетов (CSS, изображения, шрифты)
                 assetFileNames: "assets/[name].[hash].[ext]",
-                manualChunks(id) {
-                    if (id.includes("node_modules")) {
-                        if (["@radix-ui", "react-day-picker", "lucide-react"].some(substr => id.includes(substr))) {
-                            return "ui";
-                        }
+                manualChunks: {
+                    // Основные библиотеки React
+                    react: ["react", "react-dom", "react-router-dom"],
 
-                        if (
-                            ["react", "react-dom", "react-router", "react-router-dom", "react-responsive"].some(
-                                substr => id.includes(substr)
-                            )
-                        ) {
-                            return "react-vendor";
-                        }
+                    // React-админ и его зависимости
+                    reactAdmin: [
+                        "react-admin",
+                        "ra-i18n-polyglot",
+                        "ra-language-english",
+                        "ra-language-russian",
+                        "ra-keycloak"
+                    ],
 
-                        if (id.includes("@tanstack")) {
-                            return "@tanstack";
-                        }
+                    // Библиотеки для работы с формами
+                    forms: ["react-hook-form", "@hookform/resolvers", "zod"],
 
-                        if (id.includes("react-admin")) {
-                            return "react-admin";
-                        }
+                    // UI библиотеки Radix UI
+                    radix: [
+                        "@radix-ui/react-avatar",
+                        "@radix-ui/react-checkbox",
+                        "@radix-ui/react-dialog",
+                        "@radix-ui/react-dropdown-menu",
+                        "@radix-ui/react-label",
+                        "@radix-ui/react-navigation-menu",
+                        "@radix-ui/react-popover",
+                        "@radix-ui/react-radio-group",
+                        "@radix-ui/react-select",
+                        "@radix-ui/react-separator",
+                        "@radix-ui/react-slot",
+                        "@radix-ui/react-tooltip",
+                        "@radix-ui/themes"
+                    ],
 
-                        if (
-                            [
-                                "react-hook-form",
-                                "zod",
-                                "use-file-picker",
-                                "@react-input/mask",
-                                "@monaco-editor/react",
-                                "@hookform/resolvers"
-                            ].some(substr => id.includes(substr))
-                        )
-                            return "forms";
+                    // Анимации
+                    animation: ["framer-motion", "tailwindcss-animate"],
 
-                        if (id.includes("tailwind")) return "tailwind";
+                    // Утилиты и вспомогательные библиотеки
+                    utils: [
+                        "lodash",
+                        "clsx",
+                        "tailwind-merge",
+                        "tailwind-scrollbar-utilities",
+                        "class-variance-authority"
+                    ],
 
-                        if (id.includes("tronweb")) return "tronweb";
+                    // Работа с датами
+                    date: ["dayjs", "moment", "react-day-picker"],
 
-                        if (id.includes("ra-")) {
-                            return "ra-modules";
-                        }
+                    // Таблицы и данные
+                    data: ["@tanstack/react-table", "@tanstack/react-query", "papaparse"],
 
-                        if (
-                            [
-                                "react-number-format",
-                                "lodash",
-                                "date-fns",
-                                "moment",
-                                "dayjs",
-                                "big.js",
-                                "clsx",
-                                "bignumber",
-                                "validator",
-                                "axios"
-                            ].some(substr => id.includes(substr))
-                        ) {
-                            return "utils";
-                        }
+                    // UI компоненты
+                    ui: [
+                        "lucide-react",
+                        "sonner",
+                        "cmdk",
+                        "react-number-format",
+                        "@react-input/mask",
+                        "react-loader-spinner"
+                    ],
 
-                        if (id.includes("framer-motion")) {
-                            return "framer-motion";
-                        }
+                    // Редактор кода
+                    editor: ["@monaco-editor/react"],
 
-                        if (id.includes("ethers")) {
-                            return "ethers";
-                        }
-
-                        return "vendor"; // остальные зависимости
-                    }
-
-                    if (id.includes("src")) {
-                        if (id.includes("data")) {
-                            return "data";
-                        }
-                        if (id.includes("lib")) {
-                            return "lib";
-                        }
-                    }
-
-                    if (id.includes("src/components/widgets/list")) {
-                        return "lists";
-                    }
-
-                    /* if (id.includes("components")) {
-                        const lowerId = id.toLowerCase();
-                        if (lowerId.includes("transaction")) {
-                            return "transaction";
-                        }
-                        if (lowerId.includes("account")) {
-                            return "account";
-                        }
-                        if (lowerId.includes("merchant")) {
-                            return "merchant";
-                        }
-                        if (lowerId.includes("terminal")) {
-                            return "terminal";
-                        }
-                        if (lowerId.includes("withdraw")) {
-                            return "withdraw";
-                        }
-                        if (lowerId.includes("callbridgehistory")) {
-                            return "callbridgehistory";
-                        }
-                        if (lowerId.includes("mappings")) {
-                            return "mappings";
-                        }
-                        if (lowerId.includes("wallet")) {
-                            return "wallet";
-                        }
-                    } */
+                    // Прочее
+                    other: ["big.js", "jwt-decode", "next-themes", "use-file-picker", "tronweb", "react-responsive"]
                 }
             }
         }
