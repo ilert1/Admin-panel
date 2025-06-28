@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 import react from "@vitejs/plugin-react";
+import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -15,7 +16,14 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src")
         }
     },
-    plugins: [react(), svgr()],
+    plugins: [
+        react(),
+        svgr(),
+        visualizer({
+            open: true,
+            filename: "bundle-analysis.html"
+        })
+    ],
     server: {
         host: true
     },
@@ -26,18 +34,24 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                /* // Хеши для entry-файлов (main.js, app.js и т. д.)
+                // Хеши для entry-файлов (main.js, app.js и т. д.)
                 entryFileNames: "assets/[name].[hash].js",
                 // Хеши для чанков (динамически подгружаемых модулей)
                 chunkFileNames: "assets/[name].[hash].js",
                 // Хеши для ассетов (CSS, изображения, шрифты)
-                assetFileNames: "assets/[name].[hash].[ext]", */
+                assetFileNames: "assets/[name].[hash].[ext]",
                 manualChunks(id) {
                     if (id.includes("node_modules")) {
                         if (
-                            ["react", "react-dom", "react-router", "react-router-dom", "react-responsive"].includes(id)
+                            ["react", "react-dom", "react-router", "react-router-dom", "react-responsive"].some(
+                                substr => id.includes(substr)
+                            )
                         ) {
                             return "react-vendor";
+                        }
+
+                        if (id.includes("axios")) {
+                            return "axios";
                         }
 
                         if (id.includes("@tanstack")) {
@@ -56,7 +70,7 @@ export default defineConfig({
                                 "@react-input/mask",
                                 "@monaco-editor/react",
                                 "@hookform/resolvers"
-                            ].includes(id)
+                            ].some(substr => id.includes(substr))
                         )
                             return "forms";
 
@@ -73,9 +87,17 @@ export default defineConfig({
                         }
 
                         if (
-                            ["react-number-format", "lodash", "date-fns", "moment", "dayjs", "big.js", "clsx"].includes(
-                                id
-                            )
+                            [
+                                "react-number-format",
+                                "lodash",
+                                "date-fns",
+                                "moment",
+                                "dayjs",
+                                "big.js",
+                                "clsx",
+                                "bignumber",
+                                "validations"
+                            ].some(substr => id.includes(substr))
                         ) {
                             return "utils";
                         }
@@ -84,8 +106,39 @@ export default defineConfig({
                             return "lucide-react";
                         }
 
+                        if (id.includes("framer-motion")) {
+                            return "framer-motion";
+                        }
+
                         return "vendor"; // остальные зависимости
                     }
+                    /* if (id.includes("components")) {
+                        const lowerId = id.toLowerCase();
+                        if (lowerId.includes("transaction")) {
+                            return "transaction";
+                        }
+                        if (lowerId.includes("account")) {
+                            return "account";
+                        }
+                        if (lowerId.includes("merchant")) {
+                            return "merchant";
+                        }
+                        if (lowerId.includes("terminal")) {
+                            return "terminal";
+                        }
+                        if (lowerId.includes("withdraw")) {
+                            return "withdraw";
+                        }
+                        if (lowerId.includes("callbridgehistory")) {
+                            return "callbridgehistory";
+                        }
+                        if (lowerId.includes("mappings")) {
+                            return "mappings";
+                        }
+                        if (lowerId.includes("wallet")) {
+                            return "wallet";
+                        }
+                    } */
                 }
             }
         }
