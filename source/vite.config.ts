@@ -42,16 +42,16 @@ export default defineConfig({
                 assetFileNames: "assets/[name].[hash].[ext]",
                 manualChunks(id) {
                     if (id.includes("node_modules")) {
+                        if (["@radix-ui", "react-day-picker", "lucide-react"].some(substr => id.includes(substr))) {
+                            return "ui";
+                        }
+
                         if (
                             ["react", "react-dom", "react-router", "react-router-dom", "react-responsive"].some(
                                 substr => id.includes(substr)
                             )
                         ) {
                             return "react-vendor";
-                        }
-
-                        if (id.includes("axios")) {
-                            return "axios";
                         }
 
                         if (id.includes("@tanstack")) {
@@ -82,10 +82,6 @@ export default defineConfig({
                             return "ra-modules";
                         }
 
-                        if (id.includes("@radix-ui")) {
-                            return "radix-ui";
-                        }
-
                         if (
                             [
                                 "react-number-format",
@@ -96,22 +92,37 @@ export default defineConfig({
                                 "big.js",
                                 "clsx",
                                 "bignumber",
-                                "validations"
+                                "validator",
+                                "axios"
                             ].some(substr => id.includes(substr))
                         ) {
                             return "utils";
-                        }
-
-                        if (id.includes("lucide-react")) {
-                            return "lucide-react";
                         }
 
                         if (id.includes("framer-motion")) {
                             return "framer-motion";
                         }
 
+                        if (id.includes("ethers")) {
+                            return "ethers";
+                        }
+
                         return "vendor"; // остальные зависимости
                     }
+
+                    if (id.includes("src")) {
+                        if (id.includes("data")) {
+                            return "data";
+                        }
+                        if (id.includes("lib")) {
+                            return "lib";
+                        }
+                    }
+
+                    if (id.includes("src/components/widgets/list")) {
+                        return "lists";
+                    }
+
                     /* if (id.includes("components")) {
                         const lowerId = id.toLowerCase();
                         if (lowerId.includes("transaction")) {
