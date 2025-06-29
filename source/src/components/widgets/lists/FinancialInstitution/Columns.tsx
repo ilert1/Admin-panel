@@ -12,6 +12,7 @@ import { CurrentCell, TableEditableCell } from "../../shared";
 import { FinancialInstitutionProvider, FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Badge } from "@/components/ui/badge";
+import { BankIcon } from "@/components/ui/BankIcon";
 
 export const useGetFinancialInstitutionColumns = ({
     listContext
@@ -96,7 +97,7 @@ export const useGetFinancialInstitutionColumns = ({
             header: translate("resources.paymentSettings.financialInstitution.fields.name"),
             cell: ({ row }) => {
                 return (
-                    <div>
+                    <div className="flex items-center justify-between gap-2">
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
@@ -106,6 +107,9 @@ export const useGetFinancialInstitutionColumns = ({
                             }}>
                             {row.original.name}
                         </Button>
+                        {typeof row.original.meta?.logoURL === "string" && (
+                            <BankIcon logoURL={row.original.meta?.logoURL} />
+                        )}
                     </div>
                 );
             }
