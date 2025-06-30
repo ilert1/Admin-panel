@@ -89,13 +89,13 @@ export const PaymentTypeIcon = memo(
     ({
         type,
         className,
-        tooltip = false,
+        small = false,
         metaIcon,
         metaIconMargin = false
     }: {
         type: string;
         className?: string;
-        tooltip?: boolean;
+        small?: boolean;
         metaIcon?: string;
         metaIconMargin?: boolean;
     }) => {
@@ -114,18 +114,31 @@ export const PaymentTypeIcon = memo(
             return (
                 <TooltipProvider>
                     <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger asChild className="h-auto">
                             <Button variant="text_btn" className="cursor-default p-0">
                                 <div
                                     className={cn(
                                         className,
-                                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white"
+                                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white",
+                                        small ? "relative flex h-4 w-4 items-center justify-start text-left" : ""
                                     )}>
-                                    {type
-                                        .toUpperCase()
-                                        .split("_")
-                                        .map(el => el[0])
-                                        .join("")}
+                                    {small ? (
+                                        <span
+                                            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                                            style={{ fontSize: "8px" }}>
+                                            {type
+                                                .toUpperCase()
+                                                .split("_")
+                                                .map(el => el[0])
+                                                .join("")}
+                                        </span>
+                                    ) : (
+                                        type
+                                            .toUpperCase()
+                                            .split("_")
+                                            .map(el => el[0])
+                                            .join("")
+                                    )}
                                 </div>
                             </Button>
                         </TooltipTrigger>
