@@ -37,7 +37,7 @@ interface ICustomViewRoute {
 
 export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: boolean }) => {
     const translate = useTranslate();
-    const dataProvider = useDataProvider<VaultDataProvider>();
+    const dataProvider = useDataProvider<typeof VaultDataProvider>();
     const location = useLocation();
     const { permissions } = usePermissions();
 
