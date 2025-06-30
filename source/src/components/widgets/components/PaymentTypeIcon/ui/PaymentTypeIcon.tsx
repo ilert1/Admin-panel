@@ -29,6 +29,10 @@ import EcomLocalCardIcon from "@/lib/icons/payment_types/ecom_local_card.svg?rea
 import EcomPlatformAllIcon from "@/lib/icons/payment_types/ecom_platform_all.svg?react";
 import EcomPlatformCardIcon from "@/lib/icons/payment_types/ecom_platform_card.svg?react";
 import EcomExternalAllIcon from "@/lib/icons/payment_types/ecom_external_all.svg?react";
+import PhoneNumberPaymentIcon from "@/lib/icons/payment_types/phone_number_payment.svg?react";
+import EcomNonameIcon from "@/lib/icons/payment_types/ecom_noname.svg?react";
+import WalletPaymentIcon from "@/lib/icons/payment_types/wallet_payment.svg?react";
+
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -75,7 +79,10 @@ const iconsRecord: Record<
     ecom_platform_all: EcomPlatformAllIcon,
     ecom_platform_card: EcomPlatformCardIcon,
     ecom_external_all: EcomExternalAllIcon,
-    iban_account: IBANAccountIcon
+    iban_account: IBANAccountIcon,
+    phone_number_payment: PhoneNumberPaymentIcon,
+    ecom_noname: EcomNonameIcon,
+    wallet_payment: WalletPaymentIcon
 };
 
 export const PaymentTypeIcon = memo(
