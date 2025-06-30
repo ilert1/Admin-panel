@@ -23,6 +23,12 @@ import EcomTigoMobileMoneyIcon from "@/lib/icons/payment_types/ecom_tigo_mobile_
 import EcomVodacomMobileMoneyIcon from "@/lib/icons/payment_types/ecom_vodacom_mobile_money.svg?react";
 import EcomVodafoneMobileMoneyIcon from "@/lib/icons/payment_types/ecom_vodafone_mobile_money.svg?react";
 import EcomWaveMobileMoneyIcon from "@/lib/icons/payment_types/ecom_wave_mobile_money.svg?react";
+import IBANAccountIcon from "@/lib/icons/payment_types/iban_account.svg?react";
+import EcomLocalAllIcon from "@/lib/icons/payment_types/ecom_local_all.svg?react";
+import EcomLocalCardIcon from "@/lib/icons/payment_types/ecom_local_card.svg?react";
+import EcomPlatformAllIcon from "@/lib/icons/payment_types/ecom_platform_all.svg?react";
+import EcomPlatformCardIcon from "@/lib/icons/payment_types/ecom_platform_card.svg?react";
+import EcomExternalAllIcon from "@/lib/icons/payment_types/ecom_external_all.svg?react";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -63,7 +69,13 @@ const iconsRecord: Record<
     tigo_mobile_money: EcomTigoMobileMoneyIcon,
     vodacom_mobile_money: EcomVodacomMobileMoneyIcon,
     vodafone_mobile_money: EcomVodafoneMobileMoneyIcon,
-    wave_mobile_money: EcomWaveMobileMoneyIcon
+    wave_mobile_money: EcomWaveMobileMoneyIcon,
+    ecom_local_all: EcomLocalAllIcon,
+    ecom_local_card: EcomLocalCardIcon,
+    ecom_platform_all: EcomPlatformAllIcon,
+    ecom_platform_card: EcomPlatformCardIcon,
+    ecom_external_all: EcomExternalAllIcon,
+    iban_account: IBANAccountIcon
 };
 
 export const PaymentTypeIcon = memo(
