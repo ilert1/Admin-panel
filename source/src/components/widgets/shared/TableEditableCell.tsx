@@ -35,7 +35,7 @@ export function TableEditableCell<T>({
 
     const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
-            onSubmit(value);
+            onSubmit(value.trim());
         } else if (e.key === "Escape") {
             onExit();
         }
@@ -73,7 +73,10 @@ export function TableEditableCell<T>({
                                     className="h-auto p-0 text-red-50 hover:text-red-40 disabled:bg-transparent">
                                     <X className="h-5" />
                                 </Button>
-                                <Button onClick={() => onSubmit(value)} variant="secondary" className="h-auto p-0">
+                                <Button
+                                    onClick={() => onSubmit(value.trim())}
+                                    variant="secondary"
+                                    className="h-auto p-0">
                                     <Check className="h-5" />
                                 </Button>
                             </>
