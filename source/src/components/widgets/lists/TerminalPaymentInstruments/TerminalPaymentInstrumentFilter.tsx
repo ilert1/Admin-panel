@@ -95,6 +95,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 value={providerName}
                                 onChange={onProviderChanged}
                                 disabled={providersLoadingProcess}
+                                isLoading={providersLoadingProcess}
                             />
                         </div>
 
