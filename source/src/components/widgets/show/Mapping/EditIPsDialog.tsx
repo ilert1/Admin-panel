@@ -263,6 +263,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         setSaveClicked(false);
         setNewIpList(IpList ?? []);
         onOpenChange(false);
+        setNewIp("");
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -273,6 +274,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         } else {
             setSaveClicked(false);
             onOpenChange(false);
+            setNewIp("");
         }
     };
 
