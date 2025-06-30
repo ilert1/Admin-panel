@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Loading, LoadingBlock } from "@/components/ui/loading";
 
 export interface IPopoverSelect {
     value: string;
@@ -20,6 +21,7 @@ export interface IPopoverSelect {
     style?: "Grey" | "Black";
     placeholder?: string;
     modal?: boolean;
+    isLoading?: boolean;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -49,6 +51,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         style = "Grey",
         iconForPaymentTypes = false,
         modal = false,
+        isLoading = false,
         onChange,
         setIdValue
     } = props;
@@ -108,7 +111,13 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                     "hover:!border-green-20 dark:hover:text-neutral-40",
                                     isError ? "!border-red-40 dark:!border-red-40" : ""
                                 )}>
-                                <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                                {isLoading ? (
+                                    <div className="flex w-full items-center justify-center">
+                                        <LoadingBlock className="!h-4 !w-4" />
+                                    </div>
+                                ) : (
+                                    <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                                )}
                             </Button>
                         </div>
                     </TooltipTrigger>

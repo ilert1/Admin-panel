@@ -174,6 +174,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                             errorMessage={fieldState.error?.message}
                                             disabled={providersLoadingProcess}
                                             modal
+                                            isLoading={providersLoadingProcess}
                                         />
                                     </FormItem>
                                 )}
