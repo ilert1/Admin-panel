@@ -16,7 +16,8 @@ export const ProviderSelect = ({
     errorMessage,
     disabled,
     placeholder,
-    modal
+    modal,
+    isLoading
 }: ProviderSelectProps) => {
     const translate = useTranslate();
     return (
@@ -33,6 +34,7 @@ export const ProviderSelect = ({
             disabled={disabled}
             placeholder={placeholder || translate("resources.provider.selectPlaceholder")}
             modal={modal}
+            isLoading={isLoading}
         />
     );
 };

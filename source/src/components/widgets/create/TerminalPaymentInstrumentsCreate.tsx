@@ -209,6 +209,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                     errorMessage={translate(
                                         "resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"
                                     )}
+                                    isLoading={isProvidersLoading}
                                     modal
                                 />
                             </div>
@@ -242,6 +243,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             errorMessage={fieldState.error?.message}
                                             disabled={terminalsLoadingProcess || !providerName}
                                             modal
+                                            isLoading={terminalsLoadingProcess}
                                         />
                                     </FormItem>
                                 )}
@@ -273,6 +275,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             errorMessage={fieldState.error?.message}
                                             disabled={systemPaymentInstrumentsDataLoading}
                                             modal
+                                            isLoading={systemPaymentInstrumentsDataLoading}
                                         />
                                     </FormItem>
                                 )}

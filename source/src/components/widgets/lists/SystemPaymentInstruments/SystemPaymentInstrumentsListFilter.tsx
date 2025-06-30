@@ -106,6 +106,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             placeholder={translate(
                                 "resources.paymentSettings.systemPaymentInstruments.placeholders.currencyCode"
                             )}
+                            isLoading={isLoadingCurrencies}
                         />
                     </div>
                     <div className="flex min-w-36 flex-1 flex-col gap-1">
@@ -124,6 +125,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             style="Black"
                             placeholder={translate("resources.paymentSettings.paymentType.placeholders.code")}
                             iconForPaymentTypes
+                            isLoading={isLoadingPaymentTypes}
                         />
                     </div>
                 </div>
