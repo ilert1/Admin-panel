@@ -105,7 +105,7 @@ export const MerchantSelectFilter = ({
                     )}>
                     {isLoadingMerchants ? (
                         <div className="flex w-full items-center justify-center">
-                            <LoadingBlock className="!h-4 !w-4" />
+                            <LoadingBlock className="!h-5 !w-5" />
                         </div>
                     ) : merchant ? (
                         <span className="text-neutral-80 hover:!text-neutral-80 focus:!text-neutral-80 active:!text-neutral-80 dark:text-neutral-0">
