@@ -82,7 +82,11 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             .regex(/^[a-z0-9_.-]+$/, translate("resources.paymentSettings.financialInstitution.errors.code_regex"))
             .trim(),
         legal_name: z.string().trim().optional(),
-        nspk_member_id: z.string().trim().optional(),
+        nspk_member_id: z
+            .string()
+            .max(20, translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max"))
+            .trim()
+            .optional(),
         currencies: z.array(z.string()).optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         country_code: z

@@ -48,6 +48,14 @@ export const useGetFinancialInstitutionColumns = ({
         try {
             setIsDataUpdating(true);
 
+            if (data.nspk_member_id && data.nspk_member_id.length > 20) {
+                appToast(
+                    "error",
+                    translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max")
+                );
+                return;
+            }
+
             await financialInstitutionProvider.update("financialInstitution", {
                 id,
                 data,
