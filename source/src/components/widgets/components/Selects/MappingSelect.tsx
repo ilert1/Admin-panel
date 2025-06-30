@@ -17,7 +17,8 @@ export const MappingSelect = ({
     disabled,
     placeholder,
     style = "Black",
-    modal
+    modal,
+    isLoading
 }: MappingSelectProps) => {
     const translate = useTranslate();
 
@@ -37,6 +38,7 @@ export const MappingSelect = ({
             style={style}
             placeholder={placeholder}
             modal={modal}
+            isLoading={isLoading}
         />
     );
 };

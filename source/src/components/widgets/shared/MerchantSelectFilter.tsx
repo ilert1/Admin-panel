@@ -2,6 +2,7 @@ import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
+import { LoadingBlock } from "@/components/ui/loading";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -38,7 +39,8 @@ export const MerchantSelectFilter = ({
     const {
         data: merchantData,
         isFetching,
-        isFetched
+        isFetched,
+        isLoading: isLoadingMerchants
     } = useQuery({
         queryKey: [resource, "getList", "MerchantSelectFilter"],
         queryFn: async ({ signal }) =>
@@ -101,7 +103,11 @@ export const MerchantSelectFilter = ({
                         variant === "outline" && "bg-white dark:bg-muted",
                         error && "border-red-40 dark:border-red-40"
                     )}>
-                    {merchant ? (
+                    {isLoadingMerchants ? (
+                        <div className="flex w-full items-center justify-center">
+                            <LoadingBlock className="!h-4 !w-4" />
+                        </div>
+                    ) : merchant ? (
                         <span className="text-neutral-80 hover:!text-neutral-80 focus:!text-neutral-80 active:!text-neutral-80 dark:text-neutral-0">
                             {merchantName(merchantData?.find(account => account.id === merchant))}
                         </span>

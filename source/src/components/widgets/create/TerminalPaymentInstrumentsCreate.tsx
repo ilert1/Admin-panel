@@ -275,6 +275,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                             errorMessage={fieldState.error?.message}
                                             disabled={systemPaymentInstrumentsDataLoading}
                                             modal
+                                            isLoading={systemPaymentInstrumentsDataLoading}
                                         />
                                     </FormItem>
                                 )}
