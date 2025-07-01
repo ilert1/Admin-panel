@@ -37,6 +37,7 @@
     "resources.provider.selectPlaceholder": "Select provider",
     "resources.provider.editingProvider": "Editing provider",
     "resources.provider.creatingProvider": "Creating provider",
+    "resources.provider.methodNotFound": "Provider methods is empty",
     "resources.provider.methodName": "Method name",
     "resources.provider.addMethod": "Add method"
 }

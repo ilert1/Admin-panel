@@ -20,29 +20,35 @@ export const ProviderMethodsShow = ({ methods }: IProviderMethodsShow) => {
         <div className="flex flex-col gap-4 rounded-8 bg-neutral-100 px-8 py-4">
             <h3 className="text-2xl">{translate("resources.provider.fields.methods")}</h3>
 
-            <Accordion type="multiple">
-                {Object.keys(methods).map(methodKey => (
-                    <AccordionItem key={methodKey} value={methodKey}>
-                        <AccordionTrigger>{methodKey}</AccordionTrigger>
+            {Object.keys(methods).length > 0 ? (
+                <Accordion type="multiple">
+                    {Object.keys(methods).map(methodKey => (
+                        <AccordionItem key={methodKey} value={methodKey}>
+                            <AccordionTrigger>{methodKey}</AccordionTrigger>
 
-                        <AccordionContent>
-                            {editMethod ? (
-                                <ProviderMethodsForm
-                                    methodKey={methodKey}
-                                    methodValue={methods[methodKey]}
-                                    onChangeMethod={(key, value) => console.log(key, value)}
-                                    onCancel={() => setEditMethod(false)}
-                                />
-                            ) : (
-                                <ProviderMethodsTable
-                                    onEditClick={() => setEditMethod(true)}
-                                    executionMethod={methods[methodKey]}
-                                />
-                            )}
-                        </AccordionContent>
-                    </AccordionItem>
-                ))}
-            </Accordion>
+                            <AccordionContent>
+                                {editMethod ? (
+                                    <ProviderMethodsForm
+                                        methodKey={methodKey}
+                                        methodValue={methods[methodKey]}
+                                        onChangeMethod={(key, value) => console.log(key, value)}
+                                        onCancel={() => setEditMethod(false)}
+                                    />
+                                ) : (
+                                    <ProviderMethodsTable
+                                        onEditClick={() => setEditMethod(true)}
+                                        executionMethod={methods[methodKey]}
+                                    />
+                                )}
+                            </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
+            ) : (
+                <span className="self-center text-lg text-neutral-50">
+                    {translate("resources.provider.methodNotFound")}
+                </span>
+            )}
 
             <Button
                 disabled={addMethodForm}
