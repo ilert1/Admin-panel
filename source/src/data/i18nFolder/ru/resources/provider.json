@@ -37,5 +37,6 @@
     "resources.provider.notFoundMessage": "Провайдеры не найдены.",
     "resources.provider.selectPlaceholder": "Выберите провайдера",
     "resources.provider.editingProvider": "Изменить провайдера",
-    "resources.provider.creatingProvider": "Создание провайдера"
+    "resources.provider.creatingProvider": "Создание провайдера",
+    "resources.provider.addMethod": "Добавить метод"
 }
