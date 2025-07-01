@@ -44,7 +44,7 @@ const updateToken = async () => {
 
         return Promise.resolve();
     } catch (error) {
-        console.error("Token update error:", error);
+        // console.error("Token update error:", error);
         // Очищаем невалидные токены при ошибке
         localStorage.removeItem("access-token");
         localStorage.removeItem("refresh-token");
