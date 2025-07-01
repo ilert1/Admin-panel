@@ -162,7 +162,7 @@ module.exports = {
                 "display-4": ["20px", { lineHeight: "28px", fontWeight: 400 }],
                 "title-bold": ["14px", { lineHeight: "20px", fontWeight: 700 }],
                 "title-1": ["clamp(10px, 2.5vw, 14px)", { lineHeight: "20px", fontWeight: 400 }],
-                "title-2": ["clamp(12px, 2vw, 16px)", { lineHeight: "clamp(20px, 2vw, 22px);", fontWeight: 400 }],
+                "title-2": ["clamp(12px, 2vw, 16px)", { lineHeight: "clamp(20px, 2vw, 22px)", fontWeight: 400 }],
                 body: ["12px", { lineHeight: "20px", fontWeight: 400 }],
                 "body-bold": ["12px", { lineHeight: "16px", fontWeight: 700 }],
                 text: ["12px", { lineHeight: "16px", fontWeight: 400 }],

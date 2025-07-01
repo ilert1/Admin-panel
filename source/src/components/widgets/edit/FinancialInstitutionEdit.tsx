@@ -86,7 +86,11 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentSettings.financialInstitution.errors.name")).trim(),
         legal_name: z.string().trim().optional(),
-        nspk_member_id: z.string().trim().optional(),
+        nspk_member_id: z
+            .string()
+            .max(20, translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max"))
+            .trim()
+            .optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         currencies: z.array(z.string()).optional(),
         country_code: z

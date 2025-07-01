@@ -16,7 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const WalletStore = () => {
     const translate = useTranslate();
-    const dataProvider = useDataProvider<VaultDataProvider>();
+    const dataProvider = useDataProvider<typeof VaultDataProvider>();
 
     const [loadingProcess, setLoadingProcess] = useState(false);
     const [stepForUnsealed, setStepForUnsealed] = useState<0 | 1 | "error">(0);

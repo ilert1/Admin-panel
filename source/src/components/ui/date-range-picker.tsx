@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "./checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { TimeInput } from "./time-input";
+import { Label } from "@/components/ui/label";
 
 const concateTimeString = (date: Date) =>
     `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`;
@@ -180,7 +181,11 @@ export function DateRangePicker({
             <PopoverTrigger asChild>
                 <div className="flex flex-col flex-wrap items-stretch gap-2 sm:gap-3">
                     <div className="relative flex flex-1 flex-col gap-[4px]">
-                        {title && <span className="text-neutral-60 dark:text-neutral-0">{title}</span>}
+                        {title && (
+                            <Label variant="title-2" className="mb-0 md:text-nowrap">
+                                {title}
+                            </Label>
+                        )}
                         <Button
                             variant={"outline"}
                             className={cn(

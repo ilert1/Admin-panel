@@ -12,6 +12,7 @@ import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInst
 import { UploadCsvFileDialog } from "../PaymentTypes/UploadCsvFileDialog";
 import { ExportPSReportDialog } from "../PaymentTypes/ExportPSReportDialog";
 import { useListContext } from "react-admin";
+import { LoadingBlock } from "@/components/ui/loading";
 
 interface FinancialInstitutionsListFilterProps {
     handleCreateClicked: () => void;
@@ -142,9 +143,15 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                             <SelectTrigger
                                 disabled={financialInstitutionTypesLoading}
                                 className="h-[38px] !w-full text-ellipsis">
-                                <SelectValue
-                                    placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
-                                />
+                                {financialInstitutionTypesLoading ? (
+                                    <div className="flex w-full items-center justify-center">
+                                        <LoadingBlock className="!h-4 !w-4" />
+                                    </div>
+                                ) : (
+                                    <SelectValue
+                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
+                                    />
+                                )}
                             </SelectTrigger>
 
                             <SelectContent>

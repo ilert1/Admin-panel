@@ -78,6 +78,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                                 value={providerName}
                                 onChange={onProviderChanged}
                                 disabled={providersLoadingProcess}
+                                isLoading={providersLoadingProcess}
                             />
                         </div>
 
@@ -98,6 +99,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                                 placeholder={translate("resources.terminals.selectPlaceholder")}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.terminals.notFoundMessage")}
+                                isLoading={terminalsLoadingProcess}
                             />
                         </div>
                     </div>

@@ -97,7 +97,7 @@ const dataProvider = combineDataProviders(resource => {
     ) {
         return WalletsDataProvider;
     } else if (resource === "vault") {
-        return new VaultDataProvider();
+        return VaultDataProvider;
     } else if (resource === "operations") {
         return new OperationsDataProvider();
     } else if (resource.includes("callbridge")) {

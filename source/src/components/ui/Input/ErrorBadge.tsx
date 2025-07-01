@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { TriangleAlert } from "lucide-react";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "../tooltip";
 import { ReactNode } from "react";
+import { TooltipPortal } from "@radix-ui/react-tooltip";
 interface ErrorBadgeProps {
     errorMessage?: string | ReactNode;
     disableErrorMessage?: boolean;
@@ -17,17 +18,19 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
                     <TooltipTrigger tabIndex={-1} asChild>
                         <TriangleAlert className="text-red-40" width={14} height={14} />
                     </TooltipTrigger>
-                    <TooltipContent
-                        tabIndex={-1}
-                        side="left"
-                        sideOffset={5}
-                        align="center"
-                        className={cn(
-                            "z-50 text-wrap border-red-40 text-center text-red-40",
-                            disableErrorMessage && "hidden"
-                        )}>
-                        {errorMessage}
-                    </TooltipContent>
+                    <TooltipPortal>
+                        <TooltipContent
+                            tabIndex={-1}
+                            side="left"
+                            sideOffset={5}
+                            align="center"
+                            className={cn(
+                                "z-[100] text-wrap border-red-40 text-center text-red-40",
+                                disableErrorMessage && "hidden"
+                            )}>
+                            {errorMessage}
+                        </TooltipContent>
+                    </TooltipPortal>
                 </Tooltip>
             </TooltipProvider>
         </span>

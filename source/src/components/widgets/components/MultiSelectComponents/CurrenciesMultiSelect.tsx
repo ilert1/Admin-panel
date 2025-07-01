@@ -9,10 +9,11 @@ interface CurrenciesMultiSelectProps {
     options?: CurrencyWithId[];
     label?: boolean;
     modal?: boolean;
+    isLoading?: boolean;
 }
 
 export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
-    const { value, onChange, options, label = true, modal = true } = props;
+    const { value, onChange, options, label = true, modal = true, isLoading = false } = props;
     const translate = useTranslate();
 
     const modifiedOptions = options?.map(option => ({ label: option.code, value: option.code })) || [];
@@ -33,6 +34,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 animation={0}
                 maxCount={10}
                 modalPopover={modal}
+                isLoading={isLoading}
             />
         </div>
     );

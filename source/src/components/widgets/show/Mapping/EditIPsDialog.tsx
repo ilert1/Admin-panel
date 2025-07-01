@@ -254,6 +254,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
             onOpenChange(false);
             setSaveButtonDisabled(false);
             setDeleteButtonDisabled(true);
+            setSomethingEdited(false);
         }
     };
 
@@ -262,6 +263,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         setSaveClicked(false);
         setNewIpList(IpList ?? []);
         onOpenChange(false);
+        setNewIp("");
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -272,6 +274,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         } else {
             setSaveClicked(false);
             onOpenChange(false);
+            setNewIp("");
         }
     };
 
@@ -281,10 +284,8 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                 <DialogContent
                     onInteractOutside={e => dialogCloseFn(e)}
                     onEscapeKeyDown={e => dialogCloseFn(e)}
+                    onCloseAutoFocus={e => dialogCloseFn(e)}
                     disableOutsideClick
-                    onCloseAutoFocus={() => {
-                        setNewIp("");
-                    }}
                     className="!max-w-[530px] !overflow-x-hidden !overflow-y-hidden bg-muted">
                     <DialogHeader>
                         <DialogTitle className="mb-4 w-full text-center">
@@ -334,7 +335,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                     className="flex w-full gap-2 sm:w-auto"
                                     onClick={addIp}
                                     variant={"default"}
-                                    disabled={saveButtonDisabled}>
+                                    disabled={saveButtonDisabled || !deleteButtonDisabled}>
                                     <PlusCircle className="h-4 w-4" />
                                     {translate("resources.callbridge.mapping.sec_policy_edit.addIp")}
                                 </Button>
@@ -349,7 +350,7 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
                                 <Button
                                     className="w-full flex-1 sm:w-auto"
                                     onClick={onSave}
-                                    disabled={saveButtonDisabled}>
+                                    disabled={saveButtonDisabled || !somethingEdited}>
                                     {translate("app.ui.actions.save")}
                                 </Button>
                                 <Button
