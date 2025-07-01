@@ -4,12 +4,16 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { ProviderMethodsTable } from "./ProviderMethodsTable";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
+import { useState } from "react";
+import { ProviderMethodsForm } from "./ProviderMethodsForm";
 
 interface IProviderMethodsShow {
     methods: ProviderMethods;
 }
 
 export const ProviderMethodsShow = ({ methods }: IProviderMethodsShow) => {
+    const [editMethod, setEditMethod] = useState(false);
+    const [addMethodForm, setAddMethodForm] = useState(false);
     const translate = useTranslate();
 
     return (
@@ -22,16 +26,38 @@ export const ProviderMethodsShow = ({ methods }: IProviderMethodsShow) => {
                         <AccordionTrigger>{methodKey}</AccordionTrigger>
 
                         <AccordionContent>
-                            <ProviderMethodsTable executionMethod={methods[methodKey]} />
+                            {editMethod ? (
+                                <ProviderMethodsForm
+                                    methodKey={methodKey}
+                                    methodValue={methods[methodKey]}
+                                    onChangeMethod={(key, value) => console.log(key, value)}
+                                    onCancel={() => setEditMethod(false)}
+                                />
+                            ) : (
+                                <ProviderMethodsTable
+                                    onEditClick={() => setEditMethod(true)}
+                                    executionMethod={methods[methodKey]}
+                                />
+                            )}
                         </AccordionContent>
                     </AccordionItem>
                 ))}
             </Accordion>
 
-            <Button className="flex items-center gap-1 self-end" onClick={() => {}}>
+            <Button
+                disabled={addMethodForm}
+                className="flex items-center gap-1 self-end"
+                onClick={() => setAddMethodForm(true)}>
                 <CirclePlus className="h-[16px] w-[16px]" />
                 <span className="text-title-1">{translate("resources.provider.addMethod")}</span>
             </Button>
+
+            {addMethodForm && (
+                <ProviderMethodsForm
+                    onChangeMethod={(key, value) => console.log(key, value)}
+                    onCancel={() => setAddMethodForm(false)}
+                />
+            )}
         </div>
     );
 };

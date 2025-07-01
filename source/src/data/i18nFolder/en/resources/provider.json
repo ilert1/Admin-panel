@@ -37,5 +37,6 @@
     "resources.provider.selectPlaceholder": "Select provider",
     "resources.provider.editingProvider": "Editing provider",
     "resources.provider.creatingProvider": "Creating provider",
+    "resources.provider.methodName": "Method name",
     "resources.provider.addMethod": "Add method"
 }

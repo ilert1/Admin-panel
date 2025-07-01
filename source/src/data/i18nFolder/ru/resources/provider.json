@@ -37,5 +37,6 @@
     "resources.provider.selectPlaceholder": "Выберите провайдера",
     "resources.provider.editingProvider": "Изменить провайдера",
     "resources.provider.creatingProvider": "Создание провайдера",
+    "resources.provider.methodName": "Название метода",
     "resources.provider.addMethod": "Добавить метод"
 }

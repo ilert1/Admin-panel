@@ -5,10 +5,11 @@ import { cn } from "@/lib/utils";
 import { useTranslate } from "react-admin";
 
 interface IProviderMethodsTable {
+    onEditClick: () => void;
     executionMethod: ExecutionMethodOutput;
 }
 
-export const ProviderMethodsTable = ({ executionMethod }: IProviderMethodsTable) => {
+export const ProviderMethodsTable = ({ executionMethod, onEditClick }: IProviderMethodsTable) => {
     const translate = useTranslate();
 
     return (
@@ -107,7 +108,7 @@ export const ProviderMethodsTable = ({ executionMethod }: IProviderMethodsTable)
             </Table>
 
             <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                <Button onClick={() => {}}>{translate("app.ui.actions.edit")}</Button>
+                <Button onClick={onEditClick}>{translate("app.ui.actions.edit")}</Button>
 
                 <Button onClick={() => {}} variant={"outline_gray"}>
                     {translate("app.ui.actions.delete")}
