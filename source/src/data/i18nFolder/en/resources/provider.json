@@ -8,7 +8,6 @@
         "keyMiss": "The key is missing",
         "regenKey": "Regenerate keys",
         "json_schema": "Json schema",
-        "code": "Methods",
         "enterMethods": "Enter your methods",
         "methods": "Methods"
     },

@@ -114,7 +114,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                     <FormItem className="w-full p-2">
                                         <FormLabel>
                                             <span className="!text-note-1 !text-neutral-30">
-                                                {translate("resources.provider.fields.code")}
+                                                {translate("resources.provider.fields.methods")}
                                             </span>
                                         </FormLabel>
                                         <FormControl>

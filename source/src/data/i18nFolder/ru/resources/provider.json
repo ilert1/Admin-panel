@@ -8,7 +8,6 @@
         "keyMiss": "Ключ отсутсвует",
         "regenKey": "Пересоздать ключи",
         "json_schema": "Схема Json",
-        "code": "Методы",
         "enterMethods": "Введите свои методы",
         "methods": "Методы"
     },
