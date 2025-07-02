@@ -99,9 +99,7 @@ export const PaymentTypeIcon = memo(
         metaIcon?: string | unknown;
         metaIconMargin?: boolean;
     }) => {
-        if (typeof metaIcon !== "string") return null;
-
-        if (metaIcon) {
+        if (typeof metaIcon === "string" && metaIcon) {
             return (
                 <img
                     src={metaIcon}
