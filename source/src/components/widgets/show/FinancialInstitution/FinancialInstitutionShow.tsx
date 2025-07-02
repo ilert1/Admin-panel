@@ -120,8 +120,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                                         className="h-7 w-7"
                                         key={pt.code}
                                         type={pt.code}
-                                        metaIcon={pt.meta?.["icon"] as string}
-                                        tooltip
+                                        metaIcon={pt.meta?.["icon"]}
                                     />
                                 ))
                             ) : (

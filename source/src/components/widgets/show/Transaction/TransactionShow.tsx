@@ -247,8 +247,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     <>
                         {merchantsInfo?.length !== 0 ? (
                             merchantsInfo.map(el => {
-                                console.log(el);
-
                                 return (
                                     <TextField
                                         key={el.id}

@@ -16,7 +16,7 @@ export const WalletManualReconciliationDialog = ({ open, onOpenChange }: IWallet
     const {
         translate,
         fiatShow,
-        setFiatShow,
+        onFiatShowChanged,
         merchantId,
         onMerchantChanged,
         merchantBalanceId,
@@ -55,7 +55,7 @@ export const WalletManualReconciliationDialog = ({ open, onOpenChange }: IWallet
                     />
 
                     <label
-                        onClick={() => setFiatShow(!fiatShow)}
+                        onClick={() => onFiatShowChanged(!fiatShow)}
                         className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
                         <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
                             {fiatShow && <div id="checked" className="h-2.5 w-2.5 rounded-full bg-green-50"></div>}

@@ -79,7 +79,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
                 });
             } else {
                 await WalletsDataProvider.manualReconciliation(transactionId, {
-                    fiat: false,
+                    fiat: false
                 });
             }
             appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
@@ -98,14 +98,25 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
         setMerchantId("");
         setMerchantBalanceId("");
         setMerchantAmount("");
+        setIsError(false);
         onOpenChange(open);
+    };
+
+    const onFiatShowChanged = (state: boolean) => {
+        if (!state) {
+            setMerchantId("");
+            setMerchantBalanceId("");
+            setMerchantAmount("");
+        }
+
+        setFiatShow(state);
     };
 
     const handleTransactionIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setTransactionId(value);
 
-        if (!isValidTxIDFormat(value)) {
+        if (!isValidTxIDFormat(value) && value.length > 0) {
             setIsError(true);
         } else {
             setIsError(false);
@@ -125,7 +136,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
     return {
         translate,
         fiatShow,
-        setFiatShow,
+        onFiatShowChanged,
         merchantId,
         onMerchantChanged,
         merchantBalanceId,
