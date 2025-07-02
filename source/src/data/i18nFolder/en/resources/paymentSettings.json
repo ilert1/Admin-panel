@@ -14,7 +14,7 @@
         "name": "Payment Types",
         "fields": {
             "code": "Code",
-            "title": "Description",
+            "title": "Title",
             "payment_types": "Payment types",
             "category": "Category",
             "required_fields_for_payment": "Required fields for payment",
@@ -23,7 +23,7 @@
         },
         "placeholders": {
             "code": "Payment type code",
-            "title": "Payment type description"
+            "title": "Payment type title"
         },
         "notFoundMessage": "Payment types not found.",
         "deletePaymentTypeQuestion": "Delete payment type?",
