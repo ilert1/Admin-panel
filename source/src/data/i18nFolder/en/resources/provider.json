@@ -39,5 +39,6 @@
     "resources.provider.creatingProvider": "Creating provider",
     "resources.provider.methodNotFound": "Provider methods is empty",
     "resources.provider.methodName": "Method name",
+    "resources.provider.methodParameters": "Method parameters",
     "resources.provider.addMethod": "Add method"
 }

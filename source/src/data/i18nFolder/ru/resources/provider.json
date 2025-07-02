@@ -39,5 +39,6 @@
     "resources.provider.creatingProvider": "Создание провайдера",
     "resources.provider.methodNotFound": "Методы провайдера отсутствуют",
     "resources.provider.methodName": "Название метода",
+    "resources.provider.methodParameters": "Параметры метода",
     "resources.provider.addMethod": "Добавить метод"
 }

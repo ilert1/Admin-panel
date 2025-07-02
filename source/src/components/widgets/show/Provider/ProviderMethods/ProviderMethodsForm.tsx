@@ -69,7 +69,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 rounded-8 bg-neutral-bb p-4">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 border-b border-neutral-100 pb-4">
                     <p className="text-base text-neutral-0">{translate("resources.provider.methodName")}</p>
 
                     <FormField
@@ -85,50 +85,40 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                     />
                 </div>
 
-                <div className="grid grid-cols-7 gap-10 border-b border-neutral-100 pb-4">
+                <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-4 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Key</p>
+                        <p className="text-base text-neutral-0">{translate("resources.provider.methodParameters")}</p>
 
-                        <Input disabled value="execution_name" />
+                        <Input disabled className="text-neutral-30" value="execution_name" />
                     </div>
 
-                    <div className="col-span-3 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Value</p>
-
-                        <FormField
-                            control={form.control}
-                            name="execution_name"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="execution_name"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="col-span-3 flex flex-col self-end">
+                                <FormControl>
+                                    <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
                 </div>
 
-                <div className="grid grid-cols-7 gap-10 border-b border-neutral-100 pb-4">
-                    <div className="col-span-2 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Key</p>
-
-                        <Input disabled value="retry_policy" />
+                <div className="grid grid-cols-7 gap-4">
+                    <div className="col-span-2">
+                        <Input disabled className="text-neutral-30" value="retry_policy" />
                     </div>
 
                     <div className="col-span-2 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Subkey</p>
-
-                        <Input disabled value="backoff_coefficient" />
-                        <Input disabled value="initial_interval" />
-                        <Input disabled value="maximum_attempts" />
-                        <Input disabled value="maximum_interval" />
-                        <Input disabled value="non_retryable_error_types" />
+                        <Input disabled className="text-neutral-30" value="backoff_coefficient" />
+                        <Input disabled className="text-neutral-30" value="initial_interval" />
+                        <Input disabled className="text-neutral-30" value="maximum_attempts" />
+                        <Input disabled className="text-neutral-30" value="maximum_interval" />
+                        <Input disabled className="text-neutral-30" value="non_retryable_error_types" />
                     </div>
 
                     <div className="col-span-3 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Value</p>
-
                         <FormField
                             control={form.control}
                             name="retry_policy.backoff_coefficient"
@@ -191,47 +181,35 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                     </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-10 border-b border-neutral-100 pb-4">
+                <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-4 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Key</p>
-
-                        <Input disabled value="task_queue" />
+                        <Input disabled className="text-neutral-30" value="task_queue" />
                     </div>
 
-                    <div className="col-span-3 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Value</p>
-
-                        <FormField
-                            control={form.control}
-                            name="task_queue"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="task_queue"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="col-span-3 flex flex-col gap-4">
+                                <FormControl>
+                                    <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
                 </div>
 
-                <div className="grid grid-cols-7 gap-10 border-b border-neutral-100 pb-4">
+                <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-2 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Key</p>
-
-                        <Input disabled value="timeouts" />
+                        <Input disabled className="text-neutral-30" value="timeouts" />
                     </div>
 
                     <div className="col-span-2 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Subkey</p>
-
-                        <Input disabled value="start_to_close_timeout" />
-                        <Input disabled value="wait_condition_timeout" />
+                        <Input disabled className="text-neutral-30" value="start_to_close_timeout" />
+                        <Input disabled className="text-neutral-30" value="wait_condition_timeout" />
                     </div>
 
                     <div className="col-span-3 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Value</p>
-
                         <FormField
                             control={form.control}
                             name="timeouts.start_to_close_timeout"
@@ -258,28 +236,22 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                     </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-10 border-b border-neutral-100 pb-4">
+                <div className="grid grid-cols-7 gap-4 border-b border-neutral-100 pb-4">
                     <div className="col-span-4 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Key</p>
-
-                        <Input disabled value="type" />
+                        <Input disabled className="text-neutral-30" value="type" />
                     </div>
 
-                    <div className="col-span-3 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">Value</p>
-
-                        <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="type"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="col-span-3 flex flex-col gap-4">
+                                <FormControl>
+                                    <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
