@@ -9,8 +9,7 @@ import { ProviderWithId } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
-import { Label } from "@/components/ui/label";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { ProviderMethodsShow } from "./ProviderMethods";
 
 export interface ProviderShowProps {
     id: string;
@@ -79,20 +78,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             )}
                         </div>
                     </div>
-
-                    <div className="md:col-span-2">
-                        <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
-                            {translate("resources.provider.fields.methods")}
-                        </Label>
-                        <div className="flex h-full">
-                            <MonacoEditor
-                                disabled
-                                height="h-48"
-                                width="100%"
-                                code={JSON.stringify(context.record.methods || "{}", null, 2)}
-                            />
-                        </div>
-                    </div>
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
@@ -104,6 +89,8 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
+
+                <ProviderMethodsShow providerId={id} methods={context.record.methods} isFetching={context.isFetching} />
             </div>
 
             <DeleteProviderDialog

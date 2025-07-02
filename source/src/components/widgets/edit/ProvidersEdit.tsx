@@ -189,7 +189,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                         name="methods"
                         render={({ field }) => (
                             <FormItem className="w-full p-2">
-                                <Label className="!mb-0">{translate("resources.provider.fields.code")}</Label>
+                                <Label className="!mb-0">{translate("resources.provider.fields.methods")}</Label>
                                 <FormControl>
                                     <MonacoEditor
                                         width="100%"

@@ -8,7 +8,6 @@
         "keyMiss": "Ключ отсутсвует",
         "regenKey": "Пересоздать ключи",
         "json_schema": "Схема Json",
-        "code": "Методы",
         "enterMethods": "Введите свои методы",
         "methods": "Методы"
     },
@@ -37,5 +36,9 @@
     "resources.provider.notFoundMessage": "Провайдеры не найдены.",
     "resources.provider.selectPlaceholder": "Выберите провайдера",
     "resources.provider.editingProvider": "Изменить провайдера",
-    "resources.provider.creatingProvider": "Создание провайдера"
+    "resources.provider.creatingProvider": "Создание провайдера",
+    "resources.provider.methodNotFound": "Методы провайдера отсутствуют",
+    "resources.provider.methodName": "Название метода",
+    "resources.provider.methodParameters": "Параметры метода",
+    "resources.provider.addMethod": "Добавить метод"
 }

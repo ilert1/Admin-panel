@@ -8,7 +8,6 @@
         "keyMiss": "The key is missing",
         "regenKey": "Regenerate keys",
         "json_schema": "Json schema",
-        "code": "Methods",
         "enterMethods": "Enter your methods",
         "methods": "Methods"
     },
@@ -37,5 +36,9 @@
     "resources.provider.notFoundMessage": "Providers not found.",
     "resources.provider.selectPlaceholder": "Select provider",
     "resources.provider.editingProvider": "Editing provider",
-    "resources.provider.creatingProvider": "Creating provider"
+    "resources.provider.creatingProvider": "Creating provider",
+    "resources.provider.methodNotFound": "Provider methods is empty",
+    "resources.provider.methodName": "Method name",
+    "resources.provider.methodParameters": "Method parameters",
+    "resources.provider.addMethod": "Add method"
 }
