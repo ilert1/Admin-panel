@@ -6,10 +6,17 @@ import { useTranslate } from "react-admin";
 
 interface IProviderMethodsTable {
     onEditClick: () => void;
-    executionMethod: ExecutionMethodOutput;
+    onDeleteClick: () => void;
+    methodValue: ExecutionMethodOutput;
+    disabledProcess: boolean;
 }
 
-export const ProviderMethodsTable = ({ executionMethod, onEditClick }: IProviderMethodsTable) => {
+export const ProviderMethodsTable = ({
+    methodValue,
+    onEditClick,
+    onDeleteClick,
+    disabledProcess
+}: IProviderMethodsTable) => {
     const translate = useTranslate();
 
     return (
@@ -30,17 +37,17 @@ export const ProviderMethodsTable = ({ executionMethod, onEditClick }: IProvider
                 </TableHeader>
 
                 <TableBody>
-                    {Object.keys(executionMethod).map((key, rowIndex) =>
-                        typeof executionMethod[key as keyof ExecutionMethodOutput] === "object" ? (
+                    {Object.keys(methodValue).map((key, rowIndex) =>
+                        typeof methodValue[key as keyof ExecutionMethodOutput] === "object" ? (
                             Object.keys(
-                                executionMethod[key as keyof ExecutionMethodOutput] as TimeoutConfig | RetryPolicy
+                                methodValue[key as keyof ExecutionMethodOutput] as TimeoutConfig | RetryPolicy
                             ).map((subkey, index) => (
                                 <TableRow className="border-muted" key={subkey}>
                                     {index === 0 && (
                                         <TableCell
                                             rowSpan={
                                                 Object.keys(
-                                                    executionMethod[key as keyof ExecutionMethodOutput] as
+                                                    methodValue[key as keyof ExecutionMethodOutput] as
                                                         | TimeoutConfig
                                                         | RetryPolicy
                                                 ).length
@@ -73,7 +80,7 @@ export const ProviderMethodsTable = ({ executionMethod, onEditClick }: IProvider
                                                 ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                                 : "bg-neutral-0 dark:bg-neutral-100"
                                         )}>
-                                        {executionMethod[key as keyof ExecutionMethodOutput]?.[
+                                        {methodValue[key as keyof ExecutionMethodOutput]?.[
                                             subkey as keyof (TimeoutConfig | RetryPolicy)
                                         ] || "-"}
                                     </TableCell>
@@ -99,7 +106,7 @@ export const ProviderMethodsTable = ({ executionMethod, onEditClick }: IProvider
                                             ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                             : "bg-neutral-0 dark:bg-neutral-100"
                                     )}>
-                                    {executionMethod[key as keyof ExecutionMethodOutput] as string}
+                                    {methodValue[key as keyof ExecutionMethodOutput] as string}
                                 </TableCell>
                             </TableRow>
                         )
@@ -108,9 +115,11 @@ export const ProviderMethodsTable = ({ executionMethod, onEditClick }: IProvider
             </Table>
 
             <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                <Button onClick={onEditClick}>{translate("app.ui.actions.edit")}</Button>
+                <Button disabled={disabledProcess} onClick={onEditClick}>
+                    {translate("app.ui.actions.edit")}
+                </Button>
 
-                <Button onClick={() => {}} variant={"outline_gray"}>
+                <Button disabled={disabledProcess} onClick={onDeleteClick} variant={"outline_gray"}>
                     {translate("app.ui.actions.delete")}
                 </Button>
             </div>

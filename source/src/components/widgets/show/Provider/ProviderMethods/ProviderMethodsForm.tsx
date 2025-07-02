@@ -1,4 +1,4 @@
-import { ExecutionMethodInput, ExecutionMethodOutput } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ExecutionMethodInput } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/Input/input";
@@ -10,22 +10,29 @@ import { z } from "zod";
 
 interface IProviderMethodsForm {
     methodKey?: string;
-    methodValue?: ExecutionMethodOutput;
+    methodValue?: ExecutionMethodInput;
+    disabledProcess: boolean;
     onChangeMethod: (key: string, value: ExecutionMethodInput) => void;
     onCancel: () => void;
 }
 
-export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, onCancel }: IProviderMethodsForm) => {
+export const ProviderMethodsForm = ({
+    methodValue,
+    methodKey,
+    onChangeMethod,
+    onCancel,
+    disabledProcess
+}: IProviderMethodsForm) => {
     const translate = useTranslate();
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         execution_name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         retry_policy: z.object({
-            backoff_coefficient: z.number().optional(),
-            initial_interval: z.number().optional(),
-            maximum_attempts: z.number().optional(),
-            maximum_interval: z.number().optional(),
+            backoff_coefficient: z.coerce.number().optional(),
+            initial_interval: z.coerce.number().optional(),
+            maximum_attempts: z.coerce.number().optional(),
+            maximum_interval: z.coerce.number().optional(),
             non_retryable_error_types: z.array(z.string()).optional()
         }),
         task_queue: z.string().min(1, translate("resources.provider.errors.name")).trim(),
@@ -50,8 +57,8 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
             },
             task_queue: methodValue?.task_queue || "",
             timeouts: {
-                start_to_close_timeout: methodValue?.timeouts?.start_to_close_timeout || "",
-                wait_condition_timeout: methodValue?.timeouts?.wait_condition_timeout || ""
+                start_to_close_timeout: methodValue?.timeouts?.start_to_close_timeout || undefined,
+                wait_condition_timeout: methodValue?.timeouts?.wait_condition_timeout || undefined
             },
             type: methodValue?.type || ""
         }
@@ -75,12 +82,13 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                     "flex flex-col gap-4 rounded-8 p-4",
                     methodKey ? "bg-transparent" : "bg-neutral-20 dark:bg-neutral-bb"
                 )}>
-                <div className="flex flex-col gap-4 border-b border-neutral-100 pb-4">
+                <div className="flex flex-col gap-4">
                     <p className="text-base text-neutral-90 dark:text-neutral-30">
                         {translate("resources.provider.methodName")}
                     </p>
 
                     <FormField
+                        disabled={disabledProcess}
                         control={form.control}
                         name="name"
                         render={({ field, fieldState }) => (
@@ -94,15 +102,16 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                 </div>
 
                 <div className="grid grid-cols-7 gap-4">
-                    <div className="col-span-4 flex flex-col gap-4">
-                        <p className="text-base text-neutral-90 dark:text-neutral-40">
-                            {translate("resources.provider.methodParameters")}
-                        </p>
+                    <p className="col-span-7 text-base text-neutral-90 dark:text-neutral-40">
+                        {translate("resources.provider.methodParameters")}
+                    </p>
 
+                    <div className="col-span-4 flex flex-col gap-4">
                         <Input disabled className="text-neutral-80 dark:text-neutral-40" value="execution_name" />
                     </div>
 
                     <FormField
+                        disabled={disabledProcess}
                         control={form.control}
                         name="execution_name"
                         render={({ field, fieldState }) => (
@@ -134,6 +143,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
                     <div className="col-span-3 flex flex-col gap-4">
                         <FormField
+                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.backoff_coefficient"
                             render={({ field, fieldState }) => (
@@ -146,6 +156,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                         />
 
                         <FormField
+                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.initial_interval"
                             render={({ field, fieldState }) => (
@@ -158,6 +169,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                         />
 
                         <FormField
+                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.maximum_attempts"
                             render={({ field, fieldState }) => (
@@ -170,6 +182,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                         />
 
                         <FormField
+                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.maximum_interval"
                             render={({ field, fieldState }) => (
@@ -182,6 +195,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                         />
 
                         <FormField
+                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.non_retryable_error_types"
                             render={({ field, fieldState }) => (
@@ -201,6 +215,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                     </div>
 
                     <FormField
+                        disabled={disabledProcess}
                         control={form.control}
                         name="task_queue"
                         render={({ field, fieldState }) => (
@@ -233,6 +248,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
                     <div className="col-span-3 flex flex-col gap-4">
                         <FormField
+                            disabled={disabledProcess}
                             control={form.control}
                             name="timeouts.start_to_close_timeout"
                             render={({ field, fieldState }) => (
@@ -245,6 +261,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                         />
 
                         <FormField
+                            disabled={disabledProcess}
                             control={form.control}
                             name="timeouts.wait_condition_timeout"
                             render={({ field, fieldState }) => (
@@ -258,12 +275,13 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                     </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-4 border-b border-neutral-100 pb-4">
+                <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-4 flex flex-col gap-4">
                         <Input disabled className="text-neutral-80 dark:text-neutral-40" value="type" />
                     </div>
 
                     <FormField
+                        disabled={disabledProcess}
                         control={form.control}
                         name="type"
                         render={({ field, fieldState }) => (
@@ -277,9 +295,11 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button type="submit">{translate("app.ui.actions.save")}</Button>
+                    <Button disabled={disabledProcess} type="submit">
+                        {translate("app.ui.actions.save")}
+                    </Button>
 
-                    <Button onClick={onCancel} variant={"outline_gray"}>
+                    <Button disabled={disabledProcess} onClick={onCancel} variant={"outline_gray"}>
                         {translate("app.ui.actions.cancel")}
                     </Button>
                 </div>

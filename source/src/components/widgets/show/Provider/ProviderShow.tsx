@@ -90,7 +90,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     </Button>
                 </div>
 
-                <ProviderMethodsShow methods={context.record.methods} />
+                <ProviderMethodsShow providerId={id} methods={context.record.methods} isFetching={context.isFetching} />
             </div>
 
             <DeleteProviderDialog
