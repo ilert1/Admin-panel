@@ -53,7 +53,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
     const onChangeMethod = async (originalKey: string, key: string, value: ExecutionMethodInput) => {
         const tempMethodsData = { ...methods };
 
-        if (originalKey !== key) {
+        if (originalKey === key) {
             tempMethodsData[originalKey] = { ...value };
         } else {
             delete tempMethodsData[originalKey];
