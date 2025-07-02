@@ -42,12 +42,12 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
     if (context.isLoading || !context.record || !data || financialInstitutionTypesLoading) {
         return <Loading />;
     }
-    const logoUrl = context.record.meta?.logoURL as string;
+    const logoUrl = context.record.meta?.logoURL;
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap">
                 <TextField text={context.record.name} copyValue className="text-neutral-70 dark:text-neutral-30" />
-                {logoUrl && <BankIcon logoURL={logoUrl} />}
+                {typeof logoUrl === "string" && <BankIcon logoURL={logoUrl} />}
             </div>
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
