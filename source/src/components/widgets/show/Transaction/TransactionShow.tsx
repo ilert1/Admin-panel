@@ -247,16 +247,21 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     <>
                         {merchantsInfo?.length !== 0 ? (
                             merchantsInfo.map(el => {
+                                console.log(el);
+
                                 return (
                                     <TextField
                                         key={el.id}
                                         label={translate("resources.transactions.fields.destination.header")}
                                         text={el.name ?? ""}
-                                        onClick={() =>
-                                            openSheet("merchant", {
-                                                id: el.id,
-                                                merchantName: el.name
-                                            })
+                                        onClick={
+                                            el.name
+                                                ? () =>
+                                                      openSheet("merchant", {
+                                                          id: el.id,
+                                                          merchantName: el.name
+                                                      })
+                                                : undefined
                                         }
                                     />
                                 );
