@@ -80,9 +80,19 @@ export const ProviderMethodsTable = ({
                                                 ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                                 : "bg-neutral-0 dark:bg-neutral-100"
                                         )}>
-                                        {methodValue[key as keyof ExecutionMethodOutput]?.[
-                                            subkey as keyof (TimeoutConfig | RetryPolicy)
-                                        ] || "-"}
+                                        {Array.isArray(
+                                            methodValue[key as keyof ExecutionMethodOutput]?.[
+                                                subkey as keyof (TimeoutConfig | RetryPolicy)
+                                            ]
+                                        )
+                                            ? (
+                                                  methodValue[key as keyof ExecutionMethodOutput]?.[
+                                                      subkey as keyof (TimeoutConfig | RetryPolicy)
+                                                  ] as unknown as string[]
+                                              ).join(", ")
+                                            : methodValue[key as keyof ExecutionMethodOutput]?.[
+                                                  subkey as keyof (TimeoutConfig | RetryPolicy)
+                                              ] || "-"}
                                     </TableCell>
                                 </TableRow>
                             ))

@@ -31,9 +31,12 @@ export const ProviderMethodsForm = ({
         retry_policy: z.object({
             backoff_coefficient: z.coerce.number().optional(),
             initial_interval: z.coerce.number().optional(),
-            maximum_attempts: z.coerce.number().optional(),
+            maximum_attempts: z.coerce
+                .number()
+                .min(1, translate("app.widgets.forms.payout.valueMinMessage"))
+                .optional(),
             maximum_interval: z.coerce.number().optional(),
-            non_retryable_error_types: z.array(z.string()).optional()
+            non_retryable_error_types: z.string().optional()
         }),
         task_queue: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         timeouts: z.object({
@@ -53,7 +56,7 @@ export const ProviderMethodsForm = ({
                 initial_interval: methodValue?.retry_policy?.initial_interval,
                 maximum_attempts: methodValue?.retry_policy?.maximum_attempts,
                 maximum_interval: methodValue?.retry_policy?.maximum_interval || undefined,
-                non_retryable_error_types: methodValue?.retry_policy?.non_retryable_error_types || undefined
+                non_retryable_error_types: methodValue?.retry_policy?.non_retryable_error_types?.join(", ") || undefined
             },
             task_queue: methodValue?.task_queue || "",
             timeouts: {
@@ -69,8 +72,16 @@ export const ProviderMethodsForm = ({
             execution_name: data.execution_name,
             type: data.type,
             task_queue: data.task_queue,
-            timeouts: { ...data.timeouts },
-            retry_policy: { ...data.retry_policy }
+            timeouts: {
+                start_to_close_timeout: data.timeouts.start_to_close_timeout || undefined,
+                wait_condition_timeout: data.timeouts.wait_condition_timeout || undefined
+            },
+            retry_policy: {
+                ...data.retry_policy,
+                non_retryable_error_types: data.retry_policy.non_retryable_error_types
+                    ?.split(",")
+                    .map(item => item.trim())
+            }
         });
     };
 
