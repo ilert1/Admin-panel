@@ -26,7 +26,7 @@ import { Direction, DirectionCreate, PaymentTypesLink } from "@/api/enigma/blowF
 
 export class DirectionsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Direction>> {
-        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "merchant");
+        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "merchant" || item === "provider");
 
         const res = await directionEndpointsListDirectionsEnigmaV1DirectionGet(
             {
