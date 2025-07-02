@@ -2,6 +2,7 @@ import { ExecutionMethodInput, ExecutionMethodOutput } from "@/api/enigma/blowFi
 import { Button } from "@/components/ui/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/Input/input";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
@@ -68,9 +69,16 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 rounded-8 bg-neutral-bb p-4">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className={cn(
+                    "flex flex-col gap-4 rounded-8 p-4",
+                    methodKey ? "bg-transparent" : "bg-neutral-20 dark:bg-neutral-bb"
+                )}>
                 <div className="flex flex-col gap-4 border-b border-neutral-100 pb-4">
-                    <p className="text-base text-neutral-0">{translate("resources.provider.methodName")}</p>
+                    <p className="text-base text-neutral-90 dark:text-neutral-30">
+                        {translate("resources.provider.methodName")}
+                    </p>
 
                     <FormField
                         control={form.control}
@@ -87,9 +95,11 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
                 <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-4 flex flex-col gap-4">
-                        <p className="text-base text-neutral-0">{translate("resources.provider.methodParameters")}</p>
+                        <p className="text-base text-neutral-90 dark:text-neutral-40">
+                            {translate("resources.provider.methodParameters")}
+                        </p>
 
-                        <Input disabled className="text-neutral-30" value="execution_name" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="execution_name" />
                     </div>
 
                     <FormField
@@ -107,15 +117,19 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
                 <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-2">
-                        <Input disabled className="text-neutral-30" value="retry_policy" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="retry_policy" />
                     </div>
 
                     <div className="col-span-2 flex flex-col gap-4">
-                        <Input disabled className="text-neutral-30" value="backoff_coefficient" />
-                        <Input disabled className="text-neutral-30" value="initial_interval" />
-                        <Input disabled className="text-neutral-30" value="maximum_attempts" />
-                        <Input disabled className="text-neutral-30" value="maximum_interval" />
-                        <Input disabled className="text-neutral-30" value="non_retryable_error_types" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="backoff_coefficient" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="initial_interval" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="maximum_attempts" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="maximum_interval" />
+                        <Input
+                            disabled
+                            className="text-neutral-80 dark:text-neutral-40"
+                            value="non_retryable_error_types"
+                        />
                     </div>
 
                     <div className="col-span-3 flex flex-col gap-4">
@@ -183,7 +197,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
                 <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-4 flex flex-col gap-4">
-                        <Input disabled className="text-neutral-30" value="task_queue" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="task_queue" />
                     </div>
 
                     <FormField
@@ -201,12 +215,20 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
                 <div className="grid grid-cols-7 gap-4">
                     <div className="col-span-2 flex flex-col gap-4">
-                        <Input disabled className="text-neutral-30" value="timeouts" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="timeouts" />
                     </div>
 
                     <div className="col-span-2 flex flex-col gap-4">
-                        <Input disabled className="text-neutral-30" value="start_to_close_timeout" />
-                        <Input disabled className="text-neutral-30" value="wait_condition_timeout" />
+                        <Input
+                            disabled
+                            className="text-neutral-80 dark:text-neutral-40"
+                            value="start_to_close_timeout"
+                        />
+                        <Input
+                            disabled
+                            className="text-neutral-80 dark:text-neutral-40"
+                            value="wait_condition_timeout"
+                        />
                     </div>
 
                     <div className="col-span-3 flex flex-col gap-4">
@@ -238,7 +260,7 @@ export const ProviderMethodsForm = ({ methodValue, methodKey, onChangeMethod, on
 
                 <div className="grid grid-cols-7 gap-4 border-b border-neutral-100 pb-4">
                     <div className="col-span-4 flex flex-col gap-4">
-                        <Input disabled className="text-neutral-30" value="type" />
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="type" />
                     </div>
 
                     <FormField

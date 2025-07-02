@@ -14,7 +14,7 @@ function AccordionItem({ className, ...props }: React.ComponentProps<typeof Acco
     return (
         <AccordionPrimitive.Item
             data-slot="accordion-item"
-            className={cn("rounded-8 bg-neutral-bb px-4", className)}
+            className={cn("rounded-8 bg-neutral-20 px-4 dark:bg-neutral-bb", className)}
             {...props}
         />
     );

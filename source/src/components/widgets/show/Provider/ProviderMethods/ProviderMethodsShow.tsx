@@ -17,8 +17,10 @@ export const ProviderMethodsShow = ({ methods }: IProviderMethodsShow) => {
     const translate = useTranslate();
 
     return (
-        <div className="flex flex-col gap-4 rounded-8 bg-neutral-100 px-8 py-4">
-            <h3 className="text-2xl">{translate("resources.provider.fields.methods")}</h3>
+        <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
+            <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
+                {translate("resources.provider.fields.methods")}
+            </h3>
 
             {Object.keys(methods).length > 0 ? (
                 <Accordion type="multiple">
