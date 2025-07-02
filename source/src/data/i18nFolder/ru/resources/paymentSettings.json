@@ -14,7 +14,7 @@
         },
         "fields": {
             "code": "Код",
-            "title": "Описание",
+            "title": "Название",
             "payment_types": "Платёжные типы",
             "category": "Категория",
             "required_fields_for_payment": "Обязательные поля для платежа",
@@ -23,7 +23,7 @@
         },
         "placeholders": {
             "code": "Код платёжного типа",
-            "title": "Описание платёжного типа"
+            "title": "Название платёжного типа"
         },
         "notFoundMessage": "Платёжные типы не найдены.",
         "deletePaymentTypeQuestion": "Удалить платёжные тип?",

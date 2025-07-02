@@ -45,7 +45,10 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             .min(1, translate("resources.paymentSettings.paymentType.errors.code"))
             .regex(/^[a-z0-9_]+$/, translate("resources.paymentSettings.paymentType.errors.codeRegex"))
             .trim(),
-        title: z.string().optional().default(""),
+        title: z
+            .string()
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"))
+            .default(""),
         required_fields_for_payment: z.string().optional(),
         category: z.enum(paymentTypeCategories as [string, ...string[]]).default("h2h"),
         meta: z
