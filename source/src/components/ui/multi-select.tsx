@@ -257,7 +257,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             </div>
                         ) : (
                             <div className="mx-auto flex w-full items-center justify-between">
-                                <span className="mx-3 text-sm text-muted-foreground">{placeholder}</span>
+                                <span className="mx-3 text-sm text-neutral-60 dark:text-neutral-70">{placeholder}</span>
                                 <ChevronDown
                                     id="multiSelectToggleIcon"
                                     className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
