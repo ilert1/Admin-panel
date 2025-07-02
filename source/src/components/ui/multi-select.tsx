@@ -177,7 +177,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         onClick={handleTogglePopover}
                         variant={"outline_sec"}
                         className={cn(
-                            "flex h-auto min-h-10 w-full items-center justify-between rounded-md border p-1 hover:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
+                            "flex h-auto min-h-10 w-full items-center justify-between rounded-md border bg-white p-1 hover:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
                             "[&:is([data-state='open'])_#multiSelectToggleIcon]:rotate-180",
                             className
                         )}>
