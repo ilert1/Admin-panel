@@ -199,7 +199,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                         "bg-muted font-normal"
                                                     )}
                                                     style={{ animationDuration: `${animation}s` }}>
-                                                    {IconComponent && <IconComponent className="mr-1 h-4 w-4" small />}
+                                                    {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
                                                     <span className="max-w-28 overflow-hidden text-ellipsis break-words">
                                                         {option?.label}
                                                     </span>

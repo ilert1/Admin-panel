@@ -25,7 +25,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
                     type={option.code}
                     metaIcon={option.meta?.["icon"] as string}
                     metaIconMargin
-                    tooltip
+                    small
                     {...props}
                 />
             )

@@ -24,7 +24,6 @@ export const PaymentsTypesShowComponent = (props: PaymentsTypesShowProps) => {
                                   type={type.code}
                                   key={type.code}
                                   metaIcon={type.meta?.["icon"] as string}
-                                  tooltip
                               />
                           );
                       })

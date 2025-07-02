@@ -159,7 +159,6 @@ export const useGetFinancialInstitutionColumns = ({
                                           key={pt.code}
                                           type={pt.code}
                                           metaIcon={pt.meta?.["icon"] as string}
-                                          tooltip
                                       />
                                   );
                               })
