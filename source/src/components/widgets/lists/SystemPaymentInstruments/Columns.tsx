@@ -55,7 +55,7 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
                                 className="h-6 w-6 fill-white object-contain"
                             />
                         ) : (
-                            <PaymentTypeIcon type={row.original.payment_type_code} tooltip />
+                            <PaymentTypeIcon type={row.original.payment_type_code} />
                         )}
                     </div>
                 );

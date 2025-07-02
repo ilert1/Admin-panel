@@ -29,6 +29,10 @@ import EcomLocalCardIcon from "@/lib/icons/payment_types/ecom_local_card.svg?rea
 import EcomPlatformAllIcon from "@/lib/icons/payment_types/ecom_platform_all.svg?react";
 import EcomPlatformCardIcon from "@/lib/icons/payment_types/ecom_platform_card.svg?react";
 import EcomExternalAllIcon from "@/lib/icons/payment_types/ecom_external_all.svg?react";
+import PhoneNumberPaymentIcon from "@/lib/icons/payment_types/phone_number_payment.svg?react";
+import EcomNonameIcon from "@/lib/icons/payment_types/ecom_noname.svg?react";
+import WalletPaymentIcon from "@/lib/icons/payment_types/wallet_payment.svg?react";
+
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -75,23 +79,28 @@ const iconsRecord: Record<
     ecom_platform_all: EcomPlatformAllIcon,
     ecom_platform_card: EcomPlatformCardIcon,
     ecom_external_all: EcomExternalAllIcon,
-    iban_account: IBANAccountIcon
+    iban_account: IBANAccountIcon,
+    phone_number_payment: PhoneNumberPaymentIcon,
+    ecom_noname: EcomNonameIcon,
+    wallet_payment: WalletPaymentIcon
 };
 
 export const PaymentTypeIcon = memo(
     ({
         type,
         className,
-        tooltip = false,
+        small = false,
         metaIcon,
         metaIconMargin = false
     }: {
         type: string;
         className?: string;
-        tooltip?: boolean;
-        metaIcon?: string;
+        small?: boolean;
+        metaIcon?: string | unknown;
         metaIconMargin?: boolean;
     }) => {
+        if (typeof metaIcon !== "string") return null;
+
         if (metaIcon) {
             return (
                 <img
@@ -107,18 +116,31 @@ export const PaymentTypeIcon = memo(
             return (
                 <TooltipProvider>
                     <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger asChild className="h-auto">
                             <Button variant="text_btn" className="cursor-default p-0">
                                 <div
                                     className={cn(
                                         className,
-                                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white"
+                                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white",
+                                        small ? "relative flex h-4 w-4 items-center justify-start text-left" : ""
                                     )}>
-                                    {type
-                                        .toUpperCase()
-                                        .split("_")
-                                        .map(el => el[0])
-                                        .join("")}
+                                    {small ? (
+                                        <span
+                                            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                                            style={{ fontSize: "8px" }}>
+                                            {type
+                                                .toUpperCase()
+                                                .split("_")
+                                                .map(el => el[0])
+                                                .join("")}
+                                        </span>
+                                    ) : (
+                                        type
+                                            .toUpperCase()
+                                            .split("_")
+                                            .map(el => el[0])
+                                            .join("")
+                                    )}
                                 </div>
                             </Button>
                         </TooltipTrigger>

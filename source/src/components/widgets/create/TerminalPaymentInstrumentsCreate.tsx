@@ -426,11 +426,11 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                 return (
                                     <FormItem className="w-full p-2">
                                         <FormLabel>
-                                            <span className="!text-note-1 !text-neutral-30">
+                                            <Label>
                                                 {translate(
                                                     "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
                                                 )}
-                                            </span>
+                                            </Label>
                                         </FormLabel>
 
                                         <FormControl>

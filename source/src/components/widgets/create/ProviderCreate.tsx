@@ -12,6 +12,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { ProviderWithId } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Label } from "@/components/ui/label";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -113,9 +114,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                 return (
                                     <FormItem className="w-full p-2">
                                         <FormLabel>
-                                            <span className="!text-note-1 !text-neutral-30">
-                                                {translate("resources.provider.fields.code")}
-                                            </span>
+                                            <Label>{translate("resources.provider.fields.code")}</Label>
                                         </FormLabel>
                                         <FormControl>
                                             <MonacoEditor

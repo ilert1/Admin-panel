@@ -90,7 +90,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                         className="h-6 w-6 fill-white object-contain"
                                     />
                                 ) : (
-                                    <PaymentTypeIcon type={context.record.payment_type_code} tooltip />
+                                    <PaymentTypeIcon type={context.record.payment_type_code} />
                                 )}
                             </div>
                         </div>
