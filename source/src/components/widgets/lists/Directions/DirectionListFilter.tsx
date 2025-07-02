@@ -22,7 +22,7 @@ export const DirectionListFilter = () => {
     };
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !merchantId || !provider;
+    const clearDisabled = !merchantId && !provider;
 
     return (
         <>
