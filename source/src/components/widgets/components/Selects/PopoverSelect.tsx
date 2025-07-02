@@ -204,7 +204,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                         {iconForPaymentTypes ? (
                                             <PaymentTypeIcon
                                                 type={variant[variantKey]}
-                                                metaIcon={variant.meta?.["icon"] as string}
+                                                metaIcon={variant.meta?.["icon"]}
                                                 metaIconMargin
                                                 className="min-w-[24px]"
                                             />
