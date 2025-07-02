@@ -1,43 +1,21 @@
 import { Button } from "@/components/ui/Button";
-import { debounce } from "lodash";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { CreateDirectionDialog } from "./CreateDirectionDialog";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import useDirectionsListFilter from "@/hooks/useDirectionsListFilter";
+import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 
 export const DirectionListFilter = () => {
-    const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-
-    const translate = useTranslate();
-
-    const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
-
-    const onPropertySelected = debounce((value: string, type: "merchant") => {
-        if (value) {
-            setFilters({ ...filterValues, [type]: value, sort: "name", asc: "ASC" }, displayedFilters, true);
-        } else {
-            Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters, true);
-        }
-        setPage(1);
-    }, 300);
-
-    const onAccountChanged = (merchant: string) => {
-        setMerchantId(merchant);
-        onPropertySelected(merchant, "merchant");
-    };
-
-    const clearFilters = () => {
-        setMerchantId("");
-        setFilters({}, displayedFilters, true);
-        setPage(1);
-    };
+    const translate = useTranslate();
+    const { merchantId, onAccountChanged, clearFilters, provider, onProviderChanged, providers, providersLoading } =
+        useDirectionsListFilter();
 
     const handleCreateClick = () => {
         setCreateDialogOpen(true);
@@ -52,7 +30,7 @@ export const DirectionListFilter = () => {
                 <div className="mb-4 flex flex-wrap justify-between gap-x-52 gap-y-3 sm:gap-3 md:mb-6">
                     <ResourceHeaderTitle />
 
-                    <div className="flex flex-1 flex-row justify-end gap-2 sm:flex-none sm:gap-6">
+                    <div className="flex flex-1 flex-col justify-end gap-2 sm:flex-row sm:gap-6">
                         <Button
                             onClick={handleCreateClick}
                             variant="default"
@@ -71,17 +49,32 @@ export const DirectionListFilter = () => {
                 </div>
 
                 <AnimatedContainer open={openFiltersClicked}>
-                    <div className="flex-grow-100 mb-4 flex min-w-[150px] max-w-[700px] flex-1 flex-col gap-1 md:mb-6">
-                        <Label variant="title-2" className="mb-0 md:text-nowrap">
-                            {translate("resources.transactions.filter.filterByAccount")}
-                        </Label>
+                    <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
+                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                            <Label variant="title-2" className="mb-0 md:text-nowrap">
+                                {translate("resources.transactions.filter.filterByAccount")}
+                            </Label>
 
-                        <MerchantSelectFilter
-                            merchant={merchantId}
-                            onMerchantChanged={onAccountChanged}
-                            resource="merchant"
-                            modal={false}
-                        />
+                            <MerchantSelectFilter
+                                merchant={merchantId}
+                                onMerchantChanged={onAccountChanged}
+                                resource="merchant"
+                                modal={false}
+                            />
+                        </div>
+                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                            <Label variant="title-2" className="mb-0 md:text-nowrap">
+                                {translate("resources.terminals.selectHeader")}
+                            </Label>
+                            <ProviderSelect
+                                providers={providers || []}
+                                value={provider}
+                                onChange={onProviderChanged}
+                                isLoading={providersLoading}
+                                disabled={providersLoading}
+                                style="Black"
+                            />
+                        </div>
                     </div>
                 </AnimatedContainer>
             </div>
