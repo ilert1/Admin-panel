@@ -99,13 +99,17 @@ export const ProviderMethodsForm = ({
                     </p>
 
                     <FormField
-                        disabled={disabledProcess}
                         control={form.control}
                         name="name"
                         render={({ field, fieldState }) => (
                             <FormItem>
                                 <FormControl>
-                                    <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                    <Input
+                                        {...field}
+                                        disabled={disabledProcess}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -122,13 +126,17 @@ export const ProviderMethodsForm = ({
                     </div>
 
                     <FormField
-                        disabled={disabledProcess}
                         control={form.control}
                         name="execution_name"
                         render={({ field, fieldState }) => (
                             <FormItem className="col-span-3 flex flex-col self-end">
                                 <FormControl>
-                                    <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                    <Input
+                                        {...field}
+                                        disabled={disabledProcess}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -154,65 +162,85 @@ export const ProviderMethodsForm = ({
 
                     <div className="col-span-3 flex flex-col gap-4">
                         <FormField
-                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.backoff_coefficient"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                        <Input
+                                            {...field}
+                                            disabled={disabledProcess}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
 
                         <FormField
-                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.initial_interval"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                        <Input
+                                            {...field}
+                                            disabled={disabledProcess}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
 
                         <FormField
-                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.maximum_attempts"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                        <Input
+                                            {...field}
+                                            disabled={disabledProcess}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
 
                         <FormField
-                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.maximum_interval"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                        <Input
+                                            {...field}
+                                            disabled={disabledProcess}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
 
                         <FormField
-                            disabled={disabledProcess}
                             control={form.control}
                             name="retry_policy.non_retryable_error_types"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                        <Input
+                                            {...field}
+                                            disabled={disabledProcess}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -226,13 +254,17 @@ export const ProviderMethodsForm = ({
                     </div>
 
                     <FormField
-                        disabled={disabledProcess}
                         control={form.control}
                         name="task_queue"
                         render={({ field, fieldState }) => (
                             <FormItem className="col-span-3 flex flex-col gap-4">
                                 <FormControl>
-                                    <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                    <Input
+                                        {...field}
+                                        disabled={disabledProcess}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -259,26 +291,34 @@ export const ProviderMethodsForm = ({
 
                     <div className="col-span-3 flex flex-col gap-4">
                         <FormField
-                            disabled={disabledProcess}
                             control={form.control}
                             name="timeouts.start_to_close_timeout"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                        <Input
+                                            {...field}
+                                            disabled={disabledProcess}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
 
                         <FormField
-                            disabled={disabledProcess}
                             control={form.control}
                             name="timeouts.wait_condition_timeout"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                        <Input
+                                            {...field}
+                                            disabled={disabledProcess}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -292,13 +332,17 @@ export const ProviderMethodsForm = ({
                     </div>
 
                     <FormField
-                        disabled={disabledProcess}
                         control={form.control}
                         name="type"
                         render={({ field, fieldState }) => (
                             <FormItem className="col-span-3 flex flex-col gap-4">
                                 <FormControl>
-                                    <Input {...field} error={fieldState.invalid} errorMessage={<FormMessage />} />
+                                    <Input
+                                        {...field}
+                                        disabled={disabledProcess}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -306,11 +350,9 @@ export const ProviderMethodsForm = ({
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button disabled={disabledProcess} type="submit">
-                        {translate("app.ui.actions.save")}
-                    </Button>
+                    <Button type="submit">{translate("app.ui.actions.save")}</Button>
 
-                    <Button disabled={disabledProcess} onClick={onCancel} variant={"outline_gray"}>
+                    <Button onClick={onCancel} variant={"outline_gray"}>
                         {translate("app.ui.actions.cancel")}
                     </Button>
                 </div>
