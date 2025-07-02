@@ -87,7 +87,7 @@
     },
     "resources.paymentSettings.systemPaymentInstruments": {
         "name": "System Payment Instruments",
-        "show": "System Payment instrument",
+        "show": "System Payment Instrument",
         "fields": {
             "name": "Name",
             "payment_type_code": "Payment type",
