@@ -98,6 +98,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
         setMerchantId("");
         setMerchantBalanceId("");
         setMerchantAmount("");
+        setFiatShow(false);
         setIsError(false);
         onOpenChange(open);
     };
