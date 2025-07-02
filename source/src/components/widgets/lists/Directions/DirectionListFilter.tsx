@@ -22,7 +22,7 @@ export const DirectionListFilter = () => {
     };
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !merchantId;
+    const clearDisabled = !merchantId || !provider;
 
     return (
         <>
@@ -41,7 +41,7 @@ export const DirectionListFilter = () => {
                         <FilterButtonGroup
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
-                            filterList={[merchantId]}
+                            filterList={[merchantId, provider]}
                             clearButtonDisabled={clearDisabled}
                             onClearFilters={clearFilters}
                         />
