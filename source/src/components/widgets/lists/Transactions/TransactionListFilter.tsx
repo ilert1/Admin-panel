@@ -32,6 +32,7 @@ export const TransactionListFilter = () => {
         onOrderStatusChanged,
         merchantData,
         merchantsLoadingProcess,
+        merchantId,
         onMerchantChanged,
         merchantValue,
         setMerchantValue,
@@ -51,7 +52,7 @@ export const TransactionListFilter = () => {
     const loading = useLoading();
 
     const clearDiasbled =
-        !operationId && !merchantValue && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
+        !operationId && !merchantId && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
 
     return (
         <>
@@ -64,7 +65,7 @@ export const TransactionListFilter = () => {
                         onOpenChange={setOpenFiltersClicked}
                         filterList={[
                             operationId,
-                            merchantValue,
+                            merchantId,
                             customerPaymentId,
                             startDate,
                             typeTabActive,

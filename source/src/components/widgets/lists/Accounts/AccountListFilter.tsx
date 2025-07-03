@@ -28,7 +28,7 @@ export const AccountListFilter = () => {
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
-    const clearDisabled = !merchantValue && !startDate;
+    const clearDisabled = !merchantId && !startDate;
 
     return (
         <div>
@@ -40,7 +40,7 @@ export const AccountListFilter = () => {
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
                         clearButtonDisabled={clearDisabled}
-                        filterList={[merchantValue, startDate]}
+                        filterList={[merchantId, startDate]}
                         onClearFilters={clearFilters}
                     />
                 </div>
