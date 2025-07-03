@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/Input/input";
 import useTransactionFilter from "@/hooks/useTransactionFilter";
 import { Button } from "@/components/ui/Button";
-import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
@@ -18,6 +17,7 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { RefreshCw } from "lucide-react";
 import { useLoading, useRefresh } from "react-admin";
 import clsx from "clsx";
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 
 export const TransactionListFilter = () => {
     const {
@@ -30,18 +30,20 @@ export const TransactionListFilter = () => {
         onCustomerPaymentIdChanged,
         orderStatusFilter,
         onOrderStatusChanged,
-        account,
-        onAccountChanged,
+        merchantData,
+        merchantsLoadingProcess,
+        onMerchantChanged,
+        merchantValue,
+        setMerchantValue,
         startDate,
         endDate,
         changeDate,
+        typeTabActive,
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
-        clearFilters,
-        typeTabActive
+        clearFilters
     } = useTransactionFilter();
-    // const debounced = debounce(setChartOpen, 200);
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
@@ -49,7 +51,7 @@ export const TransactionListFilter = () => {
     const loading = useLoading();
 
     const clearDiasbled =
-        !operationId && !account && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
+        !operationId && !merchantValue && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
 
     return (
         <>
@@ -62,7 +64,7 @@ export const TransactionListFilter = () => {
                         onOpenChange={setOpenFiltersClicked}
                         filterList={[
                             operationId,
-                            account,
+                            merchantValue,
                             customerPaymentId,
                             startDate,
                             typeTabActive,
@@ -146,11 +148,13 @@ export const TransactionListFilter = () => {
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
 
-                                <MerchantSelectFilter
-                                    merchant={account}
-                                    onMerchantChanged={onAccountChanged}
-                                    resource="accounts"
-                                    modal={false}
+                                <MerchantSelect
+                                    merchants={merchantData || []}
+                                    value={merchantValue}
+                                    onChange={setMerchantValue}
+                                    setIdValue={onMerchantChanged}
+                                    disabled={merchantsLoadingProcess}
+                                    style="Black"
                                 />
                             </div>
                         )}

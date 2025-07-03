@@ -10,9 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const useAccountFilter = () => {
     const appToast = useAppToast();
-
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-
     const merchantsDataProvider = new MerchantsDataProvider();
 
     const {
@@ -20,13 +18,13 @@ const useAccountFilter = () => {
         isFetching: isMerchantsFetching,
         isLoading: isMerchantsLoading
     } = useQuery({
-        queryKey: ["merchants"],
+        queryKey: ["merchants", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
         select: data => data?.data
     });
 
-    const [merchantId, setMerchantId] = useState<string>(filterValues?.merchantId || "");
-    const [merchantValue, setMerchantValue] = useState<string>("");
+    const [merchantId, setMerchantId] = useState(filterValues?.merchantId || "");
+    const [merchantValue, setMerchantValue] = useState("");
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
     );
