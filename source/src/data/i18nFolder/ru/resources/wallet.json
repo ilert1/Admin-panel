@@ -31,7 +31,7 @@
             "walletType": "Тип кошелька",
             "walletAddress": "Адрес кошелька",
             "accountNumber": "Номер счёта",
-            "merchantName": "Мерчант",
+            "merchantName": "Счёт",
             "merchantId": "ID мерчанта",
             "currency": "Валюта",
             "descr": "Описание",

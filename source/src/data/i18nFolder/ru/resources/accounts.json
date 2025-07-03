@@ -49,6 +49,8 @@
         "name": "Требуется указать имя",
         "uuid": "Неправильный UUID"
     },
+    "resources.accounts.notFoundMessage": "Счёта не найдены.",
+    "resources.accounts.selectPlaceholder": "Выберите счёт",
     "resources.accounts.showHeader": "Информация о счете",
     "resources.accounts.showDescription": "Подробная информация о счете с ID %{id}",
     "resources.accounts.balance": "Баланс",
