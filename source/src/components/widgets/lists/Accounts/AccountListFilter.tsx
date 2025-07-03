@@ -3,138 +3,33 @@ import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
-import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import useAccountFilter from "@/hooks/useAccountFilter";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { useListContext } from "react-admin";
-import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/Button";
-
-import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { API_URL } from "@/data/base";
-import moment from "moment";
-import { AccountsDataProvider } from "@/data";
-
-// interface AccountListFilterProps {
-//     setFilters: (filters: unknown, displayedFilters?: unknown, debounce?: boolean | undefined) => void;
-// }
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 
 export const AccountListFilter = () => {
-    // const { setFilters } = props;
-    const { filterValues, setFilters, displayedFilters } = useListContext();
-    const appToast = useAppToast();
-    const { merchantId, onMerchantChanged, translate, clearFilters, adminOnly } = useAccountFilter();
-    // const [accountId, setAccountId] = useState(filterValues.id ?? "");
-
-    const [startDate, setStartDate] = useState<Date | undefined>(
-        filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
-    );
-    const [endDate, setEndDate] = useState<Date | undefined>(
-        filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
-    );
-
-    const [reportLoading, setReportLoading] = useState(false);
-
-    const clear = () => {
-        setFilters({}, {});
-        setStartDate(undefined);
-        setEndDate(undefined);
-        clearFilters();
-    };
+    const {
+        handleDownloadReport,
+        reportLoading,
+        merchantData,
+        merchantId,
+        merchantValue,
+        setMerchantValue,
+        merchantsLoadingProcess,
+        translate,
+        clearFilters,
+        onMerchantChanged,
+        adminOnly,
+        startDate,
+        endDate,
+        changeDate
+    } = useAccountFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
-    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+    const clearDisabled = !merchantValue && !startDate;
 
-    const handleDownloadReport = async (adminOnly: boolean = false, type: "pdf" | "csv" | "xlsx" = "xlsx") => {
-        if (!startDate || !endDate || (adminOnly && !merchantId)) {
-            appToast("error", translate("resources.transactions.download.bothError"));
-            return;
-        }
-
-        setReportLoading(true);
-
-        try {
-            const url = new URL(`${API_URL}/transactions/balance_report`);
-            url.searchParams.set("start_date", formattedDate(startDate));
-            url.searchParams.set("end_date", formattedDate(endDate));
-            url.searchParams.set("merchantId", merchantId);
-
-            let filename = `report_${merchantId && `merchantId_${merchantId}_`}${formattedDate(startDate)}_to_${formattedDate(endDate)}.${type}`;
-
-            AccountsDataProvider.downloadBalanceReport(url)
-                .then(response => {
-                    const contentDisposition = response?.headers?.get("Content-Disposition");
-                    const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
-                    filename = matches?.[1] ? matches[1] : filename;
-
-                    return response.blob();
-                })
-                .then(blob => {
-                    const fileUrl = window.URL.createObjectURL(blob);
-
-                    const a = document.createElement("a");
-                    a.href = fileUrl;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(fileUrl);
-                })
-                .catch(error => {
-                    appToast("error", translate("resources.transactions.download.bothError"));
-                    console.error("There was an error downloading the file:", error);
-                })
-                .finally(() => {
-                    setReportLoading(false);
-                });
-        } catch (error) {
-            appToast("error", translate("resources.transactions.download.bothError"));
-            console.error("There was an error downloading the file:", error);
-        }
-    };
-
-    const changeDate = (date: DateRange | undefined) => {
-        if (date) {
-            if (date.from) {
-                const end_date = date.to ?? undefined;
-                const start_date = date.from;
-
-                setStartDate(start_date);
-                setEndDate(end_date);
-
-                setFilters(
-                    {
-                        ...filterValues,
-                        start_date: start_date,
-                        end_date: end_date
-                    },
-                    {
-                        ...displayedFilters,
-                        start_date: start_date,
-                        end_date: end_date
-                    }
-                );
-            }
-        } else {
-            setStartDate(undefined);
-            setEndDate(undefined);
-            setFilters(
-                {
-                    ...filterValues,
-                    start_date: undefined,
-                    end_date: undefined
-                },
-                {
-                    ...displayedFilters,
-                    start_date: undefined,
-                    end_date: undefined
-                }
-            );
-        }
-    };
-
-    const clearDisabled = !merchantId && !startDate;
     return (
         <div>
             <div className="flex flex-col">
@@ -145,8 +40,8 @@ export const AccountListFilter = () => {
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
                         clearButtonDisabled={clearDisabled}
-                        filterList={[merchantId, startDate]}
-                        onClearFilters={clear}
+                        filterList={[merchantValue, startDate]}
+                        onClearFilters={clearFilters}
                     />
                 </div>
 
@@ -159,11 +54,13 @@ export const AccountListFilter = () => {
                                         {translate("resources.transactions.filter.filterByAccount")}
                                     </Label>
 
-                                    <MerchantSelectFilter
-                                        merchant={merchantId}
-                                        onMerchantChanged={onMerchantChanged}
-                                        resource="merchant"
-                                        modal={false}
+                                    <MerchantSelect
+                                        merchants={merchantData || []}
+                                        value={merchantValue}
+                                        onChange={setMerchantValue}
+                                        setIdValue={onMerchantChanged}
+                                        disabled={merchantsLoadingProcess}
+                                        style="Black"
                                     />
                                 </div>
                             )}
