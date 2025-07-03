@@ -152,11 +152,11 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     )}
 
                     <div className="flex gap-3 md:gap-6">
-                        {showDispute && (
+                        {/* {showDispute && (
                             <Button disabled={!context.record?.state.final} onClick={switchDispute}>
                                 {disputeCaption}
                             </Button>
-                        )}
+                        )} */}
 
                         {showCommit && (
                             <>
