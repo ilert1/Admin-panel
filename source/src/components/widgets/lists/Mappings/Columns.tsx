@@ -7,11 +7,12 @@ import { Link } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
+import { TerminalsDataProvider } from "@/data/terminals";
 
 export const useGetMappingsColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-
+    const dataProvider = new TerminalsDataProvider();
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
@@ -20,6 +21,24 @@ export const useGetMappingsColumns = () => {
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
         setDeleteMappingClicked(true);
+    };
+
+    const getTerminal = async (terminal_id: string, provider: string) => {
+        if (!terminal_id || !provider) return null;
+
+        try {
+            const { data } = await dataProvider.getOne(`${provider}/terminal`, {
+                id: terminal_id
+            });
+
+            if (data) {
+                return data.id;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            return null;
+        }
     };
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
@@ -58,12 +77,22 @@ export const useGetMappingsColumns = () => {
             header: translate("resources.callbridge.mapping.fields.terminal"),
             cell: ({ row }) => {
                 const term = row.original.terminal?.verbose_name;
+                let terminalId: string | null = null;
+
+                async function getTerminalId() {
+                    terminalId = await getTerminal(
+                        row.original.terminal?.terminal_id ?? "",
+                        row.original.terminal?.provider ?? ""
+                    );
+                }
+
+                getTerminalId();
 
                 return (
                     <TextField
                         text={term ?? ""}
                         onClick={
-                            term
+                            term && terminalId
                                 ? () => {
                                       openSheet("terminal", {
                                           id: row.original.terminal?.terminal_id,
