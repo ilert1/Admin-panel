@@ -228,12 +228,6 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                         key={idField ? variant[idField] : newVariant()}
                                         value={newVariant()}
                                         onSelect={onSelectChange}>
-                                        <CheckIcon
-                                            className={cn(
-                                                "h-4 w-full max-w-4",
-                                                value === newVariant() ? "opacity-100" : "opacity-0"
-                                            )}
-                                        />
                                         <>
                                             {iconForPaymentTypes ? (
                                                 <PaymentTypeIcon
@@ -243,8 +237,16 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                                     className="min-w-[24px]"
                                                 />
                                             ) : undefined}
-                                            <p>{variantTitleKey ? variant[variantTitleKey] : newVariant()}</p>
+                                            <p className="truncate">
+                                                {variantTitleKey ? variant[variantTitleKey] : newVariant()}
+                                            </p>
                                         </>
+                                        <CheckIcon
+                                            className={cn(
+                                                "ml-auto h-4 w-full max-w-4",
+                                                value === newVariant() ? "opacity-100" : "opacity-0"
+                                            )}
+                                        />
                                     </CommandItem>
                                 );
                             })}
