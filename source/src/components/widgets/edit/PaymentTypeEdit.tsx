@@ -52,7 +52,10 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentSettings.paymentType.errors.code")).trim(),
-        title: z.string().optional().default(""),
+        title: z
+            .string()
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"))
+            .default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
         required_fields_for_payment: z.string().optional(),
         meta: z
