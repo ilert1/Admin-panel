@@ -23,7 +23,7 @@ interface IProviderMethodsShow {
 export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProviderMethodsShow) => {
     const providersDataProvider = new ProvidersDataProvider();
     const [buttonDisabled, setButtonDisabled] = useState(false);
-    const [editMethod, setEditMethod] = useState(false);
+    const [editMethod, setEditMethod] = useState("");
     const [addMethodForm, setAddMethodForm] = useState(false);
 
     const appToast = useAppToast();
@@ -61,7 +61,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
         }
 
         await updateProviderMethods(tempMethodsData);
-        setEditMethod(false);
+        setEditMethod("");
     };
 
     const onAddMethod = async (key: string, value: ExecutionMethodInput) => {
@@ -94,19 +94,19 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                             <AccordionTrigger>{methodKey}</AccordionTrigger>
 
                             <AccordionContent>
-                                {editMethod ? (
+                                {editMethod === methodKey ? (
                                     <ProviderMethodsForm
                                         methodKey={methodKey}
                                         methodValue={methods[methodKey]}
                                         disabledProcess={isFetching || buttonDisabled}
                                         onChangeMethod={(key, value) => onChangeMethod(methodKey, key, value)}
-                                        onCancel={() => setEditMethod(false)}
+                                        onCancel={() => setEditMethod("")}
                                     />
                                 ) : (
                                     <ProviderMethodsTable
                                         disabledProcess={isFetching || buttonDisabled}
                                         onDeleteClick={() => onRemoveMethod(methodKey)}
-                                        onEditClick={() => setEditMethod(true)}
+                                        onEditClick={() => setEditMethod(methodKey)}
                                         methodValue={methods[methodKey] as ExecutionMethodOutput}
                                     />
                                 )}
