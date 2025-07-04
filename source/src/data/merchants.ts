@@ -62,7 +62,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<Merchant>> {
+    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<Merchant>> {
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
             {
                 currentPage: 1,
@@ -71,7 +71,8 @@ export class MerchantsDataProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 

@@ -12,20 +12,20 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useFetchDataForDirections } from "@/hooks";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDataProvider, usePermissions, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { isTRC20Address } from "@/helpers/isTRC20Address";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { useQuery } from "@tanstack/react-query";
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
     callbackData: (data: Wallets.Wallet) => void;
@@ -41,11 +41,31 @@ export const CreateWallet = (props: CreateWalletProps) => {
     const appToast = useAppToast();
 
     const { permissions, isLoading } = usePermissions();
-    const { isLoading: loadingMerchantList } = useFetchDataForDirections();
 
     const isMerchant = permissions === "merchant";
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [accountsValueName, setAccountsValueName] = useState("");
+
+    const {
+        data: accountsData,
+        isFetching: isAccountsFetching,
+        isLoading: isAccountsLoading
+    } = useQuery({
+        queryKey: ["accounts", "getListWithoutPagination"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList("accounts", {
+                pagination: { perPage: 10000, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data
+    });
+
+    const accountsLoadingProcess = useMemo(
+        () => isAccountsLoading || isAccountsFetching,
+        [isAccountsLoading, isAccountsFetching]
+    );
 
     const onSubmit: SubmitHandler<Wallets.WalletCreate> = async data => {
         if (buttonDisabled) return;
@@ -152,7 +172,8 @@ export const CreateWallet = (props: CreateWalletProps) => {
 
     usePreventFocus({ dependencies: [] });
 
-    if (isLoading || loadingMerchantList) return <LoadingBlock />;
+    if (isLoading) return <LoadingBlock />;
+
     return (
         <>
             {!isMerchant ? (
@@ -215,17 +236,31 @@ export const CreateWallet = (props: CreateWalletProps) => {
                             <FormField
                                 control={form.control}
                                 name="accountNumber"
-                                render={({ field }) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem>
                                         <Label className="">
                                             {translate("resources.wallet.manage.fields.merchantName")}
                                         </Label>
                                         <FormControl>
-                                            <MerchantSelectFilter
-                                                variant="outline"
-                                                merchant={field.value}
-                                                onMerchantChanged={field.onChange}
-                                                resource="accounts"
+                                            <PopoverSelect
+                                                variants={accountsData || []}
+                                                value={accountsValueName}
+                                                idField="id"
+                                                setIdValue={field.onChange}
+                                                onChange={setAccountsValueName}
+                                                variantKey={variant =>
+                                                    variant?.["meta"]?.["caption"] || variant?.["owner_id"]
+                                                }
+                                                placeholder={translate("resources.accounts.selectPlaceholder")}
+                                                commandPlaceholder={translate(
+                                                    "app.widgets.multiSelect.searchPlaceholder"
+                                                )}
+                                                notFoundMessage={translate("resources.accounts.notFoundMessage")}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
+                                                disabled={accountsLoadingProcess}
+                                                isLoading={accountsLoadingProcess}
+                                                modal
                                             />
                                         </FormControl>
                                         <FormMessage className="inline !text-note-1 text-red-40" />

@@ -1,17 +1,13 @@
 import { debounce } from "lodash";
 import { useEffect, useMemo, useState } from "react";
-import { useListContext } from "react-admin";
+import { useListContext, useTranslate } from "react-admin";
+import { MerchantsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
-import { MerchantsDataProvider, ProvidersDataProvider } from "@/data";
 
-const useDirectionsListFilter = () => {
+const useMerchantFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const dataProvider = new ProvidersDataProvider();
+    const translate = useTranslate();
     const merchantsDataProvider = new MerchantsDataProvider();
-
-    const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
-    const [merchantValue, setMerchantValue] = useState("");
-    const [provider, setProvider] = useState(filterValues?.provider || "");
 
     const {
         data: merchantData,
@@ -23,15 +19,12 @@ const useDirectionsListFilter = () => {
         select: data => data?.data
     });
 
-    const { data: providers, isLoading: providersLoading } = useQuery({
-        queryKey: ["providers"],
-        queryFn: () => dataProvider.getListWithoutPagination(),
-        select: data => data.data
-    });
+    const [merchantId, setMerchantId] = useState(filterValues?.id || "");
+    const [merchantValue, setMerchantValue] = useState("");
 
     useEffect(() => {
         if (merchantData) {
-            setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.merchant)?.name || "");
+            setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.id)?.name || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
@@ -41,7 +34,7 @@ const useDirectionsListFilter = () => {
         [isMerchantsLoading, isMerchantsFetching]
     );
 
-    const onPropertySelected = debounce((value: string, type: "merchant" | "provider") => {
+    const onPropertySelected = debounce((value: string, type: "id") => {
         if (value) {
             setFilters({ ...filterValues, [type]: value, sort: "name", asc: "ASC" }, displayedFilters, true);
         } else {
@@ -53,35 +46,26 @@ const useDirectionsListFilter = () => {
 
     const onMerchantChanged = (merchant: string) => {
         setMerchantId(merchant);
-        onPropertySelected(merchant, "merchant");
-    };
-
-    const onProviderChanged = (provider: string) => {
-        setProvider(provider);
-        onPropertySelected(provider, "provider");
+        onPropertySelected(merchant, "id");
     };
 
     const clearFilters = () => {
         setMerchantId("");
         setMerchantValue("");
-        setProvider("");
         setFilters({}, displayedFilters, true);
         setPage(1);
     };
 
     return {
+        translate,
         merchantData,
         merchantsLoadingProcess,
-        merchantValue,
-        setMerchantValue,
         merchantId,
         onMerchantChanged,
-        clearFilters,
-        provider,
-        onProviderChanged,
-        providers,
-        providersLoading
+        merchantValue,
+        setMerchantValue,
+        clearFilters
     };
 };
 
-export default useDirectionsListFilter;
+export default useMerchantFilter;

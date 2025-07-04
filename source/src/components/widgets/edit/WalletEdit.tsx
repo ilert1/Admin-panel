@@ -16,12 +16,13 @@ import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDataProvider, useEditController, usePermissions, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { useQuery } from "@tanstack/react-query";
 
 interface EditWalletProps {
     id: string;
@@ -37,8 +38,31 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const appToast = useAppToast();
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [accountsValueName, setAccountsValueName] = useState("");
 
     const isMerchant = permissions === "merchant";
+
+    const {
+        data: accountsData,
+        isFetching: isAccountsFetching,
+        isLoading: isAccountsLoading
+    } = useQuery({
+        queryKey: ["accounts", "getListWithoutPagination"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList("accounts", {
+                pagination: { perPage: 10000, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data,
+        enabled: !isMerchant
+    });
+
+    const accountsLoadingProcess = useMemo(
+        () => isAccountsLoading || isAccountsFetching,
+        [isAccountsLoading, isAccountsFetching]
+    );
+
     const { record, isLoading } = useEditController({
         resource: !isMerchant ? "wallet" : "merchant/wallet",
         id,
@@ -118,20 +142,26 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
 
     useEffect(() => {
         if (record) {
-            form.reset({
-                currency: record?.currency || "",
-                description: record?.description || "",
-                blockchain: record?.blockchain || "",
-                minimal_ballance_limit: record?.minimal_ballance_limit || 0,
-                network: record?.network || "",
-                type: record?.type || WalletTypes.INTERNAL,
-                account_id: record?.account_id || ""
-            });
-            formMerchant.reset({
-                description: record?.description || ""
-            });
+            if (!isMerchant && accountsData && record?.type !== WalletTypes.EXTERNAL) {
+                form.reset({
+                    currency: record?.currency || "",
+                    description: record?.description || "",
+                    blockchain: record?.blockchain || "",
+                    minimal_ballance_limit: record?.minimal_ballance_limit || 0,
+                    network: record?.network || "",
+                    type: record?.type || WalletTypes.INTERNAL,
+                    account_id: record?.account_id || ""
+                });
+
+                const findAccount = accountsData?.find(account => account.id === record.account_id);
+                setAccountsValueName(findAccount?.meta?.caption || findAccount?.owner_id || "");
+            } else {
+                formMerchant.reset({
+                    description: record?.description || ""
+                });
+            }
         }
-    }, [form, record, formMerchant]);
+    }, [form, record, formMerchant, isMerchant, accountsData]);
 
     usePreventFocus({ dependencies: [record] });
 
@@ -176,15 +206,27 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         <FormField
                             control={form.control}
                             name="account_id"
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <FormItem>
                                     <Label>{translate("resources.wallet.manage.fields.merchantName")}</Label>
                                     <FormControl>
-                                        <MerchantSelectFilter
-                                            merchant={field.value}
-                                            onMerchantChanged={field.onChange}
-                                            resource="accounts"
-                                            variant="outline"
+                                        <PopoverSelect
+                                            variants={accountsData || []}
+                                            value={accountsValueName}
+                                            idField="id"
+                                            setIdValue={field.onChange}
+                                            onChange={setAccountsValueName}
+                                            variantKey={variant =>
+                                                variant?.["meta"]?.["caption"] || variant?.["owner_id"]
+                                            }
+                                            placeholder={translate("resources.accounts.selectPlaceholder")}
+                                            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                            notFoundMessage={translate("resources.accounts.notFoundMessage")}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={accountsLoadingProcess}
+                                            isLoading={accountsLoadingProcess}
+                                            modal
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -270,7 +312,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                             {...field}
                                             value={field.value ?? ""}
                                             placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="h-24 w-full resize-none overflow-auto"
+                                            className="h-24 w-full resize-none overflow-auto rounded border border-neutral-60 p-2 text-title-1 text-neutral-80 outline-none dark:bg-muted dark:text-white"
                                         />
                                     </FormControl>
                                 </FormItem>

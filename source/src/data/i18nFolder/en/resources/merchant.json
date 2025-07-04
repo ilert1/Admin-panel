@@ -22,6 +22,7 @@
         "create": "Merchant %{name} has been successfully created."
     },
     "resources.merchant.notFoundMessage": "Merchants not found.",
+    "resources.merchant.selectPlaceholder": "Select merchant",
     "resources.merchant.showTitle": "Detailed information about merchant",
     "resources.merchant.createNew": "Create new merchant",
     "resources.merchant.editingMerchant": "Editing merchant",

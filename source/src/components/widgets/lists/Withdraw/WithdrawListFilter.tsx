@@ -13,19 +13,23 @@ import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
-import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 
 export const WithdrawListFilter = () => {
     const {
         dictionaries,
         operationId,
         operationTrc20,
-        startDate,
         endDate,
+        startDate,
+        merchantData,
+        merchantsLoadingProcess,
         merchantId,
-        statusFilter,
+        merchantValue,
+        setMerchantValue,
         onMerchantChanged,
+        statusFilter,
         typeTabActive,
         translate,
         onOperationIdChanged,
@@ -131,11 +135,14 @@ export const WithdrawListFilter = () => {
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
 
-                                <MerchantSelectFilter
-                                    merchant={merchantId}
-                                    onMerchantChanged={onMerchantChanged}
-                                    resource="accounts"
-                                    modal={false}
+                                <MerchantSelect
+                                    merchants={merchantData || []}
+                                    value={merchantValue}
+                                    onChange={setMerchantValue}
+                                    setIdValue={onMerchantChanged}
+                                    disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
+                                    style="Black"
                                 />
                             </div>
                         )}

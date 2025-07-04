@@ -1,16 +1,30 @@
 import { debounce } from "lodash";
-import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { AccountsDataProvider } from "@/data";
+import { AccountsDataProvider, MerchantsDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const dictionaries = fetchDictionaries();
+    const merchantsDataProvider = new MerchantsDataProvider();
+    const appToast = useAppToast();
+    const translate = useTranslate();
+
+    const {
+        data: merchantData,
+        isFetching: isMerchantsFetching,
+        isLoading: isMerchantsLoading
+    } = useQuery({
+        queryKey: ["merchants", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
+        select: data => data?.data
+    });
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -21,13 +35,22 @@ const useTransactionFilter = () => {
 
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
-    const [account, setAccount] = useState(filterValues?.accountId || "");
+    const [merchantId, setMerchantId] = useState(filterValues?.accountId || "");
+    const [merchantValue, setMerchantValue] = useState("");
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
 
-    const appToast = useAppToast();
+    useEffect(() => {
+        if (merchantData) {
+            setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.accountId)?.name || "");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchantData]);
 
-    const translate = useTranslate();
+    const merchantsLoadingProcess = useMemo(
+        () => isMerchantsLoading || isMerchantsFetching,
+        [isMerchantsLoading, isMerchantsFetching]
+    );
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
@@ -77,9 +100,9 @@ const useTransactionFilter = () => {
         onPropertySelected(e.target.value, "customer_payment_id");
     };
 
-    const onAccountChanged = (account: string) => {
-        setAccount(account);
-        onPropertySelected(account, "accountId");
+    const onMerchantChanged = (merchant: string) => {
+        setMerchantId(merchant);
+        onPropertySelected(merchant, "accountId");
     };
 
     const onOrderStatusChanged = (order: string) => {
@@ -110,7 +133,8 @@ const useTransactionFilter = () => {
         setStartDate(undefined);
         setEndDate(undefined);
         setOperationId("");
-        setAccount("");
+        setMerchantId("");
+        setMerchantValue("");
         setCustomerPaymentId("");
         setOrderStatusFilter("");
         setTypeTabActive(0);
@@ -119,11 +143,6 @@ const useTransactionFilter = () => {
     };
 
     const handleDownloadReport = async (type: "pdf" | "csv") => {
-        // if (adminOnly && !account) {
-        //     appToast("error", translate("resources.transactions.download.accountField"));
-        //     return;
-        // }
-
         if (!startDate) {
             appToast("error", translate("resources.transactions.download.bothError"));
             return;
@@ -133,13 +152,6 @@ const useTransactionFilter = () => {
             const url = new URL(`${API_URL}/transactions/report?format=${type}`);
             Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
-            // const response = await fetch(url, {
-            //     method: "GET",
-            //     headers: {
-            //         "Content-Type": "application/octet-stream",
-            //         Authorization: `Bearer ${localStorage.getItem("access-token")}`
-            //     }
-            // });
             const response = await AccountsDataProvider.downloadReport(url);
 
             if (!response.ok) {
@@ -174,8 +186,12 @@ const useTransactionFilter = () => {
         onCustomerPaymentIdChanged,
         orderStatusFilter,
         onOrderStatusChanged,
-        account,
-        onAccountChanged,
+        merchantData,
+        merchantsLoadingProcess,
+        merchantId,
+        onMerchantChanged,
+        merchantValue,
+        setMerchantValue,
         startDate,
         endDate,
         changeDate,

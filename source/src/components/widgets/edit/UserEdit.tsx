@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField, FormLabel } from "@/components/ui/form";
 import { usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import {
     Select,
     SelectContent,
@@ -19,8 +18,9 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { UsersDataProvider } from "@/data";
+import { MerchantsDataProvider, UsersDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
+import { MerchantSelect } from "../components/Selects/MerchantSelect";
 
 interface UserEditProps {
     id: string;
@@ -32,13 +32,29 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
-
     const appToast = useAppToast();
+    const merchantsDataProvider = new MerchantsDataProvider();
 
-    const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
-
+    const [merchantName, setMerchantName] = useState("");
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
+
+    const {
+        data: merchantData,
+        isFetching: isMerchantsFetching,
+        isLoading: isMerchantsLoading
+    } = useQuery({
+        queryKey: ["merchants", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
+        select: data => data?.data
+    });
+
+    const merchantsLoadingProcess = useMemo(
+        () => isMerchantsLoading || isMerchantsFetching,
+        [isMerchantsLoading, isMerchantsFetching]
+    );
+
+    const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
     const formSchema = z.object({
         first_name: z.string().min(3, translate("app.widgets.forms.userCreate.firstNameMessage")).trim(),
@@ -107,19 +123,21 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     };
 
     useEffect(() => {
-        if (record) {
+        if (record && merchantData) {
             form.reset({
-                first_name: record?.first_name || "",
-                last_name: record?.last_name || "",
-                login: record?.login || "",
-                email: record?.email || "",
-                password: record?.password || "",
+                first_name: record.first_name || "",
+                last_name: record.last_name || "",
+                login: record.login || "",
+                email: record.email || "",
+                password: record.password || "",
                 role_name: "merchant",
-                activity: record?.activity || true,
-                merchant_id: record?.merchant_id || ""
+                activity: record.activity || true,
+                merchant_id: record.merchant_id || ""
             });
+
+            setMerchantName(merchantData?.find(merchant => merchant.id === record.merchant_id)?.name || "");
         }
-    }, [form, record]);
+    }, [form, merchantData, record]);
 
     usePreventFocus({ dependencies: [record] });
 
@@ -352,13 +370,16 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                                 <FormItem className="space-y-1">
                                     <FormLabel>{translate("app.widgets.forms.userCreate.merchant")}</FormLabel>
                                     <FormControl>
-                                        <MerchantSelectFilter
-                                            variant="outline"
-                                            disabled={disabledMerchantField}
-                                            error={fieldState.error?.message}
-                                            merchant={field.value || ""}
-                                            onMerchantChanged={field.onChange}
-                                            resource="merchant"
+                                        <MerchantSelect
+                                            merchants={merchantData || []}
+                                            value={merchantName}
+                                            onChange={setMerchantName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={merchantsLoadingProcess}
+                                            isLoading={merchantsLoadingProcess}
+                                            modal
                                         />
                                     </FormControl>
                                 </FormItem>

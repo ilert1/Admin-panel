@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Loading, LoadingBlock } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 
 export interface IPopoverSelect {
     value: string;
@@ -27,7 +27,8 @@ export interface IPopoverSelect {
 interface PopoverSelectProps extends IPopoverSelect {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     variants: any[];
-    variantKey: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    variantKey: string | ((variant: any) => string);
     variantTitleKey?: string;
 
     notFoundMessage: string;
@@ -73,7 +74,13 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         onChange(currentValue === value ? "" : currentValue);
 
         if (setIdValue && idField) {
-            const variantId = variants.find(el => el[variantKey] === currentValue)[idField];
+            const variantId = variants.find(el => {
+                if (typeof variantKey === "string") {
+                    return el[variantKey] === currentValue;
+                } else {
+                    return variantKey(el);
+                }
+            })[idField];
             setIdValue(variantId);
         }
 
@@ -197,31 +204,41 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     <CommandList>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
-                            {variants.map(variant => (
-                                <CommandItem
-                                    className="flex items-center gap-2 bg-muted"
-                                    key={variant[variantKey]}
-                                    value={variant[variantKey]}
-                                    onSelect={onSelectChange}>
-                                    <CheckIcon
-                                        className={cn(
-                                            "h-4 w-full max-w-4",
-                                            value === variant[variantKey] ? "opacity-100" : "opacity-0"
-                                        )}
-                                    />
-                                    <>
-                                        {iconForPaymentTypes ? (
-                                            <PaymentTypeIcon
-                                                type={variant[variantKey]}
-                                                metaIcon={variant.meta?.["icon"]}
-                                                metaIconMargin
-                                                className="min-w-[24px]"
-                                            />
-                                        ) : undefined}
-                                        <p>{variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}</p>
-                                    </>
-                                </CommandItem>
-                            ))}
+                            {variants.map(variant => {
+                                const newVariant = () => {
+                                    if (typeof variantKey === "string") {
+                                        return variant[variantKey];
+                                    } else {
+                                        return variantKey(variant);
+                                    }
+                                };
+
+                                return (
+                                    <CommandItem
+                                        className="flex items-center gap-2 bg-muted"
+                                        key={idField ? variant[idField] : newVariant()}
+                                        value={newVariant()}
+                                        onSelect={onSelectChange}>
+                                        <CheckIcon
+                                            className={cn(
+                                                "h-4 w-full max-w-4",
+                                                value === newVariant() ? "opacity-100" : "opacity-0"
+                                            )}
+                                        />
+                                        <>
+                                            {iconForPaymentTypes ? (
+                                                <PaymentTypeIcon
+                                                    type={newVariant()}
+                                                    metaIcon={variant.meta?.["icon"]}
+                                                    metaIconMargin
+                                                    className="min-w-[24px]"
+                                                />
+                                            ) : undefined}
+                                            <p>{variantTitleKey ? variant[variantTitleKey] : newVariant()}</p>
+                                        </>
+                                    </CommandItem>
+                                );
+                            })}
                         </CommandGroup>
                     </CommandList>
                 </Command>

@@ -9,6 +9,7 @@ export { DirectionsDataProvider } from "./directions";
 export { ProvidersDataProvider } from "./providers";
 export { TerminalsDataProvider } from "./terminals";
 export { MerchantsDataProvider } from "./merchants";
+export { WithdrawDataProvider } from "./withdraw";
 export { WalletsDataProvider } from "./wallet";
 export { VaultDataProvider } from "./vault";
 export { CallbridgeDataProvider } from "./callbridge";

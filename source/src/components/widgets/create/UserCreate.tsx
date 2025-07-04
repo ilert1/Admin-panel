@@ -15,28 +15,44 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { UsersDataProvider } from "@/data";
+import { MerchantsDataProvider, UsersDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
+import { MerchantSelect } from "../components/Selects/MerchantSelect";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
 }
 
 export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
+    const contrProps = useCreateController();
     const translate = useTranslate();
     const refresh = useRefresh();
-    const dataProvider = UsersDataProvider;
-    const contrProps = useCreateController();
-
     const { openSheet } = useSheets();
     const appToast = useAppToast();
+    const usersDataProvider = UsersDataProvider;
+    const merchantsDataProvider = new MerchantsDataProvider();
 
+    const [merchantName, setMerchantName] = useState("");
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
+
+    const {
+        data: merchantData,
+        isFetching: isMerchantsFetching,
+        isLoading: isMerchantsLoading
+    } = useQuery({
+        queryKey: ["merchants", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
+        select: data => data?.data
+    });
+
+    const merchantsLoadingProcess = useMemo(
+        () => isMerchantsLoading || isMerchantsFetching,
+        [isMerchantsLoading, isMerchantsFetching]
+    );
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
@@ -44,7 +60,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
         queryKey: ["userRoles"],
         queryFn: async ({ signal }) => {
             try {
-                const d = await dataProvider.getRoles({ signal });
+                const d = await usersDataProvider.getRoles({ signal });
                 return d;
             } catch (error) {
                 if (error instanceof Error) {
@@ -63,8 +79,6 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
             .string()
             .regex(/^[a-zA-Zа-яА-Я:'\-.,_@+]{0,255}$/, translate("app.widgets.forms.userCreate.lastNameMessage"))
             .trim(),
-        // first_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
-        // last_name: z.string().max(255, translate("app.widgets.forms.userCreate.maxSymbols")).trim(),
         login: z
             .string()
             .regex(/^[a-zA-Z\-_.@1-9]{3,255}$/, translate("app.widgets.forms.userCreate.loginMessage"))
@@ -125,7 +139,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
         }
 
         try {
-            const res = await dataProvider.create(`users`, { data: tempData });
+            const res = await usersDataProvider.create(`users`, { data: tempData });
 
             appToast(
                 "success",
@@ -349,13 +363,16 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                         <FormItem className="space-y-1">
                                             <FormLabel>{translate("app.widgets.forms.userCreate.merchant")}</FormLabel>
                                             <FormControl>
-                                                <MerchantSelectFilter
-                                                    variant="outline"
-                                                    disabled={disabledMerchantField}
-                                                    error={fieldState.error?.message}
-                                                    merchant={field.value || ""}
-                                                    onMerchantChanged={field.onChange}
-                                                    resource="merchant"
+                                                <MerchantSelect
+                                                    merchants={merchantData || []}
+                                                    value={merchantName}
+                                                    onChange={setMerchantName}
+                                                    setIdValue={field.onChange}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={fieldState.error?.message}
+                                                    disabled={merchantsLoadingProcess}
+                                                    isLoading={merchantsLoadingProcess}
+                                                    modal
                                                 />
                                             </FormControl>
                                         </FormItem>
