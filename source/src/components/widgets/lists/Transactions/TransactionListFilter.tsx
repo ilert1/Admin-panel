@@ -155,6 +155,7 @@ export const TransactionListFilter = () => {
                                     onChange={setMerchantValue}
                                     setIdValue={onMerchantChanged}
                                     disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
                                     style="Black"
                                 />
                             </div>

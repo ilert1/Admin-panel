@@ -259,6 +259,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
                                                 isError={fieldState.invalid}
                                                 errorMessage={fieldState.error?.message}
                                                 disabled={accountsLoadingProcess}
+                                                isLoading={accountsLoadingProcess}
                                                 modal
                                             />
                                         </FormControl>

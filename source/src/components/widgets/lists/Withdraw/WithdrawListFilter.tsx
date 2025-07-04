@@ -141,6 +141,7 @@ export const WithdrawListFilter = () => {
                                     onChange={setMerchantValue}
                                     setIdValue={onMerchantChanged}
                                     disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
                                     style="Black"
                                 />
                             </div>

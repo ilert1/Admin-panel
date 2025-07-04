@@ -311,6 +311,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
                                         disabled={merchantsLoadingProcess}
+                                        isLoading={merchantsLoadingProcess}
                                         modal
                                     />
                                 </FormItem>

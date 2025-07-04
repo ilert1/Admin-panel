@@ -225,6 +225,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                             disabled={accountsLoadingProcess}
+                                            isLoading={accountsLoadingProcess}
                                             modal
                                         />
                                     </FormControl>

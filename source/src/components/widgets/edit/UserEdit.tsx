@@ -378,6 +378,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                             disabled={merchantsLoadingProcess}
+                                            isLoading={merchantsLoadingProcess}
                                             modal
                                         />
                                     </FormControl>

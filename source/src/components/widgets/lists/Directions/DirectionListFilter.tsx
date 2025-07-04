@@ -75,6 +75,7 @@ export const DirectionListFilter = () => {
                                 onChange={setMerchantValue}
                                 setIdValue={onMerchantChanged}
                                 disabled={merchantsLoadingProcess}
+                                isLoading={merchantsLoadingProcess}
                                 style="Black"
                             />
                         </div>

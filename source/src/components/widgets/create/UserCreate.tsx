@@ -371,6 +371,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                                     isError={fieldState.invalid}
                                                     errorMessage={fieldState.error?.message}
                                                     disabled={merchantsLoadingProcess}
+                                                    isLoading={merchantsLoadingProcess}
                                                     modal
                                                 />
                                             </FormControl>

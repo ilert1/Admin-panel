@@ -84,6 +84,7 @@ export const WalletManualReconciliationDialog = ({ open, onOpenChange }: IWallet
                                     onChange={setMerchantValue}
                                     setIdValue={onMerchantChanged}
                                     disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
                                     style="Black"
                                     modal
                                 />

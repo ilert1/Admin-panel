@@ -63,6 +63,7 @@ export const MerchantListFilter = () => {
                             onChange={setMerchantValue}
                             setIdValue={onMerchantChanged}
                             disabled={merchantsLoadingProcess}
+                            isLoading={merchantsLoadingProcess}
                             style="Black"
                         />
                     </div>
