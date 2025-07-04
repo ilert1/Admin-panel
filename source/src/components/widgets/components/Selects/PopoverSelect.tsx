@@ -59,6 +59,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
 
+    const commandList = useRef<HTMLDivElement>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const handleMouseEnter = () => {
@@ -97,6 +98,14 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
     const handleTogglePopover = () => {
         setOpen(prev => !prev);
+    };
+
+    const handleInputChange = (val: string) => {
+        if (val.length === 0 && commandList.current) {
+            setTimeout(() => {
+                commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+            }, 50);
+        }
     };
 
     if (disabled)
@@ -200,8 +209,8 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0" onEscapeKeyDown={() => setOpen(false)}>
                 <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
-                    <CommandInput placeholder={commandPlaceholder} />
-                    <CommandList>
+                    <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
+                    <CommandList ref={commandList}>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
                             {variants.map(variant => {
