@@ -33,7 +33,7 @@ export const ProviderMethodsForm = ({
             initial_interval: z.coerce.number().optional(),
             maximum_attempts: z.coerce
                 .number()
-                .min(1, translate("app.widgets.forms.payout.valueMinMessage"))
+                .transform(v => (v > 0 ? v : 1))
                 .optional(),
             maximum_interval: z.coerce.number().optional(),
             non_retryable_error_types: z.string().optional()
