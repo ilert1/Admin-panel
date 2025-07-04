@@ -26,6 +26,8 @@ const TableCellInObject = ({ value, rowIndex }: { value: string | string[] | und
             const seconds = matches && matches[3] ? String(matches[3]).padStart(2, "0") : "00";
 
             return `${hours}:${minutes}:${seconds}`;
+        } else if (typeof value === "number") {
+            return value;
         }
 
         return value || "-";

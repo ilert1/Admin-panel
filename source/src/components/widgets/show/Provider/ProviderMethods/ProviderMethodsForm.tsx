@@ -29,14 +29,23 @@ export const ProviderMethodsForm = ({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         execution_name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         retry_policy: z.object({
-            backoff_coefficient: z.coerce.number().optional(),
-            initial_interval: z.coerce.number().optional(),
+            backoff_coefficient: z.coerce
+                .string()
+                .transform(v => (v.length > 0 && !isNaN(Number(v)) ? Number(v) : undefined))
+                .optional(),
+            initial_interval: z.coerce
+                .string()
+                .transform(v => (v.length > 0 && !isNaN(Number(v)) ? Number(v) : undefined))
+                .optional(),
             maximum_attempts: z.coerce
                 .number()
                 .transform(v => (v > 0 ? v : 1))
                 .optional(),
-            maximum_interval: z.coerce.number().optional(),
-            non_retryable_error_types: z.string().optional()
+            maximum_interval: z.coerce
+                .string()
+                .transform(v => (v.length > 0 && !isNaN(Number(v)) ? Number(v) : undefined))
+                .optional(),
+            non_retryable_error_types: z.string().trim().optional()
         }),
         task_queue: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         timeouts: z.object({
@@ -78,9 +87,11 @@ export const ProviderMethodsForm = ({
             },
             retry_policy: {
                 ...data.retry_policy,
-                non_retryable_error_types: data.retry_policy.non_retryable_error_types
-                    ?.split(",")
-                    .map(item => item.trim())
+                non_retryable_error_types:
+                    data.retry_policy.non_retryable_error_types &&
+                    data.retry_policy.non_retryable_error_types.length > 0
+                        ? data.retry_policy.non_retryable_error_types?.split(",").map(item => item.trim())
+                        : undefined
             }
         });
     };
