@@ -54,7 +54,7 @@ interface MultiSelectProps
         value: string;
         /** Optional icon component to display alongside the option. */
         // icon?: React.ComponentType<{ className?: string }>;
-        icon?: React.FC<{ className?: string }>;
+        icon?: React.FC<{ className?: string; small?: boolean }>;
         // icon?: React.ReactNode;
     }[];
 
@@ -205,7 +205,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                             "bg-muted font-normal"
                                                         )}
                                                         style={{ animationDuration: `${animation}s` }}>
-                                                        {IconComponent && <IconComponent className="mr-1 h-4 w-4" />}
+                                                        {IconComponent && (
+                                                            <IconComponent className="mr-1 h-4 w-4" small />
+                                                        )}
                                                         <span className="max-w-28 overflow-hidden text-ellipsis break-words">
                                                             {option?.label}
                                                         </span>

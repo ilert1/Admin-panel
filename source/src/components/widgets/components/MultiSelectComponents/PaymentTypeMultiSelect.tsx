@@ -23,7 +23,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
             icon: (props: object) => {
                 const icon = option.meta?.["icon"];
 
-                return <PaymentTypeIcon type={option.code} metaIcon={icon} metaIconMargin small {...props} />;
+                return <PaymentTypeIcon type={option.code} metaIcon={icon} metaIconMargin small={false} {...props} />;
             }
         })) || [];
 
