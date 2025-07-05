@@ -8,11 +8,12 @@ import { useState } from "react";
 import { useTranslate } from "react-admin";
 import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
 import { TerminalsDataProvider } from "@/data/terminals";
+import { useQuery } from "@tanstack/react-query";
 
 export const useGetMappingsColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const dataProvider = new TerminalsDataProvider();
+    const terminalsDataProvider = new TerminalsDataProvider();
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
@@ -22,24 +23,12 @@ export const useGetMappingsColumns = () => {
         setChosenId(id);
         setDeleteMappingClicked(true);
     };
-
-    const getTerminal = async (terminal_id: string, provider: string) => {
-        if (!terminal_id || !provider) return null;
-
-        try {
-            const { data } = await dataProvider.getOne(`${provider}/terminal`, {
-                id: terminal_id
-            });
-
-            if (data) {
-                return data.id;
-            } else {
-                return null;
-            }
-        } catch (error) {
-            return null;
-        }
-    };
+    const { data: terminalsData, isLoading: isTerminalsLoading } = useQuery({
+        queryKey: ["terminals", "getListWithoutPagination"],
+        queryFn: ({ signal }) => terminalsDataProvider.getListWithoutPagination([], [], signal),
+        enabled: true,
+        select: data => data.data
+    });
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
         {
@@ -77,25 +66,20 @@ export const useGetMappingsColumns = () => {
             header: translate("resources.callbridge.mapping.fields.terminal"),
             cell: ({ row }) => {
                 const term = row.original.terminal?.verbose_name;
-                let terminalId: string | null = null;
-
-                async function getTerminalId() {
-                    terminalId = await getTerminal(
-                        row.original.terminal?.terminal_id ?? "",
-                        row.original.terminal?.provider ?? ""
-                    );
-                }
-
-                getTerminalId();
+                const terminalId = row.original.terminal?.terminal_id;
 
                 return (
                     <TextField
                         text={term ?? ""}
                         onClick={
-                            term && terminalId
+                            term &&
+                            !isTerminalsLoading &&
+                            terminalId &&
+                            terminalsData &&
+                            terminalsData.find(el => el.terminal_id === terminalId)
                                 ? () => {
                                       openSheet("terminal", {
-                                          id: row.original.terminal?.terminal_id,
+                                          id: terminalId,
                                           provider: row.original.terminal?.provider
                                       });
                                   }

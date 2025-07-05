@@ -75,7 +75,7 @@ export class TerminalsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(searchField?: string[], searchString?: string[]) {
+    async getListWithoutPagination(searchField?: string[], searchString?: string[], signal?: AbortSignal) {
         const res = await poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet(
             {
                 currentPage: 1,
@@ -86,7 +86,8 @@ export class TerminalsDataProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
