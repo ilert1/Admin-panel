@@ -23,7 +23,6 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useFetchDataForDirections } from "@/hooks";
 import { useEffect, useMemo, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -32,7 +31,7 @@ import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { MerchantsDataProvider, TerminalsDataProvider } from "@/data";
+import { CurrenciesDataProvider, MerchantsDataProvider, ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
@@ -42,8 +41,9 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const dataProvider = useDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
     const merchantsDataProvider = new MerchantsDataProvider();
+    const providersDataProvider = new ProvidersDataProvider();
+    const currenciesDataProvider = new CurrenciesDataProvider();
     const { directionTypes } = useGetDirectionTypes();
-    const { currencies, providers, isLoading: loadingData } = useFetchDataForDirections();
     const translate = useTranslate();
     const refresh = useRefresh();
     const { filterValues } = useListContext();
@@ -54,6 +54,36 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const [terminalValueName, setTerminalValueName] = useState("");
     const [providerName, setProviderName] = useState("");
     const [merchantName, setMerchantName] = useState("");
+
+    const {
+        data: currenciesData,
+        isFetching: isCurrenciesFetching,
+        isLoading: isCurrenciesLoading
+    } = useQuery({
+        queryKey: ["currencies", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
+        select: data => data?.data
+    });
+
+    const currenciesLoadingProcess = useMemo(
+        () => isCurrenciesLoading || isCurrenciesFetching,
+        [isCurrenciesLoading, isCurrenciesFetching]
+    );
+
+    const {
+        data: providersData,
+        isFetching: isProvidersFetching,
+        isLoading: isProvidersLoading
+    } = useQuery({
+        queryKey: ["providers", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
+        select: data => data?.data
+    });
+
+    const providersLoadingProcess = useMemo(
+        () => isProvidersLoading || isProvidersFetching,
+        [isProvidersLoading, isProvidersFetching]
+    );
 
     const {
         data: merchantData,
@@ -189,23 +219,35 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     });
 
     useEffect(() => {
+        if (filterValues?.provider && providersData && providersData?.length > 0) {
+            const provider = providersData.find(provider => provider.id === filterValues.provider);
+
+            if (provider) {
+                setProviderName(provider.name);
+                form.setValue("provider", provider.id);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
+
+    useEffect(() => {
         if (filterValues?.merchant && merchantData && merchantData?.length > 0) {
             const merchant = merchantData.find(merchant => merchant.id === filterValues.merchant);
-            setMerchantName(merchant?.name || "");
-            form.setValue("merchant", merchant?.id || "");
+
+            if (merchant) {
+                setMerchantName(merchant.name);
+                form.setValue("merchant", merchant.id);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
 
-    if (controllerProps.isLoading || loadingData)
+    if (controllerProps.isLoading || isCurrenciesLoading || isMerchantsLoading || isProvidersLoading)
         return (
             <div className="h-[140px]">
                 <Loading />
             </div>
         );
-
-    const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
-    const providersDisabled = !(providers && Array.isArray(providers.data) && providers?.data?.length > 0);
 
     return (
         <CreateContextProvider value={controllerProps}>
@@ -267,12 +309,12 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 <FormItem className="w-full p-2 sm:w-1/2">
                                     <Label>{translate("resources.direction.sourceCurrency")}</Label>
                                     <CurrencySelect
-                                        currencies={currencies.data}
+                                        currencies={currenciesData || []}
                                         value={field.value}
                                         onChange={field.onChange}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
-                                        disabled={currenciesDisabled}
+                                        disabled={currenciesLoadingProcess}
                                         modal
                                     />
                                 </FormItem>
@@ -285,12 +327,12 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 <FormItem className="w-full p-2 sm:w-1/2">
                                     <Label>{translate("resources.direction.destinationCurrency")}</Label>
                                     <CurrencySelect
-                                        currencies={currencies.data}
+                                        currencies={currenciesData || []}
                                         value={field.value}
                                         onChange={field.onChange}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
-                                        disabled={currenciesDisabled}
+                                        disabled={currenciesLoadingProcess}
                                         modal
                                     />
                                 </FormItem>
@@ -324,7 +366,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 <FormItem className="w-full p-2 sm:w-1/2">
                                     <Label>{translate("resources.direction.provider")}</Label>
                                     <ProviderSelect
-                                        providers={providers.data}
+                                        providers={providersData || []}
                                         value={field.value}
                                         onChange={e => {
                                             setProviderName(e);
@@ -337,7 +379,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                         }}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
-                                        disabled={providersDisabled}
+                                        disabled={providersLoadingProcess}
                                         modal
                                     />
                                 </FormItem>
