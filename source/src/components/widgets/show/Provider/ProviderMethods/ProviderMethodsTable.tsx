@@ -5,13 +5,6 @@ import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { useTranslate } from "react-admin";
 
-interface IProviderMethodsTable {
-    onEditClick: () => void;
-    onDeleteClick: () => void;
-    methodValue: ExecutionMethodOutput;
-    disabledProcess: boolean;
-}
-
 const TableCellInObject = ({ value, rowIndex }: { value: string | string[] | undefined; rowIndex: number }) => {
     const currentValue = useMemo(() => {
         const timedeltaRegex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
@@ -44,11 +37,20 @@ const TableCellInObject = ({ value, rowIndex }: { value: string | string[] | und
     );
 };
 
+interface IProviderMethodsTable {
+    onEditClick: () => void;
+    onDeleteClick: () => void;
+    methodValue: ExecutionMethodOutput;
+    disabledProcess: boolean;
+    disabledEditButton?: boolean;
+}
+
 export const ProviderMethodsTable = ({
     methodValue,
     onEditClick,
     onDeleteClick,
-    disabledProcess
+    disabledProcess,
+    disabledEditButton
 }: IProviderMethodsTable) => {
     const translate = useTranslate();
 
@@ -145,7 +147,7 @@ export const ProviderMethodsTable = ({
             </Table>
 
             <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                <Button disabled={disabledProcess} onClick={onEditClick}>
+                <Button disabled={disabledProcess || disabledEditButton} onClick={onEditClick}>
                     {translate("app.ui.actions.edit")}
                 </Button>
 

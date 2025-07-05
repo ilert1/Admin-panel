@@ -105,6 +105,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                                 ) : (
                                     <ProviderMethodsTable
                                         disabledProcess={isFetching || buttonDisabled}
+                                        disabledEditButton={!!editMethod}
                                         onDeleteClick={() => onRemoveMethod(methodKey)}
                                         onEditClick={() => setEditMethod(methodKey)}
                                         methodValue={methods[methodKey] as ExecutionMethodOutput}
