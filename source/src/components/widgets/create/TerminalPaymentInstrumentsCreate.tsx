@@ -59,8 +59,9 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const { isLoading: systemPaymentInstrumentsDataLoading, data: systemPaymentInstrumentsData } = useQuery({
-        queryKey: ["systemPaymentInstruments"],
-        queryFn: async () => await systemPaymentInstrumentsProvider.getListWithoutPagination()
+        queryKey: ["systemPaymentInstruments", "getListWithoutPagination"],
+        queryFn: async ({ signal }) =>
+            await systemPaymentInstrumentsProvider.getListWithoutPagination("systemPaymentInstruments", signal)
     });
 
     const {
@@ -68,7 +69,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         isLoading: isProvidersLoading,
         isFetching: isProvidersFetching
     } = useQuery({
-        queryKey: ["providers", "filter"],
+        queryKey: ["providers", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
         select: data => data.data
     });
@@ -78,7 +79,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         isLoading: isTerminalsLoading,
         isFetching: isTerminalsFetching
     } = useQuery({
-        queryKey: ["terminals", "filter", providerName],
+        queryKey: ["terminals", "getListWithoutPagination", providerName],
         queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
         enabled: !!providerName,
         select: data => data.data

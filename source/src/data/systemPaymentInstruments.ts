@@ -77,7 +77,10 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<SystemPaymentInstrumentWithId>> {
+    async getListWithoutPagination(
+        resource: string,
+        signal?: AbortSignal
+    ): Promise<GetListResult<SystemPaymentInstrumentWithId>> {
         const res =
             await systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet(
                 {
@@ -87,7 +90,8 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
                 {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    }
+                    },
+                    signal
                 }
             );
 
