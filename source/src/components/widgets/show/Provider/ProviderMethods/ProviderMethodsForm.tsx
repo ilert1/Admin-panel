@@ -38,8 +38,8 @@ export const ProviderMethodsForm = ({
                 .transform(v => (v.length > 0 && !isNaN(Number(v)) ? Number(v) : undefined))
                 .optional(),
             maximum_attempts: z.coerce
-                .number()
-                .transform(v => (v > 0 ? v : 1))
+                .string()
+                .transform(v => (v.length > 0 && !isNaN(Number(v)) && Number(v) > 0 ? Number(v) : 1))
                 .optional(),
             maximum_interval: z.coerce
                 .string()
