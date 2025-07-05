@@ -7,11 +7,13 @@ import { Link } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
+import { TerminalsDataProvider } from "@/data/terminals";
+import { useQuery } from "@tanstack/react-query";
 
 export const useGetMappingsColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-
+    const terminalsDataProvider = new TerminalsDataProvider();
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
@@ -21,6 +23,12 @@ export const useGetMappingsColumns = () => {
         setChosenId(id);
         setDeleteMappingClicked(true);
     };
+    const { data: terminalsData, isLoading: isTerminalsLoading } = useQuery({
+        queryKey: ["terminals", "getListWithoutPagination"],
+        queryFn: ({ signal }) => terminalsDataProvider.getListWithoutPagination("terminal", [], [], signal),
+        enabled: true,
+        select: data => data.data
+    });
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
         {
@@ -58,15 +66,20 @@ export const useGetMappingsColumns = () => {
             header: translate("resources.callbridge.mapping.fields.terminal"),
             cell: ({ row }) => {
                 const term = row.original.terminal?.verbose_name;
+                const terminalId = row.original.terminal?.terminal_id;
 
                 return (
                     <TextField
                         text={term ?? ""}
                         onClick={
-                            term
+                            term &&
+                            !isTerminalsLoading &&
+                            terminalId &&
+                            terminalsData &&
+                            terminalsData.find(el => el.terminal_id === terminalId)
                                 ? () => {
                                       openSheet("terminal", {
-                                          id: row.original.terminal?.terminal_id,
+                                          id: terminalId,
                                           provider: row.original.terminal?.provider
                                       });
                                   }
