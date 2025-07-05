@@ -41,5 +41,8 @@
     "resources.provider.methodNotFound": "Provider methods is empty",
     "resources.provider.methodName": "Method name",
     "resources.provider.methodParameters": "Method parameters",
+    "resources.provider.methodAddSuccess": "Provider method successfully added",
+    "resources.provider.methodEditSuccess": "Provider method successfully edited",
+    "resources.provider.methodDeleteSuccess": "Provider method successfully deleted",
     "resources.provider.addMethod": "Add method"
 }

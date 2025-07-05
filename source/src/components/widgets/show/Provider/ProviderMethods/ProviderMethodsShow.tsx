@@ -30,18 +30,27 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
     const refresh = useRefresh();
     const translate = useTranslate();
 
-    const updateProviderMethods = async (tempMethodsData: typeof methods) => {
+    const updateProviderMethods = async (tempMethodsData: typeof methods) =>
+        await providersDataProvider.update("provider", {
+            id: providerId,
+            data: { methods: { ...tempMethodsData } },
+            previousData: undefined
+        });
+
+    const onAddMethod = async (key: string, value: ExecutionMethodInput) => {
+        if (Object.keys(methods).includes(key)) {
+            appToast("error", translate("resources.provider.errors.methodAlreadyExist"));
+            return;
+        }
+
         try {
             setButtonDisabled(true);
 
-            await providersDataProvider.update("provider", {
-                id: providerId,
-                data: { methods: { ...tempMethodsData } },
-                previousData: undefined
-            });
+            await updateProviderMethods({ ...methods, [key]: { ...value } });
 
-            appToast("success", translate("app.ui.edit.editSuccess"));
+            appToast("success", translate("resources.provider.methodAddSuccess"));
             refresh();
+            setAddMethodForm(false);
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.toast.error"));
@@ -60,25 +69,39 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
             tempMethodsData[key] = { ...value };
         }
 
-        await updateProviderMethods(tempMethodsData);
-        setEditMethod("");
-    };
+        try {
+            setButtonDisabled(true);
 
-    const onAddMethod = async (key: string, value: ExecutionMethodInput) => {
-        if (Object.keys(methods).includes(key)) {
-            appToast("error", translate("resources.provider.errors.methodAlreadyExist"));
-            return;
+            await updateProviderMethods(tempMethodsData);
+
+            appToast("success", translate("resources.provider.methodEditSuccess"));
+            refresh();
+            setEditMethod("");
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+            else appToast("error", translate("app.ui.toast.error"));
+        } finally {
+            setButtonDisabled(false);
         }
-
-        await updateProviderMethods({ ...methods, [key]: { ...value } });
-        setAddMethodForm(false);
     };
 
     const onRemoveMethod = async (originalKey: string) => {
         const tempMethodsData = { ...methods };
         delete tempMethodsData[originalKey];
 
-        await updateProviderMethods(tempMethodsData);
+        try {
+            setButtonDisabled(true);
+
+            await updateProviderMethods(tempMethodsData);
+
+            appToast("success", translate("resources.provider.methodDeleteSuccess"));
+            refresh();
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+            else appToast("error", translate("app.ui.toast.error"));
+        } finally {
+            setButtonDisabled(false);
+        }
     };
 
     return (
