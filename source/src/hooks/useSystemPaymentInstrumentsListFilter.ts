@@ -32,7 +32,7 @@ const useSystemPaymentInstrumentsListFilter = () => {
 
     const { data: paymentTypes, isLoading: isLoadingPaymentTypes } = useQuery({
         queryKey: ["paymentTypesForSystemPI", "getListWithoutPagination"],
-        queryFn: () => dataProvider.getListWithoutPagination("payment_type"),
+        queryFn: ({ signal }) => dataProvider.getListWithoutPagination("payment_type", signal),
         select: data => data.data
     });
 

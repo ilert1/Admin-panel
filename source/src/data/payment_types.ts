@@ -74,7 +74,7 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<PaymentTypeWithId>> {
+    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<PaymentTypeWithId>> {
         const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {
                 currentPage: 1,
@@ -83,7 +83,8 @@ export class PaymentTypesProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 

@@ -40,11 +40,7 @@ export const useGetPaymentTypes = (props: useGetPaymentTypesProps) => {
             const types = data.data.payment_types as PaymentTypeModel[];
 
             if (!types || types.length === 0) {
-                const result = await dataProvider.getList("payment_type", {
-                    pagination: { perPage: 10000, page: 1 },
-                    filter: { sort: "code", asc: "ASC" },
-                    signal
-                });
+                const result = await dataProvider.getListWithoutPagination("payment_type", signal);
                 return result.data as PaymentTypeModel[];
             }
 
@@ -53,14 +49,10 @@ export const useGetPaymentTypes = (props: useGetPaymentTypesProps) => {
     });
 
     const { data: allPaymentTypes, isLoading: isLoadingAllPaymentTypes } = useQuery<PaymentTypeModel[]>({
-        queryKey: ["payment_types", "useGetPaymentTypes"],
+        queryKey: ["payment_types", "getListWithoutPagination"],
         enabled: !provider && !merchant && !terminal && !disabled,
         queryFn: async ({ signal }) => {
-            const result = await dataProvider.getList("payment_type", {
-                pagination: { perPage: 10000, page: 1 },
-                filter: { sort: "code", asc: "ASC" },
-                signal
-            });
+            const result = await dataProvider.getListWithoutPagination("payment_type", signal);
             return result.data as PaymentTypeModel[];
         }
     });
