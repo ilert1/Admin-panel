@@ -47,7 +47,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["financialInstitution", id],
-        queryFn: () => financialInstitutionProvider.getOne("financialInstitution", { id: id ?? "" }),
+        queryFn: ({ signal }) => financialInstitutionProvider.getOne("financialInstitution", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
     });

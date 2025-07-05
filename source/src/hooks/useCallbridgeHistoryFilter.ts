@@ -12,7 +12,7 @@ const useCallbridgeHistoryFilter = () => {
 
     const { data: mappings, isLoading: isLoadingMappings } = useQuery({
         queryKey: ["mappingListForFilter"],
-        queryFn: () => dataProvider.getList<CallbackMappingRead>("callbridge/v1/mapping", {}),
+        queryFn: ({ signal }) => dataProvider.getList<CallbackMappingRead>("callbridge/v1/mapping", { signal }),
         select: data => data.data
     });
 

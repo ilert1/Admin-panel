@@ -42,7 +42,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["terminal", id],
-        queryFn: () => dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id }),
+        queryFn: ({ signal }) => dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id, signal }),
         enabled: true,
         select: data => data.data
     });

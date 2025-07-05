@@ -33,7 +33,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
 
     const { data: record, isLoading: isLoadingPaymentInstrument } = useQuery({
         queryKey: ["paymentInstrument", id],
-        queryFn: () => dataProvider.getOne("systemPaymentInstruments", { id }),
+        queryFn: ({ signal }) => dataProvider.getOne("systemPaymentInstruments", { id, signal }),
         select: data => data.data
     });
 

@@ -39,7 +39,8 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["terminalPaymentInstrument", id],
-        queryFn: () => terminalPaymentInstrumentsProvider.getOne("terminalPaymentInstrumentsEdit", { id: id ?? "" }),
+        queryFn: ({ signal }) =>
+            terminalPaymentInstrumentsProvider.getOne("terminalPaymentInstrumentsEdit", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
     });

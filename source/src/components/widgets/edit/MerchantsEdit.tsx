@@ -35,7 +35,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["merchant", id],
-        queryFn: () => dataProvider.getOne<Merchant>("merchant", { id }),
+        queryFn: ({ signal }) => dataProvider.getOne<Merchant>("merchant", { id, signal }),
         enabled: true,
         select: data => data.data
     });

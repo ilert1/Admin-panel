@@ -32,7 +32,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["provider", id],
-        queryFn: () => dataProvider.getOne<ProviderWithId>("provider", { id: id ?? "" }),
+        queryFn: ({ signal }) => dataProvider.getOne<ProviderWithId>("provider", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
     });
