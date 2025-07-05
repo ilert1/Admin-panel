@@ -52,7 +52,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         isFetching: isProvidersFetching
     } = useQuery({
         queryKey: ["providers", "filter"],
-        queryFn: () => providersDataProvider.getListWithoutPagination(),
+        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
         select: data => data.data
     });
 

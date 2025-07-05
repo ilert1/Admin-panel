@@ -6,7 +6,7 @@ import { MerchantsDataProvider, ProvidersDataProvider } from "@/data";
 
 const useDirectionsListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const dataProvider = new ProvidersDataProvider();
+    const providersDataProvider = new ProvidersDataProvider();
     const merchantsDataProvider = new MerchantsDataProvider();
 
     const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
@@ -25,7 +25,7 @@ const useDirectionsListFilter = () => {
 
     const { data: providers, isLoading: providersLoading } = useQuery({
         queryKey: ["providers"],
-        queryFn: () => dataProvider.getListWithoutPagination(),
+        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
         select: data => data.data
     });
 

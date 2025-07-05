@@ -29,7 +29,7 @@ export const useFetchDataForDirections = () => {
 
                 const currenciesData = await currenciesDataProvider.getListWithoutPagination("currency");
                 const merchantsData = await merchantsDataProvider.getListWithoutPagination("merchant");
-                const providersData = await providersDataProvider.getListWithoutPagination();
+                const providersData = await providersDataProvider.getListWithoutPagination("provider");
 
                 setCurrencies(currenciesData);
                 setMerchants(merchantsData);

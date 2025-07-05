@@ -61,7 +61,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<ProviderWithId>> {
+    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<ProviderWithId>> {
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {
                 currentPage: 1,
@@ -70,7 +70,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
