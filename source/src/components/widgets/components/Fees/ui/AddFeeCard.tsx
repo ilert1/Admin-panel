@@ -11,9 +11,8 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { feesDataProvider, FeesResource } from "@/data";
+import { CurrenciesDataProvider, feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useFetchDataForDirections } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
@@ -21,10 +20,11 @@ import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { Currency, FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SmallFeeDialog } from "./SmallFeeDialog";
 import Big from "big.js";
 import { CurrencySelect } from "../../Selects/CurrencySelect";
+import { useQuery } from "@tanstack/react-query";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -49,12 +49,29 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const feeDataProvider = feesDataProvider({ id, resource, providerName });
     const data = fetchDictionaries();
     const { isLoading } = useCreateController({ resource });
-    const { currencies, isLoading: loadingData } = useFetchDataForDirections();
+
+    const feeDataProvider = feesDataProvider({ id, resource, providerName });
+    const currenciesDataProvider = new CurrenciesDataProvider();
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [smallDialogOpen, setSmallDialogOpen] = useState(false);
+
+    const {
+        data: currenciesData,
+        isFetching: isCurrenciesFetching,
+        isLoading: isCurrenciesLoading
+    } = useQuery({
+        queryKey: ["currencies", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
+        select: data => data?.data
+    });
+
+    const currenciesLoadingProcess = useMemo(
+        () => isCurrenciesLoading || isCurrenciesFetching,
+        [isCurrenciesLoading, isCurrenciesFetching]
+    );
 
     const formSchema = z
         .object({
@@ -169,16 +186,19 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     });
 
     const typeValue = form.watch("type");
+    const currenciesDisabled = useMemo(
+        () =>
+            !(currenciesData && Array.isArray(currenciesData) && currenciesData?.length > 0) ||
+            typeValue !== IFeeType.NUMBER_3,
+        [currenciesData, typeValue]
+    );
 
-    if (isLoading || loadingData)
+    if (isLoading || isCurrenciesLoading)
         return (
             <div className="h-[320px]">
                 <LoadingBlock />
             </div>
         );
-    const currenciesDisabled =
-        !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0) ||
-        typeValue !== IFeeType.NUMBER_3;
 
     return (
         <>
@@ -347,10 +367,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     onChange={field.onChange}
                                                     currencies={
                                                         !currenciesDisabled && !variants?.length
-                                                            ? currencies.data
+                                                            ? currenciesData || []
                                                             : (variants ?? [])
                                                     }
-                                                    disabled={currenciesDisabled}
+                                                    disabled={currenciesDisabled || currenciesLoadingProcess}
                                                     isError={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
                                                     placeholder={
