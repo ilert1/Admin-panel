@@ -43,6 +43,7 @@ interface IProviderMethodsTable {
     methodValue: ExecutionMethodOutput;
     disabledProcess: boolean;
     disabledEditButton?: boolean;
+    disabledDeleteButton?: boolean;
 }
 
 export const ProviderMethodsTable = ({
@@ -50,7 +51,8 @@ export const ProviderMethodsTable = ({
     onEditClick,
     onDeleteClick,
     disabledProcess,
-    disabledEditButton
+    disabledEditButton,
+    disabledDeleteButton
 }: IProviderMethodsTable) => {
     const translate = useTranslate();
 
@@ -151,7 +153,11 @@ export const ProviderMethodsTable = ({
                     {translate("app.ui.actions.edit")}
                 </Button>
 
-                <Button disabled={disabledProcess} onClick={onDeleteClick} variant={"outline_gray"}>
+                <Button
+                    className="disabled:bg-neutral-40 disabled:dark:bg-neutral-70"
+                    disabled={disabledProcess || disabledDeleteButton}
+                    onClick={onDeleteClick}
+                    variant={"outline_gray"}>
                     {translate("app.ui.actions.delete")}
                 </Button>
             </div>

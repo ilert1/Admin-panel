@@ -132,6 +132,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                                         onDeleteClick={() => onRemoveMethod(methodKey)}
                                         onEditClick={() => setEditMethod(methodKey)}
                                         methodValue={methods[methodKey] as ExecutionMethodOutput}
+                                        disabledDeleteButton={methodKey === "callback"}
                                     />
                                 )}
                             </AccordionContent>
