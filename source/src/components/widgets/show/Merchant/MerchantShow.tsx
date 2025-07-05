@@ -56,16 +56,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
         isFetching: isMerchantDirectionsFetching
     } = useQuery({
         queryKey: ["merchantDirections", "MerchantShow", context.record?.id],
-        queryFn: async () => {
-            if (context.record?.id) {
-                try {
-                    return await dataProvider.getMerchantDirections(context.record.id);
-                } catch (error) {
-                    if (error instanceof Error) {
-                        appToast("error", error.message);
-                    }
-                }
-            }
+        queryFn: async ({ signal }) => {
+            if (context.record?.id)
+                return await dataProvider.getMerchantDirections("merchant", context.record.id, signal);
         },
         enabled: !!context.record?.id
     });

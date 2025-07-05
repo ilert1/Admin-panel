@@ -237,7 +237,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getMerchantDirections(id: string) {
+    async getMerchantDirections(resource: string, id: string, signal?: AbortSignal) {
         const res = await directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet(
             id,
             {
@@ -249,7 +249,8 @@ export class MerchantsDataProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
