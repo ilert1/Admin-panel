@@ -18,22 +18,25 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             header: translate("resources.direction.fields.name"),
             cell: ({ row }) => {
                 return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            openSheet("direction", { id: row.original.id });
-                        }}>
-                        {row.original.name ?? ""}
-                    </Button>
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("direction", { id: row.original.id });
+                            }}>
+                            {row.original.name ?? ""}
+                        </Button>
+                        <TextField
+                            text={row.original.id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                            className="text-neutral-70"
+                        />
+                    </div>
                 );
-            }
-        },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.direction.fields.id"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue />;
             }
         },
         {
