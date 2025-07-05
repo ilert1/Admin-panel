@@ -14,7 +14,7 @@
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",
         "alreadyInUse": "Данное имя уже используется․ Выберите другой.",
-        "methodAlreadyEsxit": "Данный метод уже существует"
+        "methodAlreadyExist": "Данный метод уже существует"
     },
     "resources.provider.recreateConfirm": "Пересоздать ключи?",
     "resources.provider.recreateConfirmDescription": "Старые ключи станут недействительными",

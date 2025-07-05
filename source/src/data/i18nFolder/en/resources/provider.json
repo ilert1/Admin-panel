@@ -14,7 +14,7 @@
     "resources.provider.errors": {
         "name": "Name must contain at least 1 symbol",
         "alreadyInUse": "This name is already in use. Choose another one.",
-        "methodAlreadyEsxit": "This method already exists"
+        "methodAlreadyExist": "This method already exists"
     },
     "resources.provider.recreateConfirm": "Recreate keys?",
     "resources.provider.recreateConfirmDescription": "Old keys will become invalid.",

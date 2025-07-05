@@ -66,7 +66,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
 
     const onAddMethod = async (key: string, value: ExecutionMethodInput) => {
         if (Object.keys(methods).includes(key)) {
-            appToast("error", translate("resources.provider.errors.methodAlreadyEsxit"));
+            appToast("error", translate("resources.provider.errors.methodAlreadyExist"));
             return;
         }
 
