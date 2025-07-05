@@ -25,13 +25,13 @@ const useSystemPaymentInstrumentsListFilter = () => {
     const refresh = useRefresh();
 
     const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
-        queryKey: ["currencies"],
+        queryKey: ["currencies", "getListWithoutPagination"],
         queryFn: ({ signal }) => dataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });
 
     const { data: paymentTypes, isLoading: isLoadingPaymentTypes } = useQuery({
-        queryKey: ["paymentTypesForSystemPI"],
+        queryKey: ["paymentTypesForSystemPI", "getListWithoutPagination"],
         queryFn: () => dataProvider.getListWithoutPagination("payment_type"),
         select: data => data.data
     });

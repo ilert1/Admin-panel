@@ -67,7 +67,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
     ];
 
     const { isLoading: currenciesLoading, data: currencies } = useQuery({
-        queryKey: ["currencies"],
+        queryKey: ["currencies", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
     });
 

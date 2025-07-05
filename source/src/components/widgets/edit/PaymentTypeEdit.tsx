@@ -45,7 +45,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const { data: currenciesList, isLoading: isLoadingCurrencies } = useQuery({
-        queryKey: ["currencies"],
+        queryKey: ["currencies", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });

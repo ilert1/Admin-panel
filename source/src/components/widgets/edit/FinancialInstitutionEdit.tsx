@@ -64,7 +64,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const { isLoading: currenciesLoading, data: currencies } = useQuery({
-        queryKey: ["currencies"],
+        queryKey: ["currencies", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
     });
 

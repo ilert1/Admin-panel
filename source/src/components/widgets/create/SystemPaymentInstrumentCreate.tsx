@@ -36,13 +36,13 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [paymentTypes, setPaymentTypes] = useState<PaymentTypeBase[]>([]);
 
     const { data: currencies, isLoading: currenciesLoading } = useQuery({
-        queryKey: ["currencies"],
+        queryKey: ["currencies", "getListWithoutPagination"],
         queryFn: ({ signal }) => dataProvider.getListWithoutPagination("currency", signal),
         select: data => data.data
     });
 
     const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
-        queryKey: ["financialInstitutions"],
+        queryKey: ["financialInstitutions", "getListWithoutPagination"],
         queryFn: (): GetListResult<FinancialInstitutionWithId> =>
             dataProvider.getListWithoutPagination("financialInstitution"),
         select: data => data.data

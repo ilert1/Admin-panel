@@ -24,7 +24,7 @@ const useDirectionsListFilter = () => {
     });
 
     const { data: providers, isLoading: providersLoading } = useQuery({
-        queryKey: ["providers"],
+        queryKey: ["providers", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
         select: data => data.data
     });

@@ -19,7 +19,7 @@ const useTerminalFilter = () => {
         isLoading: isProvidersLoading,
         isFetching: isProvidersFetching
     } = useQuery({
-        queryKey: ["providers", "filter"],
+        queryKey: ["providers", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
         select: data => data.data
     });

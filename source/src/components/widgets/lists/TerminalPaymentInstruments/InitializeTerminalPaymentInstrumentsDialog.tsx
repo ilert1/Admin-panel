@@ -41,7 +41,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const { isLoading: currenciesLoading, data: currencies } = useQuery({
-        queryKey: ["currencies"],
+        queryKey: ["currencies", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
     });
 
