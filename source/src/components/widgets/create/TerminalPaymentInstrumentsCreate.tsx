@@ -80,7 +80,8 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         isFetching: isTerminalsFetching
     } = useQuery({
         queryKey: ["terminals", "getListWithoutPagination", providerName],
-        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        queryFn: ({ signal }) =>
+            terminalsDataProvider.getListWithoutPagination("terminals", ["provider"], [providerName], signal),
         enabled: !!providerName,
         select: data => data.data
     });

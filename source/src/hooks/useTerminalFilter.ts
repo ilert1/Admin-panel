@@ -29,8 +29,9 @@ const useTerminalFilter = () => {
         isLoading: isTerminalsLoading,
         isFetching: isTerminalsFetching
     } = useQuery({
-        queryKey: ["terminals", "filter", providerName],
-        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
+        queryKey: ["terminals", "getListWithoutPagination", providerName],
+        queryFn: ({ signal }) =>
+            terminalsDataProvider.getListWithoutPagination("terminals", ["provider"], [providerName], signal),
         enabled: !!providerName,
         select: data => data.data
     });
