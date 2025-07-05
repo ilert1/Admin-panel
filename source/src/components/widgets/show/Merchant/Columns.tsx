@@ -66,6 +66,16 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             }
         },
         {
+            id: "type",
+            header: () => (
+                <div className="flex items-center justify-center">{translate("resources.direction.types.type")}</div>
+            ),
+            cell: ({ row }) => {
+                const type = row.original.type;
+                return type ? translate(`resources.direction.types.${row.original.type}`) : "-";
+            }
+        },
+        {
             id: "provider",
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
