@@ -2,7 +2,7 @@ import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -16,14 +16,14 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useFetchDataForDirections, usePreventFocus } from "@/hooks";
+import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { DirectionsDataProvider } from "@/data";
+import { CurrenciesDataProvider, DirectionsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
@@ -36,9 +36,24 @@ export interface DirectionEditProps {
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const directionDataProvider = new DirectionsDataProvider();
+    const currenciesDataProvider = new CurrenciesDataProvider();
 
-    const { currencies, isLoading: loadingData } = useFetchDataForDirections();
     const [isFinished, setIsFinished] = useState(false);
+
+    const {
+        data: currenciesData,
+        isFetching: isCurrenciesFetching,
+        isLoading: isCurrenciesLoading
+    } = useQuery({
+        queryKey: ["currencies", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
+        select: data => data?.data
+    });
+
+    const currenciesLoadingProcess = useMemo(
+        () => isCurrenciesLoading || isCurrenciesFetching,
+        [isCurrenciesLoading, isCurrenciesFetching]
+    );
 
     const {
         data: direction,
@@ -46,7 +61,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["direction", id],
-        queryFn: () => dataProvider.getOne<Direction>("direction", { id: id ?? "" }),
+        queryFn: ({ signal }) => dataProvider.getOne<Direction>("direction", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
     });
@@ -207,7 +222,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     if (
         isLoadingDirection ||
         !direction ||
-        loadingData ||
+        isCurrenciesLoading ||
         isLoadingMerchantPaymentTypes ||
         isLoadingTerminalPaymentTypes ||
         !isFinished
@@ -241,23 +256,6 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="src_currency"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <Label>{translate("resources.direction.sourceCurrency")}</Label>
-                                <CurrencySelect
-                                    currencies={currencies.data}
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    isError={fieldState.invalid}
-                                    errorMessage={<FormMessage />}
-                                    modal
-                                />
-                            </FormItem>
-                        )}
-                    />
 
                     <div className="w-full p-2 sm:w-1/2">
                         <Input
@@ -270,16 +268,36 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
                     <FormField
                         control={form.control}
+                        name="src_currency"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="w-full p-2 sm:w-1/2">
+                                <Label>{translate("resources.direction.sourceCurrency")}</Label>
+                                <CurrencySelect
+                                    currencies={currenciesData || []}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    isError={fieldState.invalid}
+                                    errorMessage={<FormMessage />}
+                                    disabled={currenciesLoadingProcess}
+                                    modal
+                                />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
                         name="dst_currency"
                         render={({ field, fieldState }) => (
                             <FormItem className="w-full p-2 sm:w-1/2">
                                 <Label>{translate("resources.direction.destinationCurrency")}</Label>
                                 <CurrencySelect
-                                    currencies={currencies.data}
+                                    currencies={currenciesData || []}
                                     value={field.value}
                                     onChange={field.onChange}
                                     isError={fieldState.invalid}
                                     errorMessage={<FormMessage />}
+                                    disabled={currenciesLoadingProcess}
                                     modal
                                 />
                             </FormItem>
