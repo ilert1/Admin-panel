@@ -1,23 +1,18 @@
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
-import { useDataProvider, usePermissions } from "react-admin";
+import { usePermissions } from "react-admin";
 
 export const useFetchMerchants = () => {
     const { permissions } = usePermissions();
+    const merchantsDataProvider = new MerchantsDataProvider();
 
-    const dataProvider = useDataProvider();
     const {
         isLoading,
         data: merchantData,
         error
     } = useQuery({
-        queryKey: ["merchant", "getList", "MerchantSelectFilter"],
-        queryFn: async ({ signal }) =>
-            await dataProvider.getList<Merchant>("merchant", {
-                pagination: { perPage: 10000, page: 1 },
-                filter: { sort: "name", asc: "ASC" },
-                signal
-            }),
+        queryKey: ["merchants", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
         enabled: permissions === "admin",
         select: data => data?.data || []
     });
