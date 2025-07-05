@@ -80,7 +80,10 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<FinancialInstitutionWithId>> {
+    async getListWithoutPagination(
+        resource: string,
+        signal?: AbortSignal
+    ): Promise<GetListResult<FinancialInstitutionWithId>> {
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: 1,
@@ -89,7 +92,8 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
