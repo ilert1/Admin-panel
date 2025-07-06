@@ -70,8 +70,6 @@ import { FinancialInstitutionProvider } from "./data/financialInstitution";
 import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 
-const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
-
 const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
         return TransactionDataProvider;
@@ -187,12 +185,10 @@ export const App = () => {
                                                 {/* <Resource name="currency" list={CurrenciesList} icon={BanknoteIcon} /> */}
                                             </Resource>
 
-                                            {CALLBRIDGE_ENABLED && (
-                                                <Resource name="callbridge" icon={Split}>
-                                                    <Route path="mapping" element={<MappingsList />} />
-                                                    <Route path="history" element={<CallbackHistoryList />} />
-                                                </Resource>
-                                            )}
+                                            <Resource name="callbridge" icon={Split}>
+                                                <Route path="mapping" element={<MappingsList />} />
+                                                <Route path="history" element={<CallbackHistoryList />} />
+                                            </Resource>
                                         </>
                                     )}
 

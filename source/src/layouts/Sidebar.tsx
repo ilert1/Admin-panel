@@ -12,8 +12,6 @@ import clsx from "clsx";
 import { AdminCallbridgeResources } from "@/components/widgets/shared/AdminCallbridgeResources";
 import { AdminPaymentToolResources } from "@/components/widgets/shared/AdminPaymentToolResources";
 
-const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
-
 export interface SidebarProps {
     resourceName: string[];
     setTestKeysModalOpen: (state: boolean) => void;
@@ -137,7 +135,7 @@ export const Sidebar = (props: SidebarProps) => {
                 {permissions === "admin" && (
                     <>
                         <AdminPaymentToolResources showCaptions={showCaptions && !isMobile} />
-                        {CALLBRIDGE_ENABLED && <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />}
+                        <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />
                     </>
                 )}
                 <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />
