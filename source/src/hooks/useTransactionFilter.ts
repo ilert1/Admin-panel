@@ -16,16 +16,6 @@ const useTransactionFilter = () => {
     const appToast = useAppToast();
     const translate = useTranslate();
 
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        select: data => data?.data
-    });
-
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
     );
@@ -40,6 +30,22 @@ const useTransactionFilter = () => {
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
 
+    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
+    const {
+        data: merchantData,
+        isFetching: isMerchantsFetching,
+        isLoading: isMerchantsLoading
+    } = useQuery({
+        queryKey: ["merchants", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
+        enabled: adminOnly,
+        select: data => data?.data
+    });
+
     useEffect(() => {
         if (merchantData) {
             setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.accountId)?.name || "");
@@ -51,11 +57,6 @@ const useTransactionFilter = () => {
         () => isMerchantsLoading || isMerchantsFetching,
         [isMerchantsLoading, isMerchantsFetching]
     );
-
-    const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
-
-    const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const chooseClassTabActive = useCallback(
         (type: number) => {

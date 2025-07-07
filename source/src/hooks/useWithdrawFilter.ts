@@ -18,6 +18,8 @@ const useWithdrawFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { permissions } = usePermissions();
 
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
     const {
         data: merchantData,
         isFetching: isMerchantsFetching,
@@ -25,6 +27,7 @@ const useWithdrawFilter = () => {
     } = useQuery({
         queryKey: ["merchants", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
+        enabled: adminOnly,
         select: data => data?.data
     });
 
@@ -40,8 +43,6 @@ const useWithdrawFilter = () => {
     const [merchantValue, setMerchantValue] = useState("");
     const [operationId, setOperationId] = useState<string>(filterValues?.id || "");
     const [operationTrc20, setOperationTrc20] = useState<string>(filterValues?.dst_address || "");
-
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 

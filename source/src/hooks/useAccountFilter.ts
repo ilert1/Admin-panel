@@ -13,16 +13,6 @@ const useAccountFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const merchantsDataProvider = new MerchantsDataProvider();
 
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        select: data => data?.data
-    });
-
     const [merchantId, setMerchantId] = useState(filterValues?.merchantId || "");
     const [merchantValue, setMerchantValue] = useState("");
     const [startDate, setStartDate] = useState<Date | undefined>(
@@ -37,6 +27,17 @@ const useAccountFilter = () => {
 
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
+    const {
+        data: merchantData,
+        isFetching: isMerchantsFetching,
+        isLoading: isMerchantsLoading
+    } = useQuery({
+        queryKey: ["merchants", "getListWithoutPagination"],
+        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
+        enabled: adminOnly,
+        select: data => data?.data
+    });
 
     useEffect(() => {
         if (merchantData) {
