@@ -7,7 +7,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { WithdrawDataProvider } from "@/data";
-import { useFetchMerchants } from "./useFetchMerchants";
+import { useFetchMerchants } from "@/hooks";
 
 const useWithdrawFilter = () => {
     const dictionaries = fetchDictionaries();
