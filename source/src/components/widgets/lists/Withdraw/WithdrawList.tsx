@@ -10,7 +10,7 @@ import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 export const WithdrawList = () => {
     const listContext = useAbortableListController<Transaction.Transaction>();
 
-    const { columns, repeatData, cryptoTransferState, isLoading, merchantOnly, setCryptoTransferState } =
+    const { columns, repeatData, cryptoTransferState, isMerchantsLoading, merchantOnly, setCryptoTransferState } =
         useGetWithdrawColumns();
 
     return (
@@ -25,7 +25,7 @@ export const WithdrawList = () => {
                             : "flex h-full min-h-0 flex-col"
                     }>
                     <WithdrawListFilter />
-                    {listContext.isLoading || !listContext.data || isLoading ? (
+                    {listContext.isLoading || !listContext.data || isMerchantsLoading ? (
                         <LoadingBlock />
                     ) : (
                         <>

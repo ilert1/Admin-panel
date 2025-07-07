@@ -10,7 +10,7 @@ export type MerchantTypeToShow = "fees" | "directions" | undefined;
 export const useGetTransactionColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
+    const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
     const { permissions } = usePermissions();
     const { openSheet } = useSheets();
 
@@ -141,6 +141,6 @@ export const useGetTransactionColumns = () => {
 
     return {
         columns,
-        isLoadingMerchants
+        isMerchantsLoading
     };
 };

@@ -8,7 +8,7 @@ import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const TransactionList = () => {
     const listContext = useAbortableListController<Transaction.TransactionView>({ resource: "transactions/view" });
-    const { columns, isLoadingMerchants } = useGetTransactionColumns();
+    const { columns, isMerchantsLoading } = useGetTransactionColumns();
 
     return (
         <>
@@ -30,7 +30,7 @@ export const TransactionList = () => {
                         />
                     </div> */}
 
-                {listContext.isLoading || isLoadingMerchants ? <LoadingBlock /> : <DataTable columns={columns} />}
+                {listContext.isLoading || isMerchantsLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
         </>
     );

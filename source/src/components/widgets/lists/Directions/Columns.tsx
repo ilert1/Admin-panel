@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
+    const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
@@ -233,7 +233,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
     return {
         columns,
         deleteDialogOpen,
-        isLoadingMerchants,
+        isMerchantsLoading,
         chosenId,
         setDeleteDialogOpen,
         onCloseSheet

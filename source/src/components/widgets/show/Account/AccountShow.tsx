@@ -22,7 +22,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
     const { permissions } = usePermissions();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
+    const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
 
     const context = useAbortableShowController<Account>({ resource: "accounts", id });
 
@@ -35,7 +35,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         disableSyncWithLocation: true
     });
 
-    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isLoadingMerchants) {
+    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isMerchantsLoading) {
         return <LoadingBlock />;
     }
 

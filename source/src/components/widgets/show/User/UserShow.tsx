@@ -21,7 +21,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
     const context = useAbortableShowController<Users.User>({ resource: "users", id });
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const { getMerchantIdAndName, isLoadingMerchants } = useGetMerchantData();
+    const { getMerchantIdAndName, isMerchantsLoading } = useGetMerchantData();
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [showEditUser, setShowEditUser] = useState(false);
@@ -30,7 +30,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
         setShowEditUser(prev => !prev);
     }, []);
 
-    if (context.isLoading || context.isFetching || !context.record || isLoadingMerchants) {
+    if (context.isLoading || context.isFetching || !context.record || isMerchantsLoading) {
         return <LoadingBlock />;
     }
     const merch = getMerchantIdAndName(context.record.merchant_id);

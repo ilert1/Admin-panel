@@ -12,9 +12,10 @@ import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 export const DirectionsList = () => {
     const listContext = useAbortableListController<Direction>();
 
-    const { columns, deleteDialogOpen, chosenId, setDeleteDialogOpen, onCloseSheet } = useGetDirectionsColumns({
-        isFetching: listContext.isFetching
-    });
+    const { columns, deleteDialogOpen, chosenId, setDeleteDialogOpen, onCloseSheet, isMerchantsLoading } =
+        useGetDirectionsColumns({
+            isFetching: listContext.isFetching
+        });
 
     return (
         <>
@@ -23,7 +24,7 @@ export const DirectionsList = () => {
 
                 <DirectionListFilter />
 
-                {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+                {listContext.isLoading || isMerchantsLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
             <DeleteDirectionDialog
                 open={deleteDialogOpen}

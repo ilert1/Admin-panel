@@ -83,7 +83,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         id: trnId
     });
 
-    const { isLoading, merchantsList = [] } = useFetchMerchants();
+    const { isMerchantsLoading, merchantData } = useFetchMerchants();
 
     const getNameAndIdByType = (type: number, sourceMerch: Merchant | undefined, destMerch: Merchant | undefined) => {
         switch (type) {
@@ -104,12 +104,12 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
     const getSourceAndDestMerch = useCallback(
         (source: string, destination: string) => {
-            const sourceMerch = merchantsList?.find(el => el.id === source);
-            const destMerch = merchantsList?.find(el => el.id === destination);
+            const sourceMerch = merchantData?.find(el => el.id === source);
+            const destMerch = merchantData?.find(el => el.id === destination);
 
             return { sourceMerch, destMerch };
         },
-        [merchantsList]
+        [merchantData]
     );
 
     const merchantNameAndIdGenerate = (type: number, source: string, destination: string) => {
@@ -120,7 +120,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         return res;
     };
 
-    if (context.isLoading || context.isFetching || !context.record || isLoading) {
+    if (context.isLoading || context.isFetching || !context.record || isMerchantsLoading) {
         return <LoadingBlock />;
     }
 

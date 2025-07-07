@@ -25,7 +25,7 @@ export const useGetAccountsColumns = () => {
     const handleOpenSheet = (id: string) => {
         openSheet("account", { id });
     };
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
+    const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
 
     const columns: ColumnDef<Account>[] = [
         {
@@ -158,6 +158,6 @@ export const useGetAccountsColumns = () => {
         showEditDialog,
         setShowEditDialog,
         showAccountId,
-        isLoadingMerchants
+        isMerchantsLoading
     };
 };

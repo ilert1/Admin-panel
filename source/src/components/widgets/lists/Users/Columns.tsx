@@ -12,26 +12,13 @@ import { useTranslate } from "react-admin";
 export const useGetUserColumns = () => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const { getMerchantIdAndName, isLoadingMerchants } = useGetMerchantData();
-
-    // const [locale] = useLocaleState();
+    const { getMerchantIdAndName, isMerchantsLoading } = useGetMerchantData();
 
     const handleOpenSheet = (id: string) => {
         openSheet("user", { id });
     };
 
     const columns: ColumnDef<Users.User>[] = [
-        /* {
-            id: "created_at",
-            accessorKey: "created_at",
-            header: translate("resources.users.fields.created_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleTimeString(locale)}</p>
-                </>
-            )
-        }, */
         {
             id: "keycloak_id",
             accessorKey: "keycloak_id",
@@ -145,6 +132,6 @@ export const useGetUserColumns = () => {
 
     return {
         columns,
-        isLoadingMerchants
+        isMerchantsLoading
     };
 };

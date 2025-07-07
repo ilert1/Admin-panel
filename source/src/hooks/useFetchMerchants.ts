@@ -1,5 +1,6 @@
 import { MerchantsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { usePermissions } from "react-admin";
 
 export const useFetchMerchants = () => {
@@ -7,7 +8,8 @@ export const useFetchMerchants = () => {
     const merchantsDataProvider = new MerchantsDataProvider();
 
     const {
-        isLoading,
+        isLoading: isMerchantsLoading,
+        isFetching: isMerchantsFetching,
         data: merchantData,
         error
     } = useQuery({
@@ -17,5 +19,10 @@ export const useFetchMerchants = () => {
         select: data => data?.data || []
     });
 
-    return { merchantsList: merchantData || [], isLoading, error };
+    const merchantsLoadingProcess = useMemo(
+        () => isMerchantsLoading || isMerchantsFetching,
+        [isMerchantsLoading, isMerchantsFetching]
+    );
+
+    return { merchantData, isMerchantsLoading, merchantsLoadingProcess, error };
 };
