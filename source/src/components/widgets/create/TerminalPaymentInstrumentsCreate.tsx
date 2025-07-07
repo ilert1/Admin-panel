@@ -16,7 +16,7 @@ import {
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
+import { TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
@@ -31,6 +31,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
+import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 export interface TerminalPaymentInstrumentsCreateProps {
     onClose?: () => void;
@@ -40,7 +41,6 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
-    const providersDataProvider = new ProvidersDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
     const { filterValues } = useListContext();
@@ -64,15 +64,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
             await systemPaymentInstrumentsProvider.getListWithoutPagination("systemPaymentInstruments", signal)
     });
 
-    const {
-        data: providersData,
-        isLoading: isProvidersLoading,
-        isFetching: isProvidersFetching
-    } = useQuery({
-        queryKey: ["providers", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
-        select: data => data.data
-    });
+    const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
 
     const {
         data: terminalsData,
@@ -85,11 +77,6 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         enabled: !!providerName,
         select: data => data.data
     });
-
-    const providersLoadingProcess = useMemo(
-        () => isProvidersLoading || isProvidersFetching,
-        [isProvidersFetching, isProvidersLoading]
-    );
 
     const terminalsLoadingProcess = useMemo(
         () => isTerminalsLoading || isTerminalsFetching,

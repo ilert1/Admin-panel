@@ -1,24 +1,17 @@
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useListContext } from "react-admin";
-import { useQuery } from "@tanstack/react-query";
-import { ProvidersDataProvider } from "@/data";
 import { useFetchMerchants } from "../../../../hooks/useFetchMerchants";
+import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 const useDirectionsListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
-    const providersDataProvider = new ProvidersDataProvider();
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
 
     const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
     const [merchantValue, setMerchantValue] = useState("");
     const [provider, setProvider] = useState(filterValues?.provider || "");
-
-    const { data: providers, isLoading: providersLoading } = useQuery({
-        queryKey: ["providers", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
-        select: data => data.data
-    });
 
     useEffect(() => {
         if (merchantData) {
@@ -65,8 +58,8 @@ const useDirectionsListFilter = () => {
         clearFilters,
         provider,
         onProviderChanged,
-        providers,
-        providersLoading
+        providersData,
+        providersLoadingProcess
     };
 };
 

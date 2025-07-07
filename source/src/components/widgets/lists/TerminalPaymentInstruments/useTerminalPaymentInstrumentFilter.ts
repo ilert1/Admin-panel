@@ -2,14 +2,13 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { debounce } from "lodash";
 import { useQuery } from "@tanstack/react-query";
-import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
-// import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TerminalsDataProvider } from "@/data";
+import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const providersDataProvider = new ProvidersDataProvider();
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
     const terminalsDataProvider = new TerminalsDataProvider();
-    // const terminalPaymentInstrumentsDataProvider = new TerminalPaymentInstrumentsProvider();
     const translate = useTranslate();
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
@@ -24,16 +23,6 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
 
     const {
-        data: providersData,
-        isLoading: isProvidersLoading,
-        isFetching: isProvidersFetching
-    } = useQuery({
-        queryKey: ["providers", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
-        select: data => data.data
-    });
-
-    const {
         data: terminalsData,
         isLoading: isTerminalsLoading,
         isFetching: isTerminalsFetching
@@ -44,11 +33,6 @@ const useTerminalPaymentInstrumentFilter = () => {
         enabled: !!providerName,
         select: data => data.data
     });
-
-    const providersLoadingProcess = useMemo(
-        () => isProvidersLoading || isProvidersFetching,
-        [isProvidersFetching, isProvidersLoading]
-    );
 
     const terminalsLoadingProcess = useMemo(
         () => isTerminalsLoading || isTerminalsFetching,

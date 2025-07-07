@@ -1,28 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { ProvidersDataProvider } from "@/data/providers";
 import { debounce } from "lodash";
 import { useQuery } from "@tanstack/react-query";
 import { TerminalsDataProvider } from "@/data";
+import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 const useTerminalFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const providersDataProvider = new ProvidersDataProvider();
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
     const terminalsDataProvider = new TerminalsDataProvider();
     const translate = useTranslate();
 
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
-
-    const {
-        data: providersData,
-        isLoading: isProvidersLoading,
-        isFetching: isProvidersFetching
-    } = useQuery({
-        queryKey: ["providers", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
-        select: data => data.data
-    });
 
     const {
         data: terminalsData,
@@ -44,11 +34,6 @@ const useTerminalFilter = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
-
-    const providersLoadingProcess = useMemo(
-        () => isProvidersLoading || isProvidersFetching,
-        [isProvidersFetching, isProvidersLoading]
-    );
 
     const terminalsLoadingProcess = useMemo(
         () => isTerminalsLoading || isTerminalsFetching,

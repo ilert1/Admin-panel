@@ -24,8 +24,8 @@ export const DirectionListFilter = () => {
         clearFilters,
         provider,
         onProviderChanged,
-        providers,
-        providersLoading
+        providersData,
+        providersLoadingProcess
     } = useDirectionsListFilter();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -86,11 +86,11 @@ export const DirectionListFilter = () => {
                             </Label>
 
                             <ProviderSelect
-                                providers={providers || []}
+                                providers={providersData || []}
                                 value={provider}
                                 onChange={onProviderChanged}
-                                isLoading={providersLoading}
-                                disabled={providersLoading}
+                                isLoading={providersLoadingProcess}
+                                disabled={providersLoadingProcess}
                                 style="Black"
                             />
                         </div>

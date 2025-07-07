@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,14 +23,14 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { useQuery } from "@tanstack/react-query";
-import { ProvidersDataProvider } from "@/data";
+import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 export interface TerminalCreateProps {
     onClose: () => void;
 }
 
 export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -39,27 +39,10 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const controllerProps = useCreateController<TerminalWithId>();
     const { theme } = useTheme();
     const { filterValues } = useListContext();
-
-    const providersDataProvider = new ProvidersDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-    const {
-        data: providersData,
-        isLoading: isProvidersLoading,
-        isFetching: isProvidersFetching
-    } = useQuery({
-        queryKey: ["providers", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
-        select: data => data.data
-    });
-
-    const providersLoadingProcess = useMemo(
-        () => isProvidersLoading || isProvidersFetching,
-        [isProvidersFetching, isProvidersLoading]
-    );
 
     const formSchema = z.object({
         provider: z.string().min(1, translate("resources.terminals.errors.provider")),

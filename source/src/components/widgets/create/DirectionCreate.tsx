@@ -31,20 +31,21 @@ import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { CurrenciesDataProvider, ProvidersDataProvider, TerminalsDataProvider } from "@/data";
+import { CurrenciesDataProvider, TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
 import { useFetchMerchants } from "@/hooks";
+import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();
     const dataProvider = useDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
-    const providersDataProvider = new ProvidersDataProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
     const { directionTypes } = useGetDirectionTypes();
     const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useFetchMerchants();
+    const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
     const { filterValues } = useListContext();
@@ -69,21 +70,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const currenciesLoadingProcess = useMemo(
         () => isCurrenciesLoading || isCurrenciesFetching,
         [isCurrenciesLoading, isCurrenciesFetching]
-    );
-
-    const {
-        data: providersData,
-        isFetching: isProvidersFetching,
-        isLoading: isProvidersLoading
-    } = useQuery({
-        queryKey: ["providers", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await providersDataProvider.getListWithoutPagination("provider", signal),
-        select: data => data?.data
-    });
-
-    const providersLoadingProcess = useMemo(
-        () => isProvidersLoading || isProvidersFetching,
-        [isProvidersLoading, isProvidersFetching]
     );
 
     const {
