@@ -104,7 +104,7 @@ export const ProviderMethodsForm = ({
                     "flex flex-col gap-4 rounded-8 p-4",
                     methodKey ? "bg-transparent" : "bg-neutral-20 dark:bg-neutral-bb"
                 )}>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 border-b border-neutral-90 pb-4 dark:border-neutral-100">
                     <p className="text-base text-neutral-90 dark:text-neutral-30">
                         {translate("resources.provider.methodName")}
                     </p>
@@ -337,7 +337,7 @@ export const ProviderMethodsForm = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-4">
+                <div className="grid grid-cols-7 gap-4 border-b border-neutral-90 pb-4 dark:border-neutral-100">
                     <div className="col-span-4 flex flex-col gap-4">
                         <Input disabled className="text-neutral-80 dark:text-neutral-40" value="type" />
                     </div>

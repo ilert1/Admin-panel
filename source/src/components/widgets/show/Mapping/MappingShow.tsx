@@ -188,7 +188,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                 className="text-neutral-70 dark:text-neutral-30"
                             />
                         </div>
-                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 md:mt-10 md:pt-10">
+                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-col justify-between sm:flex-row">
                                     <h3 className="mb-2 text-display-3 md:mb-4">
@@ -229,7 +229,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 md:mt-10 md:pt-10">
+                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-col justify-between sm:flex-row">
                                     <h3 className="flex-2 mb-2 !min-w-72 flex-grow text-display-3 md:mb-4">

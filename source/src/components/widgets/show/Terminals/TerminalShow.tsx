@@ -117,7 +117,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                         </div>
 
                         {data.details && Object.keys(data.details).length > 0 && (
-                            <div className="mt-5 border-t-[1px] border-neutral-90 pt-3 md:mt-10 md:pt-8">
+                            <div className="mt-5 border-t-[1px] border-neutral-90 pt-3 dark:border-neutral-100 md:mt-10 md:pt-8">
                                 <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
                                     {translate("resources.terminals.fields.details")}
                                 </Label>
@@ -132,7 +132,7 @@ export const TerminalShow = (props: TerminalShowProps) => {
                             </div>
                         )}
 
-                        <div className="my-5 border-y-[1px] border-neutral-90 py-5 md:my-10 md:py-10">
+                        <div className="my-5 border-y-[1px] border-neutral-90 py-5 dark:border-neutral-100 md:my-10 md:py-10">
                             <AuthDataViewer
                                 authData={data.auth}
                                 showAuthDataEditSheet={() => setEditAuthDataDialogOpen(true)}
