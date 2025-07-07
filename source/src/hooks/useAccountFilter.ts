@@ -3,15 +3,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
 import moment from "moment";
 import { API_URL } from "@/data/base";
-import { AccountsDataProvider, MerchantsDataProvider } from "@/data";
+import { AccountsDataProvider } from "@/data";
 import { DateRange } from "react-day-picker";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useQuery } from "@tanstack/react-query";
+import { useFetchMerchants } from "./useFetchMerchants";
 
 const useAccountFilter = () => {
     const appToast = useAppToast();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const merchantsDataProvider = new MerchantsDataProvider();
+    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
 
     const [merchantId, setMerchantId] = useState(filterValues?.merchantId || "");
     const [merchantValue, setMerchantValue] = useState("");
@@ -28,28 +28,12 @@ const useAccountFilter = () => {
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        enabled: adminOnly,
-        select: data => data?.data
-    });
-
     useEffect(() => {
         if (merchantData) {
             setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.merchantId)?.name || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
-
-    const merchantsLoadingProcess = useMemo(
-        () => isMerchantsLoading || isMerchantsFetching,
-        [isMerchantsLoading, isMerchantsFetching]
-    );
 
     const onPropertySelected = debounce((value: string, type: "merchantId") => {
         if (value) {

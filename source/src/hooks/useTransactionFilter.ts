@@ -6,13 +6,13 @@ import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { AccountsDataProvider, MerchantsDataProvider } from "@/data";
-import { useQuery } from "@tanstack/react-query";
+import { AccountsDataProvider } from "@/data";
+import { useFetchMerchants } from "./useFetchMerchants";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const dictionaries = fetchDictionaries();
-    const merchantsDataProvider = new MerchantsDataProvider();
+    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
     const appToast = useAppToast();
     const translate = useTranslate();
 
@@ -22,7 +22,6 @@ const useTransactionFilter = () => {
     const [endDate, setEndDate] = useState<Date | undefined>(
         filterValues?.end_date ? new Date(filterValues?.end_date) : undefined
     );
-
     const [operationId, setOperationId] = useState(filterValues?.id || "");
     const [customerPaymentId, setCustomerPaymentId] = useState(filterValues?.customer_payment_id || "");
     const [merchantId, setMerchantId] = useState(filterValues?.accountId || "");
@@ -35,28 +34,12 @@ const useTransactionFilter = () => {
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        enabled: adminOnly,
-        select: data => data?.data
-    });
-
     useEffect(() => {
         if (merchantData) {
             setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.accountId)?.name || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
-
-    const merchantsLoadingProcess = useMemo(
-        () => isMerchantsLoading || isMerchantsFetching,
-        [isMerchantsLoading, isMerchantsFetching]
-    );
 
     const chooseClassTabActive = useCallback(
         (type: number) => {

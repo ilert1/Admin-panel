@@ -31,19 +31,20 @@ import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { CurrenciesDataProvider, MerchantsDataProvider, ProvidersDataProvider, TerminalsDataProvider } from "@/data";
+import { CurrenciesDataProvider, ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
+import { useFetchMerchants } from "@/hooks";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();
     const dataProvider = useDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
-    const merchantsDataProvider = new MerchantsDataProvider();
     const providersDataProvider = new ProvidersDataProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
     const { directionTypes } = useGetDirectionTypes();
+    const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useFetchMerchants();
     const translate = useTranslate();
     const refresh = useRefresh();
     const { filterValues } = useListContext();
@@ -83,21 +84,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const providersLoadingProcess = useMemo(
         () => isProvidersLoading || isProvidersFetching,
         [isProvidersLoading, isProvidersFetching]
-    );
-
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        select: data => data?.data
-    });
-
-    const merchantsLoadingProcess = useMemo(
-        () => isMerchantsLoading || isMerchantsFetching,
-        [isMerchantsLoading, isMerchantsFetching]
     );
 
     const {

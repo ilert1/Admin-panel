@@ -6,13 +6,12 @@ import { API_URL } from "@/data/base";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useQuery } from "@tanstack/react-query";
-import { MerchantsDataProvider, WithdrawDataProvider } from "@/data";
+import { WithdrawDataProvider } from "@/data";
+import { useFetchMerchants } from "./useFetchMerchants";
 
 const useWithdrawFilter = () => {
     const dictionaries = fetchDictionaries();
     const withdrawDataProvider = WithdrawDataProvider;
-    const merchantsDataProvider = new MerchantsDataProvider();
     const appToast = useAppToast();
     const translate = useTranslate();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -20,16 +19,7 @@ const useWithdrawFilter = () => {
 
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        enabled: adminOnly,
-        select: data => data?.data
-    });
+    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -52,11 +42,6 @@ const useWithdrawFilter = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
-
-    const merchantsLoadingProcess = useMemo(
-        () => isMerchantsLoading || isMerchantsFetching,
-        [isMerchantsLoading, isMerchantsFetching]
-    );
 
     const onPropertySelected = debounce(
         (

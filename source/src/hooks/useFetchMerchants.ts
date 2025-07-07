@@ -3,19 +3,18 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { usePermissions } from "react-admin";
 
-export const useFetchMerchants = () => {
+export const useFetchMerchants = (disabled?: boolean) => {
     const { permissions } = usePermissions();
     const merchantsDataProvider = new MerchantsDataProvider();
 
     const {
-        isLoading: isMerchantsLoading,
-        isFetching: isMerchantsFetching,
         data: merchantData,
-        error
+        isLoading: isMerchantsLoading,
+        isFetching: isMerchantsFetching
     } = useQuery({
         queryKey: ["merchants", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        enabled: permissions === "admin",
+        enabled: permissions === "admin" && !disabled,
         select: data => data?.data || []
     });
 
@@ -24,5 +23,5 @@ export const useFetchMerchants = () => {
         [isMerchantsLoading, isMerchantsFetching]
     );
 
-    return { merchantData, isMerchantsLoading, merchantsLoadingProcess, error };
+    return { merchantData, isMerchantsLoading, merchantsLoadingProcess };
 };

@@ -18,9 +18,10 @@ import {
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { MerchantsDataProvider, UsersDataProvider } from "@/data";
+import { UsersDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
+import { useFetchMerchants } from "@/hooks";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -32,27 +33,12 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
     const refresh = useRefresh();
     const { openSheet } = useSheets();
     const appToast = useAppToast();
+    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
     const usersDataProvider = UsersDataProvider;
-    const merchantsDataProvider = new MerchantsDataProvider();
 
     const [merchantName, setMerchantName] = useState("");
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
-
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        select: data => data?.data
-    });
-
-    const merchantsLoadingProcess = useMemo(
-        () => isMerchantsLoading || isMerchantsFetching,
-        [isMerchantsLoading, isMerchantsFetching]
-    );
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 

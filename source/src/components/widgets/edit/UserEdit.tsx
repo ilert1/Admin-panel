@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField, FormLabel } from "@/components/ui/form";
-import { usePreventFocus } from "@/hooks";
+import { useFetchMerchants, usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -18,7 +18,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { MerchantsDataProvider, UsersDataProvider } from "@/data";
+import { UsersDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
 
@@ -33,26 +33,11 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const merchantsDataProvider = new MerchantsDataProvider();
+    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
 
     const [merchantName, setMerchantName] = useState("");
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [disabledMerchantField, setDisabledMerchantField] = useState(false);
-
-    const {
-        data: merchantData,
-        isFetching: isMerchantsFetching,
-        isLoading: isMerchantsLoading
-    } = useQuery({
-        queryKey: ["merchants", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchant", signal),
-        select: data => data?.data
-    });
-
-    const merchantsLoadingProcess = useMemo(
-        () => isMerchantsLoading || isMerchantsFetching,
-        [isMerchantsLoading, isMerchantsFetching]
-    );
 
     const isFirefox = useMemo(() => navigator.userAgent.match(/firefox|fxios/i), []);
 
