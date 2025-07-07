@@ -1,7 +1,7 @@
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { useFetchMerchants } from "./useFetchMerchants";
+import { useFetchMerchants } from "../../../../hooks/useFetchMerchants";
 
 const useMerchantFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();

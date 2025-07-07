@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
-import useCallbridgeHistoryFilter from "@/hooks/useCallbridgeHistoryFilter";
+import useCallbridgeHistoryFilter from "@/components/widgets/lists/CallbridgeHistory/useCallbridgeHistoryFilter";
 import { MappingSelect } from "../../components/Selects/MappingSelect";
 
 export const CallbridgeHistoryListFilter = () => {

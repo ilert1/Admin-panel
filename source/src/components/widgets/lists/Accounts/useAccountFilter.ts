@@ -6,7 +6,7 @@ import { API_URL } from "@/data/base";
 import { AccountsDataProvider } from "@/data";
 import { DateRange } from "react-day-picker";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useFetchMerchants } from "./useFetchMerchants";
+import { useFetchMerchants } from "../../../../hooks/useFetchMerchants";
 
 const useAccountFilter = () => {
     const appToast = useAppToast();

@@ -4,7 +4,7 @@ import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
-import useSystemPaymentInstrumentsListFilter from "../../../../hooks/useSystemPaymentInstrumentsListFilter";
+import useSystemPaymentInstrumentsListFilter from "./useSystemPaymentInstrumentsListFilter";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { CurrencySelect } from "../../components/Selects/CurrencySelect";

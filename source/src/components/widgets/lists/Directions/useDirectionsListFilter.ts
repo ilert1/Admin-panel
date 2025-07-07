@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useListContext } from "react-admin";
 import { useQuery } from "@tanstack/react-query";
 import { ProvidersDataProvider } from "@/data";
-import { useFetchMerchants } from "./useFetchMerchants";
+import { useFetchMerchants } from "../../../../hooks/useFetchMerchants";
 
 const useDirectionsListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();

@@ -7,7 +7,7 @@ import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { CreateDirectionDialog } from "./CreateDirectionDialog";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import useDirectionsListFilter from "@/hooks/useDirectionsListFilter";
+import useDirectionsListFilter from "@/components/widgets/lists/Directions/useDirectionsListFilter";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 

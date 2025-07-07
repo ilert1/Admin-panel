@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import useTerminalFilter from "@/hooks/useTerminalFilter";
+import useTerminalFilter from "@/components/widgets/lists/Terminals/useTerminalFilter";
 import { ProviderSelect } from "@/components/widgets/components/Selects/ProviderSelect";
 import { useState } from "react";
 import { SyncDisplayedFilters } from "@/components/widgets/shared/SyncDisplayedFilters";

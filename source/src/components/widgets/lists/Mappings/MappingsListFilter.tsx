@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import useMappingFilter from "@/hooks/useMappingFilter";
+import useMappingFilter from "@/components/widgets/lists/Mappings/useMappingFilter";
 import { useState } from "react";
 
 interface MappingsListFilterProps {

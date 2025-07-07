@@ -6,7 +6,7 @@ import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { CreateMerchantDialog } from "./CreateMerchantDialog";
-import useMerchantFilter from "@/hooks/useMerchantFilter";
+import useMerchantFilter from "@/components/widgets/lists/Merchants/useMerchantFilter";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 
 export const MerchantListFilter = () => {

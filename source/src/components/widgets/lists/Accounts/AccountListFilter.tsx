@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
-import useAccountFilter from "@/hooks/useAccountFilter";
+import useAccountFilter from "@/components/widgets/lists/Accounts/useAccountFilter";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Button } from "@/components/ui/Button";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
