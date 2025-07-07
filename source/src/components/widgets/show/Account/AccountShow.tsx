@@ -80,7 +80,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
                             return (
                                 <div className="flex flex-col items-start" key={uniqueId()}>
-                                    <div className="inline-flex w-auto w-full rounded-20 bg-green-50 px-3 py-0.5">
+                                    <div className="inline-flex w-full rounded-20 bg-green-50 px-3 py-0.5">
                                         <span className="text-title-2 text-neutral-0">
                                             {translate("resources.accounts.balance")}: {balance}
                                         </span>
