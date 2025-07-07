@@ -117,7 +117,7 @@ export const ProviderMethodsForm = ({
                                 <FormControl>
                                     <Input
                                         {...field}
-                                        disabled={disabledProcess}
+                                        disabled={disabledProcess || methodKey === "callback"}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                     />
