@@ -204,6 +204,27 @@ declare namespace Transaction {
         rate_source_currency: string;
         rate_destination_currency: string;
     };
+
+    type TransactionStateUpdate = {
+        id: string;
+        state: {
+            state_int: number;
+            state_description: string;
+            final: boolean;
+        };
+        amount: {
+            currency: string;
+            value: {
+                quantity: number;
+                accuracy: number;
+            };
+        };
+        provider: string;
+        external_id: string;
+        external_status: string;
+        external_status_details: string;
+        callback_id: string;
+    };
 }
 
 declare namespace JWT {
