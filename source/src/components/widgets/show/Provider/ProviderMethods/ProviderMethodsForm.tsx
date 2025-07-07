@@ -26,8 +26,8 @@ export const ProviderMethodsForm = ({
     const translate = useTranslate();
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        execution_name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
+        name: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
+        execution_name: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
         retry_policy: z.object({
             backoff_coefficient: z.coerce
                 .string()
@@ -47,12 +47,12 @@ export const ProviderMethodsForm = ({
                 .optional(),
             non_retryable_error_types: z.string().trim().optional()
         }),
-        task_queue: z.string().min(1, translate("resources.provider.errors.name")).trim(),
+        task_queue: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
         timeouts: z.object({
             start_to_close_timeout: z.string().trim().optional(),
             wait_condition_timeout: z.string().trim().optional()
         }),
-        type: z.string().min(1, translate("resources.provider.errors.name")).trim()
+        type: z.string().min(1, translate("app.widgets.forms.payout.required")).trim()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
