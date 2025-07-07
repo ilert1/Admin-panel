@@ -1,5 +1,5 @@
-import { useTranslate, useGetManyReference, usePermissions } from "react-admin";
-import { SimpleTable } from "@/components/widgets/shared";
+import { useTranslate, useGetManyReference, usePermissions, ListContextProvider } from "react-admin";
+import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
 import { useCallback, useMemo, useState } from "react";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -23,6 +23,7 @@ import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 interface TransactionShowProps {
     id: string;
@@ -47,13 +48,22 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         }
     });
 
+    const listContext = useAbortableListController<Transaction.TransactionStateUpdate>({
+        resource: "state_update",
+        filter: { id },
+        disableSyncWithLocation: true,
+        queryOptions: {
+            enabled: permissions === "admin"
+        }
+    });
+
     const [newState, setNewState] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const {
-        switchDispute,
-        showDispute,
-        disputeCaption,
+        // switchDispute,
+        // showDispute,
+        // disputeCaption,
         showState,
         switchState,
         states,
@@ -64,7 +74,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         sendWebhookLoading
     } = useTransactionActions(data, context.record);
 
-    const { feesColumns, briefHistory } = useGetTransactionShowColumns();
+    const { feesColumns, briefHistory, stateUpdateColumns } = useGetTransactionShowColumns();
 
     const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
@@ -307,6 +317,16 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             context.record.fees?.length > 1 && "min-h-44"
                         )}
                     />
+                </div>
+            )}
+
+            {permissions === "admin" && (
+                <div className="flex flex-col gap-2">
+                    <span>{translate("resources.transactions.stateUpdate.title")}</span>
+
+                    <ListContextProvider value={{ ...listContext }}>
+                        <DataTable columns={stateUpdateColumns} />
+                    </ListContextProvider>
                 </div>
             )}
         </div>

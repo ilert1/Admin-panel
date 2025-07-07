@@ -75,6 +75,18 @@
         "sendWebhookSuccessMsg": "The webhook for the order %{id} has been successfully sent",
         "notFound": "Transaction not found"
     },
+    "resources.transactions.stateUpdate": {
+        "title": "State update ",
+        "fields": {
+            "id": "ID",
+            "state": "State",
+            "amount": "Amount",
+            "provider": "Provider",
+            "external_id": "External ID",
+            "external_status": "External status",
+            "callback_id": "Callback ID"
+        }
+    },
     "resources.transactions.list": {
         "filter": {
             "transactionId": "Transaction ID",
