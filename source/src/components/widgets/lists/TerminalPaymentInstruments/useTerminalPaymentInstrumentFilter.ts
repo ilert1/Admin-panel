@@ -3,7 +3,7 @@ import { useListContext, useTranslate } from "react-admin";
 import { debounce } from "lodash";
 import { useQuery } from "@tanstack/react-query";
 import { TerminalsDataProvider } from "@/data";
-import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
+import { useProvidersListWithoutPagination } from "@/hooks";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();

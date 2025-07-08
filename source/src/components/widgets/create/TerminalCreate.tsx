@@ -23,7 +23,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
+import { useProvidersListWithoutPagination } from "@/hooks";
 
 export interface TerminalCreateProps {
     onClose: () => void;

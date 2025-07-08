@@ -35,8 +35,7 @@ import { CurrenciesDataProvider, TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
-import { useMerchantsListWithoutPagination } from "@/hooks";
-import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
+import { useMerchantsListWithoutPagination, useProvidersListWithoutPagination } from "@/hooks";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();

@@ -31,23 +31,25 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
+import { useProvidersListWithoutPagination } from "@/hooks";
 
 export interface TerminalPaymentInstrumentsCreateProps {
     onClose?: () => void;
 }
 
 export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: TerminalPaymentInstrumentsCreateProps) => {
+    const { filterValues } = useListContext();
+    const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const { theme } = useTheme();
+    const appToast = useAppToast();
+    const refresh = useRefresh();
+    const translate = useTranslate();
+
     const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
-    const { filterValues } = useListContext();
-    const { theme } = useTheme();
-    const appToast = useAppToast();
-    const refresh = useRefresh();
-    const translate = useTranslate();
     const statuses = Object.keys(TerminalPaymentInstrumentStatus);
 
     const [systemPaymentInstrumentCode, setSystemPaymentInstrumentCode] = useState("");
@@ -63,8 +65,6 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         queryFn: async ({ signal }) =>
             await systemPaymentInstrumentsProvider.getListWithoutPagination("systemPaymentInstruments", signal)
     });
-
-    const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
 
     const {
         data: terminalsData,
