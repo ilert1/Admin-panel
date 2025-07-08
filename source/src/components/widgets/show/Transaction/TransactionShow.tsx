@@ -16,7 +16,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTransactionActions } from "./useTransactionActions";
-import { useFetchMerchants } from "@/hooks";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 import { useGetTransactionShowColumns } from "./Columns";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
@@ -83,7 +83,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         id: trnId
     });
 
-    const { isMerchantsLoading, merchantData } = useFetchMerchants();
+    const { isMerchantsLoading, merchantData } = useMerchantsListWithoutPagination();
 
     const getNameAndIdByType = (type: number, sourceMerch: Merchant | undefined, destMerch: Merchant | undefined) => {
         switch (type) {

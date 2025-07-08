@@ -1,7 +1,7 @@
-import { useFetchMerchants } from "./useFetchMerchants";
+import { useMerchantsListWithoutPagination } from "./useMerchantsListWithoutPagination";
 
 export const useGetMerchantData = () => {
-    const { isMerchantsLoading, merchantData } = useFetchMerchants();
+    const { isMerchantsLoading, merchantData } = useMerchantsListWithoutPagination();
 
     const getMerchantId = (id: string) => {
         const merch = merchantData?.find(el => el.id === id);

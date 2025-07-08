@@ -6,12 +6,12 @@ import { API_URL } from "@/data/base";
 import { AccountsDataProvider } from "@/data";
 import { DateRange } from "react-day-picker";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useFetchMerchants } from "../../../../hooks/useFetchMerchants";
+import { useMerchantsListWithoutPagination } from "../../../../hooks/useMerchantsListWithoutPagination";
 
 const useAccountFilter = () => {
     const appToast = useAppToast();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
 
     const [merchantId, setMerchantId] = useState(filterValues?.merchantId || "");
     const [merchantValue, setMerchantValue] = useState("");

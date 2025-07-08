@@ -1,6 +1,6 @@
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AccountsDataProvider, WalletsDataProvider } from "@/data";
-import { useFetchMerchants } from "@/hooks";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -13,7 +13,7 @@ function isValidTxIDFormat(txID: string) {
 
 export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const { currencies, isLoadingCurrencies } = useGetCurrencies();
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
 
     const translate = useTranslate();
     const refresh = useRefresh();

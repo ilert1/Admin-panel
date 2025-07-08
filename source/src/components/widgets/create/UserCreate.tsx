@@ -21,7 +21,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { UsersDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
-import { useFetchMerchants } from "@/hooks";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -33,7 +33,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
     const refresh = useRefresh();
     const { openSheet } = useSheets();
     const appToast = useAppToast();
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const usersDataProvider = UsersDataProvider;
 
     const [merchantName, setMerchantName] = useState("");

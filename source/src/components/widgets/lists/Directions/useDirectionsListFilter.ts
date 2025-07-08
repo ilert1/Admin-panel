@@ -1,12 +1,12 @@
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useListContext } from "react-admin";
-import { useFetchMerchants } from "../../../../hooks/useFetchMerchants";
+import { useMerchantsListWithoutPagination } from "../../../../hooks/useMerchantsListWithoutPagination";
 import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 const useDirectionsListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
 
     const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");

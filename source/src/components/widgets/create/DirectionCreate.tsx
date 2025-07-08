@@ -35,7 +35,7 @@ import { CurrenciesDataProvider, TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
-import { useFetchMerchants } from "@/hooks";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 import { useProvidersListWithoutPagination } from "@/hooks/useProvidersListWithoutPagination";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
@@ -44,7 +44,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const terminalsDataProvider = new TerminalsDataProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
     const { directionTypes } = useGetDirectionTypes();
-    const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useMerchantsListWithoutPagination();
     const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();

@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField, FormLabel } from "@/components/ui/form";
-import { useFetchMerchants, usePreventFocus } from "@/hooks";
+import { useMerchantsListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -33,7 +33,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
 
     const [merchantName, setMerchantName] = useState("");
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);

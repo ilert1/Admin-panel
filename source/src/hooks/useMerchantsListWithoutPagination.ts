@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { usePermissions } from "react-admin";
 
-export const useFetchMerchants = (disabled?: boolean) => {
+export const useMerchantsListWithoutPagination = (disabled?: boolean) => {
     const { permissions } = usePermissions();
     const merchantsDataProvider = new MerchantsDataProvider();
 

@@ -2,7 +2,7 @@
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import { useFetchMerchants, useGetTransactionState } from "@/hooks";
+import { useMerchantsListWithoutPagination, useGetTransactionState } from "@/hooks";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
@@ -17,7 +17,7 @@ export const useGetWithdrawColumns = () => {
     const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
 
-    const { merchantData, isMerchantsLoading } = useFetchMerchants();
+    const { merchantData, isMerchantsLoading } = useMerchantsListWithoutPagination();
 
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 

@@ -7,7 +7,7 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { WithdrawDataProvider } from "@/data";
-import { useFetchMerchants } from "@/hooks";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 
 const useWithdrawFilter = () => {
     const dictionaries = fetchDictionaries();
@@ -19,7 +19,7 @@ const useWithdrawFilter = () => {
 
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined

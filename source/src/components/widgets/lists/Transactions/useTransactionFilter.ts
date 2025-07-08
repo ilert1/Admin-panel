@@ -7,12 +7,12 @@ import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AccountsDataProvider } from "@/data";
-import { useFetchMerchants } from "@/hooks";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const dictionaries = fetchDictionaries();
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const appToast = useAppToast();
     const translate = useTranslate();
 

@@ -1,11 +1,11 @@
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { useFetchMerchants } from "../../../../hooks/useFetchMerchants";
+import { useMerchantsListWithoutPagination } from "../../../../hooks/useMerchantsListWithoutPagination";
 
 const useMerchantFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const { merchantData, merchantsLoadingProcess } = useFetchMerchants();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const translate = useTranslate();
 
     const [merchantId, setMerchantId] = useState(filterValues?.id || "");
