@@ -3,12 +3,12 @@ import { HttpError, useDataProvider, useTranslate } from "react-admin";
 import { PayOutForm } from "@/components/widgets/forms";
 
 import { NavLink } from "react-router-dom";
-import { useFetchCurrencies } from "@/hooks/useFetchCurrencies";
 import { PayOutTgBanner } from "@/components/widgets/forms/PayOutTgBanner";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { LoadingBlock } from "@/components/ui/loading";
 import { useQuery } from "@tanstack/react-query";
 import { PayoutDataProvider } from "@/data";
+import { useFetchDicCurrencies } from "@/hooks";
 
 export const PayOutPage = () => {
     const translate = useTranslate();
@@ -30,7 +30,7 @@ export const PayOutPage = () => {
     });
 
     const currency = useMemo(() => accounts?.[0]?.amounts?.[0]?.shop_currency, [accounts]);
-    const { data: currencies } = useFetchCurrencies();
+    const { data: currencies } = useFetchDicCurrencies();
 
     const {
         isLoading: initialLoading,
