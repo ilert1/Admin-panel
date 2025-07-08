@@ -8,7 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { usePreventFocus } from "@/hooks";
+import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
@@ -25,7 +25,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
-import { CurrenciesDataProvider } from "@/data";
 import { FinancialInstitutionType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 import { all as AllCountryCodes } from "iso-3166-1";
@@ -38,8 +37,8 @@ export interface FinancialInstitutionProps {
 }
 
 export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialInstitutionProps) => {
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const financialInstitutionProvider = new FinancialInstitutionProvider();
-    const currenciesDataProvider = new CurrenciesDataProvider();
 
     const {
         data: financialInstitutionData,
@@ -62,11 +61,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
     const [isFinished, setIsFinished] = useState(false);
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
-
-    const { isLoading: currenciesLoading, data: currencies } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
-    });
 
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
@@ -251,7 +245,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         !financialInstitutionData ||
         isLoadingAllPaymentTypes ||
         !isFinished ||
-        currenciesLoading
+        isCurrenciesLoading
     )
         return (
             <div className="h-[400px]">
@@ -410,7 +404,8 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                     <CurrenciesMultiSelect
                                         value={field.value}
                                         onChange={field.onChange}
-                                        options={currencies?.data || []}
+                                        options={currenciesData || []}
+                                        isLoading={currenciesLoadingProcess}
                                     />
                                 </FormItem>
                             )}

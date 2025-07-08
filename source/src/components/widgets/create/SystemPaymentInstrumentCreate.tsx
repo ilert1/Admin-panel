@@ -15,13 +15,14 @@ import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { PaymentTypeBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { FinancialInstitutionWithId } from "@/data/financialInstitution";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 interface SystemPaymentInstrumentCreateProps {
     onOpenChange: (state: boolean) => void;
 }
 
-export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCreateProps) => {
-    const { onOpenChange } = props;
+export const SystemPaymentInstrumentCreate = ({ onOpenChange }: SystemPaymentInstrumentCreateProps) => {
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = useDataProvider();
@@ -34,12 +35,6 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [paymentTypes, setPaymentTypes] = useState<PaymentTypeBase[]>([]);
-
-    const { data: currencies, isLoading: currenciesLoading } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: ({ signal }) => dataProvider.getListWithoutPagination("currency", signal),
-        select: data => data.data
-    });
 
     const { data: financialInstitutions, isLoading: financialInstitutionsLoading } = useQuery({
         queryKey: ["financialInstitutions", "getListWithoutPagination"],
@@ -114,7 +109,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [finInstValue, financialInstitutions]);
 
-    if (currenciesLoading || financialInstitutionsLoading)
+    if (isCurrenciesLoading || financialInstitutionsLoading)
         return (
             <div className="h-[300px]">
                 <Loading />
@@ -122,7 +117,7 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
         );
 
     const paymentsDisabled = !paymentTypes || paymentTypes.length === 0;
-    const currenciesDisabled = !currencies || currencies.length === 0;
+    const currenciesDisabled = !currenciesData || currenciesData.length === 0;
     const financialInstitutionsDisabled = !financialInstitutions || financialInstitutions.length === 0;
 
     return (
@@ -222,8 +217,9 @@ export const SystemPaymentInstrumentCreate = (props: SystemPaymentInstrumentCrea
                                     <CurrencySelect
                                         value={field.value}
                                         onChange={field.onChange}
-                                        currencies={currencies}
-                                        disabled={currenciesDisabled}
+                                        currencies={currenciesData || []}
+                                        isLoading={currenciesLoadingProcess}
+                                        disabled={currenciesDisabled || currenciesLoadingProcess}
                                         isError={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                         modal

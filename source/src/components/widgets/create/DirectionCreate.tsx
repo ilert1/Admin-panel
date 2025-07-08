@@ -23,7 +23,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
@@ -31,11 +31,10 @@ import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { CurrenciesDataProvider } from "@/data";
-import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
 import {
+    useCurrenciesListWithoutPagination,
     useMerchantsListWithoutPagination,
     useProvidersListWithoutPagination,
     useTerminalsListWithoutPagination
@@ -44,10 +43,7 @@ import {
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();
     const dataProvider = useDataProvider();
-    const currenciesDataProvider = new CurrenciesDataProvider();
     const { directionTypes } = useGetDirectionTypes();
-    const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useMerchantsListWithoutPagination();
-    const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
     const { filterValues } = useListContext();
@@ -59,22 +55,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const [providerName, setProviderName] = useState("");
     const [merchantName, setMerchantName] = useState("");
 
+    const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useMerchantsListWithoutPagination();
+    const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
-
-    const {
-        data: currenciesData,
-        isFetching: isCurrenciesFetching,
-        isLoading: isCurrenciesLoading
-    } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
-        select: data => data?.data
-    });
-
-    const currenciesLoadingProcess = useMemo(
-        () => isCurrenciesLoading || isCurrenciesFetching,
-        [isCurrenciesLoading, isCurrenciesFetching]
-    );
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;

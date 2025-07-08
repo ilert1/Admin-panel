@@ -2,7 +2,7 @@ import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -16,14 +16,14 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { usePreventFocus } from "@/hooks";
+import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { CurrenciesDataProvider, DirectionsDataProvider } from "@/data";
+import { DirectionsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
@@ -36,24 +36,9 @@ export interface DirectionEditProps {
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const directionDataProvider = new DirectionsDataProvider();
-    const currenciesDataProvider = new CurrenciesDataProvider();
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
 
     const [isFinished, setIsFinished] = useState(false);
-
-    const {
-        data: currenciesData,
-        isFetching: isCurrenciesFetching,
-        isLoading: isCurrenciesLoading
-    } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
-        select: data => data?.data
-    });
-
-    const currenciesLoadingProcess = useMemo(
-        () => isCurrenciesLoading || isCurrenciesFetching,
-        [isCurrenciesLoading, isCurrenciesFetching]
-    );
 
     const {
         data: direction,

@@ -25,8 +25,8 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
         code,
         currencyCode,
         paymentTypeCode,
-        currencies,
-        isLoadingCurrencies,
+        currenciesData,
+        currenciesLoadingProcess,
         paymentTypes,
         isLoadingPaymentTypes,
         onPaymentTypeCodeChanged,
@@ -98,15 +98,15 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             {translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
                         </Label>
                         <CurrencySelect
-                            currencies={currencies ?? []}
+                            currencies={currenciesData ?? []}
                             value={currencyCode}
                             onChange={onCurrencyCodeChanged}
-                            disabled={isLoadingCurrencies}
+                            disabled={currenciesLoadingProcess}
                             style="Black"
                             placeholder={translate(
                                 "resources.paymentSettings.systemPaymentInstruments.placeholders.currencyCode"
                             )}
-                            isLoading={isLoadingCurrencies}
+                            isLoading={currenciesLoadingProcess}
                         />
                     </div>
                     <div className="flex min-w-36 flex-1 flex-col gap-1">

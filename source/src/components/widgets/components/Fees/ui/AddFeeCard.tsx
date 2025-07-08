@@ -11,7 +11,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { CurrenciesDataProvider, feesDataProvider, FeesResource } from "@/data";
+import { feesDataProvider, FeesResource } from "@/data";
 import fetchDictionaries from "@/helpers/get-dictionaries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateController, useRefresh, useTranslate } from "react-admin";
@@ -24,7 +24,7 @@ import { useMemo, useState } from "react";
 import { SmallFeeDialog } from "./SmallFeeDialog";
 import Big from "big.js";
 import { CurrencySelect } from "../../Selects/CurrencySelect";
-import { useQuery } from "@tanstack/react-query";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -44,8 +44,16 @@ export interface AddFeeCardProps {
     providerName?: string;
 }
 
-export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants, providerName, feeType = "default" } = props;
+export const AddFeeCard = ({
+    id,
+    resource,
+    onOpenChange,
+    setFees,
+    variants,
+    providerName,
+    feeType = "default"
+}: AddFeeCardProps) => {
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -53,25 +61,9 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     const { isLoading } = useCreateController({ resource });
 
     const feeDataProvider = feesDataProvider({ id, resource, providerName });
-    const currenciesDataProvider = new CurrenciesDataProvider();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [smallDialogOpen, setSmallDialogOpen] = useState(false);
-
-    const {
-        data: currenciesData,
-        isFetching: isCurrenciesFetching,
-        isLoading: isCurrenciesLoading
-    } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
-        select: data => data?.data
-    });
-
-    const currenciesLoadingProcess = useMemo(
-        () => isCurrenciesLoading || isCurrenciesFetching,
-        [isCurrenciesLoading, isCurrenciesFetching]
-    );
 
     const formSchema = z
         .object({

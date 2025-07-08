@@ -27,21 +27,20 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
-import { CurrenciesDataProvider } from "@/data";
-import { useQuery } from "@tanstack/react-query";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 import { all as AllCountryCodes } from "iso-3166-1";
 import { Country } from "iso-3166-1/dist/iso-3166";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 export interface FinancialInstitutionCreateProps {
     onClose?: () => void;
 }
 
 export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInstitutionCreateProps) => {
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const financialInstitutionProvider = new FinancialInstitutionProvider();
-    const currenciesDataProvider = new CurrenciesDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
     const { theme } = useTheme();
     const appToast = useAppToast();
@@ -65,11 +64,6 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         },
         ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
     ];
-
-    const { isLoading: currenciesLoading, data: currencies } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
-    });
 
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
@@ -188,7 +182,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         }
     };
 
-    if (controllerProps.isLoading || isLoadingAllPaymentTypes || theme.length === 0 || currenciesLoading)
+    if (controllerProps.isLoading || isLoadingAllPaymentTypes || theme.length === 0 || isCurrenciesLoading)
         return (
             <div className="h-[400px]">
                 <Loading />
@@ -369,7 +363,8 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                         <CurrenciesMultiSelect
                                             value={field.value}
                                             onChange={field.onChange}
-                                            options={currencies?.data || []}
+                                            options={currenciesData || []}
+                                            isLoading={currenciesLoadingProcess}
                                         />
                                     </FormItem>
                                 )}

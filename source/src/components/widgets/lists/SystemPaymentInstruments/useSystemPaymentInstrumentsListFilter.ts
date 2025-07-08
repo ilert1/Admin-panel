@@ -7,8 +7,10 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 const useSystemPaymentInstrumentsListFilter = () => {
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const dataProvider = useDataProvider();
     const systemPIDataProvider = new SystemPaymentInstrumentsProvider();
@@ -23,12 +25,6 @@ const useSystemPaymentInstrumentsListFilter = () => {
     const [reportLoading, setReportLoading] = useState(false);
     const appToast = useAppToast();
     const refresh = useRefresh();
-
-    const { data: currencies, isLoading: isLoadingCurrencies } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: ({ signal }) => dataProvider.getListWithoutPagination("currency", signal),
-        select: data => data.data
-    });
 
     const { data: paymentTypes, isLoading: isLoadingPaymentTypes } = useQuery({
         queryKey: ["paymentTypesForSystemPI", "getListWithoutPagination"],
@@ -148,8 +144,8 @@ const useSystemPaymentInstrumentsListFilter = () => {
         code,
         currencyCode,
         paymentTypeCode,
-        currencies,
-        isLoadingCurrencies,
+        currenciesData,
+        currenciesLoadingProcess,
         paymentTypes,
         isLoadingPaymentTypes,
         onPaymentTypeCodeChanged,

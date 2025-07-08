@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/Button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
@@ -19,7 +18,7 @@ import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstru
 import { Terminal } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
-import { CurrenciesDataProvider } from "@/data";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 interface InitializeFinancialInstitutionDialogProps {
     terminal: Terminal | undefined;
@@ -31,19 +30,14 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
     open,
     onOpenChange = () => {}
 }: InitializeFinancialInstitutionDialogProps) => {
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const appToast = useAppToast();
     const refresh = useRefresh();
 
     const terminalsDataProvider = new TerminalPaymentInstrumentsProvider();
-    const currenciesDataProvider = new CurrenciesDataProvider();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-    const { isLoading: currenciesLoading, data: currencies } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
-    });
 
     const formSchema = z.object({
         payment_type_codes: z.array(z.string()),
@@ -130,7 +124,8 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                                                 <CurrenciesMultiSelect
                                                     value={field.value}
                                                     onChange={field.onChange}
-                                                    options={currencies?.data || []}
+                                                    options={currenciesData || []}
+                                                    isLoading={currenciesLoadingProcess}
                                                 />
                                             </FormItem>
                                         )}
@@ -145,7 +140,7 @@ export const InitializeTerminalPaymentInstrumentsDialog = ({
                                         disabled={
                                             !terminal ||
                                             submitButtonDisabled ||
-                                            currenciesLoading ||
+                                            currenciesLoadingProcess ||
                                             terminal?.payment_types?.length === 0 ||
                                             form.getValues("payment_type_codes").length === 0
                                         }>

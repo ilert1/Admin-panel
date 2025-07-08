@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { usePreventFocus } from "@/hooks";
+import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { useRefresh } from "react-admin";
 import {
     SelectContent,
@@ -23,9 +23,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
-import { useQuery } from "@tanstack/react-query";
 import { PaymentTypesProvider } from "@/data/payment_types";
-import { CurrenciesDataProvider } from "@/data";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -33,7 +31,7 @@ export interface PaymentTypeEditProps {
 }
 
 export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps) => {
-    const currenciesDataProvider = new CurrenciesDataProvider();
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const paymentTypesDataProvider = new PaymentTypesProvider();
     const controllerProps = useEditController({ resource: "payment_type", id });
     const { theme } = useTheme();
@@ -43,12 +41,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const paymentTypeCategories = Object.keys(PaymentCategory);
-
-    const { data: currenciesList, isLoading: isLoadingCurrencies } = useQuery({
-        queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
-        select: data => data.data
-    });
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentSettings.paymentType.errors.code")).trim(),
@@ -161,7 +153,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     usePreventFocus({});
 
-    if (controllerProps.isLoading || theme.length === 0 || isLoadingCurrencies)
+    if (controllerProps.isLoading || theme.length === 0 || isCurrenciesLoading)
         return (
             <div className="h-[300px]">
                 <Loading />
@@ -270,7 +262,8 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                             <CurrenciesMultiSelect
                                                 value={field.value}
                                                 onChange={field.onChange}
-                                                options={currenciesList || []}
+                                                options={currenciesData || []}
+                                                isLoading={currenciesLoadingProcess}
                                             />
                                         </FormControl>
                                     </FormItem>
