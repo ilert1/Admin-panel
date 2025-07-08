@@ -26,8 +26,8 @@ export const ProviderMethodsForm = ({
     const translate = useTranslate();
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        execution_name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
+        name: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
+        execution_name: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
         retry_policy: z.object({
             backoff_coefficient: z.coerce
                 .string()
@@ -47,12 +47,12 @@ export const ProviderMethodsForm = ({
                 .optional(),
             non_retryable_error_types: z.string().trim().optional()
         }),
-        task_queue: z.string().min(1, translate("resources.provider.errors.name")).trim(),
+        task_queue: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
         timeouts: z.object({
             start_to_close_timeout: z.string().trim().optional(),
             wait_condition_timeout: z.string().trim().optional()
         }),
-        type: z.string().min(1, translate("resources.provider.errors.name")).trim()
+        type: z.string().min(1, translate("app.widgets.forms.payout.required")).trim()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -104,7 +104,7 @@ export const ProviderMethodsForm = ({
                     "flex flex-col gap-4 rounded-8 p-4",
                     methodKey ? "bg-transparent" : "bg-neutral-20 dark:bg-neutral-bb"
                 )}>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 border-b border-neutral-90 pb-4 dark:border-neutral-100">
                     <p className="text-base text-neutral-90 dark:text-neutral-30">
                         {translate("resources.provider.methodName")}
                     </p>
@@ -117,7 +117,7 @@ export const ProviderMethodsForm = ({
                                 <FormControl>
                                     <Input
                                         {...field}
-                                        disabled={disabledProcess}
+                                        disabled={disabledProcess || methodKey === "callback"}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                     />
@@ -337,7 +337,7 @@ export const ProviderMethodsForm = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-4">
+                <div className="grid grid-cols-7 gap-4 border-b border-neutral-90 pb-4 dark:border-neutral-100">
                     <div className="col-span-4 flex flex-col gap-4">
                         <Input disabled className="text-neutral-80 dark:text-neutral-40" value="type" />
                     </div>
