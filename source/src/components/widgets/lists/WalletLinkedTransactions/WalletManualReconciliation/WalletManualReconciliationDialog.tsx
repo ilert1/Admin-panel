@@ -35,7 +35,7 @@ export const WalletManualReconciliationDialog = ({ open, onOpenChange }: IWallet
         isLoading,
         onOpenChangeHandler,
         balanceFetching,
-        isLoadingCurrencies
+        isCurrenciesLoading
     } = useWalletManualReconciliation({ onOpenChange });
 
     return (
@@ -101,7 +101,7 @@ export const WalletManualReconciliationDialog = ({ open, onOpenChange }: IWallet
                                             !merchantId ||
                                             balanceFetching ||
                                             merchantBalanceData?.length === 0 ||
-                                            isLoadingCurrencies
+                                            isCurrenciesLoading
                                         }
                                         className="h-[38px] text-ellipsis">
                                         <SelectValue
@@ -130,7 +130,7 @@ export const WalletManualReconciliationDialog = ({ open, onOpenChange }: IWallet
                                         !merchantBalanceId ||
                                         balanceFetching ||
                                         merchantBalanceData?.length === 0 ||
-                                        isLoadingCurrencies
+                                        isCurrenciesLoading
                                     }
                                     value={merchantAmount}
                                     onChange={handleMerchantAmountChange}

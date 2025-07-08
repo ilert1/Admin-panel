@@ -4,7 +4,7 @@ import { NumericFormat } from "react-number-format";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
 import { LoadingBlock } from "@/components/ui/loading";
-import { useGetCurrencies } from "@/hooks/useGetCurrencies";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 interface IBalanceList {
     totalAmount: AccountBalance[] | undefined;
@@ -13,12 +13,11 @@ interface IBalanceList {
 }
 
 export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceList) => {
+    const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
 
-    const { currencies, isLoadingCurrencies } = useGetCurrencies();
-
     const getFixedValue = (value: number, currencyStr: string) => {
-        const currency = currencies?.find(el => currencyStr === el.code);
+        const currency = currenciesData?.find(el => currencyStr === el.code);
 
         if (!currency?.is_coin) {
             return value.toFixed(2);
@@ -27,7 +26,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
         return value;
     };
 
-    if (isLoadingCurrencies) {
+    if (isCurrenciesLoading) {
         return <LoadingBlock />;
     }
 

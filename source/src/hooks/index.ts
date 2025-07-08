@@ -4,3 +4,4 @@ export { useGetTransactionState } from "./getTransactionState";
 export { useMerchantsListWithoutPagination } from "./useMerchantsListWithoutPagination";
 export { useProvidersListWithoutPagination } from "./useProvidersListWithoutPagination";
 export { useTerminalsListWithoutPagination } from "./useTerminalsListWithoutPagination";
+export { useCurrenciesListWithoutPagination } from "./useCurrenciesListWithoutPagination";

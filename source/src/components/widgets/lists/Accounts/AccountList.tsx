@@ -10,7 +10,7 @@ import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 export const AccountList = () => {
     const listContext = useAbortableListController<Account>();
 
-    const { columns, showEditDialog, setShowEditDialog, showAccountId, isLoadingCurrencies, isMerchantsLoading } =
+    const { columns, showEditDialog, setShowEditDialog, showAccountId, isCurrenciesLoading, isMerchantsLoading } =
         useGetAccountsColumns();
 
     return (
@@ -22,7 +22,7 @@ export const AccountList = () => {
                     <AccountListFilter />
                 </div>
 
-                {listContext.isLoading || !listContext.data || isLoadingCurrencies || isMerchantsLoading ? (
+                {listContext.isLoading || !listContext.data || isCurrenciesLoading || isMerchantsLoading ? (
                     <LoadingBlock />
                 ) : (
                     <DataTable columns={columns} />

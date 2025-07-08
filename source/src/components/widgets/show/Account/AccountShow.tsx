@@ -6,7 +6,7 @@ import { useGetAccountShowColumns } from "./Columns";
 import { uniqueId } from "lodash";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { useBalances } from "@/hooks/useBalances";
+import { useBalances } from "@/components/widgets/show/Account/useBalances";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";

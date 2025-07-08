@@ -1,6 +1,5 @@
 import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { formatValue } from "@/helpers/formatNumber";
-import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { useEffect, useState } from "react";
 import { CurrencyIcon } from "./CurrencyIcon";
 import { UserIdentity, useTranslate } from "react-admin";
@@ -20,8 +19,6 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
     const translate = useTranslate();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [combinedAmounts, setCombinedAmounts] = useState<ICombinedBalances[]>();
-
-    const { isLoadingCurrencies } = useGetCurrencies();
 
     useEffect(() => {
         function combine() {
@@ -83,7 +80,8 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                         {combinedAmounts[currentIndex].type === "hold" && (
                                             <SnowFlakeIcon className="h-4 w-4" />
                                         )}
-                                        {!isLoadingCurrencies && (
+
+                                        {!totalLoading && (
                                             <span
                                                 className={cn(
                                                     "block max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white",
@@ -97,6 +95,7 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                                 )}
                                             </span>
                                         )}
+
                                         <div className="flex justify-center">
                                             <CurrencyIcon
                                                 className={

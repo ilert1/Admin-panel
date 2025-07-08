@@ -1,20 +1,20 @@
 import { formatNumber } from "@/helpers/formatNumber";
 import { useEffect, useState } from "react";
-import { useGetCurrencies } from "./useGetCurrencies";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 /**
  *
  * @param isLoading Loading state of parent component context
  */
 export const useBalances = (isLoading: boolean, amounts: Amount[] | AccountBalance[] | undefined) => {
-    const { currencies, isLoadingCurrencies } = useGetCurrencies();
+    const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination();
     const [balances, setBalances] = useState<string[]>([]);
     const [holds, setHolds] = useState<string[]>([]);
 
     useEffect(() => {
-        if (!isLoading && !isLoadingCurrencies && amounts && amounts.length > 0 && amounts[0]) {
+        if (!isLoading && !isCurrenciesLoading && amounts && amounts.length > 0 && amounts[0]) {
             amounts.forEach(el => {
-                const amount = formatNumber(currencies, el);
+                const amount = formatNumber(currenciesData, el);
                 setBalances(prev => [...prev, amount.balance]);
                 if (amount.holds) setHolds(prev => [...prev, amount.holds]);
             });
@@ -22,7 +22,7 @@ export const useBalances = (isLoading: boolean, amounts: Amount[] | AccountBalan
             setBalances([]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoading, isLoadingCurrencies]);
+    }, [isLoading, isCurrenciesLoading, currenciesData]);
 
-    return { currencies, holds, isLoadingCurrencies, balances };
+    return { holds, balances };
 };

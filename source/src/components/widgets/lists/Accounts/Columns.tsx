@@ -2,7 +2,6 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { EditButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import React, { useState } from "react";
@@ -10,8 +9,10 @@ import { RecordContextProvider, usePermissions, useTranslate } from "react-admin
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
 import { formatValue } from "@/helpers/formatNumber";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 export const useGetAccountsColumns = () => {
+    const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const { permissions } = usePermissions();
 
@@ -20,7 +21,6 @@ export const useGetAccountsColumns = () => {
 
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showAccountId, setShowAccountId] = useState<string>("");
-    const { currencies, isLoadingCurrencies } = useGetCurrencies();
 
     const handleOpenSheet = (id: string) => {
         openSheet("account", { id });
@@ -81,7 +81,7 @@ export const useGetAccountsColumns = () => {
                     <RecordContextProvider value={row.original}>
                         <div className="flex flex-col justify-center">
                             {row.original.amounts.map((el, index) => {
-                                const foundCur = currencies?.find(cur => cur.code === el.currency);
+                                const foundCur = currenciesData?.find(cur => cur.code === el.currency);
 
                                 return (
                                     <React.Fragment key={index}>
@@ -154,7 +154,7 @@ export const useGetAccountsColumns = () => {
 
     return {
         columns,
-        isLoadingCurrencies,
+        isCurrenciesLoading,
         showEditDialog,
         setShowEditDialog,
         showAccountId,
