@@ -6,7 +6,7 @@ import { API_URL } from "@/data/base";
 import { AccountsDataProvider } from "@/data";
 import { DateRange } from "react-day-picker";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useMerchantsListWithoutPagination } from "../../../../hooks/useMerchantsListWithoutPagination";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 
 const useAccountFilter = () => {
     const appToast = useAppToast();

@@ -1,7 +1,7 @@
+import { useMerchantsListWithoutPagination } from "@/hooks";
 import { debounce } from "lodash";
 import { useEffect, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
-import { useMerchantsListWithoutPagination } from "../../../../hooks/useMerchantsListWithoutPagination";
 
 const useMerchantFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
