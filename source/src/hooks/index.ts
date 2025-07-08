@@ -3,3 +3,4 @@ export { usePreventFocus } from "./usePreventFocus";
 export { useGetTransactionState } from "./getTransactionState";
 export { useMerchantsListWithoutPagination } from "./useMerchantsListWithoutPagination";
 export { useProvidersListWithoutPagination } from "./useProvidersListWithoutPagination";
+export { useTerminalsListWithoutPagination } from "./useTerminalsListWithoutPagination";

@@ -31,16 +31,19 @@ import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { CurrenciesDataProvider, TerminalsDataProvider } from "@/data";
+import { CurrenciesDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
-import { useMerchantsListWithoutPagination, useProvidersListWithoutPagination } from "@/hooks";
+import {
+    useMerchantsListWithoutPagination,
+    useProvidersListWithoutPagination,
+    useTerminalsListWithoutPagination
+} from "@/hooks";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();
     const dataProvider = useDataProvider();
-    const terminalsDataProvider = new TerminalsDataProvider();
     const currenciesDataProvider = new CurrenciesDataProvider();
     const { directionTypes } = useGetDirectionTypes();
     const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useMerchantsListWithoutPagination();
@@ -56,6 +59,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const [providerName, setProviderName] = useState("");
     const [merchantName, setMerchantName] = useState("");
 
+    const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
+
     const {
         data: currenciesData,
         isFetching: isCurrenciesFetching,
@@ -69,23 +74,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const currenciesLoadingProcess = useMemo(
         () => isCurrenciesLoading || isCurrenciesFetching,
         [isCurrenciesLoading, isCurrenciesFetching]
-    );
-
-    const {
-        data: terminalsData,
-        isLoading: isTerminalsLoading,
-        isFetching: isTerminalsFetching
-    } = useQuery({
-        queryKey: ["terminals", "getListWithoutPagination", providerName],
-        queryFn: ({ signal }) =>
-            terminalsDataProvider.getListWithoutPagination("terminals", ["provider"], [providerName], signal),
-        enabled: !!providerName,
-        select: data => data.data
-    });
-
-    const terminalsLoadingProcess = useMemo(
-        () => isTerminalsLoading || isTerminalsFetching,
-        [isTerminalsFetching, isTerminalsLoading]
     );
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {

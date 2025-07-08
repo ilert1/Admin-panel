@@ -1,14 +1,11 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { debounce } from "lodash";
-import { useQuery } from "@tanstack/react-query";
-import { TerminalsDataProvider } from "@/data";
-import { useProvidersListWithoutPagination } from "@/hooks";
+import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
-    const terminalsDataProvider = new TerminalsDataProvider();
     const translate = useTranslate();
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
@@ -22,22 +19,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
 
-    const {
-        data: terminalsData,
-        isLoading: isTerminalsLoading,
-        isFetching: isTerminalsFetching
-    } = useQuery({
-        queryKey: ["terminals", "getListWithoutPagination", providerName],
-        queryFn: ({ signal }) =>
-            terminalsDataProvider.getListWithoutPagination("terminals", ["provider"], [providerName], signal),
-        enabled: !!providerName,
-        select: data => data.data
-    });
-
-    const terminalsLoadingProcess = useMemo(
-        () => isTerminalsLoading || isTerminalsFetching,
-        [isTerminalsFetching, isTerminalsLoading]
-    );
+    const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
     useEffect(() => {
         if (terminalsData) {

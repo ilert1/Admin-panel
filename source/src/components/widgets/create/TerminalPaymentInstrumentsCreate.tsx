@@ -2,7 +2,7 @@ import { useCreateController, CreateContextProvider, useTranslate, useRefresh, u
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,6 @@ import {
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-import { TerminalsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
@@ -31,7 +30,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { useProvidersListWithoutPagination } from "@/hooks";
+import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
 
 export interface TerminalPaymentInstrumentsCreateProps {
     onClose?: () => void;
@@ -47,7 +46,6 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
 
     const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
-    const terminalsDataProvider = new TerminalsDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
 
     const statuses = Object.keys(TerminalPaymentInstrumentStatus);
@@ -60,28 +58,13 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+    const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
+
     const { isLoading: systemPaymentInstrumentsDataLoading, data: systemPaymentInstrumentsData } = useQuery({
         queryKey: ["systemPaymentInstruments", "getListWithoutPagination"],
         queryFn: async ({ signal }) =>
             await systemPaymentInstrumentsProvider.getListWithoutPagination("systemPaymentInstruments", signal)
     });
-
-    const {
-        data: terminalsData,
-        isLoading: isTerminalsLoading,
-        isFetching: isTerminalsFetching
-    } = useQuery({
-        queryKey: ["terminals", "getListWithoutPagination", providerName],
-        queryFn: ({ signal }) =>
-            terminalsDataProvider.getListWithoutPagination("terminals", ["provider"], [providerName], signal),
-        enabled: !!providerName,
-        select: data => data.data
-    });
-
-    const terminalsLoadingProcess = useMemo(
-        () => isTerminalsLoading || isTerminalsFetching,
-        [isTerminalsFetching, isTerminalsLoading]
-    );
 
     const formSchema = z.object({
         terminal_id: z

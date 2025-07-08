@@ -7,13 +7,12 @@ import { Link } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
-import { TerminalsDataProvider } from "@/data/terminals";
-import { useQuery } from "@tanstack/react-query";
+import { useTerminalsListWithoutPagination } from "@/hooks";
 
 export const useGetMappingsColumns = () => {
+    const { terminalsData, isTerminalsLoading } = useTerminalsListWithoutPagination();
     const translate = useTranslate();
     const { openSheet } = useSheets();
-    const terminalsDataProvider = new TerminalsDataProvider();
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
@@ -23,12 +22,6 @@ export const useGetMappingsColumns = () => {
         setChosenId(id);
         setDeleteMappingClicked(true);
     };
-    const { data: terminalsData, isLoading: isTerminalsLoading } = useQuery({
-        queryKey: ["terminals", "getListWithoutPagination"],
-        queryFn: ({ signal }) => terminalsDataProvider.getListWithoutPagination("terminal", [], [], signal),
-        enabled: true,
-        select: data => data.data
-    });
 
     const columns: ColumnDef<CallbackMappingRead>[] = [
         {

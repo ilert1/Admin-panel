@@ -1,30 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { debounce } from "lodash";
-import { useQuery } from "@tanstack/react-query";
-import { TerminalsDataProvider } from "@/data";
-import { useProvidersListWithoutPagination } from "@/hooks";
+import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
 
 const useTerminalFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
-    const terminalsDataProvider = new TerminalsDataProvider();
     const translate = useTranslate();
 
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
 
-    const {
-        data: terminalsData,
-        isLoading: isTerminalsLoading,
-        isFetching: isTerminalsFetching
-    } = useQuery({
-        queryKey: ["terminals", "getListWithoutPagination", providerName],
-        queryFn: ({ signal }) =>
-            terminalsDataProvider.getListWithoutPagination("terminals", ["provider"], [providerName], signal),
-        enabled: !!providerName,
-        select: data => data.data
-    });
+    const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
     useEffect(() => {
         if (terminalsData) {
@@ -34,11 +21,6 @@ const useTerminalFilter = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
-
-    const terminalsLoadingProcess = useMemo(
-        () => isTerminalsLoading || isTerminalsFetching,
-        [isTerminalsFetching, isTerminalsLoading]
-    );
 
     const onPropertySelected = debounce((value: string, type: "terminal_id" | "provider") => {
         const { ...newFilterValues } = filterValues;
