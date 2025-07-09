@@ -154,6 +154,11 @@
             "terminalToChoose": "Select terminal",
             "systemPaymentInstrumentsToChoose": "Select system payment instrument"
         },
+        "createMode": {
+            "name": "Create with",
+            "spi": "System Payment Instrument",
+            "fi": "Financial Institution"
+        },
         "success": {
             "ACTIVE": "active",
             "INACTIVE": "inactive",
