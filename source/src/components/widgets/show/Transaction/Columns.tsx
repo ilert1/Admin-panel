@@ -132,11 +132,14 @@ export const useGetTransactionShowColumns = () => {
         {
             id: "amount",
             header: translate("resources.transactions.stateUpdate.fields.amount"),
-            cell: ({ row }) => (
-                <TextField
-                    text={`${computeValue(row.original.amount.value.quantity, row.original.amount.value.accuracy)} ${row.original.amount.currency}`}
-                />
-            )
+            cell: ({ row }) => {
+                const val = row.original.amount.value.quantity / row.original.amount.value.accuracy;
+                return (
+                    <div className="text-center">
+                        <span>{val ? val + " " + row.original.amount.currency : "-"}</span>
+                    </div>
+                );
+            }
         },
         {
             id: "provider",
@@ -158,7 +161,9 @@ export const useGetTransactionShowColumns = () => {
         {
             id: "external_id",
             header: translate("resources.transactions.stateUpdate.fields.external_id"),
-            cell: ({ row }) => <TextField text={row.original.external_id} />
+            cell: ({ row }) => (
+                <TextField text={row.original.external_id} copyValue wrap lineClamp linesCount={1} minWidth="50px" />
+            )
         },
         {
             id: "external_status",
@@ -167,7 +172,7 @@ export const useGetTransactionShowColumns = () => {
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <TextField text={row.original.external_status} />
+                            <p className="cursor-default">{row.original.external_status}</p>
                         </TooltipTrigger>
 
                         <TooltipContent>{row.original.external_status_details}</TooltipContent>
