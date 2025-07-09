@@ -6,7 +6,7 @@ import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { Button } from "@/components/ui/Button";
 import { useCallback, useState } from "react";
-import { DeleteTerminalPaymentInstrumentsDialog } from "./DeleteTerminalPaymentInstrumentsDialog";
+import { DeleteTerminalPaymentInstrumentsDialog } from "../../lists/TerminalPaymentInstruments/DeleteTerminalPaymentInstrumentsDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsActivityBtn } from "../../lists/TerminalPaymentInstruments/TerminalPaymentInstrumentsActivityBtn";
 import { EditTerminalPaymentInstrumentsDialog } from "./EditTerminalPaymentInstrumentsDialog";
