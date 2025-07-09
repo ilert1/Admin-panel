@@ -13,9 +13,11 @@ import {
 import { IBaseDataProvider } from "./base";
 import {
     TerminalPaymentInstrument,
-    TerminalPaymentInstrumentCreate
+    TerminalPaymentInstrumentCreate,
+    TerminalPaymentInstrumentFIData
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePost,
     terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost,
     terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete,
     terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet,
@@ -25,7 +27,6 @@ import {
     terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet,
     terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch
 } from "@/api/enigma/terminal-payment-instruments/terminal-payment-instruments";
-// import { getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetUrl } from "@/api/enigma/system-payment-instruments/system-payment-instruments";
 
 export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
@@ -201,6 +202,38 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         if ("data" in res.data && res.data.success) {
             return {
                 data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+    }
+
+    async createByFinancialInstitution(
+        resource: string,
+        terminalId: string,
+        financialInstitutionCode: string,
+        params: { data: TerminalPaymentInstrumentFIData }
+    ): Promise<GetListResult<TerminalPaymentInstrument>> {
+        const res =
+            await terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePost(
+                terminalId,
+                financialInstitutionCode,
+                params.data,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items,
+                total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
