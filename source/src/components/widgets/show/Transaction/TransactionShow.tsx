@@ -321,7 +321,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
             )}
 
             {permissions === "admin" && (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 [&_thead_th]:text-sm">
                     <span>{translate("resources.transactions.stateUpdate.title")}</span>
 
                     <ListContextProvider value={{ ...listContext }}>
