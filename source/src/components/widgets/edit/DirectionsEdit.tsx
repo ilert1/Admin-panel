@@ -158,6 +158,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             "name",
             `[${localDirection.merchant.name}] [${localDirection.provider.name}/${localDirection.terminal.verbose_name}] [${typeValue.charAt(0).toUpperCase()}]`
         );
+
+        form.trigger("name");
     };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {

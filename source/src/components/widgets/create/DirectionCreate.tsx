@@ -199,6 +199,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             "name",
             `[${merchantName}] [${providerName}/${terminalValueName}] [${typeWatchValue.charAt(0).toUpperCase()}]`
         );
+        form.trigger("name");
     };
 
     const onChangeProviderName = (val: string) => {
