@@ -200,6 +200,12 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         );
     };
 
+    const onChangeProviderName = (val: string) => {
+        setProviderName(val);
+        setTerminalValueName("");
+        form.setValue("terminal", "");
+    };
+
     const generateDirectionNamePlaceholder = useMemo(() => {
         if (providerName || terminalValueName || merchantName || touchSelectTypeField) {
             let placeholder = `[${typeWatchValue.charAt(0).toUpperCase()}]`;
@@ -308,14 +314,9 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     <ProviderSelect
                                         providers={providersData || []}
                                         value={field.value}
-                                        onChange={e => {
-                                            setProviderName(e);
-                                            field.onChange(e);
-
-                                            if (!e) {
-                                                setTerminalValueName("");
-                                                form.setValue("terminal", "");
-                                            }
+                                        onChange={val => {
+                                            onChangeProviderName(val);
+                                            field.onChange(val);
                                         }}
                                         isError={fieldState.invalid}
                                         errorMessage={fieldState.error?.message}
