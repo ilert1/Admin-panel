@@ -75,9 +75,9 @@ export const CryptoTransferForm = (props: {
     });
 
     useEffect(() => {
-        const isFound = checkAddress(chosenAddress);
+        const foundWallet = checkAddress(chosenAddress);
 
-        if (chosenAddress && isFound && isFound[0]) {
+        if (chosenAddress && foundWallet) {
             form.reset({
                 address: chosenAddress,
                 amount: undefined
@@ -131,20 +131,22 @@ export const CryptoTransferForm = (props: {
 
     const checkAddress = useCallback(
         (address: string) => {
-            return walletsData?.pages.map(page => {
-                return page.data.find(wallet => {
-                    return wallet.address === address;
-                });
-            });
+            if (!walletsData?.pages) return undefined;
+
+            for (const page of walletsData.pages) {
+                const foundWallet = page.data.find(wallet => wallet.address === address);
+                if (foundWallet) return foundWallet;
+            }
+            return undefined;
         },
         [walletsData?.pages]
     );
 
     useEffect(() => {
         if (props.repeatData) {
-            const isFound = checkAddress(props.repeatData?.address);
+            const foundWallet = checkAddress(props.repeatData.address); // Теперь получаем объект или undefined
 
-            if (isFound && isFound[0]) {
+            if (foundWallet) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
                 form.setValue("amount", props.repeatData.amount, { shouldDirty: true });
 
@@ -188,11 +190,12 @@ export const CryptoTransferForm = (props: {
     });
 
     useEffect(() => {
-        if (withdrawList && withdrawList.length > 0 && withdrawList[0]?.destination?.requisites) {
-            const isFound = checkAddress(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+        if (withdrawList?.[0]?.destination?.requisites?.[0]?.blockchain_address) {
+            const address = withdrawList[0].destination.requisites[0].blockchain_address;
+            const foundWallet = checkAddress(address);
 
-            if (isFound) {
-                setLastUsedWallet(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+            if (foundWallet) {
+                setLastUsedWallet(address);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

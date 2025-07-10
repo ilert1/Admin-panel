@@ -169,7 +169,7 @@ export const resources = [
     "terminalPaymentInstruments",
     "callbridge/v1/mapping",
     "callbridge/v1/history",
-    "wallet",
+    "merchant/wallet",
     "transaction",
     "reconciliation"
 ];
