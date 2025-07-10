@@ -28,7 +28,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         data: propData = [],
         total: propTotal = 0,
         page: propPage = 1,
-        perPage: propPerPage = 10,
+        perPage: propPerPage = 25,
         setPage: propSetPage = () => {},
         setPerPage: propSetPerPage = () => {}
     } = props;

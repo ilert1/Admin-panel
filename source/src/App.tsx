@@ -4,7 +4,8 @@ import {
     combineDataProviders,
     CoreAdminContext,
     CoreAdminUI,
-    localStorageStore
+    localStorageStore,
+    Store
 } from "react-admin";
 import { BrowserRouter, Navigate } from "react-router-dom";
 import {
@@ -127,35 +128,42 @@ dataProvider.supportAbortSignal = true;
 
 const store = localStorageStore(undefined, "backoffice");
 
-const defaultListParams = {
-    filter: {},
-    order: "ASC",
-    page: 1,
-    perPage: 25,
-    sort: "id"
+const setListsParams = (store: Store) => {
+    const defaultListParams = {
+        filter: {},
+        order: "ASC",
+        page: 1,
+        perPage: 25,
+        sort: "id"
+    };
+
+    const resources = [
+        "accounts",
+        "transactions/view",
+        "withdraw",
+        "users",
+        "merchant",
+        "provider",
+        "terminals",
+        "direction",
+        "currency",
+        "payment_type",
+        "financialInstitution",
+        "systemPaymentInstruments",
+        "terminalPaymentInstruments",
+        "callbridge/v1/mapping",
+        "callbridge/v1/history",
+        "wallet",
+        "transaction",
+        "reconciliation"
+    ];
+
+    resources.forEach(resource => {
+        if (!store.getItem(`${resource}.listParams`)) store.setItem(`${resource}.listParams`, { ...defaultListParams });
+    });
 };
 
-store.setItem("account.listParams", { ...defaultListParams });
-store.setItem("transactions/view.listParams", { ...defaultListParams });
-store.setItem("withdraw.listParams", { ...defaultListParams });
-store.setItem("users.listParams", { ...defaultListParams });
-store.setItem("merchant.listParams", { ...defaultListParams });
-store.setItem("provider.listParams", { ...defaultListParams });
-store.setItem("terminals.listParams", { ...defaultListParams });
-store.setItem("direction.listParams", { ...defaultListParams });
-
-store.setItem("currency.listParams", { ...defaultListParams });
-store.setItem("payment_type.listParams", { ...defaultListParams });
-store.setItem("financialInstitution.listParams", { ...defaultListParams });
-store.setItem("systemPaymentInstruments.listParams", { ...defaultListParams });
-store.setItem("terminalPaymentInstruments.listParams", { ...defaultListParams });
-
-store.setItem("callbridge/v1/mapping.listParams", { ...defaultListParams });
-store.setItem("callbridge/v1/history.listParams", { ...defaultListParams });
-
-store.setItem("wallet.listParams", { ...defaultListParams });
-store.setItem("transaction.listParams", { ...defaultListParams });
-store.setItem("reconciliation.listParams", { ...defaultListParams });
+setListsParams(store);
 
 export const App = () => {
     return (
