@@ -126,7 +126,53 @@ const dataProvider = combineDataProviders(resource => {
 });
 dataProvider.supportAbortSignal = true;
 
-const store = localStorageStore(undefined, "backoffice");
+const createPersistentStore = (keyword: string): Store => {
+    const baseStore = localStorageStore(undefined, keyword);
+
+    return {
+        ...baseStore,
+        reset: () => {
+            // Сохраняем нужные ключи
+            const preservedKeys = resources;
+            const preservedData: Record<string, string> = {};
+
+            preservedKeys.forEach(key => {
+                preservedData[key] = baseStore.getItem(`${key}.listParams`);
+            });
+
+            // Выполняем стандартный сброс
+            baseStore.reset();
+
+            // Восстанавливаем данные
+            preservedKeys.forEach(key => {
+                if (preservedData[key] !== undefined) {
+                    baseStore.setItem(`${key}.listParams`, preservedData[key]);
+                }
+            });
+        }
+    };
+};
+
+export const resources = [
+    "accounts",
+    "transactions/view",
+    "withdraw",
+    "users",
+    "merchant",
+    "provider",
+    "terminals",
+    "direction",
+    "currency",
+    "payment_type",
+    "financialInstitution",
+    "systemPaymentInstruments",
+    "terminalPaymentInstruments",
+    "callbridge/v1/mapping",
+    "callbridge/v1/history",
+    "wallet",
+    "transaction",
+    "reconciliation"
+];
 
 const setListsParams = (store: Store) => {
     const defaultListParams = {
@@ -137,32 +183,15 @@ const setListsParams = (store: Store) => {
         sort: "id"
     };
 
-    const resources = [
-        "accounts",
-        "transactions/view",
-        "withdraw",
-        "users",
-        "merchant",
-        "provider",
-        "terminals",
-        "direction",
-        "currency",
-        "payment_type",
-        "financialInstitution",
-        "systemPaymentInstruments",
-        "terminalPaymentInstruments",
-        "callbridge/v1/mapping",
-        "callbridge/v1/history",
-        "wallet",
-        "transaction",
-        "reconciliation"
-    ];
-
     resources.forEach(resource => {
-        if (!store.getItem(`${resource}.listParams`)) store.setItem(`${resource}.listParams`, { ...defaultListParams });
+        if (!store.getItem(`${resource}.listParams`))
+            store.setItem(`${resource}.listParams`, {
+                ...defaultListParams
+            });
     });
 };
 
+const store = createPersistentStore("backoffice");
 setListsParams(store);
 
 export const App = () => {
