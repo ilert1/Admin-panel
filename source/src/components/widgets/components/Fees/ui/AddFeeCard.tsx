@@ -12,7 +12,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { feesDataProvider, FeesResource } from "@/data";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
@@ -24,7 +23,7 @@ import { useMemo, useState } from "react";
 import { SmallFeeDialog } from "./SmallFeeDialog";
 import Big from "big.js";
 import { CurrencySelect } from "../../Selects/CurrencySelect";
-import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { useCurrenciesListWithoutPagination, useFetchDictionaries } from "@/hooks";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -57,7 +56,7 @@ export const AddFeeCard = ({
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const { isLoading } = useCreateController({ resource });
 
     const feeDataProvider = feesDataProvider({ id, resource, providerName });

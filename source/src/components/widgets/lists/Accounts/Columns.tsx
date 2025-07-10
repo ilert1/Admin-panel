@@ -1,7 +1,6 @@
 import { useSheets } from "@/components/providers/SheetProvider";
 import { EditButton, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import React, { useState } from "react";
@@ -9,14 +8,14 @@ import { RecordContextProvider, usePermissions, useTranslate } from "react-admin
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
 import { formatValue } from "@/helpers/formatNumber";
-import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { useCurrenciesListWithoutPagination, useFetchDictionaries } from "@/hooks";
 
 export const useGetAccountsColumns = () => {
     const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const { permissions } = usePermissions();
 
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const { openSheet } = useSheets();
 
     const [showEditDialog, setShowEditDialog] = useState(false);

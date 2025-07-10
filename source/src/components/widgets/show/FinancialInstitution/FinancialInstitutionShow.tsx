@@ -1,6 +1,5 @@
 import { useLocaleState, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { Button } from "@/components/ui/Button";
@@ -13,6 +12,7 @@ import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInst
 import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { Badge } from "@/components/ui/badge";
 import { BankIcon } from "@/components/ui/BankIcon";
+import { useFetchDictionaries } from "@/hooks";
 
 export interface FinancialInstitutionShowProps {
     id: string;
@@ -21,7 +21,7 @@ export interface FinancialInstitutionShowProps {
 
 export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitutionShowProps) => {
     const context = useAbortableShowController<FinancialInstitutionWithId>({ resource: "financialInstitution", id });
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
 

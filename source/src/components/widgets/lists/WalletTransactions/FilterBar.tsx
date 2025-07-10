@@ -3,14 +3,14 @@ import { Input } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchDictionaries } from "@/hooks";
 import { XIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 
 export const FilterBar = () => {
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
 
     // const [allOperationsClicked, setAllOperationsClicked] = useState(true);

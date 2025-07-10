@@ -4,7 +4,6 @@ import { TextField } from "@/components/ui/text-field";
 import { useCallback, useMemo, useState } from "react";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TableTypes } from "../../shared/SimpleTable";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/Button";
 import {
@@ -16,7 +15,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTransactionActions } from "./useTransactionActions";
-import { useMerchantsListWithoutPagination } from "@/hooks";
+import { useFetchDictionaries, useMerchantsListWithoutPagination } from "@/hooks";
 import { useGetTransactionShowColumns } from "./Columns";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
@@ -30,7 +29,7 @@ interface TransactionShowProps {
 }
 
 export const TransactionShow = ({ id }: TransactionShowProps) => {
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
     const { permissions } = usePermissions();

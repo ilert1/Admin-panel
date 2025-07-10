@@ -9,20 +9,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ChangeEvent, DragEvent, useState } from "react";
 import { feesDataProvider, FeesResource, MerchantsDataProvider } from "@/data";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Fees } from "../components/Fees";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { useFetchDictionaries } from "@/hooks";
 
 export type FeeType = "inner" | "default";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const { openSheet } = useSheets();
     const controllerProps = useCreateController();
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
     const merchantsDataProvider = new MerchantsDataProvider();
     const translate = useTranslate();

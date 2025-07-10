@@ -1,6 +1,6 @@
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchDictionaries } from "@/hooks";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
@@ -10,7 +10,7 @@ interface WalletTransactionsShowProps {
 export const WalletTransactionsShow = ({ id }: WalletTransactionsShowProps) => {
     const translate = useTranslate();
     const { permissions } = usePermissions();
-    const dictionaries = fetchDictionaries();
+    const dictionaries = useFetchDictionaries();
     const [locale] = useLocaleState();
 
     const context = useAbortableShowController<Wallets.Cryptotransactions>({

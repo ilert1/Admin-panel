@@ -1,7 +1,6 @@
 import { useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { useCallback, useState } from "react";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
@@ -10,6 +9,7 @@ import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { ProviderMethodsShow } from "./ProviderMethods";
+import { useFetchDictionaries } from "@/hooks";
 
 export interface ProviderShowProps {
     id: string;
@@ -18,7 +18,7 @@ export interface ProviderShowProps {
 
 export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const context = useAbortableShowController<ProviderWithId>({ resource: "provider", id });
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);

@@ -1,5 +1,5 @@
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useTranslate } from "react-admin";
+import { useFetchDictionaries } from "./useFetchDictionaries";
 
 interface UseGetTransactionStateProps {
     state: number;
@@ -31,7 +31,7 @@ const getBadgeColor = (state: number) => {
 
 export const useGetTransactionState = (props: UseGetTransactionStateProps) => {
     const { state } = props;
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
 
     if (!data) {

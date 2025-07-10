@@ -3,14 +3,14 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchDictionaries } from "@/hooks";
 import { ColumnDef } from "@tanstack/react-table";
 import { useLocaleState, useTranslate } from "react-admin";
 
 export const useGetTransactionShowColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
-    const dataDictionaries = fetchDictionaries();
+    const dataDictionaries = useFetchDictionaries();
     const { openSheet } = useSheets();
 
     function computeValue(quantity: number | undefined, accuracy: number | undefined) {

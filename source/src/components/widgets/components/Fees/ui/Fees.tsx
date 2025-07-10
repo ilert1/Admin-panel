@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
 import { useTranslate } from "react-admin";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { Currency, DirectionFees, FeeCreate, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { FeeCard } from "./FeeCard";
+import { useFetchDictionaries } from "@/hooks";
 
 interface FeesProps {
     className?: string;
@@ -36,7 +36,7 @@ export const Fees = (props: FeesProps) => {
         setFees
     } = props;
 
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const feeTypes = data?.feeTypes;
     const containerEndRef = useRef<HTMLDivElement>(null);
     const translate = useTranslate();

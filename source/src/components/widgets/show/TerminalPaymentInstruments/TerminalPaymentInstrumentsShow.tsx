@@ -1,6 +1,5 @@
 import { useLocaleState, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
@@ -11,6 +10,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsActivityBtn } from "../../lists/TerminalPaymentInstruments/TerminalPaymentInstrumentsActivityBtn";
 import { EditTerminalPaymentInstrumentsDialog } from "./EditTerminalPaymentInstrumentsDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { useFetchDictionaries } from "@/hooks";
 
 export interface TerminalPaymentInstrumentsShowProps {
     id: string;
@@ -23,7 +23,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
         id
     });
 
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { openSheet } = useSheets();
