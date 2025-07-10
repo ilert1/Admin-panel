@@ -41,6 +41,7 @@ import {
 } from "@/hooks";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
+import clsx from "clsx";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();
@@ -247,40 +248,45 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 control={form.control}
                                 name="name"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="flex-1">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                placeholder={generateDirectionNamePlaceholder}
-                                                label={translate("resources.direction.fields.name")}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
+                                    <>
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    placeholder={generateDirectionNamePlaceholder}
+                                                    label={translate("resources.direction.fields.name")}
+                                                    variant={InputTypes.GRAY}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <Button
+                                                        type="button"
+                                                        disabled={!merchantName || !providerName || !terminalValueName}
+                                                        onClick={generateDirectionName}
+                                                        className={clsx(
+                                                            "!pointer-events-auto h-[38px]",
+                                                            fieldState.invalid && "self-center"
+                                                        )}>
+                                                        {translate("resources.direction.btnGenerate")}
+                                                    </Button>
+                                                </TooltipTrigger>
+
+                                                <TooltipPortal>
+                                                    <TooltipContent>
+                                                        {translate("resources.direction.btnGenerateTooltip")}
+                                                    </TooltipContent>
+                                                </TooltipPortal>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </>
                                 )}
                             />
-
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            type="button"
-                                            disabled={!merchantName || !providerName || !terminalValueName}
-                                            onClick={generateDirectionName}
-                                            className="!pointer-events-auto h-[38px]">
-                                            {translate("resources.direction.btnGenerate")}
-                                        </Button>
-                                    </TooltipTrigger>
-
-                                    <TooltipPortal>
-                                        <TooltipContent>
-                                            {translate("resources.direction.btnGenerateTooltip")}
-                                        </TooltipContent>
-                                    </TooltipPortal>
-                                </Tooltip>
-                            </TooltipProvider>
                         </div>
 
                         <FormField

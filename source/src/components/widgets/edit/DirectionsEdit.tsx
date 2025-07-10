@@ -29,6 +29,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
+import clsx from "clsx";
 
 export interface DirectionEditProps {
     id?: string;
@@ -240,38 +241,43 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="flex-1">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            label={translate("resources.direction.fields.name")}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
+                                <>
+                                    <FormItem className="flex-1">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                label={translate("resources.direction.fields.name")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    type="button"
+                                                    onClick={() => generateDirectionName(direction)}
+                                                    className={clsx(
+                                                        "!pointer-events-auto h-[38px]",
+                                                        fieldState.invalid && "self-center"
+                                                    )}>
+                                                    {translate("resources.direction.btnGenerate")}
+                                                </Button>
+                                            </TooltipTrigger>
+
+                                            <TooltipPortal>
+                                                <TooltipContent>
+                                                    {translate("resources.direction.btnGenerateTooltip")}
+                                                </TooltipContent>
+                                            </TooltipPortal>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </>
                             )}
                         />
-
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        type="button"
-                                        onClick={() => generateDirectionName(direction)}
-                                        className="!pointer-events-auto h-[38px]">
-                                        {translate("resources.direction.btnGenerate")}
-                                    </Button>
-                                </TooltipTrigger>
-
-                                <TooltipPortal>
-                                    <TooltipContent>
-                                        {translate("resources.direction.btnGenerateTooltip")}
-                                    </TooltipContent>
-                                </TooltipPortal>
-                            </Tooltip>
-                        </TooltipProvider>
                     </div>
 
                     <div className="md:col-span-2">
