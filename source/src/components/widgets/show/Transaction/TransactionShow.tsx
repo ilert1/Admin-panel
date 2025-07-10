@@ -259,7 +259,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             merchantsInfo.map(el => {
                                 return (
                                     <TextField
-                                        key={el.id}
+                                        key={`merchant-${el.id}`}
                                         label={translate("resources.transactions.fields.destination.header")}
                                         text={el.name ?? ""}
                                         onClick={
