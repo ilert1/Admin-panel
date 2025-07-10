@@ -150,7 +150,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            state: "active",
+            state: "inactive",
             description: "",
             src_currency: "",
             dst_currency: "",
@@ -196,238 +196,251 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="flex flex-wrap">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            label={translate("resources.direction.fields.name")}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.fields.active")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+                    <div className="flex flex-col flex-wrap">
+                        <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="md:col-span-2">
                                         <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={translate("resources.direction.fields.active")}
-                                                />
-                                            </SelectTrigger>
+                                            <Input
+                                                {...field}
+                                                label={translate("resources.direction.fields.name")}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectItem value="active" variant={SelectType.GRAY}>
-                                                    {translate("resources.direction.fields.stateActive")}
-                                                </SelectItem>
-                                                <SelectItem value="inactive" variant={SelectType.GRAY}>
-                                                    {translate("resources.direction.fields.stateInactive")}
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="src_currency"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.sourceCurrency")}</Label>
-                                    <CurrencySelect
-                                        currencies={currenciesData || []}
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={currenciesLoadingProcess}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="dst_currency"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.destinationCurrency")}</Label>
-                                    <CurrencySelect
-                                        currencies={currenciesData || []}
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={currenciesLoadingProcess}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="merchant"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.merchant")}</Label>
+                                    </FormItem>
+                                )}
+                            />
 
-                                    <MerchantSelect
-                                        merchants={merchantData || []}
-                                        value={merchantName}
-                                        onChange={setMerchantName}
-                                        setIdValue={field.onChange}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={merchantsLoadingProcess}
-                                        isLoading={merchantsLoadingProcess}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="provider"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.provider")}</Label>
-                                    <ProviderSelect
-                                        providers={providersData || []}
-                                        value={field.value}
-                                        onChange={e => {
-                                            setProviderName(e);
-                                            field.onChange(e);
+                            <FormField
+                                control={form.control}
+                                name="merchant"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="md:col-span-2">
+                                        <Label>{translate("resources.direction.merchant")}</Label>
 
-                                            if (!e) {
-                                                setTerminalValueName("");
-                                                form.setValue("terminal", "");
+                                        <MerchantSelect
+                                            merchants={merchantData || []}
+                                            value={merchantName}
+                                            onChange={setMerchantName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={merchantsLoadingProcess}
+                                            isLoading={merchantsLoadingProcess}
+                                            modal
+                                        />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="provider"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.provider")}</Label>
+                                        <ProviderSelect
+                                            providers={providersData || []}
+                                            value={field.value}
+                                            onChange={e => {
+                                                setProviderName(e);
+                                                field.onChange(e);
+
+                                                if (!e) {
+                                                    setTerminalValueName("");
+                                                    form.setValue("terminal", "");
+                                                }
+                                            }}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={providersLoadingProcess}
+                                            modal
+                                        />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="terminal"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.fields.terminal")}</Label>
+                                        <PopoverSelect
+                                            variants={terminalsData || []}
+                                            value={terminalValueName}
+                                            idField="terminal_id"
+                                            setIdValue={field.onChange}
+                                            onChange={setTerminalValueName}
+                                            variantKey="verbose_name"
+                                            placeholder={
+                                                providerName
+                                                    ? translate("resources.terminals.selectPlaceholder")
+                                                    : translate("resources.direction.noTerminals")
                                             }
-                                        }}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={providersLoadingProcess}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="terminal"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.fields.terminal")}</Label>
-                                    <PopoverSelect
-                                        variants={terminalsData || []}
-                                        value={terminalValueName}
-                                        idField="terminal_id"
-                                        setIdValue={field.onChange}
-                                        onChange={setTerminalValueName}
-                                        variantKey="verbose_name"
-                                        placeholder={
-                                            providerName
-                                                ? translate("resources.terminals.selectPlaceholder")
-                                                : translate("resources.direction.noTerminals")
-                                        }
-                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                        notFoundMessage={translate("resources.terminals.notFoundMessage")}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={terminalsLoadingProcess || !providerName}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="weight"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            value={field.value ?? "0"}
-                                            variant={InputTypes.GRAY}
-                                            label={translate("resources.direction.weight")}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
+                                            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                            notFoundMessage={translate("resources.terminals.notFoundMessage")}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={terminalsLoadingProcess || !providerName}
+                                            modal
                                         />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.types.type")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="src_currency"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.sourceCurrency")}</Label>
+                                        <CurrencySelect
+                                            currencies={currenciesData || []}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={currenciesLoadingProcess}
+                                            modal
+                                        />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="dst_currency"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.destinationCurrency")}</Label>
+                                        <CurrencySelect
+                                            currencies={currenciesData || []}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={currenciesLoadingProcess}
+                                            modal
+                                        />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="type"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.types.type")}</Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {directionTypes.map(type => (
+                                                        <SelectItem
+                                                            value={type.value}
+                                                            variant={SelectType.GRAY}
+                                                            key={type.value}>
+                                                            {type.translation}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="weight"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
                                         <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
+                                            <Input
+                                                {...field}
+                                                value={field.value ?? "0"}
+                                                variant={InputTypes.GRAY}
+                                                label={translate("resources.direction.weight")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {directionTypes.map(type => (
-                                                    <SelectItem
-                                                        value={type.value}
-                                                        variant={SelectType.GRAY}
-                                                        key={type.value}>
-                                                        {type.translation}
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="state"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.fields.active")}</Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue
+                                                        placeholder={translate("resources.direction.fields.active")}
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value="active" variant={SelectType.GRAY}>
+                                                        {translate("resources.direction.fields.stateActive")}
                                                     </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            value={field.value ?? ""}
-                                            variant={InputTypes.GRAY}
-                                            label={translate("resources.direction.description")}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                                    <SelectItem value="inactive" variant={SelectType.GRAY}>
+                                                        {translate("resources.direction.fields.stateInactive")}
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                variant={InputTypes.GRAY}
+                                                label={translate("resources.direction.description")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
                         <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
                             <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
+
                             <Button
                                 type="button"
                                 variant="outline_gray"
