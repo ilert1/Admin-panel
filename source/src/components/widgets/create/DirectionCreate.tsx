@@ -23,7 +23,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
@@ -39,6 +39,8 @@ import {
     useProvidersListWithoutPagination,
     useTerminalsListWithoutPagination
 } from "@/hooks";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipPortal } from "@radix-ui/react-tooltip";
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();
@@ -50,6 +52,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const { openSheet } = useSheets();
     const appToast = useAppToast();
 
+    const [touchSelectTypeField, setTouchSelectTypeField] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [terminalValueName, setTerminalValueName] = useState("");
     const [providerName, setProviderName] = useState("");
@@ -141,9 +144,11 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             .int(translate("resources.direction.errors.weightError"))
             .min(0, translate("resources.direction.errors.weightError"))
             .max(1000, translate("resources.direction.errors.weightError")),
-        type: z.enum(["withdraw", "deposit"], {
-            message: translate("resources.direction.errors.typeError")
-        })
+        type: z
+            .enum(["withdraw", "deposit"], {
+                message: translate("resources.direction.errors.typeError")
+            })
+            .default("withdraw")
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -186,6 +191,39 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
 
+    const typeWatchValue = form.watch("type");
+
+    const generateDirectionName = () => {
+        form.setValue(
+            "name",
+            `[${merchantName}] [${providerName}/${terminalValueName}] [${typeWatchValue.charAt(0).toUpperCase()}]`
+        );
+    };
+
+    const generateDirectionNamePlaceholder = useMemo(() => {
+        if (providerName || terminalValueName || merchantName || touchSelectTypeField) {
+            let placeholder = `[${typeWatchValue.charAt(0).toUpperCase()}]`;
+
+            if (providerName) {
+                if (terminalValueName) {
+                    placeholder = `[${providerName}/${terminalValueName}] ${placeholder}`;
+                } else {
+                    placeholder = `[${providerName}/-] ${placeholder}`;
+                }
+            }
+
+            if (merchantName) {
+                placeholder = `[${merchantName}] ${placeholder}`;
+            }
+
+            return placeholder;
+        } else {
+            return translate("resources.direction.btnGeneratePlaceholder");
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchantName, providerName, terminalValueName, typeWatchValue]);
+
     if (controllerProps.isLoading || isCurrenciesLoading || isMerchantsLoading || isProvidersLoading)
         return (
             <div className="h-[140px]">
@@ -198,23 +236,46 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="md:col-span-2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            label={translate("resources.direction.fields.name")}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        <div className="flex items-end gap-2 md:col-span-2">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="flex-1">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder={generateDirectionNamePlaceholder}
+                                                label={translate("resources.direction.fields.name")}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            type="button"
+                                            disabled={!merchantName || !providerName || !terminalValueName}
+                                            onClick={generateDirectionName}
+                                            className="!pointer-events-auto h-[38px]">
+                                            {translate("resources.direction.btnGenerate")}
+                                        </Button>
+                                    </TooltipTrigger>
+
+                                    <TooltipPortal>
+                                        <TooltipContent>
+                                            {translate("resources.direction.btnGenerateTooltip")}
+                                        </TooltipContent>
+                                    </TooltipPortal>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
 
                         <FormField
                             control={form.control}
@@ -338,7 +399,12 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <Label>{translate("resources.direction.types.type")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={val => {
+                                            setTouchSelectTypeField(true);
+                                            field.onChange(val);
+                                        }}>
                                         <FormControl>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
