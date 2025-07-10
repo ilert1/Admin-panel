@@ -27,6 +27,8 @@ import { DirectionsDataProvider } from "@/data";
 import { PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipPortal } from "@radix-ui/react-tooltip";
 
 export interface DirectionEditProps {
     id?: string;
@@ -148,6 +150,15 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [direction, isLoadingDirection, isFetchedAfterMount]);
 
+    const generateDirectionName = (localDirection: Direction) => {
+        const typeValue = form.getValues("type");
+
+        form.setValue(
+            "name",
+            `[${localDirection.merchant.name}] [${localDirection.provider.name}/${localDirection.terminal.verbose_name}] ${typeValue.charAt(0).toUpperCase()}`
+        );
+    };
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
@@ -224,23 +235,44 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="md:col-span-2">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        label={translate("resources.direction.fields.name")}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
+                    <div className="flex items-end gap-2 md:col-span-2">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="flex-1">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            label={translate("resources.direction.fields.name")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        type="button"
+                                        onClick={() => generateDirectionName(direction)}
+                                        className="!pointer-events-auto h-[38px]">
+                                        {translate("resources.direction.btnGenerate")}
+                                    </Button>
+                                </TooltipTrigger>
+
+                                <TooltipPortal>
+                                    <TooltipContent>
+                                        {translate("resources.direction.btnGenerateTooltip")}
+                                    </TooltipContent>
+                                </TooltipPortal>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </div>
 
                     <div className="md:col-span-2">
                         <Input
@@ -427,6 +459,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                     <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                         {translate("app.ui.actions.save")}
                     </Button>
+
                     <Button
                         type="button"
                         variant="outline_gray"

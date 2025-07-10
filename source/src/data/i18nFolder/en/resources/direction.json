@@ -75,6 +75,8 @@
         "editActivity": "Direction %{name} has been successfully %{state}."
     },
     "resources.direction.create": "Add direction",
+    "resources.direction.btnGenerate": "Generate",
+    "resources.direction.btnGenerateTooltip": "To automatically generate the name of the direction, the following fields must be filled in: merchant, provider, terminal, and type of direction",
     "resources.direction.sourceCurrency": "Source currency",
     "resources.direction.destinationCurrency": "Destination currency",
     "resources.direction.selectSourceCurrency": "Choose source currency",
