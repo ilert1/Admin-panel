@@ -76,7 +76,7 @@
     },
     "resources.direction.create": "Добавить направление",
     "resources.direction.btnGenerate": "Сгенерировать",
-    "resources.direction.btnGenerateTooltip": "Для автоматической генерации навзвания направления должны быть заполнены поля: мерчант, провайдер, терминал и тип направления",
+    "resources.direction.btnGenerateTooltip": "Для автогенерации названия направления заполните поля: Мерчант, Провайдер, Терминал и Тип направления.",
     "resources.direction.sourceCurrency": "Валюта отправителя",
     "resources.direction.destinationCurrency": "Валюта получателя",
     "resources.direction.selectSourceCurrency": "Выбрать исходящую валюту",
