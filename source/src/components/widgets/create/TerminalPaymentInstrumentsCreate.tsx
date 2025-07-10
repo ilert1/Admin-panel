@@ -182,7 +182,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
             if (error instanceof Error) {
                 appToast(
                     "error",
-                    error.message.includes("already exists")
+                    error.message.includes("already exist")
                         ? translate("resources.paymentSettings.terminalPaymentInstruments.errors.alreadyExist")
                         : error.message
                 );
