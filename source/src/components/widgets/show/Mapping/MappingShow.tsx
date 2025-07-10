@@ -1,4 +1,3 @@
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
@@ -21,6 +20,7 @@ import { EditRetryStatusDialog } from "./EditRetryStatusDialog";
 import { EditIPsDialog } from "./EditIPsDialog";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
+import { useFetchDictionaries } from "@/hooks";
 
 interface MappingShowProps {
     id: string;
@@ -30,7 +30,7 @@ interface MappingShowProps {
 export const MappingShow = (props: MappingShowProps) => {
     const { id, onOpenChange } = props;
     const translate = useTranslate();
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
     const refresh = useRefresh();

@@ -1,7 +1,6 @@
 import { useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { useCallback, useEffect, useState } from "react";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 import { FeesResource } from "@/data";
@@ -14,6 +13,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { Badge } from "@/components/ui/badge";
+import { useFetchDictionaries } from "@/hooks";
 
 export interface DirectionsShowProps {
     id: string;
@@ -22,7 +22,7 @@ export interface DirectionsShowProps {
 
 export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const context = useAbortableShowController<Direction>({ resource: "direction", id });
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
     const { openSheet } = useSheets();
 

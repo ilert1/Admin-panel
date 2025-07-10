@@ -13,7 +13,7 @@ import { memo, useEffect, useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Trash2 } from "lucide-react";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchDictionaries } from "@/hooks";
 import Big from "big.js";
 
 interface FeeCardProps {
@@ -50,7 +50,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
     const refresh = useRefresh();
     const appToast = useAppToast();
     const [directionText, setDirectionText] = useState("");
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
 
     const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
 

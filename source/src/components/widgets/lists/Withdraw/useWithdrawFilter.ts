@@ -3,14 +3,13 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useListContext, usePermissions, useTranslate } from "react-admin";
 import { DateRange } from "react-day-picker";
 import { API_URL } from "@/data/base";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { WithdrawDataProvider } from "@/data";
-import { useMerchantsListWithoutPagination } from "@/hooks";
+import { useFetchDictionaries, useMerchantsListWithoutPagination } from "@/hooks";
 
 const useWithdrawFilter = () => {
-    const dictionaries = fetchDictionaries();
+    const dictionaries = useFetchDictionaries();
     const withdrawDataProvider = WithdrawDataProvider;
     const appToast = useAppToast();
     const translate = useTranslate();

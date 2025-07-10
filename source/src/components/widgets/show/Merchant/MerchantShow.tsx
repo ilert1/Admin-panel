@@ -1,5 +1,4 @@
 import { FeesResource, MerchantsDataProvider } from "@/data";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useTranslate } from "react-admin";
 import { Loading, LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
@@ -17,6 +16,7 @@ import { useState } from "react";
 import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
+import { useFetchDictionaries } from "@/hooks";
 
 interface MerchantShowProps {
     id: string;
@@ -27,7 +27,7 @@ interface MerchantShowProps {
 export const MerchantShow = (props: MerchantShowProps) => {
     const { id, merchantName, onOpenChange } = props;
     const translate = useTranslate();
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const dataProvider = new MerchantsDataProvider();
 
     const appToast = useAppToast();

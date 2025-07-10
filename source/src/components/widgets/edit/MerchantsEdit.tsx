@@ -7,8 +7,7 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import fetchDictionaries from "@/helpers/get-dictionaries";
-import { usePreventFocus } from "@/hooks";
+import { useFetchDictionaries, usePreventFocus } from "@/hooks";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
@@ -22,7 +21,7 @@ interface MerchantEditProps {
 }
 
 export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const dataProvider = useDataProvider();
     const merchantsDataProvider = new MerchantsDataProvider();
     const [isFinished, setIsFinished] = useState(false);
