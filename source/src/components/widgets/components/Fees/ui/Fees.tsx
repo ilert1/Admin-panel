@@ -19,7 +19,6 @@ interface FeesProps {
     feesVariants?: Currency[];
     padding?: boolean;
     feeType?: FeeType;
-    providerName?: string;
 }
 
 export const Fees = (props: FeesProps) => {
