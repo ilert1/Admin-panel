@@ -9,7 +9,7 @@ import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDelete,
     terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatch
-} from "@/api/enigma/terminal/terminal";
+} from "@/api/enigma/terminal-legacy/terminal-legacy";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AuthDataEditTable } from "./AuthDataEditTable";
 

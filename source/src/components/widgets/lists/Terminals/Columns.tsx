@@ -1,4 +1,4 @@
-import { terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
+import { terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal-legacy/terminal-legacy";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";

@@ -10,7 +10,7 @@ import {
 import {
     terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatch,
     terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDelete
-} from "@/api/enigma/terminal/terminal";
+} from "@/api/enigma/terminal-legacy/terminal-legacy";
 
 export enum FeesResource {
     DIRECTION = "direction",

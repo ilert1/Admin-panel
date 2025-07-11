@@ -12,7 +12,6 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet,
     terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatch,
     terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost,
     terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPost,
@@ -20,13 +19,14 @@ import {
     terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGet,
     terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete,
     terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPut
-} from "@/api/enigma/terminal/terminal";
+} from "@/api/enigma/terminal-legacy/terminal-legacy";
 import {
     PaymentTypesLink,
     Terminal,
     TerminalCreate,
     TerminalUpdateCallbackUrl
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { terminalEndpointsAllTerminalsEnigmaV1TerminalGet } from "@/api/enigma/terminal/terminal";
 
 export type TerminalWithId = Terminal & { id: string };
 
@@ -36,7 +36,7 @@ export class TerminalsDataProvider extends IBaseDataProvider {
             item => item === "terminal_id" || item === "verbose_name" || item === "provider"
         );
 
-        const res = await poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet(
+        const res = await terminalEndpointsAllTerminalsEnigmaV1TerminalGet(
             {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
@@ -81,7 +81,7 @@ export class TerminalsDataProvider extends IBaseDataProvider {
         searchString?: string[],
         signal?: AbortSignal
     ) {
-        const res = await poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet(
+        const res = await terminalEndpointsAllTerminalsEnigmaV1TerminalGet(
             {
                 currentPage: 1,
                 pageSize: 1000,

@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { ProvidersDataProvider, ProviderWithId } from "@/data/providers";
+import { ProvidersDataProvider, IProvider } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
@@ -32,7 +32,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["provider", id],
-        queryFn: ({ signal }) => dataProvider.getOne<ProviderWithId>("provider", { id: id ?? "", signal }),
+        queryFn: ({ signal }) => dataProvider.getOne<IProvider>("provider", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
     });
@@ -102,7 +102,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
         try {
-            await dataProvider.update<ProviderWithId>("provider", {
+            await dataProvider.update<IProvider>("provider", {
                 id,
                 data: { ...data, methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {} },
                 previousData: undefined

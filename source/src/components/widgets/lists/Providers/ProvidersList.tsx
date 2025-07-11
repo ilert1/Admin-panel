@@ -8,12 +8,12 @@ import { useState } from "react";
 import { CirclePlus } from "lucide-react";
 import { CreateProviderDialog } from "./CreateProviderDialog";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const ProvidersList = () => {
-    const listContext = useAbortableListController<ProviderWithId>();
+    const listContext = useAbortableListController<IProvider>();
     const translate = useTranslate();
     const refresh = useRefresh();
 

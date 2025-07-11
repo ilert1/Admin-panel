@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 
@@ -57,7 +57,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         };
 
         try {
-            await dataProvider.create<ProviderWithId>("provider", { data: parseData });
+            await dataProvider.create<IProvider>("provider", { data: parseData });
             onClose();
         } catch (error) {
             appToast("error", translate("resources.provider.errors.alreadyInUse"));

@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
@@ -17,7 +17,7 @@ export interface ProviderShowProps {
 }
 
 export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
-    const context = useAbortableShowController<ProviderWithId>({ resource: "provider", id });
+    const context = useAbortableShowController<IProvider>({ resource: "provider", id });
     const data = useFetchDictionaries();
     const translate = useTranslate();
 
