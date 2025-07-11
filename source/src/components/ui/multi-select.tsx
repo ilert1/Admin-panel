@@ -208,7 +208,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                         {IconComponent && (
                                                             <IconComponent className="mr-1 h-4 w-4" small />
                                                         )}
-                                                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
+                                                        <span className="max-w-28 overflow-hidden text-ellipsis break-words text-neutral-90 dark:text-neutral-0">
                                                             {option?.label}
                                                         </span>
                                                         <XCircle
@@ -294,7 +294,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                             )}>
                                             <CheckIcon className="h-4 w-4" />
                                         </div>
-                                        <span>({translate("app.widgets.multiSelect.selectAll")})</span>
+                                        <span className="text-neutral-90 dark:text-neutral-0">
+                                            ({translate("app.widgets.multiSelect.selectAll")})
+                                        </span>
                                     </CommandItem>
                                 )}
                                 {options.map(option => {
@@ -314,7 +316,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 <CheckIcon className="h-4 w-4" />
                                             </div>
                                             {option.icon && <option.icon className="mr-2 text-muted-foreground" />}
-                                            <span>{option.label}</span>
+                                            <span className="text-neutral-90 dark:text-neutral-0">{option.label}</span>
                                         </CommandItem>
                                     );
                                 })}

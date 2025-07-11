@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
@@ -393,13 +393,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                             render={({ field }) => {
                                 return (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>
-                                            <span className="!text-note-1 !text-neutral-30">
-                                                {translate(
-                                                    "resources.paymentSettings.financialInstitution.fields.meta"
-                                                )}
-                                            </span>
-                                        </FormLabel>
+                                        <Label>
+                                            {translate("resources.paymentSettings.financialInstitution.fields.meta")}
+                                        </Label>
 
                                         <FormControl>
                                             <MonacoEditor

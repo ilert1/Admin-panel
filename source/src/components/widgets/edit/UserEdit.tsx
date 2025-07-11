@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormItem, FormMessage, FormControl, FormField, FormLabel } from "@/components/ui/form";
+import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useMerchantsListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Loading } from "@/components/ui/loading";
 import {
@@ -21,6 +21,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { UsersDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
+import { Label } from "@/components/ui/label";
 
 interface UserEditProps {
     id: string;
@@ -247,7 +248,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                         name="role_name"
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>{translate("app.widgets.forms.userCreate.role")}</FormLabel>
+                                <Label>{translate("app.widgets.forms.userCreate.role")}</Label>
                                 <FormControl>
                                     <Select
                                         onValueChange={value => {
@@ -319,7 +320,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                         name="activity"
                         render={({ field, fieldState }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel>{translate("app.widgets.forms.userCreate.activity.name")}</FormLabel>
+                                <Label>{translate("app.widgets.forms.userCreate.activity.name")}</Label>
                                 <FormControl>
                                     <Select
                                         onValueChange={val => field.onChange(val === "true" ? true : false)}
@@ -353,7 +354,7 @@ export const UserEdit = ({ id, record, onOpenChange }: UserEditProps) => {
                             name="merchant_id"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("app.widgets.forms.userCreate.merchant")}</FormLabel>
+                                    <Label>{translate("app.widgets.forms.userCreate.merchant")}</Label>
                                     <FormControl>
                                         <MerchantSelect
                                             merchants={merchantData || []}

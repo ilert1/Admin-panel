@@ -114,7 +114,9 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                 <Accordion type="multiple">
                     {Object.keys(methods).map(methodKey => (
                         <AccordionItem key={methodKey} value={methodKey}>
-                            <AccordionTrigger>{methodKey}</AccordionTrigger>
+                            <AccordionTrigger className="text-neutral-90 dark:text-neutral-0">
+                                {methodKey}
+                            </AccordionTrigger>
 
                             <AccordionContent>
                                 {editMethod === methodKey ? (

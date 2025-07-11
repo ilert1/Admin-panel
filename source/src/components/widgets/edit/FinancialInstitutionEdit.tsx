@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
@@ -434,11 +434,9 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                         render={({ field }) => {
                             return (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.paymentSettings.financialInstitution.fields.meta")}
-                                        </span>
-                                    </FormLabel>
+                                    <Label>
+                                        {translate("resources.paymentSettings.financialInstitution.fields.meta")}
+                                    </Label>
 
                                     <FormControl>
                                         <MonacoEditor

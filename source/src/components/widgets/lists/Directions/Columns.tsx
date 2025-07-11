@@ -60,11 +60,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                            {row.original.src_currency.code}
-                        </span>
-                    </Badge>
+                    <Badge variant="currency">{row.original.src_currency.code}</Badge>
                 </div>
             )
         },
@@ -74,11 +70,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                            {row.original.dst_currency.code}
-                        </span>
-                    </Badge>
+                    <Badge variant="currency">{row.original.dst_currency.code}</Badge>
                 </div>
             )
         },

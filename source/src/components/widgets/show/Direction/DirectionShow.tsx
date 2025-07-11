@@ -82,10 +82,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             </small>
 
                             <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                        {context.record.src_currency.code}
-                                    </span>
+                                <Badge key={context.record.src_currency.code} variant="currency">
+                                    {context.record.src_currency.code}
                                 </Badge>
                             </div>
                         </div>
@@ -96,10 +94,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             </small>
 
                             <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                        {context.record.dst_currency.code}
-                                    </span>
+                                <Badge key={context.record.dst_currency.code} variant="currency">
+                                    {context.record.dst_currency.code}
                                 </Badge>
                             </div>
                         </div>

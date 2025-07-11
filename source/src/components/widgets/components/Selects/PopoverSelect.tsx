@@ -224,7 +224,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
                                 return (
                                     <CommandItem
-                                        className="flex items-center gap-2 bg-muted"
+                                        className="flex items-center gap-2 bg-muted text-neutral-90 dark:text-neutral-0"
                                         key={idField ? variant[idField] : newVariant()}
                                         value={newVariant()}
                                         onSelect={onSelectChange}>
