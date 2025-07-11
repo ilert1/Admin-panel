@@ -70,7 +70,9 @@ export const Fees = (props: FeesProps) => {
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
             <div className="flex w-full flex-col rounded-[8px] bg-neutral-0 px-[32px] dark:bg-neutral-100">
-                <h3 className="mb-[16px] mt-[16px] text-display-3">{translate("resources.direction.fees.fees")}</h3>
+                <h3 className="mb-[16px] mt-[16px] text-display-3 text-neutral-90 dark:text-neutral-0">
+                    {translate("resources.direction.fees.fees")}
+                </h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {fees && Object.keys(fees).length !== 0
                         ? Object.keys(fees).map(key => {
