@@ -145,17 +145,7 @@ export const useGetTransactionShowColumns = () => {
             id: "provider",
             header: translate("resources.transactions.stateUpdate.fields.provider"),
             cell: ({ row }) => {
-                return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            openSheet("provider", {
-                                id: row.original.provider
-                            });
-                        }}>
-                        {row.original.provider}
-                    </Button>
-                );
+                return <TextField text={row.original.provider} />;
             }
         },
         {
