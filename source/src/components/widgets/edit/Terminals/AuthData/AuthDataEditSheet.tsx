@@ -6,28 +6,21 @@ import { SetStateAction, useCallback, useEffect, useMemo, useState } from "react
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
 import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import {
-    terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDelete,
-    terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatch
-} from "@/api/enigma/terminal-legacy/terminal-legacy";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AuthDataEditTable } from "./AuthDataEditTable";
+import {
+    terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDelete,
+    terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatch
+} from "@/api/enigma/terminal/terminal";
 
 interface IAuthDataEditSheet {
     open: boolean;
     terminalId: string;
-    provider: string;
     originalAuthData: TerminalAuth | undefined;
     onOpenChange: (state: boolean) => void;
 }
 
-export const AuthDataEditSheet = ({
-    originalAuthData,
-    terminalId,
-    provider,
-    open,
-    onOpenChange
-}: IAuthDataEditSheet) => {
+export const AuthDataEditSheet = ({ originalAuthData, terminalId, open, onOpenChange }: IAuthDataEditSheet) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -124,19 +117,17 @@ export const AuthDataEditSheet = ({
             const authDataKeysToRemove = Object.keys(originalAuthData || {}).filter(key => !currentAuthData[key]);
 
             if (Object.keys(authDataToUpdate).length > 0) {
-                const res =
-                    await terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatch(
-                        provider,
-                        terminalId,
-                        {
-                            auth: authDataToUpdate
-                        },
-                        {
-                            headers: {
-                                authorization: `Bearer ${localStorage.getItem("access-token")}`
-                            }
+                const res = await terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatch(
+                    terminalId,
+                    {
+                        auth: authDataToUpdate
+                    },
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
                         }
-                    );
+                    }
+                );
 
                 if ("data" in res.data && !res.data.success) {
                     throw new Error(res.data.error?.error_message);
@@ -146,19 +137,17 @@ export const AuthDataEditSheet = ({
             }
 
             if (authDataKeysToRemove.length > 0) {
-                const res =
-                    await terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDelete(
-                        provider,
-                        terminalId,
-                        {
-                            keys: authDataKeysToRemove
-                        },
-                        {
-                            headers: {
-                                authorization: `Bearer ${localStorage.getItem("access-token")}`
-                            }
+                const res = await terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDelete(
+                    terminalId,
+                    {
+                        keys: authDataKeysToRemove
+                    },
+                    {
+                        headers: {
+                            authorization: `Bearer ${localStorage.getItem("access-token")}`
                         }
-                    );
+                    }
+                );
 
                 if ("data" in res.data && !res.data.success) {
                     throw new Error(res.data.error?.error_message);

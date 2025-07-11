@@ -14,8 +14,7 @@ export const TerminalsList = () => {
     });
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const { columns, chosenId, chosenTerminalProvider, deleteDialogOpen, setDeleteDialogOpen } =
-        useGetTerminalColumns();
+    const { columns, chosenId, deleteDialogOpen, setDeleteDialogOpen } = useGetTerminalColumns();
 
     return (
         <ListContextProvider value={listContext}>
@@ -25,12 +24,7 @@ export const TerminalsList = () => {
 
             <CreateTerminalDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
 
-            <DeleteTerminalDialog
-                provider={chosenTerminalProvider}
-                open={deleteDialogOpen}
-                onOpenChange={setDeleteDialogOpen}
-                deleteId={chosenId}
-            />
+            <DeleteTerminalDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} deleteId={chosenId} />
         </ListContextProvider>
     );
 };

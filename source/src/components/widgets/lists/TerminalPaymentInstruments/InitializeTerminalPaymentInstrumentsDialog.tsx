@@ -15,13 +15,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-import { Terminal } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { TerminalWithId } from "@/data/terminals";
 
 interface InitializeFinancialInstitutionDialogProps {
-    terminal: Terminal | undefined;
+    terminal: TerminalWithId | undefined;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }

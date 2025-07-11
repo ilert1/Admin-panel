@@ -90,8 +90,9 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         setSubmitButtonDisabled(true);
 
         try {
-            const res = await dataProvider.create<TerminalWithId>(`${data.provider}/terminal`, {
+            const res = await dataProvider.create<TerminalWithId>("terminal", {
                 data: {
+                    provider: data.provider,
                     verbose_name: data.verbose_name,
                     description: data.description,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
@@ -108,7 +109,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     <Button
                         className="!pl-1"
                         variant="resourceLink"
-                        onClick={() => openSheet("terminal", { id: res.data.id, provider: data.provider })}>
+                        onClick={() => openSheet("terminal", { id: res.data.id })}>
                         {translate("app.ui.actions.details")}
                     </Button>
                 </span>,

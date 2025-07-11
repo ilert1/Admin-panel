@@ -110,8 +110,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={context.record.terminal.verbose_name}
                             onClick={() => {
                                 openSheet("terminal", {
-                                    id: context.record.terminal.terminal_id,
-                                    provider: context.record.terminal.provider
+                                    id: context.record.terminal.terminal_id
                                 });
                             }}
                         />

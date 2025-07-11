@@ -42,7 +42,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["terminal", id],
-        queryFn: ({ signal }) => dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id, signal }),
+        queryFn: ({ signal }) => dataProvider.getOne<TerminalWithId>("terminals", { id, signal }),
         enabled: true,
         select: data => data.data
     });
@@ -116,7 +116,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
-            await dataProvider.update<TerminalWithId>(`${provider}/terminal`, {
+            await dataProvider.update<TerminalWithId>("terminals", {
                 id,
                 data: {
                     verbose_name: data.verbose_name,
@@ -132,7 +132,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 [...paymentsToDelete].map(payment =>
                     terminalsDataProvider.removePaymentType({
                         id,
-                        providerName: provider,
                         data: { code: payment },
                         previousData: undefined
                     })
@@ -141,7 +140,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             await terminalsDataProvider.addPaymentTypes({
                 id,
-                providerName: provider,
                 data: {
                     codes: payment_types
                 },

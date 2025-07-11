@@ -31,10 +31,9 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
         openSheet("direction", { id });
     };
 
-    const handleTerminalShowOpen = (id: string, providerName: string) => {
+    const handleTerminalShowOpen = (id: string) => {
         openSheet("terminal", {
-            id,
-            provider: providerName
+            id
         });
     };
 
@@ -141,13 +140,12 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             id: "terminal",
             header: translate("resources.direction.fields.terminal"),
             cell: ({ row }) => {
-                const providerName = row.original.provider.name;
                 return (
                     <Button
                         variant={"resourceLink"}
                         onClick={() => {
                             const id = row.original.terminal?.terminal_id ?? "";
-                            handleTerminalShowOpen(id, providerName);
+                            handleTerminalShowOpen(id);
                         }}>
                         {row.original.terminal?.verbose_name ?? ""}
                     </Button>

@@ -94,8 +94,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                         text={context.record.terminal.verbose_name}
                         onClick={() => {
                             openSheet("terminal", {
-                                id: context.record.terminal_id,
-                                provider: context.record.terminal.provider
+                                id: context.record.terminal_id
                             });
                         }}
                     />

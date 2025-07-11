@@ -8,9 +8,9 @@ import {
     merchantEndpointsDeleteFeeEnigmaV1MerchantMerchantIdFeeFeeIdDelete
 } from "@/api/enigma/merchant/merchant";
 import {
-    terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatch,
-    terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDelete
-} from "@/api/enigma/terminal-legacy/terminal-legacy";
+    terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatch,
+    terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDelete
+} from "@/api/enigma/terminal/terminal";
 
 export enum FeesResource {
     DIRECTION = "direction",
@@ -45,16 +45,11 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
                     }
                 });
             } else if (resource === FeesResource.TERMINAL && providerName) {
-                return terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatch(
-                    providerName,
-                    id,
-                    body,
-                    {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem("access-token")}`
-                        }
+                return terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatch(id, body, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
                     }
-                );
+                });
             }
 
             return Promise.resolve({
@@ -91,16 +86,11 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
                     }
                 });
             } else if (resource === FeesResource.TERMINAL && providerName) {
-                return terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDelete(
-                    providerName,
-                    id,
-                    fee_id,
-                    {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem("access-token")}`
-                        }
+                return terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDelete(id, fee_id, {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
                     }
-                );
+                });
             }
 
             return Promise.resolve({
