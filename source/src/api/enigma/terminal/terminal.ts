@@ -6,10 +6,10 @@
  */
 import type {
     ApiResponseListAccountInfo,
-    ApiResponseListTerminal,
+    ApiResponseListTerminalRead,
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationTerminal,
-    ApiResponseTerminal,
+    ApiResponseOffsetPaginationTerminalRead,
+    ApiResponseTerminalRead,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
@@ -28,7 +28,7 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * @summary Get a paginated list of terminals
  */
 export type terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200 = {
-    data: ApiResponseOffsetPaginationTerminal;
+    data: ApiResponseOffsetPaginationTerminalRead;
     status: 200;
 };
 
@@ -82,7 +82,7 @@ export const terminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
  * @summary Create a new terminal
  */
 export type terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -124,7 +124,7 @@ export const terminalEndpointsCreateTerminalEnigmaV1TerminalPost = async (
  * @summary Retrieve Terminals by Merchant ID
  */
 export type terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200 = {
-    data: ApiResponseListTerminal;
+    data: ApiResponseListTerminalRead;
     status: 200;
 };
 
@@ -166,7 +166,7 @@ export const terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMe
  * @summary Retrieve terminal details
  */
 export type terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -206,7 +206,7 @@ export const terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGet = async (
  * @summary Update terminal information
  */
 export type terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -289,7 +289,7 @@ export const terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDelete = a
  * @summary Replace terminal authentication data
  */
 export type terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -332,7 +332,7 @@ export const terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthP
  * @summary Patch terminal authentication data
  */
 export type terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -375,7 +375,7 @@ export const terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPat
  * @summary Delete specific auth keys
  */
 export type terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -460,7 +460,7 @@ export const terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInit
  * @summary Add fee to terminal
  */
 export type terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -503,7 +503,7 @@ export const terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatch = async (
  * @summary Update fee
  */
 export type terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -550,7 +550,7 @@ export const terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatch =
  * @summary Delete fee
  */
 export type terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -594,7 +594,7 @@ export const terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDelete 
  * @summary Add payment types to terminal
  */
 export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse200 = {
-    data: ApiResponseTerminal;
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
@@ -640,7 +640,7 @@ export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalI
  */
 export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse200 =
     {
-        data: ApiResponseTerminal;
+        data: ApiResponseTerminalRead;
         status: 200;
     };
 
@@ -687,7 +687,7 @@ export const terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTermi
  */
 export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
     {
-        data: ApiResponseTerminal;
+        data: ApiResponseTerminalRead;
         status: 200;
     };
 

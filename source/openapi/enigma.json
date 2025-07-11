@@ -2085,7 +2085,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalRead__"
                 }
               }
             }
@@ -2125,7 +2125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2168,7 +2168,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_list_Terminal__"
+                  "$ref": "#/components/schemas/ApiResponse_list_TerminalRead__"
                 }
               }
             }
@@ -2215,7 +2215,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2270,7 +2270,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2372,7 +2372,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2427,7 +2427,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2484,7 +2484,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2588,7 +2588,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2658,7 +2658,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2716,7 +2716,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2773,7 +2773,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2820,7 +2820,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -2880,7 +2880,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Terminal_"
+                  "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
                 }
               }
             }
@@ -9781,6 +9781,47 @@
         ],
         "title": "ApiResponse[OffsetPagination[TerminalPaymentInstrument]]"
       },
+      "ApiResponse_OffsetPagination_TerminalRead__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_TerminalRead_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[TerminalRead]]"
+      },
       "ApiResponse_OffsetPagination_Terminal__": {
         "properties": {
           "success": {
@@ -10026,6 +10067,47 @@
           "data"
         ],
         "title": "ApiResponse[TerminalPaymentInstrument]"
+      },
+      "ApiResponse_TerminalRead_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TerminalRead",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[TerminalRead]"
       },
       "ApiResponse_Terminal_": {
         "properties": {
@@ -10293,7 +10375,7 @@
         ],
         "title": "ApiResponse[list[RequiredFieldItem]]"
       },
-      "ApiResponse_list_Terminal__": {
+      "ApiResponse_list_TerminalRead__": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -10303,7 +10385,7 @@
           },
           "data": {
             "items": {
-              "$ref": "#/components/schemas/Terminal"
+              "$ref": "#/components/schemas/TerminalRead"
             },
             "type": "array",
             "title": "Data",
@@ -10336,7 +10418,7 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[list[Terminal]]"
+        "title": "ApiResponse[list[TerminalRead]]"
       },
       "Body_FinancialInstitutionEndpoints_import_financial_institutions_enigma_v1_financial_institution_import_post": {
         "properties": {
@@ -13087,6 +13169,50 @@
         ],
         "title": "OffsetPagination[TerminalPaymentInstrument]"
       },
+      "OffsetPagination_TerminalRead_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TerminalRead"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[TerminalRead]"
+      },
       "OffsetPagination_Terminal_": {
         "properties": {
           "items": {
@@ -14678,6 +14804,21 @@
               2
             ]
           },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider",
+            "description": "Provider name of the terminal",
+            "examples": [
+              "Pay4U"
+            ]
+          },
           "account_created": {
             "type": "boolean",
             "title": "Account Created",
@@ -15185,6 +15326,141 @@
         },
         "type": "object",
         "title": "TerminalPaymentInstrumentUpdate"
+      },
+      "TerminalRead": {
+        "properties": {
+          "terminal_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Terminal Id",
+            "description": "Unique identifier of the terminal",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "verbose_name": {
+            "type": "string",
+            "title": "Verbose Name",
+            "description": "Name of the terminal",
+            "examples": [
+              "Main Terminal"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the terminal",
+            "examples": [
+              "This is the main terminal"
+            ]
+          },
+          "allocation_timeout_seconds": {
+            "type": "integer",
+            "title": "Allocation Timeout Seconds",
+            "description": "Timeout for allocation in seconds",
+            "default": 2,
+            "examples": [
+              2
+            ]
+          },
+          "provider": {
+            "$ref": "#/components/schemas/ProviderBase",
+            "description": "Provider name associated with the terminal"
+          },
+          "fees": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Fee"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "type": "object",
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key",
+            "examples": [
+              {
+                "123e4567-e89b-12d3-a456-426614174000": {
+                  "currency": "USD",
+                  "description": "Fee for service",
+                  "direction": 1,
+                  "id": "123e4567-e89b-12d3-a456-426614174000",
+                  "recipient": "recipient@example.com",
+                  "type": 3,
+                  "value": {
+                    "accuracy": 100,
+                    "quantity": 1234
+                  }
+                }
+              }
+            ]
+          },
+          "auth": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Auth",
+            "description": "Authentication data for the terminal",
+            "examples": [
+              {
+                "password": "pass",
+                "username": "user"
+              }
+            ]
+          },
+          "account_created": {
+            "type": "boolean",
+            "title": "Account Created",
+            "description": "Indicates if the account is created",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "callback_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Callback Url",
+            "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
+          },
+          "details": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Details",
+            "description": "Additional details about the terminal",
+            "examples": [
+              {
+                "key": "value"
+              }
+            ]
+          },
+          "payment_types": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentTypeBase"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "List of payment types associated with this terminal"
+          }
+        },
+        "type": "object",
+        "required": [
+          "terminal_id",
+          "verbose_name",
+          "provider"
+        ],
+        "title": "TerminalRead"
       },
       "TerminalUpdate": {
         "properties": {

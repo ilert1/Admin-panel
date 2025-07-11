@@ -406,6 +406,31 @@ export interface ApiResponseOffsetPaginationTerminalPaymentInstrument {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseOffsetPaginationTerminalReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationTerminalReadMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationTerminalRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationTerminalRead;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationTerminalReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationTerminalReadMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
 
 /**
@@ -551,6 +576,31 @@ export interface ApiResponseTerminalPaymentInstrument {
      * @deprecated
      */
     meta?: ApiResponseTerminalPaymentInstrumentMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseTerminalReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseTerminalReadMeta = unknown | null;
+
+export interface ApiResponseTerminalRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: TerminalRead;
+    /** The error details if the request was not successful */
+    error?: ApiResponseTerminalReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseTerminalReadMeta;
 }
 
 /**
@@ -706,26 +756,26 @@ export interface ApiResponseListRequiredFieldItem {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseListTerminalError = ErrorBody | null;
+export type ApiResponseListTerminalReadError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseListTerminalMeta = unknown | null;
+export type ApiResponseListTerminalReadMeta = unknown | null;
 
-export interface ApiResponseListTerminal {
+export interface ApiResponseListTerminalRead {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: Terminal[];
+    data: TerminalRead[];
     /** The error details if the request was not successful */
-    error?: ApiResponseListTerminalError;
+    error?: ApiResponseListTerminalReadError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseListTerminalMeta;
+    meta?: ApiResponseListTerminalReadMeta;
 }
 
 export interface BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost {
@@ -1786,6 +1836,17 @@ export interface OffsetPaginationTerminalPaymentInstrument {
     total: number;
 }
 
+export interface OffsetPaginationTerminalRead {
+    /** A list of items in the current page */
+    items: TerminalRead[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
 export interface OffsetPaginationTerminal {
     /** A list of items in the current page */
     items: Terminal[];
@@ -2271,6 +2332,11 @@ export type TerminalCreateDescription = string | null;
  */
 export type TerminalCreateDetails = { [key: string]: unknown };
 
+/**
+ * Provider name of the terminal
+ */
+export type TerminalCreateProvider = string | null;
+
 export interface TerminalCreate {
     /** Name of the terminal */
     verbose_name: string;
@@ -2284,6 +2350,8 @@ export interface TerminalCreate {
      * @maximum 120
      */
     allocation_timeout_seconds?: number;
+    /** Provider name of the terminal */
+    provider?: TerminalCreateProvider;
     /** Indicates if the account is created */
     account_created?: boolean;
 }
@@ -2492,6 +2560,56 @@ export interface TerminalPaymentInstrumentUpdate {
     terminal_financial_institution_code?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalPaymentInstrumentUpdateTerminalSpecificParameters;
+}
+
+/**
+ * Description of the terminal
+ */
+export type TerminalReadDescription = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type TerminalReadFees = { [key: string]: Fee };
+
+/**
+ * Authentication data for the terminal
+ */
+export type TerminalReadAuth = { [key: string]: unknown };
+
+/**
+ * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
+ */
+export type TerminalReadCallbackUrl = string | null;
+
+/**
+ * Additional details about the terminal
+ */
+export type TerminalReadDetails = { [key: string]: unknown };
+
+export interface TerminalRead {
+    /** Unique identifier of the terminal */
+    terminal_id: string;
+    /** Name of the terminal */
+    verbose_name: string;
+    /** Description of the terminal */
+    description?: TerminalReadDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
+    /** Provider name associated with the terminal */
+    provider: ProviderBase;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: TerminalReadFees;
+    /** Authentication data for the terminal */
+    auth?: TerminalReadAuth;
+    /** Indicates if the account is created */
+    account_created?: boolean;
+    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
+    callback_url?: TerminalReadCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalReadDetails;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
 }
 
 /**
