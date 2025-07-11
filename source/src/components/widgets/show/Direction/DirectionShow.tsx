@@ -142,7 +142,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={context.record.provider.name}
                             onClick={() => {
                                 openSheet("provider", {
-                                    id: context.record.provider.name
+                                    id: context.record.provider.id as string
                                 });
                             }}
                         />

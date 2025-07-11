@@ -120,7 +120,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         variant={"resourceLink"}
                         onClick={() => {
                             openSheet("provider", {
-                                id: row.original.provider.name
+                                id: row.original.provider.id as string
                             });
                         }}>
                         {row.original.provider.name}

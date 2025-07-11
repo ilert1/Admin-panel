@@ -116,13 +116,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                     </div>
                 </div>
 
-                <Fees
-                    fees={context.record?.fees}
-                    feesResource={FeesResource.TERMINAL}
-                    id={id}
-                    providerName={context.record?.provider.name}
-                    padding={false}
-                />
+                <Fees fees={context.record?.fees} feesResource={FeesResource.TERMINAL} id={id} padding={false} />
             </div>
 
             <AuthDataEditSheet

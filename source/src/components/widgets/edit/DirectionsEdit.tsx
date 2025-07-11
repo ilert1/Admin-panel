@@ -88,7 +88,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         useGetPaymentTypes({
             merchant: direction?.merchant.id || "",
             terminal: direction?.terminal?.terminal_id || "",
-            provider: direction?.provider.name || "",
+            provider: direction?.provider.id as string,
             disabled: isLoadingDirection
         });
 
@@ -210,7 +210,16 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            appToast("error", translate("app.ui.edit.editError"));
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.edit.editError"));
+            }
         } finally {
             setSubmitButtonDisabled(false);
         }
