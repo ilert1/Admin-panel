@@ -12,12 +12,12 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatch,
+    providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatch,
     providerEndpointsCreateProviderEnigmaV1ProviderPost,
     providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDelete,
-    providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet,
+    providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGet,
     providerEndpointsListProvidersEnigmaV1ProviderGet,
-    providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete,
+    providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDelete,
     providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut
 } from "@/api/enigma/provider/provider";
 import { PaymentTypesLink, Provider, ProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -90,7 +90,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
     }
 
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<IProvider>> {
-        const res = await providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet(params.id, {
+        const res = await providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             },
@@ -151,7 +151,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
     }
 
     async addPaymentTypes(params: UpdateParams & { data: PaymentTypesLink }): Promise<UpdateResult<IProvider>> {
-        const res = await providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatch(
+        const res = await providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatch(
             params.id,
             params.data,
             {
@@ -176,7 +176,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
     async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult<IProvider>> {
         const res =
-            await providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete(
+            await providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDelete(
                 params.id,
                 params.data.code,
                 {

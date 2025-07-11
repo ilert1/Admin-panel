@@ -1,4 +1,4 @@
-import { providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatch } from "@/api/enigma/provider/provider";
+import { providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatch } from "@/api/enigma/provider/provider";
 import { keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGet } from "@/api/enigma/rsakey-pair/rsakey-pair";
 import { useEffect, useState } from "react";
 
@@ -39,7 +39,7 @@ export const useCreateTestKeys = (isModalOpen: boolean, isTest: boolean, name: s
         } else {
             const realKeysGen = async () => {
                 try {
-                    const res = await providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatch(
+                    const res = await providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatch(
                         name,
                         {},
                         {
