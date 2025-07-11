@@ -56,7 +56,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
         setEditDialogOpen(true);
     };
 
-    if (context.isLoading || !context.record || isAccountsLoading) {
+    if (context.isLoading || !context.record) {
         return <Loading />;
     }
 
