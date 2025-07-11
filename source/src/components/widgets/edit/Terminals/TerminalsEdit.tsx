@@ -13,13 +13,13 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ProviderBase, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ProviderEditParams {
-    provider: string;
+    provider: ProviderBase;
     id: string;
     onClose: () => void;
 }
@@ -47,7 +47,9 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         select: data => data.data
     });
 
-    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({ provider });
+    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({
+        provider: provider.id as string
+    });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 

@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
 import { TerminalsEdit } from "../../edit/Terminals";
+import { ProviderBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface EditProviderDialogProps {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
-    provider: string;
+    provider: ProviderBase;
     id: string;
 }
 

@@ -32,7 +32,6 @@ export const Fees = (props: FeesProps) => {
         feesVariants = [],
         padding = true,
         feeType = "default",
-        providerName,
         setFees
     } = props;
 
@@ -93,7 +92,6 @@ export const Fees = (props: FeesProps) => {
                                       resource={feesResource}
                                       description={fee.description}
                                       addFee={addFee}
-                                      providerName={providerName}
                                       currency={fee.currency}
                                       direction={fee.direction}
                                   />
@@ -108,7 +106,6 @@ export const Fees = (props: FeesProps) => {
                             variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
                             feeType={feeType}
-                            providerName={providerName}
                         />
                     )}
                     <div ref={containerEndRef} />

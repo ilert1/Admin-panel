@@ -25,7 +25,6 @@ interface FeeCardProps {
     id: string;
     description?: string;
     addFee?: boolean;
-    providerName?: string;
     isInner?: boolean;
     deleteFn?: (innerId: number) => void;
     direction: number;
@@ -42,7 +41,6 @@ export const FeeCard = memo((props: FeeCardProps) => {
         description = "",
         isInner = false,
         deleteFn,
-        providerName,
         direction
     } = props;
     const feeTypesMap = { 1: "FeeFromSender", 2: "FeeFromTransaction", 3: "FeeFixWithdraw" };
@@ -52,7 +50,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
     const [directionText, setDirectionText] = useState("");
     const data = useFetchDictionaries();
 
-    const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
+    const feeDataProvider = feesDataProvider({ resource, id });
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 

@@ -75,7 +75,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
     useEffect(() => {
         if (filterValues?.provider && providersData && providersData?.length > 0) {
-            const providerFromFilter = providersData.find(item => item.id === filterValues.provider);
+            const providerFromFilter = providersData.find(item => item.name === filterValues.provider);
 
             if (providerFromFilter) {
                 form.setValue("provider", filterValues.provider);
@@ -90,7 +90,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         setSubmitButtonDisabled(true);
 
         try {
-            const res = await dataProvider.create<TerminalWithId>("terminal", {
+            const res = await dataProvider.create<TerminalWithId>("terminals", {
                 data: {
                     provider: data.provider,
                     verbose_name: data.verbose_name,

@@ -133,7 +133,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
             />
 
             <EditTerminalDialog
-                provider={context.record?.provider.name}
+                provider={context.record?.provider}
                 id={id}
                 open={editDialogOpen}
                 onOpenChange={setEditDialogOpen}

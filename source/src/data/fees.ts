@@ -20,10 +20,9 @@ export enum FeesResource {
 interface FeesDataProviderProps {
     id: string;
     resource: FeesResource;
-    providerName?: string;
 }
 const feesDataProvider = (props: FeesDataProviderProps) => {
-    const { resource, providerName } = props;
+    const { resource } = props;
     let { id } = props;
 
     const setId = (newId: string) => {
@@ -44,7 +43,7 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`
                     }
                 });
-            } else if (resource === FeesResource.TERMINAL && providerName) {
+            } else if (resource === FeesResource.TERMINAL) {
                 return terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatch(id, body, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -85,7 +84,7 @@ const feesDataProvider = (props: FeesDataProviderProps) => {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`
                     }
                 });
-            } else if (resource === FeesResource.TERMINAL && providerName) {
+            } else if (resource === FeesResource.TERMINAL) {
                 return terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDelete(id, fee_id, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`
