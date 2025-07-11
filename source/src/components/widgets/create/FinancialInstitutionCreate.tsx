@@ -81,6 +81,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             .max(20, translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max"))
             .trim()
             .optional(),
+        bin: z.string().trim().optional(),
         currencies: z.array(z.string()).optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         country_code: z
@@ -99,6 +100,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             code: "",
             legal_name: "",
             nspk_member_id: "",
+            bin: "",
             currencies: [],
             institution_type: undefined,
             payment_types: [],
@@ -236,25 +238,47 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                             />
                         </div>
 
-                        <FormField
-                            control={form.control}
-                            name="legal_name"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate(
-                                                "resources.paymentSettings.financialInstitution.fields.legal_name"
-                                            )}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        <div className="grid grid-cols-1 sm:grid-cols-3">
+                            <FormField
+                                control={form.control}
+                                name="legal_name"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentSettings.financialInstitution.fields.legal_name"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="bin"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentSettings.financialInstitution.fields.bin"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3">
                             <FormField

@@ -97,6 +97,13 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     />
 
                     <TextField
+                        label={translate("resources.paymentSettings.financialInstitution.fields.bin")}
+                        text={context.record.bin || ""}
+                        wrap
+                        copyValue
+                    />
+
+                    <TextField
                         label={translate("resources.paymentSettings.financialInstitution.fields.institution_type")}
                         text={
                             context.record.institution_type
@@ -105,6 +112,11 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                                   )?.label || ""
                                 : ""
                         }
+                    />
+
+                    <TextField
+                        label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
+                        text={context.record.country_code}
                     />
 
                     <div className="flex flex-col">
@@ -128,12 +140,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         </div>
                     </div>
 
-                    <TextField
-                        label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
-                        text={context.record.country_code}
-                    />
-
-                    <div className="flex flex-col md:col-span-2">
+                    <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                         </small>

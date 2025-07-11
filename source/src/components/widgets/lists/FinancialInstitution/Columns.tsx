@@ -44,7 +44,7 @@ export const useGetFinancialInstitutionColumns = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listContext.filterValues]);
 
-    const onSubmit = async (id: string, data: Pick<FinancialInstitutionWithId, "nspk_member_id">) => {
+    const onSubmit = async (id: string, data: Pick<FinancialInstitutionWithId, "nspk_member_id" | "bin">) => {
         try {
             setIsDataUpdating(true);
 
@@ -188,6 +188,28 @@ export const useGetFinancialInstitutionColumns = ({
                             (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
                         }
                         onSubmit={value => onSubmit(row.original.code, { nspk_member_id: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
+        },
+        {
+            id: "bin",
+            header: translate("resources.paymentSettings.financialInstitution.fields.bin"),
+            accessorKey: "bin",
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.bin || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.code, { bin: value })}
                         setShowEdit={setCurrentCellEdit}
                     />
                 );
