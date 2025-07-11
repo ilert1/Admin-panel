@@ -14,7 +14,7 @@ import { IBaseDataProvider } from "./base";
 import {
     providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatch,
     providerEndpointsCreateProviderEnigmaV1ProviderPost,
-    providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete,
+    providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDelete,
     providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet,
     providerEndpointsListProvidersEnigmaV1ProviderGet,
     providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete,
@@ -200,7 +200,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
     }
 
     async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<IProvider, "id">>> {
-        const res = await providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete(params.id, {
+        const res = await providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
