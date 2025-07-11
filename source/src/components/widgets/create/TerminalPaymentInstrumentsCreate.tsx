@@ -129,6 +129,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
             const terminal = terminalsData.find(terminal => terminal.terminal_id === filterValues.terminalFilterId);
             setTerminalValueName(terminal?.verbose_name || "");
             form.setValue("terminal_id", terminal?.terminal_id || "");
+            form.trigger("terminal_id");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
