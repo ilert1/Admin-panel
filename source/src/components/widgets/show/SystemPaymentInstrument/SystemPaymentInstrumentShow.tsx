@@ -113,10 +113,8 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             </small>
 
                             <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                        {context.record.currency_code}
-                                    </span>
+                                <Badge key={context.record.currency.code} variant="currency">
+                                    {context.record.currency.code}
                                 </Badge>
                             </div>
                         </div>

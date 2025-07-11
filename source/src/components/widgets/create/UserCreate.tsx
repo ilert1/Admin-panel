@@ -1,5 +1,5 @@
 import { CreateContextProvider, useCreateController, useRefresh, useTranslate } from "react-admin";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,6 +22,7 @@ import { UsersDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
 import { useMerchantsListWithoutPagination } from "@/hooks";
+import { Label } from "@/components/ui/label";
 
 interface UserCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -299,7 +300,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                 name="role_name"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="space-y-1">
-                                        <FormLabel>{translate("app.widgets.forms.userCreate.role")}</FormLabel>
+                                        <Label>{translate("app.widgets.forms.userCreate.role")}</Label>
                                         <FormControl>
                                             <Select
                                                 onValueChange={value => {
@@ -347,7 +348,7 @@ export const UserCreate = ({ onOpenChange }: UserCreateProps) => {
                                     name="merchant_id"
                                     render={({ field, fieldState }) => (
                                         <FormItem className="space-y-1">
-                                            <FormLabel>{translate("app.widgets.forms.userCreate.merchant")}</FormLabel>
+                                            <Label>{translate("app.widgets.forms.userCreate.merchant")}</Label>
                                             <FormControl>
                                                 <MerchantSelect
                                                     merchants={merchantData || []}

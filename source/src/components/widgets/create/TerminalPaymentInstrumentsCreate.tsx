@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
@@ -487,13 +487,11 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                             render={({ field }) => {
                                 return (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>
-                                            <Label>
-                                                {translate(
-                                                    "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
-                                                )}
-                                            </Label>
-                                        </FormLabel>
+                                        <Label>
+                                            {translate(
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
+                                            )}
+                                        </Label>
 
                                         <FormControl>
                                             <MonacoEditor

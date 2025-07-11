@@ -1,4 +1,4 @@
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 import { useQuery } from "@tanstack/react-query";
+import { Label } from "@/components/ui/label";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -231,9 +232,9 @@ export const CryptoTransferForm = (props: {
                                 name="address"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
+                                        <Label className="text-note-1 text-neutral-80 dark:text-neutral-30">
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
-                                        </FormLabel>
+                                        </Label>
                                         <FormControl>
                                             <Select
                                                 open={walletSelectOpen}

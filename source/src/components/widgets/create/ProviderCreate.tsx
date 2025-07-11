@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
@@ -12,6 +12,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { ProviderWithId } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Label } from "@/components/ui/label";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -112,11 +113,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                             render={({ field }) => {
                                 return (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>
-                                            <span className="!text-note-1 !text-neutral-30">
-                                                {translate("resources.provider.fields.methods")}
-                                            </span>
-                                        </FormLabel>
+                                        <Label>{translate("resources.provider.fields.methods")}</Label>
                                         <FormControl>
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}

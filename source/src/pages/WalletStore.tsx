@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { LoadingBlock } from "@/components/ui/loading";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -13,6 +13,7 @@ import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ResourceHeaderTitle } from "@/components/widgets/components/ResourceHeaderTitle";
 import { useQuery } from "@tanstack/react-query";
+import { Label } from "@/components/ui/label";
 
 export const WalletStore = () => {
     const translate = useTranslate();
@@ -212,9 +213,7 @@ export const WalletStore = () => {
                                                 control={form.control}
                                                 render={({ field, fieldState }) => (
                                                     <FormItem className="space-y-1">
-                                                        <FormLabel>
-                                                            {translate("resources.wallet.storage.key")}
-                                                        </FormLabel>
+                                                        <Label>{translate("resources.wallet.storage.key")}</Label>
 
                                                         <FormControl>
                                                             <Textarea
