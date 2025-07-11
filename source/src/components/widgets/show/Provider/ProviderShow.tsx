@@ -38,8 +38,9 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
-                <TextField text={context.record.name} copyValue className="text-neutral-70 dark:text-neutral-30" />
+            <div>
+                <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
             </div>
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
@@ -63,7 +64,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         }
                     />
 
-                    <div className="flex flex-col md:col-span-2">
+                    <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>

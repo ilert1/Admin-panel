@@ -32,15 +32,26 @@ export const useGetProvidersColumns = () => {
             header: translate("resources.provider.fields.name"),
             cell: ({ row }) => {
                 return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            openSheet("provider", {
-                                id: row.original.id
-                            });
-                        }}>
-                        {row.original.name}
-                    </Button>
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("provider", {
+                                    id: row.original.id
+                                });
+                            }}>
+                            {row.original.name}
+                        </Button>
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
                 );
             }
         },
