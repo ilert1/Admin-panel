@@ -18,7 +18,7 @@ import {
     providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet,
     providerEndpointsListProvidersEnigmaV1ProviderGet,
     providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete,
-    providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut
+    providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut
 } from "@/api/enigma/provider/provider";
 import { PaymentTypesLink, Provider, ProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
@@ -131,7 +131,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
     }
 
     async update(resource: string, params: UpdateParams): Promise<UpdateResult<IProvider>> {
-        const res = await providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut(params.id, params.data, {
+        const res = await providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut(params.id, params.data, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
