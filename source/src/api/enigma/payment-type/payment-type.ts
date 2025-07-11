@@ -7,6 +7,7 @@
 import type {
     ApiResponseImportResponse,
     ApiResponseListPaymentCategoryItem,
+    ApiResponseListRequiredFieldItem,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationPaymentTypeModel,
     ApiResponsePaymentTypeModel,
@@ -48,6 +49,39 @@ export const paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCate
 ): Promise<paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponse> => {
     return authFetch<paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetResponse>(
         getPaymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetUrl(),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
+ * Returns a list of all available field names that can be used in required_fields_for_payment. These fields correspond to the Requisites model fields.
+ * @summary Retrieve available required fields for payment
+ */
+export type paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetResponse200 = {
+    data: ApiResponseListRequiredFieldItem;
+    status: 200;
+};
+
+export type paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetResponseComposite =
+    paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetResponse200;
+
+export type paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetResponse =
+    paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getPaymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetUrl = () => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/required-fields`;
+};
+
+export const paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGet = async (
+    options?: RequestInit
+): Promise<paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetResponse> => {
+    return authFetch<paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetResponse>(
+        getPaymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetUrl(),
         {
             ...options,
             method: "GET"

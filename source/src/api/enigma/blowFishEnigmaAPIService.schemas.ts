@@ -681,6 +681,31 @@ export interface ApiResponseListPaymentCategoryItem {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseListRequiredFieldItemError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseListRequiredFieldItemMeta = unknown | null;
+
+export interface ApiResponseListRequiredFieldItem {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: RequiredFieldItem[];
+    /** The error details if the request was not successful */
+    error?: ApiResponseListRequiredFieldItemError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseListRequiredFieldItemMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseListTerminalError = ErrorBody | null;
 
 /**
@@ -1259,6 +1284,11 @@ export type FinancialInstitutionLegalName = string | null;
 export type FinancialInstitutionNspkMemberId = string | null;
 
 /**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionBin = string | null;
+
+/**
  * Additional metadata
  */
 export type FinancialInstitutionMeta = { [key: string]: unknown };
@@ -1282,6 +1312,8 @@ export interface FinancialInstitution {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionBin;
     /** Additional metadata */
     meta?: FinancialInstitutionMeta;
     /** Associated payment types */
@@ -1303,6 +1335,11 @@ export type FinancialInstitutionBaseLegalName = string | null;
  * NSPK member ID (for Russia)
  */
 export type FinancialInstitutionBaseNspkMemberId = string | null;
+
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionBaseBin = string | null;
 
 /**
  * Additional metadata
@@ -1328,6 +1365,8 @@ export interface FinancialInstitutionBase {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionBaseNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionBaseBin;
     /** Additional metadata */
     meta?: FinancialInstitutionBaseMeta;
 }
@@ -1341,6 +1380,11 @@ export type FinancialInstitutionCreateLegalName = string | null;
  * NSPK member ID (for Russia)
  */
 export type FinancialInstitutionCreateNspkMemberId = string | null;
+
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionCreateBin = string | null;
 
 /**
  * Additional metadata
@@ -1366,6 +1410,8 @@ export interface FinancialInstitutionCreate {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionCreateNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionCreateBin;
     /** Additional metadata */
     meta?: FinancialInstitutionCreateMeta;
 }
@@ -1433,6 +1479,11 @@ export type FinancialInstitutionUpdateCountryCode = string | null;
  */
 export type FinancialInstitutionUpdateNspkMemberId = string | null;
 
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionUpdateBin = string | null;
+
 export type FinancialInstitutionUpdateMetaAnyOf = { [key: string]: unknown };
 
 /**
@@ -1453,6 +1504,8 @@ export interface FinancialInstitutionUpdate {
     country_code?: FinancialInstitutionUpdateCountryCode;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionUpdateNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionUpdateBin;
     /** Additional metadata */
     meta?: FinancialInstitutionUpdateMeta;
 }
@@ -1878,6 +1931,11 @@ export interface PaymentTypesLink {
 }
 
 /**
+ * Provider ID
+ */
+export type ProviderId = string | null;
+
+/**
  * The public key encoded in base58, corresponding to the private key.
  */
 export type ProviderPublicKey = string | null;
@@ -1888,6 +1946,8 @@ export type ProviderPublicKey = string | null;
 export type ProviderMethods = { [key: string]: ExecutionMethodOutput };
 
 export interface Provider {
+    /** Provider ID */
+    id?: ProviderId;
     /**
      * Provider name
      * @minLength 1
@@ -1911,6 +1971,11 @@ export interface ProviderAddKeypair {
 }
 
 /**
+ * Provider ID
+ */
+export type ProviderBaseId = string | null;
+
+/**
  * The public key encoded in base58, corresponding to the private key.
  */
 export type ProviderBasePublicKey = string | null;
@@ -1921,6 +1986,8 @@ export type ProviderBasePublicKey = string | null;
 export type ProviderBaseMethods = { [key: string]: ExecutionMethodOutput };
 
 export interface ProviderBase {
+    /** Provider ID */
+    id?: ProviderBaseId;
     /**
      * Provider name
      * @minLength 1
@@ -1978,6 +2045,13 @@ export interface RateValue {
      * @minimum 0
      */
     accuracy?: number;
+}
+
+export interface RequiredFieldItem {
+    /** Human-readable field name for UI */
+    label: string;
+    /** Field name used by API / DB */
+    value: string;
 }
 
 /**
@@ -2464,18 +2538,11 @@ export interface TerminalUpdateAuth {
 }
 
 /**
- * New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth
- */
-export type TerminalUpdateCallbackUrlCallbackUrl = string | null;
-
-/**
  * NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject
  */
 export type TerminalUpdateCallbackUrlAdapterNatsSubject = string | null;
 
 export interface TerminalUpdateCallbackUrl {
-    /** New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth */
-    callback_url: TerminalUpdateCallbackUrlCallbackUrl;
     /** NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject */
     adapter_nats_subject?: TerminalUpdateCallbackUrlAdapterNatsSubject;
 }
@@ -2637,6 +2704,17 @@ export const ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder = {
     desc: "desc"
 } as const;
 
+export type ProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchParams = {
+    /**
+     * RSA key size (must be between 1024 and 8192)
+     */
+    key_size?: number;
+    /**
+     * RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!
+     */
+    public_exponent?: number;
+};
+
 export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams = {
     /**
      * RSA key size (must be between 1024 and 8192)
@@ -2648,7 +2726,7 @@ export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPat
     public_exponent?: number;
 };
 
-export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
     /**
      * List of identifiers for filtering
      */
@@ -2680,14 +2758,14 @@ export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
     /**
      * Sort order: 'asc' or 'desc'
      */
-    sortOrder?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
+    sortOrder?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
 };
 
-export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
-    (typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
+    (typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder = {
+export const TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder = {
     asc: "asc",
     desc: "desc"
 } as const;
