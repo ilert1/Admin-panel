@@ -124,11 +124,19 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
             refresh();
             onClose();
         } catch (error) {
-            appToast("error", translate("resources.currency.errors.alreadyInUse"));
-
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.edit.editError"));
+            }
+        } finally {
             setSubmitButtonDisabled(false);
         }
-        onClose();
     };
 
     usePreventFocus({ dependencies: [provider] });

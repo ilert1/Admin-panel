@@ -61,7 +61,16 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
             await dataProvider.create<IProvider>("provider", { data: parseData });
             onClose();
         } catch (error) {
-            appToast("error", translate("resources.provider.errors.alreadyInUse"));
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
             setSubmitButtonDisabled(false);
         }
     };

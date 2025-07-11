@@ -150,7 +150,16 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             appToast("success", translate("app.ui.edit.editSuccess"));
         } catch (error) {
-            if (error instanceof Error) appToast("error", error.message);
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.edit.editError"));
+            }
         } finally {
             refresh();
             form.reset({});
