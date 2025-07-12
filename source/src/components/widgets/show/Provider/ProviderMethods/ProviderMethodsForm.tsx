@@ -133,6 +133,29 @@ export const ProviderMethodsForm = ({
                     </p>
 
                     <div className="col-span-4 flex flex-col gap-4">
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="type" />
+                    </div>
+
+                    <FormField
+                        control={form.control}
+                        name="type"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="col-span-3 flex flex-col gap-4">
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        disabled={disabledProcess}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className="grid grid-cols-7 gap-4">
+                    <div className="col-span-4 flex flex-col gap-4">
                         <Input disabled className="text-neutral-80 dark:text-neutral-40" value="execution_name" />
                     </div>
 
@@ -141,6 +164,29 @@ export const ProviderMethodsForm = ({
                         name="execution_name"
                         render={({ field, fieldState }) => (
                             <FormItem className="col-span-3 flex flex-col self-end">
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        disabled={disabledProcess}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className="grid grid-cols-7 gap-4">
+                    <div className="col-span-4 flex flex-col gap-4">
+                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="task_queue" />
+                    </div>
+
+                    <FormField
+                        control={form.control}
+                        name="task_queue"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="col-span-3 flex flex-col gap-4">
                                 <FormControl>
                                     <Input
                                         {...field}
@@ -259,30 +305,7 @@ export const ProviderMethodsForm = ({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-4">
-                    <div className="col-span-4 flex flex-col gap-4">
-                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="task_queue" />
-                    </div>
-
-                    <FormField
-                        control={form.control}
-                        name="task_queue"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="col-span-3 flex flex-col gap-4">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        disabled={disabledProcess}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                </div>
-
-                <div className="grid grid-cols-7 gap-4">
+                <div className="grid grid-cols-7 gap-4 border-b border-neutral-90 pb-4 dark:border-neutral-100">
                     <div className="col-span-2 flex flex-col gap-4">
                         <Input disabled className="text-neutral-80 dark:text-neutral-40" value="timeouts" />
                     </div>
@@ -335,29 +358,6 @@ export const ProviderMethodsForm = ({
                             )}
                         />
                     </div>
-                </div>
-
-                <div className="grid grid-cols-7 gap-4 border-b border-neutral-90 pb-4 dark:border-neutral-100">
-                    <div className="col-span-4 flex flex-col gap-4">
-                        <Input disabled className="text-neutral-80 dark:text-neutral-40" value="type" />
-                    </div>
-
-                    <FormField
-                        control={form.control}
-                        name="type"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="col-span-3 flex flex-col gap-4">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        disabled={disabledProcess}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
