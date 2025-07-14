@@ -125,7 +125,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
     ) => {
         const appToast = useAppToast();
         const filteredOptions = defaultValue
-            ? [...options, ...defaultValue.map(el => ({ label: el, value: el }))]
+            ? [...options, ...defaultValue.map(el => ({ label: el, value: el, icon: null }))]
             : options;
 
         const [localOptions, setLocalOptions] = React.useState(filteredOptions);
@@ -157,7 +157,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         // };
         const toggleOption = (option: string) => {
             const isSelected = selectedValues.includes(option);
-            const isCustomOption = !options.some(o => o.value === option); // пользовательский
+            const isCustomOption = !options.some(o => o.value === option);
 
             if (isSelected) {
                 const newSelected = selectedValues.filter(v => v !== option);
@@ -213,9 +213,21 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 setLocalOptions(options);
             }
         };
+        React.useEffect(() => {
+            if (!isPopoverOpen) {
+                setTimeout(() => setInputValue(""), 100);
+            }
+        }, [isPopoverOpen]);
+
+        const areAllSelected = localOptions.length > 0 && localOptions.every(opt => selectedValues.includes(opt.value));
 
         return (
-            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} modal={modalPopover}>
+            <Popover
+                open={isPopoverOpen}
+                onOpenChange={open => {
+                    setIsPopoverOpen(open);
+                }}
+                modal={modalPopover}>
                 <PopoverTrigger asChild>
                     <Button
                         ref={ref}
@@ -374,7 +386,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         <div
                                             className={cn(
                                                 "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
-                                                selectedValues.length === localOptions.length
+                                                areAllSelected
                                                     ? "border-transparent bg-green-50 text-white dark:bg-green-50"
                                                     : "opacity-50 [&_svg]:invisible"
                                             )}>
