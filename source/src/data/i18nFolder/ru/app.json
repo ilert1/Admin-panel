@@ -225,7 +225,12 @@
             "noResultFound": "Нет результатов",
             "selectPaymentTypes": "Выберите платёжные типы",
             "searchPlaceholder": "Поиск...",
-            "selectCurrencies": "Выберите валюты"
+            "selectCurrencies": "Выберите валюты",
+            "selectRequiredFields": "Выберите обязательные поля",
+            "searchOrAddPlaceholder": "Поиск или добавление...",
+            "addNew": "Добавить поле",
+            "optionAlreadyExists": "Поле уже добавлено",
+            "reqFieldRegex": "Поле может содержать только строчные латинские буквы и подчеркивания"
         }
     },
 

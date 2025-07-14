@@ -23,6 +23,9 @@ import {
     SelectType,
     SelectItem
 } from "@/components/ui/select";
+import { RequiredFieldsMultiSelect } from "../components/MultiSelectComponents/RequiredFieldsMultiSelect";
+import { PaymentTypesProvider } from "@/data/payment_types";
+import { useQuery } from "@tanstack/react-query";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
@@ -30,14 +33,22 @@ export interface PaymentTypeCreateProps {
 
 export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
     const dataProvider = useDataProvider();
+    const paymentTypeDataProvider = new PaymentTypesProvider();
     const controllerProps = useCreateController<IPaymentTypeCreate>();
     const { theme } = useTheme();
     const appToast = useAppToast();
     const translate = useTranslate();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const [iconFileName, setIconFileName] = useState<string>("");
+    // const [iconFileName, setIconFileName] = useState<string>("");
     const paymentTypeCategories = Object.keys(PaymentCategory);
+
+    const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
+        queryKey: ["paymentTypeRequiredFields"],
+        queryFn: () => {
+            return paymentTypeDataProvider.getRequiredFields();
+        }
+    });
 
     const formSchema = z.object({
         code: z
@@ -49,7 +60,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"))
             .default(""),
-        required_fields_for_payment: z.string().optional(),
+        required_fields_for_payment: z.array(z.string()).optional(),
         category: z.enum(paymentTypeCategories as [string, ...string[]]).default("h2h"),
         meta: z
             .object({
@@ -64,7 +75,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             code: "",
             title: "",
             category: paymentTypeCategories[0],
-            required_fields_for_payment: "",
+            required_fields_for_payment: [],
             meta: {
                 icon: ""
             }
@@ -76,16 +87,12 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
         setSubmitButtonDisabled(true);
 
-        const required_fields_for_payment = data.required_fields_for_payment?.trim()
-            ? data.required_fields_for_payment?.split(",").map(item => item.trim())
-            : [];
+        // const required_fields_for_payment = data.required_fields_for_payment?.trim()
+        //     ? data.required_fields_for_payment?.split(",").map(item => item.trim())
+        //     : [];
 
         try {
-            required_fields_for_payment.forEach(item => {
-                if (!item.match(/^[a-z0-9_]+$/)) {
-                    throw new Error("paymentFieldsRegex");
-                }
-            });
+            const required_fields_for_payment = data.required_fields_for_payment || [];
 
             await dataProvider.create("payment_type", { data: { ...data, required_fields_for_payment } });
 
@@ -191,17 +198,15 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                             <FormField
                                 control={form.control}
                                 name="required_fields_for_payment"
-                                render={({ field, fieldState }) => (
+                                render={({ field }) => (
                                     <FormItem className="w-full p-2">
                                         <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
-                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment"
-                                                )}
+                                            <RequiredFieldsMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={isLoadRequiredFields ? {} : requiredFields}
+                                                isLoading={isLoadRequiredFields}
+                                                label
                                             />
                                         </FormControl>
                                     </FormItem>

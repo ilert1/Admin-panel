@@ -24,6 +24,8 @@ import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { PaymentTypesProvider } from "@/data/payment_types";
+import { RequiredFieldsMultiSelect } from "../components/MultiSelectComponents/RequiredFieldsMultiSelect";
+import { useQuery } from "@tanstack/react-query";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -33,6 +35,7 @@ export interface PaymentTypeEditProps {
 export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps) => {
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const paymentTypesDataProvider = new PaymentTypesProvider();
+
     const controllerProps = useEditController({ resource: "payment_type", id });
     const { theme } = useTheme();
     const refresh = useRefresh();
@@ -42,6 +45,13 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
+    const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
+        queryKey: ["paymentTypeRequiredFields"],
+        queryFn: () => {
+            return paymentTypesDataProvider.getRequiredFields();
+        }
+    });
+
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentSettings.paymentType.errors.code")).trim(),
         title: z
@@ -49,7 +59,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"))
             .default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
-        required_fields_for_payment: z.string().optional(),
+        required_fields_for_payment: z.array(z.string()).optional(),
         meta: z
             .object({
                 icon: z.string().optional()
@@ -64,7 +74,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             code: id,
             title: controllerProps.record?.title ?? "",
             category: controllerProps.record?.category ?? "",
-            required_fields_for_payment: controllerProps.record?.required_fields_for_payment?.join(", ") ?? "",
+            required_fields_for_payment: controllerProps.record?.required_fields_for_payment ?? "",
             meta: {
                 icon: controllerProps.record?.meta?.icon ?? ""
             },
@@ -76,10 +86,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);
-
-        const required_fields_for_payment = data.required_fields_for_payment?.trim()
-            ? data.required_fields_for_payment?.split(",").map(item => item.trim())
-            : [];
 
         let currencies: string[] = [];
         let oldCurrencies: Set<string> = new Set();
@@ -96,15 +102,9 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         const currenciesToDelete = oldCurrencies.difference(new Set(currencies));
 
         try {
-            required_fields_for_payment.forEach(item => {
-                if (!item.match(/^[a-z0-9_]+$/)) {
-                    throw new Error("paymentFieldsRegex");
-                }
-            });
-
             await paymentTypesDataProvider.update("payment_type", {
                 id,
-                data: { ...data, required_fields_for_payment },
+                data,
                 previousData: undefined
             });
 
@@ -269,7 +269,23 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                     </FormItem>
                                 )}
                             />
-
+                            <FormField
+                                control={form.control}
+                                name="required_fields_for_payment"
+                                render={({ field }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <RequiredFieldsMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={isLoadRequiredFields ? {} : requiredFields}
+                                                isLoading={isLoadRequiredFields}
+                                                label
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                             {/* <FormField
                                 control={form.control}
                                 name="meta.icon"

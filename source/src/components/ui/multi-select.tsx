@@ -18,6 +18,7 @@ import {
 import { Button } from "./Button";
 import { useTranslate } from "react-admin";
 import { LoadingBlock } from "./loading";
+import { useAppToast } from "./toast/useAppToast";
 
 /**
  * Variants for the multi-select component to handle different styles.
@@ -100,6 +101,7 @@ interface MultiSelectProps
 
     notFoundMessage?: string;
     isLoading?: boolean;
+    addingNew?: boolean;
 }
 
 export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
@@ -116,13 +118,22 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             notFoundMessage,
             className,
             isLoading = false,
+            addingNew = false,
             ...props
         },
         ref
     ) => {
+        const appToast = useAppToast();
+        const filteredOptions = defaultValue
+            ? [...options, ...defaultValue.map(el => ({ label: el, value: el }))]
+            : options;
+
+        const [localOptions, setLocalOptions] = React.useState(filteredOptions);
+
         const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
         const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
         const [isAnimating, setIsAnimating] = React.useState(false);
+        const [inputValue, setInputValue] = React.useState("");
 
         const translate = useTranslate();
 
@@ -137,12 +148,31 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             }
         };
 
+        // const toggleOption = (option: string) => {
+        //     const newSelectedValues = selectedValues.includes(option)
+        //         ? selectedValues.filter(value => value !== option)
+        //         : [...selectedValues, option];
+        //     setSelectedValues(newSelectedValues);
+        //     onValueChange(newSelectedValues);
+        // };
         const toggleOption = (option: string) => {
-            const newSelectedValues = selectedValues.includes(option)
-                ? selectedValues.filter(value => value !== option)
-                : [...selectedValues, option];
-            setSelectedValues(newSelectedValues);
-            onValueChange(newSelectedValues);
+            const isSelected = selectedValues.includes(option);
+            const isCustomOption = !options.some(o => o.value === option); // пользовательский
+
+            if (isSelected) {
+                const newSelected = selectedValues.filter(v => v !== option);
+                setSelectedValues(newSelected);
+                onValueChange(newSelected);
+
+                // Удаляем из опций, если был добавлен вручную
+                if (isCustomOption) {
+                    setLocalOptions(prev => prev.filter(o => o.value !== option));
+                }
+            } else {
+                const newSelected = [...selectedValues, option];
+                setSelectedValues(newSelected);
+                onValueChange(newSelected);
+            }
         };
 
         const handleClear = () => {
@@ -160,13 +190,27 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             onValueChange(newSelectedValues);
         };
 
+        // const toggleAll = () => {
+        //     if (selectedValues.length === localOptions.length) {
+        //         handleClear();
+        //     } else {
+        //         const allValues = localOptions.map(option => option.value);
+        //         setSelectedValues(allValues);
+        //         onValueChange(allValues);
+        //     }
+        // };
         const toggleAll = () => {
-            if (selectedValues.length === options.length) {
-                handleClear();
+            const originalValues = options.map(option => option.value);
+            const areAllSelected = originalValues.every(val => selectedValues.includes(val));
+
+            if (areAllSelected) {
+                setSelectedValues([]);
+                onValueChange([]);
+                setLocalOptions(options);
             } else {
-                const allValues = options.map(option => option.value);
-                setSelectedValues(allValues);
-                onValueChange(allValues);
+                setSelectedValues(originalValues);
+                onValueChange(originalValues);
+                setLocalOptions(options);
             }
         };
 
@@ -193,7 +237,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         selectedValues
                                             // .slice(0, maxCount)
                                             .map(value => {
-                                                const option = options.find(o => o.value === value);
+                                                const option = localOptions.find(o => o.value === value);
                                                 const IconComponent = option?.icon;
 
                                                 return (
@@ -209,7 +253,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                             <IconComponent className="mr-1 h-4 w-4" small />
                                                         )}
                                                         <span className="max-w-28 overflow-hidden text-ellipsis break-words text-neutral-90 dark:text-neutral-0">
-                                                            {option?.label}
+                                                            {addingNew
+                                                                ? (option?.label ?? option?.value)
+                                                                : option?.label}
                                                         </span>
                                                         <XCircle
                                                             className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
@@ -272,12 +318,52 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 <PopoverContent className="w-auto p-0" align="start" onEscapeKeyDown={() => setIsPopoverOpen(false)}>
                     <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
-                            placeholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                            value={inputValue}
+                            onValueChange={val => setInputValue(val)}
+                            placeholder={
+                                addingNew
+                                    ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")
+                                    : translate("app.widgets.multiSelect.searchPlaceholder")
+                            }
                             onKeyDown={handleInputKeyDown}
                         />
                         <CommandList>
                             <CommandEmpty>
-                                {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
+                                {addingNew ? (
+                                    <div className="h-full w-full">
+                                        <Button
+                                            className="w-full"
+                                            onClick={() => {
+                                                if (!inputValue.match(/^[a-z0-9_]+$/)) {
+                                                    appToast(
+                                                        "error",
+                                                        translate("app.widgets.multiSelect.reqFieldRegex")
+                                                    );
+                                                    return;
+                                                }
+                                                if (selectedValues.includes(inputValue)) {
+                                                    appToast(
+                                                        "error",
+                                                        translate("app.widgets.multiSelect.optionAlreadyExists")
+                                                    );
+                                                    return;
+                                                }
+                                                setLocalOptions(prev => [
+                                                    ...prev,
+                                                    { label: inputValue, value: inputValue }
+                                                ]);
+                                                setSelectedValues(prev => [...prev, inputValue]);
+                                                const newSelectedValues = selectedValues.includes(inputValue)
+                                                    ? selectedValues.filter(value => value !== inputValue)
+                                                    : [...selectedValues, inputValue];
+                                                onValueChange(newSelectedValues);
+                                            }}>
+                                            {translate("app.widgets.multiSelect.addNew")}
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    notFoundMessage || translate("app.widgets.multiSelect.noResultFound")
+                                )}
                             </CommandEmpty>
                             <CommandGroup>
                                 {options.length > 0 && (
@@ -288,7 +374,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         <div
                                             className={cn(
                                                 "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
-                                                selectedValues.length === options.length
+                                                selectedValues.length === localOptions.length
                                                     ? "border-transparent bg-green-50 text-white dark:bg-green-50"
                                                     : "opacity-50 [&_svg]:invisible"
                                             )}>
