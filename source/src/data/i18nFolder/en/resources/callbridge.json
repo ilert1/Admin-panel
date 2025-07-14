@@ -100,6 +100,7 @@
             "retryCallback": "Retry",
             "queued": "Queued",
             "processing": "Processing",
+            "quick_processing": "Quick processing",
             "retrying": "Retrying",
             "success": "Success",
             "error": "Error",
