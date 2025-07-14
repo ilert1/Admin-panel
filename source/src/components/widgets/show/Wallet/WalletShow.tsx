@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
-import { Loading, LoadingBalance } from "@/components/ui/loading";
+import { Loading, LoadingBalance, LoadingBlock } from "@/components/ui/loading";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useQuery } from "@tanstack/react-query";
 
@@ -22,7 +22,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { data: accountsData, isLoading: isAccountsLoading } = useQuery({
+    const { data: accountsData } = useQuery({
         queryKey: ["accounts", "getList", "WalletShow", id],
         queryFn: async ({ signal }) =>
             await dataProvider.getList<Account>("accounts", {
@@ -99,11 +99,15 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                     label={translate("resources.wallet.manage.fields.currency")}
                     text={context.record.currency}
                 />
-                {currentAccount && (
+                {currentAccount ? (
                     <TextField
                         label={translate("resources.wallet.manage.fields.merchantName")}
-                        text={currentAccount.meta?.caption ? currentAccount.meta?.caption : currentAccount.owner_id}
+                        text={currentAccount?.meta?.caption ? currentAccount?.meta?.caption : currentAccount?.owner_id}
                     />
+                ) : (
+                    <div>
+                        <LoadingBlock className="!h-4 !w-4" />
+                    </div>
                 )}
                 <TextField label={translate("resources.wallet.manage.fields.internalId")} text={context.record.id} />
                 <TextField
