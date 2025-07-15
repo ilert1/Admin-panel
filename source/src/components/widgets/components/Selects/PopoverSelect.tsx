@@ -211,7 +211,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                     <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
                     <CommandList ref={commandList}>
-                        <CommandEmpty>{notFoundMessage}</CommandEmpty>
+                        <CommandEmpty className="text-neutral-90 dark:text-neutral-0">{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
                             {variants.map(variant => {
                                 const newVariant = () => {
@@ -223,7 +223,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                 };
                                 return (
                                     <CommandItem
-                                        className="cursor-pointer hover:bg-green-50 data-[selected=true]:bg-green-50 dark:hover:bg-green-50 dark:data-[selected=true]:bg-green-50"
+                                        className="cursor-pointer text-neutral-90 hover:bg-green-50 hover:text-white data-[selected=true]:bg-green-50 dark:text-neutral-0 dark:hover:bg-green-50 dark:data-[selected=true]:bg-green-50"
                                         key={idField ? variant[idField] : newVariant()}
                                         value={newVariant()}
                                         onSelect={onSelectChange}>
