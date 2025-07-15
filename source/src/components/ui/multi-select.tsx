@@ -124,11 +124,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         ref
     ) => {
         const appToast = useAppToast();
-        const filteredOptions = defaultValue
-            ? [...options, ...defaultValue.map(el => ({ label: el, value: el, icon: null }))]
-            : options;
-
-        const [localOptions, setLocalOptions] = React.useState(filteredOptions);
+        const [localOptions, setLocalOptions] = React.useState(options);
 
         const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
         const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -155,10 +151,13 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         //     setSelectedValues(newSelectedValues);
         //     onValueChange(newSelectedValues);
         // };
+
         const toggleOption = (option: string) => {
             const isSelected = selectedValues.includes(option);
             const isCustomOption = !options.some(o => o.value === option);
-
+            // console.log("Selected option", option);
+            // console.log("Is selected", isSelected);
+            // console.log("Is custom option", isCustomOption);
             if (isSelected) {
                 const newSelected = selectedValues.filter(v => v !== option);
                 setSelectedValues(newSelected);
@@ -213,6 +212,24 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 setLocalOptions(options);
             }
         };
+
+        // const toggleAll = () => {
+        //     // const originalValues = options.map(option => option.value);
+        //     // const areAllSelected = originalValues.every(val => selectedValues.includes(val));
+        //     const newValues = Array.from(new Set([...selectedValues, ...options.map(option => option.value)]));
+        //     const areAllSelected = newValues.every(val => selectedValues.includes(val));
+
+        //     if (areAllSelected) {
+        //         setSelectedValues([]);
+        //         onValueChange([]);
+        //         setLocalOptions(options);
+        //     } else {
+        //         setSelectedValues(newValues);
+        //         onValueChange(newValues);
+        //         setLocalOptions(options);
+        //     }
+        // };
+
         React.useEffect(() => {
             if (!isPopoverOpen) {
                 setTimeout(() => setInputValue(""), 100);
@@ -249,7 +266,10 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         selectedValues
                                             // .slice(0, maxCount)
                                             .map(value => {
+                                                console.log(localOptions);
+
                                                 const option = localOptions.find(o => o.value === value);
+                                                console.log("Option", option);
                                                 const IconComponent = option?.icon;
 
                                                 return (
@@ -364,7 +384,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                     ...prev,
                                                     { label: inputValue, value: inputValue }
                                                 ]);
+
                                                 setSelectedValues(prev => [...prev, inputValue]);
+                                                2;
                                                 const newSelectedValues = selectedValues.includes(inputValue)
                                                     ? selectedValues.filter(value => value !== inputValue)
                                                     : [...selectedValues, inputValue];

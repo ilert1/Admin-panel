@@ -236,25 +236,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
-                                name="required_fields_for_payment"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
-                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment"
-                                                )}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
                                 name="currencies"
                                 render={({ field }) => (
                                     <FormItem className="w-full p-2">
