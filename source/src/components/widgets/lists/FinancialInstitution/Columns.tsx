@@ -56,6 +56,11 @@ export const useGetFinancialInstitutionColumns = ({
                 return;
             }
 
+            if (data.bin && data.bin.length > 9) {
+                appToast("error", translate("resources.paymentSettings.financialInstitution.errors.bin_max"));
+                return;
+            }
+
             await financialInstitutionProvider.update("financialInstitution", {
                 id,
                 data,

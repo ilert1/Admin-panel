@@ -81,7 +81,11 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             .max(20, translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max"))
             .trim()
             .optional(),
-        bin: z.string().trim().optional(),
+        bin: z
+            .string()
+            .max(9, translate("resources.paymentSettings.financialInstitution.errors.bin_max"))
+            .trim()
+            .optional(),
         currencies: z.array(z.string()).optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         country_code: z
