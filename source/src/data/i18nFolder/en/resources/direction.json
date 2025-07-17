@@ -77,7 +77,7 @@
     "resources.direction.create": "Add direction",
     "resources.direction.btnGenerate": "Generate",
     "resources.direction.btnGeneratePlaceholder": "Leave it empty for auto-completion",
-    "resources.direction.btnGenerateTooltip": "To auto-generate the direction name, fill in the fields: Merchant, Provider, Terminal and Direction Type.",
+    "resources.direction.btnGenerateTooltip": "To auto-generate the direction name, fill in the fields: Merchant, Provider, Terminal and Type.",
     "resources.direction.sourceCurrency": "Source currency",
     "resources.direction.destinationCurrency": "Destination currency",
     "resources.direction.selectSourceCurrency": "Choose source currency",
