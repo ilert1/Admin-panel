@@ -23,6 +23,7 @@ import {
     SelectType,
     SelectItem
 } from "@/components/ui/select";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface PaymentTypeCreateProps {
     onClose?: () => void;
@@ -36,7 +37,11 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
     const translate = useTranslate();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const [iconFileName, setIconFileName] = useState<string>("");
+    const [hasErrors, setHasErrors] = useState(false);
+    const [isValid, setIsValid] = useState(true);
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
+
+    // const [iconFileName, setIconFileName] = useState<string>("");
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const formSchema = z.object({
@@ -51,11 +56,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             .default(""),
         required_fields_for_payment: z.string().optional(),
         category: z.enum(paymentTypeCategories as [string, ...string[]]).default("h2h"),
-        meta: z
-            .object({
-                icon: z.string().optional()
-            })
-            .optional()
+        meta: z.string().trim().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -65,9 +66,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             title: "",
             category: paymentTypeCategories[0],
             required_fields_for_payment: "",
-            meta: {
-                icon: ""
-            }
+            meta: "{}"
         }
     });
 
@@ -87,7 +86,13 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                 }
             });
 
-            await dataProvider.create("payment_type", { data: { ...data, required_fields_for_payment } });
+            await dataProvider.create("payment_type", {
+                data: {
+                    ...data,
+                    required_fields_for_payment,
+                    meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {}
+                }
+            });
 
             appToast("success", translate("app.ui.create.createSuccess"));
             onClose();
@@ -207,6 +212,32 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="meta"
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                            <Label>
+                                                {translate(
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.meta"
+                                                )}
+                                            </Label>
+                                            <FormControl>
+                                                <MonacoEditor
+                                                    onErrorsChange={setHasErrors}
+                                                    onValidChange={setIsValid}
+                                                    onMountEditor={() => setMonacoEditorMounted(true)}
+                                                    code={field.value ?? "{}"}
+                                                    setCode={field.onChange}
+                                                    allowEmptyValues
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
+                            />
                             {/* <FormField
                                 control={form.control}
                                 name="meta.icon"
@@ -283,7 +314,12 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={submitButtonDisabled}>
+                                disabled={
+                                    submitButtonDisabled ||
+                                    hasErrors ||
+                                    (!isValid && form.watch("meta")?.length !== 0) ||
+                                    !monacoEditorMounted
+                                }>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
