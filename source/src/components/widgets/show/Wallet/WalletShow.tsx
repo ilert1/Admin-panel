@@ -25,18 +25,15 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const { data: accountsData } = useQuery({
         queryKey: ["accounts", "getList", "WalletShow", id],
         queryFn: async ({ signal }) =>
-            await dataProvider.getList<Account>("accounts", {
-                pagination: { perPage: 1000, page: 1 },
-                filter: { sort: "name", asc: "ASC" },
+            await dataProvider.getOne<Account>("accounts", {
+                id: context.record?.account_id ?? "",
                 signal
             }),
-        select: data => data?.data
+        select: data => data?.data,
+        enabled: !!context.record?.account_id
     });
 
-    const currentAccount = useMemo(
-        () => accountsData?.find(item => item.id === context.record?.account_id),
-        [accountsData, context.record?.account_id]
-    );
+    const currentAccount = useMemo(() => accountsData, [accountsData]);
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);

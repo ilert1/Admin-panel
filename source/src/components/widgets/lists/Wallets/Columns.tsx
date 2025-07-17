@@ -4,27 +4,54 @@ import { LoadingBalance, LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
-import { useDataProvider } from "react-admin";
 import { useQuery } from "@tanstack/react-query";
+import { AccountsDataProvider } from "@/data";
 
 export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<string, Wallets.WalletBalance>) => {
-    const dataProvider = useDataProvider();
     const translate = useTranslate();
     const { openSheet } = useSheets();
+
+    const accountsDataProvider = AccountsDataProvider;
 
     const handleOpenSheet = (id: string) => {
         openSheet("wallet", { id });
     };
-    const { data: accountsData, isLoading: isAccountsLoading } = useQuery({
-        queryKey: ["accounts", "getListWithoutPagination"],
-        queryFn: async ({ signal }) =>
-            await dataProvider.getList("accounts", {
-                pagination: { perPage: 10000, page: 1 },
-                filter: { sort: "name", asc: "ASC" },
-                signal
-            }),
-        select: data => data?.data
-    });
+
+    const fetchOneAccount = async (id: string) => {
+        try {
+            const account = await accountsDataProvider.getOne("accounts", {
+                id
+            });
+            return account.data?.id;
+        } catch (error) {
+            return null;
+        }
+    };
+
+    const AccountIdCell: React.FC<{ accountId: string }> = ({ accountId }: { accountId: string }) => {
+        const { data: accId, isLoading } = useQuery({
+            queryKey: ["account", accountId],
+            queryFn: () => fetchOneAccount(accountId),
+            staleTime: 1000 * 60 * 5,
+            refetchOnWindowFocus: false
+        });
+
+        return isLoading ? (
+            <div className="overflow-hidden px-4">
+                <LoadingBlock className="!h-4 !w-4" />
+            </div>
+        ) : (
+            <TextField
+                text={accId ?? ""}
+                wrap
+                copyValue
+                lineClamp
+                linesCount={1}
+                minWidth="50px"
+                onClick={accId ? () => openSheet("account", { id: accId }) : undefined}
+            />
+        );
+    };
     const columns: ColumnDef<Wallets.Wallet>[] = [
         {
             id: "type",
@@ -55,29 +82,9 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             accessorKey: "account_id",
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
-                if (isAccountsLoading)
-                    return (
-                        <div className="flex justify-center overflow-hidden">
-                            <LoadingBlock className="!h-4 !w-4" />
-                        </div>
-                    );
-
-                const account = accountsData?.find(account => account.id === row?.original?.account_id);
-
-                return (
-                    <TextField
-                        text={account?.id ?? ""}
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                        onClick={account?.id ? () => openSheet("account", { id: row.original.account_id }) : undefined}
-                    />
-                );
+                return <AccountIdCell accountId={row.original.account_id} />;
             }
         },
-
         {
             id: "Balance",
             header: translate("resources.wallet.manage.fields.balance"),
