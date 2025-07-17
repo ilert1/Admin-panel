@@ -52,28 +52,27 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.paymentSettings.financialInstitution.fields.created_at")}
-                        </small>
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.created_at).toLocaleDateString(locale)}
-                        </p>
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                        </p>
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.financialInstitution.fields.created_at")}
+                            text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
+                        />
                     </div>
-
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.paymentSettings.financialInstitution.fields.updated_at")}
-                        </small>
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                        </p>
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                        </p>
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.financialInstitution.fields.updated_at")}
+                            text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
+                        />
                     </div>
 
                     <TextField
@@ -98,6 +97,13 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     />
 
                     <TextField
+                        label={translate("resources.paymentSettings.financialInstitution.fields.bin")}
+                        text={context.record.bin || ""}
+                        wrap
+                        copyValue
+                    />
+
+                    <TextField
                         label={translate("resources.paymentSettings.financialInstitution.fields.institution_type")}
                         text={
                             context.record.institution_type
@@ -106,6 +112,11 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                                   )?.label || ""
                                 : ""
                         }
+                    />
+
+                    <TextField
+                        label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
+                        text={context.record.country_code}
                     />
 
                     <div className="flex flex-col">
@@ -129,12 +140,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         </div>
                     </div>
 
-                    <TextField
-                        label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
-                        text={context.record.country_code}
-                    />
-
-                    <div className="flex flex-col md:col-span-2">
+                    <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                         </small>
@@ -142,12 +148,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
                             {context.record.currencies && context.record.currencies.length > 0 ? (
                                 context.record.currencies.map(value => (
-                                    <Badge
-                                        key={value.code}
-                                        className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                            {value.code}
-                                        </span>
+                                    <Badge key={value.code} variant="currency">
+                                        {value.code}
                                     </Badge>
                                 ))
                             ) : (

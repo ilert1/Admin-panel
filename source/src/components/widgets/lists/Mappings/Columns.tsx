@@ -72,8 +72,7 @@ export const useGetMappingsColumns = () => {
                             terminalsData.find(el => el.terminal_id === terminalId)
                                 ? () => {
                                       openSheet("terminal", {
-                                          id: terminalId,
-                                          provider: row.original.terminal?.provider
+                                          id: terminalId
                                       });
                                   }
                                 : undefined

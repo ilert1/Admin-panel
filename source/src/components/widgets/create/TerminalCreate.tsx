@@ -75,7 +75,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
     useEffect(() => {
         if (filterValues?.provider && providersData && providersData?.length > 0) {
-            const providerFromFilter = providersData.find(item => item.id === filterValues.provider);
+            const providerFromFilter = providersData.find(item => item.name === filterValues.provider);
 
             if (providerFromFilter) {
                 form.setValue("provider", filterValues.provider);
@@ -90,8 +90,9 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         setSubmitButtonDisabled(true);
 
         try {
-            const res = await dataProvider.create<TerminalWithId>(`${data.provider}/terminal`, {
+            const res = await dataProvider.create<TerminalWithId>("terminals", {
                 data: {
+                    provider: data.provider,
                     verbose_name: data.verbose_name,
                     description: data.description,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
@@ -108,7 +109,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     <Button
                         className="!pl-1"
                         variant="resourceLink"
-                        onClick={() => openSheet("terminal", { id: res.data.id, provider: data.provider })}>
+                        onClick={() => openSheet("terminal", { id: res.data.id })}>
                         {translate("app.ui.actions.details")}
                     </Button>
                 </span>,
@@ -120,7 +121,16 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             form.reset();
             onClose();
         } catch (error) {
-            appToast("error", translate("resources.provider.errors.alreadyInUse"));
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
         } finally {
             setSubmitButtonDisabled(false);
         }

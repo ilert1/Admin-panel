@@ -16,7 +16,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Loading } from "@/components/ui/loading";
-import { CallbackMappingRead, CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { CallbackMappingRead, CallbackMappingUpdate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface MappingEditProps {
     id: string;
@@ -38,7 +38,7 @@ export const MappingEdit = (props: MappingEditProps) => {
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
-    const onSubmit: SubmitHandler<CallbackMappingCreate> = async data => {
+    const onSubmit: SubmitHandler<CallbackMappingUpdate> = async data => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
@@ -62,11 +62,6 @@ export const MappingEdit = (props: MappingEditProps) => {
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
         external_path: z.string().min(1, translate("resources.callbridge.mapping.errors.cantBeEmpty")),
-        internal_path: z
-            .string()
-            .url(translate("resources.callbridge.mapping.errors.invalidUrl"))
-            .optional()
-            .or(z.literal("")),
         description: z.optional(z.string()),
         adapter_nats_subject: z.optional(z.string())
     });
@@ -76,7 +71,6 @@ export const MappingEdit = (props: MappingEditProps) => {
         defaultValues: {
             name: controllerProps.record?.name ?? "",
             external_path: controllerProps.record?.external_path ?? "",
-            internal_path: controllerProps.record?.internal_path ?? "",
             description: controllerProps.record?.description ?? "",
             adapter_nats_subject: controllerProps.record?.adapter_nats_subject ?? ""
         }
@@ -87,7 +81,6 @@ export const MappingEdit = (props: MappingEditProps) => {
             form.reset({
                 name: controllerProps.record?.name ?? "",
                 external_path: controllerProps.record?.external_path ?? "",
-                internal_path: controllerProps.record?.internal_path ?? "",
                 description: controllerProps.record?.description ?? "",
                 adapter_nats_subject: controllerProps.record?.adapter_nats_subject ?? ""
             });
@@ -123,7 +116,7 @@ export const MappingEdit = (props: MappingEditProps) => {
                                     );
                                 }}
                             />
-
+                            {/* 
                             <FormField
                                 control={form.control}
                                 name="internal_path"
@@ -140,7 +133,7 @@ export const MappingEdit = (props: MappingEditProps) => {
                                         </FormControl>
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
 
                             <FormField
                                 control={form.control}

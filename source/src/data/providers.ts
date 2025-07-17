@@ -12,20 +12,22 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatch,
+    providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatch,
     providerEndpointsCreateProviderEnigmaV1ProviderPost,
-    providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete,
-    providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet,
+    providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDelete,
+    providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGet,
     providerEndpointsListProvidersEnigmaV1ProviderGet,
-    providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete,
-    providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut
+    providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDelete,
+    providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut
 } from "@/api/enigma/provider/provider";
 import { PaymentTypesLink, Provider, ProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export type ProviderWithId = Provider & { id: string };
+export interface IProvider extends Provider {
+    id: string;
+}
 
 export class ProvidersDataProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<ProviderWithId>> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<IProvider>> {
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {
                 currentPage: params?.pagination?.page,
@@ -41,12 +43,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items.map(elem => {
-                    return {
-                        id: elem.name,
-                        ...elem
-                    };
-                }),
+                data: res.data.data.items as IProvider[],
                 total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {
@@ -61,7 +58,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<ProviderWithId>> {
+    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<IProvider>> {
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {
                 currentPage: 1,
@@ -77,12 +74,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: res.data.data.items.map(elem => {
-                    return {
-                        id: elem.name,
-                        ...elem
-                    };
-                }),
+                data: res.data.data.items as IProvider[],
                 total: res.data.data.total
             };
         } else if ("data" in res.data && !res.data.success) {
@@ -97,8 +89,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<ProviderWithId>> {
-        const res = await providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet(params.id, {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<IProvider>> {
+        const res = await providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             },
@@ -107,10 +99,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: {
-                    id: res.data.data.name,
-                    ...res.data.data
-                }
+                data: res.data.data as IProvider
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -121,7 +110,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams): Promise<CreateResult<ProviderWithId>> {
+    async create(resource: string, params: CreateParams): Promise<CreateResult<IProvider>> {
         const res = await providerEndpointsCreateProviderEnigmaV1ProviderPost(params.data as ProviderCreate, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -130,10 +119,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: {
-                    id: res.data.data.name,
-                    ...res.data.data
-                }
+                data: res.data.data as IProvider
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -144,8 +130,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<ProviderWithId>> {
-        const res = await providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut(params.id, params.data, {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<IProvider>> {
+        const res = await providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut(params.id, params.data, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
@@ -153,10 +139,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: {
-                    id: res.data.data.name,
-                    ...res.data.data
-                }
+                data: res.data.data as IProvider
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -167,8 +150,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async addPaymentTypes(params: UpdateParams & { data: PaymentTypesLink }): Promise<UpdateResult<ProviderWithId>> {
-        const res = await providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatch(
+    async addPaymentTypes(params: UpdateParams & { data: PaymentTypesLink }): Promise<UpdateResult<IProvider>> {
+        const res = await providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatch(
             params.id,
             params.data,
             {
@@ -180,10 +163,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: {
-                    id: res.data.data.name,
-                    ...res.data.data
-                }
+                data: res.data.data as IProvider
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -194,9 +174,9 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult<ProviderWithId>> {
+    async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult<IProvider>> {
         const res =
-            await providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete(
+            await providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDelete(
                 params.id,
                 params.data.code,
                 {
@@ -208,10 +188,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
 
         if ("data" in res.data && res.data.success) {
             return {
-                data: {
-                    id: res.data.data.name,
-                    ...res.data.data
-                }
+                data: res.data.data as IProvider
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
@@ -222,8 +199,8 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<ProviderWithId, "id">>> {
-        const res = await providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete(params.id, {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<IProvider, "id">>> {
+        const res = await providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }

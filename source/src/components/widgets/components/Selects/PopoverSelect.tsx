@@ -221,10 +221,9 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                         return variantKey(variant);
                                     }
                                 };
-
                                 return (
                                     <CommandItem
-                                        className="flex items-center gap-2 bg-muted"
+                                        className="cursor-pointer hover:bg-green-50 data-[selected=true]:bg-green-50 dark:hover:bg-green-50 dark:data-[selected=true]:bg-green-50"
                                         key={idField ? variant[idField] : newVariant()}
                                         value={newVariant()}
                                         onSelect={onSelectChange}>

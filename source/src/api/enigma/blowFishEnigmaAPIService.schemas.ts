@@ -406,6 +406,31 @@ export interface ApiResponseOffsetPaginationTerminalPaymentInstrument {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseOffsetPaginationTerminalReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationTerminalReadMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationTerminalRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationTerminalRead;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationTerminalReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationTerminalReadMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
 
 /**
@@ -556,6 +581,31 @@ export interface ApiResponseTerminalPaymentInstrument {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseTerminalReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseTerminalReadMeta = unknown | null;
+
+export interface ApiResponseTerminalRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: TerminalRead;
+    /** The error details if the request was not successful */
+    error?: ApiResponseTerminalReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseTerminalReadMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseTerminalError = ErrorBody | null;
 
 /**
@@ -681,26 +731,51 @@ export interface ApiResponseListPaymentCategoryItem {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseListTerminalError = ErrorBody | null;
+export type ApiResponseListRequiredFieldItemError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseListTerminalMeta = unknown | null;
+export type ApiResponseListRequiredFieldItemMeta = unknown | null;
 
-export interface ApiResponseListTerminal {
+export interface ApiResponseListRequiredFieldItem {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: Terminal[];
+    data: RequiredFieldItem[];
     /** The error details if the request was not successful */
-    error?: ApiResponseListTerminalError;
+    error?: ApiResponseListRequiredFieldItemError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseListTerminalMeta;
+    meta?: ApiResponseListRequiredFieldItemMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseListTerminalReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseListTerminalReadMeta = unknown | null;
+
+export interface ApiResponseListTerminalRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: TerminalRead[];
+    /** The error details if the request was not successful */
+    error?: ApiResponseListTerminalReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseListTerminalReadMeta;
 }
 
 export interface BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost {
@@ -1259,6 +1334,11 @@ export type FinancialInstitutionLegalName = string | null;
 export type FinancialInstitutionNspkMemberId = string | null;
 
 /**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionBin = string | null;
+
+/**
  * Additional metadata
  */
 export type FinancialInstitutionMeta = { [key: string]: unknown };
@@ -1282,6 +1362,8 @@ export interface FinancialInstitution {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionBin;
     /** Additional metadata */
     meta?: FinancialInstitutionMeta;
     /** Associated payment types */
@@ -1303,6 +1385,11 @@ export type FinancialInstitutionBaseLegalName = string | null;
  * NSPK member ID (for Russia)
  */
 export type FinancialInstitutionBaseNspkMemberId = string | null;
+
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionBaseBin = string | null;
 
 /**
  * Additional metadata
@@ -1328,6 +1415,8 @@ export interface FinancialInstitutionBase {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionBaseNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionBaseBin;
     /** Additional metadata */
     meta?: FinancialInstitutionBaseMeta;
 }
@@ -1341,6 +1430,11 @@ export type FinancialInstitutionCreateLegalName = string | null;
  * NSPK member ID (for Russia)
  */
 export type FinancialInstitutionCreateNspkMemberId = string | null;
+
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionCreateBin = string | null;
 
 /**
  * Additional metadata
@@ -1366,6 +1460,8 @@ export interface FinancialInstitutionCreate {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionCreateNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionCreateBin;
     /** Additional metadata */
     meta?: FinancialInstitutionCreateMeta;
 }
@@ -1433,6 +1529,11 @@ export type FinancialInstitutionUpdateCountryCode = string | null;
  */
 export type FinancialInstitutionUpdateNspkMemberId = string | null;
 
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionUpdateBin = string | null;
+
 export type FinancialInstitutionUpdateMetaAnyOf = { [key: string]: unknown };
 
 /**
@@ -1453,6 +1554,8 @@ export interface FinancialInstitutionUpdate {
     country_code?: FinancialInstitutionUpdateCountryCode;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionUpdateNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionUpdateBin;
     /** Additional metadata */
     meta?: FinancialInstitutionUpdateMeta;
 }
@@ -1733,6 +1836,17 @@ export interface OffsetPaginationTerminalPaymentInstrument {
     total: number;
 }
 
+export interface OffsetPaginationTerminalRead {
+    /** A list of items in the current page */
+    items: TerminalRead[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
 export interface OffsetPaginationTerminal {
     /** A list of items in the current page */
     items: Terminal[];
@@ -1878,6 +1992,11 @@ export interface PaymentTypesLink {
 }
 
 /**
+ * Provider ID
+ */
+export type ProviderId = string | null;
+
+/**
  * The public key encoded in base58, corresponding to the private key.
  */
 export type ProviderPublicKey = string | null;
@@ -1888,6 +2007,8 @@ export type ProviderPublicKey = string | null;
 export type ProviderMethods = { [key: string]: ExecutionMethodOutput };
 
 export interface Provider {
+    /** Provider ID */
+    id?: ProviderId;
     /**
      * Provider name
      * @minLength 1
@@ -1911,6 +2032,11 @@ export interface ProviderAddKeypair {
 }
 
 /**
+ * Provider ID
+ */
+export type ProviderBaseId = string | null;
+
+/**
  * The public key encoded in base58, corresponding to the private key.
  */
 export type ProviderBasePublicKey = string | null;
@@ -1921,6 +2047,8 @@ export type ProviderBasePublicKey = string | null;
 export type ProviderBaseMethods = { [key: string]: ExecutionMethodOutput };
 
 export interface ProviderBase {
+    /** Provider ID */
+    id?: ProviderBaseId;
     /**
      * Provider name
      * @minLength 1
@@ -1978,6 +2106,13 @@ export interface RateValue {
      * @minimum 0
      */
     accuracy?: number;
+}
+
+export interface RequiredFieldItem {
+    /** Human-readable field name for UI */
+    label: string;
+    /** Field name used by API / DB */
+    value: string;
 }
 
 /**
@@ -2197,6 +2332,11 @@ export type TerminalCreateDescription = string | null;
  */
 export type TerminalCreateDetails = { [key: string]: unknown };
 
+/**
+ * Provider name of the terminal
+ */
+export type TerminalCreateProvider = string | null;
+
 export interface TerminalCreate {
     /** Name of the terminal */
     verbose_name: string;
@@ -2210,6 +2350,8 @@ export interface TerminalCreate {
      * @maximum 120
      */
     allocation_timeout_seconds?: number;
+    /** Provider name of the terminal */
+    provider?: TerminalCreateProvider;
     /** Indicates if the account is created */
     account_created?: boolean;
 }
@@ -2421,6 +2563,56 @@ export interface TerminalPaymentInstrumentUpdate {
 }
 
 /**
+ * Description of the terminal
+ */
+export type TerminalReadDescription = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type TerminalReadFees = { [key: string]: Fee };
+
+/**
+ * Authentication data for the terminal
+ */
+export type TerminalReadAuth = { [key: string]: unknown };
+
+/**
+ * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
+ */
+export type TerminalReadCallbackUrl = string | null;
+
+/**
+ * Additional details about the terminal
+ */
+export type TerminalReadDetails = { [key: string]: unknown };
+
+export interface TerminalRead {
+    /** Unique identifier of the terminal */
+    terminal_id: string;
+    /** Name of the terminal */
+    verbose_name: string;
+    /** Description of the terminal */
+    description?: TerminalReadDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
+    /** Provider name associated with the terminal */
+    provider: ProviderBase;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: TerminalReadFees;
+    /** Authentication data for the terminal */
+    auth?: TerminalReadAuth;
+    /** Indicates if the account is created */
+    account_created?: boolean;
+    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
+    callback_url?: TerminalReadCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalReadDetails;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
+}
+
+/**
  * Name of the terminal
  */
 export type TerminalUpdateVerboseName = string | null;
@@ -2464,18 +2656,11 @@ export interface TerminalUpdateAuth {
 }
 
 /**
- * New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth
- */
-export type TerminalUpdateCallbackUrlCallbackUrl = string | null;
-
-/**
  * NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject
  */
 export type TerminalUpdateCallbackUrlAdapterNatsSubject = string | null;
 
 export interface TerminalUpdateCallbackUrl {
-    /** New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth */
-    callback_url: TerminalUpdateCallbackUrlCallbackUrl;
     /** NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject */
     adapter_nats_subject?: TerminalUpdateCallbackUrlAdapterNatsSubject;
 }
@@ -2637,6 +2822,17 @@ export const ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder = {
     desc: "desc"
 } as const;
 
+export type ProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchParams = {
+    /**
+     * RSA key size (must be between 1024 and 8192)
+     */
+    key_size?: number;
+    /**
+     * RSA public exponent must be either 3 (for legacy compatibility) or 65537. Almost everyone should choose 65537!
+     */
+    public_exponent?: number;
+};
+
 export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams = {
     /**
      * RSA key size (must be between 1024 and 8192)
@@ -2648,7 +2844,7 @@ export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPat
     public_exponent?: number;
 };
 
-export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
     /**
      * List of identifiers for filtering
      */
@@ -2680,14 +2876,14 @@ export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
     /**
      * Sort order: 'asc' or 'desc'
      */
-    sortOrder?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
+    sortOrder?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
 };
 
-export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
-    (typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
+    (typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder = {
+export const TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder = {
     asc: "asc",
     desc: "desc"
 } as const;

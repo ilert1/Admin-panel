@@ -3,7 +3,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "../../lists/Directions/DirectionActivityBtn";
@@ -80,7 +80,7 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
             cell: ({ row }) => {
-                const obj: ProviderWithId = row.getValue("provider");
+                const obj: IProvider = row.getValue("provider");
                 return <TextField text={obj.name} wrap />;
             }
         },

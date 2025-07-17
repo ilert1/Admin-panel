@@ -92,8 +92,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
                         variant={"resourceLink"}
                         onClick={() => {
                             openSheet("terminal", {
-                                id: row.original.terminal_id,
-                                provider: row.original.terminal.provider
+                                id: row.original.terminal_id
                             });
                         }}>
                         {row.original.terminal.verbose_name}

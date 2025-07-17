@@ -13,13 +13,13 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ProviderBase, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ProviderEditParams {
-    provider: string;
+    provider: ProviderBase;
     id: string;
     onClose: () => void;
 }
@@ -42,12 +42,14 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["terminal", id],
-        queryFn: ({ signal }) => dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id, signal }),
+        queryFn: ({ signal }) => dataProvider.getOne<TerminalWithId>("terminals", { id, signal }),
         enabled: true,
         select: data => data.data
     });
 
-    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({ provider });
+    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({
+        provider: provider.id as string
+    });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -116,7 +118,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
-            await dataProvider.update<TerminalWithId>(`${provider}/terminal`, {
+            await dataProvider.update<TerminalWithId>("terminals", {
                 id,
                 data: {
                     verbose_name: data.verbose_name,
@@ -132,7 +134,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 [...paymentsToDelete].map(payment =>
                     terminalsDataProvider.removePaymentType({
                         id,
-                        providerName: provider,
                         data: { code: payment },
                         previousData: undefined
                     })
@@ -141,7 +142,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             await terminalsDataProvider.addPaymentTypes({
                 id,
-                providerName: provider,
                 data: {
                     codes: payment_types
                 },
@@ -150,7 +150,16 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             appToast("success", translate("app.ui.edit.editSuccess"));
         } catch (error) {
-            if (error instanceof Error) appToast("error", error.message);
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.edit.editError"));
+            }
         } finally {
             refresh();
             form.reset({});

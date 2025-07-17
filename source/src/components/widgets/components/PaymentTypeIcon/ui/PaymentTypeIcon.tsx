@@ -36,7 +36,6 @@ import WalletPaymentIcon from "@/lib/icons/payment_types/wallet_payment.svg?reac
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/Button";
 
 const iconsRecord: Record<
     string,
@@ -114,8 +113,8 @@ export const PaymentTypeIcon = memo(
             return (
                 <TooltipProvider>
                     <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild className="h-auto">
-                            <Button variant="text_btn" className="cursor-default p-0">
+                        <TooltipTrigger role="tooltip" asChild className="h-auto">
+                            <div className="cursor-default p-0">
                                 <div
                                     className={cn(
                                         className,
@@ -140,7 +139,7 @@ export const PaymentTypeIcon = memo(
                                             .join("")
                                     )}
                                 </div>
-                            </Button>
+                            </div>
                         </TooltipTrigger>
                         <TooltipContent tabIndex={-1} sideOffset={5} align="center">
                             <p>{type}</p>
@@ -152,10 +151,10 @@ export const PaymentTypeIcon = memo(
         return (
             <TooltipProvider>
                 <Tooltip delayDuration={300}>
-                    <TooltipTrigger asChild>
-                        <Button variant="text_btn" className="h-auto w-auto cursor-default p-0">
+                    <TooltipTrigger role="tooltip" asChild>
+                        <div className={cn("h-auto w-auto cursor-default p-0", metaIconMargin ? "mr-2" : "")}>
                             <Icon className={cn(className)} />
-                        </Button>
+                        </div>
                     </TooltipTrigger>
                     <TooltipContent tabIndex={-1} sideOffset={5} align="center">
                         <p>{type}</p>

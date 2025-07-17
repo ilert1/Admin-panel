@@ -125,7 +125,16 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             refresh();
             onOpenChange(false);
         } catch (error) {
-            appToast("error", translate("resources.provider.errors.alreadyInUse"));
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
         } finally {
             setSubmitButtonDisabled(false);
         }
@@ -170,11 +179,11 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
     useEffect(() => {
         if (filterValues?.provider && providersData && providersData?.length > 0) {
-            const provider = providersData.find(provider => provider.id === filterValues.provider);
+            const provider = providersData.find(provider => provider.name === filterValues.provider);
 
             if (provider) {
                 setProviderName(provider.name);
-                form.setValue("provider", provider.id);
+                form.setValue("provider", provider.name);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

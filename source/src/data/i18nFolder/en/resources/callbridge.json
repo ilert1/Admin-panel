@@ -13,7 +13,6 @@
             "created_at": "Created at",
             "callback_url": "Callback URL",
             "terminal": "Terminal",
-
             "retry_policy": "Retry policy",
             "base_delay": "Base delay",
             "state": "State",
@@ -25,11 +24,9 @@
             "retryStatusChange": "Edit retry status",
             "newStatus": "New status",
             "enterSepWithCommas": "Enter new statuses separated by commas",
-
             "wrongFormat": "Invalid data",
             "allowedSymbols": "Only spaces, digits, and commas are allowed",
             "allowedVariant": "Input must be in the format like 400, 404, 500 without extra symbols",
-
             "security_policy": "Security policy",
             "allowed_ips": "Allowed IPs",
             "auth": "Authorization",
@@ -38,7 +35,6 @@
             "whiteListEdit": "Edit allowed IPs",
             "blackListEdit": "Edit blocked IPs",
             "actDeactButton": "Activate/Deactivate policy",
-
             "blocked": "Blocked",
             "permitted": "Permitted",
             "blocked_ips": "Blocked IPs",
@@ -104,6 +100,8 @@
             "retryCallback": "Retry",
             "queued": "Queued",
             "processing": "Processing",
+            "quick_processing": "Quick processing",
+            "retrying": "Retrying",
             "success": "Success",
             "error": "Error",
             "sync": "Sync"

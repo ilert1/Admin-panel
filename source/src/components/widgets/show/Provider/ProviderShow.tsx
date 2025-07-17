@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
@@ -17,7 +17,7 @@ export interface ProviderShowProps {
 }
 
 export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
-    const context = useAbortableShowController<ProviderWithId>({ resource: "provider", id });
+    const context = useAbortableShowController<IProvider>({ resource: "provider", id });
     const data = useFetchDictionaries();
     const translate = useTranslate();
 
@@ -38,8 +38,9 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
-                <TextField text={context.record.name} copyValue className="text-neutral-70 dark:text-neutral-30" />
+            <div>
+                <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
             </div>
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
@@ -63,7 +64,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         }
                     />
 
-                    <div className="flex flex-col md:col-span-2">
+                    <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
                         </small>

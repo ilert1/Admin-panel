@@ -60,32 +60,28 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
-                        </small>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.created_at).toLocaleDateString(locale)}
-                        </p>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                        </p>
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
+                            text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
+                        />
                     </div>
 
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
-                        </small>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                        </p>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                        </p>
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
+                            text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
+                        />
                     </div>
 
                     <TextField
@@ -94,8 +90,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                         text={context.record.terminal.verbose_name}
                         onClick={() => {
                             openSheet("terminal", {
-                                id: context.record.terminal_id,
-                                provider: context.record.terminal.provider
+                                id: context.record.terminal_id
                             });
                         }}
                     />

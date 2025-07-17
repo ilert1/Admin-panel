@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
@@ -327,13 +327,11 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                         render={({ field }) => {
                             return (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate(
-                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
-                                            )}
-                                        </span>
-                                    </FormLabel>
+                                    <Label>
+                                        {translate(
+                                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_specific_parameters"
+                                        )}
+                                    </Label>
 
                                     <FormControl>
                                         <MonacoEditor

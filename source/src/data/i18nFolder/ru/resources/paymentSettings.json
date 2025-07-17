@@ -50,6 +50,7 @@
             "tax_id_number": "ИНН",
             "registration_number": "ОГРН / регистрационный номер",
             "nspk_member_id": "Код участника НСПК",
+            "bin": "БИН",
             "status": "Статус",
             "payment_types": "Платёжные типы",
             "currencies": "Валюты",

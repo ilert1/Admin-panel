@@ -50,6 +50,7 @@
             "tax_id_number": "Tax identification number",
             "registration_number": "Registration number",
             "nspk_member_id": "NSPK member ID",
+            "bin": "BIN",
             "status": "Status",
             "payment_types": "Payment types",
             "currencies": "Currencies",

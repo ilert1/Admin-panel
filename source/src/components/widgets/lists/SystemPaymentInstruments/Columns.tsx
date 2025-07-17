@@ -87,10 +87,8 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                        <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                            <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                {row.original.currency_code}
-                            </span>
+                        <Badge key={row.original.currency_code} variant="currency">
+                            {row.original.currency_code}
                         </Badge>
                     </div>
                 );

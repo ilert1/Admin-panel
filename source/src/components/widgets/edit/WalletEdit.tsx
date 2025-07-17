@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -177,7 +177,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             render={({ field }) => {
                                 return (
                                     <FormItem>
-                                        <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
+                                        <Label>{translate("resources.wallet.manage.fields.walletType")}</Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
                                                 <SelectTrigger variant={SelectType.GRAY}>
@@ -340,7 +340,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                    <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                     <FormControl>
                                         <div>
                                             <Label />

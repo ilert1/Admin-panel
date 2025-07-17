@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import ReloadRoundSvg from "@/lib/icons/reload_round.svg?react";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useSheets } from "@/components/providers/SheetProvider";
 
@@ -25,22 +25,33 @@ export const useGetProvidersColumns = () => {
         setConfirmKeysCreatingOpen(true);
     };
 
-    const columns: ColumnDef<ProviderWithId>[] = [
+    const columns: ColumnDef<IProvider>[] = [
         {
             id: "name",
             accessorKey: "name",
             header: translate("resources.provider.fields.name"),
             cell: ({ row }) => {
                 return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            openSheet("provider", {
-                                id: row.original.id
-                            });
-                        }}>
-                        {row.original.name}
-                    </Button>
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("provider", {
+                                    id: row.original.id
+                                });
+                            }}>
+                            {row.original.name}
+                        </Button>
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
                 );
             }
         },

@@ -89,7 +89,7 @@ const dataProvider = combineDataProviders(resource => {
         return new MerchantsDataProvider();
     } else if (resource === "provider") {
         return new ProvidersDataProvider();
-    } else if (resource === "terminals" || resource?.endsWith("/terminal")) {
+    } else if (resource === "terminals") {
         return new TerminalsDataProvider();
     } else if (resource === "direction") {
         return new DirectionsDataProvider();
@@ -169,7 +169,7 @@ export const resources = [
     "terminalPaymentInstruments",
     "callbridge/v1/mapping",
     "callbridge/v1/history",
-    "wallet",
+    "merchant/wallet",
     "transaction",
     "reconciliation"
 ];

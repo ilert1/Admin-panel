@@ -11,7 +11,7 @@ interface SheetDataMap {
     user: { id: string | undefined };
     transaction: { id: string | undefined };
     provider: { id: string | undefined };
-    terminal: { id: string | undefined; provider: string | undefined };
+    terminal: { id: string | undefined };
     wallet: { id: string | undefined };
     walletLinked: { id: string | undefined };
     walletTransactions: { id: string | undefined };

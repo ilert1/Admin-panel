@@ -31,10 +31,9 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
         openSheet("direction", { id });
     };
 
-    const handleTerminalShowOpen = (id: string, providerName: string) => {
+    const handleTerminalShowOpen = (id: string) => {
         openSheet("terminal", {
-            id,
-            provider: providerName
+            id
         });
     };
 
@@ -61,11 +60,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                            {row.original.src_currency.code}
-                        </span>
-                    </Badge>
+                    <Badge variant="currency">{row.original.src_currency.code}</Badge>
                 </div>
             )
         },
@@ -75,11 +70,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                            {row.original.dst_currency.code}
-                        </span>
-                    </Badge>
+                    <Badge variant="currency">{row.original.dst_currency.code}</Badge>
                 </div>
             )
         },
@@ -129,7 +120,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         variant={"resourceLink"}
                         onClick={() => {
                             openSheet("provider", {
-                                id: row.original.provider.name
+                                id: row.original.provider.id as string
                             });
                         }}>
                         {row.original.provider.name}
@@ -141,13 +132,12 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             id: "terminal",
             header: translate("resources.direction.fields.terminal"),
             cell: ({ row }) => {
-                const providerName = row.original.provider.name;
                 return (
                     <Button
                         variant={"resourceLink"}
                         onClick={() => {
                             const id = row.original.terminal?.terminal_id ?? "";
-                            handleTerminalShowOpen(id, providerName);
+                            handleTerminalShowOpen(id);
                         }}>
                         {row.original.terminal?.verbose_name ?? ""}
                     </Button>

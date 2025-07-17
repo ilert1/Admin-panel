@@ -40,18 +40,9 @@ export interface AddFeeCardProps {
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     variants?: Currency[];
     feeType?: FeeType;
-    providerName?: string;
 }
 
-export const AddFeeCard = ({
-    id,
-    resource,
-    onOpenChange,
-    setFees,
-    variants,
-    providerName,
-    feeType = "default"
-}: AddFeeCardProps) => {
+export const AddFeeCard = ({ id, resource, onOpenChange, setFees, variants, feeType = "default" }: AddFeeCardProps) => {
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -59,7 +50,7 @@ export const AddFeeCard = ({
     const data = useFetchDictionaries();
     const { isLoading } = useCreateController({ resource });
 
-    const feeDataProvider = feesDataProvider({ id, resource, providerName });
+    const feeDataProvider = feesDataProvider({ id, resource });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [smallDialogOpen, setSmallDialogOpen] = useState(false);

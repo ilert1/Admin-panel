@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
@@ -85,6 +85,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             .max(20, translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max"))
             .trim()
             .optional(),
+        bin: z.string().trim().optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         currencies: z.array(z.string()).optional(),
         country_code: z
@@ -102,6 +103,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             country_code: "",
             legal_name: "",
             nspk_member_id: "",
+            bin: "",
             institution_type: undefined,
             currencies: [],
             payment_types: [],
@@ -116,6 +118,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                 country_code: financialInstitutionData.country_code || "",
                 legal_name: financialInstitutionData.legal_name || "",
                 nspk_member_id: financialInstitutionData.nspk_member_id || "",
+                bin: financialInstitutionData.bin || "",
                 currencies: financialInstitutionData.currencies?.map(c => c.code) || [],
                 institution_type: financialInstitutionData.institution_type || undefined,
                 payment_types: financialInstitutionData.payment_types?.map(pt => pt.code) || [],
@@ -257,12 +260,30 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <div className="flex flex-col flex-wrap">
-                    <div className="grid grid-cols-1 sm:grid-cols-2">
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field, fieldState }) => (
+                            <FormItem className="w-full p-2">
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.paymentSettings.financialInstitution.fields.name")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3">
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="legal_name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="w-full p-2 sm:col-span-2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -270,7 +291,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentSettings.financialInstitution.fields.name"
+                                                "resources.paymentSettings.financialInstitution.fields.legal_name"
                                             )}
                                         />
                                     </FormControl>
@@ -280,7 +301,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
 
                         <FormField
                             control={form.control}
-                            name="legal_name"
+                            name="bin"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2">
                                     <FormControl>
@@ -290,7 +311,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate(
-                                                "resources.paymentSettings.financialInstitution.fields.legal_name"
+                                                "resources.paymentSettings.financialInstitution.fields.bin"
                                             )}
                                         />
                                     </FormControl>
@@ -434,11 +455,9 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                         render={({ field }) => {
                             return (
                                 <FormItem className="w-full p-2">
-                                    <FormLabel>
-                                        <span className="!text-note-1 !text-neutral-30">
-                                            {translate("resources.paymentSettings.financialInstitution.fields.meta")}
-                                        </span>
-                                    </FormLabel>
+                                    <Label>
+                                        {translate("resources.paymentSettings.financialInstitution.fields.meta")}
+                                    </Label>
 
                                     <FormControl>
                                         <MonacoEditor
