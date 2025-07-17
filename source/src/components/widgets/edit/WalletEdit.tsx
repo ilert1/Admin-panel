@@ -343,7 +343,6 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                     <FormControl>
                                         <div>
-                                            <Label />
                                             <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
