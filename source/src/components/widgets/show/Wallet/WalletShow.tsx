@@ -22,14 +22,14 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { data: accountsData } = useQuery({
-        queryKey: ["accounts", "getList", "WalletShow", id],
+    const { data: accountsData, isLoading: accountsDataLoading } = useQuery({
+        queryKey: ["accounts", "WalletShow", id],
         queryFn: async ({ signal }) =>
             await dataProvider.getOne<Account>("accounts", {
                 id: context.record?.account_id ?? "",
                 signal
             }),
-        select: data => data?.data,
+        select: data => (data ? data?.data : ""),
         enabled: !!context.record?.account_id
     });
 
@@ -96,10 +96,16 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                     label={translate("resources.wallet.manage.fields.currency")}
                     text={context.record.currency}
                 />
-                {currentAccount ? (
+                {!accountsDataLoading ? (
                     <TextField
                         label={translate("resources.wallet.manage.fields.merchantName")}
-                        text={currentAccount?.meta?.caption ? currentAccount?.meta?.caption : currentAccount?.owner_id}
+                        text={
+                            currentAccount
+                                ? currentAccount?.meta?.caption
+                                    ? currentAccount?.meta?.caption
+                                    : currentAccount?.owner_id
+                                : ""
+                        }
                     />
                 ) : (
                     <div>
