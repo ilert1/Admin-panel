@@ -265,6 +265,7 @@ export const SystemPaymentInstrumentCreate = ({ onOpenChange }: SystemPaymentIns
                                             onErrorsChange={setHasErrors}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
+                                            allowEmptyValues
                                         />
                                     </FormControl>
                                     <FormMessage />
