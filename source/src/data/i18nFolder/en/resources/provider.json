@@ -44,5 +44,6 @@
     "resources.provider.methodAddSuccess": "Provider method successfully added",
     "resources.provider.methodEditSuccess": "Provider method successfully edited",
     "resources.provider.methodDeleteSuccess": "Provider method successfully deleted",
-    "resources.provider.addMethod": "Add method"
+    "resources.provider.addMethod": "Add method",
+    "resources.provider.removeMethodDialog": "Delete the method?"
 }

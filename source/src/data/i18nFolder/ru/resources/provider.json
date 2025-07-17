@@ -44,5 +44,6 @@
     "resources.provider.methodAddSuccess": "Метод провайдера успешно добавлен",
     "resources.provider.methodEditSuccess": "Метод провайдера успешно изменен",
     "resources.provider.methodDeleteSuccess": "Метод провайдера успешно удален",
-    "resources.provider.addMethod": "Добавить метод"
+    "resources.provider.addMethod": "Добавить метод",
+    "resources.provider.removeMethodDialog": "Удалить метод?"
 }
