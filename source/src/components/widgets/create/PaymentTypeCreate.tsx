@@ -38,7 +38,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
-    const [hasValid, setHasValid] = useState(true);
+    const [isValid, setIsValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
 
     // const [iconFileName, setIconFileName] = useState<string>("");
@@ -218,14 +218,19 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                 render={({ field }) => {
                                     return (
                                         <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
-                                            <Label>{translate("resources.provider.fields.methods")}</Label>
+                                            <Label>
+                                                {translate(
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.meta"
+                                                )}
+                                            </Label>
                                             <FormControl>
                                                 <MonacoEditor
                                                     onErrorsChange={setHasErrors}
-                                                    onValidChange={setHasValid}
+                                                    onValidChange={setIsValid}
                                                     onMountEditor={() => setMonacoEditorMounted(true)}
                                                     code={field.value ?? "{}"}
                                                     setCode={field.onChange}
+                                                    allowEmptyValues
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -312,7 +317,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                 disabled={
                                     submitButtonDisabled ||
                                     hasErrors ||
-                                    (!hasValid && form.watch("meta")?.length !== 0) ||
+                                    (!isValid && form.watch("meta")?.length !== 0) ||
                                     !monacoEditorMounted
                                 }>
                                 {translate("app.ui.actions.save")}

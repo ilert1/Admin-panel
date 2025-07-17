@@ -15,6 +15,8 @@ interface MonacoEditorProps {
     onErrorsChange?: (hasErrors: boolean) => void;
     onValidChange?: (isValid: boolean) => void;
     onMountEditor?: OnMount;
+
+    allowEmptyValues?: boolean;
 }
 
 export const MonacoEditor = (props: MonacoEditorProps) => {
@@ -30,7 +32,9 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
 
         onValidChange,
 
-        onMountEditor = () => {}
+        onMountEditor = () => {},
+
+        allowEmptyValues = false
     } = props;
     const { theme } = useTheme();
 
@@ -47,7 +51,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                         parsed === null ||
                         Array.isArray(parsed) ||
                         Object.keys(parsed).includes("") ||
-                        Object.values(parsed).includes("")
+                        (!allowEmptyValues && Object.values(parsed).includes(""))
                     ) {
                         onValidChange(false);
                     } else {

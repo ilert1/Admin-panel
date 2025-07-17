@@ -428,6 +428,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
                                                 code={field.value ?? "{}"}
                                                 setCode={field.onChange}
+                                                allowEmptyValues
                                             />
                                         </FormControl>
                                         <FormMessage />

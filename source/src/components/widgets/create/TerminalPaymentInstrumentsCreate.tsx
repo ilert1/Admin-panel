@@ -11,7 +11,7 @@ import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import {
     DirectionType,
-    FinancialInstitutionCreate as IFinancialInstitutionCreate,
+    TerminalPaymentInstrumentCreate,
     TerminalPaymentInstrumentStatus
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
@@ -53,7 +53,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
     const financialInstitutionProvider = new FinancialInstitutionProvider();
-    const controllerProps = useCreateController<IFinancialInstitutionCreate>();
+    const controllerProps = useCreateController<TerminalPaymentInstrumentCreate>();
 
     const statuses = Object.keys(TerminalPaymentInstrumentStatus);
 
