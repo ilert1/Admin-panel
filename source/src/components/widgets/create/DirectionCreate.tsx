@@ -155,7 +155,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             .min(0, translate("resources.direction.errors.weightError"))
             .max(1000, translate("resources.direction.errors.weightError")),
         type: z
-            .enum(["withdraw", "deposit"], {
+            .enum(directionTypes.map(type => type.value) as [string, ...string[]], {
                 message: translate("resources.direction.errors.typeError")
             })
             .default("withdraw")
