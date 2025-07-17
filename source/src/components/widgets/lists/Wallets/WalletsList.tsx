@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
+
     const listContext = useAbortableListController<Wallets.Wallet>(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );

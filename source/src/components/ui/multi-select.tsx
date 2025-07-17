@@ -154,11 +154,11 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             setIsPopoverOpen(prev => !prev);
         };
 
-        const clearExtraOptions = () => {
-            const newSelectedValues = selectedValues.slice(0, maxCount);
-            setSelectedValues(newSelectedValues);
-            onValueChange(newSelectedValues);
-        };
+        // const clearExtraOptions = () => {
+        //     const newSelectedValues = selectedValues.slice(0, maxCount);
+        //     setSelectedValues(newSelectedValues);
+        //     onValueChange(newSelectedValues);
+        // };
 
         const toggleAll = () => {
             if (selectedValues.length === options.length) {
@@ -202,7 +202,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                         className={cn(
                                                             isAnimating ? "animate-bounce" : "",
                                                             multiSelectVariants({ variant }),
-                                                            "bg-muted font-normal"
+                                                            "my-0 bg-muted font-normal"
                                                         )}
                                                         style={{ animationDuration: `${animation}s` }}>
                                                         {IconComponent && (
