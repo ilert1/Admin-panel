@@ -22,9 +22,9 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             const account = await accountsDataProvider.getOne("accounts", {
                 id
             });
-            return account.data?.id;
+            return account.data?.id ?? "";
         } catch (error) {
-            return null;
+            return "";
         }
     };
 
@@ -33,7 +33,8 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             queryKey: ["account", accountId],
             queryFn: () => fetchOneAccount(accountId),
             staleTime: 1000 * 60 * 5,
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            enabled: !!accountId
         });
 
         return isLoading ? (
