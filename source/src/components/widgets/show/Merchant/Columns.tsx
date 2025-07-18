@@ -7,6 +7,7 @@ import { IProvider } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "../../lists/Directions/DirectionActivityBtn";
+import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
 
 export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
@@ -23,8 +24,9 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
                             variant={"resourceLink"}
                             onClick={() => {
                                 openSheet("direction", { id: row.original.id });
-                            }}>
-                            {row.original.name ?? ""}
+                            }}
+                            className="whitespace-break-spaces text-left">
+                            {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
                         </Button>
                         <TextField
                             text={row.original.id}

@@ -129,7 +129,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                                 tableType={TableTypes.COLORED}
                                 data={merchantDirections || []}
                                 className={clsx(
-                                    "max-h-[30dvh] min-h-20",
+                                    "min-h-20",
                                     merchantDirections && merchantDirections.length > 1 && "min-h-44"
                                 )}
                             />
