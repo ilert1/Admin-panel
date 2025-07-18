@@ -32,7 +32,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 notFoundMessage={translate("resources.currency.notFoundMessage")}
                 placeholder={translate("app.widgets.multiSelect.selectCurrencies")}
                 animation={0}
-                maxCount={10}
+                // maxCount={10}
                 modalPopover={modal}
                 isLoading={isLoading}
             />

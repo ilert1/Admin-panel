@@ -84,7 +84,7 @@ interface MultiSelectProps
      * Maximum number of items to display. Extra selected items will be summarized.
      * Optional, defaults to 3.
      */
-    maxCount?: number;
+    // maxCount?: number;
 
     /**
      * The modality of the popover. When set to true, interaction with outside elements
@@ -113,7 +113,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             defaultValue = [],
             placeholder = "Select options",
             animation = 0,
-            maxCount = 3,
+            // maxCount = 3,
             modalPopover = false,
             notFoundMessage,
             className,
@@ -125,7 +125,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
     ) => {
         const appToast = useAppToast();
         const [localOptions, setLocalOptions] = React.useState(options);
-
         const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
         const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
         const [isAnimating, setIsAnimating] = React.useState(false);
@@ -136,34 +135,18 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
                 setIsPopoverOpen(true);
-            } else if (event.key === "Backspace" && !event.currentTarget.value) {
-                const newSelectedValues = [...selectedValues];
-                newSelectedValues.pop();
-                setSelectedValues(newSelectedValues);
-                onValueChange(newSelectedValues);
             }
         };
-
-        // const toggleOption = (option: string) => {
-        //     const newSelectedValues = selectedValues.includes(option)
-        //         ? selectedValues.filter(value => value !== option)
-        //         : [...selectedValues, option];
-        //     setSelectedValues(newSelectedValues);
-        //     onValueChange(newSelectedValues);
-        // };
 
         const toggleOption = (option: string) => {
             const isSelected = selectedValues.includes(option);
             const isCustomOption = !options.some(o => o.value === option);
-            // console.log("Selected option", option);
-            // console.log("Is selected", isSelected);
-            // console.log("Is custom option", isCustomOption);
+
             if (isSelected) {
                 const newSelected = selectedValues.filter(v => v !== option);
                 setSelectedValues(newSelected);
                 onValueChange(newSelected);
 
-                // Удаляем из опций, если был добавлен вручную
                 if (isCustomOption) {
                     setLocalOptions(prev => prev.filter(o => o.value !== option));
                 }
@@ -183,23 +166,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             setIsPopoverOpen(prev => !prev);
         };
 
-        const clearExtraOptions = () => {
-            const newSelectedValues = selectedValues.slice(0, maxCount);
-            setSelectedValues(newSelectedValues);
-            onValueChange(newSelectedValues);
-        };
-
-        // const toggleAll = () => {
-        //     if (selectedValues.length === localOptions.length) {
-        //         handleClear();
-        //     } else {
-        //         const allValues = localOptions.map(option => option.value);
-        //         setSelectedValues(allValues);
-        //         onValueChange(allValues);
-        //     }
-        // };
         const toggleAll = () => {
-            const originalValues = options.map(option => option.value);
+            const originalValues = localOptions.map(option => option.value);
             const areAllSelected = originalValues.every(val => selectedValues.includes(val));
 
             if (areAllSelected) {
@@ -209,34 +177,10 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             } else {
                 setSelectedValues(originalValues);
                 onValueChange(originalValues);
-                setLocalOptions(options);
             }
         };
 
-        // const toggleAll = () => {
-        //     // const originalValues = options.map(option => option.value);
-        //     // const areAllSelected = originalValues.every(val => selectedValues.includes(val));
-        //     const newValues = Array.from(new Set([...selectedValues, ...options.map(option => option.value)]));
-        //     const areAllSelected = newValues.every(val => selectedValues.includes(val));
-
-        //     if (areAllSelected) {
-        //         setSelectedValues([]);
-        //         onValueChange([]);
-        //         setLocalOptions(options);
-        //     } else {
-        //         setSelectedValues(newValues);
-        //         onValueChange(newValues);
-        //         setLocalOptions(options);
-        //     }
-        // };
-
-        React.useEffect(() => {
-            if (!isPopoverOpen) {
-                setTimeout(() => setInputValue(""), 100);
-            }
-        }, [isPopoverOpen]);
-
-        const areAllSelected = localOptions.length > 0 && localOptions.every(opt => selectedValues.includes(opt.value));
+        const areAllSelected = selectedValues.length === localOptions.length;
 
         return (
             <Popover
@@ -253,7 +197,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         onClick={handleTogglePopover}
                         variant={"outline_sec"}
                         className={cn(
-                            "flex h-auto min-h-10 w-full items-center justify-between rounded-md border bg-white p-1 hover:bg-muted dark:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
+                            "flex h-auto min-h-[38px] w-full items-center justify-between rounded-4 border border-neutral-40 bg-white p-1 hover:bg-muted dark:border-neutral-60 dark:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
                             "[&:is([data-state='open'])_#multiSelectToggleIcon]:rotate-180",
                             className
                         )}>
@@ -266,10 +210,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         selectedValues
                                             // .slice(0, maxCount)
                                             .map(value => {
-                                                console.log(localOptions);
-
                                                 const option = localOptions.find(o => o.value === value);
-                                                console.log("Option", option);
                                                 const IconComponent = option?.icon;
 
                                                 return (
@@ -300,24 +241,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 );
                                             })
                                     )}
-                                    {/* {selectedValues.length > maxCount && (
-                                        <Badge
-                                            className={cn(
-                                                "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
-                                                isAnimating ? "animate-bounce" : "",
-                                                multiSelectVariants({ variant })
-                                            )}
-                                            style={{ animationDuration: `${animation}s` }}>
-                                            {`+ ${selectedValues.length - maxCount} more`}
-                                            <XCircle
-                                                className="ml-2 h-4 w-4 cursor-pointer"
-                                                onClick={event => {
-                                                    event.stopPropagation();
-                                                    clearExtraOptions();
-                                                }}
-                                            />
-                                        </Badge>
-                                    )} */}
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <XIcon
@@ -385,11 +308,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                     { label: inputValue, value: inputValue }
                                                 ]);
 
-                                                setSelectedValues(prev => [...prev, inputValue]);
-                                                2;
-                                                const newSelectedValues = selectedValues.includes(inputValue)
-                                                    ? selectedValues.filter(value => value !== inputValue)
-                                                    : [...selectedValues, inputValue];
+                                                const newSelectedValues = [...selectedValues, inputValue];
+                                                setSelectedValues(newSelectedValues);
                                                 onValueChange(newSelectedValues);
                                             }}>
                                             {translate("app.widgets.multiSelect.addNew")}
@@ -442,26 +362,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                 })}
                             </CommandGroup>
                             <CommandSeparator />
-                            {/* <CommandGroup>
-                                <div className="flex items-center justify-between">
-                                    {selectedValues.length > 0 && (
-                                        <>
-                                            <Button
-                                                onClick={handleClear}
-                                                variant={"alert"}
-                                                className="flex-1 cursor-pointer justify-center rounded-none">
-                                                {translate("app.ui.actions.clear")}
-                                            </Button>
-                                            <Separator orientation="vertical" className="flex h-full min-h-6" />
-                                        </>
-                                    )}
-                                    <Button
-                                        onClick={() => setIsPopoverOpen(false)}
-                                        className="max-w-full flex-1 cursor-pointer justify-center rounded-none">
-                                        {translate("app.ui.actions.close")}
-                                    </Button>
-                                </div>
-                            </CommandGroup> */}
                         </CommandList>
                     </Command>
                 </PopoverContent>
