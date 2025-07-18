@@ -119,8 +119,9 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                 variant="outline_gray"
                                 className={cn(
                                     style === "Black"
-                                        ? "bg-black hover:!bg-white hover:dark:!bg-black"
-                                        : "!bg-white hover:!bg-white dark:!bg-muted hover:dark:!bg-muted",
+                                        ? "bg-black hover:bg-white hover:dark:bg-black"
+                                        : "bg-white hover:bg-white dark:bg-muted hover:dark:bg-muted",
+                                    "disabled:border-neutral-40 disabled:bg-neutral-20",
                                     `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                                     "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
                                     "border-neutral-40 bg-neutral-0 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
@@ -146,17 +147,19 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
     return (
         <Popover open={open} onOpenChange={setOpen} modal={modal}>
-            <PopoverTrigger asChild className="mt-0" disabled={disabled}>
+            <PopoverTrigger asChild className="mt-0">
+                {/* disabled={disabled} */}
                 <Button
                     variant={"outline_gray"}
                     role="combobox"
                     onClick={handleTogglePopover}
+                    disabled={disabled}
                     // aria-expanded={open}
                     className={cn(
                         style === "Black"
-                            ? "bg-black hover:!bg-white hover:dark:!bg-black"
-                            : "!bg-white hover:!bg-white dark:!bg-muted hover:dark:!bg-muted",
-                        `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
+                            ? "bg-black hover:bg-white hover:dark:bg-black"
+                            : "bg-white hover:bg-white dark:bg-muted hover:dark:bg-muted",
+                        `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-red-40 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                         "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
                         "border-neutral-40 bg-neutral-0 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
                         "hover:!border-green-20 dark:hover:text-neutral-40",
@@ -211,7 +214,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                     <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
                     <CommandList ref={commandList}>
-                        <CommandEmpty>{notFoundMessage}</CommandEmpty>
+                        <CommandEmpty className="text-neutral-90 dark:text-neutral-0">{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
                             {variants.map(variant => {
                                 const newVariant = () => {
@@ -223,7 +226,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                 };
                                 return (
                                     <CommandItem
-                                        className="cursor-pointer hover:bg-green-50 data-[selected=true]:bg-green-50 dark:hover:bg-green-50 dark:data-[selected=true]:bg-green-50"
+                                        className="cursor-pointer text-neutral-90 hover:bg-green-50 hover:text-white data-[selected=true]:bg-green-50 dark:text-neutral-0 dark:hover:bg-green-50 dark:data-[selected=true]:bg-green-50"
                                         key={idField ? variant[idField] : newVariant()}
                                         value={newVariant()}
                                         onSelect={onSelectChange}>
