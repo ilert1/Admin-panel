@@ -137,12 +137,11 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
             </div>
 
             <div className="mb-4 flex flex-col justify-end gap-2 px-0 sm:flex-row sm:px-[42px] md:gap-4">
-                <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
-                    {translate("resources.users.delete")}
-                </Button>
-
                 <Button onClick={handleEditClicked} className="text-title-1 text-white">
                     {translate("resources.users.edit")}
+                </Button>
+                <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
+                    {translate("resources.users.delete")}
                 </Button>
             </div>
             <DeleteWalletDialog
