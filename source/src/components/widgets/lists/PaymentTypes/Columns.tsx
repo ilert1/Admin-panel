@@ -50,7 +50,7 @@ export const useGetPaymentTypesColumns = () => {
             accessorKey: "title",
             header: translate("resources.paymentSettings.paymentType.fields.title"),
             cell: ({ row }) => {
-                return <TextField text={row.original.title || ""} />;
+                return <TextField text={row.original.title || ""} wrap className="min-w-[180px]" />;
             }
         },
         {
