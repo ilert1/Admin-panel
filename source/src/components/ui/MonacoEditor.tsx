@@ -163,7 +163,8 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     readOnly: disabled,
                     domReadOnly: disabled,
                     readOnlyMessage: { value: "" },
-                    automaticLayout: true
+                    automaticLayout: true,
+                    hover: { enabled: false }
                 }}
                 beforeMount={handleEditorDidMount}
             />
