@@ -70,6 +70,7 @@ export const callbackMappingEndpointsListMappingsCallbridgeV1MappingGet = async 
 };
 
 /**
+ * @deprecated
  * @summary Create callback mapping
  */
 export type callbackMappingEndpointsCreateMappingCallbridgeV1MappingPostResponse200 = {
@@ -195,6 +196,7 @@ export const callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGet =
 };
 
 /**
+ * @deprecated
  * @summary Update callback mapping
  */
 export type callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutResponse200 = {

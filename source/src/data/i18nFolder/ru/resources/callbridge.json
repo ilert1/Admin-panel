@@ -102,6 +102,7 @@
             "retryCallback": "Повторить",
             "queued": "В очереди",
             "processing": "Обрабатывается",
+            "quick_processing": "Обрабатывается в приоритете",
             "retrying": "В повторе",
             "success": "Успех",
             "error": "Ошибка",
