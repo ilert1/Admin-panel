@@ -112,7 +112,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         id={id}
                         fees={fees}
                         feesResource={FeesResource.MERCHANT}
-                        className="max-h-[40dvh]"
+                        className="max-h-[30dvh]"
                         padding={false}
                     />
 
