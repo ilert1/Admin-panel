@@ -224,7 +224,12 @@
             "noResultFound": "No results found.",
             "selectPaymentTypes": "Select payment types",
             "selectCurrencies": "Select currencies",
-            "searchPlaceholder": "Search..."
+            "searchPlaceholder": "Search...",
+            "selectRequiredFields": "Select required fields",
+            "searchOrAddPlaceholder": "Search or add...",
+            "addNew": "Add field",
+            "optionAlreadyExists": "Option already added",
+            "reqFieldRegex": "It is allowed to enter lowercase Latin letters and underscores"
         }
     },
     "app.login": {

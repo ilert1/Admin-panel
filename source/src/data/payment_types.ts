@@ -15,7 +15,8 @@ import {
     CurrenciesLink,
     ImportMode,
     PaymentTypeCreate,
-    PaymentTypeModel
+    PaymentTypeModel,
+    RequiredFieldItem
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl,
@@ -23,6 +24,7 @@ import {
     paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
     paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
     paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
+    paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGet,
     paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
     paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
     paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete,
@@ -299,6 +301,23 @@ export class PaymentTypesProvider extends IBaseDataProvider {
                 data: {
                     ...res.data.data
                 }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    async getRequiredFields(): Promise<Record<number, RequiredFieldItem> | undefined> {
+        const res = await paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGet({
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+        if ("data" in res.data && res.data.success) {
+            return {
+                ...res.data.data
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
