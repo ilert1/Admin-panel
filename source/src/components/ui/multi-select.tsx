@@ -270,7 +270,14 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         )}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start" onEscapeKeyDown={() => setIsPopoverOpen(false)}>
+                <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                    onEscapeKeyDown={() => setIsPopoverOpen(false)}
+                    onCloseAutoFocus={e => {
+                        e.preventDefault();
+                        setInputValue("");
+                    }}>
                     <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
                             value={inputValue}
