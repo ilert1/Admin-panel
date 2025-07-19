@@ -127,6 +127,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                 "w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted",
                 height
             )}>
+            <style>{`.monaco-editor {outline: none !important;}`}</style>
             <Editor
                 width={"99%"}
                 defaultLanguage="json"
@@ -167,6 +168,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     hover: { enabled: false }
                 }}
                 beforeMount={handleEditorDidMount}
+                className="outline-none"
             />
         </div>
     );
