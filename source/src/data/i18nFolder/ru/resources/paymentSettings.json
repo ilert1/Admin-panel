@@ -56,7 +56,7 @@
             "currencies": "Валюты",
             "currenciesToChoose": "Выберите валюты",
             "id": "ID",
-            "meta": "Метадата",
+            "meta": "Метаданные",
             "types": {
                 "BANK": "Банк",
                 "OTHER": "Другое"

@@ -97,7 +97,7 @@
             "direction": "Direction",
             "status": "Status",
             "description": "Description",
-            "meta": "Meta"
+            "meta": "Metadata"
         },
         "list": {
             "createdAt": "Created at",

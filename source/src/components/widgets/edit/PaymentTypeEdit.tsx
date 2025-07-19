@@ -102,7 +102,11 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
             await paymentTypesDataProvider.update("payment_type", {
                 id,
-                data: { ...data, required_fields_for_payment },
+                data: {
+                    ...data,
+                    required_fields_for_payment,
+                    meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {}
+                },
                 previousData: undefined
             });
 
