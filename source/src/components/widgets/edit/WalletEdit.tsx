@@ -241,10 +241,10 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
-                                            disabled
                                             label={translate("resources.wallet.manage.fields.currency")}
+                                            disabled
+                                            errorMessage={<FormMessage />}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -257,11 +257,10 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            disabled
                                             {...field}
-                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.wallet.manage.fields.blockchain")}
+                                            disabled
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -277,7 +276,6 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                                         <Input
                                             disabled
                                             {...field}
-                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.wallet.manage.fields.contactType")}
                                         />
