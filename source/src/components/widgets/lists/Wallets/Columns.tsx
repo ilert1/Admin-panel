@@ -43,7 +43,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             </div>
         ) : (
             <TextField
-                text={accId ?? ""}
+                text={accId ? accId : (accountId ?? "")}
                 wrap
                 copyValue
                 lineClamp
