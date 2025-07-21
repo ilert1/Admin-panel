@@ -318,6 +318,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 const newSelectedValues = [...selectedValues, inputValue];
                                                 setSelectedValues(newSelectedValues);
                                                 onValueChange(newSelectedValues);
+                                                setInputValue("");
                                             }}>
                                             {translate("app.widgets.multiSelect.addNew")}
                                         </Button>
