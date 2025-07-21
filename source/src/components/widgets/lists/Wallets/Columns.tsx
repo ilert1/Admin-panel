@@ -43,7 +43,7 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             </div>
         ) : (
             <TextField
-                text={accId ?? ""}
+                text={accId ? accId : (accountId ?? "")}
                 wrap
                 copyValue
                 lineClamp
@@ -83,6 +83,8 @@ export const useGetWalletsColumns = (data: Wallets.Wallet[], balances: Map<strin
             accessorKey: "account_id",
             header: translate("resources.wallet.manage.fields.accountNumber"),
             cell: ({ row }) => {
+                console.log(row.original.account_id);
+
                 return <AccountIdCell accountId={row.original.account_id} />;
             }
         },
