@@ -124,7 +124,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                     "disabled:border-neutral-40 disabled:bg-neutral-20",
                                     `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                                     "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
-                                    "border-neutral-40 bg-neutral-0 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
+                                    "border-neutral-40 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:text-neutral-40",
                                     "hover:!border-green-20 dark:hover:text-neutral-40",
                                     isError ? "!border-red-40 dark:!border-red-40" : ""
                                 )}>
@@ -161,7 +161,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                             : "bg-white hover:bg-white dark:bg-muted hover:dark:bg-muted",
                         `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-red-40 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                         "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
-                        "border-neutral-40 bg-neutral-0 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
+                        "border-neutral-40 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:text-neutral-40",
                         "hover:!border-green-20 dark:hover:text-neutral-40",
                         isError ? "!border-red-40 dark:!border-red-40" : ""
                     )}>
