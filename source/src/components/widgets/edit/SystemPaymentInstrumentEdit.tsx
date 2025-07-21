@@ -130,6 +130,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                                             onValidChange={setHasValid}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
+                                            allowEmptyValues
                                         />
                                     </FormControl>
                                     <FormMessage />

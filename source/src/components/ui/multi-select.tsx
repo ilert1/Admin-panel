@@ -24,7 +24,7 @@ import { useAppToast } from "./toast/useAppToast";
  * Variants for the multi-select component to handle different styles.
  * Uses class-variance-authority (cva) to define different styles based on "variant" prop.
  */
-const multiSelectVariants = cva("m-1 transition ease-in-out delay-150 duration-300", {
+const multiSelectVariants = cva("m-1 transition ease-out duration-150", {
     variants: {
         variant: {
             default: "border-foreground/10 text-foreground bg-card hover:bg-card/80",
@@ -203,9 +203,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         )}>
                         {selectedValues.length > 0 ? (
                             <div className="flex w-full items-center justify-between">
-                                <div className="flex max-h-32 flex-wrap items-center overflow-y-auto">
+                                <div className="flex max-h-32 flex-wrap items-center gap-y-1 overflow-y-auto">
                                     {isLoading ? (
-                                        <LoadingBlock className="!h-4 !w-4" />
+                                        <LoadingBlock className="!h-4 !w-4 overflow-hidden" />
                                     ) : (
                                         selectedValues
                                             // .slice(0, maxCount)
@@ -219,7 +219,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                         className={cn(
                                                             isAnimating ? "animate-bounce" : "",
                                                             multiSelectVariants({ variant }),
-                                                            "bg-muted font-normal"
+                                                            "my-0 bg-muted font-normal"
                                                         )}
                                                         style={{ animationDuration: `${animation}s` }}>
                                                         {IconComponent && (
@@ -231,7 +231,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                                 : option?.label}
                                                         </span>
                                                         <XCircle
-                                                            className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
+                                                            className="ml-2 h-4 w-4 cursor-pointer rounded-full text-neutral-90 transition-colors hover:bg-red-40 dark:text-neutral-0"
                                                             onClick={event => {
                                                                 event.stopPropagation();
                                                                 toggleOption(value);

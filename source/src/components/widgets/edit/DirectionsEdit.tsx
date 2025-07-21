@@ -106,7 +106,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             .int(translate("resources.direction.errors.weightError"))
             .min(0, translate("resources.direction.errors.weightError"))
             .max(1000, translate("resources.direction.errors.weightError")),
-        type: z.enum(["universal", "withdraw", "deposit"], {
+        type: z.enum(directionTypes.map(type => type.value) as [string, ...string[]], {
             message: translate("resources.direction.errors.typeError")
         }),
         payment_types: z.array(z.string()).optional()

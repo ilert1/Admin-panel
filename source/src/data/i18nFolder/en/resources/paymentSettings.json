@@ -66,6 +66,7 @@
         "errors": {
             "name": "The name of the financial institution is required",
             "nspk_member_id_max": "The length of the NSPK member ID must not exceed 20 characters",
+            "bin_max": "BIN must not exceed 9 characters",
             "code": "The code of the financial institution is required",
             "code_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
             "country_code": "The country code is entered incorrectly",
@@ -97,7 +98,7 @@
             "direction": "Direction",
             "status": "Status",
             "description": "Description",
-            "meta": "Meta"
+            "meta": "Metadata"
         },
         "list": {
             "createdAt": "Created at",

@@ -13,6 +13,14 @@ import { useState } from "react";
 import { ProviderMethodsForm } from "./ProviderMethodsForm";
 import { ProvidersDataProvider } from "@/data";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 
 interface IProviderMethodsShow {
     providerId: string;
@@ -25,10 +33,22 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [editMethod, setEditMethod] = useState("");
     const [addMethodForm, setAddMethodForm] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [keyForRemove, setKeyForRemove] = useState("");
 
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
+
+    const handleDeleteClick = (key: string) => {
+        setKeyForRemove(key);
+        setDeleteDialogOpen(true);
+    };
+
+    const closeDeleteDialog = () => {
+        setKeyForRemove("");
+        setDeleteDialogOpen(false);
+    };
 
     const updateProviderMethods = async (tempMethodsData: typeof methods) =>
         await providersDataProvider.update("provider", {
@@ -96,6 +116,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
 
             appToast("success", translate("resources.provider.methodDeleteSuccess"));
             refresh();
+            closeDeleteDialog();
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.toast.error"));
@@ -131,7 +152,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                                     <ProviderMethodsTable
                                         disabledProcess={isFetching || buttonDisabled}
                                         disabledEditButton={!!editMethod}
-                                        onDeleteClick={() => onRemoveMethod(methodKey)}
+                                        onDeleteClick={() => handleDeleteClick(methodKey)}
                                         onEditClick={() => setEditMethod(methodKey)}
                                         methodValue={methods[methodKey] as ExecutionMethodOutput}
                                         disabledDeleteButton={methodKey === "callback"}
@@ -162,6 +183,32 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                     onCancel={() => setAddMethodForm(false)}
                 />
             )}
+
+            <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                <DialogContent className="!z-[200] h-auto max-h-56 !w-[251px] overflow-hidden rounded-16 bg-muted xl:max-h-none">
+                    <DialogHeader>
+                        <DialogTitle className="text-center">
+                            {translate("resources.provider.removeMethodDialog")}
+                        </DialogTitle>
+                        <DialogDescription />
+                    </DialogHeader>
+
+                    <DialogFooter>
+                        <div className="flex w-full justify-around">
+                            <Button onClick={() => onRemoveMethod(keyForRemove)}>
+                                {translate("app.ui.actions.delete")}
+                            </Button>
+
+                            <Button
+                                className="bg-neutral-0 dark:bg-neutral-100"
+                                variant={"outline"}
+                                onClick={closeDeleteDialog}>
+                                {translate("app.ui.actions.cancel")}
+                            </Button>
+                        </div>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

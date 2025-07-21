@@ -30,7 +30,7 @@ export function SimpleTable<TData, TValue>({
 
     return (
         <Table className={className}>
-            <TableHeader>
+            <TableHeader className="border border-neutral-40 px-4 py-[9px] text-left text-base leading-4 text-white dark:border-muted">
                 {table.getHeaderGroups().map((headerGroup, i) => (
                     <TableRow className="relative" key={i}>
                         {headerGroup.headers.map((header, j) => {
@@ -82,7 +82,9 @@ export function SimpleTable<TData, TValue>({
                     ))
                 ) : (
                     <TableRow>
-                        <TableCell colSpan={columns.length} className="h-24 text-center">
+                        <TableCell
+                            colSpan={columns.length}
+                            className="h-24 bg-white text-center text-neutral-90 dark:bg-black dark:text-neutral-30">
                             {translate("resources.transactions.undefined")}
                         </TableCell>
                     </TableRow>

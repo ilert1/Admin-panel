@@ -9,6 +9,7 @@ import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "./DirectionActivityBtn";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { Badge } from "@/components/ui/badge";
+import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
 
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
@@ -47,8 +48,9 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         variant={"resourceLink"}
                         onClick={() => {
                             handleDirectionShowOpen(row.original.id);
-                        }}>
-                        {row.original.name ?? ""}
+                        }}
+                        className="whitespace-break-spaces text-left">
+                        {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
                     </Button>
                 );
             }

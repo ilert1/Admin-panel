@@ -26,6 +26,7 @@ import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/Curre
 import { PaymentTypesProvider } from "@/data/payment_types";
 import { RequiredFieldsMultiSelect } from "../components/MultiSelectComponents/RequiredFieldsMultiSelect";
 import { useQuery } from "@tanstack/react-query";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -43,6 +44,9 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [hasErrors, setHasErrors] = useState(false);
+    const [isValid, setIsValid] = useState(true);
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
     const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
@@ -60,11 +64,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             .default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
         required_fields_for_payment: z.array(z.string()).optional(),
-        meta: z
-            .object({
-                icon: z.string().optional()
-            })
-            .optional(),
+        meta: z.string().trim().optional(),
         currencies: z.array(z.string()).optional()
     });
 
@@ -75,9 +75,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             title: controllerProps.record?.title ?? "",
             category: controllerProps.record?.category ?? "",
             required_fields_for_payment: controllerProps.record?.required_fields_for_payment ?? "",
-            meta: {
-                icon: controllerProps.record?.meta?.icon ?? ""
-            },
+            meta: JSON.stringify(controllerProps.record?.meta, null, 2) || "{}",
             currencies: controllerProps.record?.currencies?.map((c: { code: string }) => c.code) ?? []
         }
     });
@@ -104,7 +102,10 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         try {
             await paymentTypesDataProvider.update("payment_type", {
                 id,
-                data,
+                data: {
+                    ...data,
+                    meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {}
+                },
                 previousData: undefined
             });
 
@@ -266,6 +267,32 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                         </FormControl>
                                     </FormItem>
                                 )}
+                            />{" "}
+                            <FormField
+                                control={form.control}
+                                name="meta"
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                            <Label>
+                                                {translate(
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.meta"
+                                                )}
+                                            </Label>
+                                            <FormControl>
+                                                <MonacoEditor
+                                                    onErrorsChange={setHasErrors}
+                                                    onValidChange={setIsValid}
+                                                    onMountEditor={() => setMonacoEditorMounted(true)}
+                                                    code={field.value ?? "{}"}
+                                                    setCode={field.onChange}
+                                                    allowEmptyValues
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
                             />
                             {/* <FormField
                                 control={form.control}
@@ -351,7 +378,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={submitButtonDisabled}>
+                                disabled={
+                                    submitButtonDisabled ||
+                                    hasErrors ||
+                                    (!isValid && form.watch("meta")?.length !== 0) ||
+                                    !monacoEditorMounted
+                                }>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

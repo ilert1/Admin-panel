@@ -154,10 +154,11 @@ export const FeeCard = memo((props: FeeCardProps) => {
                                     {translate("app.ui.actions.delete")}
                                 </Button>
                                 <Button
+                                    className="bg-neutral-0 dark:bg-neutral-100"
+                                    variant={"outline"}
                                     onClick={() => {
                                         setDeleteDialogOpen(false);
-                                    }}
-                                    variant="outline_gray">
+                                    }}>
                                     {translate("app.ui.actions.cancel")}
                                 </Button>
                             </div>

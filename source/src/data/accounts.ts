@@ -1,9 +1,17 @@
-import { addRefreshAuthToDataProvider, fetchUtils, UpdateParams } from "react-admin";
+import { addRefreshAuthToDataProvider, fetchUtils, GetOneParams, UpdateParams } from "react-admin";
 import { BF_MANAGER_URL, IBaseDataProvider } from "./base";
 import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 import { API_URL } from "@/data/base";
 
 export class IAccountsDataProvider extends IBaseDataProvider {
+    async getOne(resource: string, params: GetOneParams) {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}`, {
+            user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
+            signal: params.signal || params.meta?.signal
+        });
+        return { data: json.data };
+    }
+
     async update(resource: string, params: UpdateParams) {
         const data = params.data;
 

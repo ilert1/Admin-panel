@@ -208,7 +208,7 @@ export function DateRangePicker({
                                     dateRange.from.toLocaleDateString(locale)
                                 )
                             ) : (
-                                <span className="text-neutral-80 dark:text-neutral-70">{placeholder}</span>
+                                <span className="text-neutral-60 dark:text-neutral-70">{placeholder}</span>
                             )}
 
                             {openPopover && dateRange?.from && dateRange?.to ? (

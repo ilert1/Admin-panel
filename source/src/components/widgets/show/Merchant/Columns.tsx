@@ -7,6 +7,8 @@ import { IProvider } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "../../lists/Directions/DirectionActivityBtn";
+import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
@@ -23,8 +25,9 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
                             variant={"resourceLink"}
                             onClick={() => {
                                 openSheet("direction", { id: row.original.id });
-                            }}>
-                            {row.original.name ?? ""}
+                            }}
+                            className="whitespace-break-spaces text-left">
+                            {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
                         </Button>
                         <TextField
                             text={row.original.id}
@@ -53,7 +56,11 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => {
                 const obj: CurrencyWithId = row.getValue("src_currency");
-                return <TextField text={obj.code} />;
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        <Badge variant="currency">{obj.code}</Badge>
+                    </div>
+                );
             }
         },
         {
@@ -62,7 +69,11 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => {
                 const obj: CurrencyWithId = row.getValue("dst_currency");
-                return <TextField text={obj.code} />;
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        <Badge variant="currency">{obj.code}</Badge>
+                    </div>
+                );
             }
         },
         {
