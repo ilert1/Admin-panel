@@ -203,7 +203,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         )}>
                         {selectedValues.length > 0 ? (
                             <div className="flex w-full items-center justify-between">
-                                <div className="flex max-h-32 flex-wrap items-center overflow-y-auto">
+                                <div className="flex max-h-32 flex-wrap items-center gap-y-1 overflow-y-auto">
                                     {isLoading ? (
                                         <LoadingBlock className="!h-4 !w-4 overflow-hidden" />
                                     ) : (
