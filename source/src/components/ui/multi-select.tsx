@@ -24,7 +24,7 @@ import { useAppToast } from "./toast/useAppToast";
  * Variants for the multi-select component to handle different styles.
  * Uses class-variance-authority (cva) to define different styles based on "variant" prop.
  */
-const multiSelectVariants = cva("m-1 transition ease-in-out delay-150 duration-300", {
+const multiSelectVariants = cva("m-1 transition ease-out duration-150", {
     variants: {
         variant: {
             default: "border-foreground/10 text-foreground bg-card hover:bg-card/80",
