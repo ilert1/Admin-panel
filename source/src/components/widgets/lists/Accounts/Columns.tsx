@@ -76,10 +76,12 @@ export const useGetAccountsColumns = () => {
             accessorKey: "amounts",
             header: translate("resources.accounts.fields.balance"),
             cell: ({ row }) => {
+                console.log(row.original.amounts);
+
                 return (
                     <RecordContextProvider value={row.original}>
                         <div className="flex flex-col justify-center">
-                            {row.original.amounts.map((el, index) => {
+                            {row.original.amounts?.map((el, index) => {
                                 const foundCur = currenciesData?.find(cur => cur.code === el.currency);
 
                                 return (
