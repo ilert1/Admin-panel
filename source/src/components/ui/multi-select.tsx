@@ -181,6 +181,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         };
 
         const areAllSelected = selectedValues.length === localOptions.length;
+        const showButton = addingNew && inputValue.length > 0;
+        console.log(showButton);
 
         return (
             <Popover
@@ -289,8 +291,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             }
                             onKeyDown={handleInputKeyDown}
                         />
+
                         <CommandList>
-                            <CommandEmpty>
+                            {/* <CommandEmpty>
                                 {addingNew ? (
                                     <div className="h-full w-full">
                                         <Button
@@ -326,7 +329,12 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                 ) : (
                                     notFoundMessage || translate("app.widgets.multiSelect.noResultFound")
                                 )}
-                            </CommandEmpty>
+                            </CommandEmpty> */}
+                            {!addingNew && (
+                                <CommandEmpty>
+                                    {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
+                                </CommandEmpty>
+                            )}
                             <CommandGroup>
                                 {options.length > 0 && (
                                     <CommandItem
@@ -371,6 +379,39 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             </CommandGroup>
                             <CommandSeparator />
                         </CommandList>
+                        {addingNew &&
+                            inputValue.length > 0 &&
+                            !localOptions.some(
+                                opt => opt.value === inputValue || opt.label?.toLowerCase() === inputValue.toLowerCase()
+                            ) && (
+                                <div className="p-2">
+                                    <Button
+                                        className="w-full rounded-none"
+                                        onClick={() => {
+                                            if (!inputValue.match(/^[a-z0-9_]+$/)) {
+                                                appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
+                                                return;
+                                            }
+                                            if (selectedValues.includes(inputValue)) {
+                                                appToast(
+                                                    "error",
+                                                    translate("app.widgets.multiSelect.optionAlreadyExists")
+                                                );
+                                                return;
+                                            }
+                                            setLocalOptions(prev => [
+                                                ...prev,
+                                                { label: inputValue, value: inputValue }
+                                            ]);
+                                            const newSelectedValues = [...selectedValues, inputValue];
+                                            setSelectedValues(newSelectedValues);
+                                            onValueChange(newSelectedValues);
+                                            setInputValue("");
+                                        }}>
+                                        {translate("app.widgets.multiSelect.addNew")}
+                                    </Button>
+                                </div>
+                            )}
                     </Command>
                 </PopoverContent>
                 {animation > 0 && selectedValues.length > 0 && (
