@@ -2,12 +2,14 @@ import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
 import { useListContext, useRefresh, useTranslate } from "react-admin";
 
 const useFinancialInstitutionsListFilter = () => {
     const translate = useTranslate();
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const [name, setName] = useState(filterValues?.name || "");
@@ -15,6 +17,7 @@ const useFinancialInstitutionsListFilter = () => {
     const [institutionType, setInstitutionType] = useState(filterValues?.institution_type || "");
     const [countryCode, setCountryCode] = useState(filterValues?.country_code || "");
     const [nspkMemberId, setNspkMemberId] = useState(filterValues?.nspk_member_id || "");
+    const [currencyCode, setCurrencyCode] = useState(filterValues?.currencies || "");
     const [reportLoading, setReportLoading] = useState(false);
 
     const appToast = useAppToast();
@@ -22,7 +25,10 @@ const useFinancialInstitutionsListFilter = () => {
     const dataProvider = new FinancialInstitutionProvider();
 
     const onPropertySelected = debounce(
-        (value: string, type: "name" | "code" | "institution_type" | "country_code" | "nspk_member_id") => {
+        (
+            value: string,
+            type: "name" | "code" | "institution_type" | "country_code" | "nspk_member_id" | "currencies"
+        ) => {
             if (value) {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
             } else {
@@ -59,6 +65,11 @@ const useFinancialInstitutionsListFilter = () => {
         onPropertySelected(value, "nspk_member_id");
     };
 
+    const onCurrencyCodeChanged = (e: string) => {
+        setCurrencyCode(e);
+        onPropertySelected(e, "currencies");
+    };
+
     const onClearFilters = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -67,6 +78,7 @@ const useFinancialInstitutionsListFilter = () => {
         setInstitutionType("");
         setCountryCode("");
         setNspkMemberId("");
+        setCurrencyCode("");
     };
 
     const handleDownloadReport = async () => {
@@ -151,11 +163,15 @@ const useFinancialInstitutionsListFilter = () => {
         institutionType,
         countryCode,
         nspkMemberId,
+        currencyCode,
+        currenciesData,
+        currenciesLoadingProcess,
         reportLoading,
         onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,
+        onCurrencyCodeChanged,
         onClearFilters,
         onNameChanged,
         handleDownloadReport,

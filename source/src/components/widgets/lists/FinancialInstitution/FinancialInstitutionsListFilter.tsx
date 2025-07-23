@@ -13,6 +13,7 @@ import { UploadCsvFileDialog } from "../PaymentTypes/UploadCsvFileDialog";
 import { ExportPSReportDialog } from "../PaymentTypes/ExportPSReportDialog";
 import { useListContext } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
+import { CurrencySelect } from "../../components/Selects/CurrencySelect";
 
 interface FinancialInstitutionsListFilterProps {
     handleCreateClicked: () => void;
@@ -28,11 +29,15 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         institutionType,
         countryCode,
         nspkMemberId,
+        currencyCode,
+        currenciesData,
+        currenciesLoadingProcess,
         reportLoading,
         onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,
+        onCurrencyCodeChanged,
         onClearFilters,
         onNameChanged,
         handleDownloadReport,
@@ -168,6 +173,23 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
+                    </div>
+
+                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                        <Label variant={"title-2"}>
+                            {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                        </Label>
+                        <CurrencySelect
+                            currencies={currenciesData ?? []}
+                            value={currencyCode}
+                            onChange={onCurrencyCodeChanged}
+                            disabled={currenciesLoadingProcess}
+                            style="Black"
+                            placeholder={translate(
+                                "resources.paymentSettings.financialInstitution.fields.currenciesToChoose"
+                            )}
+                            isLoading={currenciesLoadingProcess}
+                        />
                     </div>
                 </div>
             </AnimatedContainer>
