@@ -26,11 +26,19 @@ const useFinancialInstitutionsListFilter = () => {
 
     const onPropertySelected = debounce(
         (
-            value: string,
+            value: string | string[],
             type: "name" | "code" | "institution_type" | "country_code" | "nspk_member_id" | "currencies"
         ) => {
             if (value) {
-                setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
+                if (type === "currencies") {
+                    setFilters(
+                        { ...filterValues, [type]: encodeURIComponent(JSON.stringify(value)) },
+                        displayedFilters,
+                        true
+                    );
+                } else {
+                    setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
+                }
             } else {
                 Reflect.deleteProperty(filterValues, type);
                 setFilters(filterValues, displayedFilters, true);
@@ -65,7 +73,7 @@ const useFinancialInstitutionsListFilter = () => {
         onPropertySelected(value, "nspk_member_id");
     };
 
-    const onCurrencyCodeChanged = (e: string) => {
+    const onCurrencyCodeChanged = (e: string[]) => {
         setCurrencyCode(e);
         onPropertySelected(e, "currencies");
     };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
@@ -13,7 +13,7 @@ import { UploadCsvFileDialog } from "../PaymentTypes/UploadCsvFileDialog";
 import { ExportPSReportDialog } from "../PaymentTypes/ExportPSReportDialog";
 import { useListContext } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
-import { CurrencySelect } from "../../components/Selects/CurrencySelect";
+import { MultiSelect } from "@/components/ui/multi-select";
 
 interface FinancialInstitutionsListFilterProps {
     handleCreateClicked: () => void;
@@ -50,6 +50,11 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+
+    const currenciesModifiedData = useMemo(
+        () => currenciesData?.map(option => ({ label: option.code, value: option.code })),
+        [currenciesData]
+    );
 
     const clearDisabled = !name && !code && !institutionType && !countryCode && !nspkMemberId;
 
@@ -179,15 +184,17 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                         <Label variant={"title-2"}>
                             {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                         </Label>
-                        <CurrencySelect
-                            currencies={currenciesData ?? []}
-                            value={currencyCode}
-                            onChange={onCurrencyCodeChanged}
-                            disabled={currenciesLoadingProcess}
-                            style="Black"
+                        <MultiSelect
+                            className="bg-neutral-0 hover:bg-neutral-0 active:bg-neutral-0 dark:bg-neutral-100 dark:hover:bg-neutral-100 dark:active:bg-neutral-100"
+                            options={currenciesModifiedData ?? []}
+                            onValueChange={onCurrencyCodeChanged}
+                            defaultValue={currencyCode}
+                            notFoundMessage={translate("resources.currency.notFoundMessage")}
                             placeholder={translate(
                                 "resources.paymentSettings.financialInstitution.fields.currenciesToChoose"
                             )}
+                            animation={0}
+                            modalPopover={false}
                             isLoading={currenciesLoadingProcess}
                         />
                     </div>
