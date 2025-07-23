@@ -44,8 +44,6 @@ export const useGetAccountShowColumns = () => {
             accessorKey: "transaction_id",
             header: translate("resources.transactions.fields.id"),
             cell: ({ row }) => {
-                console.log(row.original.transaction_id);
-
                 return (
                     <TextField
                         text={row.original.transaction_id ?? "-"}
