@@ -15,10 +15,11 @@ import {
     CommandList,
     CommandSeparator
 } from "@/components/ui/command";
-import { Button } from "./Button";
+import { Button } from "@/components/ui/Button";
 import { useTranslate } from "react-admin";
-import { LoadingBlock } from "./loading";
-import { useAppToast } from "./toast/useAppToast";
+import { LoadingBlock } from "@/components/ui/loading";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { AddCustomDialog } from "./AddCustomDialog";
 
 /**
  * Variants for the multi-select component to handle different styles.
@@ -129,6 +130,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
         const [isAnimating, setIsAnimating] = React.useState(false);
         const [inputValue, setInputValue] = React.useState("");
+        const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
 
         const translate = useTranslate();
 
@@ -155,6 +157,15 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 setSelectedValues(newSelected);
                 onValueChange(newSelected);
             }
+        };
+
+        const handleAddCustom = () => {
+            setLocalOptions(prev => [...prev, { label: inputValue, value: inputValue }]);
+            const newSelectedValues = [...selectedValues, inputValue];
+            setSelectedValues(newSelectedValues);
+            onValueChange(newSelectedValues);
+            setInputValue("");
+            appToast("success", translate("app.widgets.multiSelect.confirmDialog.optionAdded"));
         };
 
         const handleClear = () => {
@@ -291,7 +302,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             }
                             onKeyDown={handleInputKeyDown}
                         />
-
                         <CommandList>
                             {/* <CommandEmpty>
                                 {addingNew ? (
@@ -379,39 +389,33 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             </CommandGroup>
                             <CommandSeparator />
                         </CommandList>
-                        {addingNew &&
-                            inputValue.length > 0 &&
-                            !localOptions.some(
-                                opt => opt.value === inputValue || opt.label?.toLowerCase() === inputValue.toLowerCase()
-                            ) && (
-                                <div className="p-2">
-                                    <Button
-                                        className="w-full rounded-none"
-                                        onClick={() => {
-                                            if (!inputValue.match(/^[a-z0-9_]+$/)) {
-                                                appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
-                                                return;
-                                            }
-                                            if (selectedValues.includes(inputValue)) {
-                                                appToast(
-                                                    "error",
-                                                    translate("app.widgets.multiSelect.optionAlreadyExists")
-                                                );
-                                                return;
-                                            }
-                                            setLocalOptions(prev => [
-                                                ...prev,
-                                                { label: inputValue, value: inputValue }
-                                            ]);
-                                            const newSelectedValues = [...selectedValues, inputValue];
-                                            setSelectedValues(newSelectedValues);
-                                            onValueChange(newSelectedValues);
-                                            setInputValue("");
-                                        }}>
-                                        {translate("app.widgets.multiSelect.addNew")}
-                                    </Button>
-                                </div>
-                            )}
+                        {addingNew && inputValue.length > 0 && (
+                            <div className="p-2">
+                                <Button
+                                    className="w-full rounded-none"
+                                    onClick={() => {
+                                        if (!inputValue.match(/^[a-z0-9_]+$/)) {
+                                            appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
+                                            return;
+                                        }
+                                        if (selectedValues.includes(inputValue)) {
+                                            appToast("error", translate("app.widgets.multiSelect.optionAlreadyExists"));
+                                            return;
+                                        }
+                                        setConfirmDialogOpen(true);
+                                        // setLocalOptions(prev => [
+                                        //     ...prev,
+                                        //     { label: inputValue, value: inputValue }
+                                        // ]);
+                                        // const newSelectedValues = [...selectedValues, inputValue];
+                                        // setSelectedValues(newSelectedValues);
+                                        // onValueChange(newSelectedValues);
+                                        // setInputValue("");
+                                    }}>
+                                    {translate("app.widgets.multiSelect.addNew")}
+                                </Button>
+                            </div>
+                        )}
                     </Command>
                 </PopoverContent>
                 {animation > 0 && selectedValues.length > 0 && (
@@ -423,6 +427,13 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         onClick={() => setIsAnimating(!isAnimating)}
                     />
                 )}
+                <AddCustomDialog
+                    open={confirmDialogOpen}
+                    onOpenChange={setConfirmDialogOpen}
+                    onConfirm={handleAddCustom}
+                    localOptions={localOptions}
+                    code={inputValue}
+                />
             </Popover>
         );
     }

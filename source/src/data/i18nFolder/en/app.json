@@ -229,7 +229,14 @@
             "searchOrAddPlaceholder": "Search or add...",
             "addNew": "Add field",
             "optionAlreadyExists": "Option already added",
-            "reqFieldRegex": "It is allowed to enter lowercase Latin letters and underscores"
+            "reqFieldRegex": "It is allowed to enter lowercase Latin letters and underscores",
+
+            "confirmDialog": {
+                "areYouSure": "Are you sure you want to add a required field with code `%{code}`?",
+                "add": "Add",
+                "alreadyExists": "The code of the field already exists in the list under the name `%{code}`, do you want to add it?",
+                "optionAdded": "Field added successfully"
+            }
         }
     },
     "app.login": {

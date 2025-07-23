@@ -58,12 +58,6 @@ export const useGetAccountShowColumns = () => {
                 />
             )
         },
-        /* {
-            id: "account_id",
-            accessorKey: "account_id",
-            header: translate("resources.transactions.fields.account_id"),
-            cell: ({ row }) => row.original.account_id
-        }, */
         {
             id: "account_balance",
             accessorKey: "account_balance",
