@@ -90,7 +90,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
-            await dataProvider.update("merchant/wallet", {
+            await dataProvider.update(isMerchant ? "merchant/wallet" : "wallet", {
                 id,
                 data: data,
                 previousData: undefined
