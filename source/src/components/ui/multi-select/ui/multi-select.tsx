@@ -223,6 +223,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                             // .slice(0, maxCount)
                                             .map(value => {
                                                 const option = localOptions.find(o => o.value === value);
+                                                const isCustomOption = !options.some(o => o.value === value);
                                                 const IconComponent = option?.icon;
 
                                                 return (
@@ -231,19 +232,22 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                         className={cn(
                                                             isAnimating ? "animate-bounce" : "",
                                                             multiSelectVariants({ variant }),
-                                                            "my-0 bg-muted font-normal"
+                                                            "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
+                                                            isCustomOption
+                                                                ? "bg-green-50 text-white hover:text-black"
+                                                                : ""
                                                         )}
                                                         style={{ animationDuration: `${animation}s` }}>
                                                         {IconComponent && (
                                                             <IconComponent className="mr-1 h-4 w-4" small />
                                                         )}
-                                                        <span className="max-w-28 overflow-hidden text-ellipsis break-words text-neutral-90 dark:text-neutral-0">
+                                                        <span className="max-w-48 overflow-hidden text-ellipsis break-words">
                                                             {addingNew
                                                                 ? (option?.label ?? option?.value)
                                                                 : option?.label}
                                                         </span>
                                                         <XCircle
-                                                            className="ml-2 h-4 w-4 cursor-pointer rounded-full text-neutral-90 transition-colors hover:bg-red-40 dark:text-neutral-0"
+                                                            className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
                                                             onClick={event => {
                                                                 event.stopPropagation();
                                                                 toggleOption(value);
@@ -254,7 +258,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                             })
                                     )}
                                 </div>
-                                <div className="flex items-center justify-between">
+                                <div className="flex flex-wrap items-center justify-end">
                                     <XIcon
                                         className="mx-2 h-4 cursor-pointer text-muted-foreground"
                                         onClick={event => {
@@ -294,6 +298,19 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         <CommandInput
                             value={inputValue}
                             onValueChange={val => setInputValue(val)}
+                            onKeyDownCapture={event => {
+                                if (event.key === "Enter") {
+                                    if (!inputValue.match(/^[a-z0-9_]+$/)) {
+                                        appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
+                                        return;
+                                    }
+                                    if (selectedValues.includes(inputValue)) {
+                                        appToast("error", translate("app.widgets.multiSelect.optionAlreadyExists"));
+                                        return;
+                                    }
+                                    setConfirmDialogOpen(true);
+                                }
+                            }}
                             placeholder={
                                 addingNew
                                     ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")

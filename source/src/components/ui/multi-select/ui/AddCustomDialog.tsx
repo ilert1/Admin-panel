@@ -9,7 +9,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface AddCustomDialogProps {
     open: boolean;
@@ -34,10 +34,19 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
+    const [found, setFound] = useState("");
     const doesExist = localOptions.some(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (opt: any) => opt.value === code || opt.label?.toLowerCase() === code.toLowerCase()
     );
+    useEffect(() => {
+        if (doesExist) {
+            setFound(
+                localOptions.find((opt: any) => opt.value === code || opt.label?.toLowerCase() === code.toLowerCase())
+                    ?.label ?? ""
+            );
+        }
+    }, [doesExist]);
 
     const handleConfirm = () => {
         setButtonDisabled(true);
@@ -56,7 +65,7 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {doesExist
-                            ? translate("app.widgets.multiSelect.confirmDialog.alreadyExists", { code })
+                            ? translate("app.widgets.multiSelect.confirmDialog.alreadyExists", { code, name: found })
                             : translate("app.widgets.multiSelect.confirmDialog.areYouSure", { code })}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>

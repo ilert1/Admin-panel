@@ -234,7 +234,7 @@
             "confirmDialog": {
                 "areYouSure": "Are you sure you want to add a required field with code `%{code}`?",
                 "add": "Add",
-                "alreadyExists": "The code of the field already exists in the list under the name `%{code}`, do you want to add it?",
+                "alreadyExists": "The entered field code %{code} already exists in the list as '%{name}'. Do you want to select it?",
                 "optionAdded": "Field added successfully"
             }
         }
