@@ -298,19 +298,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         <CommandInput
                             value={inputValue}
                             onValueChange={val => setInputValue(val)}
-                            onKeyDownCapture={event => {
-                                if (event.key === "Enter") {
-                                    if (!inputValue.match(/^[a-z0-9_]+$/)) {
-                                        appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
-                                        return;
-                                    }
-                                    if (selectedValues.includes(inputValue)) {
-                                        appToast("error", translate("app.widgets.multiSelect.optionAlreadyExists"));
-                                        return;
-                                    }
-                                    setConfirmDialogOpen(true);
-                                }
-                            }}
                             placeholder={
                                 addingNew
                                     ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")
@@ -385,6 +372,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                     const isSelected = selectedValues.includes(option.value);
                                     return (
                                         <CommandItem
+                                            onKeyDownCapture={event => {
+                                                event.preventDefault();
+                                            }}
                                             key={option.value}
                                             onSelect={() => toggleOption(option.value)}
                                             className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
