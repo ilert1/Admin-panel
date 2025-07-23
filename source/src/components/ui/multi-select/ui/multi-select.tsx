@@ -193,7 +193,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
 
         const areAllSelected = selectedValues.length === localOptions.length;
         const showButton = addingNew && inputValue.length > 0;
-        console.log(showButton);
 
         return (
             <Popover
