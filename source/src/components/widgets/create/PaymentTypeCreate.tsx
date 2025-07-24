@@ -50,6 +50,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
     const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
         queryKey: ["paymentTypeRequiredFields"],
+        staleTime: 1000 * 60 * 5,
         queryFn: () => {
             return paymentTypeDataProvider.getRequiredFields();
         }
