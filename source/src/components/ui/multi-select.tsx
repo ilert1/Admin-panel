@@ -130,6 +130,12 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         const [isAnimating, setIsAnimating] = React.useState(false);
         const [inputValue, setInputValue] = React.useState("");
 
+        React.useEffect(() => {
+            if (options !== localOptions) {
+                setLocalOptions(options);
+            }
+        }, [options, localOptions]);
+
         const translate = useTranslate();
 
         const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
