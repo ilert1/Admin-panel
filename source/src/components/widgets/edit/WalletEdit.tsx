@@ -71,6 +71,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
 
     const onSubmit: SubmitHandler<Wallets.WalletCreate> = async data => {
         if (buttonDisabled) return;
+
         setButtonDisabled(true);
         try {
             await dataProvider.update(!isMerchant ? "wallet" : "merchant/wallet", {
@@ -126,7 +127,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
         defaultValues: {
             type: WalletTypes.INTERNAL,
             currency: "USDT",
-            description: "",
+            description: record?.description ?? "",
             blockchain: "TRON",
             minimal_ballance_limit: 0,
             network: "TRC20",
@@ -166,6 +167,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     usePreventFocus({ dependencies: [record] });
 
     if (isLoading || isFetchingPermissions) return <LoadingBlock />;
+
     return (
         <FormProvider {...form}>
             {!isMerchant && record?.type !== WalletTypes.EXTERNAL ? (
@@ -319,11 +321,12 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                     </div>
 
                     <div className="flex items-center gap-4 self-end">
-                        <Button type="submit" variant="default">
+                        <Button type="submit" variant="default" onClick={() => onSubmit(form.getValues())}>
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
+                            type="reset"
                             variant="outline_gray"
                             className="rounded-4 border border-neutral-50 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
@@ -355,7 +358,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                     </div>
 
                     <div className="flex flex-col items-center gap-4 sm:flex-row sm:self-end">
-                        <Button type="submit" variant="default" className="w-full sm:w-auto">
+                        <Button type="submit" variant="default" className="w-full sm:w-auto" disabled={buttonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button
