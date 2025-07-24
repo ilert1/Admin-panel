@@ -49,20 +49,12 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
               )
             : [];
 
-        console.log(params.filter?.["currencies"]);
-
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
                 ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                ...(fieldsForSearch.length > 0 && {
-                    searchString: fieldsForSearch.map(item =>
-                        item === "currencies"
-                            ? encodeURIComponent(JSON.stringify(params.filter?.[item]))
-                            : params.filter?.[item]
-                    )
-                })
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
             },
             {
                 headers: {

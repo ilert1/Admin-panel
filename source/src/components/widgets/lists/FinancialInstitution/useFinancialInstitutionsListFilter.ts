@@ -17,7 +17,7 @@ const useFinancialInstitutionsListFilter = () => {
     const [institutionType, setInstitutionType] = useState(filterValues?.institution_type || "");
     const [countryCode, setCountryCode] = useState(filterValues?.country_code || "");
     const [nspkMemberId, setNspkMemberId] = useState(filterValues?.nspk_member_id || "");
-    const [currencyCode, setCurrencyCode] = useState(filterValues?.currencies || "");
+    const [currencyCode, setCurrencyCode] = useState<string[]>(filterValues?.currencies?.split("|") || []);
     const [reportLoading, setReportLoading] = useState(false);
 
     const appToast = useAppToast();
@@ -26,19 +26,11 @@ const useFinancialInstitutionsListFilter = () => {
 
     const onPropertySelected = debounce(
         (
-            value: string | string[],
+            value: string,
             type: "name" | "code" | "institution_type" | "country_code" | "nspk_member_id" | "currencies"
         ) => {
             if (value) {
-                if (type === "currencies") {
-                    setFilters(
-                        { ...filterValues, [type]: encodeURIComponent(JSON.stringify(value)) },
-                        displayedFilters,
-                        true
-                    );
-                } else {
-                    setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
-                }
+                setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
             } else {
                 Reflect.deleteProperty(filterValues, type);
                 setFilters(filterValues, displayedFilters, true);
@@ -75,7 +67,7 @@ const useFinancialInstitutionsListFilter = () => {
 
     const onCurrencyCodeChanged = (e: string[]) => {
         setCurrencyCode(e);
-        onPropertySelected(e, "currencies");
+        onPropertySelected(e.join("|"), "currencies");
     };
 
     const onClearFilters = () => {
@@ -86,7 +78,7 @@ const useFinancialInstitutionsListFilter = () => {
         setInstitutionType("");
         setCountryCode("");
         setNspkMemberId("");
-        setCurrencyCode("");
+        setCurrencyCode([]);
     };
 
     const handleDownloadReport = async () => {
