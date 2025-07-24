@@ -44,7 +44,8 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
                       item === "code" ||
                       item === "institution_type" ||
                       item === "country_code" ||
-                      item === "nspk_member_id"
+                      item === "nspk_member_id" ||
+                      item === "currencies"
               )
             : [];
 
