@@ -162,6 +162,9 @@
         "limitfail": "Limit fail",
         "waitingforadminapproval": "Waiting for admin approval",
         "cancelledbypayer": "Cancelled by payer",
-        "cascadefail": "Cascade fail"
+        "cascadefail": "Cascade fail",
+        "enteredcascade": "Entered cascade",
+        "exitedcascade": "Exited cascade",
+        "canceledprovider": "Canceled provider"
     }
 }
