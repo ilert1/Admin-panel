@@ -233,9 +233,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                             isAnimating ? "animate-bounce" : "",
                                                             multiSelectVariants({ variant }),
                                                             "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
-                                                            isCustomOption
-                                                                ? "bg-green-50 text-white hover:text-black"
-                                                                : ""
+                                                            isCustomOption ? "border-dashed border-green-40" : ""
                                                         )}
                                                         style={{ animationDuration: `${animation}s` }}>
                                                         {IconComponent && (
