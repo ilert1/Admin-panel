@@ -124,6 +124,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         ref
     ) => {
         const appToast = useAppToast();
+
+        const commandList = React.useRef<HTMLDivElement>(null);
+
         const [localOptions, setLocalOptions] = React.useState(options);
         const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
         const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -183,6 +186,16 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             } else {
                 setSelectedValues(originalValues);
                 onValueChange(originalValues);
+            }
+        };
+
+        const handleInputChange = (val: string) => {
+            setInputValue(val);
+
+            if (val.length === 0 && commandList.current) {
+                setTimeout(() => {
+                    commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+                }, 50);
             }
         };
 
@@ -286,8 +299,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     }}>
                     <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
+                            onValueChange={handleInputChange}
                             value={inputValue}
-                            onValueChange={val => setInputValue(val)}
                             placeholder={
                                 addingNew
                                     ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")
@@ -295,7 +308,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             }
                             onKeyDown={handleInputKeyDown}
                         />
-                        <CommandList>
+                        <CommandList ref={commandList}>
                             <CommandEmpty>
                                 {addingNew ? (
                                     <div className="h-full w-full">
