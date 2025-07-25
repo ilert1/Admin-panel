@@ -56,7 +56,8 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         [currenciesData]
     );
 
-    const clearDisabled = !name && !code && !institutionType && !countryCode && !nspkMemberId;
+    const clearDisabled =
+        !name && !code && !institutionType && !countryCode && !nspkMemberId && currencyCode.length === 0;
 
     return (
         <div className="mb-4">
@@ -64,7 +65,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[name, code, institutionType, countryCode, nspkMemberId]}
+                        filterList={[name, code, institutionType, countryCode, nspkMemberId, currencyCode.length > 0]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
