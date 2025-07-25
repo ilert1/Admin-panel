@@ -79,7 +79,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 if (typeof variantKey === "string") {
                     return el[variantKey] === currentValue;
                 } else {
-                    return variantKey(el);
+                    return variantKey(el) === currentValue;
                 }
             })[idField];
             setIdValue(variantId);
