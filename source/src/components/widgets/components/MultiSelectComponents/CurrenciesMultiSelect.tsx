@@ -2,6 +2,7 @@ import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useTranslate } from "react-admin";
 import { CurrencyWithId } from "@/data/currencies";
+import { useState } from "react";
 
 interface CurrenciesMultiSelectProps {
     value: string[] | undefined;
@@ -16,9 +17,11 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
     const { value, onChange, options, label = true, modal = true, isLoading = false } = props;
     const translate = useTranslate();
 
+    const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
     const modifiedOptions = options?.map(option => ({ label: option.code, value: option.code })) || [];
 
     const onValueChange = (values: string[]) => {
+        setSelectedValues(values);
         onChange(values);
     };
 
@@ -28,7 +31,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
             <MultiSelect
                 options={modifiedOptions}
                 onValueChange={onValueChange}
-                defaultValue={value}
+                selectedValues={selectedValues}
                 notFoundMessage={translate("resources.currency.notFoundMessage")}
                 placeholder={translate("app.widgets.multiSelect.selectCurrencies")}
                 animation={0}

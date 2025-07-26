@@ -1,4 +1,4 @@
-import * as React from "react";
+import { ButtonHTMLAttributes, FC, forwardRef, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, XCircle, ChevronDown, XIcon, WandSparkles } from "lucide-react";
 
@@ -41,9 +41,7 @@ const multiSelectVariants = cva("m-1 transition ease-out duration-150", {
 /**
  * Props for MultiSelect component
  */
-interface MultiSelectProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-        VariantProps<typeof multiSelectVariants> {
+interface MultiSelectProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof multiSelectVariants> {
     /**
      * An array of option objects to be displayed in the multi-select component.
      * Each option object has a label, value, and an optional icon.
@@ -54,9 +52,9 @@ interface MultiSelectProps
         /** The unique value associated with the option. */
         value: string;
         /** Optional icon component to display alongside the option. */
-        // icon?: React.ComponentType<{ className?: string }>;
-        icon?: React.FC<{ className?: string; small?: boolean }>;
-        // icon?: React.ReactNode;
+        // icon?: ComponentType<{ className?: string }>;
+        icon?: FC<{ className?: string; small?: boolean }>;
+        // icon?: ReactNode;
     }[];
 
     /**
@@ -64,9 +62,6 @@ interface MultiSelectProps
      * Receives an array of the new selected values.
      */
     onValueChange: (value: string[]) => void;
-
-    /** The default selected values when the component mounts. */
-    defaultValue?: string[];
 
     /**
      * Placeholder text to be displayed when no values are selected.
@@ -99,18 +94,21 @@ interface MultiSelectProps
      */
     className?: string;
 
+    // Current array values
+    selectedValues: string[];
+
     notFoundMessage?: string;
     isLoading?: boolean;
     addingNew?: boolean;
 }
 
-export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
+export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
     (
         {
             options,
             onValueChange,
             variant,
-            defaultValue = [],
+            selectedValues,
             placeholder = "Select options",
             animation = 0,
             // maxCount = 3,
@@ -125,15 +123,14 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
     ) => {
         const appToast = useAppToast();
 
-        const commandList = React.useRef<HTMLDivElement>(null);
+        const commandList = useRef<HTMLDivElement>(null);
 
-        const [localOptions, setLocalOptions] = React.useState(options);
-        const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
-        const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
-        const [isAnimating, setIsAnimating] = React.useState(false);
-        const [inputValue, setInputValue] = React.useState("");
+        const [localOptions, setLocalOptions] = useState(options);
+        const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+        const [isAnimating, setIsAnimating] = useState(false);
+        const [inputValue, setInputValue] = useState("");
 
-        React.useEffect(() => {
+        useEffect(() => {
             if (options !== localOptions) {
                 setLocalOptions(options);
             }
@@ -141,7 +138,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
 
         const translate = useTranslate();
 
-        const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
                 setIsPopoverOpen(true);
             }
@@ -153,7 +150,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
 
             if (isSelected) {
                 const newSelected = selectedValues.filter(v => v !== option);
-                setSelectedValues(newSelected);
                 onValueChange(newSelected);
 
                 if (isCustomOption) {
@@ -161,13 +157,11 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 }
             } else {
                 const newSelected = [...selectedValues, option];
-                setSelectedValues(newSelected);
                 onValueChange(newSelected);
             }
         };
 
         const handleClear = () => {
-            setSelectedValues([]);
             onValueChange([]);
         };
 
@@ -180,11 +174,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             const areAllSelected = originalValues.every(val => selectedValues.includes(val));
 
             if (areAllSelected) {
-                setSelectedValues([]);
                 onValueChange([]);
                 setLocalOptions(options);
             } else {
-                setSelectedValues(originalValues);
                 onValueChange(originalValues);
             }
         };
@@ -335,7 +327,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 ]);
 
                                                 const newSelectedValues = [...selectedValues, inputValue];
-                                                setSelectedValues(newSelectedValues);
                                                 onValueChange(newSelectedValues);
                                             }}>
                                             {translate("app.widgets.multiSelect.addNew")}

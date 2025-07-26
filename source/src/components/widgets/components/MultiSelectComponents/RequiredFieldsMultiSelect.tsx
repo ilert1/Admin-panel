@@ -2,7 +2,7 @@ import { RequiredFieldItem } from "@/api/enigma/blowFishEnigmaAPIService.schemas
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslate } from "react-admin";
 
 interface RequiredFieldsMultiSelectProps {
@@ -20,6 +20,7 @@ export const RequiredFieldsMultiSelect = (props: RequiredFieldsMultiSelectProps)
 
     const translate = useTranslate();
 
+    const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
     const modifiedOptions =
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         Object.entries(options ?? [])?.map(([_, value]) => ({ label: value.label, value: value.value })) || [];
@@ -36,6 +37,7 @@ export const RequiredFieldsMultiSelect = (props: RequiredFieldsMultiSelectProps)
     }, []);
 
     const onValueChange = (values: string[]) => {
+        setSelectedValues(values);
         onChange(values);
     };
 
@@ -59,7 +61,7 @@ export const RequiredFieldsMultiSelect = (props: RequiredFieldsMultiSelectProps)
             <MultiSelect
                 options={modifiedOptions}
                 onValueChange={onValueChange}
-                defaultValue={value}
+                selectedValues={selectedValues}
                 notFoundMessage={translate("app.widgets.multiSelect.noResultFound")}
                 placeholder={translate("app.widgets.multiSelect.selectRequiredFields")}
                 animation={0}

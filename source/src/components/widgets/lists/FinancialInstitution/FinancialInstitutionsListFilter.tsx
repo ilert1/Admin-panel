@@ -29,7 +29,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         institutionType,
         countryCode,
         nspkMemberId,
-        currencyCode,
+        currencyCodes,
         currenciesData,
         currenciesLoadingProcess,
         reportLoading,
@@ -37,7 +37,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,
-        onCurrencyCodeChanged,
+        onCurrencyCodesChanged,
         onClearFilters,
         onNameChanged,
         handleDownloadReport,
@@ -57,7 +57,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
     );
 
     const clearDisabled =
-        !name && !code && !institutionType && !countryCode && !nspkMemberId && currencyCode.length === 0;
+        !name && !code && !institutionType && !countryCode && !nspkMemberId && currencyCodes.length === 0;
 
     return (
         <div className="mb-4">
@@ -65,7 +65,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[name, code, institutionType, countryCode, nspkMemberId, currencyCode.length > 0]}
+                        filterList={[name, code, institutionType, countryCode, nspkMemberId, currencyCodes.length > 0]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -186,11 +186,11 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                             {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                         </Label>
                         <MultiSelect
+                            selectedValues={currencyCodes}
                             variant="secondary"
                             className="bg-neutral-0 hover:bg-neutral-0 active:bg-neutral-0 dark:bg-neutral-100 dark:hover:bg-neutral-100 dark:active:bg-neutral-100"
                             options={currenciesModifiedData ?? []}
-                            onValueChange={onCurrencyCodeChanged}
-                            defaultValue={currencyCode}
+                            onValueChange={onCurrencyCodesChanged}
                             notFoundMessage={translate("resources.currency.notFoundMessage")}
                             placeholder={translate(
                                 "resources.paymentSettings.financialInstitution.fields.currenciesToChoose"
