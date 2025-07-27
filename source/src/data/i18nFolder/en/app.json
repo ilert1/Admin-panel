@@ -230,6 +230,10 @@
             "addNew": "Add field",
             "optionAlreadyExists": "Option already added",
             "reqFieldRegex": "It is allowed to enter lowercase Latin letters and underscores"
+        },
+        "report": {
+            "preDownload": "Your report has been generated, and the file is being uploaded: %{filename}",
+            "downloadError": "An error occurred when uploading the %{filename} report file, please try again. If the error persists, contact the administrator"
         }
     },
     "app.login": {

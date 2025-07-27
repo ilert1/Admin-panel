@@ -115,6 +115,8 @@ const useAccountFilter = () => {
                     const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
                     filename = matches?.[1] ? matches[1] : filename;
 
+                    appToast("success", translate("app.widgets.report.preDownload", { filename }));
+
                     return response.blob();
                 })
                 .then(blob => {
@@ -129,7 +131,7 @@ const useAccountFilter = () => {
                     window.URL.revokeObjectURL(fileUrl);
                 })
                 .catch(error => {
-                    appToast("error", translate("resources.transactions.download.bothError"));
+                    appToast("error", translate("app.widgets.report.downloadError", { filename }));
                     console.error("There was an error downloading the file:", error);
                 })
                 .finally(() => {
