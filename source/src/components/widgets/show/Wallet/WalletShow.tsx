@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
@@ -22,8 +22,8 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { data: accountsData, isLoading: accountsDataLoading } = useQuery({
-        queryKey: ["accounts", "WalletShow", id],
+    const { data: currentAccountData, isLoading: currentAccountDataLoading } = useQuery({
+        queryKey: ["accounts", "WalletShow", context.record?.account_id],
         queryFn: async ({ signal }) =>
             await dataProvider.getOne<Account>("accounts", {
                 id: context.record?.account_id ?? "",
@@ -33,13 +33,11 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
         enabled: !!context.record?.account_id
     });
 
-    const currentAccount = useMemo(() => accountsData, [accountsData]);
-
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>({
-        queryKey: ["walletBalance"],
+        queryKey: ["walletBalance", id],
         queryFn: ({ signal }) =>
             dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id, signal),
         enabled: !!id
@@ -56,7 +54,13 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     if (context.isLoading || !context.record) {
         return <Loading />;
     }
-
+    console.log(
+        currentAccountData
+            ? currentAccountData?.meta?.caption
+                ? currentAccountData?.meta?.caption
+                : currentAccountData?.owner_id
+            : ""
+    );
     return (
         <div className="flex flex-col gap-4 px-4 md:gap-6 md:px-[42px]">
             <div className="flex flex-col gap-y-2 sm:grid sm:grid-cols-2 sm:gap-y-4">
@@ -96,14 +100,14 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                     label={translate("resources.wallet.manage.fields.currency")}
                     text={context.record.currency}
                 />
-                {!accountsDataLoading ? (
+                {!currentAccountDataLoading ? (
                     <TextField
                         label={translate("resources.wallet.manage.fields.merchantName")}
                         text={
-                            currentAccount
-                                ? currentAccount?.meta?.caption
-                                    ? currentAccount?.meta?.caption
-                                    : currentAccount?.owner_id
+                            currentAccountData
+                                ? currentAccountData?.meta?.caption
+                                    ? currentAccountData?.meta?.caption
+                                    : currentAccountData?.owner_id
                                 : ""
                         }
                     />
