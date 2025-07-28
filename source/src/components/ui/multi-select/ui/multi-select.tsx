@@ -132,6 +132,12 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         const [inputValue, setInputValue] = React.useState("");
         const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
 
+        React.useEffect(() => {
+            if (options !== localOptions) {
+                setLocalOptions(options);
+            }
+        }, [options, localOptions]);
+
         const translate = useTranslate();
 
         const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

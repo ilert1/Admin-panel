@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
@@ -13,6 +13,7 @@ import { UploadCsvFileDialog } from "../PaymentTypes/UploadCsvFileDialog";
 import { ExportPSReportDialog } from "../PaymentTypes/ExportPSReportDialog";
 import { useListContext } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
+import { MultiSelect } from "@/components/ui/multi-select";
 
 interface FinancialInstitutionsListFilterProps {
     handleCreateClicked: () => void;
@@ -28,11 +29,15 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         institutionType,
         countryCode,
         nspkMemberId,
+        currencyCode,
+        currenciesData,
+        currenciesLoadingProcess,
         reportLoading,
         onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,
+        onCurrencyCodeChanged,
         onClearFilters,
         onNameChanged,
         handleDownloadReport,
@@ -45,6 +50,11 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+
+    const currenciesModifiedData = useMemo(
+        () => currenciesData?.map(option => ({ label: option.code, value: option.code })),
+        [currenciesData]
+    );
 
     const clearDisabled = !name && !code && !institutionType && !countryCode && !nspkMemberId;
 
@@ -168,6 +178,25 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
+                    </div>
+
+                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                        <Label variant={"title-2"}>
+                            {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                        </Label>
+                        <MultiSelect
+                            variant="secondary"
+                            className="bg-neutral-0 hover:bg-neutral-0 active:bg-neutral-0 dark:bg-neutral-100 dark:hover:bg-neutral-100 dark:active:bg-neutral-100"
+                            options={currenciesModifiedData ?? []}
+                            onValueChange={onCurrencyCodeChanged}
+                            defaultValue={currencyCode}
+                            notFoundMessage={translate("resources.currency.notFoundMessage")}
+                            placeholder={translate(
+                                "resources.paymentSettings.financialInstitution.fields.currenciesToChoose"
+                            )}
+                            modalPopover={false}
+                            isLoading={currenciesLoadingProcess}
+                        />
                     </div>
                 </div>
             </AnimatedContainer>

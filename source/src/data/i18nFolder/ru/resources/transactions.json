@@ -161,6 +161,9 @@
         "limitfail": "Вне допустимого лимита ордера",
         "waitingforadminapproval": "Ожидание подтверждения",
         "cancelledbypayer": "Отменено плательщиком",
-        "cascadefail": "Ошибка каскада"
+        "cascadefail": "Ошибка каскада",
+        "enteredcascade": "Вход в каскад",
+        "exitedcascade": "Выход из каскада",
+        "canceledprovider": "Отклонено провайдером"
     }
 }
