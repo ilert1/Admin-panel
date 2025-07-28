@@ -30,6 +30,7 @@ import {
     paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete,
     paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut
 } from "@/api/enigma/payment-type/payment-type";
+import { isArray } from "lodash";
 
 export type PaymentTypeWithId = PaymentTypeModel & { id: string };
 
@@ -321,7 +322,7 @@ export class PaymentTypesProvider extends IBaseDataProvider {
             };
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
-        } else if ("detail" in res.data) {
+        } else if ("detail" in res.data && isArray(res.data.detail)) {
             throw new Error(res.data.detail?.[0].msg);
         }
     }
