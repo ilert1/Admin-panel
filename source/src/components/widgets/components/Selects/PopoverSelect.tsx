@@ -214,7 +214,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                     <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
                     <CommandList ref={commandList}>
-                        <CommandEmpty className="text-neutral-90 dark:text-neutral-0">{notFoundMessage}</CommandEmpty>
+                        <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
                             {variants.map(variant => {
                                 const newVariant = () => {
