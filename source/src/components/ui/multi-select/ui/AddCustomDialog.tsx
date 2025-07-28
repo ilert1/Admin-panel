@@ -63,7 +63,7 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
                     setButtonDisabled(false);
                 }}>
                 <DialogHeader>
-                    <DialogTitle className="text-center">
+                    <DialogTitle className="line-clamp-6 overflow-hidden overflow-ellipsis text-wrap break-words break-all text-center">
                         {doesExist
                             ? translate("app.widgets.multiSelect.confirmDialog.alreadyExists", { code, name: found })
                             : translate("app.widgets.multiSelect.confirmDialog.areYouSure", { code })}

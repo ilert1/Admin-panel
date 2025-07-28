@@ -125,6 +125,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         ref
     ) => {
         const appToast = useAppToast();
+
         const [localOptions, setLocalOptions] = React.useState(options);
         const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
         const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -134,9 +135,10 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
 
         React.useEffect(() => {
             if (options !== localOptions) {
-                setLocalOptions(options);
+                setLocalOptions(localOptions.concat(options));
             }
-        }, [options, localOptions]);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [options]);
 
         const translate = useTranslate();
 
@@ -245,11 +247,22 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                         {IconComponent && (
                                                             <IconComponent className="mr-1 h-4 w-4" small />
                                                         )}
-                                                        <span className="max-w-48 overflow-hidden text-ellipsis break-words">
-                                                            {addingNew
-                                                                ? (option?.label ?? option?.value)
-                                                                : option?.label}
-                                                        </span>
+                                                        {addingNew ? (
+                                                            <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
+                                                                <p>
+                                                                    {isCustomOption
+                                                                        ? option?.label
+                                                                        : option?.label.split("[")[0].trim()}
+                                                                </p>
+                                                                <p className="text-left text-xs text-neutral-70">
+                                                                    {option?.value}
+                                                                </p>
+                                                            </span>
+                                                        ) : (
+                                                            <span className="max-w-48 overflow-hidden text-ellipsis break-words">
+                                                                {option?.label}
+                                                            </span>
+                                                        )}
                                                         <XCircle
                                                             className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
                                                             onClick={event => {
@@ -399,7 +412,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             </CommandGroup>
                             <CommandSeparator />
                         </CommandList>
-                        {addingNew && inputValue.length > 0 && (
+                        {showButton && (
                             <div className="p-2">
                                 <Button
                                     className="w-full rounded-none"
