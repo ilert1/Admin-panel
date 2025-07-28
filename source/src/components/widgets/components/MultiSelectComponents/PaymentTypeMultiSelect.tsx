@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
+import { useState } from "react";
 
 interface PaymentTypeMultiSelectProps {
     value: string[] | undefined;
@@ -16,6 +17,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
     const { value, onChange, options, label = true, modal = true } = props;
     const translate = useTranslate();
 
+    const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
     const modifiedOptions =
         options?.map(option => ({
             label: option.code,
@@ -28,6 +30,7 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
         })) || [];
 
     const onValueChange = (values: string[]) => {
+        setSelectedValues(values);
         onChange(values);
     };
 
@@ -35,9 +38,9 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
         <div>
             {label && <Label>{translate("resources.paymentSettings.paymentType.name")}</Label>}
             <MultiSelect
+                selectedValues={selectedValues}
                 options={modifiedOptions}
                 onValueChange={onValueChange}
-                defaultValue={value}
                 placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
                 notFoundMessage={translate("resources.paymentSettings.paymentType.notFoundMessage")}
                 animation={0}

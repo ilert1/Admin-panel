@@ -17,7 +17,7 @@ const useFinancialInstitutionsListFilter = () => {
     const [institutionType, setInstitutionType] = useState(filterValues?.institution_type || "");
     const [countryCode, setCountryCode] = useState(filterValues?.country_code || "");
     const [nspkMemberId, setNspkMemberId] = useState(filterValues?.nspk_member_id || "");
-    const [currencyCode, setCurrencyCode] = useState<string[]>(filterValues?.currencies?.split("|") || []);
+    const [currencyCodes, setCurrencyCodes] = useState<string[]>(filterValues?.currencies?.split("|") || []);
     const [reportLoading, setReportLoading] = useState(false);
 
     const appToast = useAppToast();
@@ -65,8 +65,8 @@ const useFinancialInstitutionsListFilter = () => {
         onPropertySelected(value, "nspk_member_id");
     };
 
-    const onCurrencyCodeChanged = (e: string[]) => {
-        setCurrencyCode(e);
+    const onCurrencyCodesChanged = (e: string[]) => {
+        setCurrencyCodes(e);
         onPropertySelected(e.join("|"), "currencies");
     };
 
@@ -78,7 +78,7 @@ const useFinancialInstitutionsListFilter = () => {
         setInstitutionType("");
         setCountryCode("");
         setNspkMemberId("");
-        setCurrencyCode([]);
+        setCurrencyCodes([]);
     };
 
     const handleDownloadReport = async () => {
@@ -163,7 +163,7 @@ const useFinancialInstitutionsListFilter = () => {
         institutionType,
         countryCode,
         nspkMemberId,
-        currencyCode,
+        currencyCodes,
         currenciesData,
         currenciesLoadingProcess,
         reportLoading,
@@ -171,7 +171,7 @@ const useFinancialInstitutionsListFilter = () => {
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,
-        onCurrencyCodeChanged,
+        onCurrencyCodesChanged,
         onClearFilters,
         onNameChanged,
         handleDownloadReport,

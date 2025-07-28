@@ -1,4 +1,4 @@
-import * as React from "react";
+import { ButtonHTMLAttributes, FC, forwardRef, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, XCircle, ChevronDown, XIcon, WandSparkles } from "lucide-react";
 
@@ -42,9 +42,7 @@ const multiSelectVariants = cva("m-1 transition ease-out duration-150", {
 /**
  * Props for MultiSelect component
  */
-interface MultiSelectProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-        VariantProps<typeof multiSelectVariants> {
+interface MultiSelectProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof multiSelectVariants> {
     /**
      * An array of option objects to be displayed in the multi-select component.
      * Each option object has a label, value, and an optional icon.
@@ -55,9 +53,9 @@ interface MultiSelectProps
         /** The unique value associated with the option. */
         value: string;
         /** Optional icon component to display alongside the option. */
-        // icon?: React.ComponentType<{ className?: string }>;
-        icon?: React.FC<{ className?: string; small?: boolean }>;
-        // icon?: React.ReactNode;
+        // icon?: ComponentType<{ className?: string }>;
+        icon?: FC<{ className?: string; small?: boolean }>;
+        // icon?: ReactNode;
     }[];
 
     /**
@@ -65,9 +63,6 @@ interface MultiSelectProps
      * Receives an array of the new selected values.
      */
     onValueChange: (value: string[]) => void;
-
-    /** The default selected values when the component mounts. */
-    defaultValue?: string[];
 
     /**
      * Placeholder text to be displayed when no values are selected.
@@ -99,19 +94,21 @@ interface MultiSelectProps
      * Optional, can be used to add custom styles.
      */
     className?: string;
+    // Current array values
+    selectedValues: string[];
 
     notFoundMessage?: string;
     isLoading?: boolean;
     addingNew?: boolean;
 }
 
-export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
+export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
     (
         {
-            options,
+            selectedValues,
             onValueChange,
+            options,
             variant,
-            defaultValue = [],
             placeholder = "Select options",
             animation = 0,
             // maxCount = 3,
@@ -126,14 +123,15 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
     ) => {
         const appToast = useAppToast();
 
-        const [localOptions, setLocalOptions] = React.useState(options);
-        const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
-        const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
-        const [isAnimating, setIsAnimating] = React.useState(false);
-        const [inputValue, setInputValue] = React.useState("");
-        const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
+        const commandList = useRef<HTMLDivElement>(null);
 
-        React.useEffect(() => {
+        const [localOptions, setLocalOptions] = useState(options);
+        const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+        const [isAnimating, setIsAnimating] = useState(false);
+        const [inputValue, setInputValue] = useState("");
+        const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+
+        useEffect(() => {
             if (options !== localOptions) {
                 setLocalOptions(localOptions.concat(options));
             }
@@ -142,9 +140,19 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
 
         const translate = useTranslate();
 
-        const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
                 setIsPopoverOpen(true);
+            }
+        };
+
+        const handleInputChange = (val: string) => {
+            setInputValue(val);
+
+            if (val.length === 0 && commandList.current) {
+                setTimeout(() => {
+                    commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+                }, 50);
             }
         };
 
@@ -154,7 +162,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
 
             if (isSelected) {
                 const newSelected = selectedValues.filter(v => v !== option);
-                setSelectedValues(newSelected);
                 onValueChange(newSelected);
 
                 if (isCustomOption) {
@@ -162,7 +169,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 }
             } else {
                 const newSelected = [...selectedValues, option];
-                setSelectedValues(newSelected);
                 onValueChange(newSelected);
             }
         };
@@ -170,14 +176,12 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         const handleAddCustom = () => {
             setLocalOptions(prev => [...prev, { label: inputValue, value: inputValue }]);
             const newSelectedValues = [...selectedValues, inputValue];
-            setSelectedValues(newSelectedValues);
             onValueChange(newSelectedValues);
             setInputValue("");
             appToast("success", translate("app.widgets.multiSelect.confirmDialog.optionAdded"));
         };
 
         const handleClear = () => {
-            setSelectedValues([]);
             onValueChange([]);
         };
 
@@ -190,11 +194,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             const areAllSelected = originalValues.every(val => selectedValues.includes(val));
 
             if (areAllSelected) {
-                setSelectedValues([]);
                 onValueChange([]);
                 setLocalOptions(options);
             } else {
-                setSelectedValues(originalValues);
                 onValueChange(originalValues);
             }
         };
@@ -314,7 +316,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
                             value={inputValue}
-                            onValueChange={val => setInputValue(val)}
+                            onValueChange={handleInputChange}
                             placeholder={
                                 addingNew
                                     ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")
@@ -322,7 +324,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             }
                             onKeyDown={handleInputKeyDown}
                         />
-                        <CommandList>
+                        <CommandList ref={commandList}>
                             {/* <CommandEmpty>
                                 {addingNew ? (
                                     <div className="h-full w-full">
@@ -349,7 +351,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 ]);
 
                                                 const newSelectedValues = [...selectedValues, inputValue];
-                                                setSelectedValues(newSelectedValues);
                                                 onValueChange(newSelectedValues);
                                                 setInputValue("");
                                             }}>
@@ -431,7 +432,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                         //     { label: inputValue, value: inputValue }
                                         // ]);
                                         // const newSelectedValues = [...selectedValues, inputValue];
-                                        // setSelectedValues(newSelectedValues);
                                         // onValueChange(newSelectedValues);
                                         // setInputValue("");
                                     }}>
