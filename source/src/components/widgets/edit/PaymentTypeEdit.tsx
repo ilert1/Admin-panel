@@ -187,23 +187,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
-                                name="title"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
                                 name="category"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
@@ -237,9 +220,26 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
+                                name="title"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
                                 name="currencies"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
                                             <CurrenciesMultiSelect
                                                 value={field.value}
@@ -255,7 +255,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 control={form.control}
                                 name="required_fields_for_payment"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
                                             <RequiredFieldsMultiSelect
                                                 value={field.value}

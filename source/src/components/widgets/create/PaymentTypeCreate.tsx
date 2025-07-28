@@ -50,6 +50,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
     const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
         queryKey: ["paymentTypeRequiredFields"],
+        staleTime: 1000 * 60 * 5,
         queryFn: () => {
             return paymentTypeDataProvider.getRequiredFields();
         }
@@ -152,23 +153,6 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                             />
                             <FormField
                                 control={form.control}
-                                name="title"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
                                 name="category"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
@@ -202,9 +186,27 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                             />
                             <FormField
                                 control={form.control}
+                                name="title"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
                                 name="required_fields_for_payment"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
                                             <RequiredFieldsMultiSelect
                                                 value={field.value}
