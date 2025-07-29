@@ -10,7 +10,15 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
@@ -77,14 +85,14 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
                         <div>
                             <Label>{translate("resources.paymentSettings.reports.inputMode")}</Label>
                             <Select value={importMode} onValueChange={val => setImportMode(val as ImportMode)}>
-                                <SelectTrigger className="h-[38px] text-ellipsis">
+                                <SelectTrigger className="h-[38px] text-ellipsis" variant={SelectType.GRAY}>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         {importModes.map(el => {
                                             return (
-                                                <SelectItem key={el} value={el}>
+                                                <SelectItem key={el} value={el} variant={SelectType.GRAY}>
                                                     {translate(`resources.paymentSettings.reports.${el}`)}
                                                 </SelectItem>
                                             );

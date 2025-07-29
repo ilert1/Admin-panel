@@ -10,23 +10,32 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useDataProvider, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { useFilePicker } from "use-file-picker";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { TerminalMultiSelect } from "../../components/MultiSelectComponents/TerminalMultiSelect";
 
-interface ImportFileDialogProps {
+interface ImportSingleFileDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
-    handleImport: (file: File, mode: ImportMode) => void;
+    handleImport: (file: File, mode: string, terminal_ids: string[]) => Promise<void>;
 }
-export const ImportFileDialog = (props: ImportFileDialogProps) => {
+
+export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
     const { open, onOpenChange = () => {}, handleImport } = props;
     const appToast = useAppToast();
     const translate = useTranslate();
@@ -38,7 +47,7 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
     const importModes = Object.values(ImportMode);
 
     const [selectedProvider, setSelectedProvider] = useState<string>("");
-    const [selectedTerminal, setSelectedTerminal] = useState<string[]>([]);
+    const [selectedTerminals, setSelectedTerminals] = useState<string[]>([]);
 
     const [inputVal, setInputVal] = useState("");
     const [importMode, setImportMode] = useState<ImportMode>("strict");
@@ -77,15 +86,12 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
 
     useEffect(() => {
         if (!selectedProvider) {
-            setSelectedTerminal([]);
+            setSelectedTerminals([]);
             queryClient.resetQueries({
                 queryKey: ["terminal", "list"]
             });
         }
     }, [selectedProvider, queryClient]);
-    console.log(terminalData);
-
-    console.log(!terminalData || isLoadingTerminals);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -95,7 +101,7 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
                     setInputVal("");
                     setImportMode("strict");
                     setSelectedProvider("");
-                    setSelectedTerminal([]);
+                    setSelectedTerminals([]);
                     clear();
                 }}
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[400px]">
@@ -120,10 +126,10 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
                         <div>
                             <TerminalMultiSelect
                                 options={terminalData ?? []}
-                                value={selectedTerminal}
+                                value={selectedTerminals}
                                 disabled={!terminalData || isLoadingTerminals}
                                 onChange={(value: string[]) => {
-                                    setSelectedTerminal(value);
+                                    setSelectedTerminals(value);
                                 }}
                                 placeholder={
                                     !selectedProvider
@@ -147,14 +153,14 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
                         <div>
                             <Label>{translate("resources.paymentSettings.reports.inputMode")}</Label>
                             <Select value={importMode} onValueChange={val => setImportMode(val as ImportMode)}>
-                                <SelectTrigger className="h-[38px] text-ellipsis">
+                                <SelectTrigger className="h-[38px] text-ellipsis" variant={SelectType.GRAY}>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         {importModes.map(el => {
                                             return (
-                                                <SelectItem key={el} value={el}>
+                                                <SelectItem key={el} value={el} variant={SelectType.GRAY}>
                                                     {translate(`resources.paymentSettings.reports.${el}`)}
                                                 </SelectItem>
                                             );
@@ -168,10 +174,10 @@ export const ImportFileDialog = (props: ImportFileDialogProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full"
-                                disabled={!plainFiles?.[0]}
+                                disabled={!plainFiles?.[0] || !selectedProvider || !selectedTerminals.length}
                                 onClick={async () => {
                                     await checkAuth({});
-                                    handleImport(plainFiles?.[0] ?? null, importMode);
+                                    handleImport(plainFiles?.[0] ?? null, importMode, selectedTerminals);
                                     onOpenChange(false);
                                 }}>
                                 {translate("resources.paymentSettings.reports.upload")}

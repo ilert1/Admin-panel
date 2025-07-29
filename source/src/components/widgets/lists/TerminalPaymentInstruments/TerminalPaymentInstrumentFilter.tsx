@@ -18,7 +18,9 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { ImportFileDialog } from "./ImportFileDialog";
+import { ImportSingleFileDialog } from "./ImportSingleFileDialog";
+import { ImportMultipleFilesDialog } from "./ImportMultipleFilesDialog";
+
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
 }
@@ -44,13 +46,16 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         onTerminalNameChanged,
         onTerminalIdFieldChanged,
         reportLoading,
-        handleUploadReport
+        handleUploadReport,
+        handleUploadMultipleFiles
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
     const [showInitializeDialog, setShowInitializeDialog] = useState(false);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
-    const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+    const [uploadSingleDialogOpen, setUploadSingleDialogOpen] = useState(false);
+    const [uploadMultipleDialogOpen, setUploadMultipleDialogOpen] = useState(false);
+
     const { total } = useListContext();
 
     const clearDisabled =
@@ -64,7 +69,6 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         <>
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <SyncDisplayedFilters />
-
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
@@ -106,15 +110,15 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="border-green-50 p-0" align="end">
                                 <DropdownMenuItem
-                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
-                                    onClick={() => setUploadDialogOpen(true)}>
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-40 focus:dark:text-white"
+                                    onClick={() => setUploadSingleDialogOpen(true)}>
                                     {translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.singleFile"
                                     )}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
-                                    onClick={() => setUploadDialogOpen(true)}>
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-40 focus:dark:text-white"
+                                    onClick={() => setUploadMultipleDialogOpen(true)}>
                                     {translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.multipleFiles"
                                     )}
@@ -238,10 +242,15 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                 open={showInitializeDialog}
                 onOpenChange={setShowInitializeDialog}
             />
-            <ImportFileDialog
-                open={uploadDialogOpen}
-                onOpenChange={setUploadDialogOpen}
+            <ImportSingleFileDialog
+                open={uploadSingleDialogOpen}
+                onOpenChange={setUploadSingleDialogOpen}
                 handleImport={handleUploadReport}
+            />
+            <ImportMultipleFilesDialog
+                open={uploadMultipleDialogOpen}
+                onOpenChange={setUploadMultipleDialogOpen}
+                handleImport={handleUploadMultipleFiles}
             />
         </>
     );

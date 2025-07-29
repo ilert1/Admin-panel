@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useTranslate } from "react-admin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TerminalWithId } from "@/data/terminals";
 
 interface TerminalMultiSelectProps {
@@ -29,12 +29,19 @@ export const TerminalMultiSelect = (props: TerminalMultiSelectProps) => {
     const translate = useTranslate();
 
     const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
+
     const modifiedOptions = options?.map(option => ({ label: option.verbose_name, value: option.id })) || [];
 
     const onValueChange = (values: string[]) => {
         setSelectedValues(values);
         onChange(values);
     };
+
+    useEffect(() => {
+        if (!value || value.length === 0) {
+            setSelectedValues([]);
+        }
+    }, [value]);
 
     return (
         <div>

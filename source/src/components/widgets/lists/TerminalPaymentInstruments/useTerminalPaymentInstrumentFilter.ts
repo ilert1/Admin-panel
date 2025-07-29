@@ -4,6 +4,8 @@ import { debounce } from "lodash";
 import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
+import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -114,11 +116,12 @@ const useTerminalPaymentInstrumentFilter = () => {
         setProviderName("");
     };
 
-    const handleUploadReport = async (file: File) => {
+    const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
         setReportLoading(true);
 
         try {
-            const data = await dataProvider.uploadReport(file);
+            const data = await dataProvider.uploadReport(file, mode as ImportMode, terminal_ids);
+
             appToast(
                 "success",
                 translate("resources.paymentSettings.reports.uploadSuccess", {
@@ -129,18 +132,102 @@ const useTerminalPaymentInstrumentFilter = () => {
             );
         } catch (error) {
             if (error instanceof Error) {
-                // const parsed = extractFieldsFromErrorMessage(error.message);
-                // if (parsed.type === "string_pattern_mismatch") {
-                //     appToast(
-                //         "error",
-                //         translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
-                //             field: parsed.loc.join(" > "),
-                //             input: parsed.input
-                //         })
-                //     );
-                // } else {
-                //     appToast("error", error.message);
-                // }
+                const parsed = extractFieldsFromErrorMessage(error.message);
+                if (parsed.type === "string_pattern_mismatch") {
+                    appToast(
+                        "error",
+                        translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+                            field: parsed.loc.join(" > "),
+                            input: parsed.input
+                        })
+                    );
+                } else {
+                    appToast("error", error.message);
+                }
+            }
+        } finally {
+            setReportLoading(false);
+            refresh();
+        }
+    };
+
+    const handleUploadMultipleFiles = async (
+        payment_type_file: File,
+        financial_institution_file: File,
+        currency_file: File,
+        provider: string,
+        terminal_ids: string[]
+    ) => {
+        try {
+            const data = await dataProvider.uploadMultipleFiles(
+                [payment_type_file, financial_institution_file, currency_file],
+                provider,
+                terminal_ids.join(",")
+            );
+
+            appToast(
+                "success",
+                translate("resources.paymentSettings.reports.uploadSuccess", {
+                    inserted: data?.data?.inserted,
+                    skipped: data?.data?.skipped,
+                    total: data?.data?.total
+                })
+            );
+        } catch (error) {
+            if (error instanceof Error) {
+                const parsed = extractFieldsFromErrorMessage(error.message);
+                if (parsed.type === "string_pattern_mismatch") {
+                    appToast(
+                        "error",
+                        translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+                            field: parsed.loc.join(" > "),
+                            input: parsed.input
+                        })
+                    );
+                } else {
+                    appToast("error", error.message);
+                }
+            }
+        } finally {
+            setReportLoading(false);
+            refresh();
+        }
+    };
+
+    const handleDownloadReport = async () => {
+        setReportLoading(true);
+
+        try {
+            const response = await dataProvider.downloadReport({
+                filter: filterValues
+            });
+            const contentDisposition = response?.headers?.get("Content-Disposition");
+            let filename = "report.csv";
+            if (contentDisposition) {
+                const matches = contentDisposition.match(/filename\*?=["']?(.*?)["']?(;|$)/i);
+                if (matches?.[1]) {
+                    filename = decodeURIComponent(matches[1]);
+                }
+            }
+
+            const blob = await response.blob();
+
+            if ((await blob.text()).length <= 4) {
+                appToast("error", translate("resources.paymentSettings.reports.noData"));
+                return;
+            }
+
+            const fileUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = fileUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(fileUrl);
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
             }
         } finally {
             setReportLoading(false);
@@ -168,7 +255,9 @@ const useTerminalPaymentInstrumentFilter = () => {
         onTerminalNameChanged,
         onTerminalIdFieldChanged,
         reportLoading,
-        handleUploadReport
+        handleUploadReport,
+        handleUploadMultipleFiles,
+        handleDownloadReport
     };
 };
 

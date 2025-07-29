@@ -169,7 +169,10 @@
         },
         "fileDownloadUpload": {
             "singleFile": "Импортировать один файл",
-            "multipleFiles": "Импортировать несколько файлов"
+            "multipleFiles": "Импортировать несколько файлов",
+            "payment_types_csv": "Выберите файл с платёжными типами",
+            "financial_institutions_csv": "Выберите файл с финансовыми институтами",
+            "currency_csv": "Выберите файл с валютами"
         },
         "providerNotSelect": "Выберите провайдера для получения данных",
         "createTerminalPaymentInstrument": "Добавить инструмент",

@@ -171,7 +171,10 @@
         },
         "fileDownloadUpload": {
             "singleFile": "Import single file",
-            "multipleFiles": "Import multiple files"
+            "multipleFiles": "Import multiple files",
+            "payment_types_csv": "Select payment types file",
+            "financial_institutions_csv": "Select financial institutions file",
+            "currency_csv": "Select currency file"
         },
         "providerNotSelect": "Select the provider to receive the data",
         "createTerminalPaymentInstrument": "Create instrument",

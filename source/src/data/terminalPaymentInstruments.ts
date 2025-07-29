@@ -18,6 +18,7 @@ import {
     TerminalPaymentInstrumentFIData
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl,
     terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePost,
     terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost,
     terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete,
@@ -296,16 +297,12 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict") {
-        // /** JSON string containing terminal_ids array */
-        //  data: string;
-        //  /** Upload CSV file with data for import */
-        //  csv_file: Blob;
+    async uploadReport(file: File, mode: ImportMode = "strict", terminal_ids: string[]) {
         const res =
             await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost(
                 {
                     csv_file: file,
-                    data: ""
+                    data: JSON.stringify(terminal_ids)
                 },
                 {
                     mode
@@ -335,14 +332,14 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     // financial_institutions_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv;
     // currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
 
-    async uploadMultipleFiles(files: File[]) {
+    async uploadMultipleFiles(files: File[], provider: string, terminal_ids: string) {
         const res =
             await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost(
                 {
                     payment_types_csv: files[0],
-                    financial_institutions_csv: files[2],
-                    currency_csv: files[3],
-                    data: ""
+                    financial_institutions_csv: files[1],
+                    currency_csv: files[2] ? files[2] : undefined,
+                    data: terminal_ids ? terminal_ids : provider
                 },
                 {
                     headers: {
@@ -361,5 +358,30 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         } else if ("detail" in res.data) {
             throw new Error(res.data.detail?.[0].msg);
         }
+    }
+
+    async downloadReport(params: GetListParams) {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
+            : [];
+
+        const url =
+            getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl(
+                "",
+                {
+                    ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                    ...(fieldsForSearch.length > 0 && {
+                        searchString: fieldsForSearch.map(item => params.filter?.[item])
+                    })
+                }
+            );
+
+        return await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
     }
 }
