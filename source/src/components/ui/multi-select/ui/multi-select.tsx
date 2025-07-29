@@ -132,9 +132,11 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
         useEffect(() => {
-            if (options !== localOptions) {
-                setLocalOptions(localOptions.concat(options));
-            }
+            const mergedOptions = [
+                ...options,
+                ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value))
+            ];
+            setLocalOptions(mergedOptions);
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [options]);
 
