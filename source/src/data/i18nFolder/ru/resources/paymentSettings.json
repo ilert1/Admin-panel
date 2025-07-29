@@ -167,6 +167,10 @@
         "errors": {
             "alreadyExist": "Терминальный платёжный инструмент уже существует"
         },
+        "fileDownloadUpload": {
+            "singleFile": "Импортировать один файл",
+            "multipleFiles": "Импортировать несколько файлов"
+        },
         "providerNotSelect": "Выберите провайдера для получения данных",
         "createTerminalPaymentInstrument": "Добавить инструмент",
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",

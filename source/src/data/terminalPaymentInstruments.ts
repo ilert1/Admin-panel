@@ -12,6 +12,7 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
+    ImportMode,
     TerminalPaymentInstrument,
     TerminalPaymentInstrumentCreate,
     TerminalPaymentInstrumentFIData
@@ -22,6 +23,8 @@ import {
     terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete,
     terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet,
     terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGet,
+    terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost,
+    terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost,
     terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost,
     terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet,
     terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet,
@@ -291,5 +294,72 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async uploadReport(file: File, mode: ImportMode = "strict") {
+        // /** JSON string containing terminal_ids array */
+        //  data: string;
+        //  /** Upload CSV file with data for import */
+        //  csv_file: Blob;
+        const res =
+            await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost(
+                {
+                    csv_file: file,
+                    data: ""
+                },
+                {
+                    mode
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    // payment_types_csv: Blob;
+    // /** JSON string containing terminal_ids array or provider_id */
+    // data: string;
+    // financial_institutions_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv;
+    // currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
+
+    async uploadMultipleFiles(files: File[]) {
+        const res =
+            await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost(
+                {
+                    payment_types_csv: files[0],
+                    financial_institutions_csv: files[2],
+                    currency_csv: files[3],
+                    data: ""
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
     }
 }

@@ -221,11 +221,14 @@
         },
         "multiSelect": {
             "selectAll": "Select all",
-            "noResultFound": "No results found.",
-            "selectPaymentTypes": "Select payment types",
             "selectCurrencies": "Select currencies",
-            "searchPlaceholder": "Search...",
+            "selectPaymentTypes": "Select payment types",
             "selectRequiredFields": "Select required fields",
+            "selectTerminals": "Select terminals",
+            "noResultFound": "No results found.",
+            "selectProviderAtFirst": "Select provider first",
+
+            "searchPlaceholder": "Search...",
             "searchOrAddPlaceholder": "Search or add...",
             "addNew": "Add field",
             "optionAlreadyExists": "Option already added",

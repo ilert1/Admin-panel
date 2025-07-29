@@ -169,6 +169,10 @@
         "errors": {
             "alreadyExist": "The terminal payment instrument already exists"
         },
+        "fileDownloadUpload": {
+            "singleFile": "Import single file",
+            "multipleFiles": "Import multiple files"
+        },
         "providerNotSelect": "Select the provider to receive the data",
         "createTerminalPaymentInstrument": "Create instrument",
         "creatingTerminalPaymentInstrument": "Creating terminal payment instrument",

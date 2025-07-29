@@ -1,12 +1,17 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
+import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { debounce } from "lodash";
 import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
+import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const dataProvider = new TerminalPaymentInstrumentsProvider();
     const translate = useTranslate();
+    const appToast = useAppToast();
+    const refresh = useRefresh();
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
         filterValues?.terminal_payment_type_code || ""
@@ -18,6 +23,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminalFilterId || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
+    const [reportLoading, setReportLoading] = useState(false);
 
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
@@ -108,6 +114,40 @@ const useTerminalPaymentInstrumentFilter = () => {
         setProviderName("");
     };
 
+    const handleUploadReport = async (file: File) => {
+        setReportLoading(true);
+
+        try {
+            const data = await dataProvider.uploadReport(file);
+            appToast(
+                "success",
+                translate("resources.paymentSettings.reports.uploadSuccess", {
+                    inserted: data?.data?.inserted,
+                    skipped: data?.data?.skipped,
+                    total: data?.data?.total
+                })
+            );
+        } catch (error) {
+            if (error instanceof Error) {
+                // const parsed = extractFieldsFromErrorMessage(error.message);
+                // if (parsed.type === "string_pattern_mismatch") {
+                //     appToast(
+                //         "error",
+                //         translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+                //             field: parsed.loc.join(" > "),
+                //             input: parsed.input
+                //         })
+                //     );
+                // } else {
+                //     appToast("error", error.message);
+                // }
+            }
+        } finally {
+            setReportLoading(false);
+            refresh();
+        }
+    };
+
     return {
         providersData,
         providersLoadingProcess,
@@ -126,7 +166,9 @@ const useTerminalPaymentInstrumentFilter = () => {
         terminalsData,
         terminalFilterId,
         onTerminalNameChanged,
-        onTerminalIdFieldChanged
+        onTerminalIdFieldChanged,
+        reportLoading,
+        handleUploadReport
     };
 };
 
