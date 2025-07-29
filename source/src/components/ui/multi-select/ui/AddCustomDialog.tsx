@@ -24,13 +24,14 @@ interface AddCustomDialogProps {
             small?: boolean;
         }>;
     }[];
+    clear: () => void;
 }
 
 export const AddCustomDialog = (props: AddCustomDialogProps) => {
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const { open, code, localOptions, onOpenChange, onConfirm } = props;
+    const { open, code, localOptions, onOpenChange, onConfirm, clear } = props;
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -58,15 +59,22 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
-                className="h-auto max-h-56 !w-[350px] overflow-hidden rounded-16 bg-muted xl:max-h-none"
+                className="h-auto max-h-56 !max-w-[340px] overflow-hidden rounded-16 bg-muted xl:max-h-none"
                 onCloseAutoFocus={() => {
                     setButtonDisabled(false);
                 }}>
                 <DialogHeader>
-                    <DialogTitle className="line-clamp-6 overflow-hidden overflow-ellipsis text-wrap break-words break-all text-center">
-                        {doesExist
-                            ? translate("app.widgets.multiSelect.confirmDialog.alreadyExists", { code, name: found })
-                            : translate("app.widgets.multiSelect.confirmDialog.areYouSure", { code })}
+                    <DialogTitle className="line-clamp-6 overflow-hidden overflow-ellipsis text-wrap break-words text-center">
+                        {doesExist ? (
+                            translate("app.widgets.multiSelect.confirmDialog.alreadyExists", { code, name: found })
+                        ) : (
+                            <span className="text-xl font-normal text-green-60 dark:text-white">
+                                {translate("app.widgets.multiSelect.confirmDialog.areYouSure")}
+                                <span className="line-clamp-6 overflow-hidden overflow-ellipsis text-wrap break-words break-all text-xl font-normal text-green-60 dark:text-white">
+                                    {`'${code}'`}
+                                </span>
+                            </span>
+                        )}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
@@ -84,6 +92,7 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
                             className="w-full"
                             variant={"outline_gray"}
                             onClick={() => {
+                                clear();
                                 onOpenChange(false);
                             }}>
                             {translate("app.ui.actions.cancel")}

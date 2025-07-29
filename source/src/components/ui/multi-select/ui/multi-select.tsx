@@ -203,6 +203,10 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             }
         };
 
+        const hadleClearWhenCancelled = () => {
+            setInputValue("");
+        };
+
         const areAllSelected = selectedValues.length === localOptions.length;
         const showButton = addingNew && inputValue.length > 0;
 
@@ -458,6 +462,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     onConfirm={handleAddCustom}
                     localOptions={localOptions}
                     code={inputValue}
+                    clear={hadleClearWhenCancelled}
                 />
             </Popover>
         );
