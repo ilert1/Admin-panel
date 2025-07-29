@@ -59,7 +59,7 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
-                className="h-auto max-h-56 !max-w-[340px] overflow-hidden rounded-16 bg-muted xl:max-h-none"
+                className="h-auto max-h-56 !max-w-[370px] overflow-hidden rounded-16 bg-muted xl:max-h-none"
                 onCloseAutoFocus={() => {
                     setButtonDisabled(false);
                 }}>
