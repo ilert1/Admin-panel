@@ -81,16 +81,21 @@ export const useGetCallbridgeHistory = () => {
             accessorKey: "external_path",
             header: translate("resources.callbridge.history.fields.mapping_name"),
             cell: ({ row }) => {
+                const mapping_name = row.original.mapping?.name ?? "";
                 return (
                     <TextField
-                        text={row.original.mapping?.name ?? ""}
+                        text={mapping_name}
                         maxWidth="100%"
                         lineClamp
                         linesCount={1}
                         copyValue
-                        onClick={() => {
-                            openSheet("callbridgeMappings", { id: row.original.mapping_id });
-                        }}
+                        onClick={
+                            mapping_name
+                                ? () => {
+                                      openSheet("callbridgeMappings", { id: row.original.mapping_id });
+                                  }
+                                : undefined
+                        }
                     />
                 );
             }
