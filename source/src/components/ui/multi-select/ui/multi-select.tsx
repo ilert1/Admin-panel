@@ -132,13 +132,23 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
         useEffect(() => {
+            if (!addingNew) return;
+
             const mergedOptions = [
                 ...options,
-                ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value))
+                ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value)),
+                ...selectedValues
+                    .filter(val => !options.some(opt => opt.value === val))
+                    .filter(val => !localOptions.some(opt => opt.value === val))
+                    .map(val => ({
+                        label: val,
+                        value: val
+                    }))
             ];
+
             setLocalOptions(mergedOptions);
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [options]);
+        }, [options, selectedValues, addingNew]);
 
         const translate = useTranslate();
 
@@ -201,6 +211,10 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             } else {
                 onValueChange(originalValues);
             }
+        };
+
+        const hadleClearWhenCancelled = () => {
+            setInputValue("");
         };
 
         const areAllSelected = selectedValues.length === localOptions.length;
@@ -458,6 +472,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     onConfirm={handleAddCustom}
                     localOptions={localOptions}
                     code={inputValue}
+                    clear={hadleClearWhenCancelled}
                 />
             </Popover>
         );
