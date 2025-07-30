@@ -2,7 +2,7 @@ import { RequiredFieldItem } from "@/api/enigma/blowFishEnigmaAPIService.schemas
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 interface RequiredFieldsMultiSelectProps {
