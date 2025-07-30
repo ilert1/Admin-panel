@@ -136,11 +136,7 @@ export const MappingShow = (props: MappingShowProps) => {
                         <div className="flex flex-col justify-between sm:flex-row">
                             <div className="mb-2 md:mb-4">
                                 <TextField text={context.record.name} className="!text-display-2" />
-                                <TextField
-                                    text={context.record.id}
-                                    copyValue
-                                    className="text-neutral-70 dark:text-neutral-30"
-                                />
+                                <TextField text={context.record.id} copyValue />
                             </div>
                             <Button onClick={() => setEditMappingClicked(true)}>
                                 {translate("app.ui.actions.edit")}
@@ -151,41 +147,33 @@ export const MappingShow = (props: MappingShowProps) => {
                                 label={translate("resources.callbridge.mapping.fields.ext_path")}
                                 text={context.record.external_path}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.callback_url")}
                                 text={context.record.callback_url}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
-
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.int_path")}
                                 text={context.record.internal_path ?? ""}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.nats_subject")}
                                 text={context.record.adapter_nats_subject ?? ""}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.created_at")}
                                 text={new Date(context.record.created_at).toLocaleDateString()}
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.description")}
                                 text={context.record.description ?? ""}
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.updated_at")}
                                 text={new Date(context.record.updated_at).toLocaleDateString()}
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                         </div>
                         <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
