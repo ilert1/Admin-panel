@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { authProvider } from "../providers";
 
 interface BankIconProps {
     logoURL: string;
 }
 
-async function fetchImage(logoURL: string) {
+async function fetchImage(checkAuth: typeof authProvider.checkAuth, logoURL: string) {
+    await checkAuth({});
     const response = await fetch(logoURL);
     if (!response.ok) {
         return null;
@@ -13,9 +15,11 @@ async function fetchImage(logoURL: string) {
 }
 
 export const BankIcon = ({ logoURL }: BankIconProps) => {
+    const { checkAuth } = authProvider;
+
     const { data: blob, error } = useQuery({
         queryKey: ["image", logoURL],
-        queryFn: () => fetchImage(logoURL),
+        queryFn: () => fetchImage(checkAuth, logoURL),
         staleTime: Infinity, // Изображения никогда не устаревают
         gcTime: 30 * 24 * 60 * 60 * 1000 // 30 дней в кеше
         /* retry: 1,
