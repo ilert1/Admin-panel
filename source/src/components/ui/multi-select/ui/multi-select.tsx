@@ -139,6 +139,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                 ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value)),
                 ...selectedValues
                     .filter(val => !options.some(opt => opt.value === val))
+                    .filter(val => !localOptions.some(opt => opt.value === val))
                     .map(val => ({
                         label: val,
                         value: val
