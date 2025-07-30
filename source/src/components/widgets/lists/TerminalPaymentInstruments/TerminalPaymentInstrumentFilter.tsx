@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ImportSingleFileDialog } from "./ImportSingleFileDialog";
 import { ImportMultipleFilesDialog } from "./ImportMultipleFilesDialog";
+import { ExportReportDialog } from "./ExportReportDialog";
 
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
@@ -47,7 +48,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         onTerminalIdFieldChanged,
         reportLoading,
         handleUploadReport,
-        handleUploadMultipleFiles
+        handleUploadMultipleFiles,
+        handleDownloadReport
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
@@ -251,6 +253,12 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                 open={uploadMultipleDialogOpen}
                 onOpenChange={setUploadMultipleDialogOpen}
                 handleImport={handleUploadMultipleFiles}
+            />
+            <ExportReportDialog
+                open={exportDialogOpen}
+                onOpenChange={setExportDialogOpen}
+                handleExport={handleDownloadReport}
+                terminalId={terminalFilterId}
             />
         </>
     );

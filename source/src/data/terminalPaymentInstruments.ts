@@ -360,14 +360,14 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         }
     }
 
-    async downloadReport(params: GetListParams) {
+    async downloadReport(terminalId: string, params: GetListParams) {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
             : [];
 
         const url =
             getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl(
-                "",
+                terminalId,
                 {
                     ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
                     ...(fieldsForSearch.length > 0 && {

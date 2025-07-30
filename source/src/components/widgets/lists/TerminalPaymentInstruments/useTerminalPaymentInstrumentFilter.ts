@@ -194,11 +194,11 @@ const useTerminalPaymentInstrumentFilter = () => {
         }
     };
 
-    const handleDownloadReport = async () => {
+    const handleDownloadReport = async (terminalId: string) => {
         setReportLoading(true);
 
         try {
-            const response = await dataProvider.downloadReport({
+            const response = await dataProvider.downloadReport(terminalId, {
                 filter: filterValues
             });
             const contentDisposition = response?.headers?.get("Content-Disposition");

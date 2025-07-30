@@ -6,10 +6,11 @@ import { useTranslate } from "react-admin";
 interface ExportReportDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
-    handleExport: () => void;
+    handleExport: (terminalId: string) => void;
+    terminalId: string;
 }
 export const ExportReportDialog = (props: ExportReportDialogProps) => {
-    const { open, onOpenChange = () => {}, handleExport } = props;
+    const { open, onOpenChange = () => {}, handleExport, terminalId } = props;
     const translate = useTranslate();
     const { checkAuth } = authProvider;
 
@@ -30,7 +31,7 @@ export const ExportReportDialog = (props: ExportReportDialogProps) => {
                             className="w-full"
                             onClick={async () => {
                                 await checkAuth({});
-                                handleExport();
+                                handleExport(terminalId);
                                 onOpenChange(false);
                             }}>
                             {translate("app.ui.actions.confirm")}
