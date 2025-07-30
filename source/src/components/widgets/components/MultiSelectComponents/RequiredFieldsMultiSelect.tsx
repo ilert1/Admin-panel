@@ -21,24 +21,9 @@ export const RequiredFieldsMultiSelect = (props: RequiredFieldsMultiSelectProps)
     const translate = useTranslate();
 
     const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
-
-    const [modifiedOptions] = useState(() => {
-        const baseOptions =
-            Object.entries(options ?? {}).map(([_, item]) => ({
-                label: item.label,
-                value: item.value
-            })) ?? [];
-
-        const additionalOptions =
-            value
-                ?.filter(val => !baseOptions.some(opt => opt.value === val))
-                .map(val => ({
-                    label: val,
-                    value: val
-                })) ?? [];
-
-        return [...baseOptions, ...additionalOptions];
-    });
+    const modifiedOptions =
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        Object.entries(options ?? [])?.map(([_, value]) => ({ label: value.label, value: value.value })) || [];
 
     const onValueChange = (values: string[]) => {
         setSelectedValues(values);
