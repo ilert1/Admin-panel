@@ -63,7 +63,8 @@ export const useGetPaymentTypesColumns = () => {
             accessorKey: "required_fields_for_payment",
             header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment"),
             cell: ({ row }) => {
-                return <TextField text={row.original.required_fields_for_payment?.join(", ") || ""} lineClamp wrap />;
+                return "Working on it";
+                // return <TextField text={row.original.required_fields_for_payment?.join(", ") || ""} lineClamp wrap />;
             }
         },
         {
