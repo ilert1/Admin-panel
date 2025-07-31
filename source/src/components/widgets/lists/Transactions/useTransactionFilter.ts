@@ -7,6 +7,7 @@ import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AccountsDataProvider } from "@/data";
 import { useFetchDictionaries, useMerchantsListWithoutPagination } from "@/hooks";
+import { getFilenameFromContentDisposition } from "@/helpers/getFilenameFromContentDisposition";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -131,7 +132,7 @@ const useTransactionFilter = () => {
             return;
         }
 
-        const filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.${
+        let filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.${
             type === "csv" ? "csv" : "pdf"
         }`;
 
@@ -143,6 +144,11 @@ const useTransactionFilter = () => {
 
             if (!response.ok) {
                 throw new Error("Network response was not ok");
+            }
+
+            const contentDisposition = response.headers.get("content-disposition");
+            if (contentDisposition) {
+                filename = getFilenameFromContentDisposition(contentDisposition, filename);
             }
 
             appToast("success", translate("app.widgets.report.preDownload", { filename }));
