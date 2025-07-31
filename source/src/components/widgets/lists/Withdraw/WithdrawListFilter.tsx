@@ -65,7 +65,6 @@ export const WithdrawListFilter = () => {
                     <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
                         <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                             <Input
-                                className="flex-1 text-sm placeholder:text-neutral-70"
                                 placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
                                 value={operationId}
                                 label={translate("resources.withdraw.filter.filterById")}
@@ -76,7 +75,6 @@ export const WithdrawListFilter = () => {
 
                         <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                             <Input
-                                className="flex-1 text-sm placeholder:text-neutral-70"
                                 placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
                                 value={operationTrc20}
                                 label={translate("resources.withdraw.filter.filterByTrc20")}
