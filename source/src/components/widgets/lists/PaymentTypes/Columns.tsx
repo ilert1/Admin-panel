@@ -95,15 +95,15 @@ export const useGetPaymentTypesColumns = () => {
                                       <Badge
                                           key={value}
                                           className={cn(
-                                              "m-1 border-foreground/10 bg-card text-foreground transition duration-150 ease-out hover:bg-card/80",
-                                              "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
+                                              "cursor-default border-foreground/10 bg-card text-foreground transition duration-150 ease-out hover:bg-muted",
+                                              "overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
                                               isCustomOption ? "border-dashed border-green-40" : ""
                                           )}>
                                           <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
                                               <p>{isCustomOption ? value : option?.label.split("[")[0].trim()}</p>
-                                              <p className="text-left text-xs text-neutral-70">
-                                                  {isCustomOption ? value : option?.value}
-                                              </p>
+                                              {/* <p className="text-left text-xs text-neutral-70">
+                                            {isCustomOption ? value : option?.value}
+                                        </p> */}
                                           </span>
                                       </Badge>
                                   );
@@ -134,15 +134,15 @@ export const useGetPaymentTypesColumns = () => {
                                       <Badge
                                           key={value}
                                           className={cn(
-                                              "m-1 border-foreground/10 bg-card text-foreground transition duration-150 ease-out hover:bg-card/80",
-                                              "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
+                                              "cursor-default border-foreground/10 bg-card text-foreground transition duration-150 ease-out hover:bg-muted",
+                                              "overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
                                               isCustomOption ? "border-dashed border-green-40" : ""
                                           )}>
                                           <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
                                               <p>{isCustomOption ? value : option?.label.split("[")[0].trim()}</p>
-                                              <p className="text-left text-xs text-neutral-70">
+                                              {/* <p className="text-left text-xs text-neutral-70">
                                                   {isCustomOption ? value : option?.value}
-                                              </p>
+                                              </p> */}
                                           </span>
                                       </Badge>
                                   );
