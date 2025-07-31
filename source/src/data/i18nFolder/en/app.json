@@ -221,18 +221,21 @@
         },
         "multiSelect": {
             "selectAll": "Select all",
-            "noResultFound": "No results found.",
-            "selectPaymentTypes": "Select payment types",
             "selectCurrencies": "Select currencies",
-            "searchPlaceholder": "Search...",
+            "selectPaymentTypes": "Select payment types",
             "selectRequiredFields": "Select required fields",
+            "selectTerminals": "Select terminals",
+            "noResultFound": "No results found.",
+            "selectProviderAtFirst": "Select provider first",
+
+            "searchPlaceholder": "Search...",
             "searchOrAddPlaceholder": "Search or add...",
             "addNew": "Add field",
             "optionAlreadyExists": "Option already added",
-            "reqFieldRegex": "It is allowed to enter lowercase Latin letters and underscores",
+            "reqFieldRegex": "It is allowed to enter lowercase Latin letters, numbers underscores",
 
             "confirmDialog": {
-                "areYouSure": "Are you sure you want to add a required field with code '%{code}'?",
+                "areYouSure": "Are you sure you want to add a required field with code",
                 "add": "Add",
                 "alreadyExists": "The entered field code '%{code}' already exists in the list as '%{name}'. Do you want to select it?",
                 "optionAdded": "Field added successfully"

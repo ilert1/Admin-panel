@@ -12,16 +12,20 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
+    ImportMode,
     TerminalPaymentInstrument,
     TerminalPaymentInstrumentCreate,
     TerminalPaymentInstrumentFIData
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
+    getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl,
     terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePost,
     terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost,
     terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete,
     terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet,
     terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGet,
+    terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost,
+    terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost,
     terminalPaymentInstrumentEndpointsInitializeTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdInitializePost,
     terminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGet,
     terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet,
@@ -291,5 +295,93 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async uploadReport(file: File, mode: ImportMode = "strict", terminal_ids: string[]) {
+        const res =
+            await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost(
+                {
+                    csv_file: file,
+                    data: JSON.stringify({ terminal_ids })
+                },
+                {
+                    mode
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    // payment_types_csv: Blob;
+    // /** JSON string containing terminal_ids array or provider_id */
+    // data: string;
+    // financial_institutions_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv;
+    // currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
+
+    async uploadMultipleFiles(files: File[], provider: string, terminal_ids: string[]) {
+        const res =
+            await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost(
+                {
+                    payment_types_csv: files[0],
+                    financial_institutions_csv: files[1],
+                    currency_csv: files[2] ? files[2] : undefined,
+                    data: terminal_ids ? JSON.stringify({ terminal_ids }) : JSON.stringify({ provider_id: provider })
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    ...res.data.data
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    async downloadReport(terminalId: string, params: GetListParams) {
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(item => item === "code" || item === "title" || item === "category")
+            : [];
+
+        const url =
+            getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl(
+                terminalId,
+                {
+                    ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                    ...(fieldsForSearch.length > 0 && {
+                        searchString: fieldsForSearch.map(item => params.filter?.[item])
+                    })
+                }
+            );
+
+        return await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/octet-stream",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
     }
 }

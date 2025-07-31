@@ -167,6 +167,13 @@
         "errors": {
             "alreadyExist": "Терминальный платёжный инструмент уже существует"
         },
+        "fileDownloadUpload": {
+            "singleFile": "Готовый",
+            "multipleFiles": "Генеративный",
+            "payment_types_csv": "Выберите файл с платёжными типами",
+            "financial_institutions_csv": "Выберите файл с финансовыми институтами",
+            "currency_csv": "Выберите файл с валютами"
+        },
         "providerNotSelect": "Выберите провайдера для получения данных",
         "createTerminalPaymentInstrument": "Добавить инструмент",
         "creatingTerminalPaymentInstrument": "Добавление терминального платёжного инструмента",

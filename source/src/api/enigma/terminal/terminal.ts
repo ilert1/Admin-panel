@@ -6,7 +6,6 @@
  */
 import type {
     ApiResponseListAccountInfo,
-    ApiResponseListTerminalRead,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationTerminalRead,
     ApiResponseTerminalRead,
@@ -115,48 +114,6 @@ export const terminalEndpointsCreateTerminalEnigmaV1TerminalPost = async (
             method: "POST",
             headers: { "Content-Type": "application/json", ...options?.headers },
             body: JSON.stringify(terminalCreate)
-        }
-    );
-};
-
-/**
- * Retrieves a list of unique Terminal entities associated with a specific Merchant ID.
- * @summary Retrieve Terminals by Merchant ID
- */
-export type terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200 = {
-    data: ApiResponseListTerminalRead;
-    status: 200;
-};
-
-export type terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite =
-    | terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200
-    | terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422;
-
-export type terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse =
-    terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl = (
-    merchantId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/by_merchant/${merchantId}`;
-};
-
-export const terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGet = async (
-    merchantId: string,
-    options?: RequestInit
-): Promise<terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse> => {
-    return authFetch<terminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse>(
-        getTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl(merchantId),
-        {
-            ...options,
-            method: "GET"
         }
     );
 };

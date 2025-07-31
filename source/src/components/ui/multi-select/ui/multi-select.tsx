@@ -100,6 +100,7 @@ interface MultiSelectProps extends ButtonHTMLAttributes<HTMLButtonElement>, Vari
     notFoundMessage?: string;
     isLoading?: boolean;
     addingNew?: boolean;
+    disabled?: boolean;
 }
 
 export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
@@ -117,6 +118,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             className,
             isLoading = false,
             addingNew = false,
+            disabled = false,
             ...props
         },
         ref
@@ -132,13 +134,23 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
         useEffect(() => {
+            if (!addingNew) return;
+
             const mergedOptions = [
                 ...options,
-                ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value))
+                ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value)),
+                ...selectedValues
+                    .filter(val => !options.some(opt => opt.value === val))
+                    .filter(val => !localOptions.some(opt => opt.value === val))
+                    .map(val => ({
+                        label: val,
+                        value: val
+                    }))
             ];
+
             setLocalOptions(mergedOptions);
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [options]);
+        }, [options, selectedValues, addingNew]);
 
         const translate = useTranslate();
 
@@ -203,6 +215,10 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             }
         };
 
+        const hadleClearWhenCancelled = () => {
+            setInputValue("");
+        };
+
         const areAllSelected = selectedValues.length === localOptions.length;
         const showButton = addingNew && inputValue.length > 0;
 
@@ -215,6 +231,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                 modal={modalPopover}>
                 <PopoverTrigger asChild>
                     <Button
+                        disabled={disabled}
                         ref={ref}
                         {...props}
                         role="combobox"
@@ -298,11 +315,13 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                         ) : (
                             <div className="mx-auto flex w-full items-center justify-between">
                                 <span className="mx-3 text-sm text-neutral-60 dark:text-neutral-70">{placeholder}</span>
-                                <ChevronDown
-                                    id="multiSelectToggleIcon"
-                                    className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
-                                    pointerEvents="none !important"
-                                />
+                                {!disabled && (
+                                    <ChevronDown
+                                        id="multiSelectToggleIcon"
+                                        className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                        pointerEvents="none !important"
+                                    />
+                                )}
                             </div>
                         )}
                     </Button>
@@ -458,6 +477,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     onConfirm={handleAddCustom}
                     localOptions={localOptions}
                     code={inputValue}
+                    clear={hadleClearWhenCancelled}
                 />
             </Popover>
         );

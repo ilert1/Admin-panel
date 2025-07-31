@@ -21,24 +21,54 @@ import {
 } from "@/components/ui/select";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useListContext, useTranslate } from "react-admin";
 import { useFilePicker } from "use-file-picker";
+import { ProviderSelect } from "../../components/Selects/ProviderSelect";
+import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
+import { TerminalMultiSelect } from "../../components/MultiSelectComponents/TerminalMultiSelect";
 
-interface UploadCsvFileDialogProps {
+interface ImportSingleFileDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
-    handleUplaod: (file: File, mode: ImportMode) => void;
+    handleImport: (file: File, mode: string, terminal_ids: string[]) => Promise<void>;
 }
-export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
-    const { open, onOpenChange = () => {}, handleUplaod } = props;
+
+export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
+    const { open, onOpenChange = () => {}, handleImport } = props;
+    const { filterValues } = useListContext();
 
     const appToast = useAppToast();
     const translate = useTranslate();
+    const { checkAuth } = authProvider;
+
+    const providersDataProvider = new ProvidersDataProvider();
+    const terminalsDataProvider = new TerminalsDataProvider();
+
     const importModes = Object.values(ImportMode);
+
+    const [selectedProvider, setSelectedProvider] = useState<string>("");
+    const [selectedTerminals, setSelectedTerminals] = useState<string[]>([]);
+
     const [inputVal, setInputVal] = useState("");
     const [importMode, setImportMode] = useState<ImportMode>("strict");
-    const { checkAuth } = authProvider;
+
+    const queryClient = useQueryClient();
+
+    const { data, isLoading: isLoadingProviders } = useQuery({
+        queryKey: ["provider", "list"],
+        queryFn: () => providersDataProvider.getList("provider", { pagination: { page: 1, perPage: 10000 } }),
+        enabled: open,
+        select: data => data.data
+    });
+
+    const { data: terminalData, isLoading: isLoadingTerminals } = useQuery({
+        queryKey: ["terminal", "list"],
+        queryFn: () => terminalsDataProvider.getList("terminal", { filter: { provider: selectedProvider } }),
+        enabled: !!selectedProvider,
+        select: data => data.data
+    });
 
     const { openFilePicker, filesContent, loading, plainFiles, clear } = useFilePicker({
         accept: ".csv",
@@ -56,6 +86,33 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
         }
     });
 
+    useEffect(() => {
+        if (!selectedProvider) {
+            setSelectedTerminals([]);
+            queryClient.resetQueries({
+                queryKey: ["terminal", "list"]
+            });
+        }
+    }, [selectedProvider, queryClient]);
+
+    useEffect(() => {
+        if (open) {
+            if (filterValues?.provider) {
+                setSelectedProvider(filterValues.provider ?? "");
+            } else {
+                setSelectedProvider("");
+            }
+        }
+    }, [open, filterValues]);
+
+    useEffect(() => {
+        if (filterValues?.terminalFilterId) {
+            setSelectedTerminals([filterValues.terminalFilterId]);
+        } else {
+            setSelectedTerminals([]);
+        }
+    }, [selectedProvider, filterValues]);
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -71,6 +128,35 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
                         {translate("resources.paymentSettings.reports.uploadingFile")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
+                    <div className="mb-4 flex w-full flex-col gap-2">
+                        <div>
+                            <Label>{translate("resources.direction.provider")}</Label>
+                            <ProviderSelect
+                                providers={data ?? []}
+                                disabled={isLoadingProviders}
+                                value={selectedProvider}
+                                modal
+                                onChange={(value: string) => {
+                                    setSelectedProvider(value);
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <TerminalMultiSelect
+                                options={terminalData ?? []}
+                                value={selectedTerminals}
+                                disabled={!terminalData || isLoadingTerminals}
+                                onChange={(value: string[]) => {
+                                    setSelectedTerminals(value);
+                                }}
+                                placeholder={
+                                    !selectedProvider
+                                        ? translate("app.widgets.multiSelect.selectProviderAtFirst")
+                                        : undefined
+                                }
+                            />
+                        </div>
+                    </div>
                     <div className="flex w-full flex-col gap-4">
                         <TextField
                             text={inputVal ? inputVal : translate("resources.paymentSettings.reports.pickFile")}
@@ -106,10 +192,10 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full"
-                                disabled={!plainFiles?.[0]}
+                                disabled={!plainFiles?.[0] || !selectedProvider || !selectedTerminals.length}
                                 onClick={async () => {
                                     await checkAuth({});
-                                    handleUplaod(plainFiles?.[0] ?? null, importMode);
+                                    handleImport(plainFiles?.[0] ?? null, importMode, selectedTerminals);
                                     onOpenChange(false);
                                 }}>
                                 {translate("resources.paymentSettings.reports.upload")}

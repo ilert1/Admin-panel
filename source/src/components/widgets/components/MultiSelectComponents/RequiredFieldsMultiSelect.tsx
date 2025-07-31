@@ -2,7 +2,7 @@ import { RequiredFieldItem } from "@/api/enigma/blowFishEnigmaAPIService.schemas
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslate } from "react-admin";
 
 interface RequiredFieldsMultiSelectProps {
@@ -24,17 +24,6 @@ export const RequiredFieldsMultiSelect = (props: RequiredFieldsMultiSelectProps)
     const modifiedOptions =
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         Object.entries(options ?? [])?.map(([_, value]) => ({ label: value.label, value: value.value })) || [];
-
-    useEffect(() => {
-        if (value) {
-            value.forEach(val => {
-                if (!modifiedOptions.some(opt => opt.value === val)) {
-                    modifiedOptions.push({ label: val, value: val });
-                }
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const onValueChange = (values: string[]) => {
         setSelectedValues(values);

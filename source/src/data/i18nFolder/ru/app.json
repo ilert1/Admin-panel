@@ -222,18 +222,21 @@
         },
         "multiSelect": {
             "selectAll": "Выбрать все",
-            "noResultFound": "Нет результатов",
             "selectPaymentTypes": "Выберите платёжные типы",
-            "searchPlaceholder": "Поиск...",
             "selectCurrencies": "Выберите валюты",
             "selectRequiredFields": "Выберите обязательные поля",
+            "selectTerminals": "Выберите терминалы",
+            "selectProviderAtFirst": "Сначала выберите провайдера",
+            "noResultFound": "Нет результатов",
+
+            "searchPlaceholder": "Поиск...",
             "searchOrAddPlaceholder": "Поиск или добавление...",
             "addNew": "Добавить поле",
             "optionAlreadyExists": "Поле уже добавлено",
-            "reqFieldRegex": "Поле может содержать только строчные латинские буквы и подчеркивания",
+            "reqFieldRegex": "Поле может содержать только строчные латинские буквы, цифры и подчеркивания",
 
             "confirmDialog": {
-                "areYouSure": "Вы действительно хотите добавить обязательное поле с кодом '%{code}'?",
+                "areYouSure": "Вы действительно хотите добавить обязательное поле с кодом",
                 "add": "Добавить",
                 "alreadyExists": "Введённый код поля '%{code}' уже имеется в списке под именем '%{name}'. Выбрать его?",
                 "optionAdded": "Поле добавлено успешно"
