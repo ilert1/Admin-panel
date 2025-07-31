@@ -269,7 +269,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                                             <IconComponent className="mr-1 h-4 w-4" small />
                                                         )}
                                                         {addingNew ? (
-                                                            <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
+                                                            <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words text-left">
                                                                 <p>
                                                                     {isCustomOption
                                                                         ? option?.label

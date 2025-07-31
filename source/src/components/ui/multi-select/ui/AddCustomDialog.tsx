@@ -71,7 +71,7 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
                             <span className="text-xl font-normal text-green-60 dark:text-white">
                                 {translate("app.widgets.multiSelect.confirmDialog.areYouSure")}
                                 <span className="line-clamp-6 overflow-hidden overflow-ellipsis text-wrap break-words break-all text-xl font-normal text-green-60 dark:text-white">
-                                    {`'${code}'`}
+                                    {`'${code}'?`}
                                 </span>
                             </span>
                         )}

@@ -95,7 +95,7 @@ export const authProvider: AuthProvider = {
             const body = new URLSearchParams(bodyObject);
 
             const kk = keycloakLoginUrl;
-            const response = await fetchUtils.fetchJson(`${kk.slice(0, kk.lastIndexOf("token"))}revoke`, {
+            await fetchUtils.fetchJson(`${kk.slice(0, kk.lastIndexOf("token"))}revoke`, {
                 method: "POST",
                 body: body.toString(),
                 headers: new Headers({
