@@ -235,8 +235,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                                 <PaymentTypeIcon
                                                     type={newVariant()}
                                                     metaIcon={variant.meta?.["icon"]}
-                                                    metaIconMargin
-                                                    className="min-w-[24px]"
+                                                    className="mr-2 min-w-[24px]"
                                                 />
                                             ) : undefined}
                                             <p className="truncate">
