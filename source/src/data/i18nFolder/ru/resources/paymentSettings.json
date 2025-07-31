@@ -168,8 +168,8 @@
             "alreadyExist": "Терминальный платёжный инструмент уже существует"
         },
         "fileDownloadUpload": {
-            "singleFile": "Импортировать один файл",
-            "multipleFiles": "Импортировать несколько файлов",
+            "singleFile": "Готовый",
+            "multipleFiles": "Генеративный",
             "payment_types_csv": "Выберите файл с платёжными типами",
             "financial_institutions_csv": "Выберите файл с финансовыми институтами",
             "currency_csv": "Выберите файл с валютами"

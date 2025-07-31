@@ -302,7 +302,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
             await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost(
                 {
                     csv_file: file,
-                    data: JSON.stringify(terminal_ids)
+                    data: JSON.stringify({ terminal_ids })
                 },
                 {
                     mode
@@ -332,14 +332,14 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
     // financial_institutions_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv;
     // currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
 
-    async uploadMultipleFiles(files: File[], provider: string, terminal_ids: string) {
+    async uploadMultipleFiles(files: File[], provider: string, terminal_ids: string[]) {
         const res =
             await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost(
                 {
                     payment_types_csv: files[0],
                     financial_institutions_csv: files[1],
                     currency_csv: files[2] ? files[2] : undefined,
-                    data: terminal_ids ? terminal_ids : provider
+                    data: terminal_ids ? JSON.stringify({ terminal_ids }) : JSON.stringify({ provider_id: provider })
                 },
                 {
                     headers: {

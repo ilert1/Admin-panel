@@ -14,7 +14,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useTranslate } from "react-admin";
+import { useListContext, useTranslate } from "react-admin";
 import { useFilePicker } from "use-file-picker";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
@@ -37,6 +37,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
     const appToast = useAppToast();
     const translate = useTranslate();
     const { checkAuth } = authProvider;
+    const { filterValues } = useListContext();
 
     const providersDataProvider = new ProvidersDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
@@ -133,6 +134,24 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         }
     }, [selectedProvider, queryClient]);
 
+    useEffect(() => {
+        if (open) {
+            if (filterValues?.provider) {
+                setSelectedProvider(filterValues.provider ?? "");
+            } else {
+                setSelectedProvider("");
+            }
+        }
+    }, [open, filterValues]);
+
+    useEffect(() => {
+        if (filterValues?.terminalFilterId) {
+            setSelectedTerminals([filterValues.terminalFilterId]);
+        } else {
+            setSelectedTerminals([]);
+        }
+    }, [selectedProvider, filterValues]);
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -141,8 +160,6 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                     setPaymentTypeCsvFileName("");
                     setFinancialInstitutionCsvFileName("");
                     setCurrencyCsvFileName("");
-                    setSelectedProvider("");
-                    setSelectedTerminals([]);
                     clearPaymentTypePicker();
                     clearInstitutionPicker();
                     clearCurrencyPicker();
@@ -247,7 +264,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                                 disabled={
                                     !paymentTypePlainFiles?.[0] ||
                                     !institutionPlainFiles?.[0] ||
-                                    !currencyPlainFiles?.[0] ||
+                                    // !currencyPlainFiles?.[0] ||
                                     !selectedProvider
                                 }
                                 onClick={async () => {

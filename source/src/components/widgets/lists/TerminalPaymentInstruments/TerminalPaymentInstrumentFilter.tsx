@@ -58,8 +58,6 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
     const [uploadSingleDialogOpen, setUploadSingleDialogOpen] = useState(false);
     const [uploadMultipleDialogOpen, setUploadMultipleDialogOpen] = useState(false);
 
-    const { total } = useListContext();
-
     const clearDisabled =
         !providerName &&
         !terminalFilterId &&
@@ -99,7 +97,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                         </Button>
                         <Button
                             onClick={() => setExportDialogOpen(true)}
-                            disabled={!total || reportLoading}
+                            disabled={!terminalFilterName}
                             className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
                             <span>{translate("resources.paymentSettings.reports.export")}</span>
                         </Button>

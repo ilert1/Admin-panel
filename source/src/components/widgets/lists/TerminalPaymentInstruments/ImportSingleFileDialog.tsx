@@ -23,7 +23,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useTranslate } from "react-admin";
+import { useListContext, useTranslate } from "react-admin";
 import { useFilePicker } from "use-file-picker";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
@@ -37,6 +37,8 @@ interface ImportSingleFileDialogProps {
 
 export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
     const { open, onOpenChange = () => {}, handleImport } = props;
+    const { filterValues } = useListContext();
+
     const appToast = useAppToast();
     const translate = useTranslate();
     const { checkAuth } = authProvider;
@@ -93,6 +95,24 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
         }
     }, [selectedProvider, queryClient]);
 
+    useEffect(() => {
+        if (open) {
+            if (filterValues?.provider) {
+                setSelectedProvider(filterValues.provider ?? "");
+            } else {
+                setSelectedProvider("");
+            }
+        }
+    }, [open, filterValues]);
+
+    useEffect(() => {
+        if (filterValues?.terminalFilterId) {
+            setSelectedTerminals([filterValues.terminalFilterId]);
+        } else {
+            setSelectedTerminals([]);
+        }
+    }, [selectedProvider, filterValues]);
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -100,8 +120,6 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                 onCloseAutoFocus={() => {
                     setInputVal("");
                     setImportMode("strict");
-                    setSelectedProvider("");
-                    setSelectedTerminals([]);
                     clear();
                 }}
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[400px]">

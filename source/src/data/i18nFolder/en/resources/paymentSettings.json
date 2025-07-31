@@ -170,8 +170,8 @@
             "alreadyExist": "The terminal payment instrument already exists"
         },
         "fileDownloadUpload": {
-            "singleFile": "Import single file",
-            "multipleFiles": "Import multiple files",
+            "singleFile": "Ready",
+            "multipleFiles": "Generative",
             "payment_types_csv": "Select payment types file",
             "financial_institutions_csv": "Select financial institutions file",
             "currency_csv": "Select currency file"

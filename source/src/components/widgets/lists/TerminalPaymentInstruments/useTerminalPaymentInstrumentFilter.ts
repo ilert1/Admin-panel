@@ -162,7 +162,7 @@ const useTerminalPaymentInstrumentFilter = () => {
             const data = await dataProvider.uploadMultipleFiles(
                 [payment_type_file, financial_institution_file, currency_file],
                 provider,
-                terminal_ids.join(",")
+                terminal_ids
             );
 
             appToast(
