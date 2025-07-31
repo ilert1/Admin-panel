@@ -13628,26 +13628,20 @@
               ]
             },
             "required_fields_for_payment": {
-              "anyOf": [
-                {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Required Fields For Payment",
+              "$ref": "#/components/schemas/RequiredFieldsForPayment",
               "description": "List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.",
               "examples": [
-                [
-                  "card_number",
-                  "card_lifetime_month",
-                  "card_lifetime_year",
-                  "card_cvc"
-                ]
+                {
+                  "deposit": [
+                    "customer.phone_number",
+                    "customer.first_name",
+                    "customer.last_name",
+                    "customer.email"
+                  ],
+                  "withdrawal": [
+                    "customer.phone_number"
+                  ]
+                }
               ]
             },
             "meta": {
@@ -13699,27 +13693,20 @@
               ]
             },
             "required_fields_for_payment": {
-              "anyOf": [
-                {
-                  "items": {
-                    "type": "string",
-                    "pattern": "^[a-z0-9_]+$"
-                  },
-                  "type": "array"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Required Fields For Payment",
-              "description": "List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.",
+              "$ref": "#/components/schemas/RequiredFieldsForPayment",
+              "description": "Structure of required fields for payment operations with this type. These fields must exist in the Requisites model.",
               "examples": [
-                [
-                  "card_number",
-                  "card_lifetime_month",
-                  "card_lifetime_year",
-                  "card_cvc"
-                ]
+                {
+                  "deposit": [
+                    "customer.phone_number"
+                  ],
+                  "withdrawal": [
+                    "customer.phone_number",
+                    "customer.first_name",
+                    "customer.last_name",
+                    "customer.email"
+                  ]
+                }
               ]
             },
             "meta": {
@@ -13771,26 +13758,20 @@
               ]
             },
             "required_fields_for_payment": {
-              "anyOf": [
-                {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Required Fields For Payment",
+              "$ref": "#/components/schemas/RequiredFieldsForPayment",
               "description": "List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.",
               "examples": [
-                [
-                  "card_number",
-                  "card_lifetime_month",
-                  "card_lifetime_year",
-                  "card_cvc"
-                ]
+                {
+                  "deposit": [
+                    "customer.phone_number",
+                    "customer.first_name",
+                    "customer.last_name",
+                    "customer.email"
+                  ],
+                  "withdrawal": [
+                    "customer.phone_number"
+                  ]
+                }
               ]
             },
             "meta": {
@@ -13855,20 +13836,25 @@
             "required_fields_for_payment": {
               "anyOf": [
                 {
-                  "items": {
-                    "type": "string",
-                    "pattern": "^[a-z0-9_]+$"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/RequiredFieldsForPayment"
                 },
                 {
                   "type": "null"
                 }
               ],
-              "title": "Required Fields For Payment",
-              "description": "New list of required field names (will fully replace previous value if provided). Provide an empty list to clear.",
+              "description": "New structure of required fields (will fully replace previous value if provided). Provide None to clear.",
               "examples": [
-                []
+                {
+                  "deposit": [
+                    "customer.phone_number"
+                  ],
+                  "withdrawal": [
+                    "customer.phone_number",
+                    "customer.first_name",
+                    "customer.last_name",
+                    "customer.email"
+                  ]
+                }
               ]
             },
             "meta": {
@@ -14555,6 +14541,41 @@
             "value"
           ],
           "title": "RequiredFieldItem"
+        },
+        "RequiredFieldsForPayment": {
+          "properties": {
+            "deposit": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array",
+              "title": "Deposit",
+              "description": "List of required fields for deposit operation",
+              "examples": [
+                [
+                  "customer.phone_number"
+                ]
+              ]
+            },
+            "withdrawal": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array",
+              "title": "Withdrawal",
+              "description": "List of required fields for withdrawal operation",
+              "examples": [
+                [
+                  "customer.phone_number",
+                  "customer.first_name",
+                  "customer.last_name",
+                  "customer.email"
+                ]
+              ]
+            }
+          },
+          "type": "object",
+          "title": "RequiredFieldsForPayment"
         },
         "RetryPolicy": {
           "properties": {

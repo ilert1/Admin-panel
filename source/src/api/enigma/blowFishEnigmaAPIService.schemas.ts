@@ -1834,11 +1834,6 @@ export interface PaymentCategoryItem {
 }
 
 /**
- * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
- */
-export type PaymentTypeBaseRequiredFieldsForPayment = string[] | null;
-
-/**
  * Arbitrary metadata for the payment type (JSON object)
  */
 export type PaymentTypeBaseMeta = { [key: string]: unknown };
@@ -1854,15 +1849,10 @@ export interface PaymentTypeBase {
     /** Category of the payment type (H2H or ECOM) */
     category: PaymentCategory;
     /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
-    required_fields_for_payment?: PaymentTypeBaseRequiredFieldsForPayment;
+    required_fields_for_payment?: RequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeBaseMeta;
 }
-
-/**
- * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
- */
-export type PaymentTypeCreateRequiredFieldsForPayment = string[] | null;
 
 /**
  * Arbitrary metadata for the payment type (JSON object)
@@ -1879,16 +1869,11 @@ export interface PaymentTypeCreate {
     title: string;
     /** Category of the payment type (H2H or ECOM) */
     category: PaymentCategory;
-    /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
-    required_fields_for_payment?: PaymentTypeCreateRequiredFieldsForPayment;
+    /** Structure of required fields for payment operations with this type. These fields must exist in the Requisites model. */
+    required_fields_for_payment?: RequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeCreateMeta;
 }
-
-/**
- * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
- */
-export type PaymentTypeModelRequiredFieldsForPayment = string[] | null;
 
 /**
  * Arbitrary metadata for the payment type (JSON object)
@@ -1906,7 +1891,7 @@ export interface PaymentTypeModel {
     /** Category of the payment type (H2H or ECOM) */
     category: PaymentCategory;
     /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
-    required_fields_for_payment?: PaymentTypeModelRequiredFieldsForPayment;
+    required_fields_for_payment?: RequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeModelMeta;
     /** List of supported currency codes (ISO, e.g. RUB, USD, USDT) */
@@ -1924,9 +1909,9 @@ export type PaymentTypeUpdateTitle = string | null;
 export type PaymentTypeUpdateCategory = PaymentCategory | null;
 
 /**
- * New list of required field names (will fully replace previous value if provided). Provide an empty list to clear.
+ * New structure of required fields (will fully replace previous value if provided). Provide None to clear.
  */
-export type PaymentTypeUpdateRequiredFieldsForPayment = string[] | null;
+export type PaymentTypeUpdateRequiredFieldsForPayment = RequiredFieldsForPayment | null;
 
 export type PaymentTypeUpdateMetaAnyOf = { [key: string]: unknown };
 
@@ -1940,7 +1925,7 @@ export interface PaymentTypeUpdate {
     title?: PaymentTypeUpdateTitle;
     /** New category for the payment type. If not provided, current value remains. */
     category?: PaymentTypeUpdateCategory;
-    /** New list of required field names (will fully replace previous value if provided). Provide an empty list to clear. */
+    /** New structure of required fields (will fully replace previous value if provided). Provide None to clear. */
     required_fields_for_payment?: PaymentTypeUpdateRequiredFieldsForPayment;
     /** New metadata (will fully replace previous value) */
     meta?: PaymentTypeUpdateMeta;
@@ -2087,6 +2072,13 @@ export interface RequiredFieldItem {
     label: string;
     /** Field name used by API / DB */
     value: string;
+}
+
+export interface RequiredFieldsForPayment {
+    /** List of required fields for deposit operation */
+    deposit?: string[];
+    /** List of required fields for withdrawal operation */
+    withdrawal?: string[];
 }
 
 /**
