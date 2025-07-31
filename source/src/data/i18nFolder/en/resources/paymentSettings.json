@@ -18,6 +18,8 @@
             "payment_types": "Payment types",
             "category": "Category",
             "required_fields_for_payment": "Required fields for payment",
+            "required_fields_for_payment_deposit": "Required fields for deposit",
+            "required_fields_for_payment_withdrawal": "Required fields for withdrawal",
             "icon": "Icon",
             "currencies": "Currencies"
         },

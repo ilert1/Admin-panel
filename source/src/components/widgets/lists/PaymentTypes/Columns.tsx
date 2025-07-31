@@ -59,11 +59,31 @@ export const useGetPaymentTypesColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.category")
         },
         {
-            id: "required_fields_for_payment",
-            accessorKey: "required_fields_for_payment",
-            header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment"),
+            id: "required_fields_for_payment_deposit",
+            accessorKey: "required_fields_for_payment_deposit",
+            header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment_deposit"),
             cell: ({ row }) => {
-                return <TextField text={row.original.required_fields_for_payment?.join(", ") || ""} lineClamp wrap />;
+                return (
+                    <TextField
+                        text={row.original.required_fields_for_payment?.deposit?.join(", ") || ""}
+                        lineClamp
+                        wrap
+                    />
+                );
+            }
+        },
+        {
+            id: "required_fields_for_payment_withdrawal",
+            accessorKey: "required_fields_for_payment_withdrawal",
+            header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment_withdrawal"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={row.original.required_fields_for_payment?.withdrawal?.join(", ") || ""}
+                        lineClamp
+                        wrap
+                    />
+                );
             }
         },
         {
