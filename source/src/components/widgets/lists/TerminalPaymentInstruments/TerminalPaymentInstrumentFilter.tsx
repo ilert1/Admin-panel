@@ -11,6 +11,17 @@ import { Input } from "@/components/ui/Input/input";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
+import { useListContext } from "react-admin";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { ImportSingleFileDialog } from "./ImportSingleFileDialog";
+import { ImportMultipleFilesDialog } from "./ImportMultipleFilesDialog";
+import { ExportReportDialog } from "./ExportReportDialog";
+
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
 }
@@ -34,11 +45,18 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         terminalsData,
         terminalFilterId,
         onTerminalNameChanged,
-        onTerminalIdFieldChanged
+        onTerminalIdFieldChanged,
+        reportLoading,
+        handleUploadReport,
+        handleUploadMultipleFiles,
+        handleDownloadReport
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
     const [showInitializeDialog, setShowInitializeDialog] = useState(false);
+    const [exportDialogOpen, setExportDialogOpen] = useState(false);
+    const [uploadSingleDialogOpen, setUploadSingleDialogOpen] = useState(false);
+    const [uploadMultipleDialogOpen, setUploadMultipleDialogOpen] = useState(false);
 
     const clearDisabled =
         !providerName &&
@@ -51,7 +69,6 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         <>
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <SyncDisplayedFilters />
-
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
@@ -68,7 +85,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                         clearButtonDisabled={clearDisabled}
                     />
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-end gap-2">
                         <Button onClick={createFn} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
 
@@ -78,6 +95,36 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 )}
                             </span>
                         </Button>
+                        <Button
+                            onClick={() => setExportDialogOpen(true)}
+                            disabled={!terminalFilterName}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                            <span>{translate("resources.paymentSettings.reports.export")}</span>
+                        </Button>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className="mt-1 sm:mt-0 md:ml-auto" variant="default" size="sm">
+                                    {translate("resources.paymentSettings.reports.import")}
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="border-green-50 p-0" align="end">
+                                <DropdownMenuItem
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-40 focus:dark:text-white"
+                                    onClick={() => setUploadSingleDialogOpen(true)}>
+                                    {translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.singleFile"
+                                    )}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-40 focus:dark:text-white"
+                                    onClick={() => setUploadMultipleDialogOpen(true)}>
+                                    {translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.multipleFiles"
+                                    )}
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
             </div>
@@ -194,6 +241,22 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                 terminal={terminalsData?.find(item => item.terminal_id === terminalFilterId)}
                 open={showInitializeDialog}
                 onOpenChange={setShowInitializeDialog}
+            />
+            <ImportSingleFileDialog
+                open={uploadSingleDialogOpen}
+                onOpenChange={setUploadSingleDialogOpen}
+                handleImport={handleUploadReport}
+            />
+            <ImportMultipleFilesDialog
+                open={uploadMultipleDialogOpen}
+                onOpenChange={setUploadMultipleDialogOpen}
+                handleImport={handleUploadMultipleFiles}
+            />
+            <ExportReportDialog
+                open={exportDialogOpen}
+                onOpenChange={setExportDialogOpen}
+                handleExport={handleDownloadReport}
+                terminalId={terminalFilterId}
             />
         </>
     );

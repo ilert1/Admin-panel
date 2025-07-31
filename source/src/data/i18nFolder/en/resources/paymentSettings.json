@@ -18,6 +18,8 @@
             "payment_types": "Payment types",
             "category": "Category",
             "required_fields_for_payment": "Required fields for payment",
+            "required_fields_for_payment_deposit": "Required fields for deposit",
+            "required_fields_for_payment_withdrawal": "Required fields for withdrawal",
             "icon": "Icon",
             "currencies": "Currencies"
         },
@@ -168,6 +170,13 @@
         },
         "errors": {
             "alreadyExist": "The terminal payment instrument already exists"
+        },
+        "fileDownloadUpload": {
+            "singleFile": "Ready",
+            "multipleFiles": "Generative",
+            "payment_types_csv": "Select payment types file",
+            "financial_institutions_csv": "Select financial institutions file",
+            "currency_csv": "Select currency file"
         },
         "providerNotSelect": "Select the provider to receive the data",
         "createTerminalPaymentInstrument": "Create instrument",

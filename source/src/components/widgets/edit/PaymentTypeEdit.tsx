@@ -63,7 +63,8 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"))
             .default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
-        required_fields_for_payment: z.array(z.string()).optional(),
+        required_fields_for_payment_deposit: z.array(z.string()).optional(),
+        required_fields_for_payment_withdrawal: z.array(z.string()).optional(),
         meta: z.string().trim().optional(),
         currencies: z.array(z.string()).optional()
     });
@@ -74,7 +75,9 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             code: id,
             title: controllerProps.record?.title ?? "",
             category: controllerProps.record?.category ?? "",
-            required_fields_for_payment: controllerProps.record?.required_fields_for_payment ?? "",
+            required_fields_for_payment_deposit: controllerProps.record?.required_fields_for_payment?.deposit ?? [],
+            required_fields_for_payment_withdrawal:
+                controllerProps.record?.required_fields_for_payment?.withdrawal ?? [],
             meta: JSON.stringify(controllerProps.record?.meta, null, 2) || "{}",
             currencies: controllerProps.record?.currencies?.map((c: { code: string }) => c.code) ?? []
         }
@@ -104,6 +107,10 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                 id,
                 data: {
                     ...data,
+                    required_fields_for_payment: {
+                        deposit: data.required_fields_for_payment_deposit,
+                        withdrawal: data.required_fields_for_payment_withdrawal
+                    },
                     meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {}
                 },
                 previousData: undefined
@@ -187,23 +194,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
-                                name="title"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
                                 name="category"
                                 render={({ field, fieldState }) => (
                                     <FormItem className="w-full p-2">
@@ -237,9 +227,26 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
+                                name="title"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
                                 name="currencies"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
                                             <CurrenciesMultiSelect
                                                 value={field.value}
@@ -253,21 +260,43 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
-                                name="required_fields_for_payment"
+                                name="required_fields_for_payment_deposit"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
                                             <RequiredFieldsMultiSelect
                                                 value={field.value}
                                                 onChange={field.onChange}
                                                 options={isLoadRequiredFields ? {} : requiredFields}
                                                 isLoading={isLoadRequiredFields}
-                                                label
+                                                label={translate(
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment_deposit"
+                                                )}
                                             />
                                         </FormControl>
                                     </FormItem>
                                 )}
-                            />{" "}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="required_fields_for_payment_withdrawal"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <RequiredFieldsMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={isLoadRequiredFields ? {} : requiredFields}
+                                                isLoading={isLoadRequiredFields}
+                                                label={translate(
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment_withdrawal"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="meta"

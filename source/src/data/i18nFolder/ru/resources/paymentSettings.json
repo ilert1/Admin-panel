@@ -18,6 +18,8 @@
             "payment_types": "Платёжные типы",
             "category": "Категория",
             "required_fields_for_payment": "Обязательные поля для платежа",
+            "required_fields_for_payment_deposit": "Обязательные поля для пополнения",
+            "required_fields_for_payment_withdrawal": "Обязательные поля для вывода",
             "icon": "Иконка",
             "currencies": "Валюты"
         },
@@ -166,6 +168,13 @@
         },
         "errors": {
             "alreadyExist": "Терминальный платёжный инструмент уже существует"
+        },
+        "fileDownloadUpload": {
+            "singleFile": "Готовый",
+            "multipleFiles": "Генеративный",
+            "payment_types_csv": "Выберите файл с платёжными типами",
+            "financial_institutions_csv": "Выберите файл с финансовыми институтами",
+            "currency_csv": "Выберите файл с валютами"
         },
         "providerNotSelect": "Выберите провайдера для получения данных",
         "createTerminalPaymentInstrument": "Добавить инструмент",

@@ -1,12 +1,19 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
+import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { debounce } from "lodash";
 import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
+import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
+import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const dataProvider = new TerminalPaymentInstrumentsProvider();
     const translate = useTranslate();
+    const appToast = useAppToast();
+    const refresh = useRefresh();
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
         filterValues?.terminal_payment_type_code || ""
@@ -18,6 +25,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminalFilterId || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
+    const [reportLoading, setReportLoading] = useState(false);
 
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
@@ -108,6 +116,125 @@ const useTerminalPaymentInstrumentFilter = () => {
         setProviderName("");
     };
 
+    const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
+        setReportLoading(true);
+
+        try {
+            const data = await dataProvider.uploadReport(file, mode as ImportMode, terminal_ids);
+
+            appToast(
+                "success",
+                translate("resources.paymentSettings.reports.uploadSuccess", {
+                    inserted: data?.data?.inserted,
+                    skipped: data?.data?.skipped,
+                    total: data?.data?.total
+                })
+            );
+        } catch (error) {
+            if (error instanceof Error) {
+                const parsed = extractFieldsFromErrorMessage(error.message);
+                if (parsed.type === "string_pattern_mismatch") {
+                    appToast(
+                        "error",
+                        translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+                            field: parsed.loc.join(" > "),
+                            input: parsed.input
+                        })
+                    );
+                } else {
+                    appToast("error", error.message);
+                }
+            }
+        } finally {
+            setReportLoading(false);
+            refresh();
+        }
+    };
+
+    const handleUploadMultipleFiles = async (
+        payment_type_file: File,
+        financial_institution_file: File,
+        currency_file: File,
+        provider: string,
+        terminal_ids: string[]
+    ) => {
+        try {
+            const data = await dataProvider.uploadMultipleFiles(
+                [payment_type_file, financial_institution_file, currency_file],
+                provider,
+                terminal_ids
+            );
+
+            appToast(
+                "success",
+                translate("resources.paymentSettings.reports.uploadSuccess", {
+                    inserted: data?.data?.inserted,
+                    skipped: data?.data?.skipped,
+                    total: data?.data?.total
+                })
+            );
+        } catch (error) {
+            if (error instanceof Error) {
+                const parsed = extractFieldsFromErrorMessage(error.message);
+                if (parsed.type === "string_pattern_mismatch") {
+                    appToast(
+                        "error",
+                        translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+                            field: parsed.loc.join(" > "),
+                            input: parsed.input
+                        })
+                    );
+                } else {
+                    appToast("error", error.message);
+                }
+            }
+        } finally {
+            setReportLoading(false);
+            refresh();
+        }
+    };
+
+    const handleDownloadReport = async (terminalId: string) => {
+        setReportLoading(true);
+
+        try {
+            const response = await dataProvider.downloadReport(terminalId, {
+                filter: filterValues
+            });
+            const contentDisposition = response?.headers?.get("Content-Disposition");
+            let filename = "report.csv";
+            if (contentDisposition) {
+                const matches = contentDisposition.match(/filename\*?=["']?(.*?)["']?(;|$)/i);
+                if (matches?.[1]) {
+                    filename = decodeURIComponent(matches[1]);
+                }
+            }
+
+            const blob = await response.blob();
+
+            if ((await blob.text()).length <= 4) {
+                appToast("error", translate("resources.paymentSettings.reports.noData"));
+                return;
+            }
+
+            const fileUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = fileUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(fileUrl);
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            }
+        } finally {
+            setReportLoading(false);
+            refresh();
+        }
+    };
+
     return {
         providersData,
         providersLoadingProcess,
@@ -126,7 +253,11 @@ const useTerminalPaymentInstrumentFilter = () => {
         terminalsData,
         terminalFilterId,
         onTerminalNameChanged,
-        onTerminalIdFieldChanged
+        onTerminalIdFieldChanged,
+        reportLoading,
+        handleUploadReport,
+        handleUploadMultipleFiles,
+        handleDownloadReport
     };
 };
 

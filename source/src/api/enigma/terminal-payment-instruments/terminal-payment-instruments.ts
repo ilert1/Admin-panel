@@ -5,13 +5,18 @@
  * OpenAPI spec version: develop
  */
 import type {
+    ApiResponseImportResponse,
     ApiResponseNoneType,
     ApiResponseOffsetPaginationTerminalPaymentInstrument,
     ApiResponseTerminalPaymentInstrument,
+    BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost,
+    BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost,
     HTTPValidationError,
     TerminalInitializePaymentInstrumentsRequest,
     TerminalPaymentInstrumentCreate,
+    TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetParams,
     TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetParams,
+    TerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostParams,
     TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetParams,
     TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams,
     TerminalPaymentInstrumentFIData,
@@ -599,6 +604,221 @@ export const terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEn
             {
                 ...options,
                 method: "DELETE"
+            }
+        );
+    };
+
+/**
+ * Export TPI configurations for a specific terminal without terminal_id for later import to selected terminals
+ * @summary Export terminal payment instruments to CSV
+ */
+export type terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponse200 =
+    {
+        data: unknown;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponse200
+        | terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponse422;
+
+export type terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponse =
+    terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl =
+    (
+        terminalId: string,
+        params?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/export/${terminalId}?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/export/${terminalId}`;
+    };
+
+export const terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGet =
+    async (
+        terminalId: string,
+        params?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetParams,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetResponse>(
+            getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl(
+                terminalId,
+                params
+            ),
+            {
+                ...options,
+                method: "GET"
+            }
+        );
+    };
+
+/**
+ * Import TPI configurations from CSV file and apply to selected terminals. Skips entries where SPI doesn't exist and reports counts.
+ * @summary Import terminal payment instruments from CSV
+ */
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponse200 =
+    {
+        data: ApiResponseImportResponse;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponse200
+        | terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponse422;
+
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponse =
+    terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostUrl =
+    (
+        params?: TerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/import?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/import`;
+    };
+
+export const terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost =
+    async (
+        bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost,
+        params?: TerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostParams,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponse> => {
+        const formData = new FormData();
+        formData.append(
+            "data",
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost.data
+        );
+        formData.append(
+            "csv_file",
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost.csv_file
+        );
+
+        return authFetch<terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostResponse>(
+            getTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostUrl(
+                params
+            ),
+            {
+                ...options,
+                method: "POST",
+                body: formData
+            }
+        );
+    };
+
+/**
+ * Import TPI configurations from three CSV files: Payment Types, Financial Institutions (optional), and Currency mappings (optional). Supports importing to specific terminals or all terminals of a provider.
+ * @summary Import terminal payment instruments from multiple CSV files
+ */
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponse200 =
+    {
+        data: ApiResponseImportResponse;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponse200
+        | terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponse422;
+
+export type terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponse =
+    terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostUrl =
+    () => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/import/multi-csv`;
+    };
+
+export const terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost =
+    async (
+        bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponse> => {
+        const formData = new FormData();
+        formData.append(
+            "payment_types_csv",
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.payment_types_csv
+        );
+        formData.append(
+            "data",
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.data
+        );
+        if (
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.financial_institutions_csv !==
+                undefined &&
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.financial_institutions_csv !==
+                null
+        ) {
+            formData.append(
+                "financial_institutions_csv",
+                bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.financial_institutions_csv
+            );
+        }
+        if (
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.currency_csv !==
+                undefined &&
+            bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.currency_csv !==
+                null
+        ) {
+            formData.append(
+                "currency_csv",
+                bodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost.currency_csv
+            );
+        }
+
+        return authFetch<terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostResponse>(
+            getTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostUrl(),
+            {
+                ...options,
+                method: "POST",
+                body: formData
             }
         );
     };

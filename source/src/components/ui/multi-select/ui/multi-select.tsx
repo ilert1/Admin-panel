@@ -1,4 +1,4 @@
-import * as React from "react";
+import { ButtonHTMLAttributes, FC, forwardRef, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, XCircle, ChevronDown, XIcon, WandSparkles } from "lucide-react";
 
@@ -15,10 +15,11 @@ import {
     CommandList,
     CommandSeparator
 } from "@/components/ui/command";
-import { Button } from "./Button";
+import { Button } from "@/components/ui/Button";
 import { useTranslate } from "react-admin";
-import { LoadingBlock } from "./loading";
-import { useAppToast } from "./toast/useAppToast";
+import { LoadingBlock } from "@/components/ui/loading";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { AddCustomDialog } from "./AddCustomDialog";
 
 /**
  * Variants for the multi-select component to handle different styles.
@@ -41,9 +42,7 @@ const multiSelectVariants = cva("m-1 transition ease-out duration-150", {
 /**
  * Props for MultiSelect component
  */
-interface MultiSelectProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-        VariantProps<typeof multiSelectVariants> {
+interface MultiSelectProps extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof multiSelectVariants> {
     /**
      * An array of option objects to be displayed in the multi-select component.
      * Each option object has a label, value, and an optional icon.
@@ -54,9 +53,9 @@ interface MultiSelectProps
         /** The unique value associated with the option. */
         value: string;
         /** Optional icon component to display alongside the option. */
-        // icon?: React.ComponentType<{ className?: string }>;
-        icon?: React.FC<{ className?: string; small?: boolean }>;
-        // icon?: React.ReactNode;
+        // icon?: ComponentType<{ className?: string }>;
+        icon?: FC<{ className?: string; small?: boolean }>;
+        // icon?: ReactNode;
     }[];
 
     /**
@@ -64,9 +63,6 @@ interface MultiSelectProps
      * Receives an array of the new selected values.
      */
     onValueChange: (value: string[]) => void;
-
-    /** The default selected values when the component mounts. */
-    defaultValue?: string[];
 
     /**
      * Placeholder text to be displayed when no values are selected.
@@ -98,19 +94,22 @@ interface MultiSelectProps
      * Optional, can be used to add custom styles.
      */
     className?: string;
+    // Current array values
+    selectedValues: string[];
 
     notFoundMessage?: string;
     isLoading?: boolean;
     addingNew?: boolean;
+    disabled?: boolean;
 }
 
-export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
+export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
     (
         {
-            options,
+            selectedValues,
             onValueChange,
+            options,
             variant,
-            defaultValue = [],
             placeholder = "Select options",
             animation = 0,
             // maxCount = 3,
@@ -119,28 +118,55 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             className,
             isLoading = false,
             addingNew = false,
+            disabled = false,
             ...props
         },
         ref
     ) => {
         const appToast = useAppToast();
-        const [localOptions, setLocalOptions] = React.useState(options);
-        const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
-        const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
-        const [isAnimating, setIsAnimating] = React.useState(false);
-        const [inputValue, setInputValue] = React.useState("");
 
-        React.useEffect(() => {
-            if (options !== localOptions) {
-                setLocalOptions(options);
-            }
-        }, [options, localOptions]);
+        const commandList = useRef<HTMLDivElement>(null);
+
+        const [localOptions, setLocalOptions] = useState(options);
+        const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+        const [isAnimating, setIsAnimating] = useState(false);
+        const [inputValue, setInputValue] = useState("");
+        const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+
+        useEffect(() => {
+            if (!addingNew) return;
+
+            const mergedOptions = [
+                ...options,
+                ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value)),
+                ...selectedValues
+                    .filter(val => !options.some(opt => opt.value === val))
+                    .filter(val => !localOptions.some(opt => opt.value === val))
+                    .map(val => ({
+                        label: val,
+                        value: val
+                    }))
+            ];
+
+            setLocalOptions(mergedOptions);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [options, selectedValues, addingNew]);
 
         const translate = useTranslate();
 
-        const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
             if (event.key === "Enter") {
                 setIsPopoverOpen(true);
+            }
+        };
+
+        const handleInputChange = (val: string) => {
+            setInputValue(val);
+
+            if (val.length === 0 && commandList.current) {
+                setTimeout(() => {
+                    commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+                }, 50);
             }
         };
 
@@ -150,7 +176,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
 
             if (isSelected) {
                 const newSelected = selectedValues.filter(v => v !== option);
-                setSelectedValues(newSelected);
                 onValueChange(newSelected);
 
                 if (isCustomOption) {
@@ -158,13 +183,19 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 }
             } else {
                 const newSelected = [...selectedValues, option];
-                setSelectedValues(newSelected);
                 onValueChange(newSelected);
             }
         };
 
+        const handleAddCustom = () => {
+            setLocalOptions(prev => [...prev, { label: inputValue, value: inputValue }]);
+            const newSelectedValues = [...selectedValues, inputValue];
+            onValueChange(newSelectedValues);
+            setInputValue("");
+            appToast("success", translate("app.widgets.multiSelect.confirmDialog.optionAdded"));
+        };
+
         const handleClear = () => {
-            setSelectedValues([]);
             onValueChange([]);
         };
 
@@ -177,16 +208,19 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             const areAllSelected = originalValues.every(val => selectedValues.includes(val));
 
             if (areAllSelected) {
-                setSelectedValues([]);
                 onValueChange([]);
                 setLocalOptions(options);
             } else {
-                setSelectedValues(originalValues);
                 onValueChange(originalValues);
             }
         };
 
+        const hadleClearWhenCancelled = () => {
+            setInputValue("");
+        };
+
         const areAllSelected = selectedValues.length === localOptions.length;
+        const showButton = addingNew && inputValue.length > 0;
 
         return (
             <Popover
@@ -197,6 +231,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 modal={modalPopover}>
                 <PopoverTrigger asChild>
                     <Button
+                        disabled={disabled}
                         ref={ref}
                         {...props}
                         role="combobox"
@@ -217,6 +252,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                             // .slice(0, maxCount)
                                             .map(value => {
                                                 const option = localOptions.find(o => o.value === value);
+                                                const isCustomOption = !options.some(o => o.value === value);
                                                 const IconComponent = option?.icon;
 
                                                 return (
@@ -225,19 +261,31 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                         className={cn(
                                                             isAnimating ? "animate-bounce" : "",
                                                             multiSelectVariants({ variant }),
-                                                            "my-0 bg-muted font-normal"
+                                                            "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
+                                                            isCustomOption ? "border-dashed border-green-40" : ""
                                                         )}
                                                         style={{ animationDuration: `${animation}s` }}>
                                                         {IconComponent && (
                                                             <IconComponent className="mr-1 h-4 w-4" small />
                                                         )}
-                                                        <span className="max-w-28 overflow-hidden text-ellipsis break-words text-neutral-90 dark:text-neutral-0">
-                                                            {addingNew
-                                                                ? (option?.label ?? option?.value)
-                                                                : option?.label}
-                                                        </span>
+                                                        {addingNew ? (
+                                                            <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
+                                                                <p>
+                                                                    {isCustomOption
+                                                                        ? option?.label
+                                                                        : option?.label.split("[")[0].trim()}
+                                                                </p>
+                                                                <p className="text-left text-xs text-neutral-70">
+                                                                    {option?.value}
+                                                                </p>
+                                                            </span>
+                                                        ) : (
+                                                            <span className="max-w-48 overflow-hidden text-ellipsis break-words">
+                                                                {option?.label}
+                                                            </span>
+                                                        )}
                                                         <XCircle
-                                                            className="ml-2 h-4 w-4 cursor-pointer rounded-full text-neutral-90 transition-colors hover:bg-red-40 dark:text-neutral-0"
+                                                            className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
                                                             onClick={event => {
                                                                 event.stopPropagation();
                                                                 toggleOption(value);
@@ -248,7 +296,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                             })
                                     )}
                                 </div>
-                                <div className="flex items-center justify-between">
+                                <div className="flex flex-wrap items-center justify-end">
                                     <XIcon
                                         className="mx-2 h-4 cursor-pointer text-muted-foreground"
                                         onClick={event => {
@@ -267,11 +315,13 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         ) : (
                             <div className="mx-auto flex w-full items-center justify-between">
                                 <span className="mx-3 text-sm text-neutral-60 dark:text-neutral-70">{placeholder}</span>
-                                <ChevronDown
-                                    id="multiSelectToggleIcon"
-                                    className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
-                                    pointerEvents="none !important"
-                                />
+                                {!disabled && (
+                                    <ChevronDown
+                                        id="multiSelectToggleIcon"
+                                        className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                        pointerEvents="none !important"
+                                    />
+                                )}
                             </div>
                         )}
                     </Button>
@@ -287,7 +337,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                         <CommandInput
                             value={inputValue}
-                            onValueChange={val => setInputValue(val)}
+                            onValueChange={handleInputChange}
                             placeholder={
                                 addingNew
                                     ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")
@@ -295,8 +345,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             }
                             onKeyDown={handleInputKeyDown}
                         />
-                        <CommandList>
-                            <CommandEmpty>
+                        <CommandList ref={commandList}>
+                            {/* <CommandEmpty>
                                 {addingNew ? (
                                     <div className="h-full w-full">
                                         <Button
@@ -322,8 +372,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                                 ]);
 
                                                 const newSelectedValues = [...selectedValues, inputValue];
-                                                setSelectedValues(newSelectedValues);
                                                 onValueChange(newSelectedValues);
+                                                setInputValue("");
                                             }}>
                                             {translate("app.widgets.multiSelect.addNew")}
                                         </Button>
@@ -331,7 +381,12 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                 ) : (
                                     notFoundMessage || translate("app.widgets.multiSelect.noResultFound")
                                 )}
-                            </CommandEmpty>
+                            </CommandEmpty> */}
+                            {!addingNew && (
+                                <CommandEmpty>
+                                    {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
+                                </CommandEmpty>
+                            )}
                             <CommandGroup>
                                 {options.length > 0 && (
                                     <CommandItem
@@ -356,6 +411,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                                     const isSelected = selectedValues.includes(option.value);
                                     return (
                                         <CommandItem
+                                            onKeyDownCapture={event => {
+                                                event.preventDefault();
+                                            }}
                                             key={option.value}
                                             onSelect={() => toggleOption(option.value)}
                                             className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
@@ -376,6 +434,32 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             </CommandGroup>
                             <CommandSeparator />
                         </CommandList>
+                        {showButton && (
+                            <div className="p-2">
+                                <Button
+                                    className="w-full rounded-none"
+                                    onClick={() => {
+                                        if (!inputValue.match(/^[a-z0-9_]+$/)) {
+                                            appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
+                                            return;
+                                        }
+                                        if (selectedValues.includes(inputValue)) {
+                                            appToast("error", translate("app.widgets.multiSelect.optionAlreadyExists"));
+                                            return;
+                                        }
+                                        setConfirmDialogOpen(true);
+                                        // setLocalOptions(prev => [
+                                        //     ...prev,
+                                        //     { label: inputValue, value: inputValue }
+                                        // ]);
+                                        // const newSelectedValues = [...selectedValues, inputValue];
+                                        // onValueChange(newSelectedValues);
+                                        // setInputValue("");
+                                    }}>
+                                    {translate("app.widgets.multiSelect.addNew")}
+                                </Button>
+                            </div>
+                        )}
                     </Command>
                 </PopoverContent>
                 {animation > 0 && selectedValues.length > 0 && (
@@ -387,6 +471,14 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         onClick={() => setIsAnimating(!isAnimating)}
                     />
                 )}
+                <AddCustomDialog
+                    open={confirmDialogOpen}
+                    onOpenChange={setConfirmDialogOpen}
+                    onConfirm={handleAddCustom}
+                    localOptions={localOptions}
+                    code={inputValue}
+                    clear={hadleClearWhenCancelled}
+                />
             </Popover>
         );
     }
