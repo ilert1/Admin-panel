@@ -18,7 +18,7 @@
             "payment_types": "Платёжные типы",
             "category": "Категория",
             "required_fields_for_payment": "Обязательные поля для платежа",
-            "required_fields_for_payment_deposit": "Обязательные поля для депозита",
+            "required_fields_for_payment_deposit": "Обязательные поля для пополнения",
             "required_fields_for_payment_withdrawal": "Обязательные поля для вывода",
             "icon": "Иконка",
             "currencies": "Валюты"
