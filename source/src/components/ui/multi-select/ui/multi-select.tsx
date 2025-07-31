@@ -439,7 +439,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                 <Button
                                     className="w-full rounded-none"
                                     onClick={() => {
-                                        if (!inputValue.match(/^[a-z0-9_]+$/)) {
+                                        if (!inputValue.match(/^[a-z0-9_.]+$/)) {
                                             appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
                                             return;
                                         }

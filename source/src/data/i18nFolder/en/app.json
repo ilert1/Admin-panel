@@ -232,7 +232,7 @@
             "searchOrAddPlaceholder": "Search or add...",
             "addNew": "Add field",
             "optionAlreadyExists": "Option already added",
-            "reqFieldRegex": "It is allowed to enter lowercase Latin letters, numbers underscores",
+            "reqFieldRegex": "It is allowed to enter lowercase Latin letters, numbers, points and underscores",
 
             "confirmDialog": {
                 "areYouSure": "Are you sure you want to add a required field with code",
