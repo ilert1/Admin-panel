@@ -21,7 +21,7 @@
             "final": "Финальная",
             "state_int": "Код",
             "state_description": "Статус",
-            "state_changed": "Статус измене на:"
+            "state_changed": "Статус изменен на:"
         },
         "rateInfo": "Курс",
         "createdAt": "Дата и время",

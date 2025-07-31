@@ -57,9 +57,9 @@ export const useTransactionActions = (
                             const currentState = states.find(item => item.state_int === state);
                             appToast(
                                 "success",
-                                `${translate("resources.transactions.fields.state.state_changed")} ${
-                                    currentState?.state_description
-                                }`
+                                `${translate("resources.transactions.fields.state.state_changed")} ${translate(
+                                    `resources.transactions.states.${currentState?.state_description?.toLowerCase()}`
+                                )}`
                             );
                         } else {
                             throw new Error(json.error || "Unknown error");
