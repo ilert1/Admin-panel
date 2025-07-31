@@ -3,18 +3,34 @@ import { EditButton, TrashButton } from "@/components/ui/Button";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
-import { PaymentTypeWithId } from "@/data/payment_types";
+import { PaymentTypesProvider, PaymentTypeWithId } from "@/data/payment_types";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { TextField } from "@/components/ui/text-field";
 import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 
 export const useGetPaymentTypesColumns = () => {
     const translate = useTranslate();
+    const paymentTypeDataProvider = new PaymentTypesProvider();
 
     const [chosenId, setChosenId] = useState("");
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+    const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
+        queryKey: ["paymentTypeRequiredFields"],
+        staleTime: 1000 * 60 * 5,
+        queryFn: () => {
+            return paymentTypeDataProvider.getRequiredFields();
+        }
+    });
+
+    const modifiedOptions =
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        Object.entries(requiredFields ?? [])?.map(([_, value]) => ({ label: value.label, value: value.value })) || [];
+    console.log(modifiedOptions);
 
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
@@ -64,11 +80,36 @@ export const useGetPaymentTypesColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment_deposit"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        text={row.original.required_fields_for_payment?.deposit?.join(", ") || ""}
-                        lineClamp
-                        wrap
-                    />
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {requiredFields &&
+                        !isLoadRequiredFields &&
+                        row.original.required_fields_for_payment?.deposit &&
+                        row.original.required_fields_for_payment?.deposit.length > 0
+                            ? row.original.required_fields_for_payment?.deposit.map(value => {
+                                  console.log(value);
+
+                                  const option = modifiedOptions.find(o => o.value === value);
+                                  const isCustomOption = !modifiedOptions?.some(option => option.value === value);
+
+                                  return (
+                                      <Badge
+                                          key={value}
+                                          className={cn(
+                                              "cursor-default border-foreground/10 bg-card text-foreground transition duration-150 ease-out hover:bg-muted",
+                                              "overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
+                                              isCustomOption ? "border-dashed border-green-40" : ""
+                                          )}>
+                                          <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
+                                              <p>{isCustomOption ? value : option?.label.split("[")[0].trim()}</p>
+                                              {/* <p className="text-left text-xs text-neutral-70">
+                                            {isCustomOption ? value : option?.value}
+                                        </p> */}
+                                          </span>
+                                      </Badge>
+                                  );
+                              })
+                            : "-"}
+                    </div>
                 );
             }
         },
@@ -78,11 +119,36 @@ export const useGetPaymentTypesColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment_withdrawal"),
             cell: ({ row }) => {
                 return (
-                    <TextField
-                        text={row.original.required_fields_for_payment?.withdrawal?.join(", ") || ""}
-                        lineClamp
-                        wrap
-                    />
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {requiredFields &&
+                        !isLoadRequiredFields &&
+                        row.original.required_fields_for_payment?.withdrawal &&
+                        row.original.required_fields_for_payment?.withdrawal.length > 0
+                            ? row.original.required_fields_for_payment?.withdrawal.map(value => {
+                                  console.log(value);
+
+                                  const option = modifiedOptions.find(o => o.value === value);
+                                  const isCustomOption = !modifiedOptions?.some(option => option.value === value);
+
+                                  return (
+                                      <Badge
+                                          key={value}
+                                          className={cn(
+                                              "cursor-default border-foreground/10 bg-card text-foreground transition duration-150 ease-out hover:bg-muted",
+                                              "overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
+                                              isCustomOption ? "border-dashed border-green-40" : ""
+                                          )}>
+                                          <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
+                                              <p>{isCustomOption ? value : option?.label.split("[")[0].trim()}</p>
+                                              {/* <p className="text-left text-xs text-neutral-70">
+                                                  {isCustomOption ? value : option?.value}
+                                              </p> */}
+                                          </span>
+                                      </Badge>
+                                  );
+                              })
+                            : "-"}
+                    </div>
                 );
             }
         },
