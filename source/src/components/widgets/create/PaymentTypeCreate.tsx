@@ -32,6 +32,12 @@ export interface PaymentTypeCreateProps {
     onClose?: () => void;
 }
 
+// export interface RequiredFieldsForPayment {
+//     /** List of required fields for deposit operation */
+//     deposit?: string[];
+//     /** List of required fields for withdrawal operation */
+//     withdrawal?: string[];
+// }
 export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps) => {
     const dataProvider = useDataProvider();
     const paymentTypeDataProvider = new PaymentTypesProvider();
@@ -66,7 +72,8 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             .string()
             .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"))
             .default(""),
-        required_fields_for_payment: z.array(z.string()).optional(),
+        required_fields_for_payment_deposit: z.array(z.string()).optional(),
+        required_fields_for_payment_withdrawal: z.array(z.string()).optional(),
         category: z.enum(paymentTypeCategories as [string, ...string[]]).default("h2h"),
         meta: z.string().trim().optional()
     });
@@ -77,7 +84,8 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
             code: "",
             title: "",
             category: paymentTypeCategories[0],
-            required_fields_for_payment: [],
+            required_fields_for_payment_deposit: [],
+            required_fields_for_payment_withdrawal: [],
             meta: "{}"
         }
     });
@@ -87,17 +95,17 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
         setSubmitButtonDisabled(true);
 
-        // const required_fields_for_payment = data.required_fields_for_payment?.trim()
-        //     ? data.required_fields_for_payment?.split(",").map(item => item.trim())
-        //     : [];
-
         try {
-            const required_fields_for_payment = data.required_fields_for_payment || [];
+            const required_fields_for_payment_deposit = data.required_fields_for_payment_deposit || [];
+            const required_fields_for_payment_withdrawal = data.required_fields_for_payment_withdrawal || [];
 
             await dataProvider.create("payment_type", {
                 data: {
                     ...data,
-                    required_fields_for_payment,
+                    required_fields_for_payment: {
+                        deposit: required_fields_for_payment_deposit,
+                        withdrawal: required_fields_for_payment_withdrawal
+                    },
                     meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {}
                 }
             });
@@ -204,7 +212,7 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
 
                             <FormField
                                 control={form.control}
-                                name="required_fields_for_payment"
+                                name="required_fields_for_payment_deposit"
                                 render={({ field }) => (
                                     <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
@@ -213,7 +221,28 @@ export const PaymentTypeCreate = ({ onClose = () => {} }: PaymentTypeCreateProps
                                                 onChange={field.onChange}
                                                 options={isLoadRequiredFields ? {} : requiredFields}
                                                 isLoading={isLoadRequiredFields}
-                                                label
+                                                label={translate(
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment_deposit"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="required_fields_for_payment_withdrawal"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <RequiredFieldsMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={isLoadRequiredFields ? {} : requiredFields}
+                                                isLoading={isLoadRequiredFields}
+                                                label={translate(
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment_withdrawal"
+                                                )}
                                             />
                                         </FormControl>
                                     </FormItem>
