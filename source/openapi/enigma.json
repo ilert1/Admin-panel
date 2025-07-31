@@ -597,7 +597,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     }
                 ],
                 "responses": {
@@ -639,7 +639,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     }
                 ],
                 "requestBody": {
@@ -691,7 +691,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     }
                 ],
                 "responses": {
@@ -735,7 +735,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     }
                 ],
                 "requestBody": {
@@ -789,7 +789,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     },
                     {
                         "name": "fee_id",
@@ -854,7 +854,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     },
                     {
                         "name": "fee_id",
@@ -911,7 +911,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     }
                 ],
                 "requestBody": {
@@ -965,7 +965,7 @@
                             "title": "Merchant Id"
                         },
                         "description": "The unique identifier of the merchant",
-                        "example": "123e4567-e89b-12d3-a456-426614174001"
+                        "example": "merchant_001"
                     },
                     {
                         "name": "payment_type_code",
@@ -2065,6 +2065,47 @@
                 }
             }
         },
+        "/enigma/v1/terminal/by_merchant/{merchant_id}": {
+            "get": {
+                "tags": ["Terminal"],
+                "summary": "Retrieve Terminals by Merchant ID",
+                "description": "Retrieves a list of unique Terminal entities associated with a specific Merchant ID.",
+                "operationId": "TerminalEndpoints_get_terminals_by_merchant_enigma_v1_terminal_by_merchant__merchant_id__get",
+                "parameters": [
+                    {
+                        "name": "merchant_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Merchant Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_list_TerminalRead__"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/enigma/v1/terminal/{terminal_id}": {
             "get": {
                 "tags": ["Terminal"],
@@ -2911,7 +2952,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_TerminalRead__"
+                                    "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Terminal__"
                                 }
                             }
                         }
@@ -2964,7 +3005,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3022,7 +3063,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3088,7 +3129,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3212,7 +3253,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3280,7 +3321,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3348,7 +3389,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3414,7 +3455,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3482,7 +3523,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3608,7 +3649,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3689,7 +3730,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3758,7 +3799,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3826,7 +3867,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3894,7 +3935,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -3952,7 +3993,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -4023,7 +4064,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_TerminalRead_"
+                                    "$ref": "#/components/schemas/ApiResponse_Terminal_"
                                 }
                             }
                         }
@@ -8694,351 +8735,6 @@
                 }
             }
         },
-        "/enigma/v1/terminal_payment_instruments/export/{terminal_id}": {
-            "get": {
-                "tags": ["Terminal Payment Instruments"],
-                "summary": "Export terminal payment instruments to CSV",
-                "description": "Export TPI configurations for a specific terminal without terminal_id for later import to selected terminals",
-                "operationId": "TerminalPaymentInstrumentEndpoints_export_terminal_payment_instruments_enigma_v1_terminal_payment_instruments_export__terminal_id__get",
-                "parameters": [
-                    {
-                        "name": "terminal_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid",
-                            "description": "The unique identifier of the terminal",
-                            "title": "Terminal Id"
-                        },
-                        "description": "The unique identifier of the terminal",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    },
-                    {
-                        "name": "ids",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "description": "List of identifiers for filtering",
-                            "title": "Ids"
-                        },
-                        "description": "List of identifiers for filtering"
-                    },
-                    {
-                        "name": "createdBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "format": "date-time"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "description": "Upper bound for creation date filter",
-                            "title": "Createdbefore"
-                        },
-                        "description": "Upper bound for creation date filter"
-                    },
-                    {
-                        "name": "createdAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "format": "date-time"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "description": "Lower bound for creation date filter",
-                            "title": "Createdafter"
-                        },
-                        "description": "Lower bound for creation date filter"
-                    },
-                    {
-                        "name": "updatedBefore",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "format": "date-time"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "description": "Upper bound for update date filter",
-                            "title": "Updatedbefore"
-                        },
-                        "description": "Upper bound for update date filter"
-                    },
-                    {
-                        "name": "updatedAfter",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "format": "date-time"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "description": "Lower bound for update date filter",
-                            "title": "Updatedafter"
-                        },
-                        "description": "Lower bound for update date filter"
-                    },
-                    {
-                        "name": "currentPage",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Current page number (starting from 1)",
-                            "default": 1,
-                            "title": "Currentpage"
-                        },
-                        "description": "Current page number (starting from 1)"
-                    },
-                    {
-                        "name": "pageSize",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "Number of records per page",
-                            "default": 20,
-                            "title": "Pagesize"
-                        },
-                        "description": "Number of records per page"
-                    },
-                    {
-                        "name": "searchField",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Search fields",
-                            "description": "Names of the fields to search (comma-separated or repeated)."
-                        },
-                        "description": "Names of the fields to search (comma-separated or repeated)."
-                    },
-                    {
-                        "name": "searchString",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Search strings",
-                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
-                        },
-                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
-                    },
-                    {
-                        "name": "searchIgnoreCase",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean",
-                            "title": "Case sensitivity",
-                            "description": "If true, the search will be case-insensitive.",
-                            "default": true
-                        },
-                        "description": "If true, the search will be case-insensitive."
-                    },
-                    {
-                        "name": "orderBy",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Sorting field",
-                            "description": "Field to sort the results by",
-                            "default": "created_at"
-                        },
-                        "description": "Field to sort the results by"
-                    },
-                    {
-                        "name": "sortOrder",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "enum": ["asc", "desc"],
-                            "type": "string",
-                            "title": "Sorting order",
-                            "description": "Sort order: 'asc' or 'desc'",
-                            "default": "asc"
-                        },
-                        "description": "Sort order: 'asc' or 'desc'"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/terminal_payment_instruments/import": {
-            "post": {
-                "tags": ["Terminal Payment Instruments"],
-                "summary": "Import terminal payment instruments from CSV",
-                "description": "Import TPI configurations from CSV file and apply to selected terminals. Skips entries where SPI doesn't exist and reports counts.",
-                "operationId": "TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_enigma_v1_terminal_payment_instruments_import_post",
-                "parameters": [
-                    {
-                        "name": "mode",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/components/schemas/ImportMode",
-                            "description": "Import strategy: 'strict' or 'ignore'",
-                            "default": "strict"
-                        },
-                        "description": "Import strategy: 'strict' or 'ignore'"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_enigma_v1_terminal_payment_instruments_import_post"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_ImportResponse_"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/enigma/v1/terminal_payment_instruments/import/multi-csv": {
-            "post": {
-                "tags": ["Terminal Payment Instruments"],
-                "summary": "Import terminal payment instruments from multiple CSV files",
-                "description": "Import TPI configurations from three CSV files: Payment Types, Financial Institutions (optional), and Currency mappings (optional). Supports importing to specific terminals or all terminals of a provider.",
-                "operationId": "TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_multi_csv_enigma_v1_terminal_payment_instruments_import_multi_csv_post",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_multi_csv_enigma_v1_terminal_payment_instruments_import_multi_csv_post"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse_ImportResponse_"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/enigma/v1/pki/keygen": {
             "get": {
                 "tags": ["RSAKeyPair"],
@@ -9783,6 +9479,45 @@
                 "required": ["data"],
                 "title": "ApiResponse[OffsetPagination[TerminalRead]]"
             },
+            "ApiResponse_OffsetPagination_Terminal__": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful",
+                        "default": true
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/OffsetPagination_Terminal_",
+                        "description": "The actual response data if the request was successful"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful"
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[OffsetPagination[Terminal]]"
+            },
             "ApiResponse_PaymentTypeModel_": {
                 "properties": {
                     "success": {
@@ -10017,6 +9752,45 @@
                 "required": ["data"],
                 "title": "ApiResponse[TerminalRead]"
             },
+            "ApiResponse_Terminal_": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful",
+                        "default": true
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/Terminal",
+                        "description": "The actual response data if the request was successful"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful"
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[Terminal]"
+            },
             "ApiResponse_list_AccountInfo__": {
                 "properties": {
                     "success": {
@@ -10232,6 +10006,49 @@
                 "required": ["data"],
                 "title": "ApiResponse[list[RequiredFieldItem]]"
             },
+            "ApiResponse_list_TerminalRead__": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful",
+                        "default": true
+                    },
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/TerminalRead"
+                        },
+                        "type": "array",
+                        "title": "Data",
+                        "description": "The actual response data if the request was successful"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful"
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": ["data"],
+                "title": "ApiResponse[list[TerminalRead]]"
+            },
             "Body_FinancialInstitutionEndpoints_import_financial_institutions_enigma_v1_financial_institution_import_post": {
                 "properties": {
                     "csv_file": {
@@ -10270,70 +10087,6 @@
                 "type": "object",
                 "required": ["csv_file"],
                 "title": "Body_SystemPaymentInstrumentEndpoints_import_system_payment_instrument_enigma_v1_system_payment_instruments_import_post"
-            },
-            "Body_TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_enigma_v1_terminal_payment_instruments_import_post": {
-                "properties": {
-                    "data": {
-                        "type": "string",
-                        "title": "Data",
-                        "description": "JSON string containing terminal_ids array",
-                        "examples": ["{\"terminal_ids\": [\"d32ee409-415f-4a43-b833-c134f26db9e2\"]}"]
-                    },
-                    "csv_file": {
-                        "type": "string",
-                        "format": "binary",
-                        "title": "CSV file",
-                        "description": "Upload CSV file with data for import"
-                    }
-                },
-                "type": "object",
-                "required": ["data", "csv_file"],
-                "title": "Body_TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_enigma_v1_terminal_payment_instruments_import_post"
-            },
-            "Body_TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_multi_csv_enigma_v1_terminal_payment_instruments_import_multi_csv_post": {
-                "properties": {
-                    "payment_types_csv": {
-                        "type": "string",
-                        "format": "binary",
-                        "title": "Payment Types Csv"
-                    },
-                    "data": {
-                        "type": "string",
-                        "title": "Data",
-                        "description": "JSON string containing terminal_ids array or provider_id",
-                        "examples": [
-                            "{\"terminal_ids\": [\"d32ee409-415f-4a43-b833-c134f26db9e2\"]}",
-                            "{\"provider_id\": \"d32ee409-415f-4a43-b833-c134f26db9e2\"}"
-                        ]
-                    },
-                    "financial_institutions_csv": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "format": "binary"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Financial Institutions Csv"
-                    },
-                    "currency_csv": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "format": "binary"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Currency Csv"
-                    }
-                },
-                "type": "object",
-                "required": ["payment_types_csv", "data"],
-                "title": "Body_TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_multi_csv_enigma_v1_terminal_payment_instruments_import_multi_csv_post"
             },
             "CurrenciesLink": {
                 "properties": {
@@ -10698,7 +10451,7 @@
                         "type": "string",
                         "title": "Merchant",
                         "description": "Merchant ID associated with the direction",
-                        "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+                        "examples": ["merchant_001"]
                     },
                     "provider": {
                         "type": "string",
@@ -10712,16 +10465,6 @@
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
-                    },
-                    "payment_types": {
-                        "items": {
-                            "type": "string",
-                            "pattern": "^[a-z0-9_]+$"
-                        },
-                        "type": "array",
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
@@ -10881,23 +10624,6 @@
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
-                    },
-                    "payment_types": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "type": "string",
-                                    "pattern": "^[a-z0-9_]+$"
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
@@ -11046,23 +10772,6 @@
                         "title": "Terminal",
                         "description": "Terminal ID associated with the direction",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
-                    },
-                    "payment_types": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "type": "string",
-                                    "pattern": "^[a-z0-9_]+$"
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     },
                     "id": {
                         "type": "string",
@@ -12271,7 +11980,7 @@
                         "type": "string",
                         "title": "Id",
                         "description": "Unique identifier of the merchant",
-                        "examples": ["123e4567-e89b-12d3-a456-426614174001"]
+                        "examples": ["merchant_001"]
                     },
                     "name": {
                         "type": "string",
@@ -12304,16 +12013,6 @@
                         "title": "Keycloak Id",
                         "description": "Keycloak identifier for the merchant",
                         "examples": ["keycloak_123"]
-                    },
-                    "payment_types": {
-                        "items": {
-                            "type": "string",
-                            "pattern": "^[a-z0-9_]+$"
-                        },
-                        "type": "array",
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
@@ -12360,23 +12059,6 @@
                         "title": "Keycloak Id",
                         "description": "Keycloak identifier for the merchant",
                         "examples": ["keycloak_123"]
-                    },
-                    "payment_types": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "type": "string",
-                                    "pattern": "^[a-z0-9_]+$"
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
@@ -12678,6 +12360,39 @@
                 "type": "object",
                 "required": ["items", "limit", "offset", "total"],
                 "title": "OffsetPagination[TerminalRead]"
+            },
+            "OffsetPagination_Terminal_": {
+                "properties": {
+                    "items": {
+                        "items": {
+                            "$ref": "#/components/schemas/Terminal"
+                        },
+                        "type": "array",
+                        "title": "Items",
+                        "description": "A list of items in the current page"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "title": "Limit",
+                        "description": "The maximum number of items returned in a single page",
+                        "examples": [10]
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "title": "Offset",
+                        "description": "The starting index for the current page",
+                        "examples": [0]
+                    },
+                    "total": {
+                        "type": "integer",
+                        "title": "Total",
+                        "description": "The total number of available items",
+                        "examples": [100]
+                    }
+                },
+                "type": "object",
+                "required": ["items", "limit", "offset", "total"],
+                "title": "OffsetPagination[Terminal]"
             },
             "PaymentCategory": {
                 "type": "string",
@@ -13247,14 +12962,7 @@
                         "examples": ["Pay4U"]
                     },
                     "fields_json_schema": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Fields Json Schema",
                         "description": "JSON schema for provider fields",
                         "examples": ["string"]
@@ -13343,20 +13051,10 @@
                                 }
                             }
                         ]
-                    },
-                    "payment_types": {
-                        "items": {
-                            "type": "string",
-                            "pattern": "^[a-z0-9_]+$"
-                        },
-                        "type": "array",
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
-                "required": ["name"],
+                "required": ["name", "fields_json_schema"],
                 "title": "ProviderCreate"
             },
             "ProviderUpdate": {
@@ -13465,23 +13163,6 @@
                                 }
                             }
                         ]
-                    },
-                    "payment_types": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "type": "string",
-                                    "pattern": "^[a-z0-9_]+$"
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
@@ -13768,6 +13449,129 @@
                 "type": "object",
                 "title": "SystemPaymentInstrumentUpdate"
             },
+            "Terminal": {
+                "properties": {
+                    "terminal_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Terminal Id",
+                        "description": "Unique identifier of the terminal",
+                        "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+                    },
+                    "verbose_name": {
+                        "type": "string",
+                        "title": "Verbose Name",
+                        "description": "Name of the terminal",
+                        "examples": ["Main Terminal"]
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description",
+                        "description": "Description of the terminal",
+                        "examples": ["This is the main terminal"]
+                    },
+                    "allocation_timeout_seconds": {
+                        "type": "integer",
+                        "title": "Allocation Timeout Seconds",
+                        "description": "Timeout for allocation in seconds",
+                        "default": 2,
+                        "examples": [2]
+                    },
+                    "fees": {
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Fee"
+                        },
+                        "propertyNames": {
+                            "format": "uuid"
+                        },
+                        "type": "object",
+                        "title": "Fees",
+                        "description": "Mapping of fee configurations with fee.id as key",
+                        "examples": [
+                            {
+                                "123e4567-e89b-12d3-a456-426614174000": {
+                                    "currency": "USD",
+                                    "description": "Fee for service",
+                                    "direction": 1,
+                                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                                    "recipient": "recipient@example.com",
+                                    "type": 3,
+                                    "value": {
+                                        "accuracy": 100,
+                                        "quantity": 1234
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "provider": {
+                        "type": "string",
+                        "title": "Provider",
+                        "description": "Provider name associated with the terminal",
+                        "examples": ["ProviderA"]
+                    },
+                    "auth": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Auth",
+                        "description": "Authentication data for the terminal",
+                        "examples": [
+                            {
+                                "password": "pass",
+                                "username": "user"
+                            }
+                        ]
+                    },
+                    "account_created": {
+                        "type": "boolean",
+                        "title": "Account Created",
+                        "description": "Indicates if the account is created",
+                        "default": false,
+                        "examples": [false]
+                    },
+                    "callback_url": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Callback Url",
+                        "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
+                    },
+                    "details": {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "title": "Details",
+                        "description": "Additional details about the terminal",
+                        "examples": [
+                            {
+                                "key": "value"
+                            }
+                        ]
+                    },
+                    "payment_types": {
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentTypeBase"
+                        },
+                        "type": "array",
+                        "title": "Payment Types",
+                        "description": "List of payment types associated with this terminal"
+                    }
+                },
+                "type": "object",
+                "required": ["terminal_id", "verbose_name", "provider"],
+                "title": "Terminal"
+            },
             "TerminalBase": {
                 "properties": {
                     "terminal_id": {
@@ -13925,7 +13729,14 @@
                         "examples": [2]
                     },
                     "provider": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Provider",
                         "description": "Provider name of the terminal",
                         "examples": ["Pay4U"]
@@ -13936,20 +13747,10 @@
                         "description": "Indicates if the account is created",
                         "default": false,
                         "examples": [false]
-                    },
-                    "payment_types": {
-                        "items": {
-                            "type": "string",
-                            "pattern": "^[a-z0-9_]+$"
-                        },
-                        "type": "array",
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
-                "required": ["verbose_name", "provider"],
+                "required": ["verbose_name"],
                 "title": "TerminalCreate"
             },
             "TerminalDeleteAuth": {
@@ -14554,23 +14355,6 @@
                         "title": "Allocation Timeout Seconds",
                         "description": "Timeout for allocation in seconds (0 to 120)",
                         "examples": [2]
-                    },
-                    "payment_types": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "type": "string",
-                                    "pattern": "^[a-z0-9_]+$"
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Payment Types",
-                        "description": "Unique codes of the payment types to link",
-                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
