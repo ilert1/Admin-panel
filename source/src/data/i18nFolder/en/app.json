@@ -240,6 +240,10 @@
                 "alreadyExists": "The entered field code '%{code}' already exists in the list as '%{name}'. Do you want to select it?",
                 "optionAdded": "Field added successfully"
             }
+        },
+        "report": {
+            "preDownload": "Your report has been generated, and the file is being uploaded: %{filename}",
+            "downloadError": "An error occurred when uploading the %{filename} report file, please try again. If the error persists, contact the administrator"
         }
     },
     "app.login": {

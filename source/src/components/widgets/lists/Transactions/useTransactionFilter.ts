@@ -7,6 +7,7 @@ import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AccountsDataProvider } from "@/data";
 import { useFetchDictionaries, useMerchantsListWithoutPagination } from "@/hooks";
+import { getFilenameFromContentDisposition } from "@/helpers/getFilenameFromContentDisposition";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -131,6 +132,10 @@ const useTransactionFilter = () => {
             return;
         }
 
+        let filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.${
+            type === "csv" ? "csv" : "pdf"
+        }`;
+
         try {
             const url = new URL(`${API_URL}/transactions/report?format=${type}`);
             Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
@@ -141,11 +146,15 @@ const useTransactionFilter = () => {
                 throw new Error("Network response was not ok");
             }
 
+            const contentDisposition = response.headers.get("content-disposition");
+            if (contentDisposition) {
+                filename = getFilenameFromContentDisposition(contentDisposition, filename);
+            }
+
+            appToast("success", translate("app.widgets.report.preDownload", { filename }));
+
             const blob = await response.blob();
             const fileUrl = window.URL.createObjectURL(blob);
-            const filename = `data_${filterValues["start_date"]}_to_${filterValues["end_date"]}.${
-                type === "csv" ? "csv" : "pdf"
-            }`;
 
             const a = document.createElement("a");
             a.href = fileUrl;
@@ -155,6 +164,7 @@ const useTransactionFilter = () => {
             a.remove();
             window.URL.revokeObjectURL(fileUrl);
         } catch (error) {
+            appToast("error", translate("app.widgets.report.downloadError", { filename }));
             console.error("There was an error downloading the file:", error);
         }
     };

@@ -7,6 +7,7 @@ import { AccountsDataProvider } from "@/data";
 import { DateRange } from "react-day-picker";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useMerchantsListWithoutPagination } from "@/hooks";
+import { getFilenameFromContentDisposition } from "@/helpers/getFilenameFromContentDisposition";
 
 const useAccountFilter = () => {
     const appToast = useAppToast();
@@ -111,9 +112,12 @@ const useAccountFilter = () => {
 
             AccountsDataProvider.downloadBalanceReport(url)
                 .then(response => {
-                    const contentDisposition = response?.headers?.get("Content-Disposition");
-                    const matches = contentDisposition?.match(/filename\*?=["']?(.+?)["']?;?$/i);
-                    filename = matches?.[1] ? matches[1] : filename;
+                    const contentDisposition = response.headers.get("content-disposition");
+                    if (contentDisposition) {
+                        filename = getFilenameFromContentDisposition(contentDisposition, filename);
+                    }
+
+                    appToast("success", translate("app.widgets.report.preDownload", { filename }));
 
                     return response.blob();
                 })
@@ -129,7 +133,7 @@ const useAccountFilter = () => {
                     window.URL.revokeObjectURL(fileUrl);
                 })
                 .catch(error => {
-                    appToast("error", translate("resources.transactions.download.bothError"));
+                    appToast("error", translate("app.widgets.report.downloadError", { filename }));
                     console.error("There was an error downloading the file:", error);
                 })
                 .finally(() => {
