@@ -431,31 +431,6 @@ export interface ApiResponseOffsetPaginationTerminalRead {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationTerminalMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationTerminal {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationTerminal;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationTerminalError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationTerminalMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
 export type ApiResponsePaymentTypeModelError = ErrorBody | null;
 
 /**
@@ -606,31 +581,6 @@ export interface ApiResponseTerminalRead {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseTerminalError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseTerminalMeta = unknown | null;
-
-export interface ApiResponseTerminal {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: Terminal;
-    /** The error details if the request was not successful */
-    error?: ApiResponseTerminalError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseTerminalMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
 export type ApiResponseListAccountInfoError = ErrorBody | null;
 
 /**
@@ -753,31 +703,6 @@ export interface ApiResponseListRequiredFieldItem {
     meta?: ApiResponseListRequiredFieldItemMeta;
 }
 
-/**
- * The error details if the request was not successful
- */
-export type ApiResponseListTerminalReadError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseListTerminalReadMeta = unknown | null;
-
-export interface ApiResponseListTerminalRead {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: TerminalRead[];
-    /** The error details if the request was not successful */
-    error?: ApiResponseListTerminalReadError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseListTerminalReadMeta;
-}
-
 export interface BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost {
     /** Upload CSV file with data for import */
     csv_file: Blob;
@@ -791,6 +716,27 @@ export interface BodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeIm
 export interface BodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost {
     /** Upload CSV file with data for import */
     csv_file: Blob;
+}
+
+export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost {
+    /** JSON string containing terminal_ids array */
+    data: string;
+    /** Upload CSV file with data for import */
+    csv_file: Blob;
+}
+
+export type BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv =
+    Blob | null;
+
+export type BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv =
+    Blob | null;
+
+export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost {
+    payment_types_csv: Blob;
+    /** JSON string containing terminal_ids array or provider_id */
+    data: string;
+    financial_institutions_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv;
+    currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
 }
 
 export interface CurrenciesLink {
@@ -962,6 +908,8 @@ export interface DirectionCreate {
     provider: string;
     /** Terminal ID associated with the direction */
     terminal: string;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
 }
 
 export type DirectionState = (typeof DirectionState)[keyof typeof DirectionState];
@@ -1036,6 +984,11 @@ export type DirectionUpdateProvider = string | null;
  */
 export type DirectionUpdateTerminal = string | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type DirectionUpdatePaymentTypes = string[] | null;
+
 export interface DirectionUpdate {
     /** Name of the direction */
     name?: DirectionUpdateName;
@@ -1059,6 +1012,8 @@ export interface DirectionUpdate {
     provider?: DirectionUpdateProvider;
     /** Terminal ID associated with the direction */
     terminal?: DirectionUpdateTerminal;
+    /** Unique codes of the payment types to link */
+    payment_types?: DirectionUpdatePaymentTypes;
 }
 
 /**
@@ -1116,6 +1071,11 @@ export type DirectionUpdateBulkItemProvider = string | null;
  */
 export type DirectionUpdateBulkItemTerminal = string | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type DirectionUpdateBulkItemPaymentTypes = string[] | null;
+
 export interface DirectionUpdateBulkItem {
     /** Name of the direction */
     name?: DirectionUpdateBulkItemName;
@@ -1139,6 +1099,8 @@ export interface DirectionUpdateBulkItem {
     provider?: DirectionUpdateBulkItemProvider;
     /** Terminal ID associated with the direction */
     terminal?: DirectionUpdateBulkItemTerminal;
+    /** Unique codes of the payment types to link */
+    payment_types?: DirectionUpdateBulkItemPaymentTypes;
     /** Unique identifier of the direction to update */
     id: string;
 }
@@ -1722,6 +1684,8 @@ export interface MerchantCreate {
     description?: MerchantCreateDescription;
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantCreateKeycloakId;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
 }
 
 /**
@@ -1739,6 +1703,11 @@ export type MerchantUpdateDescription = string | null;
  */
 export type MerchantUpdateKeycloakId = string | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type MerchantUpdatePaymentTypes = string[] | null;
+
 export interface MerchantUpdate {
     /** Name of the merchant */
     name?: MerchantUpdateName;
@@ -1746,6 +1715,8 @@ export interface MerchantUpdate {
     description?: MerchantUpdateDescription;
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantUpdateKeycloakId;
+    /** Unique codes of the payment types to link */
+    payment_types?: MerchantUpdatePaymentTypes;
 }
 
 export interface OffsetPaginationCurrency {
@@ -1839,17 +1810,6 @@ export interface OffsetPaginationTerminalPaymentInstrument {
 export interface OffsetPaginationTerminalRead {
     /** A list of items in the current page */
     items: TerminalRead[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
-export interface OffsetPaginationTerminal {
-    /** A list of items in the current page */
-    items: Terminal[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -2063,6 +2023,11 @@ export interface ProviderBase {
 }
 
 /**
+ * JSON schema for provider fields
+ */
+export type ProviderCreateFieldsJsonSchema = string | null;
+
+/**
  * Provider methods configuration
  */
 export type ProviderCreateMethods = { [key: string]: ExecutionMethodInput };
@@ -2071,9 +2036,11 @@ export interface ProviderCreate {
     /** Provider name */
     name: string;
     /** JSON schema for provider fields */
-    fields_json_schema: string;
+    fields_json_schema?: ProviderCreateFieldsJsonSchema;
     /** Provider methods configuration */
     methods?: ProviderCreateMethods;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
 }
 
 /**
@@ -2088,11 +2055,18 @@ export type ProviderUpdateMethodsAnyOf = { [key: string]: ExecutionMethodInput }
  */
 export type ProviderUpdateMethods = ProviderUpdateMethodsAnyOf | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type ProviderUpdatePaymentTypes = string[] | null;
+
 export interface ProviderUpdate {
     /** JSON schema for provider fields */
     fields_json_schema?: ProviderUpdateFieldsJsonSchema;
     /** Provider methods configuration */
     methods?: ProviderUpdateMethods;
+    /** Unique codes of the payment types to link */
+    payment_types?: ProviderUpdatePaymentTypes;
 }
 
 export interface RateValue {
@@ -2227,56 +2201,6 @@ export interface SystemPaymentInstrumentUpdate {
 /**
  * Description of the terminal
  */
-export type TerminalDescription = string | null;
-
-/**
- * Mapping of fee configurations with fee.id as key
- */
-export type TerminalFees = { [key: string]: Fee };
-
-/**
- * Authentication data for the terminal
- */
-export type TerminalAuth = { [key: string]: unknown };
-
-/**
- * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
- */
-export type TerminalCallbackUrl = string | null;
-
-/**
- * Additional details about the terminal
- */
-export type TerminalDetails = { [key: string]: unknown };
-
-export interface Terminal {
-    /** Unique identifier of the terminal */
-    terminal_id: string;
-    /** Name of the terminal */
-    verbose_name: string;
-    /** Description of the terminal */
-    description?: TerminalDescription;
-    /** Timeout for allocation in seconds */
-    allocation_timeout_seconds?: number;
-    /** Mapping of fee configurations with fee.id as key */
-    fees?: TerminalFees;
-    /** Provider name associated with the terminal */
-    provider: string;
-    /** Authentication data for the terminal */
-    auth?: TerminalAuth;
-    /** Indicates if the account is created */
-    account_created?: boolean;
-    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
-    callback_url?: TerminalCallbackUrl;
-    /** Additional details about the terminal */
-    details?: TerminalDetails;
-    /** List of payment types associated with this terminal */
-    payment_types?: PaymentTypeBase[];
-}
-
-/**
- * Description of the terminal
- */
 export type TerminalBaseDescription = string | null;
 
 /**
@@ -2332,11 +2256,6 @@ export type TerminalCreateDescription = string | null;
  */
 export type TerminalCreateDetails = { [key: string]: unknown };
 
-/**
- * Provider name of the terminal
- */
-export type TerminalCreateProvider = string | null;
-
 export interface TerminalCreate {
     /** Name of the terminal */
     verbose_name: string;
@@ -2351,9 +2270,11 @@ export interface TerminalCreate {
      */
     allocation_timeout_seconds?: number;
     /** Provider name of the terminal */
-    provider?: TerminalCreateProvider;
+    provider: string;
     /** Indicates if the account is created */
     account_created?: boolean;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
 }
 
 export interface TerminalDeleteAuth {
@@ -2634,6 +2555,11 @@ export type TerminalUpdateDetails = TerminalUpdateDetailsAnyOf | null;
  */
 export type TerminalUpdateAllocationTimeoutSeconds = number | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type TerminalUpdatePaymentTypes = string[] | null;
+
 export interface TerminalUpdate {
     /** Name of the terminal */
     verbose_name?: TerminalUpdateVerboseName;
@@ -2643,6 +2569,8 @@ export interface TerminalUpdate {
     details?: TerminalUpdateDetails;
     /** Timeout for allocation in seconds (0 to 120) */
     allocation_timeout_seconds?: TerminalUpdateAllocationTimeoutSeconds;
+    /** Unique codes of the payment types to link */
+    payment_types?: TerminalUpdatePaymentTypes;
 }
 
 /**
@@ -3540,6 +3468,76 @@ export const TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTe
         asc: "asc",
         desc: "desc"
     } as const;
+
+export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetParams =
+    {
+        /**
+         * List of identifiers for filtering
+         */
+        ids?: string[] | null;
+        /**
+         * Upper bound for creation date filter
+         */
+        createdBefore?: string | null;
+        /**
+         * Lower bound for creation date filter
+         */
+        createdAfter?: string | null;
+        /**
+         * Upper bound for update date filter
+         */
+        updatedBefore?: string | null;
+        /**
+         * Lower bound for update date filter
+         */
+        updatedAfter?: string | null;
+        /**
+         * Current page number (starting from 1)
+         */
+        currentPage?: number;
+        /**
+         * Number of records per page
+         */
+        pageSize?: number;
+        /**
+         * Names of the fields to search (comma-separated or repeated).
+         */
+        searchField?: string[] | null;
+        /**
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         */
+        searchString?: string[] | null;
+        /**
+         * If true, the search will be case-insensitive.
+         */
+        searchIgnoreCase?: boolean;
+        /**
+         * Field to sort the results by
+         */
+        orderBy?: string | null;
+        /**
+         * Sort order: 'asc' or 'desc'
+         */
+        sortOrder?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder;
+    };
+
+export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder =
+    (typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
+
+export type TerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostParams =
+    {
+        /**
+         * Import strategy: 'strict' or 'ignore'
+         */
+        mode?: ImportMode;
+    };
 
 export type KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams = {
     /**
