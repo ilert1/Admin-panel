@@ -157,7 +157,7 @@
         "succes": "Успех",
         "fail": "Неудача",
         "correction": "Коррекция",
-        "emptyrequisites": "Реквизиты отсутвуют",
+        "emptyrequisites": "Реквизиты отсутствуют",
         "limitfail": "Вне допустимого лимита ордера",
         "waitingforadminapproval": "Ожидание подтверждения",
         "cancelledbypayer": "Отменено плательщиком",
