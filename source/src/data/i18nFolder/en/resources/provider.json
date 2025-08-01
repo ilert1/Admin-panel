@@ -44,6 +44,7 @@
     "resources.provider.methodAddSuccess": "Provider method successfully added",
     "resources.provider.methodEditSuccess": "Provider method successfully edited",
     "resources.provider.methodDeleteSuccess": "Provider method successfully deleted",
+    "resources.provider.methodTimeoutRegexError": "This field must match the hh:mm:ss format",
     "resources.provider.addMethod": "Add method",
     "resources.provider.removeMethodDialog": "Delete the method?"
 }

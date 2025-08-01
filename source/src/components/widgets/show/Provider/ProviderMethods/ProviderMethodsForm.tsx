@@ -4,6 +4,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/Input/input";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,6 +16,22 @@ interface IProviderMethodsForm {
     onChangeMethod: (key: string, value: ExecutionMethodInput) => void;
     onCancel: () => void;
 }
+
+const timeoutToHumanReadable = (value: string | undefined) => {
+    const timedeltaRegex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+
+    if (value?.match(timedeltaRegex)) {
+        const matches = value.match(timedeltaRegex);
+
+        const hours = matches && matches[1] ? String(matches[1]).padStart(2, "0") : "00";
+        const minutes = matches && matches[2] ? String(matches[2]).padStart(2, "0") : "00";
+        const seconds = matches && matches[3] ? String(matches[3]).padStart(2, "0") : "00";
+
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+    return value;
+};
 
 export const ProviderMethodsForm = ({
     methodValue,
@@ -49,8 +66,20 @@ export const ProviderMethodsForm = ({
         }),
         task_queue: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
         timeouts: z.object({
-            start_to_close_timeout: z.string().trim().optional(),
-            wait_condition_timeout: z.string().trim().optional()
+            start_to_close_timeout: z
+                .string()
+                .regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, translate("resources.provider.methodTimeoutRegexError"))
+                .trim()
+                .optional()
+                .or(z.literal(""))
+                .transform(val => (val === "" ? undefined : val)),
+            wait_condition_timeout: z
+                .string()
+                .regex(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/, translate("resources.provider.methodTimeoutRegexError"))
+                .trim()
+                .optional()
+                .or(z.literal(""))
+                .transform(val => (val === "" ? undefined : val))
         }),
         type: z.string().min(1, translate("app.widgets.forms.payout.required")).trim()
     });
@@ -95,6 +124,16 @@ export const ProviderMethodsForm = ({
             }
         });
     };
+
+    useEffect(() => {
+        form.reset({
+            ...form.getValues(),
+            timeouts: {
+                start_to_close_timeout: timeoutToHumanReadable(methodValue?.timeouts?.start_to_close_timeout),
+                wait_condition_timeout: timeoutToHumanReadable(methodValue?.timeouts?.wait_condition_timeout)
+            }
+        });
+    }, [form, methodValue?.timeouts?.start_to_close_timeout, methodValue?.timeouts?.wait_condition_timeout]);
 
     return (
         <Form {...form}>
@@ -310,53 +349,60 @@ export const ProviderMethodsForm = ({
                         <Input disabled className="text-neutral-80 dark:text-neutral-40" value="timeouts" />
                     </div>
 
-                    <div className="col-span-2 flex flex-col gap-4">
-                        <Input
-                            disabled
-                            className="text-neutral-80 dark:text-neutral-40"
-                            value="start_to_close_timeout"
-                        />
-                        <Input
-                            disabled
-                            className="text-neutral-80 dark:text-neutral-40"
-                            value="wait_condition_timeout"
-                        />
-                    </div>
+                    <div className="col-span-5 flex flex-col gap-4">
+                        <div className="grid grid-cols-5 gap-4">
+                            <div className="col-span-2">
+                                <Input
+                                    disabled
+                                    className="text-neutral-80 dark:text-neutral-40"
+                                    value="start_to_close_timeout"
+                                />
+                            </div>
 
-                    <div className="col-span-3 flex flex-col gap-4">
-                        <FormField
-                            control={form.control}
-                            name="timeouts.start_to_close_timeout"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            disabled={disabledProcess}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="timeouts.start_to_close_timeout"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="col-span-3">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                disabled={disabledProcess}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-                        <FormField
-                            control={form.control}
-                            name="timeouts.wait_condition_timeout"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            disabled={disabledProcess}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        <div className="grid grid-cols-5 gap-4">
+                            <div className="col-span-2">
+                                <Input
+                                    disabled
+                                    className="text-neutral-80 dark:text-neutral-40"
+                                    value="wait_condition_timeout"
+                                />
+                            </div>
+
+                            <FormField
+                                control={form.control}
+                                name="timeouts.wait_condition_timeout"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="col-span-3">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                disabled={disabledProcess}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                     </div>
                 </div>
 

@@ -44,6 +44,7 @@
     "resources.provider.methodAddSuccess": "Метод провайдера успешно добавлен",
     "resources.provider.methodEditSuccess": "Метод провайдера успешно изменен",
     "resources.provider.methodDeleteSuccess": "Метод провайдера успешно удален",
+    "resources.provider.methodTimeoutRegexError": "Данное поле должно соответствовать формату hh:mm:ss",
     "resources.provider.addMethod": "Добавить метод",
     "resources.provider.removeMethodDialog": "Удалить метод?"
 }
