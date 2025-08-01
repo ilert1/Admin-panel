@@ -140,6 +140,8 @@ const useTransactionFilter = () => {
             const url = new URL(`${API_URL}/transactions/report?format=${type}`);
             Object.keys(filterValues).map(item => url.searchParams.set(item, filterValues[item]));
 
+            appToast("success", translate("app.widgets.report.preDownload"));
+
             const response = await AccountsDataProvider.downloadReport(url);
 
             if (!response.ok) {
@@ -151,7 +153,7 @@ const useTransactionFilter = () => {
                 filename = getFilenameFromContentDisposition(contentDisposition, filename);
             }
 
-            appToast("success", translate("app.widgets.report.preDownload", { filename }));
+            appToast("success", translate("app.widgets.report.download", { filename }));
 
             const blob = await response.blob();
             const fileUrl = window.URL.createObjectURL(blob);

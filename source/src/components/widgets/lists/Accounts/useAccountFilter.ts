@@ -108,6 +108,8 @@ const useAccountFilter = () => {
             url.searchParams.set("end_date", formattedDate(endDate));
             url.searchParams.set("merchantId", merchantId);
 
+            appToast("success", translate("app.widgets.report.preDownload"));
+
             let filename = `report_${merchantId && `merchantId_${merchantId}_`}${formattedDate(startDate)}_to_${formattedDate(endDate)}.${type}`;
 
             AccountsDataProvider.downloadBalanceReport(url)
@@ -117,7 +119,7 @@ const useAccountFilter = () => {
                         filename = getFilenameFromContentDisposition(contentDisposition, filename);
                     }
 
-                    appToast("success", translate("app.widgets.report.preDownload", { filename }));
+                    appToast("success", translate("app.widgets.report.download", { filename }));
 
                     return response.blob();
                 })
