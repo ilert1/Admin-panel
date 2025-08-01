@@ -39,10 +39,10 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                   item =>
                       item === "terminal_payment_type_code" ||
                       item === "terminal_currency_code" ||
-                      item === "terminal_financial_institution_code"    
+                      item === "terminal_financial_institution_code"
               )
             : [];
-            
+
         let res;
         if (params.filter.terminalFilterId) {
             res =
@@ -337,10 +337,17 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         const res =
             await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost(
                 {
+                    data:
+                        terminal_ids && terminal_ids.length > 0
+                            ? JSON.stringify({ terminal_ids })
+                            : JSON.stringify({ provider_id: provider }),
                     payment_types_csv: files[0],
                     financial_institutions_csv: files[1],
                     currency_csv: files[2] ? files[2] : undefined,
-                    data: terminal_ids ? JSON.stringify({ terminal_ids }) : JSON.stringify({ provider_id: provider })
+                    data:
+                        terminal_ids && terminal_ids.length > 0
+                            ? JSON.stringify({ terminal_ids })
+                            : JSON.stringify({ provider_id: provider })
                 },
                 {
                     headers: {
