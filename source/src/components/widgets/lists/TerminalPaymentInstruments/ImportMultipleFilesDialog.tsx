@@ -19,6 +19,7 @@ import { useFilePicker } from "use-file-picker";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { TerminalMultiSelect } from "../../components/MultiSelectComponents/TerminalMultiSelect";
+import { LoadingBlock } from "@/components/ui/loading";
 
 interface ImportMultipleFilesDialogProps {
     open: boolean;
@@ -165,132 +166,149 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                     clearCurrencyPicker();
                 }}
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[400px]">
-                <DialogHeader>
-                    <DialogTitle className="mb-4 text-center">
-                        {translate("resources.paymentSettings.reports.uploadingFile")}
-                    </DialogTitle>
-                    <DialogDescription></DialogDescription>
-                    <div className="mb-4 flex w-full flex-col gap-2">
-                        <div>
-                            <Label>{translate("resources.direction.provider")}</Label>
-                            <ProviderSelect
-                                providers={data ?? []}
-                                disabled={isLoadingProviders}
-                                value={selectedProvider}
-                                modal
-                                onChange={(value: string) => {
-                                    setSelectedProvider(value);
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <TerminalMultiSelect
-                                options={terminalData ?? []}
-                                value={selectedTerminals}
-                                disabled={!terminalData || isLoadingTerminals}
-                                onChange={(value: string[]) => {
-                                    setSelectedTerminals(value);
-                                }}
-                                placeholder={
-                                    !selectedProvider
-                                        ? translate("app.widgets.multiSelect.selectProviderAtFirst")
-                                        : undefined
-                                }
-                            />
-                        </div>
+                {isLoadingTerminals || isLoadingProviders ? (
+                    <div className="h-[400px]">
+                        <LoadingBlock />
                     </div>
-                    <div className="flex w-full flex-col gap-8">
-                        <div className="flex flex-col gap-4">
-                            <div className="flex w-full flex-col gap-2">
-                                <TextField
-                                    text={
-                                        paymentTypeCsvFileName
-                                            ? paymentTypeCsvFileName
-                                            : translate(
-                                                  "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.payment_types_csv"
-                                              )
-                                    }
-                                    lineClamp
-                                    wrap
-                                />
-                                <Button onClick={openPaymentTypePicker} disabled={paymentTypeFilesLoading} className="">
-                                    {paymentTypePlainFiles?.[0]?.name
-                                        ? translate("resources.paymentSettings.reports.selectOtherFile")
-                                        : translate("resources.paymentSettings.reports.selectFile")}
-                                </Button>
+                ) : (
+                    <>
+                        <DialogHeader>
+                            <DialogTitle className="mb-4 text-center">
+                                {translate("resources.paymentSettings.reports.uploadingFile")}
+                            </DialogTitle>
+                            <DialogDescription></DialogDescription>
+                            <div className="mb-4 flex w-full flex-col gap-2">
+                                <div>
+                                    <Label>{translate("resources.direction.provider")}</Label>
+                                    <ProviderSelect
+                                        providers={data ?? []}
+                                        disabled={isLoadingProviders}
+                                        value={selectedProvider}
+                                        modal
+                                        onChange={(value: string) => {
+                                            setSelectedProvider(value);
+                                        }}
+                                    />
+                                </div>
+                                <div>
+                                    <TerminalMultiSelect
+                                        options={terminalData ?? []}
+                                        value={selectedTerminals}
+                                        disabled={!terminalData || isLoadingTerminals}
+                                        onChange={(value: string[]) => {
+                                            setSelectedTerminals(value);
+                                        }}
+                                        placeholder={
+                                            !selectedProvider
+                                                ? translate("app.widgets.multiSelect.selectProviderAtFirst")
+                                                : undefined
+                                        }
+                                    />
+                                </div>
                             </div>
-                            <div className="flex w-full flex-col gap-2">
-                                <TextField
-                                    text={
-                                        financialInstitutionCsvFileName
-                                            ? financialInstitutionCsvFileName
-                                            : translate(
-                                                  "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.financial_institutions_csv"
-                                              )
-                                    }
-                                    lineClamp
-                                    wrap
-                                />
-                                <Button onClick={openInstitutionPicker} disabled={institutionFilesLoading} className="">
-                                    {institutionPlainFiles?.[0]?.name
-                                        ? translate("resources.paymentSettings.reports.selectOtherFile")
-                                        : translate("resources.paymentSettings.reports.selectFile")}
-                                </Button>
+                            <div className="flex w-full flex-col gap-8">
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex w-full flex-col gap-2">
+                                        <TextField
+                                            text={
+                                                paymentTypeCsvFileName
+                                                    ? paymentTypeCsvFileName
+                                                    : translate(
+                                                          "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.payment_types_csv"
+                                                      )
+                                            }
+                                            lineClamp
+                                            wrap
+                                        />
+                                        <Button
+                                            onClick={openPaymentTypePicker}
+                                            disabled={paymentTypeFilesLoading}
+                                            className="">
+                                            {paymentTypePlainFiles?.[0]?.name
+                                                ? translate("resources.paymentSettings.reports.selectOtherFile")
+                                                : translate("resources.paymentSettings.reports.selectFile")}
+                                        </Button>
+                                    </div>
+                                    <div className="flex w-full flex-col gap-2">
+                                        <TextField
+                                            text={
+                                                financialInstitutionCsvFileName
+                                                    ? financialInstitutionCsvFileName
+                                                    : translate(
+                                                          "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.financial_institutions_csv"
+                                                      )
+                                            }
+                                            lineClamp
+                                            wrap
+                                        />
+                                        <Button
+                                            onClick={openInstitutionPicker}
+                                            disabled={institutionFilesLoading}
+                                            className="">
+                                            {institutionPlainFiles?.[0]?.name
+                                                ? translate("resources.paymentSettings.reports.selectOtherFile")
+                                                : translate("resources.paymentSettings.reports.selectFile")}
+                                        </Button>
+                                    </div>
+                                    <div className="flex w-full flex-col gap-2">
+                                        <TextField
+                                            text={
+                                                currencyCsvFileName
+                                                    ? currencyCsvFileName
+                                                    : translate(
+                                                          "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.currency_csv"
+                                                      )
+                                            }
+                                            lineClamp
+                                            wrap
+                                        />
+                                        <Button
+                                            onClick={openCurrencyPicker}
+                                            disabled={currencyFilesLoading}
+                                            className="">
+                                            {currencyPlainFiles?.[0]?.name
+                                                ? translate("resources.paymentSettings.reports.selectOtherFile")
+                                                : translate("resources.paymentSettings.reports.selectFile")}
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
+                                    <Button
+                                        type="submit"
+                                        variant="default"
+                                        className="w-full"
+                                        disabled={
+                                            !paymentTypePlainFiles?.[0] ||
+                                            !institutionPlainFiles?.[0] ||
+                                            // !currencyPlainFiles?.[0] ||
+                                            !selectedProvider
+                                        }
+                                        onClick={async () => {
+                                            await checkAuth({});
+                                            handleImport(
+                                                paymentTypePlainFiles?.[0] ?? null,
+                                                institutionPlainFiles?.[0] ?? null,
+                                                currencyPlainFiles?.[0] ?? null,
+                                                selectedProvider,
+                                                selectedTerminals
+                                            );
+                                            onOpenChange(false);
+                                        }}>
+                                        {translate("resources.paymentSettings.reports.upload")}
+                                    </Button>
+                                    <Button
+                                        onClick={() => onOpenChange(false)}
+                                        variant="outline_gray"
+                                        type="button"
+                                        className="w-full rounded-4 border border-neutral-50 hover:border-neutral-100 sm:w-auto">
+                                        {translate("app.ui.actions.cancel")}
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="flex w-full flex-col gap-2">
-                                <TextField
-                                    text={
-                                        currencyCsvFileName
-                                            ? currencyCsvFileName
-                                            : translate(
-                                                  "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.currency_csv"
-                                              )
-                                    }
-                                    lineClamp
-                                    wrap
-                                />
-                                <Button onClick={openCurrencyPicker} disabled={currencyFilesLoading} className="">
-                                    {currencyPlainFiles?.[0]?.name
-                                        ? translate("resources.paymentSettings.reports.selectOtherFile")
-                                        : translate("resources.paymentSettings.reports.selectFile")}
-                                </Button>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
-                            <Button
-                                type="submit"
-                                variant="default"
-                                className="w-full"
-                                disabled={
-                                    !paymentTypePlainFiles?.[0] ||
-                                    !institutionPlainFiles?.[0] ||
-                                    // !currencyPlainFiles?.[0] ||
-                                    !selectedProvider
-                                }
-                                onClick={async () => {
-                                    await checkAuth({});
-                                    handleImport(
-                                        paymentTypePlainFiles?.[0] ?? null,
-                                        institutionPlainFiles?.[0] ?? null,
-                                        currencyPlainFiles?.[0] ?? null,
-                                        selectedProvider,
-                                        selectedTerminals
-                                    );
-                                    onOpenChange(false);
-                                }}>
-                                {translate("resources.paymentSettings.reports.upload")}
-                            </Button>
-                            <Button
-                                onClick={() => onOpenChange(false)}
-                                variant="outline_gray"
-                                type="button"
-                                className="w-full rounded-4 border border-neutral-50 hover:border-neutral-100 sm:w-auto">
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                        </div>
-                    </div>
-                </DialogHeader>
-                <DialogFooter></DialogFooter>
+                        </DialogHeader>
+                        <DialogFooter></DialogFooter>
+                    </>
+                )}
             </DialogContent>
         </Dialog>
     );

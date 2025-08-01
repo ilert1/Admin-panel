@@ -28,6 +28,7 @@ import { useFilePicker } from "use-file-picker";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { TerminalMultiSelect } from "../../components/MultiSelectComponents/TerminalMultiSelect";
+import { Loading, LoadingBlock } from "@/components/ui/loading";
 
 interface ImportSingleFileDialogProps {
     open: boolean;
@@ -111,7 +112,10 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
         } else {
             setSelectedTerminals([]);
         }
-    }, [selectedProvider, filterValues]);
+    }, [open, selectedProvider]);
+
+    console.log(selectedTerminals);
+    console.log(terminalData);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -123,94 +127,102 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                     clear();
                 }}
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[400px]">
-                <DialogHeader>
-                    <DialogTitle className="mb-4 text-center">
-                        {translate("resources.paymentSettings.reports.uploadingFile")}
-                    </DialogTitle>
-                    <DialogDescription></DialogDescription>
-                    <div className="mb-4 flex w-full flex-col gap-2">
-                        <div>
-                            <Label>{translate("resources.direction.provider")}</Label>
-                            <ProviderSelect
-                                providers={data ?? []}
-                                disabled={isLoadingProviders}
-                                value={selectedProvider}
-                                modal
-                                onChange={(value: string) => {
-                                    setSelectedProvider(value);
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <TerminalMultiSelect
-                                options={terminalData ?? []}
-                                value={selectedTerminals}
-                                disabled={!terminalData || isLoadingTerminals}
-                                onChange={(value: string[]) => {
-                                    setSelectedTerminals(value);
-                                }}
-                                placeholder={
-                                    !selectedProvider
-                                        ? translate("app.widgets.multiSelect.selectProviderAtFirst")
-                                        : undefined
-                                }
-                            />
-                        </div>
+                {isLoadingTerminals || isLoadingProviders ? (
+                    <div className="h-[400px]">
+                        <LoadingBlock />
                     </div>
-                    <div className="flex w-full flex-col gap-4">
-                        <TextField
-                            text={inputVal ? inputVal : translate("resources.paymentSettings.reports.pickFile")}
-                            lineClamp
-                            wrap
-                        />
-                        <Button onClick={openFilePicker} disabled={loading} className="">
-                            {filesContent?.[0]?.name
-                                ? translate("resources.paymentSettings.reports.selectOtherFile")
-                                : translate("resources.paymentSettings.reports.selectFile")}
-                        </Button>
-                        <div>
-                            <Label>{translate("resources.paymentSettings.reports.inputMode")}</Label>
-                            <Select value={importMode} onValueChange={val => setImportMode(val as ImportMode)}>
-                                <SelectTrigger className="h-[38px] text-ellipsis" variant={SelectType.GRAY}>
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        {importModes.map(el => {
-                                            return (
-                                                <SelectItem key={el} value={el} variant={SelectType.GRAY}>
-                                                    {translate(`resources.paymentSettings.reports.${el}`)}
-                                                </SelectItem>
-                                            );
-                                        })}
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
-                            <Button
-                                type="submit"
-                                variant="default"
-                                className="w-full"
-                                disabled={!plainFiles?.[0] || !selectedProvider || !selectedTerminals.length}
-                                onClick={async () => {
-                                    await checkAuth({});
-                                    handleImport(plainFiles?.[0] ?? null, importMode, selectedTerminals);
-                                    onOpenChange(false);
-                                }}>
-                                {translate("resources.paymentSettings.reports.upload")}
-                            </Button>
-                            <Button
-                                onClick={() => onOpenChange(false)}
-                                variant="outline_gray"
-                                type="button"
-                                className="w-full rounded-4 border border-neutral-50 hover:border-neutral-100 sm:w-auto">
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                        </div>
-                    </div>
-                </DialogHeader>
-                <DialogFooter></DialogFooter>
+                ) : (
+                    <>
+                        <DialogHeader>
+                            <DialogTitle className="mb-4 text-center">
+                                {translate("resources.paymentSettings.reports.uploadingFile")}
+                            </DialogTitle>
+                            <DialogDescription></DialogDescription>
+                            <div className="mb-4 flex w-full flex-col gap-2">
+                                <div>
+                                    <Label>{translate("resources.direction.provider")}</Label>
+                                    <ProviderSelect
+                                        providers={data ?? []}
+                                        disabled={isLoadingProviders}
+                                        value={selectedProvider}
+                                        modal
+                                        onChange={(value: string) => {
+                                            setSelectedProvider(value);
+                                        }}
+                                    />
+                                </div>
+                                <div>
+                                    <TerminalMultiSelect
+                                        options={terminalData ?? []}
+                                        value={selectedTerminals}
+                                        disabled={!terminalData || isLoadingTerminals}
+                                        onChange={(value: string[]) => {
+                                            setSelectedTerminals(value);
+                                        }}
+                                        placeholder={
+                                            !selectedProvider
+                                                ? translate("app.widgets.multiSelect.selectProviderAtFirst")
+                                                : undefined
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex w-full flex-col gap-4">
+                                <TextField
+                                    text={inputVal ? inputVal : translate("resources.paymentSettings.reports.pickFile")}
+                                    lineClamp
+                                    wrap
+                                />
+                                <Button onClick={openFilePicker} disabled={loading} className="">
+                                    {filesContent?.[0]?.name
+                                        ? translate("resources.paymentSettings.reports.selectOtherFile")
+                                        : translate("resources.paymentSettings.reports.selectFile")}
+                                </Button>
+                                <div>
+                                    <Label>{translate("resources.paymentSettings.reports.inputMode")}</Label>
+                                    <Select value={importMode} onValueChange={val => setImportMode(val as ImportMode)}>
+                                        <SelectTrigger className="h-[38px] text-ellipsis" variant={SelectType.GRAY}>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {importModes.map(el => {
+                                                    return (
+                                                        <SelectItem key={el} value={el} variant={SelectType.GRAY}>
+                                                            {translate(`resources.paymentSettings.reports.${el}`)}
+                                                        </SelectItem>
+                                                    );
+                                                })}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:self-end">
+                                    <Button
+                                        type="submit"
+                                        variant="default"
+                                        className="w-full"
+                                        disabled={!plainFiles?.[0] || !selectedProvider || !selectedTerminals.length}
+                                        onClick={async () => {
+                                            await checkAuth({});
+                                            handleImport(plainFiles?.[0] ?? null, importMode, selectedTerminals);
+                                            onOpenChange(false);
+                                        }}>
+                                        {translate("resources.paymentSettings.reports.upload")}
+                                    </Button>
+                                    <Button
+                                        onClick={() => onOpenChange(false)}
+                                        variant="outline_gray"
+                                        type="button"
+                                        className="w-full rounded-4 border border-neutral-50 hover:border-neutral-100 sm:w-auto">
+                                        {translate("app.ui.actions.cancel")}
+                                    </Button>
+                                </div>
+                            </div>
+                        </DialogHeader>
+                        <DialogFooter></DialogFooter>{" "}
+                    </>
+                )}
             </DialogContent>
         </Dialog>
     );
