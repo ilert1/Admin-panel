@@ -160,7 +160,11 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 idField="terminal_id"
                                 setIdValue={onTerminalIdFieldChanged}
                                 disabled={terminalsLoadingProcess || !providerName}
-                                placeholder={translate("resources.terminals.selectPlaceholder")}
+                                placeholder={
+                                    providerName
+                                        ? translate("resources.terminals.selectPlaceholder")
+                                        : translate("resources.direction.noTerminals")
+                                }
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                 isLoading={terminalsLoadingProcess}
