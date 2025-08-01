@@ -34,8 +34,8 @@
             "auth": "Авторизация",
             "auth_required": "Требуется авторизация",
             "auth_not_required": "Не требуется авторизация",
-            "whiteListEdit": "Изменить разрешенные IP адреса",
-            "blackListEdit": "Изменить запрещенные IP адреса",
+            "whiteListEdit": "Изменить разрешённые IP адреса",
+            "blackListEdit": "Изменить запрещённые IP адреса",
             "actDeactButton": "Активировать/деактивировать политику",
             "blocked": "Отключено",
             "permitted": "Включено",
@@ -45,8 +45,8 @@
             "updated_at": "Дата обновления"
         },
         "sec_policy_edit": {
-            "editingAllowedPolicy": "Редактирование списка разрешенных адресов",
-            "editingBlockedPolicy": "Редактирование списка запрещенных адресов",
+            "editingAllowedPolicy": "Редактирование списка разрешённых адресов",
+            "editingBlockedPolicy": "Редактирование списка запрещённых адресов",
             "noIps": "IP-адресов нет",
             "addIp": "Добавить IP адрес",
             "deleteIp": "Удалить IP адрес",
