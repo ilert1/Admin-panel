@@ -112,6 +112,7 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
         } else {
             setSelectedTerminals([]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, selectedProvider]);
 
     return (

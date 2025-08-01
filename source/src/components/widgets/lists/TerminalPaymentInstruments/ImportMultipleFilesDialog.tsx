@@ -153,7 +153,8 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         } else {
             setSelectedTerminals([]);
         }
-    }, [selectedProvider, filterValues]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open, selectedProvider]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -168,6 +169,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                     clearCurrencyPicker();
                 }}
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[400px]">
+                <DialogTitle className="hidden" />
                 {isLoadingTerminals || isLoadingProviders ? (
                     <div className="h-[400px]">
                         <LoadingBlock />
@@ -186,6 +188,9 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                                         providers={data ?? []}
                                         disabled={isLoadingProviders}
                                         value={selectedProvider}
+                                        idField="id"
+                                        idFieldValue={selectedProviderId}
+                                        setIdValue={setSelectedProviderId}
                                         modal
                                         onChange={(value: string) => {
                                             setSelectedProvider(value);
@@ -291,7 +296,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                                                 paymentTypePlainFiles?.[0] ?? null,
                                                 institutionPlainFiles?.[0] ?? null,
                                                 currencyPlainFiles?.[0] ?? null,
-                                                selectedProvider,
+                                                selectedProviderId,
                                                 selectedTerminals
                                             );
                                             onOpenChange(false);

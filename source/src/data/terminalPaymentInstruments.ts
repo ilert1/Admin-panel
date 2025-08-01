@@ -343,7 +343,11 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                             : JSON.stringify({ provider_id: provider }),
                     payment_types_csv: files[0],
                     financial_institutions_csv: files[1],
-                    currency_csv: files[2] ? files[2] : undefined
+                    currency_csv: files[2] ? files[2] : undefined,
+                    data:
+                        terminal_ids && terminal_ids.length > 0
+                            ? JSON.stringify({ terminal_ids })
+                            : JSON.stringify({ provider_id: provider })
                 },
                 {
                     headers: {
