@@ -30,7 +30,6 @@ export const useGetPaymentTypesColumns = () => {
     const modifiedOptions =
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         Object.entries(requiredFields ?? [])?.map(([_, value]) => ({ label: value.label, value: value.value })) || [];
-    console.log(modifiedOptions);
 
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
@@ -86,8 +85,6 @@ export const useGetPaymentTypesColumns = () => {
                         row.original.required_fields_for_payment?.deposit &&
                         row.original.required_fields_for_payment?.deposit.length > 0
                             ? row.original.required_fields_for_payment?.deposit.map(value => {
-                                  console.log(value);
-
                                   const option = modifiedOptions.find(o => o.value === value);
                                   const isCustomOption = !modifiedOptions?.some(option => option.value === value);
 
@@ -125,8 +122,6 @@ export const useGetPaymentTypesColumns = () => {
                         row.original.required_fields_for_payment?.withdrawal &&
                         row.original.required_fields_for_payment?.withdrawal.length > 0
                             ? row.original.required_fields_for_payment?.withdrawal.map(value => {
-                                  console.log(value);
-
                                   const option = modifiedOptions.find(o => o.value === value);
                                   const isCustomOption = !modifiedOptions?.some(option => option.value === value);
 
