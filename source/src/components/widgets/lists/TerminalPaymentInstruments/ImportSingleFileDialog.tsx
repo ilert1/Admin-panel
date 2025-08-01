@@ -114,9 +114,6 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
         }
     }, [open, selectedProvider]);
 
-    console.log(selectedTerminals);
-    console.log(terminalData);
-
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent

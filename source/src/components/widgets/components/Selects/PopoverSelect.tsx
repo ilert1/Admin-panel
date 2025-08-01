@@ -22,6 +22,7 @@ export interface IPopoverSelect {
     placeholder?: string;
     modal?: boolean;
     isLoading?: boolean;
+    idFieldValue?: string;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -54,7 +55,8 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         modal = false,
         isLoading = false,
         onChange,
-        setIdValue
+        setIdValue,
+        idFieldValue
     } = props;
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
@@ -107,6 +109,12 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
             }, 50);
         }
     };
+
+    useEffect(() => {
+        if (idFieldValue && setIdValue) {
+            setIdValue(idFieldValue);
+        }
+    }, [idFieldValue, setIdValue]);
 
     if (disabled)
         return (

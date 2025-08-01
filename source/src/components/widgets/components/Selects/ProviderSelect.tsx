@@ -13,11 +13,8 @@ export const ProviderSelect = ({
     providers,
     isError,
     style = "Grey",
-    errorMessage,
-    disabled,
     placeholder,
-    modal,
-    isLoading
+    ...rest
 }: ProviderSelectProps) => {
     const translate = useTranslate();
     return (
@@ -30,11 +27,8 @@ export const ProviderSelect = ({
             notFoundMessage={translate("resources.provider.notFoundMessage")}
             isError={isError}
             style={style}
-            errorMessage={errorMessage}
-            disabled={disabled}
             placeholder={placeholder || translate("resources.provider.selectPlaceholder")}
-            modal={modal}
-            isLoading={isLoading}
+            {...rest}
         />
     );
 };

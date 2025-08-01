@@ -44,6 +44,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
     const terminalsDataProvider = new TerminalsDataProvider();
 
     const [selectedProvider, setSelectedProvider] = useState<string>("");
+    const [selectedProviderId, setSelectedProviderId] = useState<string>("");
     const [selectedTerminals, setSelectedTerminals] = useState<string[]>([]);
 
     const [paymentTypeCsvFileName, setPaymentTypeCsvFileName] = useState<string>("");
@@ -139,11 +140,12 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         if (open) {
             if (filterValues?.provider) {
                 setSelectedProvider(filterValues.provider ?? "");
+                setSelectedProviderId(data?.find(el => el.name === filterValues.provider)?.id ?? "");
             } else {
                 setSelectedProvider("");
             }
         }
-    }, [open, filterValues]);
+    }, [open, filterValues, data]);
 
     useEffect(() => {
         if (filterValues?.terminalFilterId) {
