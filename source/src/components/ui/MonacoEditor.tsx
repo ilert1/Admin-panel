@@ -125,7 +125,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
     return (
         <div
             className={cn(
-                "w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted",
+                "!mt-0 w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted",
                 height
             )}>
             <style>{`.monaco-editor {outline: none !important;}`}</style>

@@ -378,7 +378,7 @@ export const CreateWallet = (props: CreateWalletProps) => {
             ) : (
                 <FormProvider {...merchantForm}>
                     <form onSubmit={merchantForm.handleSubmit(onSubmitMerchant)} className="flex w-full flex-col gap-6">
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap gap-4">
                             <FormField
                                 control={merchantForm.control}
                                 name="address"
