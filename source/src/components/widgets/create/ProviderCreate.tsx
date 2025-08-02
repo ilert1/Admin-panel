@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -13,6 +13,7 @@ import { IProvider } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -26,6 +27,8 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const appToast = useAppToast();
 
     const translate = useTranslate();
+    const refresh = useRefresh();
+    const { openSheet } = useSheets();
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
@@ -58,7 +61,24 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         };
 
         try {
-            await dataProvider.create<IProvider>("provider", { data: parseData });
+            const res = await dataProvider.create<IProvider>("provider", { data: parseData });
+
+            appToast(
+                "success",
+                <span>
+                    {translate("resources.provider.successCreate", { name: data.name })}
+                    <Button
+                        className="!pl-1"
+                        variant="resourceLink"
+                        onClick={() => openSheet("provider", { id: res.data.id })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </span>,
+                translate("app.ui.toast.success"),
+                10000
+            );
+
+            refresh();
             onClose();
         } catch (error) {
             if (error instanceof Error) {
@@ -71,6 +91,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
             } else {
                 appToast("error", translate("app.ui.create.createError"));
             }
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };

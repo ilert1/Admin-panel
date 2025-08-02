@@ -16,6 +16,7 @@
         "alreadyInUse": "Данное имя уже используется․ Выберите другое.",
         "methodAlreadyExist": "Данный метод уже существует"
     },
+    "resources.provider.successCreate": "Провайдер %{name} успешно создан.",
     "resources.provider.recreateConfirm": "Пересоздать ключи?",
     "resources.provider.recreateConfirmDescription": "Старые ключи станут недействительными",
     "resources.provider.recreate": "Пересоздать",
