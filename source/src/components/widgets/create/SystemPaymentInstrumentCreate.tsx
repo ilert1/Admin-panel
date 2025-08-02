@@ -254,7 +254,7 @@ export const SystemPaymentInstrumentCreate = ({ onOpenChange }: SystemPaymentIns
                             name="meta"
                             render={({ field }) => (
                                 <FormItem className="col-span-1 p-2 sm:col-span-2">
-                                    <Label className="!mb-0">
+                                    <Label>
                                         {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                                     </Label>
                                     <FormControl>

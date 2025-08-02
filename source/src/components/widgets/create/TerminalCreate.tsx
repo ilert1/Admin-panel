@@ -244,7 +244,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                             name="details"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
-                                    <Label className="!mb-0">{translate("resources.terminals.fields.details")}</Label>
+                                    <Label>{translate("resources.terminals.fields.details")}</Label>
                                     <FormControl>
                                         <MonacoEditor
                                             width="100%"

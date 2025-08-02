@@ -5,7 +5,7 @@ import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
-import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { TerminalBaseAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AuthDataEditTable } from "./AuthDataEditTable";
 import {
@@ -16,7 +16,7 @@ import {
 interface IAuthDataEditSheet {
     open: boolean;
     terminalId: string;
-    originalAuthData: TerminalAuth | undefined;
+    originalAuthData: TerminalBaseAuth | undefined;
     onOpenChange: (state: boolean) => void;
 }
 
@@ -25,7 +25,7 @@ export const AuthDataEditSheet = ({ originalAuthData, terminalId, open, onOpenCh
     const refresh = useRefresh();
     const appToast = useAppToast();
 
-    const parseAuthData = (data: TerminalAuth | undefined) =>
+    const parseAuthData = (data: TerminalBaseAuth | undefined) =>
         data ? Object.keys(data).map((key, index) => ({ id: index, key, value: data[key] as string })) : [];
 
     const [hasErrors, setHasErrors] = useState(false);
@@ -104,7 +104,7 @@ export const AuthDataEditSheet = ({ originalAuthData, terminalId, open, onOpenCh
             setDisabledBtn(true);
 
             const currentAuthData = showJson ? JSON.parse(stringAuthData) : arrayAuthDataToObject();
-            const authDataToUpdate: TerminalAuth = {};
+            const authDataToUpdate: TerminalBaseAuth = {};
 
             // Проверка какие ключи нужно добавить или изменить
             Object.keys(currentAuthData).forEach(key => {
