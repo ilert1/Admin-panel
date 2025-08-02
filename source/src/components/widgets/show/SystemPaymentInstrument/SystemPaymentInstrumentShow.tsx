@@ -82,16 +82,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                 {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                             </Label>
                             <div className="flex flex-wrap gap-2">
-                                {context.record.payment_type?.meta?.icon &&
-                                typeof context.record.payment_type?.meta?.icon === "string" ? (
-                                    <img
-                                        src={context.record.payment_type?.meta["icon"]}
-                                        alt="icon"
-                                        className="h-6 w-6 fill-white object-contain"
-                                    />
-                                ) : (
-                                    <PaymentTypeIcon type={context.record.payment_type_code} />
-                                )}
+                                <PaymentTypeIcon type={context.record.payment_type_code} />
                             </div>
                         </div>
 
