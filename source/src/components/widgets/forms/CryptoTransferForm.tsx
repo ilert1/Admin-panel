@@ -44,10 +44,14 @@ export const CryptoTransferForm = (props: {
         isFetched: walletsDataFetched,
         isFetching: walletsDataLoading,
         fetchNextPage: walletsNextPage
-    } = useAbortableInfiniteGetList("merchant/wallet", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
+    } = useAbortableInfiniteGetList(
+        "merchant/wallet",
+        {
+            pagination: { perPage: 25, page: 1 },
+            filter: { sort: "name", asc: "ASC" }
+        },
+        true
+    );
 
     const walletScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
@@ -200,7 +204,7 @@ export const CryptoTransferForm = (props: {
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [withdrawList]);
+    }, [withdrawList, walletsDataLoading]);
 
     if (props.loading || !props.balance) {
         return (
