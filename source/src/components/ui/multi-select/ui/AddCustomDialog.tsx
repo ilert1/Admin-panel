@@ -43,10 +43,12 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
     useEffect(() => {
         if (doesExist) {
             setFound(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 localOptions.find((opt: any) => opt.value === code || opt.label?.toLowerCase() === code.toLowerCase())
                     ?.label ?? ""
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [doesExist]);
 
     const handleConfirm = () => {
@@ -89,8 +91,8 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
                             {translate("app.widgets.multiSelect.confirmDialog.add")}
                         </Button>
                         <Button
-                            className="w-full"
-                            variant={"outline_gray"}
+                            variant={"outline"}
+                            className="w-full bg-neutral-0 dark:bg-neutral-100"
                             onClick={() => {
                                 clear();
                                 onOpenChange(false);

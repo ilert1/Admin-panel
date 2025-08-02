@@ -39,7 +39,8 @@ export const ConfirmCreatingDialog = (props: ConfirmCreatingDialogProps) => {
                     <div className="flex w-full flex-col justify-around gap-4 sm:flex-row sm:gap-0">
                         <Button onClick={handleConfirmClicked}>{translate("resources.provider.recreate")}</Button>
                         <Button
-                            variant={"outline_gray"}
+                            variant={"outline"}
+                            className="bg-neutral-0 dark:bg-neutral-100"
                             onClick={() => {
                                 onOpenChange(false);
                                 refresh();
