@@ -26,6 +26,7 @@ export const DeleteProviderDialog = ({ open, id, onOpenChange, onQuickShowOpenCh
         try {
             await deleteOne("provider", { id });
 
+            appToast("success", translate("app.ui.delete.deletedSuccessfully"));
             refresh();
             onQuickShowOpenChange(false);
         } catch (error) {
