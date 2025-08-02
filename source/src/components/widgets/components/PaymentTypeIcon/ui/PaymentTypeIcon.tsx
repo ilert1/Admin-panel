@@ -89,6 +89,7 @@ export const PaymentTypeIcon = memo(
         type,
         className,
         small = false,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         metaIcon,
         metaIconMargin = false
     }: {
@@ -98,15 +99,16 @@ export const PaymentTypeIcon = memo(
         metaIcon?: string | unknown;
         metaIconMargin?: boolean;
     }) => {
-        if (metaIcon && typeof metaIcon === "string") {
-            return (
-                <img
-                    src={metaIcon}
-                    alt="icon"
-                    className={cn("h-6 w-6 fill-white object-contain", metaIconMargin ? "mr-2" : "")}
-                />
-            );
-        }
+        // TODO: на данный момент не используется, когда появится идти сюда
+        // if (metaIcon && typeof metaIcon === "string") {
+        //     return (
+        //         <img
+        //             src={metaIcon}
+        //             alt="icon"
+        //             className={cn("h-6 w-6 fill-white object-contain", metaIconMargin ? "mr-2" : "")}
+        //         />
+        //     );
+        // }
         const Icon = iconsRecord[type];
 
         if (!Icon) {
