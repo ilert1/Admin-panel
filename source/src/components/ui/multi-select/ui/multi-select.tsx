@@ -392,7 +392,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                     <CommandItem
                                         key="all"
                                         onSelect={toggleAll}
-                                        className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
+                                        className="cursor-pointer bg-white text-neutral-90 hover:!bg-green-50 hover:!text-white data-[selected=true]:bg-neutral-50 dark:bg-black dark:text-neutral-0 dark:hover:!bg-green-50 dark:data-[selected=true]:bg-neutral-80">
                                         <div
                                             className={cn(
                                                 "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
@@ -402,9 +402,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                             )}>
                                             <CheckIcon className="h-4 w-4" />
                                         </div>
-                                        <span className="text-neutral-90 dark:text-neutral-0">
-                                            ({translate("app.widgets.multiSelect.selectAll")})
-                                        </span>
+                                        <span>({translate("app.widgets.multiSelect.selectAll")})</span>
                                     </CommandItem>
                                 )}
                                 {options.map(option => {
@@ -416,7 +414,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                             }}
                                             key={option.value}
                                             onSelect={() => toggleOption(option.value)}
-                                            className="cursor-pointer bg-muted hover:!bg-neutral-60 data-[selected=true]:bg-neutral-50 dark:hover:!bg-neutral-90 dark:data-[selected=true]:bg-neutral-80">
+                                            className="cursor-pointer bg-white text-neutral-90 hover:!bg-green-50 hover:!text-white data-[selected=true]:bg-neutral-50 dark:bg-black dark:text-neutral-0 dark:hover:!bg-green-50 dark:data-[selected=true]:bg-neutral-80">
                                             <div
                                                 className={cn(
                                                     "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
@@ -427,7 +425,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                                 <CheckIcon className="h-4 w-4" />
                                             </div>
                                             {option.icon && <option.icon className="mr-2 text-muted-foreground" />}
-                                            <span className="text-neutral-90 dark:text-neutral-0">{option.label}</span>
+                                            <span className="">{option.label}</span>
                                         </CommandItem>
                                     );
                                 })}

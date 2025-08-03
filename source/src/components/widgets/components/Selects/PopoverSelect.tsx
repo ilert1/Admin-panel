@@ -234,7 +234,12 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                 };
                                 return (
                                     <CommandItem
-                                        className="cursor-pointer text-neutral-90 hover:bg-green-50 hover:text-white data-[selected=true]:bg-green-50 dark:text-neutral-0 dark:hover:bg-green-50 dark:data-[selected=true]:bg-green-50"
+                                        className={cn(
+                                            "cursor-pointer data-[selected=true]:bg-green-50 dark:data-[selected=true]:bg-green-50",
+                                            "bg-white hover:bg-green-50 dark:hover:bg-green-50",
+                                            "text-neutral-90 hover:text-white dark:text-neutral-0",
+                                            style === "Black" ? "dark:bg-black" : "dark:bg-muted"
+                                        )}
                                         key={idField ? variant[idField] : newVariant()}
                                         value={newVariant()}
                                         onSelect={onSelectChange}>
