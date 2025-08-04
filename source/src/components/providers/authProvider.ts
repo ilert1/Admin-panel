@@ -82,31 +82,28 @@ export const authProvider: AuthProvider = {
     logout: async () => {
         try {
             const refreshToken = localStorage.getItem("refresh-token");
-            if (!refreshToken) {
-                clearUserData();
-                return Promise.resolve();
+            if (refreshToken) {
+                const bodyObject = {
+                    client_id: clientId,
+                    token: refreshToken,
+                    token_type_hint: "refresh_token"
+                };
+
+                const body = new URLSearchParams(bodyObject);
+
+                const kk = keycloakLoginUrl;
+                await fetchUtils.fetchJson(`${kk.slice(0, kk.lastIndexOf("token"))}revoke`, {
+                    method: "POST",
+                    body: body.toString(),
+                    headers: new Headers({
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    })
+                });
             }
-            const bodyObject = {
-                client_id: clientId,
-                token: refreshToken,
-                token_type_hint: "refresh_token"
-            };
-
-            const body = new URLSearchParams(bodyObject);
-
-            const kk = keycloakLoginUrl;
-            await fetchUtils.fetchJson(`${kk.slice(0, kk.lastIndexOf("token"))}revoke`, {
-                method: "POST",
-                body: body.toString(),
-                headers: new Headers({
-                    "Content-Type": "application/x-www-form-urlencoded"
-                })
-            });
-        } catch (error) {
         } finally {
             clearUserData();
-            return Promise.resolve();
         }
+        return Promise.resolve();
     },
 
     checkAuth: async () => {
