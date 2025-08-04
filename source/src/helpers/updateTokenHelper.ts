@@ -64,7 +64,7 @@ export const updateTokenHelper = async () => {
 
     if (refreshToken && isTokenStillFresh(refreshToken)) {
         return updateToken().catch(error => {
-            console.error("Token update failed:", error);
+            // console.error("Token update failed:", error);
             // Очищаем хранилище при неудачном обновлении
             localStorage.removeItem("access-token");
             localStorage.removeItem("refresh-token");
