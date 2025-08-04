@@ -152,7 +152,7 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
                         }}>
                         <div className="mt-[0.8rem] flex content-start items-center pl-4 pr-4">
                             <Avatar className="h-5 w-5">
-                                <AvatarFallback className="cursor-default bg-green-50 text-primary text-white">
+                                <AvatarFallback className="cursor-default select-none bg-green-50 text-primary text-white">
                                     {identity.data?.fullName?.[0].toUpperCase() ?? ""}
                                 </AvatarFallback>
                             </Avatar>
