@@ -36,7 +36,7 @@
         "create": "Terminal %{name} has been successfully created."
     },
     "resources.terminals.notFoundMessage": "Terminals not found.",
-    "resources.terminals.callbackCreating": "Creating callback",
+    "resources.terminals.callbackCreating": "Create callback?",
     "resources.terminals.callbackCreatedSuccessfully": "Callback created successfully",
     "resources.terminals.urlTemplate": "URL template",
     "resources.terminals.create": "Create terminal",

@@ -14,6 +14,7 @@ import { Fees } from "../../components/Fees";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
+import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 
 interface TerminalShowProps {
     id: string;
@@ -27,6 +28,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const translate = useTranslate();
     const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
+    const [generateCallbackDialogOpen, setGenerateCallbackDialogOpen] = useState(false);
 
     if (context.isLoading || !context.record) {
         return <LoadingBlock />;
@@ -81,6 +83,10 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
 
                         <div className="mt-3 flex justify-end">
                             <div className="flex gap-3 md:gap-4">
+                                <Button className="" onClick={() => setGenerateCallbackDialogOpen(true)} disabled={!id}>
+                                    {translate("app.ui.actions.generateCallback")}
+                                </Button>
+
                                 <Button onClick={() => setEditDialogOpen(true)}>
                                     {translate("app.ui.actions.edit")}
                                 </Button>
@@ -131,6 +137,11 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 id={id}
                 open={editDialogOpen}
                 onOpenChange={setEditDialogOpen}
+            />
+            <GenerateCallbackDialog
+                open={generateCallbackDialogOpen}
+                onOpenChange={setGenerateCallbackDialogOpen}
+                terminalId={id}
             />
 
             <DeleteTerminalDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} deleteId={id} />

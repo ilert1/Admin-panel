@@ -15,9 +15,8 @@ const useTerminalFilter = () => {
 
     useEffect(() => {
         if (terminalsData) {
-            setTerminalFilterName(
-                terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminal_id)?.verbose_name || ""
-            );
+            const foundTerm = terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminal_id);
+            setTerminalFilterName(foundTerm?.verbose_name ?? "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);

@@ -686,3 +686,43 @@ export const terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTermi
             }
         );
     };
+
+/**
+ * Creates a callback URL for a terminal
+ * @summary Create callback URL for terminal
+ */
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse200 = {
+    data: ApiResponseTerminalRead;
+    status: 200;
+};
+
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponseComposite =
+    | terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse200
+    | terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse422;
+
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse =
+    terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/callback`;
+};
+
+export const terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPost = async (
+    terminalId: string,
+    options?: RequestInit
+): Promise<terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse> => {
+    return authFetch<terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse>(
+        getTerminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostUrl(terminalId),
+        {
+            ...options,
+            method: "POST"
+        }
+    );
+};

@@ -30,6 +30,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
     } = useTerminalFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+
     const clearDisabled = !providerName && !terminalFilterName;
 
     return (
@@ -54,10 +55,9 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                         clearButtonDisabled={clearDisabled}
                     />
 
-                    <div className="flex justify-end">
+                    <div className="flex flex-col justify-end gap-4 sm:flex-row">
                         <Button onClick={onCreateDialogOpen} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
-
                             <span className="text-title-1">{translate("resources.terminals.create")}</span>
                         </Button>
                     </div>

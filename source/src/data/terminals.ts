@@ -11,10 +11,16 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { PaymentTypesLink, TerminalCreate, TerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    PaymentTypesLink,
+    TerminalCreate,
+    TerminalRead,
+    TerminalUpdateCallbackUrl
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatch,
     terminalEndpointsAllTerminalsEnigmaV1TerminalGet,
+    terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPost,
     terminalEndpointsCreateTerminalEnigmaV1TerminalPost,
     terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDelete,
     terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGet,
@@ -257,5 +263,39 @@ export class TerminalsDataProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async createCallback(terminalId: string) {
+        const res = await terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPost(terminalId, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: {
+                    id: res.data.data.terminal_id
+                }
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
+
+        // if ("data" in res.data && !res.data.success) {
+        //     throw new Error(res.data.error?.error_message);
+        // } else if ("detail" in res.data) {
+        //     throw new Error(res.data.detail?.[0].msg);
+        // }
+
+        // return {
+        //     data: {
+        //         id: res.data
+        //     }
+        // };
     }
 }

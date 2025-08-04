@@ -36,7 +36,7 @@
         "create": "Терминал %{name} успешно создан."
     },
     "resources.terminals.notFoundMessage": "Терминалы не найдены.",
-    "resources.terminals.callbackCreating": "Создание callback",
+    "resources.terminals.callbackCreating": "Создать Callback?",
     "resources.terminals.callbackCreatedSuccessfully": "Callback успешно создан",
     "resources.terminals.urlTemplate": "Шаблон URL",
     "resources.terminals.create": "Создать терминал",
