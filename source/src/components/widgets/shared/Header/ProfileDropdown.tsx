@@ -160,23 +160,32 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
 
     // Handle clicks outside the dropdown
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
+        const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+            const target = event.target as Node;
+
             if (
+                target &&
                 dropdownRef.current &&
                 triggerRef.current &&
-                !dropdownRef.current.contains(event.target as Node) &&
-                !triggerRef.current.contains(event.target as Node)
+                !dropdownRef.current.contains(target) &&
+                !triggerRef.current.contains(target)
             ) {
                 setProfileOpen(false);
             }
         };
 
         if (profileOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
+            // Use capture phase to ensure we catch the event before other handlers
+            document.addEventListener("mousedown", handleClickOutside, true);
+            document.addEventListener("touchstart", handleClickOutside, true);
+            // Also listen for clicks in case mousedown doesn't work
+            document.addEventListener("click", handleClickOutside, true);
         }
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside, true);
+            document.removeEventListener("touchstart", handleClickOutside, true);
+            document.removeEventListener("click", handleClickOutside, true);
         };
     }, [profileOpen]);
 
@@ -223,10 +232,10 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
             <div
                 ref={triggerRef}
                 className={cn(
-                    "box-border flex cursor-default items-center justify-center gap-4 rounded-4 border py-1 pl-4 pr-4",
+                    "box-border flex cursor-pointer items-center justify-center gap-4 rounded-4 border py-1 pl-4 pr-4",
                     profileOpen
                         ? `border-green-40 bg-muted dark:border-[1px] dark:border-neutral-20`
-                        : `cursor-default border-green-20 bg-white dark:border-muted dark:bg-muted`
+                        : `border-green-20 bg-white dark:border-muted dark:bg-muted`
                 )}
                 onClick={() => setProfileOpen(!profileOpen)}>
                 <Avatar className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center border-2 border-green-40 bg-muted">
@@ -241,11 +250,12 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
                 />
 
                 <EllipsisVerticalIcon
-                    className={
+                    className={cn(
+                        "cursor-pointer",
                         profileOpen
                             ? "text-green-50 dark:text-green-40"
                             : "text-green-60 hover:text-green-50 dark:text-white dark:hover:text-green-40"
-                    }
+                    )}
                 />
             </div>
 
