@@ -1,4 +1,3 @@
-import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { formatValue } from "@/helpers/formatNumber";
 import { useEffect, useState } from "react";
 import { CurrencyIcon } from "./CurrencyIcon";
@@ -62,13 +61,14 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                 <span>{translate("app.ui.header.totalLoading")}</span>
             ) : (
                 <div className="relative h-full w-full overflow-hidden">
-                    <DropdownMenuTrigger className="block !h-[24px] w-full">
+                    {/* <DropdownMenuTrigger className="block !h-[24px] w-full"> */}
+                    <div className="block !h-[24px] w-full">
                         <h1 className="text-display-5 relative h-full w-full overflow-hidden text-center">
                             <AnimatePresence mode="popLayout">
                                 {combinedAmounts && combinedAmounts.length > 0 && (
                                     <motion.div
                                         key={`${combinedAmounts[currentIndex].currency}-${combinedAmounts[currentIndex].type}-${currentIndex}`}
-                                        className="absolute inset-0 flex items-center gap-2"
+                                        className="absolute inset-0 flex select-none items-center gap-2"
                                         initial={{ y: 100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         exit={{ y: -100, opacity: 0 }}
@@ -111,7 +111,7 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                 )}
                             </AnimatePresence>
                         </h1>
-                    </DropdownMenuTrigger>
+                    </div>
                 </div>
             )}
         </div>
