@@ -11,7 +11,12 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { PaymentTypesLink, TerminalCreate, TerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    PaymentTypesLink,
+    TerminalCreate,
+    TerminalRead,
+    TerminalUpdateCallbackUrl
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatch,
     terminalEndpointsAllTerminalsEnigmaV1TerminalGet,
@@ -21,6 +26,7 @@ import {
     terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete,
     terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPut
 } from "@/api/enigma/terminal/terminal";
+import { terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost } from "@/api/enigma/terminal-legacy/terminal-legacy";
 
 export interface TerminalWithId extends TerminalRead {
     id: string;
@@ -245,6 +251,33 @@ export class TerminalsDataProvider extends IBaseDataProvider {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         });
+
+        if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return {
+            data: {
+                id: params.id
+            }
+        };
+    }
+
+    async createCallback(resource: string, params: { id: string; data: TerminalUpdateCallbackUrl }) {
+        const providerName = resource.split("/")[0];
+
+        const res = await terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost(
+            providerName,
+            params.id,
+            params.data,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
 
         if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
