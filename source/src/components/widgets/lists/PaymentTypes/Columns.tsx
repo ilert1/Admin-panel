@@ -79,7 +79,7 @@ export const useGetPaymentTypesColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment_deposit"),
             cell: ({ row }) => {
                 return (
-                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    <div className="flex max-h-32 min-w-32 flex-wrap items-center gap-1 overflow-y-auto">
                         {requiredFields &&
                         !isLoadRequiredFields &&
                         row.original.required_fields_for_payment?.deposit &&
@@ -116,7 +116,7 @@ export const useGetPaymentTypesColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.required_fields_for_payment_withdrawal"),
             cell: ({ row }) => {
                 return (
-                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    <div className="flex max-h-32 min-w-32 flex-wrap items-center gap-1 overflow-y-auto">
                         {requiredFields &&
                         !isLoadRequiredFields &&
                         row.original.required_fields_for_payment?.withdrawal &&
