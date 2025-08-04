@@ -345,102 +345,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2">
-                            <FormField
-                                control={form.control}
-                                name="status"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <Label>
-                                            {translate(
-                                                "resources.paymentSettings.terminalPaymentInstruments.fields.status"
-                                            )}
-                                        </Label>
-                                        <Select value={field.value} onValueChange={field.onChange}>
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    variant={SelectType.GRAY}
-                                                    isError={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {statuses.map(status => (
-                                                        <SelectItem
-                                                            key={status}
-                                                            value={status}
-                                                            variant={SelectType.GRAY}>
-                                                            {translate(
-                                                                `resources.paymentSettings.systemPaymentInstruments.statuses.${status.toLowerCase()}`
-                                                            )}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="direction"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <Label>
-                                            {translate(
-                                                "resources.paymentSettings.systemPaymentInstruments.fields.direction"
-                                            )}
-                                        </Label>
-                                        <Select value={field.value} onValueChange={field.onChange}>
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    variant={SelectType.GRAY}
-                                                    isError={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {Object.keys(DirectionType).map(direction => (
-                                                        <SelectItem
-                                                            key={direction}
-                                                            value={direction}
-                                                            variant={SelectType.GRAY}>
-                                                            {translate(`resources.direction.types.${direction}`)}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-
                         <div className="grid grid-cols-1 sm:grid-cols-3">
-                            <FormField
-                                control={form.control}
-                                name="terminal_payment_type_code"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate(
-                                                    "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
-                                                )}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-
                             <FormField
                                 control={form.control}
                                 name="terminal_currency_code"
@@ -477,6 +382,101 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                                                 )}
                                             />
                                         </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="terminal_payment_type_code"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="direction"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <Label>
+                                            {translate(
+                                                "resources.paymentSettings.systemPaymentInstruments.fields.direction"
+                                            )}
+                                        </Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {Object.keys(DirectionType).map(direction => (
+                                                        <SelectItem
+                                                            key={direction}
+                                                            value={direction}
+                                                            variant={SelectType.GRAY}>
+                                                            {translate(`resources.direction.types.${direction}`)}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="status"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <Label>
+                                            {translate(
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.status"
+                                            )}
+                                        </Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {statuses.map(status => (
+                                                        <SelectItem
+                                                            key={status}
+                                                            value={status}
+                                                            variant={SelectType.GRAY}>
+                                                            {translate(
+                                                                `resources.paymentSettings.systemPaymentInstruments.statuses.${status.toLowerCase()}`
+                                                            )}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </FormItem>
                                 )}
                             />
