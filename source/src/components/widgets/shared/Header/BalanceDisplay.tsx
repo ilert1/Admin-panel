@@ -68,7 +68,7 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                 {combinedAmounts && combinedAmounts.length > 0 && (
                                     <motion.div
                                         key={`${combinedAmounts[currentIndex].currency}-${combinedAmounts[currentIndex].type}-${currentIndex}`}
-                                        className="absolute inset-0 flex items-center gap-2"
+                                        className="absolute inset-0 flex select-none items-center gap-2"
                                         initial={{ y: 100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         exit={{ y: -100, opacity: 0 }}
