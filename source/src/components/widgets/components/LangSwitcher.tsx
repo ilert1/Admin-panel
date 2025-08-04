@@ -40,7 +40,7 @@ export const LangSwitcher = () => {
                     <DropdownMenuItem
                         key={locale.locale}
                         onClick={() => changeLocale(locale.locale)}
-                        className="py-[14px] pl-4 pr-4 text-title-2 hover:!text-neutral-0 focus:cursor-pointer focus:bg-green-50">
+                        className="bg-neutral-0 py-[14px] pl-4 pr-4 text-title-2 hover:!text-neutral-0 focus:cursor-pointer focus:bg-green-50 focus:!text-neutral-0 dark:bg-muted dark:focus:bg-green-50">
                         {locale.name}
                     </DropdownMenuItem>
                 ))}

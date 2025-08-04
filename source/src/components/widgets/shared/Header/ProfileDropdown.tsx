@@ -113,7 +113,7 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
                 className={cn(
                     "box-border flex cursor-pointer items-center justify-center gap-4 rounded-4 border py-1 pl-4 pr-4",
                     profileOpen
-                        ? `border-green-40 bg-muted dark:border-[1px] dark:border-neutral-20`
+                        ? `border-green-40 bg-neutral-0 dark:border-[1px] dark:border-neutral-20 dark:bg-muted`
                         : `border-green-20 bg-white dark:border-muted dark:bg-muted`
                 )}
                 onClick={() => setProfileOpen(!profileOpen)}>
@@ -146,7 +146,7 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
-                        className="absolute right-0 top-full z-[1000] mt-[10px] flex w-72 flex-col gap-2 !rounded-4 border border-green-20 bg-green-0 p-0 dark:border-neutral-20 dark:bg-muted"
+                        className="absolute right-0 top-full z-[1000] mt-[10px] flex w-72 flex-col gap-2 !rounded-4 border border-neutral-30 bg-neutral-0 p-0 dark:border-neutral-20 dark:bg-muted"
                         style={{
                             transformOrigin: "top right"
                         }}>
