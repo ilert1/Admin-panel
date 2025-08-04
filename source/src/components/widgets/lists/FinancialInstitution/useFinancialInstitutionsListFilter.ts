@@ -1,4 +1,4 @@
-import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
@@ -122,7 +122,7 @@ const useFinancialInstitutionsListFilter = () => {
         }
     };
 
-    const handleUploadReport = async (file: File, mode: ImportMode) => {
+    const handleUploadReport = async (file: File, mode: ImportStrategy) => {
         setReportLoading(true);
 
         try {
@@ -132,7 +132,8 @@ const useFinancialInstitutionsListFilter = () => {
                 translate("resources.paymentSettings.reports.uploadSuccess", {
                     inserted: data?.data?.inserted,
                     skipped: data?.data?.skipped,
-                    total: data?.data?.total
+                    total: data?.data?.total,
+                    updated: data?.data.updated
                 })
             );
         } catch (error) {

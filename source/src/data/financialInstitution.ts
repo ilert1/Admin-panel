@@ -15,7 +15,7 @@ import {
     FinancialInstitution,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
-    ImportMode,
+    ImportStrategy,
     PaymentTypesLink
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
@@ -373,7 +373,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         });
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict") {
+    async uploadReport(file: File, mode: ImportStrategy = "strict") {
         const res =
             await financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost(
                 {

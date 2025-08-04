@@ -5874,11 +5874,11 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/ImportMode",
-              "description": "Import strategy: 'strict' or 'ignore'",
+              "$ref": "#/components/schemas/ImportStrategy",
+              "description": "Import strategy: 'strict', 'ignore' or 'merge'",
               "default": "strict"
             },
-            "description": "Import strategy: 'strict' or 'ignore'"
+            "description": "Import strategy: 'strict', 'ignore' or 'merge'"
           }
         ],
         "requestBody": {
@@ -6718,11 +6718,11 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/ImportMode",
-              "description": "Import strategy: 'strict' or 'ignore'",
+              "$ref": "#/components/schemas/ImportStrategy",
+              "description": "Import strategy: 'strict', 'ignore' or 'merge'",
               "default": "strict"
             },
-            "description": "Import strategy: 'strict' or 'ignore'"
+            "description": "Import strategy: 'strict', 'ignore' or 'merge'"
           }
         ],
         "requestBody": {
@@ -7650,11 +7650,11 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/ImportMode",
-              "description": "Import strategy: 'strict' or 'ignore'",
+              "$ref": "#/components/schemas/ImportStrategy",
+              "description": "Import strategy: 'strict', 'ignore' or 'merge'",
               "default": "strict"
             },
-            "description": "Import strategy: 'strict' or 'ignore'"
+            "description": "Import strategy: 'strict', 'ignore' or 'merge'"
           }
         ],
         "requestBody": {
@@ -9306,11 +9306,11 @@
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/ImportMode",
-              "description": "Import strategy: 'strict' or 'ignore'",
+              "$ref": "#/components/schemas/ImportStrategy",
+              "description": "Import strategy: 'strict', 'ignore' or 'merge'",
               "default": "strict"
             },
-            "description": "Import strategy: 'strict' or 'ignore'"
+            "description": "Import strategy: 'strict', 'ignore' or 'merge'"
           }
         ],
         "requestBody": {
@@ -10936,48 +10936,30 @@
             ]
           },
           "position": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "string",
             "title": "Position",
             "description": "Position of the currency symbol",
+            "default": "before",
             "examples": [
               "before"
             ]
           },
           "is_coin": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "boolean",
             "title": "Is Coin",
             "description": "Indicates if the currency is a coin",
+            "default": false,
             "examples": [
               false
             ]
           },
           "accuracy": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "maximum": 16,
-                "minimum": 1
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
+            "maximum": 16,
+            "minimum": 1,
             "title": "Accuracy",
             "description": "Accuracy of the currency (number of decimal places)",
+            "default": 2,
             "examples": [
               2
             ]
@@ -12714,14 +12696,6 @@
         ],
         "title": "HealthStatus"
       },
-      "ImportMode": {
-        "type": "string",
-        "enum": [
-          "strict",
-          "ignore"
-        ],
-        "title": "ImportMode"
-      },
       "ImportResponse": {
         "properties": {
           "total": {
@@ -12740,6 +12714,12 @@
             "title": "Skipped",
             "description": "Number of skipped strings",
             "default": 0
+          },
+          "updated": {
+            "type": "integer",
+            "title": "Updated",
+            "description": "Number of updated strings",
+            "default": 0
           }
         },
         "type": "object",
@@ -12747,6 +12727,15 @@
           "total"
         ],
         "title": "ImportResponse"
+      },
+      "ImportStrategy": {
+        "type": "string",
+        "enum": [
+          "strict",
+          "ignore",
+          "merge"
+        ],
+        "title": "ImportStrategy"
       },
       "KeyPair": {
         "properties": {

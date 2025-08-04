@@ -1,4 +1,4 @@
-import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { authProvider } from "@/components/providers";
 import { Button } from "@/components/ui/Button";
 import {
@@ -47,13 +47,13 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
     const providersDataProvider = new ProvidersDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
 
-    const importModes = Object.values(ImportMode);
+    const importModes = Object.values(ImportStrategy);
 
     const [selectedProvider, setSelectedProvider] = useState<string>("");
     const [selectedTerminals, setSelectedTerminals] = useState<string[]>([]);
 
     const [inputVal, setInputVal] = useState("");
-    const [importMode, setImportMode] = useState<ImportMode>("strict");
+    const [importMode, setImportMode] = useState<ImportStrategy>("strict");
 
     const queryClient = useQueryClient();
 
@@ -178,7 +178,9 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                                 </Button>
                                 <div>
                                     <Label>{translate("resources.paymentSettings.reports.inputMode")}</Label>
-                                    <Select value={importMode} onValueChange={val => setImportMode(val as ImportMode)}>
+                                    <Select
+                                        value={importMode}
+                                        onValueChange={val => setImportMode(val as ImportStrategy)}>
                                         <SelectTrigger className="h-[38px] text-ellipsis" variant={SelectType.GRAY}>
                                             <SelectValue />
                                         </SelectTrigger>

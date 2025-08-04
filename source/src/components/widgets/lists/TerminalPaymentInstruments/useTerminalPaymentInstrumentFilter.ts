@@ -5,7 +5,7 @@ import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } 
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
-import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
@@ -120,14 +120,15 @@ const useTerminalPaymentInstrumentFilter = () => {
         setReportLoading(true);
 
         try {
-            const data = await dataProvider.uploadReport(file, mode as ImportMode, terminal_ids);
+            const data = await dataProvider.uploadReport(file, mode as ImportStrategy, terminal_ids);
 
             appToast(
                 "success",
                 translate("resources.paymentSettings.reports.uploadSuccess", {
                     inserted: data?.data?.inserted,
                     skipped: data?.data?.skipped,
-                    total: data?.data?.total
+                    total: data?.data?.total,
+                    updated: data?.data.updated
                 })
             );
         } catch (error) {
@@ -170,7 +171,8 @@ const useTerminalPaymentInstrumentFilter = () => {
                 translate("resources.paymentSettings.reports.uploadSuccess", {
                     inserted: data?.data?.inserted,
                     skipped: data?.data?.skipped,
-                    total: data?.data?.total
+                    total: data?.data?.total,
+                    updated: data?.data.updated
                 })
             );
         } catch (error) {
