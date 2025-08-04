@@ -1,4 +1,3 @@
-import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { formatValue } from "@/helpers/formatNumber";
 import { useEffect, useState } from "react";
 import { CurrencyIcon } from "./CurrencyIcon";
@@ -62,7 +61,8 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                 <span>{translate("app.ui.header.totalLoading")}</span>
             ) : (
                 <div className="relative h-full w-full overflow-hidden">
-                    <DropdownMenuTrigger className="block !h-[24px] w-full">
+                    {/* <DropdownMenuTrigger className="block !h-[24px] w-full"> */}
+                    <div className="block !h-[24px] w-full">
                         <h1 className="text-display-5 relative h-full w-full overflow-hidden text-center">
                             <AnimatePresence mode="popLayout">
                                 {combinedAmounts && combinedAmounts.length > 0 && (
@@ -111,7 +111,7 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                 )}
                             </AnimatePresence>
                         </h1>
-                    </DropdownMenuTrigger>
+                    </div>
                 </div>
             )}
         </div>
