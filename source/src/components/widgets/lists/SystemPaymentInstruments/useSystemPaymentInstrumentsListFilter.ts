@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { ChangeEvent, useState } from "react";
 import { useDataProvider, useListContext, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
 import { useCurrenciesListWithoutPagination } from "@/hooks";
@@ -105,7 +105,7 @@ const useSystemPaymentInstrumentsListFilter = () => {
         }
     };
 
-    const handleUploadReport = async (file: File, mode: ImportMode) => {
+    const handleUploadReport = async (file: File, mode: ImportStrategy) => {
         setReportLoading(true);
 
         try {
@@ -115,7 +115,8 @@ const useSystemPaymentInstrumentsListFilter = () => {
                 translate("resources.paymentSettings.reports.uploadSuccess", {
                     inserted: data?.data?.inserted,
                     skipped: data?.data?.skipped,
-                    total: data?.data?.total
+                    total: data?.data?.total,
+                    updated: data?.data.updated
                 })
             );
         } catch (error) {

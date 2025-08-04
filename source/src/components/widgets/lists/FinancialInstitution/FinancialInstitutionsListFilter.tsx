@@ -43,7 +43,6 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         handleDownloadReport,
         handleUploadReport
     } = useFinancialInstitutionsListFilter();
-
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
     const { total } = useListContext();

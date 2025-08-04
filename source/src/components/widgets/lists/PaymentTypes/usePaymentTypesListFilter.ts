@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { PaymentTypesProvider } from "@/data/payment_types";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
 
 const usePaymentTypesListFilter = () => {
@@ -91,7 +91,7 @@ const usePaymentTypesListFilter = () => {
         }
     };
 
-    const handleUploadReport = async (file: File, mode: ImportMode) => {
+    const handleUploadReport = async (file: File, mode: ImportStrategy) => {
         setReportLoading(true);
 
         try {
@@ -101,7 +101,8 @@ const usePaymentTypesListFilter = () => {
                 translate("resources.paymentSettings.reports.uploadSuccess", {
                     inserted: data?.data?.inserted,
                     skipped: data?.data?.skipped,
-                    total: data?.data?.total
+                    total: data?.data?.total,
+                    updated: data?.data.updated
                 })
             );
         } catch (error) {

@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    ImportMode,
+    ImportStrategy,
     SystemPaymentInstrument,
     SystemPaymentInstrumentCreate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -250,7 +250,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         });
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict") {
+    async uploadReport(file: File, mode: ImportStrategy = "strict") {
         const res =
             await systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost(
                 {

@@ -13,7 +13,7 @@ import {
 import { IBaseDataProvider } from "./base";
 import {
     CurrenciesLink,
-    ImportMode,
+    ImportStrategy,
     PaymentTypeCreate,
     PaymentTypeModel,
     RequiredFieldItem
@@ -283,7 +283,7 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         });
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict") {
+    async uploadReport(file: File, mode: ImportStrategy = "strict") {
         const res = await paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost(
             {
                 csv_file: file

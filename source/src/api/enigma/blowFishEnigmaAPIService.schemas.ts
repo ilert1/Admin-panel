@@ -797,30 +797,19 @@ export const CurrencyPosition = {
  */
 export type CurrencyUpdateSymbol = string | null;
 
-/**
- * Position of the currency symbol
- */
-export type CurrencyUpdatePosition = string | null;
-
-/**
- * Indicates if the currency is a coin
- */
-export type CurrencyUpdateIsCoin = boolean | null;
-
-/**
- * Accuracy of the currency (number of decimal places)
- */
-export type CurrencyUpdateAccuracy = number | null;
-
 export interface CurrencyUpdate {
     /** Currency symbol */
     symbol?: CurrencyUpdateSymbol;
     /** Position of the currency symbol */
-    position?: CurrencyUpdatePosition;
+    position?: string;
     /** Indicates if the currency is a coin */
-    is_coin?: CurrencyUpdateIsCoin;
-    /** Accuracy of the currency (number of decimal places) */
-    accuracy?: CurrencyUpdateAccuracy;
+    is_coin?: boolean;
+    /**
+     * Accuracy of the currency (number of decimal places)
+     * @minimum 1
+     * @maximum 16
+     */
+    accuracy?: number;
 }
 
 /**
@@ -1526,14 +1515,6 @@ export interface HTTPValidationError {
     detail?: ValidationError[];
 }
 
-export type ImportMode = (typeof ImportMode)[keyof typeof ImportMode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ImportMode = {
-    strict: "strict",
-    ignore: "ignore"
-} as const;
-
 export interface ImportResponse {
     /** Number strings in file */
     total: number;
@@ -1541,7 +1522,18 @@ export interface ImportResponse {
     inserted?: number;
     /** Number of skipped strings */
     skipped?: number;
+    /** Number of updated strings */
+    updated?: number;
 }
+
+export type ImportStrategy = (typeof ImportStrategy)[keyof typeof ImportStrategy];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ImportStrategy = {
+    strict: "strict",
+    ignore: "ignore",
+    merge: "merge"
+} as const;
 
 export interface KeyPair {
     /** The private key encoded in base58, used for secure communication. */
@@ -3028,9 +3020,9 @@ export const PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetS
 
 export type PaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostParams = {
     /**
-     * Import strategy: 'strict' or 'ignore'
+     * Import strategy: 'strict', 'ignore' or 'merge'
      */
-    mode?: ImportMode;
+    mode?: ImportStrategy;
 };
 
 export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetParams = {
@@ -3147,9 +3139,9 @@ export const FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fin
 
 export type FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams = {
     /**
-     * Import strategy: 'strict' or 'ignore'
+     * Import strategy: 'strict', 'ignore' or 'merge'
      */
-    mode?: ImportMode;
+    mode?: ImportStrategy;
 };
 
 export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetParams = {
@@ -3270,9 +3262,9 @@ export const SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigm
 export type SystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostParams =
     {
         /**
-         * Import strategy: 'strict' or 'ignore'
+         * Import strategy: 'strict', 'ignore' or 'merge'
          */
-        mode?: ImportMode;
+        mode?: ImportStrategy;
     };
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams =
@@ -3526,9 +3518,9 @@ export const TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsE
 export type TerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostParams =
     {
         /**
-         * Import strategy: 'strict' or 'ignore'
+         * Import strategy: 'strict', 'ignore' or 'merge'
          */
-        mode?: ImportMode;
+        mode?: ImportStrategy;
     };
 
 export type KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams = {

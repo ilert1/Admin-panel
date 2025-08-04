@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    ImportMode,
+    ImportStrategy,
     TerminalPaymentInstrument,
     TerminalPaymentInstrumentCreate,
     TerminalPaymentInstrumentFIData
@@ -298,7 +298,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict", terminal_ids: string[]) {
+    async uploadReport(file: File, mode: ImportStrategy = "strict", terminal_ids: string[]) {
         const res =
             await terminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost(
                 {
