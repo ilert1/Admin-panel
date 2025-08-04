@@ -107,7 +107,7 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
     };
 
     return (
-        <div className="relative">
+        <div className="relative select-none">
             <div
                 ref={triggerRef}
                 className={cn(

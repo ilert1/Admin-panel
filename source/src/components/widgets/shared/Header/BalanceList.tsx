@@ -50,7 +50,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
                             <div className="flex w-full items-center gap-2">
                                 <h4 className="overflow-y-hidden text-neutral-90 dark:text-white">
                                     <NumericFormat
-                                        className="whitespace-nowrap !text-display-4"
+                                        className="select-all whitespace-nowrap !text-display-4"
                                         value={getFixedValue(el.value.quantity / el.value.accuracy, el.currency)}
                                         displayType={"text"}
                                         thousandSeparator=" "

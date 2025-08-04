@@ -23,7 +23,7 @@ export const MainLayout = ({ children }: CoreLayoutProps) => {
 
     return (
         <>
-            <div className="flex h-full flex-col md:h-screen">
+            <div className="flex h-full flex-col selection:bg-red-40 selection:text-white dark:selection:bg-red-50 md:h-screen">
                 <Header handleLogout={handleLogout} />
                 <div className="flex h-full overflow-hidden">
                     <Sidebar resourceName={resourceName} setTestKeysModalOpen={setTestKeysModalOpen} />
