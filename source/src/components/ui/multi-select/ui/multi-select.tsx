@@ -414,7 +414,12 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                             }}
                                             key={option.value}
                                             onSelect={() => toggleOption(option.value)}
-                                            className="cursor-pointer bg-white text-neutral-90 hover:!bg-green-50 hover:!text-white data-[selected=true]:bg-neutral-50 dark:bg-black dark:text-neutral-0 dark:hover:!bg-green-50 dark:data-[selected=true]:bg-neutral-80">
+                                            className={cn(
+                                                "cursor-pointer data-[selected=true]:bg-neutral-50 dark:data-[selected=true]:bg-neutral-80",
+                                                "bg-white hover:!bg-green-50 dark:hover:!bg-green-50",
+                                                "text-neutral-90 hover:!text-white dark:text-neutral-0",
+                                                modalPopover ? "dark:bg-muted" : "dark:bg-black"
+                                            )}>
                                             <div
                                                 className={cn(
                                                     "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",

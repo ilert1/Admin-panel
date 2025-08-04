@@ -28,7 +28,7 @@ import { useFilePicker } from "use-file-picker";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
 import { TerminalMultiSelect } from "../../components/MultiSelectComponents/TerminalMultiSelect";
-import { Loading, LoadingBlock } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 
 interface ImportSingleFileDialogProps {
     open: boolean;
