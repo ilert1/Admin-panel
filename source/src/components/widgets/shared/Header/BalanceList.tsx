@@ -13,7 +13,7 @@ interface IBalanceList {
 }
 
 export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceList) => {
-    const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination();
+    const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination(undefined, 1000 * 60 * 10);
     const translate = useTranslate();
 
     const getFixedValue = (value: number, currencyStr: string) => {
