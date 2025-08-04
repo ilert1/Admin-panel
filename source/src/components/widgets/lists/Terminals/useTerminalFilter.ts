@@ -9,7 +9,6 @@ const useTerminalFilter = () => {
     const translate = useTranslate();
 
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
-    const [selectedTerminalId, setSelectedTerminalId] = useState("");
     const [terminalFilterName, setTerminalFilterName] = useState("");
 
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
@@ -17,9 +16,7 @@ const useTerminalFilter = () => {
     useEffect(() => {
         if (terminalsData) {
             const foundTerm = terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminal_id);
-
             setTerminalFilterName(foundTerm?.verbose_name ?? "");
-            setSelectedTerminalId(foundTerm?.id ?? "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
@@ -47,7 +44,6 @@ const useTerminalFilter = () => {
     };
 
     const onTerminalIdFieldChanged = (terminalId: string) => {
-        setSelectedTerminalId(terminalId);
         onPropertySelected(terminalId, "terminal_id");
     };
 
@@ -73,8 +69,7 @@ const useTerminalFilter = () => {
         terminalsData,
         terminalsLoadingProcess,
         translate,
-        onClearFilters,
-        selectedTerminalId
+        onClearFilters
     };
 };
 

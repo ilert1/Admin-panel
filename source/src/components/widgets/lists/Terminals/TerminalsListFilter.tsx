@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { AnimatedContainer } from "@/components/widgets/components/AnimatedContainer";
 import { PopoverSelect } from "@/components/widgets/components/Selects/PopoverSelect";
-import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 
 interface ITerminalsListFilter {
     onCreateDialogOpen: () => void;
@@ -27,12 +26,10 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
         terminalsData,
         terminalsLoadingProcess,
         translate,
-        onClearFilters,
-        selectedTerminalId
+        onClearFilters
     } = useTerminalFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const [generateCallbackDialogOpen, setGenerateCallbackDialogOpen] = useState(false);
 
     const clearDisabled = !providerName && !terminalFilterName;
 
@@ -59,12 +56,6 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                     />
 
                     <div className="flex flex-col justify-end gap-4 sm:flex-row">
-                        <Button
-                            className=""
-                            onClick={() => setGenerateCallbackDialogOpen(true)}
-                            disabled={!terminalFilterName}>
-                            {translate("app.ui.actions.generateCallback")}
-                        </Button>
                         <Button onClick={onCreateDialogOpen} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
                             <span className="text-title-1">{translate("resources.terminals.create")}</span>
@@ -114,11 +105,6 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                     </div>
                 </div>
             </AnimatedContainer>
-            <GenerateCallbackDialog
-                open={generateCallbackDialogOpen}
-                onOpenChange={setGenerateCallbackDialogOpen}
-                terminalId={selectedTerminalId}
-            />
         </>
     );
 };
