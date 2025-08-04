@@ -166,7 +166,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
-                    <div className="max-w-auto flex flex-wrap gap-2">
+                    <div className="max-w-auto flex min-w-[100px] flex-wrap gap-2">
                         {row.original.payment_types && row.original.payment_types.length > 0
                             ? row.original.payment_types?.map(pt => {
                                   return (
