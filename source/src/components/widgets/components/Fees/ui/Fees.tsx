@@ -57,13 +57,15 @@ export const Fees = (props: FeesProps) => {
 
     const deleteFee = (innerId: number) => {
         if (setFees) {
-            setFees(prev => prev.filter(el => el.innerId === innerId));
+            setFees(prev => prev.filter(el => el.innerId !== innerId));
         }
     };
 
     if (!feeTypes) {
         return null;
     }
+
+    const isFeeCreateArray = Array.isArray(fees) && fees.every(fee => "type" in fee);
 
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
@@ -80,14 +82,14 @@ export const Fees = (props: FeesProps) => {
                               return (
                                   <FeeCard
                                       key={fee.innerId ?? fee.id}
-                                      isInner={fee.innerId ?? false}
+                                      isInner={fee.innerId ? true : false}
                                       deleteFn={deleteFee}
                                       account={fee.id ?? ""}
                                       feeAmount={
                                           feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
                                       }
                                       feeType={fee.type}
-                                      id={id}
+                                      id={fee.innerId ? fee.innerId : id}
                                       resource={feesResource}
                                       description={fee.description}
                                       addFee={addFee}
@@ -105,6 +107,10 @@ export const Fees = (props: FeesProps) => {
                             variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
                             feeType={feeType}
+                            // eslint-disable-next-line
+                            // @ts-ignore
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                            fees={isFeeCreateArray ? fees : Object.values(fees ?? {}).map(({ id, ...rest }) => rest)}
                         />
                     )}
                     <div ref={containerEndRef} />
@@ -112,7 +118,10 @@ export const Fees = (props: FeesProps) => {
             </div>
             {addFee && (
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewOpen(true)} className="my-6 flex w-full gap-[4px] sm:w-2/5">
+                    <Button
+                        onClick={() => setAddNewOpen(true)}
+                        className="my-6 flex w-full gap-[4px] sm:w-2/5"
+                        disabled={isFeeCreateArray ? fees?.length > 2 : Object.values(fees ?? {}).length > 2}>
                         <PlusCircle className="h-[16px] w-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>

@@ -21,13 +21,14 @@ export type FeeType = "inner" | "default";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const { openSheet } = useSheets();
+    const translate = useTranslate();
+    const refresh = useRefresh();
+    const appToast = useAppToast();
+
     const controllerProps = useCreateController();
     const data = useFetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
     const merchantsDataProvider = new MerchantsDataProvider();
-    const translate = useTranslate();
-    const refresh = useRefresh();
-    const appToast = useAppToast();
 
     const [fees, setFees] = useState<FeeCreate[]>([]);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);

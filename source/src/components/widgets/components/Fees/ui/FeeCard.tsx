@@ -22,7 +22,7 @@ interface FeeCardProps {
     feeType: 1 | 2 | 3;
     currency: string;
     resource: FeesResource;
-    id: string;
+    id: string | number;
     description?: string;
     addFee?: boolean;
     isInner?: boolean;
@@ -50,7 +50,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
     const [directionText, setDirectionText] = useState("");
     const data = useFetchDictionaries();
 
-    const feeDataProvider = feesDataProvider({ resource, id });
+    const feeDataProvider = feesDataProvider({ resource, id: String(id) });
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 

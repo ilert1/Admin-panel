@@ -40,9 +40,18 @@ export interface AddFeeCardProps {
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     variants?: Currency[];
     feeType?: FeeType;
+    fees?: FeeCreate[];
 }
 
-export const AddFeeCard = ({ id, resource, onOpenChange, setFees, variants, feeType = "default" }: AddFeeCardProps) => {
+export const AddFeeCard = ({
+    id,
+    resource,
+    onOpenChange,
+    setFees,
+    variants,
+    feeType = "default",
+    fees = []
+}: AddFeeCardProps) => {
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -54,6 +63,14 @@ export const AddFeeCard = ({ id, resource, onOpenChange, setFees, variants, feeT
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [smallDialogOpen, setSmallDialogOpen] = useState(false);
+
+    const feeOptions = [
+        { value: IFeeType.NUMBER_1, label: FeeEnum.FEE_FROM_SENDER },
+        { value: IFeeType.NUMBER_2, label: FeeEnum.FEE_FROM_TRANSACTION },
+        { value: IFeeType.NUMBER_3, label: FeeEnum.FEE_FIX_WITHDRAW }
+    ];
+
+    const availableOptions = feeOptions.filter(option => !fees.some(el => el.type === option.value));
 
     const formSchema = z
         .object({
@@ -160,7 +177,7 @@ export const AddFeeCard = ({ id, resource, onOpenChange, setFees, variants, feeT
         resolver: zodResolver(formSchema),
         defaultValues: {
             value: 0,
-            type: 1,
+            type: availableOptions[0].value,
             description: "",
             direction: "",
             currency: ""
@@ -225,31 +242,6 @@ export const AddFeeCard = ({ id, resource, onOpenChange, setFees, variants, feeT
                                         </FormItem>
                                     )}
                                 />
-                                {/* <FormField
-                                    control={form.control}
-                                    name="value"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className="col-span-2 p-2">
-                                            <FormControl>
-                                                <div className="relative">
-                                                    <Input
-                                                        {...field}
-                                                        onChange={() => {}}
-                                                        label={translate("resources.direction.fees.feeAmount")}
-                                                        labelSize="note-1"
-                                                        error={fieldState.invalid}
-                                                        errorMessage={<FormMessage />}
-                                                        variant={InputTypes.GRAY}
-                                                        borderColor="border-neutral-60"
-                                                        className="max-w-[85%]"
-                                                        inputMode="numeric"
-                                                    />
-                                                    <span className="absolute right-[15px] top-[50%]">%</span>
-                                                </div>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                /> */}
                                 <FormField
                                     control={form.control}
                                     name="value"
@@ -315,21 +307,14 @@ export const AddFeeCard = ({ id, resource, onOpenChange, setFees, variants, feeT
                                                     </FormControl>
                                                     <SelectContent>
                                                         <SelectGroup>
-                                                            <SelectItem
-                                                                value={IFeeType.NUMBER_1.toString()}
-                                                                variant={SelectType.GRAY}>
-                                                                {FeeEnum.FEE_FROM_SENDER}
-                                                            </SelectItem>
-                                                            <SelectItem
-                                                                value={IFeeType.NUMBER_2.toString()}
-                                                                variant={SelectType.GRAY}>
-                                                                {FeeEnum.FEE_FROM_TRANSACTION}
-                                                            </SelectItem>
-                                                            <SelectItem
-                                                                value={IFeeType.NUMBER_3.toString()}
-                                                                variant={SelectType.GRAY}>
-                                                                {FeeEnum.FEE_FIX_WITHDRAW}
-                                                            </SelectItem>
+                                                            {availableOptions.map(option => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    value={option.value.toString()}
+                                                                    variant={SelectType.GRAY}>
+                                                                    {option.label}
+                                                                </SelectItem>
+                                                            ))}
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
