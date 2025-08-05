@@ -17,9 +17,10 @@ import { useEffect, useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 import { useFilePicker } from "use-file-picker";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
-import { ProvidersDataProvider, TerminalsDataProvider } from "@/data";
+import { TerminalsDataProvider } from "@/data";
 import { TerminalMultiSelect } from "../../components/MultiSelectComponents/TerminalMultiSelect";
 import { LoadingBlock } from "@/components/ui/loading";
+import { IProvider } from "@/data/providers";
 
 interface ImportMultipleFilesDialogProps {
     open: boolean;
@@ -31,16 +32,16 @@ interface ImportMultipleFilesDialogProps {
         provider: string,
         terminal_ids: string[]
     ) => Promise<void>;
+    providersList: IProvider[] | undefined;
 }
 
 export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps) => {
-    const { open, onOpenChange = () => {}, handleImport } = props;
+    const { open, onOpenChange = () => {}, handleImport, providersList } = props;
     const appToast = useAppToast();
     const translate = useTranslate();
     const { checkAuth } = authProvider;
     const { filterValues } = useListContext();
 
-    const providersDataProvider = new ProvidersDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
 
     const [selectedProvider, setSelectedProvider] = useState<string>("");
@@ -52,13 +53,6 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
     const [currencyCsvFileName, setCurrencyCsvFileName] = useState<string>("");
 
     const queryClient = useQueryClient();
-
-    const { data, isLoading: isLoadingProviders } = useQuery({
-        queryKey: ["provider", "list"],
-        queryFn: () => providersDataProvider.getList("provider", { pagination: { page: 1, perPage: 10000 } }),
-        enabled: open,
-        select: data => data.data
-    });
 
     const { data: terminalData, isLoading: isLoadingTerminals } = useQuery({
         queryKey: ["terminal", "list", selectedProvider],
@@ -202,7 +196,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                 }}
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[400px]">
                 <DialogTitle className="hidden" />
-                {isLoadingTerminals || isLoadingProviders ? (
+                {isLoadingTerminals ? (
                     <div className="h-[400px]">
                         <LoadingBlock />
                     </div>
@@ -217,8 +211,8 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                                 <div>
                                     <Label>{translate("resources.direction.provider")}</Label>
                                     <ProviderSelect
-                                        providers={data ?? []}
-                                        disabled={isLoadingProviders}
+                                        providers={providersList ?? []}
+                                        // disabled={isLoadingProviders}
                                         value={selectedProvider}
                                         idField="id"
                                         idFieldValue={selectedProviderId}
@@ -346,6 +340,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                             </div>
                         </DialogHeader>
                         <DialogFooter></DialogFooter>
+                        <DialogTitle className="hidden" />
                     </>
                 )}
             </DialogContent>

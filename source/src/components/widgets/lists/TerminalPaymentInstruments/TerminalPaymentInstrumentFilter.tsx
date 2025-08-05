@@ -268,11 +268,13 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                 open={uploadSingleDialogOpen}
                 onOpenChange={setUploadSingleDialogOpen}
                 handleImport={handleUploadReport}
+                providersList={providersData}
             />
             <ImportMultipleFilesDialog
                 open={uploadMultipleDialogOpen}
                 onOpenChange={setUploadMultipleDialogOpen}
                 handleImport={handleUploadMultipleFiles}
+                providersList={providersData}
             />
             <ExportReportDialog
                 open={exportDialogOpen}
