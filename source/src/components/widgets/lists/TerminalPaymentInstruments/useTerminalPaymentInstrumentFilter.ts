@@ -97,8 +97,13 @@ const useTerminalPaymentInstrumentFilter = () => {
     };
 
     const onTerminalIdFieldChanged = (value: string) => {
-        setTerminalFilterId(value);
-        onPropertySelected(value, "terminalFilterId");
+        if (value === terminalFilterId) {
+            setTerminalFilterId("");
+            onPropertySelected("", "terminalFilterId");
+        } else {
+            setTerminalFilterId(value);
+            onPropertySelected(value, "terminalFilterId");
+        }
     };
 
     const onTerminalNameChanged = (value: string) => {

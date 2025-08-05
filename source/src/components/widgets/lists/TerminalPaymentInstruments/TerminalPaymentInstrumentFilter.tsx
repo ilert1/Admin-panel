@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/Input/input";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
-import { useListContext } from "react-admin";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -46,7 +45,6 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         terminalFilterId,
         onTerminalNameChanged,
         onTerminalIdFieldChanged,
-        reportLoading,
         handleUploadReport,
         handleUploadMultipleFiles,
         handleDownloadReport

@@ -61,7 +61,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
     });
 
     const { data: terminalData, isLoading: isLoadingTerminals } = useQuery({
-        queryKey: ["terminal", "list"],
+        queryKey: ["terminal", "list", selectedProvider],
         queryFn: () => terminalsDataProvider.getList("terminal", { filter: { provider: selectedProvider } }),
         enabled: !!selectedProvider,
         select: data => data.data
@@ -127,6 +127,34 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         }
     });
 
+    // useEffect(() => {
+    //     if (!selectedProvider) {
+    //         setSelectedTerminals([]);
+    //         queryClient.resetQueries({
+    //             queryKey: ["terminal", "list"]
+    //         });
+    //     }
+    // }, [selectedProvider, queryClient]);
+
+    // useEffect(() => {
+    //     if (open) {
+    //         if (filterValues?.provider) {
+    //             setSelectedProvider(filterValues.provider ?? "");
+    //             setSelectedProviderId(data?.find(el => el.name === filterValues.provider)?.id ?? "");
+    //         } else {
+    //             setSelectedProvider("");
+    //         }
+    //     }
+    // }, [open, filterValues, data]);
+
+    // useEffect(() => {
+    //     if (filterValues?.terminalFilterId) {
+    //         setSelectedTerminals([filterValues.terminalFilterId]);
+    //     } else {
+    //         setSelectedTerminals([]);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [open, selectedProvider]);
     useEffect(() => {
         if (!selectedProvider) {
             setSelectedTerminals([]);
@@ -134,27 +162,31 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                 queryKey: ["terminal", "list"]
             });
         }
-    }, [selectedProvider, queryClient]);
+    }, [selectedProvider, queryClient, filterValues]);
 
     useEffect(() => {
         if (open) {
             if (filterValues?.provider) {
                 setSelectedProvider(filterValues.provider ?? "");
-                setSelectedProviderId(data?.find(el => el.name === filterValues.provider)?.id ?? "");
+                queryClient.resetQueries({
+                    queryKey: ["terminal", "list"]
+                });
             } else {
                 setSelectedProvider("");
             }
         }
-    }, [open, filterValues, data]);
+    }, [open, filterValues, queryClient]);
 
     useEffect(() => {
         if (filterValues?.terminalFilterId) {
             setSelectedTerminals([filterValues.terminalFilterId]);
         } else {
+            console.log("Resetting");
+
             setSelectedTerminals([]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open, selectedProvider]);
+    }, [open, selectedProvider, filterValues]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -164,6 +196,8 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                     setPaymentTypeCsvFileName("");
                     setFinancialInstitutionCsvFileName("");
                     setCurrencyCsvFileName("");
+                    setSelectedTerminals([]);
+
                     clearPaymentTypePicker();
                     clearInstitutionPicker();
                     clearCurrencyPicker();

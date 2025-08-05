@@ -65,11 +65,13 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
     });
 
     const { data: terminalData, isLoading: isLoadingTerminals } = useQuery({
-        queryKey: ["terminal", "list"],
+        queryKey: ["terminal", "list", selectedProvider],
         queryFn: () => terminalsDataProvider.getList("terminal", { filter: { provider: selectedProvider } }),
         enabled: !!selectedProvider,
         select: data => data.data
     });
+
+    console.log(terminalData);
 
     const { openFilePicker, filesContent, loading, plainFiles, clear } = useFilePicker({
         accept: ".csv",
@@ -94,17 +96,20 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                 queryKey: ["terminal", "list"]
             });
         }
-    }, [selectedProvider, queryClient]);
+    }, [selectedProvider, queryClient, filterValues]);
 
     useEffect(() => {
         if (open) {
             if (filterValues?.provider) {
                 setSelectedProvider(filterValues.provider ?? "");
+                queryClient.resetQueries({
+                    queryKey: ["terminal", "list"]
+                });
             } else {
                 setSelectedProvider("");
             }
         }
-    }, [open, filterValues]);
+    }, [open, filterValues, queryClient]);
 
     useEffect(() => {
         if (filterValues?.terminalFilterId) {
@@ -113,7 +118,7 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
             setSelectedTerminals([]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open, selectedProvider]);
+    }, [open, selectedProvider, filterValues]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -121,6 +126,7 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                 disableOutsideClick
                 onCloseAutoFocus={() => {
                     setInputVal("");
+                    setSelectedTerminals([]);
                     setImportMode("strict");
                     clear();
                 }}
@@ -220,7 +226,7 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                                 </div>
                             </div>
                         </DialogHeader>
-                        <DialogFooter></DialogFooter>{" "}
+                        <DialogFooter></DialogFooter>
                     </>
                 )}
             </DialogContent>
