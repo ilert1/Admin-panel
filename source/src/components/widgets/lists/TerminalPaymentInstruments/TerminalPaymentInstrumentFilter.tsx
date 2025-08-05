@@ -47,7 +47,9 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         onTerminalIdFieldChanged,
         handleUploadReport,
         handleUploadMultipleFiles,
-        handleDownloadReport
+        handleDownloadReport,
+        onSystemPaymentInstrumentCodeChanged,
+        selectSpiCode
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
@@ -61,7 +63,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         !terminalFilterId &&
         !terminalPaymentTypeCode &&
         !terminalCurrencyCode &&
-        !terminalFinancialInstitutionCode;
+        !terminalFinancialInstitutionCode &&
+        !selectSpiCode;
 
     return (
         <>
@@ -75,7 +78,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             terminalFilterId,
                             terminalPaymentTypeCode,
                             terminalCurrencyCode,
-                            terminalFinancialInstitutionCode
+                            terminalFinancialInstitutionCode,
+                            selectSpiCode
                         ]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
@@ -177,6 +181,20 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                     </div>
                     <div>
                         <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
+                            <div className="flex-grow-100 flex min-w-[290px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]">
+                                <Input
+                                    labelSize="title-2"
+                                    value={selectSpiCode}
+                                    onChange={onSystemPaymentInstrumentCodeChanged}
+                                    label={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
+                                    )}
+                                    placeholder={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
+                                    )}
+                                    disabled={!providerName}
+                                />
+                            </div>
                             <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                                 <Input
                                     labelSize="title-2"
@@ -221,6 +239,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     disabled={!providerName}
                                 />
                             </div>
+
                             {/* <div className="flex flex-col gap-4 sm:flex-row sm:gap-2">
                                 <Button
                                     onClick={() => setExportDialogOpen(true)}

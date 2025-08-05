@@ -39,7 +39,8 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                   item =>
                       item === "terminal_payment_type_code" ||
                       item === "terminal_currency_code" ||
-                      item === "terminal_financial_institution_code"
+                      item === "terminal_financial_institution_code" ||
+                      item === "system_payment_instrument_code"
               )
             : [];
 

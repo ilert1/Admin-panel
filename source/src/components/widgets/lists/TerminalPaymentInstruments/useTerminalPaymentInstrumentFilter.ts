@@ -11,6 +11,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
     const dataProvider = new TerminalPaymentInstrumentsProvider();
+
     const translate = useTranslate();
     const appToast = useAppToast();
     const refresh = useRefresh();
@@ -25,6 +26,8 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminalFilterId || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
+    const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
+
     const [reportLoading, setReportLoading] = useState(false);
 
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
@@ -47,6 +50,7 @@ const useTerminalPaymentInstrumentFilter = () => {
                 | "terminal_currency_code"
                 | "terminal_financial_institution_code"
                 | "terminalFilterId"
+                | "system_payment_instrument_code"
         ) => {
             if (value) {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
@@ -68,6 +72,7 @@ const useTerminalPaymentInstrumentFilter = () => {
         setTerminalPaymentTypeCode("");
         setTerminalCurrencyCode("");
         setTerminalFinancialInstitutionCode("");
+        setSelectSpiCode("");
 
         if (provider) {
             setFilters({ ["provider"]: provider }, displayedFilters, true);
@@ -82,6 +87,12 @@ const useTerminalPaymentInstrumentFilter = () => {
         const value = e.target.value;
         setTerminalPaymentTypeCode(value);
         onPropertySelected(value, "terminal_payment_type_code");
+    };
+
+    const onSystemPaymentInstrumentCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSelectSpiCode(value);
+        onPropertySelected(value, "system_payment_instrument_code");
     };
 
     const onTerminalCurrencyCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
@@ -264,7 +275,9 @@ const useTerminalPaymentInstrumentFilter = () => {
         reportLoading,
         handleUploadReport,
         handleUploadMultipleFiles,
-        handleDownloadReport
+        handleDownloadReport,
+        onSystemPaymentInstrumentCodeChanged,
+        selectSpiCode
     };
 };
 

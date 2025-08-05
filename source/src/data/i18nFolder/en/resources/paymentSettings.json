@@ -152,6 +152,7 @@
             "terminal_payment_type_code": "Terminal payment type code",
             "terminal_currency_code": "Terminal currency code",
             "terminal_financial_institution_code": "Terminal financial institution code",
+            "system_payment_instrument_code_filter": "System payment instrument code",
             "terminal_specific_parameters": "Parameters",
             "status": "Status",
             "id": "ID",
