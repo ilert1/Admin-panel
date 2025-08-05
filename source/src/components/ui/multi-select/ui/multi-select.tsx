@@ -128,6 +128,12 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         const commandList = useRef<HTMLDivElement>(null);
 
         const [localOptions, setLocalOptions] = useState(options);
+
+        useEffect(() => {
+            setLocalOptions(options);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [options]);
+
         const [isPopoverOpen, setIsPopoverOpen] = useState(false);
         const [isAnimating, setIsAnimating] = useState(false);
         const [inputValue, setInputValue] = useState("");

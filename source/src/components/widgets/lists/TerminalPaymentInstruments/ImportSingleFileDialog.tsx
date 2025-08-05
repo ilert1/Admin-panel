@@ -143,11 +143,12 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                             </div>
                             <div>
                                 <TerminalMultiSelect
-                                    options={terminalData ?? []}
+                                    options={terminalData || []}
                                     value={selectedTerminals}
                                     disabled={!terminalData || isLoadingTerminals}
                                     onChange={(value: string[]) => {
                                         setSelectedTerminals(value);
+                                        console.log(value);
                                     }}
                                     placeholder={
                                         !selectedProvider
