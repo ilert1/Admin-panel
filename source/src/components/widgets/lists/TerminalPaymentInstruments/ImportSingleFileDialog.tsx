@@ -61,14 +61,16 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
         queryKey: ["provider", "list"],
         queryFn: () => providersDataProvider.getList("provider", { pagination: { page: 1, perPage: 10000 } }),
         enabled: open,
-        select: data => data.data
+        select: data => data.data,
+        refetchOnWindowFocus: false
     });
 
     const { data: terminalData, isLoading: isLoadingTerminals } = useQuery({
         queryKey: ["terminal", "list", selectedProvider],
         queryFn: () => terminalsDataProvider.getList("terminal", { filter: { provider: selectedProvider } }),
         enabled: !!selectedProvider,
-        select: data => data.data
+        select: data => data.data,
+        refetchOnWindowFocus: false
     });
 
     const { openFilePicker, filesContent, loading, plainFiles, clear } = useFilePicker({
@@ -89,10 +91,10 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
 
     useEffect(() => {
         if (!selectedProvider) {
-            setSelectedTerminals([]);
             queryClient.resetQueries({
                 queryKey: ["terminal", "list"]
             });
+            setSelectedTerminals([]);
         }
     }, [selectedProvider, queryClient, filterValues]);
 
@@ -110,7 +112,7 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
     }, [open, filterValues, queryClient]);
 
     useEffect(() => {
-        if (filterValues?.terminalFilterId) {
+        if (selectedProvider && filterValues?.terminalFilterId) {
             setSelectedTerminals([filterValues.terminalFilterId]);
         } else {
             setSelectedTerminals([]);

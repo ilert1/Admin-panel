@@ -178,7 +178,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
     }, [open, filterValues, queryClient]);
 
     useEffect(() => {
-        if (filterValues?.terminalFilterId) {
+        if (selectedProvider && filterValues?.terminalFilterId) {
             setSelectedTerminals([filterValues.terminalFilterId]);
         } else {
             setSelectedTerminals([]);
