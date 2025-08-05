@@ -64,8 +64,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         !terminalPaymentTypeCode &&
         !terminalCurrencyCode &&
         !terminalFinancialInstitutionCode &&
-        !selectSpiCode &&
-        !terminalFilterName;
+        !selectSpiCode;
 
     return (
         <>
@@ -80,8 +79,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             terminalPaymentTypeCode,
                             terminalCurrencyCode,
                             terminalFinancialInstitutionCode,
-                            selectSpiCode,
-                            terminalFilterName
+                            selectSpiCode
                         ]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
