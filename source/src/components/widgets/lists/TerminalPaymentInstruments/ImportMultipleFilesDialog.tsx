@@ -181,8 +181,6 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         if (filterValues?.terminalFilterId) {
             setSelectedTerminals([filterValues.terminalFilterId]);
         } else {
-            console.log("Resetting");
-
             setSelectedTerminals([]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -71,8 +71,6 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
         select: data => data.data
     });
 
-    console.log(terminalData);
-
     const { openFilePicker, filesContent, loading, plainFiles, clear } = useFilePicker({
         accept: ".csv",
         multiple: false,
