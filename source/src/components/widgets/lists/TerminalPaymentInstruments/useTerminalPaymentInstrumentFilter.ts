@@ -130,6 +130,7 @@ const useTerminalPaymentInstrumentFilter = () => {
         setTerminalFilterId("");
         setTerminalFilterName("");
         setProviderName("");
+        setSelectSpiCode("");
     };
 
     const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
