@@ -194,6 +194,7 @@
 
     body {
         @apply bg-background text-foreground;
+        @apply selection:bg-red-40 selection:text-white dark:selection:bg-red-50;
     }
 }
 

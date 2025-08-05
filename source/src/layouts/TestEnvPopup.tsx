@@ -28,7 +28,7 @@ export const TestEnvPopup = () => {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-full !overflow-y-auto bg-muted !px-[24.5px] selection:bg-red-40 selection:text-white dark:selection:bg-red-50 sm:max-h-[100dvh] sm:w-[440px]">
+            <DialogContent className="max-w-full !overflow-y-auto bg-muted !px-[24.5px] sm:max-h-[100dvh] sm:w-[440px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center" />
                     <DialogDescription />
