@@ -173,12 +173,12 @@ export const TransactionListFilter = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="border-green-50 p-0" align="end">
                                 <DropdownMenuItem
-                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-white focus:dark:text-white"
                                     onClick={() => handleDownloadReport("csv")}>
                                     CSV
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-white focus:dark:text-white"
                                     onClick={() => handleDownloadReport("pdf")}>
                                     PDF
                                 </DropdownMenuItem>
