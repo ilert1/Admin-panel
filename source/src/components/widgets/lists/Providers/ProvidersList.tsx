@@ -1,29 +1,20 @@
-import { ListContextProvider, useTranslate, useRefresh } from "react-admin";
+import { ListContextProvider, useRefresh } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { Button } from "@/components/ui/Button";
-import { Loading } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { KeysModal } from "../../components/KeysModal";
 import { useGetProvidersColumns } from "./Columns";
-import { useState } from "react";
-import { CirclePlus } from "lucide-react";
-import { CreateProviderDialog } from "./CreateProviderDialog";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
 import { IProvider } from "@/data/providers";
-import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
+import { ProvidersListFilter } from "./ProvidersListFilter";
 
 export const ProvidersList = () => {
     const listContext = useAbortableListController<IProvider>();
-    const translate = useTranslate();
     const refresh = useRefresh();
-
-    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const handleRefresh = () => {
         refresh();
-    };
-    const handleCreateClicked = () => {
-        setCreateDialogOpen(true);
     };
 
     const {
@@ -36,44 +27,33 @@ export const ProvidersList = () => {
         setConfirmKeysCreatingOpen
     } = useGetProvidersColumns();
 
-    if (listContext.isLoading || !listContext.data) {
-        return <Loading />;
-    } else {
-        return (
-            <>
-                <div>
-                    <div className="flex justify-between">
-                        <div className="mb-6 flex w-full flex-wrap justify-between gap-2">
-                            <ResourceHeaderTitle />
+    return (
+        <>
+            <div>
+                <div className="flex justify-between">
+                    <ConfirmCreatingDialog
+                        open={confirmKeysCreatingOpen}
+                        onOpenChange={setConfirmKeysCreatingOpen}
+                        setConfirmed={setDialogOpen}
+                    />
 
-                            <Button onClick={handleCreateClicked} variant="default" className="flex gap-[4px]">
-                                <CirclePlus className="h-[16px] w-[16px]" />
-                                <span className="text-title-1">{translate("resources.provider.createNew")}</span>
-                            </Button>
-                        </div>
-                        <ConfirmCreatingDialog
-                            open={confirmKeysCreatingOpen}
-                            onOpenChange={setConfirmKeysCreatingOpen}
-                            setConfirmed={setDialogOpen}
-                        />
-
-                        <CreateProviderDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
-
-                        <KeysModal
-                            open={dialogOpen}
-                            onOpenChange={setDialogOpen}
-                            isTest={false}
-                            name={chosenId}
-                            refresh={handleRefresh}
-                            providerName={chosenProviderName}
-                        />
-                    </div>
+                    <KeysModal
+                        open={dialogOpen}
+                        onOpenChange={setDialogOpen}
+                        isTest={false}
+                        name={chosenId}
+                        refresh={handleRefresh}
+                        providerName={chosenProviderName}
+                    />
                 </div>
+            </div>
 
-                <ListContextProvider value={listContext}>
-                    <DataTable columns={columns} />
-                </ListContextProvider>
-            </>
-        );
-    }
+            <ListContextProvider value={listContext}>
+                <SyncDisplayedFilters />
+
+                <ProvidersListFilter />
+                {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+            </ListContextProvider>
+        </>
+    );
 };

@@ -28,10 +28,16 @@ export interface IProvider extends Provider {
 
 export class ProvidersDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<IProvider>> {
+        const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
+
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {
                 currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
+                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
             },
             {
                 headers: {
