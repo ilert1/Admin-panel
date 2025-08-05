@@ -15,9 +15,9 @@ export const ProvidersListFilter = () => {
         providersData,
         providersLoadingProcess,
         providerId,
-        onProviderChanged,
-        providerValue,
-        setProviderValue,
+        onProviderIdChanged,
+        providerName,
+        onProviderNameChanged,
         clearFilters
     } = useProvidersFilter();
 
@@ -59,11 +59,13 @@ export const ProvidersListFilter = () => {
 
                         <ProviderSelect
                             providers={providersData || []}
-                            value={providerValue}
-                            onChange={setProviderValue}
-                            setIdValue={onProviderChanged}
+                            value={providerName}
+                            onChange={onProviderNameChanged}
                             disabled={providersLoadingProcess}
                             isLoading={providersLoadingProcess}
+                            idField="id"
+                            setIdValue={onProviderIdChanged}
+                            idFieldValue={providerId}
                             style="Black"
                         />
                     </div>

@@ -1,6 +1,6 @@
-import { ListContextProvider, useTranslate, useRefresh } from "react-admin";
+import { ListContextProvider, useRefresh } from "react-admin";
 import { DataTable } from "@/components/widgets/shared";
-import { Loading, LoadingBlock } from "@/components/ui/loading";
+import { LoadingBlock } from "@/components/ui/loading";
 import { KeysModal } from "../../components/KeysModal";
 import { useGetProvidersColumns } from "./Columns";
 import { ConfirmCreatingDialog } from "./ConfirmCreatingDialog";
