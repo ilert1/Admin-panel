@@ -129,32 +129,28 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
 
         const [localOptions, setLocalOptions] = useState(options);
 
-        useEffect(() => {
-            setLocalOptions(options);
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [options]);
-
         const [isPopoverOpen, setIsPopoverOpen] = useState(false);
         const [isAnimating, setIsAnimating] = useState(false);
         const [inputValue, setInputValue] = useState("");
         const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
         useEffect(() => {
-            if (!addingNew) return;
-
-            const mergedOptions = [
-                ...options,
-                ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value)),
-                ...selectedValues
-                    .filter(val => !options.some(opt => opt.value === val))
-                    .filter(val => !localOptions.some(opt => opt.value === val))
-                    .map(val => ({
-                        label: val,
-                        value: val
-                    }))
-            ];
-
-            setLocalOptions(mergedOptions);
+            if (addingNew) {
+                const mergedOptions = [
+                    ...options,
+                    ...localOptions.filter(localOpt => !options.some(opt => opt.value === localOpt.value)),
+                    ...selectedValues
+                        .filter(val => !options.some(opt => opt.value === val))
+                        .filter(val => !localOptions.some(opt => opt.value === val))
+                        .map(val => ({
+                            label: val,
+                            value: val
+                        }))
+                ];
+                setLocalOptions(mergedOptions);
+            } else {
+                setLocalOptions(options);
+            }
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [options, selectedValues, addingNew]);
 
@@ -229,131 +225,135 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         const showButton = addingNew && inputValue.length > 0;
 
         return (
-            <Popover
-                open={isPopoverOpen}
-                onOpenChange={open => {
-                    setIsPopoverOpen(open);
-                }}
-                modal={modalPopover}>
-                <PopoverTrigger asChild>
-                    <Button
-                        disabled={disabled}
-                        ref={ref}
-                        {...props}
-                        role="combobox"
-                        onClick={handleTogglePopover}
-                        variant={"outline_sec"}
-                        className={cn(
-                            "flex h-auto min-h-[38px] w-full items-center justify-between rounded-4 border border-neutral-40 bg-white p-1 hover:bg-muted dark:border-neutral-60 dark:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
-                            "dark:disabled:border-neutral-40 dark:disabled:bg-neutral-90",
-                            "[&:is([data-state='open'])_#multiSelectToggleIcon]:rotate-180",
-                            className
-                        )}>
-                        {selectedValues.length > 0 ? (
-                            <div className="flex w-full items-center justify-between">
-                                <div className="flex max-h-32 flex-wrap items-center gap-y-1 overflow-y-auto">
-                                    {isLoading ? (
-                                        <LoadingBlock className="!h-4 !w-4 overflow-hidden" />
-                                    ) : (
-                                        selectedValues
-                                            // .slice(0, maxCount)
-                                            .map(value => {
-                                                const option = localOptions.find(o => o.value === value);
-                                                const isCustomOption = !options.some(o => o.value === value);
-                                                const IconComponent = option?.icon;
+            <>
+                <Popover
+                    open={isPopoverOpen}
+                    onOpenChange={open => {
+                        setIsPopoverOpen(open);
+                    }}
+                    modal={modalPopover}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            disabled={disabled}
+                            ref={ref}
+                            {...props}
+                            role="combobox"
+                            onClick={handleTogglePopover}
+                            variant={"outline_sec"}
+                            className={cn(
+                                "flex h-auto min-h-[38px] w-full items-center justify-between rounded-4 border border-neutral-40 bg-white p-1 hover:bg-muted dark:border-neutral-60 dark:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
+                                "dark:disabled:border-neutral-40 dark:disabled:bg-neutral-90",
+                                "[&:is([data-state='open'])_#multiSelectToggleIcon]:rotate-180",
+                                className
+                            )}>
+                            {selectedValues.length > 0 ? (
+                                <div className="flex w-full items-center justify-between">
+                                    <div className="flex max-h-32 flex-wrap items-center gap-y-1 overflow-y-auto">
+                                        {isLoading ? (
+                                            <LoadingBlock className="!h-4 !w-4 overflow-hidden" />
+                                        ) : (
+                                            selectedValues
+                                                // .slice(0, maxCount)
+                                                .map(value => {
+                                                    const option = localOptions.find(o => o.value === value);
+                                                    const isCustomOption = !options.some(o => o.value === value);
+                                                    const IconComponent = option?.icon;
 
-                                                return (
-                                                    <Badge
-                                                        key={value}
-                                                        className={cn(
-                                                            isAnimating ? "animate-bounce" : "",
-                                                            multiSelectVariants({ variant }),
-                                                            "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
-                                                            isCustomOption ? "border-dashed border-green-40" : ""
-                                                        )}
-                                                        style={{ animationDuration: `${animation}s` }}>
-                                                        {IconComponent && (
-                                                            <IconComponent className="mr-1 h-4 w-4" small />
-                                                        )}
-                                                        {addingNew ? (
-                                                            <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words text-left">
-                                                                <p>
-                                                                    {isCustomOption
-                                                                        ? option?.label
-                                                                        : option?.label.split("[")[0].trim()}
-                                                                </p>
-                                                                <p className="text-left text-xs text-neutral-70">
-                                                                    {option?.value}
-                                                                </p>
-                                                            </span>
-                                                        ) : (
-                                                            <span className="max-w-48 overflow-hidden text-ellipsis break-words">
-                                                                {option?.label}
-                                                            </span>
-                                                        )}
-                                                        <XCircle
-                                                            className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
-                                                            onClick={event => {
-                                                                event.stopPropagation();
-                                                                toggleOption(value);
-                                                            }}
-                                                        />
-                                                    </Badge>
-                                                );
-                                            })
+                                                    return (
+                                                        <Badge
+                                                            key={value}
+                                                            className={cn(
+                                                                isAnimating ? "animate-bounce" : "",
+                                                                multiSelectVariants({ variant }),
+                                                                "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
+                                                                isCustomOption ? "border-dashed border-green-40" : ""
+                                                            )}
+                                                            style={{ animationDuration: `${animation}s` }}>
+                                                            {IconComponent && (
+                                                                <IconComponent className="mr-1 h-4 w-4" small />
+                                                            )}
+                                                            {addingNew ? (
+                                                                <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words text-left">
+                                                                    <p>
+                                                                        {isCustomOption
+                                                                            ? option?.label
+                                                                            : option?.label.split("[")[0].trim()}
+                                                                    </p>
+                                                                    <p className="text-left text-xs text-neutral-70">
+                                                                        {option?.value}
+                                                                    </p>
+                                                                </span>
+                                                            ) : (
+                                                                <span className="max-w-48 overflow-hidden text-ellipsis break-words">
+                                                                    {option?.label}
+                                                                </span>
+                                                            )}
+                                                            <XCircle
+                                                                className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
+                                                                onClick={event => {
+                                                                    event.stopPropagation();
+                                                                    toggleOption(value);
+                                                                }}
+                                                            />
+                                                        </Badge>
+                                                    );
+                                                })
+                                        )}
+                                    </div>
+                                    <div className="flex flex-wrap items-center justify-end">
+                                        <XIcon
+                                            className="mx-2 h-4 cursor-pointer text-muted-foreground"
+                                            onClick={event => {
+                                                event.stopPropagation();
+                                                handleClear();
+                                            }}
+                                        />
+                                        <Separator orientation="vertical" className="flex h-full min-h-6" />
+                                        <ChevronDown
+                                            id="multiSelectToggleIcon"
+                                            className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                            pointerEvents="none !important"
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="mx-auto flex w-full items-center justify-between">
+                                    <span className="mx-3 text-sm text-neutral-60 dark:text-neutral-70">
+                                        {placeholder}
+                                    </span>
+                                    {!disabled && (
+                                        <ChevronDown
+                                            id="multiSelectToggleIcon"
+                                            className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                            pointerEvents="none !important"
+                                        />
                                     )}
                                 </div>
-                                <div className="flex flex-wrap items-center justify-end">
-                                    <XIcon
-                                        className="mx-2 h-4 cursor-pointer text-muted-foreground"
-                                        onClick={event => {
-                                            event.stopPropagation();
-                                            handleClear();
-                                        }}
-                                    />
-                                    <Separator orientation="vertical" className="flex h-full min-h-6" />
-                                    <ChevronDown
-                                        id="multiSelectToggleIcon"
-                                        className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
-                                        pointerEvents="none !important"
-                                    />
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="mx-auto flex w-full items-center justify-between">
-                                <span className="mx-3 text-sm text-neutral-60 dark:text-neutral-70">{placeholder}</span>
-                                {!disabled && (
-                                    <ChevronDown
-                                        id="multiSelectToggleIcon"
-                                        className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
-                                        pointerEvents="none !important"
-                                    />
-                                )}
-                            </div>
-                        )}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                    className="w-auto p-0"
-                    align="start"
-                    onEscapeKeyDown={() => setIsPopoverOpen(false)}
-                    onCloseAutoFocus={e => {
-                        e.preventDefault();
-                        setInputValue("");
-                    }}>
-                    <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
-                        <CommandInput
-                            value={inputValue}
-                            onValueChange={handleInputChange}
-                            placeholder={
-                                addingNew
-                                    ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")
-                                    : translate("app.widgets.multiSelect.searchPlaceholder")
-                            }
-                            onKeyDown={handleInputKeyDown}
-                        />
-                        <CommandList ref={commandList}>
-                            {/* <CommandEmpty>
+                            )}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                        className="w-auto p-0"
+                        align="start"
+                        onEscapeKeyDown={() => setIsPopoverOpen(false)}
+                        onCloseAutoFocus={e => {
+                            e.preventDefault();
+                            setInputValue("");
+                        }}>
+                        <Command
+                            filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
+                            <CommandInput
+                                value={inputValue}
+                                onValueChange={handleInputChange}
+                                placeholder={
+                                    addingNew
+                                        ? translate("app.widgets.multiSelect.searchOrAddPlaceholder")
+                                        : translate("app.widgets.multiSelect.searchPlaceholder")
+                                }
+                                onKeyDown={handleInputKeyDown}
+                            />
+                            <CommandList ref={commandList}>
+                                {/* <CommandEmpty>
                                 {addingNew ? (
                                     <div className="h-full w-full">
                                         <Button
@@ -389,43 +389,16 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                     notFoundMessage || translate("app.widgets.multiSelect.noResultFound")
                                 )}
                             </CommandEmpty> */}
-                            {!addingNew && (
-                                <CommandEmpty>
-                                    {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
-                                </CommandEmpty>
-                            )}
-                            <CommandGroup>
-                                {options.length > 0 && (
-                                    <CommandItem
-                                        key="all"
-                                        onSelect={toggleAll}
-                                        className={cn(
-                                            "cursor-pointer data-[selected=true]:bg-neutral-50 dark:data-[selected=true]:bg-neutral-80",
-                                            "bg-white hover:!bg-green-50 dark:hover:!bg-green-50",
-                                            "text-neutral-90 hover:!text-white dark:text-neutral-0",
-                                            modalPopover ? "dark:bg-muted" : "dark:bg-black"
-                                        )}>
-                                        <div
-                                            className={cn(
-                                                "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
-                                                areAllSelected
-                                                    ? "border-transparent bg-green-50 text-white dark:bg-green-50"
-                                                    : "opacity-50 [&_svg]:invisible"
-                                            )}>
-                                            <CheckIcon className="h-4 w-4" />
-                                        </div>
-                                        <span>({translate("app.widgets.multiSelect.selectAll")})</span>
-                                    </CommandItem>
+                                {!addingNew && (
+                                    <CommandEmpty>
+                                        {notFoundMessage || translate("app.widgets.multiSelect.noResultFound")}
+                                    </CommandEmpty>
                                 )}
-                                {options.map(option => {
-                                    const isSelected = selectedValues.includes(option.value);
-                                    return (
+                                <CommandGroup>
+                                    {options.length > 0 && (
                                         <CommandItem
-                                            onKeyDownCapture={event => {
-                                                event.preventDefault();
-                                            }}
-                                            key={option.value}
-                                            onSelect={() => toggleOption(option.value)}
+                                            key="all"
+                                            onSelect={toggleAll}
                                             className={cn(
                                                 "cursor-pointer data-[selected=true]:bg-neutral-50 dark:data-[selected=true]:bg-neutral-80",
                                                 "bg-white hover:!bg-green-50 dark:hover:!bg-green-50",
@@ -435,57 +408,88 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                             <div
                                                 className={cn(
                                                     "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
-                                                    isSelected
+                                                    areAllSelected
                                                         ? "border-transparent bg-green-50 text-white dark:bg-green-50"
                                                         : "opacity-50 [&_svg]:invisible"
                                                 )}>
                                                 <CheckIcon className="h-4 w-4" />
                                             </div>
-                                            {option.icon && <option.icon className="mr-2 text-muted-foreground" />}
-                                            <span className="">{option.label}</span>
+                                            <span>({translate("app.widgets.multiSelect.selectAll")})</span>
                                         </CommandItem>
-                                    );
-                                })}
-                            </CommandGroup>
-                            <CommandSeparator />
-                        </CommandList>
-                        {showButton && (
-                            <div className="p-2">
-                                <Button
-                                    className="w-full rounded-none"
-                                    onClick={() => {
-                                        if (!inputValue.match(/^[a-z0-9_.]+$/)) {
-                                            appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
-                                            return;
-                                        }
-                                        if (selectedValues.includes(inputValue)) {
-                                            appToast("error", translate("app.widgets.multiSelect.optionAlreadyExists"));
-                                            return;
-                                        }
-                                        setConfirmDialogOpen(true);
-                                        // setLocalOptions(prev => [
-                                        //     ...prev,
-                                        //     { label: inputValue, value: inputValue }
-                                        // ]);
-                                        // const newSelectedValues = [...selectedValues, inputValue];
-                                        // onValueChange(newSelectedValues);
-                                        // setInputValue("");
-                                    }}>
-                                    {translate("app.widgets.multiSelect.addNew")}
-                                </Button>
-                            </div>
-                        )}
-                    </Command>
-                </PopoverContent>
-                {animation > 0 && selectedValues.length > 0 && (
-                    <WandSparkles
-                        className={cn(
-                            "my-2 h-3 w-3 cursor-pointer bg-background text-foreground",
-                            isAnimating ? "" : "text-muted-foreground"
-                        )}
-                        onClick={() => setIsAnimating(!isAnimating)}
-                    />
-                )}
+                                    )}
+                                    {options.map(option => {
+                                        const isSelected = selectedValues.includes(option.value);
+                                        return (
+                                            <CommandItem
+                                                onKeyDownCapture={event => {
+                                                    event.preventDefault();
+                                                }}
+                                                key={option.value}
+                                                onSelect={() => toggleOption(option.value)}
+                                                className={cn(
+                                                    "cursor-pointer data-[selected=true]:bg-neutral-50 dark:data-[selected=true]:bg-neutral-80",
+                                                    "bg-white hover:!bg-green-50 dark:hover:!bg-green-50",
+                                                    "text-neutral-90 hover:!text-white dark:text-neutral-0",
+                                                    modalPopover ? "dark:bg-muted" : "dark:bg-black"
+                                                )}>
+                                                <div
+                                                    className={cn(
+                                                        "mr-2 flex h-4 w-4 items-center justify-center rounded-4 border border-neutral-60 bg-white dark:bg-black",
+                                                        isSelected
+                                                            ? "border-transparent bg-green-50 text-white dark:bg-green-50"
+                                                            : "opacity-50 [&_svg]:invisible"
+                                                    )}>
+                                                    <CheckIcon className="h-4 w-4" />
+                                                </div>
+                                                {option.icon && <option.icon className="mr-2 text-muted-foreground" />}
+                                                <span className="">{option.label}</span>
+                                            </CommandItem>
+                                        );
+                                    })}
+                                </CommandGroup>
+                                <CommandSeparator />
+                            </CommandList>
+                            {showButton && (
+                                <div className="p-2">
+                                    <Button
+                                        className="w-full rounded-none"
+                                        onClick={() => {
+                                            if (!inputValue.match(/^[a-z0-9_.]+$/)) {
+                                                appToast("error", translate("app.widgets.multiSelect.reqFieldRegex"));
+                                                return;
+                                            }
+                                            if (selectedValues.includes(inputValue)) {
+                                                appToast(
+                                                    "error",
+                                                    translate("app.widgets.multiSelect.optionAlreadyExists")
+                                                );
+                                                return;
+                                            }
+                                            setConfirmDialogOpen(true);
+                                            // setLocalOptions(prev => [
+                                            //     ...prev,
+                                            //     { label: inputValue, value: inputValue }
+                                            // ]);
+                                            // const newSelectedValues = [...selectedValues, inputValue];
+                                            // onValueChange(newSelectedValues);
+                                            // setInputValue("");
+                                        }}>
+                                        {translate("app.widgets.multiSelect.addNew")}
+                                    </Button>
+                                </div>
+                            )}
+                        </Command>
+                    </PopoverContent>
+                    {animation > 0 && selectedValues.length > 0 && (
+                        <WandSparkles
+                            className={cn(
+                                "my-2 h-3 w-3 cursor-pointer bg-background text-foreground",
+                                isAnimating ? "" : "text-muted-foreground"
+                            )}
+                            onClick={() => setIsAnimating(!isAnimating)}
+                        />
+                    )}
+                </Popover>
                 <AddCustomDialog
                     open={confirmDialogOpen}
                     onOpenChange={setConfirmDialogOpen}
@@ -494,7 +498,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     code={inputValue}
                     clear={hadleClearWhenCancelled}
                 />
-            </Popover>
+            </>
         );
     }
 );

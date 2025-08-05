@@ -148,7 +148,6 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                                     disabled={!terminalData || isLoadingTerminals}
                                     onChange={(value: string[]) => {
                                         setSelectedTerminals(value);
-                                        console.log(value);
                                     }}
                                     placeholder={
                                         !selectedProvider
