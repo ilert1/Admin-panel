@@ -10,7 +10,6 @@
         "accountBalance": "Account balance",
         "amount_value": "Amount",
         "currency": "Currency",
-
         "meta": {
             "external_status": "External status",
             "parentId": "Parent transaction ID",
@@ -120,6 +119,7 @@
         "filterById": "Search by operation ID",
         "filterByIdPlaceholder": "ID",
         "filterByAccount": "Merchant",
+        "filterByProvider": "Provider",
         "filterAllPlaceholder": "All",
         "filterByOrderStatus": "Order status",
         "filterByDate": "Select period",
