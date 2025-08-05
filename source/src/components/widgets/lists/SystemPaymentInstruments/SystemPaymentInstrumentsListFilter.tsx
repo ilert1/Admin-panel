@@ -93,7 +93,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             onChange={onCodeChanged}
                         />
                     </div>
-                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                    <div className="flex min-w-36 flex-1 flex-col">
                         <Label variant={"title-2"}>
                             {translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
                         </Label>
@@ -109,7 +109,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             isLoading={currenciesLoadingProcess}
                         />
                     </div>
-                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                    <div className="flex min-w-36 flex-1 flex-col">
                         <Label variant={"title-2"}>
                             {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                         </Label>

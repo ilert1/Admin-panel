@@ -136,7 +136,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                         />
                     </div>
 
-                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                    <div className="flex min-w-36 flex-1 flex-col">
                         <Label variant={"title-2"}>
                             {translate("resources.paymentSettings.financialInstitution.fields.institution_type")}
                         </Label>
@@ -177,6 +177,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
 
                     <div className="flex min-w-36 flex-1 flex-col gap-1">
                         <CurrenciesMultiSelect
+                            labelSize="title-2"
                             variant="secondary"
                             options={currenciesData}
                             onChange={onCurrencyCodesChanged}

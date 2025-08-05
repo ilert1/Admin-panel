@@ -15,6 +15,7 @@ interface CurrenciesMultiSelectProps {
     variant?: "default" | "secondary" | "destructive" | "inverted" | null | undefined;
     className?: string;
     placeholder?: string;
+    labelSize?: "title-2" | "note-1" | undefined;
 }
 
 export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
@@ -27,7 +28,8 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
         isLoading = false,
         variant,
         className,
-        placeholder
+        placeholder,
+        labelSize
     } = props;
     const translate = useTranslate();
 
@@ -51,7 +53,9 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
         return (
             <div>
                 {label && (
-                    <Label>{translate("resources.paymentSettings.financialInstitution.fields.currencies")}</Label>
+                    <Label variant={labelSize}>
+                        {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                    </Label>
                 )}
 
                 <div className="flex h-[38px] w-full items-center justify-center rounded-4 border border-neutral-40 disabled:border-neutral-80 dark:border-neutral-60">
@@ -62,7 +66,11 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
     }
     return (
         <div>
-            {label && <Label>{translate("resources.paymentSettings.financialInstitution.fields.currencies")}</Label>}
+            {label && (
+                <Label variant={labelSize}>
+                    {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                </Label>
+            )}
             <MultiSelect
                 selectedValues={selectedValues}
                 options={modifiedOptions}
