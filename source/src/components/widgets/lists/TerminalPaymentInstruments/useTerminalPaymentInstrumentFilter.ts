@@ -26,7 +26,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminalFilterId || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
-    const [selectSpiCode, setSelectSpiCode] = useState("");
+    const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
 
     const [reportLoading, setReportLoading] = useState(false);
 
