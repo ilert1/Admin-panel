@@ -186,6 +186,21 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
                                 <Input
                                     labelSize="title-2"
+                                    value={selectSpiCode}
+                                    onChange={onSystemPaymentInstrumentCodeChanged}
+                                    label={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
+                                    )}
+                                    placeholder={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
+                                    )}
+                                    disabled={!providerName}
+                                />
+                            </div>
+
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                                <Input
+                                    labelSize="title-2"
                                     value={terminalCurrencyCode}
                                     onChange={onTerminalCurrencyCodeChanged}
                                     label={translate(
@@ -198,20 +213,6 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
-                                <Input
-                                    labelSize="title-2"
-                                    value={selectSpiCode}
-                                    onChange={onSystemPaymentInstrumentCodeChanged}
-                                    label={translate(
-                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
-                                    )}
-                                    placeholder={translate(
-                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
-                                    )}
-                                    disabled={!providerName}
-                                />
-                            </div>
                             <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
                                 <Input
                                     labelSize="title-2"
