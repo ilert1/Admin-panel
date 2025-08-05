@@ -73,6 +73,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
         hoverTimeoutRef.current = setTimeout(() => setTtpOpen(false), 200);
     };
+
     const onSelectChange = (currentValue: string) => {
         onChange(currentValue === value ? "" : currentValue);
 
@@ -114,8 +115,8 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         if (idFieldValue && setIdValue) {
             setIdValue(idFieldValue);
         }
-    }, [idFieldValue, setIdValue]);
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     if (disabled)
         return (
             <TooltipProvider>
