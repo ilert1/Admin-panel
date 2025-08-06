@@ -104,7 +104,12 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
     }, [open, filterValues, queryClient]);
 
     useEffect(() => {
-        if (selectedProvider && filterValues?.terminalFilterId && terminalData) {
+        if (
+            selectedProvider &&
+            filterValues?.terminalFilterId &&
+            terminalData &&
+            terminalData.find(terminal => terminal.id === filterValues.terminalFilterId)
+        ) {
             setSelectedTerminals([filterValues.terminalFilterId]);
         } else {
             setSelectedTerminals([]);
@@ -137,6 +142,7 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                                     value={selectedProvider}
                                     modal
                                     onChange={(value: string) => {
+                                        setSelectedTerminals([]);
                                         setSelectedProvider(value);
                                     }}
                                 />
@@ -144,7 +150,7 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                             <div>
                                 <TerminalMultiSelect
                                     options={terminalData || []}
-                                    value={selectedTerminals}
+                                    value={!isLoadingTerminals ? selectedTerminals : []}
                                     disabled={!terminalData || isLoadingTerminals}
                                     onChange={(value: string[]) => {
                                         setSelectedTerminals(value);
