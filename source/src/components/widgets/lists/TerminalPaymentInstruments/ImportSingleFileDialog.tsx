@@ -149,6 +149,8 @@ export const ImportSingleFileDialog = (props: ImportSingleFileDialogProps) => {
                                     onChange={(value: string[]) => {
                                         setSelectedTerminals(value);
                                     }}
+                                    notFoundMessage={translate("resources.paymentSettings.reports.terminalsNotFound")}
+                                    label={translate("resources.paymentSettings.reports.terminals")}
                                     placeholder={
                                         !selectedProvider
                                             ? translate("app.widgets.multiSelect.selectProviderAtFirst")

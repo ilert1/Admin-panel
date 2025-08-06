@@ -8,11 +8,12 @@ interface TerminalMultiSelectProps {
     value: string[] | undefined;
     onChange: (values: string[]) => void;
     options?: TerminalWithId[];
-    label?: boolean;
+    label?: string;
     modal?: boolean;
     isLoading?: boolean;
     disabled?: boolean;
     placeholder?: string;
+    notFoundMessage?: string;
 }
 
 export const TerminalMultiSelect = (props: TerminalMultiSelectProps) => {
@@ -20,11 +21,12 @@ export const TerminalMultiSelect = (props: TerminalMultiSelectProps) => {
         value,
         onChange,
         options,
-        label = true,
+        label = "",
         modal = true,
         isLoading = false,
         disabled = false,
-        placeholder
+        placeholder,
+        notFoundMessage
     } = props;
     const translate = useTranslate();
 
@@ -48,13 +50,15 @@ export const TerminalMultiSelect = (props: TerminalMultiSelectProps) => {
     return (
         <div>
             {label && (
-                <Label>{translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id")}</Label>
+                <Label>
+                    {label ?? translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id")}
+                </Label>
             )}
             <MultiSelect
                 selectedValues={selectedValues}
                 options={modifiedOptions}
                 onValueChange={onValueChange}
-                notFoundMessage={translate("app.widgets.multiSelect.noResultFound")}
+                notFoundMessage={notFoundMessage ?? translate("app.widgets.multiSelect.noResultFound")}
                 placeholder={placeholder ?? translate("app.widgets.multiSelect.selectTerminals")}
                 animation={0}
                 // maxCount={10}

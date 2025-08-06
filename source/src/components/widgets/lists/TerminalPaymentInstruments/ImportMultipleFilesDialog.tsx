@@ -120,34 +120,6 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         }
     });
 
-    // useEffect(() => {
-    //     if (!selectedProvider) {
-    //         setSelectedTerminals([]);
-    //         queryClient.resetQueries({
-    //             queryKey: ["terminal", "list"]
-    //         });
-    //     }
-    // }, [selectedProvider, queryClient]);
-
-    // useEffect(() => {
-    //     if (open) {
-    //         if (filterValues?.provider) {
-    //             setSelectedProvider(filterValues.provider ?? "");
-    //             setSelectedProviderId(data?.find(el => el.name === filterValues.provider)?.id ?? "");
-    //         } else {
-    //             setSelectedProvider("");
-    //         }
-    //     }
-    // }, [open, filterValues, data]);
-
-    // useEffect(() => {
-    //     if (filterValues?.terminalFilterId) {
-    //         setSelectedTerminals([filterValues.terminalFilterId]);
-    //     } else {
-    //         setSelectedTerminals([]);
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [open, selectedProvider]);
     useEffect(() => {
         if (!selectedProvider) {
             setSelectedTerminals([]);
@@ -226,6 +198,8 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                                     onChange={(value: string[]) => {
                                         setSelectedTerminals(value);
                                     }}
+                                    label={translate("resources.paymentSettings.reports.terminals")}
+                                    notFoundMessage={translate("resources.paymentSettings.reports.terminalsNotFound")}
                                     placeholder={
                                         !selectedProvider
                                             ? translate("app.widgets.multiSelect.selectProviderAtFirst")
