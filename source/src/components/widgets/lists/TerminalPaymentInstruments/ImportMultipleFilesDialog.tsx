@@ -171,13 +171,13 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
     }, [open, filterValues, queryClient]);
 
     useEffect(() => {
-        if (selectedProvider && filterValues?.terminalFilterId) {
+        if (selectedProvider && filterValues?.terminalFilterId && terminalData) {
             setSelectedTerminals([filterValues.terminalFilterId]);
         } else {
             setSelectedTerminals([]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open, selectedProvider, filterValues]);
+    }, [open, selectedProvider, filterValues, terminalData]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>

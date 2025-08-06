@@ -40,6 +40,8 @@ export const TerminalMultiSelect = (props: TerminalMultiSelectProps) => {
     useEffect(() => {
         if (!value || value.length === 0) {
             setSelectedValues([]);
+        } else {
+            setSelectedValues(value);
         }
     }, [value]);
 
