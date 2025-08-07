@@ -144,6 +144,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                 setSelectedProvider("");
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, filterValues, queryClient]);
 
     useEffect(() => {
