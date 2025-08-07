@@ -9,6 +9,7 @@ interface ShowCallbridgeHistorySheetProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
+
 export const ShowCallbridgeHistorySheet = ({ id, open, onOpenChange }: ShowCallbridgeHistorySheetProps) => {
     const translate = useTranslate();
 
