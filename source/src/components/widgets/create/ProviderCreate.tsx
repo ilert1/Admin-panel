@@ -14,6 +14,8 @@ import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAP
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -34,10 +36,13 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         fields_json_schema: z.string().optional().default(""),
-        methods: z.string().trim().optional()
+        methods: z.string().trim().optional(),
+        payment_types: z.array(z.string()).optional().default([])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -45,7 +50,8 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         defaultValues: {
             name: "",
             fields_json_schema: "",
-            methods: "{}"
+            methods: "{}",
+            payment_types: []
         }
     });
 
@@ -54,14 +60,13 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
         setSubmitButtonDisabled(true);
 
-        const parseData: IProviderCreate = {
-            name: data.name,
-            methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {},
-            fields_json_schema: data.fields_json_schema || ""
+        const parsedData: IProviderCreate = {
+            ...data,
+            methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
         };
 
         try {
-            const res = await dataProvider.create<IProvider>("provider", { data: parseData });
+            const res = await dataProvider.create<IProvider>("provider", { data: parsedData });
 
             appToast(
                 "success",
@@ -157,6 +162,24 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                     </FormItem>
                                 );
                             }}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                            isLoading={isLoadingAllPaymentTypes}
+                                            disabled={submitButtonDisabled}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
                         />
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button

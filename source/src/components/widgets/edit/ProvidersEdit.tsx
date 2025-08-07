@@ -90,7 +90,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
         if (data.payment_types) {
             payment_types = [...data.payment_types];
-            delete data.payment_types;
         }
 
         const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
@@ -111,14 +110,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                     })
                 )
             );
-
-            await providersDataProvider.addPaymentTypes({
-                id,
-                data: {
-                    codes: payment_types
-                },
-                previousData: undefined
-            });
 
             appToast("success", translate("app.ui.edit.editSuccess"));
             refresh();
