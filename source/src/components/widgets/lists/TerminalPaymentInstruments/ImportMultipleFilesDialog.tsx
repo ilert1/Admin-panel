@@ -204,7 +204,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                                         setSelectedTerminals(value);
                                     }}
                                     label={translate("resources.paymentSettings.reports.terminals")}
-                                    notFoundMessage={translate("resources.paymentSettings.reports.terminalsNotFound")}
+                                    notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                     placeholder={
                                         !selectedProvider
                                             ? translate("app.widgets.multiSelect.selectProviderAtFirst")

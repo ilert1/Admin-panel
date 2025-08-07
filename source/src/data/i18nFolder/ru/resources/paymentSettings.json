@@ -221,7 +221,6 @@
         "csvValidationError": "Ошибка валидации CSV",
         "csvValidationErrorDescription": "Поле \"%{field}\": значение \"%{input}\" должно содержать только строчные латинские буквы, цифры и подчёркивания.",
         "noData": "По заданным параметрам не найдено данных",
-        "terminals": "Терминалы",
-        "terminalsNotFound": "Термиалов не найдено"
+        "terminals": "Терминалы"
     }
 }
