@@ -133,6 +133,10 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         if (open) {
             if (filterValues?.provider) {
                 setSelectedProvider(filterValues.provider ?? "");
+
+                setSelectedProviderId(
+                    providersList?.find(provider => provider.name === filterValues.provider)?.id ?? ""
+                );
                 queryClient.resetQueries({
                     queryKey: ["terminal", "list"]
                 });
@@ -165,7 +169,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                     setFinancialInstitutionCsvFileName("");
                     setCurrencyCsvFileName("");
                     setSelectedTerminals([]);
-
+                    setSelectedProviderId("");
                     clearPaymentTypePicker();
                     clearInstitutionPicker();
                     clearCurrencyPicker();
