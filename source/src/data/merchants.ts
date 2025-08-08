@@ -66,7 +66,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {
@@ -242,7 +242,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
             id,
             {
                 currentPage: 1,
-                pageSize: 1000,
+                pageSize: 10000,
                 orderBy: "weight",
                 sortOrder: "desc"
             },

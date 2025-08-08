@@ -112,7 +112,7 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
             await terminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGet(
                 {
                     currentPage: 1,
-                    pageSize: 1000
+                    pageSize: 10000
                 },
                 {
                     headers: {

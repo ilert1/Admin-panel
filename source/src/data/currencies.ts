@@ -64,7 +64,7 @@ export class CurrenciesDataProvider extends IBaseDataProvider {
         const res = await currencyEndpointsListCurrenciesEnigmaV1CurrencyGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {
