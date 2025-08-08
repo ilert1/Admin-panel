@@ -18,51 +18,77 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useState } from "react";
+import { MerchantsDataProvider } from "@/data";
 
 interface UniqunessCreateProps {
     merchantId: string;
-    directionName: string;
+    directionName: UniqunessDirectionType;
     onOpenChange: (state: boolean) => void;
+    prevData: UniquenessResponse;
 }
 
 const modes = ["percent", "absolute"];
 
 export const UniqunessCreate = (props: UniqunessCreateProps) => {
-    const { merchantId, directionName, onOpenChange } = props;
+    const { merchantId, directionName, onOpenChange, prevData } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const dataProvider = new MerchantsDataProvider();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const formSchema = z.object({
-        mode: z.enum(modes as [string, ...string[]]),
-        min: z.number().refine(val => /^\-?\d+(\.\d{1,2})?$/.test(val.toString()), {
-            message: "Можно максимум 2 знака после запятой"
-        }),
-        max: z.number().refine(val => /^\-?\d+(\.\d{1,2})?$/.test(val.toString()), {
-            message: "Можно максимум 2 знака после запятой"
+    const formSchema = z
+        .object({
+            mode: z.enum(modes as [string, ...string[]]),
+            min: z.coerce.number().refine(val => /^-?\d+(\.\d{1,2})?$/.test(val.toString()), {
+                message: "Можно максимум 2 знака после запятой"
+            }),
+            max: z.coerce.number().refine(val => /^-?\d+(\.\d{1,2})?$/.test(val.toString()), {
+                message: "Можно максимум 2 знака после запятой"
+            }),
+            chance: z.coerce.number().refine(val => /^-?\d+(\.\d{1,2})?$/.test(val.toString()), {
+                message: "Можно максимум 2 знака после запятой"
+            })
         })
-    });
+        .superRefine(({ max, min }, ctx) => {
+            if (min > max) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: `No duplicates allowed.`,
+                    path: ["min"]
+                });
+            }
+        });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             mode: modes[0],
             min: 0,
-            max: 0
+            max: 0,
+            chance: 0
         }
     });
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data);
+        if (submitButtonDisabled) return;
+        setSubmitButtonDisabled(true);
+        try {
+            dataProvider.updateMerchantUniqueness(merchantId, directionName, prevData.uniqueness, data);
+            appToast("success", "");
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+        } finally {
+            refresh();
+        }
     };
 
     return (
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-                    <div className="flex flex-col flex-wrap">
+                    <div className="flex flex-col flex-wrap gap-6">
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
@@ -92,7 +118,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="min"
@@ -181,41 +206,44 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="chance"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                label={translate("resources.merchant.fields.descr")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                value={field.value ?? ""}
+                                                variant={InputTypes.GRAY}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
-                        {/* <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            label={translate("resources.merchant.fields.descr")}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            className=""
-                                            value={field.value ?? ""}
-                                            variant={InputTypes.GRAY}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        /> */}
+                        <div className="ml-auto flex w-full flex-col gap-3 space-x-0 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
+                            <Button
+                                onClick={form.handleSubmit(onSubmit)}
+                                variant="default"
+                                className="flex-1"
+                                disabled={submitButtonDisabled}>
+                                {translate("app.ui.actions.save")}
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="outline_gray"
+                                className="flex-1"
+                                onClick={() => onOpenChange(false)}>
+                                {translate("app.ui.actions.cancel")}
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </Form>
-            <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
-                <Button
-                    onClick={form.handleSubmit(onSubmit)}
-                    variant="default"
-                    className="flex-1"
-                    disabled={submitButtonDisabled}>
-                    {translate("app.ui.actions.save")}
-                </Button>
-                <Button type="button" variant="outline_gray" className="flex-1" onClick={() => onOpenChange(false)}>
-                    {translate("app.ui.actions.cancel")}
-                </Button>
-            </div>
         </>
     );
 };

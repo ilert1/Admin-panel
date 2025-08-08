@@ -13,9 +13,16 @@ interface CreateMerchantDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
     merchantId: string;
-    directionName: string;
+    directionName: UniqunessDirectionType;
+    prevData: UniquenessResponse;
 }
-export const AddUniqunessDialog = ({ open, onOpenChange, merchantId, directionName }: CreateMerchantDialogProps) => {
+export const AddUniqunessDialog = ({
+    open,
+    onOpenChange,
+    merchantId,
+    directionName,
+    prevData
+}: CreateMerchantDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -32,8 +39,8 @@ export const AddUniqunessDialog = ({ open, onOpenChange, merchantId, directionNa
                         onOpenChange={onOpenChange}
                         merchantId={merchantId}
                         directionName={directionName}
+                        prevData={prevData}
                     />
-                    {/* <CreateMapping onOpenChange={onOpenChange} /> */}
                 </DialogHeader>
 
                 <DialogFooter />

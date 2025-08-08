@@ -24,23 +24,23 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
 
     const { id } = props;
 
-    const [buttonDisabled, setButtonDisabled] = useState(false);
     const [addUniquenessModalOpen, setAddUniquenessModalOpen] = useState(false);
-    const [uniqunessDirection, setUniqunessDirection] = useState("deposit");
+    const [uniqunessDirection, setUniqunessDirection] = useState<UniqunessDirectionType>("deposit");
 
     const { data, isLoading } = useQuery({
         queryKey: ["merchantUniqueness", id],
         queryFn: () => dataProvider.getMerchantUniqueness(id),
-        enabled: !!id
+        enabled: !!id,
+        select: data => data?.[0]
     });
 
-    const uniqunessColumns: ColumnDef<{ [key: string]: string }>[] = [
+    const uniqunessColumns: ColumnDef<UniqunessItem>[] = [
         {
             id: "mode",
             accessorKey: "mode",
             header: translate("resources.merchant.uniqueness.columns.mode"),
             cell: ({ row }) => {
-                return <TextField text={row.original.mode} copyValue />;
+                return <TextField text={row.original.mode} />;
             }
         },
         {
@@ -48,7 +48,7 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
             accessorKey: "minmax",
             header: translate("resources.merchant.uniqueness.columns.minmax"),
             cell: ({ row }) => {
-                return <TextField text={row.original.min + " - " + row.original.max} copyValue />;
+                return <TextField text={row.original.min + " - " + row.original.max} />;
             }
         },
         {
@@ -56,12 +56,13 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
             accessorKey: "chance",
             header: translate("resources.merchant.uniqueness.columns.chance"),
             cell: ({ row }) => {
-                return <TextField text={row.original.chance} copyValue />;
+                return <TextField text={String(row.original.chance)} />;
             }
         }
     ];
+    console.log(data);
 
-    if (isLoading) {
+    if (isLoading || !data) {
         return <Loading />;
     }
 
@@ -76,16 +77,14 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
                         <UniqunessActivityButton
                             id={id}
                             directionName="deposit"
-                            activityState={data?.[0].uniqueness?.deposit?.enable ?? false}
+                            activityState={data?.uniqueness?.deposit?.enable ?? false}
                             isFetching={isLoading}
-                            disabled={
-                                !data?.[0].uniqueness?.deposit || !Object.keys(data?.[0].uniqueness?.deposit).length
-                            }
+                            disabled={!data?.uniqueness?.deposit || !Object.keys(data?.uniqueness?.deposit).length}
                         />
                     </div>
                     <SimpleTable
                         columns={uniqunessColumns}
-                        data={data?.[0].uniqueness?.deposit || []}
+                        data={data?.uniqueness?.deposit ? [data?.uniqueness?.deposit] : []}
                         tableType={TableTypes.COLORED}
                         className="overflow-hidden"
                         notFoundMessage={
@@ -107,16 +106,14 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
                         <UniqunessActivityButton
                             id={id}
                             directionName="withdraw"
-                            activityState={data?.[0].uniqueness?.withdraw?.enable ?? false}
+                            activityState={data?.uniqueness?.withdraw?.enable ?? false}
                             isFetching={isLoading}
-                            disabled={
-                                !data?.[0].uniqueness?.withdraw || !Object.keys(data?.[0].uniqueness?.withdraw).length
-                            }
+                            disabled={!data?.uniqueness?.withdraw || !Object.keys(data?.uniqueness?.withdraw).length}
                         />
                     </div>
                     <SimpleTable
                         columns={uniqunessColumns}
-                        data={data?.[0].uniqueness?.withdraw || []}
+                        data={data?.uniqueness?.withdraw ? [data?.uniqueness?.withdraw] : []}
                         tableType={TableTypes.COLORED}
                         className="overflow-hidden"
                         notFoundMessage={
@@ -136,6 +133,7 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
                 onOpenChange={setAddUniquenessModalOpen}
                 merchantId={id}
                 directionName={uniqunessDirection}
+                prevData={data}
             />
         </>
     );
