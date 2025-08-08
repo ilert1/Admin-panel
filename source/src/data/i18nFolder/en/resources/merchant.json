@@ -21,6 +21,15 @@
     "resources.merchant.success": {
         "create": "Merchant %{name} has been successfully created."
     },
+    "resources.merchant.uniqueness": {
+        "deposit": "Deposit",
+        "withdraw": "Withdraw",
+        "columns": {
+            "mode": "Uniqueness mode",
+            "minmax": "Scatter threshold from - to",
+            "chance": "Success chance"
+        }
+    },
     "resources.merchant.notFoundMessage": "Merchants not found.",
     "resources.merchant.selectPlaceholder": "Select merchant",
     "resources.merchant.showTitle": "Detailed information about merchant",

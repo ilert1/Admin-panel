@@ -7,13 +7,15 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { MerchantCreate } from "../../create";
+import { UniqunessCreate } from "../../create/Merchant/UniqunessCreate";
 
 interface CreateMerchantDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
+    merchantId: string;
+    directionName: string;
 }
-export const CreateMerchantDialog = ({ open, onOpenChange }: CreateMerchantDialogProps) => {
+export const AddUniqunessDialog = ({ open, onOpenChange, merchantId, directionName }: CreateMerchantDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -23,12 +25,15 @@ export const CreateMerchantDialog = ({ open, onOpenChange }: CreateMerchantDialo
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">
-                        {translate("resources.merchant.creatingMerchant")}
+                        {/* {translate("resources.callbridge.mapping.creatingMapping")} */}
                     </DialogTitle>
-
                     <DialogDescription />
-
-                    <MerchantCreate onOpenChange={onOpenChange} />
+                    <UniqunessCreate
+                        onOpenChange={onOpenChange}
+                        merchantId={merchantId}
+                        directionName={directionName}
+                    />
+                    {/* <CreateMapping onOpenChange={onOpenChange} /> */}
                 </DialogHeader>
 
                 <DialogFooter />

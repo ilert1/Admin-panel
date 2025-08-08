@@ -17,6 +17,7 @@ import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog
 import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { useFetchDictionaries } from "@/hooks";
+import { UniquenessTable } from "./UniquenessTable";
 
 interface MerchantShowProps {
     id: string;
@@ -135,6 +136,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             />
                         )}
                     </div>
+                    <UniquenessTable id={id} />
                 </div>
             </div>
             <EditMerchantDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />

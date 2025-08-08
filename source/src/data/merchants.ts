@@ -24,6 +24,8 @@ import {
 import { Merchant, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 
+const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
+
 export class MerchantsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Merchant>> {
         const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
@@ -260,6 +262,47 @@ export class MerchantsDataProvider extends IBaseDataProvider {
             throw new Error(res.data.error?.error_message);
         } else if ("detail" in res.data) {
             throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    async getMerchantUniqueness(id: string, signal?: AbortSignal) {
+        const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
+            method: "GET",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            signal
+        });
+
+        const data = await res.json();
+
+        if ("data" in data && data.success) {
+            return data.data;
+        } else if ("data" in data && !data.success) {
+            throw new Error(data.error?.error_message);
+        } else if ("detail" in data) {
+            throw new Error(data.detail?.[0].msg);
+        }
+    }
+
+    async updateMerchantUniqueness(id: string, direction: string, state: boolean, signal?: AbortSignal) {
+        const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
+            method: "PUT",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            body: JSON.stringify({ uniqueness: { [direction]: { enable: state } } }),
+            signal
+        });
+
+        const data = await res.json();
+
+        if ("data" in data && data.success) {
+            return data.data;
+        } else if ("data" in data && !data.success) {
+            throw new Error(data.error?.error_message);
+        } else if ("detail" in data) {
+            throw new Error(data.detail?.[0].msg);
         }
     }
 }
