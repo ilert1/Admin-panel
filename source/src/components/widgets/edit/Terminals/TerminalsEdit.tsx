@@ -113,7 +113,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             if (data.payment_types) {
                 payment_types = [...data.payment_types];
-                delete data.payment_types;
             }
 
             const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
@@ -121,8 +120,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             await dataProvider.update<TerminalWithId>("terminals", {
                 id,
                 data: {
-                    verbose_name: data.verbose_name,
-                    description: data.description,
+                    ...data,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     allocation_timeout_seconds:
                         data.allocation_timeout_seconds !== undefined ? data.allocation_timeout_seconds : null
@@ -139,14 +137,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                     })
                 )
             );
-
-            await terminalsDataProvider.addPaymentTypes({
-                id,
-                data: {
-                    codes: payment_types
-                },
-                previousData: undefined
-            });
 
             appToast("success", translate("app.ui.edit.editSuccess"));
         } catch (error) {

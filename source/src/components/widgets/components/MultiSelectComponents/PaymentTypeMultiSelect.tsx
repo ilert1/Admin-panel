@@ -11,10 +11,12 @@ interface PaymentTypeMultiSelectProps {
     options?: PaymentTypeModel[];
     label?: boolean;
     modal?: boolean;
+    isLoading?: boolean;
+    disabled?: boolean;
 }
 
 export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
-    const { value, onChange, options, label = true, modal = true } = props;
+    const { value, onChange, options, label = true, modal = true, isLoading, disabled } = props;
     const translate = useTranslate();
 
     const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
@@ -46,6 +48,8 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
                 animation={0}
                 // maxCount={10}
                 modalPopover={modal}
+                isLoading={isLoading}
+                disabled={disabled}
             />
         </div>
     );
