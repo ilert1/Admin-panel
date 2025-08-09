@@ -129,9 +129,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         context.record?.destination?.id
     );
 
-    console.log("context.record", context.record);
-    console.log("data?.transactionTypes", data?.transactionTypes);
-
     return (
         <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
             {permissions === "admin" && (
