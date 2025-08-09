@@ -28,7 +28,8 @@
             "mode": "Режим уникализации",
             "minmax": "Порог разброса от - до",
             "chance": "Шанс срабатывания"
-        }
+        },
+        "add": "Добавить уникализацию"
     },
     "resources.merchant.notFoundMessage": "Мерчанты не найдены.",
     "resources.merchant.selectPlaceholder": "Выберите мерчанта",

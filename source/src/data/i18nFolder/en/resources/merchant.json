@@ -28,7 +28,8 @@
             "mode": "Uniqueness mode",
             "minmax": "Scatter threshold from - to",
             "chance": "Success chance"
-        }
+        },
+        "add": "Add uniqueness"
     },
     "resources.merchant.notFoundMessage": "Merchants not found.",
     "resources.merchant.selectPlaceholder": "Select merchant",

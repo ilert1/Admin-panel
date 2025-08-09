@@ -93,7 +93,7 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
                                     setAddUniquenessModalOpen(true);
                                     setUniqunessDirection("deposit");
                                 }}>
-                                <div>Добавить</div>
+                                <div>{translate("resources.merchant.uniqueness.add")}</div>
                             </Button>
                         }
                     />
@@ -122,7 +122,7 @@ export const UniquenessTable = (props: UniquenessTableProps) => {
                                     setAddUniquenessModalOpen(true);
                                     setUniqunessDirection("withdraw");
                                 }}>
-                                <div>Добавить</div>
+                                <div>{translate("resources.merchant.uniqueness.add")}</div>
                             </Button>
                         }
                     />
