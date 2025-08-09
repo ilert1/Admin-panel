@@ -1,12 +1,4 @@
-import {
-    CustomRoutes,
-    Resource,
-    combineDataProviders,
-    CoreAdminContext,
-    CoreAdminUI,
-    localStorageStore,
-    Store
-} from "react-admin";
+import { CustomRoutes, Resource, combineDataProviders, CoreAdminContext, CoreAdminUI } from "react-admin";
 import { BrowserRouter, Navigate } from "react-router-dom";
 import {
     TransactionDataProvider,
@@ -77,6 +69,7 @@ import { TerminalPaymentInstrumentsList } from "./components/widgets/lists/Termi
 import { FinancialInstitutionProvider } from "./data/financialInstitution";
 import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
+import { initializeStore } from "./helpers/persistentStore";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
@@ -126,73 +119,7 @@ const dataProvider = combineDataProviders(resource => {
 });
 dataProvider.supportAbortSignal = true;
 
-const createPersistentStore = (keyword: string): Store => {
-    const baseStore = localStorageStore(undefined, keyword);
-
-    return {
-        ...baseStore,
-        reset: () => {
-            // Сохраняем нужные ключи
-            const preservedKeys = resources;
-            const preservedData: Record<string, string> = {};
-
-            preservedKeys.forEach(key => {
-                preservedData[key] = baseStore.getItem(`${key}.listParams`);
-            });
-
-            // Выполняем стандартный сброс
-            baseStore.reset();
-
-            // Восстанавливаем данные
-            preservedKeys.forEach(key => {
-                if (preservedData[key] !== undefined) {
-                    baseStore.setItem(`${key}.listParams`, preservedData[key]);
-                }
-            });
-        }
-    };
-};
-
-export const resources = [
-    "accounts",
-    "transactions/view",
-    "withdraw",
-    "users",
-    "merchant",
-    "provider",
-    "terminals",
-    "direction",
-    "currency",
-    "payment_type",
-    "financialInstitution",
-    "systemPaymentInstruments",
-    "terminalPaymentInstruments",
-    "callbridge/v1/mapping",
-    "callbridge/v1/history",
-    "merchant/wallet",
-    "transaction",
-    "reconciliation"
-];
-
-const setListsParams = (store: Store) => {
-    const defaultListParams = {
-        filter: {},
-        order: "ASC",
-        page: 1,
-        perPage: 25,
-        sort: "id"
-    };
-
-    resources.forEach(resource => {
-        if (!store.getItem(`${resource}.listParams`))
-            store.setItem(`${resource}.listParams`, {
-                ...defaultListParams
-            });
-    });
-};
-
-const store = createPersistentStore("backoffice");
-setListsParams(store);
+const persistentStore = initializeStore();
 
 export const App = () => {
     return (
@@ -206,7 +133,7 @@ export const App = () => {
                     i18nProvider={i18nProvider}
                     dataProvider={dataProvider}
                     authProvider={authProvider}
-                    store={store}>
+                    store={persistentStore}>
                     <SheetProvider>
                         <CoreAdminUI
                             disableTelemetry

@@ -119,6 +119,8 @@ declare namespace Transaction {
         final: boolean;
         state_description: string;
         state_int: number;
+        state_ingress_description: string;
+        state_int_ingress: number;
     };
 
     type Result = {
