@@ -7,7 +7,7 @@ export function useFetchDictionaries(): Dictionaries.DataObject | undefined {
 
     const { data } = useQuery<Dictionaries.DataObject>({
         queryKey: ["dictionaries"],
-        enabled: Boolean(user?.name),
+        enabled: Boolean(user && user.sub),
         queryFn: ({ signal }) => dataProvider.getDictionaries("dictionaries", signal),
         staleTime: 1000 * 60 * 10
     });
