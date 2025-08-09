@@ -3,13 +3,15 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { getStateByRole } from "@/helpers/getStateByRole";
 import { useFetchDictionaries } from "@/hooks";
-import { ColumnDef } from "@tanstack/react-table";
-import { useLocaleState, useTranslate } from "react-admin";
+import { ColumnDef, Row } from "@tanstack/react-table";
+import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
 export const useGetTransactionShowColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { permissions } = usePermissions();
     const dataDictionaries = useFetchDictionaries();
     const { openSheet } = useSheets();
 
@@ -83,11 +85,30 @@ export const useGetTransactionShowColumns = () => {
             cell: ({ row }) => {
                 return (
                     translate(
-                        `resources.transactions.states.${row.original.state?.state_description?.toLowerCase()}`
+                        `resources.transactions.${getStateByRole(permissions, dataDictionaries, row.original.state.state_int_ingress, row.original.state.state_int)}`
                     ) || ""
                 );
             }
         },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      accessorKey: "state",
+                      header: translate(
+                          `resources.transactions.fields.state.${permissions !== "admin" ? "title" : "merchant_state"}`
+                      ),
+                      cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
+                          return (
+                              <div className="min-w-28">
+                                  {translate(
+                                      `resources.transactions.${getStateByRole("merchant", dataDictionaries, row.original.state.state_int_ingress)}`
+                                  ) || ""}
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
         {
             id: "source_amount",
             header: translate("resources.transactions.fields.source.amount.sendAmount"),

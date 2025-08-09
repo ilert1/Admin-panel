@@ -191,7 +191,8 @@ declare namespace Transaction {
         updated_at: string;
         type_id: number;
         type_text: string;
-        state_id: number;
+        state_id?: number;
+        state_id_merchant: number;
         state_text: string;
         state_final: boolean;
         participant_id: string;
@@ -300,8 +301,10 @@ declare namespace Users {
 
 declare namespace Dictionaries {
     interface State {
-        state_int: number;
-        state_description: string;
+        state_int?: number;
+        state_description?: string;
+        state_ingress_description: string;
+        state_int_ingress: number;
         final: boolean;
     }
 
@@ -327,6 +330,10 @@ declare namespace Dictionaries {
     }
 
     interface States {
+        [key: string]: State;
+    }
+
+    interface ingressStates {
         [key: string]: State;
     }
 

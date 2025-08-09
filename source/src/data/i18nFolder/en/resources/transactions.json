@@ -18,9 +18,12 @@
         },
         "state": {
             "title": "State",
+            "merchant_state": "Merchant state",
             "final": "Is final",
             "state_int": "Code",
             "state_description": "Status",
+            "state_int_ingress": "Code",
+            "state_ingress_description": "Status",
             "state_changed": "Status changed to:"
         },
         "rateInfo": "Rate",
@@ -165,6 +168,18 @@
         "cascadefail": "Cascade fail",
         "enteredcascade": "Entered cascade",
         "exitedcascade": "Exited cascade",
-        "canceledprovider": "Canceled provider"
+        "canceledprovider": "Canceled provider",
+        "unknown": "Unknown status"
+    },
+    "resources.transactions.merchantStates": {
+        "1": "Registered",
+        "3": "Processing",
+        "4": "Waiting for payout",
+        "5": "Other errors",
+        "6": "No traders found error",
+        "8": "Cancelled by customer",
+        "9": "Payment expired",
+        "10": "Dispute",
+        "unknown": "Unknown status"
     }
 }
