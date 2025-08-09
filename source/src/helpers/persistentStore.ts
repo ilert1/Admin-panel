@@ -1,15 +1,5 @@
 import { localStorageStore, Store } from "react-admin";
 
-export function parseUser(): unknown {
-    try {
-        const userData = localStorage.getItem("user");
-        if (!userData) return undefined;
-        return JSON.parse(userData);
-    } catch (error) {
-        return undefined;
-    }
-}
-
 export const createPersistentStore = (keyword: string, resources: string[]): Store => {
     const baseStore = localStorageStore(undefined, keyword);
 
@@ -87,10 +77,6 @@ export const resources = [
     "reconciliation"
 ];
 export const initializeStore = (): Store | undefined => {
-    /* const user = parseUser();
-    if (!user) return undefined; */
-
     const store = createPersistentStore("backoffice", resources);
-    // setListsParams(store, resources);
     return store;
 };
