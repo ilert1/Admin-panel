@@ -17,11 +17,10 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MerchantsDataProvider } from "@/data";
-import { useQuery } from "@tanstack/react-query";
 
-interface UniqunessCreateProps {
+interface UniqunessEditProps {
     merchantId: string;
     directionName: UniqunessDirectionType;
     onOpenChange: (state: boolean) => void;
@@ -30,7 +29,7 @@ interface UniqunessCreateProps {
 
 const modes = ["percent", "absolute"];
 
-export const UniqunessCreate = (props: UniqunessCreateProps) => {
+export const UniqunessEdit = (props: UniqunessEditProps) => {
     const { merchantId, directionName, onOpenChange, prevData } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -38,13 +37,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const dataProvider = new MerchantsDataProvider();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-    const { data: merchant, isLoading: isloadingUniqueness } = useQuery({
-        queryKey: ["merchant", merchantId],
-        queryFn: ({ signal }) => dataProvider.getMerchantUniqueness(merchantId, signal),
-        enabled: true,
-        select: data => data.data
-    });
 
     const formSchema = z
         .object({
@@ -93,6 +85,30 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             onOpenChange(false);
         }
     };
+
+    useEffect(() => {
+        if (!isLoadingFinancialInstitutionData && financialInstitutionData && isFetchedAfterMount) {
+            const updatedValues = {
+                name: financialInstitutionData.name || "",
+                country_code: financialInstitutionData.country_code || "",
+                legal_name: financialInstitutionData.legal_name || "",
+                nspk_member_id: financialInstitutionData.nspk_member_id || "",
+                bin: financialInstitutionData.bin || "",
+                currencies: financialInstitutionData.currencies?.map(c => c.code) || [],
+                institution_type: financialInstitutionData.institution_type || undefined,
+                payment_types: financialInstitutionData.payment_types?.map(pt => pt.code) || [],
+                meta: JSON.stringify(financialInstitutionData.meta, null, 2) || "{}"
+            };
+
+            setCurrentCountryCodeName(
+                countryCodes.find(code => code.alpha2 === financialInstitutionData.country_code)?.name || ""
+            );
+
+            form.reset(updatedValues);
+            setIsFinished(true);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [financialInstitutionData, isLoadingFinancialInstitutionData, isFetchedAfterMount]);
 
     return (
         <>

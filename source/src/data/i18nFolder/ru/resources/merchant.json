@@ -24,12 +24,18 @@
     "resources.merchant.uniqueness": {
         "deposit": "Пополнение",
         "withdraw": "Вывод",
+        "add": "Добавить уникализацию",
         "columns": {
             "mode": "Режим уникализации",
             "minmax": "Порог разброса от - до",
-            "chance": "Шанс срабатывания"
+            "chance": "Шанс срабатывания",
+            "min": "Минимальное значение, %",
+            "max": "Максимальное значение, %"
         },
-        "add": "Добавить уникализацию"
+        "errors": {
+            "minCantBeLess": "Минимальное значение не может быть больше максимального"
+        },
+        "successMessage": "Уникализация создана успешно"
     },
     "resources.merchant.notFoundMessage": "Мерчанты не найдены.",
     "resources.merchant.selectPlaceholder": "Выберите мерчанта",

@@ -24,12 +24,18 @@
     "resources.merchant.uniqueness": {
         "deposit": "Deposit",
         "withdraw": "Withdraw",
+        "add": "Add uniqueness",
         "columns": {
             "mode": "Uniqueness mode",
             "minmax": "Scatter threshold from - to",
-            "chance": "Success chance"
+            "chance": "Success chance",
+            "min": "Minimum value, %",
+            "max": "Maximum value, %"
         },
-        "add": "Add uniqueness"
+        "errors": {
+            "minCantBeLess": "Minimum value cant be greater then maximum"
+        },
+        "successMessage": "Uniqueness created successfully"
     },
     "resources.merchant.notFoundMessage": "Merchants not found.",
     "resources.merchant.selectPlaceholder": "Select merchant",
