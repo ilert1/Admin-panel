@@ -9,13 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ChangeEvent, DragEvent, useState } from "react";
 import { feesDataProvider, FeesResource, MerchantsDataProvider } from "@/data";
-import { Fees } from "../components/Fees";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useFetchDictionaries } from "@/hooks";
+import { Fees } from "../../components/Fees";
 
 export type FeeType = "inner" | "default";
 

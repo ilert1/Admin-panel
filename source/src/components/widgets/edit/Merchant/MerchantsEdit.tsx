@@ -10,10 +10,10 @@ import { Form, FormItem, FormMessage, FormControl, FormField } from "@/component
 import { useFetchDictionaries, usePreventFocus } from "@/hooks";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { MerchantsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
+import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 
 interface MerchantEditProps {
     id?: string;

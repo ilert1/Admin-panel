@@ -129,7 +129,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     lastChild.classList.add("!pr-[13.3px]", "rounded-r-4");
                 }
             }
-        }, [showClearButton, error, type]);
+        }, [showClearButton, error, type, percentage]);
 
         React.useEffect(() => {
             const handleDocumentClick = (e: MouseEvent) => {
