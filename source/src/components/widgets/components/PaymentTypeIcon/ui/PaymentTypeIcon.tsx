@@ -36,6 +36,7 @@ import WalletPaymentIcon from "@/lib/icons/payment_types/wallet_payment.svg?reac
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TextField } from "@/components/ui/text-field";
 
 const iconsRecord: Record<
     string,
@@ -144,7 +145,7 @@ export const PaymentTypeIcon = memo(
                             </div>
                         </TooltipTrigger>
                         <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                            <p>{type}</p>
+                            <TextField text={type} copyValue lineClamp linesCount={1} minWidth="100%" />
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
@@ -159,7 +160,7 @@ export const PaymentTypeIcon = memo(
                         </div>
                     </TooltipTrigger>
                     <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                        <p>{type}</p>
+                        <TextField text={type} copyValue lineClamp linesCount={1} minWidth="100%" />
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
