@@ -22,20 +22,21 @@
         "create": "Merchant %{name} has been successfully created."
     },
     "resources.merchant.uniqueness": {
+        "uniqueness": "Uniqueness",
         "deposit": "Deposit",
         "withdraw": "Withdraw",
         "add": "Add uniqueness",
         "columns": {
             "mode": "Uniqueness mode",
             "minmax": "Scatter threshold from - to",
-            "chance": "Success chance",
+            "chance": "Success chance, %",
             "min": "Minimum value, %",
             "max": "Maximum value, %"
         },
         "errors": {
             "minCantBeLess": "Minimum value cant be greater then maximum"
         },
-        "successMessage": "Uniqueness created successfully"
+        "successMessage": "Uniqueness saved successfully"
     },
     "resources.merchant.notFoundMessage": "Merchants not found.",
     "resources.merchant.selectPlaceholder": "Select merchant",

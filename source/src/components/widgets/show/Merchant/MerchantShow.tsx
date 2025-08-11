@@ -17,7 +17,7 @@ import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog
 import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { useFetchDictionaries } from "@/hooks";
-import { UniquenessTable } from "./UniquenessTable";
+import { UniquenessDialog } from "./UniquenessDialog";
 
 interface MerchantShowProps {
     id: string;
@@ -34,6 +34,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const appToast = useAppToast();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [uniqeunessOpen, setuniqeunessOpen] = useState(false);
 
     if (!id) {
         appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
@@ -99,6 +100,10 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     </div>
                     <div className="self-end px-[42px]">
                         <div className="flex gap-2">
+                            <Button className="" onClick={() => setuniqeunessOpen(true)}>
+                                Найстройки уникализации
+                                {/* {translate("app.ui.actions.edit")} */}
+                            </Button>
                             <Button className="" onClick={handleEditClicked}>
                                 {translate("app.ui.actions.edit")}
                             </Button>
@@ -136,9 +141,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             />
                         )}
                     </div>
-                    <UniquenessTable id={id} />
                 </div>
             </div>
+            <UniquenessDialog open={uniqeunessOpen} onOpenChange={setuniqeunessOpen} merchantId={id} />
             <EditMerchantDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
             <DeleteMerchantDialog
                 id={id}

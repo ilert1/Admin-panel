@@ -22,6 +22,7 @@
         "create": "Мерчант %{name} успешно создан."
     },
     "resources.merchant.uniqueness": {
+        "uniqueness": "Уникализация",
         "deposit": "Пополнение",
         "withdraw": "Вывод",
         "add": "Добавить уникализацию",
@@ -35,7 +36,7 @@
         "errors": {
             "minCantBeLess": "Минимальное значение не может быть больше максимального"
         },
-        "successMessage": "Уникализация создана успешно"
+        "successMessage": "Уникализация сохранена успешно"
     },
     "resources.merchant.notFoundMessage": "Мерчанты не найдены.",
     "resources.merchant.selectPlaceholder": "Выберите мерчанта",

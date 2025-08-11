@@ -1,5 +1,5 @@
 import { useTranslate, useRefresh } from "react-admin";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 
@@ -17,47 +17,71 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { MerchantsDataProvider } from "@/data";
+import { UniqunessActivityButton } from "../../show/Merchant/UniqunessActivityButton";
+import { LoadingBlock } from "@/components/ui/loading";
 import { useQuery } from "@tanstack/react-query";
+import { ConfirmCloseDialog } from "../../show/Mapping/ConfirmCloseDialog";
 
 interface UniqunessCreateProps {
     merchantId: string;
-    directionName: UniqunessDirectionType;
     onOpenChange: (state: boolean) => void;
-    prevData: UniquenessResponse;
+    confirmCloseDialogOpen: boolean;
+    isSomethingEdited: boolean;
+    setIsSomethingEdited: (state: boolean) => void;
+    saveClicked: boolean;
+    setSaveClicked: (state: boolean) => void;
+    setConfirmDialogOpen: (state: boolean) => void;
 }
 
 const modes = ["percent", "absolute"];
 
 export const UniqunessCreate = (props: UniqunessCreateProps) => {
-    const { merchantId, directionName, onOpenChange, prevData } = props;
+    const {
+        merchantId,
+        onOpenChange,
+        confirmCloseDialogOpen,
+        isSomethingEdited,
+        setIsSomethingEdited,
+        saveClicked,
+        setSaveClicked,
+        setConfirmDialogOpen
+    } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
     const dataProvider = new MerchantsDataProvider();
 
+    const {
+        data: uniquenessData,
+        isLoading,
+        isFetchedAfterMount
+    } = useQuery({
+        queryKey: ["merchantUniqueness", merchantId],
+        queryFn: async () => {
+            const res = await dataProvider.getMerchantUniqueness(merchantId);
+            return res ?? null;
+        },
+        enabled: !!merchantId,
+        select: data => data?.[0] ?? null
+    });
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const { data: merchant, isLoading: isloadingUniqueness } = useQuery({
-        queryKey: ["merchant", merchantId],
-        queryFn: ({ signal }) => dataProvider.getMerchantUniqueness(merchantId, signal),
-        enabled: true,
-        select: data => data.data
-    });
+    const [activityState, setActivityState] = useState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
+    const [activityState2, setActivityState2] = useState(uniquenessData?.uniqueness?.withdraw?.enable ?? false);
 
     const formSchema = z
         .object({
             mode: z.enum(modes as [string, ...string[]]),
-            min: z.coerce.number().refine(val => /^-?\d+(\.\d{1,2})?$/.test(val.toString()), {
-                message: "Можно максимум 2 знака после запятой"
-            }),
-            max: z.coerce.number().refine(val => /^-?\d+(\.\d{1,2})?$/.test(val.toString()), {
-                message: "Можно максимум 2 знака после запятой"
-            }),
-            chance: z.coerce.number().refine(val => /^-?\d+(\.\d{1,2})?$/.test(val.toString()), {
-                message: "Можно максимум 2 знака после запятой"
-            })
+            min: z.coerce.number(),
+            max: z.coerce.number(),
+            chance: z.coerce.number(),
+            mode2: z.enum(modes as [string, ...string[]]),
+            min2: z.coerce.number(),
+            max2: z.coerce.number(),
+            chance2: z.coerce.number()
         })
         .superRefine(({ max, min }, ctx) => {
             if (min > max) {
@@ -72,33 +96,201 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            mode: modes[0],
-            min: 0,
-            max: 0,
-            chance: 0
+            mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
+            min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
+            max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
+            chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
+            mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
+            min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
+            max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
+            chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
         }
     });
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
+        setSaveClicked(true);
         if (submitButtonDisabled) return;
         setSubmitButtonDisabled(true);
         try {
-            dataProvider.updateMerchantUniqueness(merchantId, directionName, prevData.uniqueness, data);
-            appToast("success", "resources.merchant.uniqueness.successMessage");
+            const formData = {
+                deposit: {
+                    mode: data.mode,
+                    min: data.min,
+                    max: data.max,
+                    chance: data.chance,
+                    enable: activityState
+                },
+                withdraw: {
+                    mode: data.mode2,
+                    min: data.min2,
+                    max: data.max2,
+                    chance: data.chance2,
+                    enable: activityState2
+                }
+            };
+            dataProvider.updateMerchantUniqueness(merchantId, formData);
+            appToast("success", translate("resources.merchant.uniqueness.successMessage"));
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
         } finally {
             refresh();
             setSubmitButtonDisabled(false);
             onOpenChange(false);
+            setIsSomethingEdited(false);
         }
     };
+
+    useEffect(() => {
+        if (!isLoading && uniquenessData && isFetchedAfterMount) {
+            const updatedValues = {
+                mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
+                min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
+                max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
+                chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
+                mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
+                min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
+                max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
+                chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
+            };
+            setActivityState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
+            setActivityState2(uniquenessData?.uniqueness?.withdraw?.enable ?? false);
+            form.reset(updatedValues);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [uniquenessData, isLoading, isFetchedAfterMount]);
+
+    const defaultValues = form.getValues();
+    useEffect(() => {
+        const subscription = form.watch(values => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            const changed = Object.keys(values).some(key => values[key] !== defaultValues[key]);
+            setIsSomethingEdited(changed);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [form.watch, defaultValues]);
+
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        mode: "mode" | "mode2",
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        let value = e.target.value;
+
+        value = value.replace(/[^0-9.-]/g, "");
+
+        if (form.getValues(mode) === "percent") {
+            value = value.replace(/-/g, "");
+        } else {
+            if (value.includes("-")) {
+                value = value.replace(/-/g, "");
+                value = "-" + value;
+            }
+        }
+
+        const parts = value.split(".");
+        if (parts.length > 2) {
+            value = parts[0] + "." + parts[1];
+        }
+
+        if (parts.length === 2 && parts[1].length > 2) {
+            parts[1] = parts[1].slice(0, 2);
+            value = parts.join(".");
+        }
+
+        if (/^-?0[0-9]+/.test(value) && !value.startsWith("0.") && !value.startsWith("-0.")) {
+            value = value.replace(/^(-?)0+/, "$1") || "0";
+        }
+
+        if (value === "." || value === "-.") {
+            value = value.replace(".", "0.");
+        }
+
+        const numericValue = parseFloat(value);
+        if (!isNaN(numericValue)) {
+            if (form.getValues(mode) === "percent") {
+                if (numericValue > 100) value = "100";
+                if (numericValue < 0) value = "0";
+            }
+            if (form.getValues(mode) === "absolute") {
+                if (numericValue > 100000) value = "100000";
+            }
+        }
+
+        form.setValue(field.name, numericValue);
+    };
+
+    const handleOnlyPercentInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        let value = e.target.value;
+
+        value = value.replace(/[^0-9.]/g, "");
+
+        const parts = value.split(".");
+        if (parts.length > 2) {
+            value = parts[0] + "." + parts[1];
+        }
+
+        if (parts.length === 2 && parts[1].length > 2) {
+            parts[1] = parts[1].slice(0, 2);
+            value = parts.join(".");
+        }
+
+        if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+
+        if (value === ".") {
+            value = "0.";
+        }
+
+        const numericValue = parseFloat(value);
+        if (!isNaN(numericValue)) {
+            if (numericValue > 100) value = "100";
+            if (numericValue < 0) value = "0";
+        }
+
+        form.setValue(field.name, numericValue);
+    };
+
+    const onCloseFn = () => {
+        setIsSomethingEdited(false);
+        setSaveClicked(false);
+        onOpenChange(false);
+    };
+
+    const onSave = () => {
+        onSubmit(form.getValues());
+    };
+
+    if (isLoading || !uniquenessData) {
+        return (
+            <div className="h-[350px]">
+                <LoadingBlock />
+            </div>
+        );
+    }
 
     return (
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col flex-wrap gap-6">
+                        <div className="flex justify-between">
+                            <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                                {translate("resources.merchant.uniqueness.deposit")}
+                            </h3>
+                            <UniqunessActivityButton
+                                id={merchantId}
+                                directionName="deposit"
+                                activityState={activityState}
+                                setActivityState={setActivityState}
+                                setIsSomethingEdited={setIsSomethingEdited}
+                            />
+                        </div>
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
@@ -106,7 +298,13 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 render={({ field, fieldState }) => (
                                     <FormItem>
                                         <Label>{translate("resources.direction.types.type")}</Label>
-                                        <Select value={field.value} onValueChange={field.onChange}>
+                                        <Select
+                                            value={field.value}
+                                            onValueChange={e => {
+                                                form.setValue("min", 0);
+                                                form.setValue("max", 0);
+                                                field.onChange(e);
+                                            }}>
                                             <FormControl>
                                                 <SelectTrigger
                                                     variant={SelectType.GRAY}
@@ -136,11 +334,19 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                         <FormControl>
                                             <Input
                                                 {...field}
+                                                onChange={e => {
+                                                    handleOnlyPercentInputChange(e, field);
+                                                }}
+                                                value={field.value}
                                                 label={translate("resources.merchant.uniqueness.columns.chance")}
+                                                labelSize="note-1"
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                value={field.value ?? ""}
                                                 variant={InputTypes.GRAY}
+                                                borderColor="border-neutral-60"
+                                                className="max-w-[85%]"
+                                                inputMode="decimal"
+                                                percentage
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -156,41 +362,16 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <Input
                                                     {...field}
                                                     onChange={e => {
-                                                        let value = e.target.value;
-
-                                                        value = value.replace(/[^0-9.-]/g, "");
-
-                                                        if (value.includes("-")) {
-                                                            value = value.replace(/-/g, "");
-                                                            value = "-" + value;
-                                                        }
-
-                                                        const parts = value.split(".");
-                                                        if (parts.length > 2) {
-                                                            value = parts[0] + "." + parts[1];
-                                                        }
-
-                                                        if (parts.length === 2 && parts[1].length > 2) {
-                                                            parts[1] = parts[1].slice(0, 2);
-                                                            value = parts.join(".");
-                                                        }
-
-                                                        if (
-                                                            /^-?0[0-9]+/.test(value) &&
-                                                            !value.startsWith("0.") &&
-                                                            !value.startsWith("-0.")
-                                                        ) {
-                                                            value = value.replace(/^(-?)0+/, "$1") || "0";
-                                                        }
-
-                                                        if (value === "." || value === "-.") {
-                                                            value = value.replace(".", "0.");
-                                                        }
-
-                                                        field.onChange(value);
+                                                        handleInputChange(e, "mode", field);
                                                     }}
                                                     value={field.value}
-                                                    label={translate("resources.merchant.uniqueness.columns.min")}
+                                                    label={
+                                                        form.getValues("mode") === "percent"
+                                                            ? translate("resources.merchant.uniqueness.columns.min")
+                                                            : translate(
+                                                                  "resources.merchant.uniqueness.columns.min"
+                                                              ).split(",")[0]
+                                                    }
                                                     labelSize="note-1"
                                                     error={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
@@ -198,7 +379,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     borderColor="border-neutral-60"
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
-                                                    percentage
+                                                    percentage={form.getValues("mode") === "percent"}
                                                 />
                                             </div>
                                         </FormControl>
@@ -215,41 +396,16 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <Input
                                                     {...field}
                                                     onChange={e => {
-                                                        let value = e.target.value;
-
-                                                        value = value.replace(/[^0-9.-]/g, "");
-
-                                                        if (value.includes("-")) {
-                                                            value = value.replace(/-/g, "");
-                                                            value = "-" + value;
-                                                        }
-
-                                                        const parts = value.split(".");
-                                                        if (parts.length > 2) {
-                                                            value = parts[0] + "." + parts[1];
-                                                        }
-
-                                                        if (parts.length === 2 && parts[1].length > 2) {
-                                                            parts[1] = parts[1].slice(0, 2);
-                                                            value = parts.join(".");
-                                                        }
-
-                                                        if (
-                                                            /^-?0[0-9]+/.test(value) &&
-                                                            !value.startsWith("0.") &&
-                                                            !value.startsWith("-0.")
-                                                        ) {
-                                                            value = value.replace(/^(-?)0+/, "$1") || "0";
-                                                        }
-
-                                                        if (value === "." || value === "-.") {
-                                                            value = value.replace(".", "0.");
-                                                        }
-
-                                                        field.onChange(value);
+                                                        handleInputChange(e, "mode", field);
                                                     }}
                                                     value={field.value}
-                                                    label={translate("resources.merchant.uniqueness.columns.min")}
+                                                    label={
+                                                        form.getValues("mode") === "percent"
+                                                            ? translate("resources.merchant.uniqueness.columns.max")
+                                                            : translate(
+                                                                  "resources.merchant.uniqueness.columns.max"
+                                                              ).split(",")[0]
+                                                    }
                                                     labelSize="note-1"
                                                     error={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
@@ -257,7 +413,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     borderColor="border-neutral-60"
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
-                                                    percentage
+                                                    percentage={form.getValues("mode") === "percent"}
                                                 />
                                             </div>
                                         </FormControl>
@@ -265,9 +421,153 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 )}
                             />
                         </div>
+                        <div className="flex justify-between">
+                            <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                                {translate("resources.merchant.uniqueness.withdraw")}
+                            </h3>
+                            <UniqunessActivityButton
+                                id={merchantId}
+                                directionName="withdraw"
+                                activityState={activityState2}
+                                setActivityState={setActivityState2}
+                                setIsSomethingEdited={setIsSomethingEdited}
+                            />
+                        </div>
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <FormField
+                                control={form.control}
+                                name="mode2"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.types.type")}</Label>
+                                        <Select
+                                            value={field.value}
+                                            onValueChange={e => {
+                                                form.setValue("min2", 0);
+                                                form.setValue("max2", 0);
+                                                field.onChange(e);
+                                            }}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {modes.map(mode => (
+                                                        <SelectItem value={mode} key={mode} variant={SelectType.GRAY}>
+                                                            {mode}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="chance2"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                onChange={e => {
+                                                    handleOnlyPercentInputChange(e, field);
+                                                }}
+                                                value={field.value}
+                                                label={translate("resources.merchant.uniqueness.columns.chance")}
+                                                labelSize="note-1"
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={InputTypes.GRAY}
+                                                borderColor="border-neutral-60"
+                                                className="max-w-[85%]"
+                                                inputMode="decimal"
+                                                percentage
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="min2"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <Input
+                                                    {...field}
+                                                    onChange={e => {
+                                                        handleInputChange(e, "mode2", field);
+                                                    }}
+                                                    value={field.value}
+                                                    label={
+                                                        form.getValues("mode2") === "percent"
+                                                            ? translate("resources.merchant.uniqueness.columns.min")
+                                                            : translate(
+                                                                  "resources.merchant.uniqueness.columns.min"
+                                                              ).split(",")[0]
+                                                    }
+                                                    labelSize="note-1"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    borderColor="border-neutral-60"
+                                                    className="max-w-[85%]"
+                                                    inputMode="decimal"
+                                                    percentage={form.getValues("mode2") === "percent"}
+                                                />
+                                            </div>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="max2"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="">
+                                        <FormControl>
+                                            <div className="relative">
+                                                <Input
+                                                    {...field}
+                                                    onChange={e => {
+                                                        handleInputChange(e, "mode2", field);
+                                                    }}
+                                                    value={field.value}
+                                                    label={
+                                                        form.getValues("mode2") === "percent"
+                                                            ? translate("resources.merchant.uniqueness.columns.max")
+                                                            : translate(
+                                                                  "resources.merchant.uniqueness.columns.max"
+                                                              ).split(",")[0]
+                                                    }
+                                                    labelSize="note-1"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    borderColor="border-neutral-60"
+                                                    className="max-w-[85%]"
+                                                    inputMode="decimal"
+                                                    percentage={form.getValues("mode2") === "percent"}
+                                                />
+                                            </div>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
                         <div className="ml-auto flex w-full flex-col gap-3 space-x-0 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                             <Button
                                 onClick={form.handleSubmit(onSubmit)}
+                                type="submit"
                                 variant="default"
                                 className="flex-1"
                                 disabled={submitButtonDisabled}>
@@ -277,13 +577,27 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 type="button"
                                 variant="outline_gray"
                                 className="flex-1"
-                                onClick={() => onOpenChange(false)}>
+                                onClick={e => {
+                                    e.preventDefault();
+                                    if (!saveClicked && isSomethingEdited) {
+                                        setConfirmDialogOpen(true);
+                                    } else {
+                                        setSaveClicked(false);
+                                        onOpenChange(false);
+                                    }
+                                }}>
                                 {translate("app.ui.actions.cancel")}
                             </Button>
                         </div>
                     </div>
                 </form>
             </Form>
+            <ConfirmCloseDialog
+                open={confirmCloseDialogOpen}
+                onOpenChange={setConfirmDialogOpen}
+                onSave={onSave}
+                onClose={onCloseFn}
+            />
         </>
     );
 };
