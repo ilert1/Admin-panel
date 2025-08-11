@@ -5,6 +5,7 @@
     "pages.settings": {
         "generalInformation": "General information",
         "name": "Name",
+        "loginName": "Login",
         "changePassword": "Change password",
         "login": {
             "loginMethod": "Login method",

@@ -5,6 +5,7 @@
     "pages.settings": {
         "generalInformation": "Общая информация",
         "name": "Имя",
+        "loginName": "Логин",
         "changePassword": "Сменить пароль",
         "login": {
             "loginMethod": "Способ входа",
