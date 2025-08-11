@@ -191,17 +191,36 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     ) => {
         let value = e.target.value;
 
+        const allowNegative =
+            field.name === "max" || field.name === "min" || field.name === "min2" || field.name === "max2";
+
         value = value.replace(/[^0-9.-]/g, "");
 
         if (form.getValues(mode) === "percent") {
-            value = value.replace(/-/g, "");
+            if (!allowNegative) {
+                value = value.replace(/-/g, "");
+            } else {
+                if (value.includes("-")) {
+                    const minusCount = (value.match(/-/g) || []).length;
+                    if (minusCount > 1 || (value.indexOf("-") !== 0 && value.includes("-"))) {
+                        value = value.replace(/-/g, "");
+                        if (value.length > 0) {
+                            value = "-" + value;
+                        }
+                    }
+                }
+            }
         } else {
-            if (value.includes("-")) {
-                const minusCount = (value.match(/-/g) || []).length;
-                if (minusCount > 1 || (value.indexOf("-") !== 0 && value.includes("-"))) {
-                    value = value.replace(/-/g, "");
-                    if (value.length > 0) {
-                        value = "-" + value;
+            if (!allowNegative) {
+                value = value.replace(/-/g, "");
+            } else {
+                if (value.includes("-")) {
+                    const minusCount = (value.match(/-/g) || []).length;
+                    if (minusCount > 1 || (value.indexOf("-") !== 0 && value.includes("-"))) {
+                        value = value.replace(/-/g, "");
+                        if (value.length > 0) {
+                            value = "-" + value;
+                        }
                     }
                 }
             }
@@ -226,12 +245,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
 
         e.target.value = value;
 
-        if (value === "" || value === "-") {
+        if (value === "" || (value === "-" && !allowNegative)) {
             form.setValue(field.name, "");
             return;
         }
 
-        if (value.endsWith(".") || value === "0." || value === "-0.") {
+        if (value.endsWith(".") || value === "0." || value === "-0." || value === "-") {
             form.setValue(field.name, value);
             return;
         }
@@ -245,7 +264,11 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                     finalValue = 100;
                     e.target.value = "100";
                 }
-                if (numericValue < 0) {
+                if (numericValue < -100) {
+                    finalValue = -100;
+                    e.target.value = "-100";
+                }
+                if (!allowNegative && numericValue < 0) {
                     finalValue = 0;
                     e.target.value = "0";
                 }
@@ -254,6 +277,14 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                 if (numericValue > 100000) {
                     finalValue = 100000;
                     e.target.value = "100000";
+                }
+                if (numericValue < -100000) {
+                    finalValue = -100000;
+                    e.target.value = "-100000";
+                }
+                if (!allowNegative && numericValue < 0) {
+                    finalValue = 0;
+                    e.target.value = "0";
                 }
             }
 
