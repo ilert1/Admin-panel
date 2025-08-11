@@ -147,9 +147,35 @@ export const useGetTransactionShowColumns = () => {
         },
         {
             id: "state",
+            accessorKey: "state",
             header: translate("resources.transactions.stateUpdate.fields.state"),
-            cell: ({ row }) => <TextField text={row.original.state.state_description} />
+            cell: ({ row }) => {
+                return (
+                    translate(
+                        `resources.transactions.${getStateByRole(permissions, dataDictionaries, row.original.state.state_int_ingress, row.original.state.state_int)}`
+                    ) || ""
+                );
+            }
         },
+        ...(permissions === "admin"
+            ? [
+                  {
+                      accessorKey: "state",
+                      header: translate(
+                          `resources.transactions.fields.state.${permissions !== "admin" ? "title" : "merchant_state"}`
+                      ),
+                      cell: ({ row }: { row: Row<Transaction.TransactionStateUpdate> }) => {
+                          return (
+                              <div className="min-w-28">
+                                  {translate(
+                                      `resources.transactions.${getStateByRole("merchant", dataDictionaries, row.original.state.state_int_ingress)}`
+                                  ) || ""}
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
         {
             id: "amount",
             header: translate("resources.transactions.stateUpdate.fields.amount"),

@@ -117,9 +117,9 @@ declare namespace Transaction {
 
     type State = {
         final: boolean;
-        state_description: string;
-        state_int: number;
-        state_ingress_description: string;
+        state_description?: string;
+        state_int?: number;
+        state_ingress_description?: string;
         state_int_ingress: number;
     };
 
@@ -211,8 +211,10 @@ declare namespace Transaction {
     type TransactionStateUpdate = {
         id: string;
         state: {
-            state_int: number;
-            state_description: string;
+            state_int?: number;
+            state_int_ingress: number;
+            state_description?: string;
+            state_ingress_description?: string;
             final: boolean;
         };
         amount: {
@@ -303,7 +305,7 @@ declare namespace Dictionaries {
     interface State {
         state_int?: number;
         state_description?: string;
-        state_ingress_description: string;
+        state_ingress_description?: string;
         state_int_ingress: number;
         final: boolean;
     }

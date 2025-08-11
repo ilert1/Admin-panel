@@ -243,7 +243,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 <TextField
                     label={translate("resources.transactions.fields.state.state_description")}
                     text={translate(
-                        `resources.transactions.${getStateByRole(permissions, data, context.record.state.state_int_ingress, context.record.state.state_int)}}`
+                        `resources.transactions.${getStateByRole(permissions, data, context.record.state.state_int_ingress, context.record.state.state_int)}`
                     )}
                 />
                 {permissions === "admin" && (

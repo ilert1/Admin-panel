@@ -17,8 +17,8 @@
             "customer_id": "Customer ID"
         },
         "state": {
-            "title": "State",
-            "merchant_state": "Merchant state",
+            "title": "Status",
+            "merchant_state": "Merchant status",
             "final": "Is final",
             "state_int": "Code",
             "state_description": "Status",
