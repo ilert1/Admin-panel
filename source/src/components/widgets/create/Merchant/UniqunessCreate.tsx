@@ -357,7 +357,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 name="mode"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <Label>{translate("resources.direction.types.type")}</Label>
+                                        <Label>{translate("resources.merchant.uniqueness.columns.mode")}</Label>
                                         <Select
                                             value={field.value}
                                             onValueChange={e => {
@@ -403,7 +403,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 variant={InputTypes.GRAY}
-                                                borderColor="border-neutral-60"
                                                 className="max-w-[85%]"
                                                 inputMode="decimal"
                                                 percentage
@@ -436,7 +435,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     error={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
                                                     variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode") === "percent"}
@@ -470,7 +468,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     error={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
                                                     variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode") === "percent"}
@@ -499,7 +496,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 name="mode2"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <Label>{translate("resources.direction.types.type")}</Label>
+                                        <Label>{translate("resources.merchant.uniqueness.columns.mode")}</Label>
                                         <Select
                                             value={field.value}
                                             onValueChange={e => {
@@ -545,7 +542,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
                                                 variant={InputTypes.GRAY}
-                                                borderColor="border-neutral-60"
                                                 className="max-w-[85%]"
                                                 inputMode="decimal"
                                                 percentage
@@ -578,7 +574,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     error={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
                                                     variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode2") === "percent"}
@@ -612,7 +607,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     error={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
                                                     variant={InputTypes.GRAY}
-                                                    borderColor="border-neutral-60"
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode2") === "percent"}

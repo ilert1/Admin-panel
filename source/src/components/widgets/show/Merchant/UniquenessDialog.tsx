@@ -44,7 +44,7 @@ export const UniquenessDialog = ({ open, onOpenChange, merchantId }: UniquenessD
                     className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                     <DialogHeader>
                         <DialogTitle className="mb-4 text-center !text-display-1">
-                            {translate("resources.merchant.uniqueness.uniqueness")}
+                            {translate("resources.merchant.uniqueness.uniquenessTitle")}
                         </DialogTitle>
                         <DialogDescription />
                         <div className="mt-5 w-full">
