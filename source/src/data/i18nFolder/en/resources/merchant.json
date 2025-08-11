@@ -22,6 +22,7 @@
         "create": "Merchant %{name} has been successfully created."
     },
     "resources.merchant.uniqueness": {
+        "uniquenessTitle": "Uniqueness settings",
         "uniqueness": "Uniqueness",
         "deposit": "Deposit",
         "withdraw": "Withdraw",

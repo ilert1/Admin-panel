@@ -101,8 +101,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     <div className="self-end px-[42px]">
                         <div className="flex gap-2">
                             <Button className="" onClick={() => setuniqeunessOpen(true)}>
-                                Найстройки уникализации
-                                {/* {translate("app.ui.actions.edit")} */}
+                                {translate("resources.merchant.uniqueness.uniquenessTitle")}
                             </Button>
                             <Button className="" onClick={handleEditClicked}>
                                 {translate("app.ui.actions.edit")}

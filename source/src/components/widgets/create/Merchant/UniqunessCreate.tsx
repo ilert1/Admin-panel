@@ -60,8 +60,13 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     } = useQuery({
         queryKey: ["merchantUniqueness", merchantId],
         queryFn: async () => {
-            const res = await dataProvider.getMerchantUniqueness(merchantId);
-            return res ?? null;
+            try {
+                const res = await dataProvider.getMerchantUniqueness(merchantId);
+                return res ?? null;
+            } catch (error) {
+                appToast("error", translate("resources.withdraw.errors.serverError"));
+                onOpenChange(false);
+            }
         },
         enabled: !!merchantId,
         select: data => data?.[0] ?? null
@@ -75,20 +80,27 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const formSchema = z
         .object({
             mode: z.enum(modes as [string, ...string[]]),
-            min: z.coerce.number(),
-            max: z.coerce.number(),
-            chance: z.coerce.number(),
+            min: z.coerce.number().default(0),
+            max: z.coerce.number().default(0),
+            chance: z.coerce.number().default(0),
             mode2: z.enum(modes as [string, ...string[]]),
-            min2: z.coerce.number(),
-            max2: z.coerce.number(),
-            chance2: z.coerce.number()
+            min2: z.coerce.number().default(0),
+            max2: z.coerce.number().default(0),
+            chance2: z.coerce.number().default(0)
         })
-        .superRefine(({ max, min }, ctx) => {
+        .superRefine(({ max, min, min2, max2 }, ctx) => {
             if (min > max) {
                 ctx.addIssue({
                     code: "custom",
                     message: translate("resources.merchant.uniqueness.errors.minCantBeLess"),
                     path: ["min"]
+                });
+            }
+            if (min2 > max2) {
+                ctx.addIssue({
+                    code: "custom",
+                    message: translate("resources.merchant.uniqueness.errors.minCantBeLess"),
+                    path: ["min2"]
                 });
             }
         });
@@ -132,6 +144,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             appToast("success", translate("resources.merchant.uniqueness.successMessage"));
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
+            else appToast("error", translate("resources.merchant.uniqueness.errors.unexpectedError"));
         } finally {
             refresh();
             setSubmitButtonDisabled(false);
@@ -184,8 +197,13 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             value = value.replace(/-/g, "");
         } else {
             if (value.includes("-")) {
-                value = value.replace(/-/g, "");
-                value = "-" + value;
+                const minusCount = (value.match(/-/g) || []).length;
+                if (minusCount > 1 || (value.indexOf("-") !== 0 && value.includes("-"))) {
+                    value = value.replace(/-/g, "");
+                    if (value.length > 0) {
+                        value = "-" + value;
+                    }
+                }
             }
         }
 
@@ -193,7 +211,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         if (parts.length > 2) {
             value = parts[0] + "." + parts[1];
         }
-
         if (parts.length === 2 && parts[1].length > 2) {
             parts[1] = parts[1].slice(0, 2);
             value = parts.join(".");
@@ -207,18 +224,41 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             value = value.replace(".", "0.");
         }
 
-        const numericValue = parseFloat(value);
-        if (!isNaN(numericValue)) {
-            if (form.getValues(mode) === "percent") {
-                if (numericValue > 100) value = "100";
-                if (numericValue < 0) value = "0";
-            }
-            if (form.getValues(mode) === "absolute") {
-                if (numericValue > 100000) value = "100000";
-            }
+        e.target.value = value;
+
+        if (value === "" || value === "-") {
+            form.setValue(field.name, "");
+            return;
         }
 
-        form.setValue(field.name, numericValue);
+        if (value.endsWith(".") || value === "0." || value === "-0.") {
+            form.setValue(field.name, value);
+            return;
+        }
+
+        const numericValue = parseFloat(value);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+
+            if (form.getValues(mode) === "percent") {
+                if (numericValue > 100) {
+                    finalValue = 100;
+                    e.target.value = "100";
+                }
+                if (numericValue < 0) {
+                    finalValue = 0;
+                    e.target.value = "0";
+                }
+            }
+            if (form.getValues(mode) === "absolute") {
+                if (numericValue > 100000) {
+                    finalValue = 100000;
+                    e.target.value = "100000";
+                }
+            }
+
+            form.setValue(field.name, finalValue);
+        }
     };
 
     const handleOnlyPercentInputChange = (
@@ -247,13 +287,33 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             value = "0.";
         }
 
-        const numericValue = parseFloat(value);
-        if (!isNaN(numericValue)) {
-            if (numericValue > 100) value = "100";
-            if (numericValue < 0) value = "0";
+        e.target.value = value;
+
+        if (value === "") {
+            form.setValue(field.name, "");
+            return;
         }
 
-        form.setValue(field.name, numericValue);
+        if (value.endsWith(".") || value === "0.") {
+            form.setValue(field.name, value);
+            return;
+        }
+
+        const numericValue = parseFloat(value);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+
+            if (numericValue > 100) {
+                finalValue = 100;
+                e.target.value = "100";
+            }
+            if (numericValue < 0) {
+                finalValue = 0;
+                e.target.value = "0";
+            }
+
+            form.setValue(field.name, finalValue);
+        }
     };
 
     const onCloseFn = () => {
@@ -421,7 +481,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 )}
                             />
                         </div>
-                        <div className="flex justify-between">
+                        <div className="mt-5 flex justify-between border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                             <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
                                 {translate("resources.merchant.uniqueness.withdraw")}
                             </h3>

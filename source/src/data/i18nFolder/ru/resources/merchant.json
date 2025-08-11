@@ -22,6 +22,7 @@
         "create": "Мерчант %{name} успешно создан."
     },
     "resources.merchant.uniqueness": {
+        "uniquenessTitle": "Настройки уникализации",
         "uniqueness": "Уникализация",
         "deposit": "Пополнение",
         "withdraw": "Вывод",
