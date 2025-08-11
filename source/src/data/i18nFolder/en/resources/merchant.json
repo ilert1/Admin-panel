@@ -32,7 +32,11 @@
             "minmax": "Scatter threshold from - to",
             "chance": "Success chance, %",
             "min": "Minimum value, %",
-            "max": "Maximum value, %"
+            "max": "Maximum value, %",
+            "modes": {
+                "percent": "In percent",
+                "absolute": "In absolute values"
+            }
         },
         "errors": {
             "minCantBeLess": "Minimum value cant be greater then maximum"

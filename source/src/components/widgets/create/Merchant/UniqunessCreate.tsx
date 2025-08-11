@@ -377,7 +377,9 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <SelectGroup>
                                                     {modes.map(mode => (
                                                         <SelectItem value={mode} key={mode} variant={SelectType.GRAY}>
-                                                            {mode}
+                                                            {translate(
+                                                                "resources.merchant.uniqueness.columns.modes." + mode
+                                                            )}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectGroup>
@@ -516,7 +518,9 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <SelectGroup>
                                                     {modes.map(mode => (
                                                         <SelectItem value={mode} key={mode} variant={SelectType.GRAY}>
-                                                            {mode}
+                                                            {translate(
+                                                                "resources.merchant.uniqueness.columns.modes." + mode
+                                                            )}
                                                         </SelectItem>
                                                     ))}
                                                 </SelectGroup>
