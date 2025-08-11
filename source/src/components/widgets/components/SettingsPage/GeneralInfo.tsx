@@ -12,7 +12,7 @@ export const GeneralInfo = () => {
     const [changePasswordDialogOpenClicked, setChangePasswordDialogOpenClicked] = useState(false);
 
     return (
-        <div className="flex min-h-[276px] w-full max-w-[585px] flex-col gap-[20px] rounded-16 bg-white p-[30px] dark:bg-black">
+        <div className="flex w-full max-w-[585px] flex-col gap-[20px] rounded-16 bg-white p-[30px] dark:bg-black">
             <h4 className="w-full text-center text-display-4">{translate("pages.settings.generalInformation")}</h4>
             <div className="grid grid-cols-1 gap-y-[20px] sm:grid-cols-2">
                 <TextField text={identity?.fullName ?? ""} label={translate("pages.settings.name")} copyValue />
