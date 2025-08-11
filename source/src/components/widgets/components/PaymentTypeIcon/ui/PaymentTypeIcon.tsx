@@ -145,7 +145,7 @@ export const PaymentTypeIcon = memo(
                             </div>
                         </TooltipTrigger>
                         <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                            <TextField text={type} copyValue lineClamp linesCount={1} minWidth="100%" />
+                            <p>{type}</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
@@ -160,7 +160,7 @@ export const PaymentTypeIcon = memo(
                         </div>
                     </TooltipTrigger>
                     <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                        <TextField text={type} copyValue lineClamp linesCount={1} minWidth="100%" />
+                        <p>{type}</p>
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>

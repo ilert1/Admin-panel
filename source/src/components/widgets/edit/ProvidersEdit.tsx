@@ -171,6 +171,22 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
                     <FormField
                         control={form.control}
+                        name="payment_types"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <FormControl>
+                                    <PaymentTypeMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={allPaymentTypes || []}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
                         name="methods"
                         render={({ field }) => (
                             <FormItem className="w-full p-2">
@@ -186,22 +202,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                     />
                                 </FormControl>
                                 <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="payment_types"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <FormControl>
-                                    <PaymentTypeMultiSelect
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        options={allPaymentTypes || []}
-                                    />
-                                </FormControl>
                             </FormItem>
                         )}
                     />
