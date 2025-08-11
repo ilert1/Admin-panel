@@ -223,6 +223,22 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
                     <FormField
                         control={form.control}
+                        name="payment_types"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <FormControl>
+                                    <PaymentTypeMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={providerPaymentTypes || []}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
                         name="description"
                         render={({ field }) => (
                             <FormItem className="w-full p-2 sm:w-full">
@@ -256,21 +272,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                     />
                                 </FormControl>
                                 <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="payment_types"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <FormControl>
-                                    <PaymentTypeMultiSelect
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        options={providerPaymentTypes || []}
-                                    />
-                                </FormControl>
                             </FormItem>
                         )}
                     />

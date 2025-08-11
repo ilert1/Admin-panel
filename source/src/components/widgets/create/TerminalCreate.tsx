@@ -228,6 +228,24 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
                         <FormField
                             control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                            isLoading={isLoadingAllPaymentTypes}
+                                            disabled={submitButtonDisabled}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2 sm:w-full">
@@ -264,23 +282,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="payment_types"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <PaymentTypeMultiSelect
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            options={allPaymentTypes || []}
-                                            isLoading={isLoadingAllPaymentTypes}
-                                            disabled={submitButtonDisabled}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"
