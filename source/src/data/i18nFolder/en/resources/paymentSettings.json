@@ -87,7 +87,8 @@
         "createFinancialInstitutionBtn": "Create institution",
         "createFinancialInstitutionTitle": "Create a financial institution",
         "editingFinancialInstitution": "Editing a financial institution",
-        "deleteFinancialInstitution": "Delete financial institution?"
+        "deleteFinancialInstitution": "Delete financial institution?",
+        "deletedFinancialInstitution": "Financial institution deleted successfully"
     },
     "resources.paymentSettings.systemPaymentInstruments": {
         "name": "System Payment Instruments",

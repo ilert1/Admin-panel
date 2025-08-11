@@ -6,11 +6,13 @@ import { DataTable } from "../../shared";
 import { CreateFinancialInstitutionDialog } from "./CreateFinancialInstitutionDialog";
 import { FinancialInstitutionsListFilter } from "./FinancialInstitutionsListFilter";
 import { FinancialInstitutionWithId } from "@/data/financialInstitution";
+import { DeleteFinancialInstitutionDialog } from "../../show/FinancialInstitution/DeleteFinancialInstitutionDialog";
 
 export const FinancialInstitutionList = () => {
     const listContext = useAbortableListController<FinancialInstitutionWithId>({ resource: "financialInstitution" });
 
-    const { columns, createDialogOpen, setCreateDialogOpen } = useGetFinancialInstitutionColumns({ listContext });
+    const { columns, createDialogOpen, setCreateDialogOpen, deleteClicked, chosenId, setDeleteClicked } =
+        useGetFinancialInstitutionColumns({ listContext });
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);
     };
@@ -24,6 +26,12 @@ export const FinancialInstitutionList = () => {
             </ListContextProvider>
 
             <CreateFinancialInstitutionDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+            <DeleteFinancialInstitutionDialog
+                open={deleteClicked}
+                onOpenChange={setDeleteClicked}
+                id={chosenId}
+                onQuickShowOpenChange={setDeleteClicked}
+            />
         </>
     );
 };

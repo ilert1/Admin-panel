@@ -87,7 +87,8 @@
         "createFinancialInstitutionBtn": "Добавить фин. институт",
         "createFinancialInstitutionTitle": "Добавление финансового института",
         "editingFinancialInstitution": "Изменение финансового института",
-        "deleteFinancialInstitution": "Удалить фин. институт?"
+        "deleteFinancialInstitution": "Удалить фин. институт?",
+        "deletedFinancialInstitution": "Финансовый институт успешно удален"
     },
     "resources.paymentSettings.systemPaymentInstruments": {
         "name": "Системные платёжные инструменты",
