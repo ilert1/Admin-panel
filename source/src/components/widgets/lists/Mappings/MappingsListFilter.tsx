@@ -31,7 +31,7 @@ export const MappingsListFilter = ({ setCreateMappingClicked }: MappingsListFilt
     return (
         <>
             <div className="mb-4">
-                <div className="mb-6 flex flex-wrap justify-between gap-2">
+                <div className="mb-4 flex flex-wrap justify-between gap-2 md:mb-6">
                     <ResourceHeaderTitle />
                     <div className="flex flex-col gap-4 sm:flex-row">
                         <Button
@@ -51,7 +51,6 @@ export const MappingsListFilter = ({ setCreateMappingClicked }: MappingsListFilt
                         />
                     </div>
                 </div>
-                <div className="w mb-2 flex gap-2"></div>
 
                 <AnimatedContainer open={openFiltersClicked}>
                     <div className="flex flex-wrap gap-2 md:flex-nowrap">

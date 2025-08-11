@@ -35,12 +35,6 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
 
     return (
         <>
-            <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
-                <div className="md: flex min-w-36 flex-1 flex-col gap-1 sm:max-w-96 md:max-w-60"></div>
-
-                <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]"></div>
-            </div>
-
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <SyncDisplayedFilters />
 

@@ -56,7 +56,7 @@ export const TransactionListFilter = () => {
 
     return (
         <>
-            <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full flex-col">
                 <div className="mb-4 flex flex-wrap justify-between gap-4 md:mb-6">
                     <ResourceHeaderTitle />
 

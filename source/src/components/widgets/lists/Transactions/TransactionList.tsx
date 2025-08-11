@@ -15,7 +15,7 @@ export const TransactionList = () => {
             <ListContextProvider value={listContext}>
                 <SyncDisplayedFilters />
 
-                <div className="mb-4 mt-5">
+                <div className="mb-4">
                     <TransactionListFilter
                     // setChartOpen={setChartOpen}
                     // chartOpen={chartOpen}
