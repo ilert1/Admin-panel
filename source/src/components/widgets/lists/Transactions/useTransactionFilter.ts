@@ -28,6 +28,7 @@ const useTransactionFilter = () => {
     const [merchantValue, setMerchantValue] = useState("");
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
+    const [orderIngressStatusFilter, setOrderIngressStatusFilter] = useState(filterValues?.order_ingress_state || "");
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
@@ -53,7 +54,14 @@ const useTransactionFilter = () => {
     const onPropertySelected = debounce(
         (
             value: string | { from: string; to: string } | number,
-            type: "id" | "customer_payment_id" | "accountId" | "order_type" | "order_state" | "date"
+            type:
+                | "id"
+                | "customer_payment_id"
+                | "accountId"
+                | "order_type"
+                | "order_state"
+                | "order_ingress_state"
+                | "date"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
@@ -92,6 +100,11 @@ const useTransactionFilter = () => {
     const onOrderStatusChanged = (order: string) => {
         setOrderStatusFilter(order);
         onPropertySelected(order, "order_state");
+    };
+
+    const onOrderIngressStatusChanged = (order: string) => {
+        setOrderIngressStatusFilter(order);
+        onPropertySelected(order, "order_ingress_state");
     };
 
     const changeDate = (date: DateRange | undefined) => {
@@ -181,6 +194,8 @@ const useTransactionFilter = () => {
         onCustomerPaymentIdChanged,
         orderStatusFilter,
         onOrderStatusChanged,
+        orderIngressStatusFilter,
+        onOrderIngressStatusChanged,
         merchantData,
         merchantsLoadingProcess,
         merchantId,

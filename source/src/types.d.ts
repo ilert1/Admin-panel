@@ -335,7 +335,7 @@ declare namespace Dictionaries {
         [key: string]: State;
     }
 
-    interface ingressStates {
+    interface IngressStates {
         [key: string]: State;
     }
 
@@ -349,6 +349,7 @@ declare namespace Dictionaries {
         feeTypes: FeeTypes;
         participantType: ParticipantTypes;
         states: States;
+        ingressStates: States;
         transactionTypes: TransactionTypes;
     }
 

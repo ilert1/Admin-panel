@@ -173,10 +173,12 @@
     },
     "resources.transactions.merchantStates": {
         "1": "Registered",
+        "2": "Pending",
         "3": "Processing",
         "4": "Waiting for payout",
         "5": "Other errors",
         "6": "No traders found error",
+        "7": "Amount limits error",
         "8": "Cancelled by customer",
         "9": "Payment expired",
         "10": "Dispute",

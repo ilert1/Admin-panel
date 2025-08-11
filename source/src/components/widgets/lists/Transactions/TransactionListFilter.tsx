@@ -14,7 +14,7 @@ import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { RefreshCw } from "lucide-react";
-import { useLoading, useRefresh } from "react-admin";
+import { useLoading, usePermissions, useRefresh } from "react-admin";
 import clsx from "clsx";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 import useTransactionFilter from "./useTransactionFilter";
@@ -30,6 +30,8 @@ export const TransactionListFilter = () => {
         onCustomerPaymentIdChanged,
         orderStatusFilter,
         onOrderStatusChanged,
+        orderIngressStatusFilter,
+        onOrderIngressStatusChanged,
         merchantData,
         merchantsLoadingProcess,
         merchantId,
@@ -50,9 +52,15 @@ export const TransactionListFilter = () => {
 
     const refresh = useRefresh();
     const loading = useLoading();
+    const { permissions } = usePermissions();
 
-    const clearDiasbled =
-        !operationId && !merchantId && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
+    const clearDisabled =
+        !operationId &&
+        !merchantId &&
+        !customerPaymentId &&
+        !startDate &&
+        !typeTabActive &&
+        (permissions === "admin" ? !orderStatusFilter : !orderIngressStatusFilter);
 
     return (
         <>
@@ -71,7 +79,7 @@ export const TransactionListFilter = () => {
                             typeTabActive,
                             orderStatusFilter
                         ]}
-                        clearButtonDisabled={clearDiasbled}
+                        clearButtonDisabled={clearDisabled}
                         onClearFilters={clearFilters}
                     />
                 </div>
@@ -105,10 +113,15 @@ export const TransactionListFilter = () => {
                             </Label>
 
                             <Select
-                                onValueChange={val =>
-                                    val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
-                                }
-                                value={orderStatusFilter}>
+                                onValueChange={val => {
+                                    if (permissions === "admin")
+                                        return val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("");
+                                    else
+                                        return val !== "null"
+                                            ? onOrderIngressStatusChanged(val)
+                                            : onOrderIngressStatusChanged("");
+                                }}
+                                value={permissions === "admin" ? orderStatusFilter : orderIngressStatusFilter}>
                                 <SelectTrigger className="h-[38px] text-ellipsis">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
@@ -121,17 +134,32 @@ export const TransactionListFilter = () => {
                                     </SelectItem>
 
                                     {dictionaries &&
-                                        Object.keys(dictionaries.states).map(index => (
-                                            <SelectItem
-                                                key={dictionaries.states[index].state_int}
-                                                value={dictionaries.states[index].state_int.toString()}>
-                                                {translate(
-                                                    `resources.transactions.states.${dictionaries?.states?.[
-                                                        index
-                                                    ]?.state_description?.toLowerCase()}`
-                                                )}
-                                            </SelectItem>
-                                        ))}
+                                        (permissions === "admin" && dictionaries.states
+                                            ? Object.keys(dictionaries.states).map(index => (
+                                                  <SelectItem
+                                                      key={dictionaries.states[index]?.state_int}
+                                                      value={dictionaries.states[index]?.state_int?.toString() || ""}>
+                                                      {translate(
+                                                          `resources.transactions.states.${dictionaries?.states?.[
+                                                              index
+                                                          ]?.state_description?.toLowerCase()}`
+                                                      )}
+                                                  </SelectItem>
+                                              ))
+                                            : dictionaries.ingressStates &&
+                                              Object.keys(dictionaries.ingressStates).map(index => (
+                                                  <SelectItem
+                                                      key={dictionaries.ingressStates[index]?.state_int_ingress}
+                                                      value={
+                                                          dictionaries.ingressStates[
+                                                              index
+                                                          ]?.state_int_ingress?.toString() || ""
+                                                      }>
+                                                      {translate(
+                                                          `resources.transactions.merchantStates.${index?.toString()}`
+                                                      )}
+                                                  </SelectItem>
+                                              )))}
                                 </SelectContent>
                             </Select>
                         </div>
