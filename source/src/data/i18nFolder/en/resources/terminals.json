@@ -30,7 +30,8 @@
         "value_error": "The value field is required",
         "allocation_timeout_seconds": "Integer values only",
         "allocation_timeout_seconds_min": "The minimum value is 1",
-        "allocation_timeout_seconds_max": "The maximum value is 120"
+        "allocation_timeout_seconds_max": "The maximum value is 120",
+        "providerHasNoPaymentTypes": "Provider has no payment types, select another provider or add payment types to provider"
     },
     "resources.terminals.success": {
         "create": "Terminal %{name} has been successfully created."

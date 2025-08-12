@@ -49,7 +49,19 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const [availablePaymentTypes, setAvailablePaymentTypes] = useState<PaymentTypeModel[]>([]);
 
     const formSchema = z.object({
-        provider: z.string().min(1, translate("resources.terminals.errors.provider")),
+        provider: z
+            .string()
+            .min(1, translate("resources.terminals.errors.provider"))
+            .refine(val => {
+                if (val) {
+                    const foundProvider = providersData?.find(item => item.name === val);
+                    if (foundProvider?.payment_types?.length === 0) {
+                        return false;
+                    }
+                    return true;
+                }
+                return true;
+            }, translate("resources.terminals.errors.providerHasNoPaymentTypes")),
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")]),
         details: z.string().trim().optional(),
@@ -85,7 +97,16 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
             if (providerFromFilter) {
                 form.setValue("provider", filterValues.provider);
-                setAvailablePaymentTypes(providerFromFilter?.payment_types || []);
+                if (providerFromFilter?.payment_types?.length === 0) {
+                    form.setError("provider", {
+                        type: "",
+                        message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
+                    });
+                    return;
+                } else if (providerFromFilter) {
+                    form.clearErrors("provider");
+                    setAvailablePaymentTypes(providerFromFilter?.payment_types || []);
+                }
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -153,8 +174,19 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const val = form.watch("provider");
     useEffect(() => {
         if (val) {
-            setAvailablePaymentTypes(providersData?.find(item => item.name === val)?.payment_types || []);
+            const foundProvider = providersData?.find(item => item.name === val);
+            if (foundProvider?.payment_types?.length === 0) {
+                form.setError("provider", {
+                    type: "",
+                    message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
+                });
+                return;
+            } else if (val) {
+                form.clearErrors("provider");
+                setAvailablePaymentTypes(foundProvider?.payment_types || []);
+            }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData, val]);
 
     if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
