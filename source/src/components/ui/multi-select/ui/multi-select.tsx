@@ -258,6 +258,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                                     const option = localOptions.find(o => o.value === value);
                                                     const isCustomOption = !options.some(o => o.value === value);
                                                     const IconComponent = option?.icon;
+                                                    console.log(value);
 
                                                     return (
                                                         <Badge
@@ -266,7 +267,8 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                                                 isAnimating ? "animate-bounce" : "",
                                                                 multiSelectVariants({ variant }),
                                                                 "my-0 overflow-x-hidden bg-muted font-normal text-neutral-90 dark:text-neutral-0",
-                                                                isCustomOption ? "border-dashed border-green-40" : ""
+                                                                isCustomOption ? "border-dashed border-green-40" : "",
+                                                                !option && "border-dashed border-red-40"
                                                             )}
                                                             style={{ animationDuration: `${animation}s` }}>
                                                             {IconComponent && (
@@ -285,7 +287,13 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                                                 </span>
                                                             ) : (
                                                                 <span className="max-w-48 overflow-hidden text-ellipsis break-words">
-                                                                    {option?.label}
+                                                                    {!option ? (
+                                                                        <>
+                                                                            <span className="text-red-40">{`! ${value}`}</span>
+                                                                        </>
+                                                                    ) : (
+                                                                        option?.label
+                                                                    )}
                                                                 </span>
                                                             )}
                                                             <XCircle
