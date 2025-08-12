@@ -236,7 +236,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 <TextField
                     label={translate("resources.transactions.fields.state.state_description")}
                     text={translate(
-                        `resources.transactions.states.${context.record.state.state_ingress_description.toLowerCase()}`
+                        `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
                     )}
                 />
                 <div>
