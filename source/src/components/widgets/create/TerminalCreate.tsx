@@ -21,11 +21,10 @@ import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { TerminalCreate as ITerminalCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
 import { useProvidersListWithoutPagination } from "@/hooks";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
-import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface TerminalCreateProps {
     onClose: () => void;
@@ -42,12 +41,12 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const { filterValues } = useListContext();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
-    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [availablePaymentTypes, setAvailablePaymentTypes] = useState<PaymentTypeModel[]>([]);
 
     const formSchema = z.object({
         provider: z.string().min(1, translate("resources.terminals.errors.provider")),
@@ -86,6 +85,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
             if (providerFromFilter) {
                 form.setValue("provider", filterValues.provider);
+                setAvailablePaymentTypes(providerFromFilter?.payment_types || []);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,6 +149,13 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             });
         }
     }, [form, controllerProps.record]);
+
+    const val = form.watch("provider");
+    useEffect(() => {
+        if (val) {
+            setAvailablePaymentTypes(providersData?.find(item => item.name === val)?.payment_types || []);
+        }
+    }, [providersData, val]);
 
     if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
 
@@ -235,8 +242,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                         <PaymentTypeMultiSelect
                                             value={field.value}
                                             onChange={field.onChange}
-                                            options={allPaymentTypes || []}
-                                            isLoading={isLoadingAllPaymentTypes}
+                                            options={availablePaymentTypes || []}
                                             disabled={submitButtonDisabled}
                                         />
                                     </FormControl>
