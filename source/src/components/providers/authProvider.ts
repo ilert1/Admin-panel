@@ -12,9 +12,9 @@ const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 const clearUserData = () => {
-    localStorage.removeItem("access-token");
-    localStorage.removeItem("refresh-token");
     localStorage.removeItem("user");
+    localStorage.removeItem("refresh-token");
+    localStorage.removeItem("access-token");
     sessionStorage.removeItem("testEnvShown");
 };
 

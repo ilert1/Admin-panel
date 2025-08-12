@@ -2,12 +2,14 @@ import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface SimpleTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     tableType?: TableTypes;
     className?: string;
+    notFoundMessage?: ReactNode | string;
 }
 
 export enum TableTypes {
@@ -19,7 +21,8 @@ export function SimpleTable<TData, TValue>({
     columns,
     data,
     tableType = TableTypes.DEFAULT,
-    className = ""
+    className = "",
+    notFoundMessage
 }: SimpleTableProps<TData, TValue>) {
     const translate = useTranslate();
     const table = useReactTable({
@@ -85,7 +88,7 @@ export function SimpleTable<TData, TValue>({
                         <TableCell
                             colSpan={columns.length}
                             className="h-24 bg-white text-center text-neutral-90 dark:bg-black dark:text-neutral-30">
-                            {translate("resources.transactions.undefined")}
+                            {notFoundMessage ? notFoundMessage : translate("resources.transactions.undefined")}
                         </TableCell>
                     </TableRow>
                 )}

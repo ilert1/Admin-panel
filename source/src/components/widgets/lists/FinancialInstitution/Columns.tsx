@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ListControllerResult, useTranslate } from "react-admin";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { Button } from "@/components/ui/Button";
+import { Button, TrashButton } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { EyeIcon } from "lucide-react";
@@ -27,6 +27,9 @@ export const useGetFinancialInstitutionColumns = ({
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [deleteClicked, setDeleteClicked] = useState(false);
+    const [chosenId, setChosenId] = useState("");
+
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
@@ -43,6 +46,11 @@ export const useGetFinancialInstitutionColumns = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listContext.filterValues]);
+
+    const handleDeleteClicked = (id: string) => {
+        setDeleteClicked(true);
+        setChosenId(id);
+    };
 
     const onSubmit = async (id: string, data: Pick<FinancialInstitutionWithId, "nspk_member_id" | "bin">) => {
         try {
@@ -226,6 +234,15 @@ export const useGetFinancialInstitutionColumns = ({
             header: translate("resources.paymentSettings.financialInstitution.fields.country_code")
         },
         {
+            id: "delete_field",
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
+            },
+            cell: ({ row }) => {
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.code)} />;
+            }
+        },
+        {
             id: "show",
             cell: ({ row }) => {
                 return (
@@ -244,6 +261,9 @@ export const useGetFinancialInstitutionColumns = ({
         translate,
         createDialogOpen,
         columns,
-        setCreateDialogOpen
+        setCreateDialogOpen,
+        deleteClicked,
+        chosenId,
+        setDeleteClicked
     };
 };

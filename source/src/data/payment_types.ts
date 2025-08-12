@@ -81,7 +81,7 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {

@@ -87,7 +87,8 @@
         "createFinancialInstitutionBtn": "Create institution",
         "createFinancialInstitutionTitle": "Create a financial institution",
         "editingFinancialInstitution": "Editing a financial institution",
-        "deleteFinancialInstitution": "Delete financial institution?"
+        "deleteFinancialInstitution": "Delete financial institution?",
+        "deletedFinancialInstitution": "Financial institution deleted successfully"
     },
     "resources.paymentSettings.systemPaymentInstruments": {
         "name": "System Payment Instruments",
@@ -222,7 +223,6 @@
         "csvValidationError": "CSV validation error",
         "csvValidationErrorDescription": "Field \"%{field}\": value \"%{input}\" must contain only lowercase Latin letters, digits, and underscores.",
         "noData": "No data found for the specified parameters",
-        "terminals": "Terminals",
-        "terminalsNotFound": "Terminals not found"
+        "terminals": "Terminals"
     }
 }

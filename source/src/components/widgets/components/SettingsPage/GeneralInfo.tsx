@@ -6,17 +6,25 @@ import { ChangePasswordDialog } from "./ChangePasswordDialog";
 
 export const GeneralInfo = () => {
     const translate = useTranslate();
-    const identity = useGetIdentity();
+    const { data: identity } = useGetIdentity();
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
     const [changePasswordDialogOpenClicked, setChangePasswordDialogOpenClicked] = useState(false);
 
     return (
-        <div className="flex min-h-[276px] w-full max-w-[585px] flex-col gap-[20px] rounded-16 bg-white p-[30px] dark:bg-black">
+        <div className="flex w-full max-w-[585px] flex-col gap-[20px] rounded-16 bg-white p-[30px] dark:bg-black">
             <h4 className="w-full text-center text-display-4">{translate("pages.settings.generalInformation")}</h4>
             <div className="grid grid-cols-1 gap-y-[20px] sm:grid-cols-2">
-                <TextField text={identity.data?.fullName ?? ""} label={translate("pages.settings.name")} copyValue />
-                <TextField text={identity.data?.id.toString() ?? ""} label="ID" copyValue />
-                <TextField text={identity.data?.email ?? ""} label="E-mail" />
+                <TextField text={identity?.fullName ?? ""} label={translate("pages.settings.name")} copyValue />
+                {/* <TextField text={identity?.id.toString() ?? ""} label="ID" copyValue /> */}
+                {user?.preferred_username && (
+                    <TextField
+                        text={user?.preferred_username}
+                        label={translate("pages.settings.loginName")}
+                        copyValue
+                    />
+                )}
+                {user?.email && <TextField text={user?.email} label="E-mail" copyValue />}
             </div>
             <div className="flex justify-end">
                 <Button

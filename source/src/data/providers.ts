@@ -68,7 +68,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         const res = await providerEndpointsListProvidersEnigmaV1ProviderGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {

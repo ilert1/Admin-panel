@@ -133,6 +133,10 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
         if (open) {
             if (filterValues?.provider) {
                 setSelectedProvider(filterValues.provider ?? "");
+
+                setSelectedProviderId(
+                    providersList?.find(provider => provider.name === filterValues.provider)?.id ?? ""
+                );
                 queryClient.resetQueries({
                     queryKey: ["terminal", "list"]
                 });
@@ -140,10 +144,16 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                 setSelectedProvider("");
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, filterValues, queryClient]);
 
     useEffect(() => {
-        if (selectedProvider && filterValues?.terminalFilterId && terminalData) {
+        if (
+            selectedProvider &&
+            filterValues?.terminalFilterId &&
+            terminalData &&
+            terminalData.find(terminal => terminal.id === filterValues.terminalFilterId)
+        ) {
             setSelectedTerminals([filterValues.terminalFilterId]);
         } else {
             setSelectedTerminals([]);
@@ -160,7 +170,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                     setFinancialInstitutionCsvFileName("");
                     setCurrencyCsvFileName("");
                     setSelectedTerminals([]);
-
+                    setSelectedProviderId("");
                     clearPaymentTypePicker();
                     clearInstitutionPicker();
                     clearCurrencyPicker();
@@ -199,7 +209,7 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
                                         setSelectedTerminals(value);
                                     }}
                                     label={translate("resources.paymentSettings.reports.terminals")}
-                                    notFoundMessage={translate("resources.paymentSettings.reports.terminalsNotFound")}
+                                    notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                     placeholder={
                                         !selectedProvider
                                             ? translate("app.widgets.multiSelect.selectProviderAtFirst")

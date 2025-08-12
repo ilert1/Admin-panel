@@ -86,7 +86,7 @@ export class TerminalsDataProvider extends IBaseDataProvider {
         const res = await terminalEndpointsAllTerminalsEnigmaV1TerminalGet(
             {
                 currentPage: 1,
-                pageSize: 1000,
+                pageSize: 10000,
                 ...(searchField && searchField.length > 0 && { searchField }),
                 ...(searchString && searchString.length > 0 && { searchString })
             },

@@ -18,7 +18,7 @@ export const AccountList = () => {
             <ListContextProvider value={{ ...listContext }}>
                 <SyncDisplayedFilters />
 
-                <div className="mb-4 mt-5">
+                <div>
                     <AccountListFilter />
                 </div>
 

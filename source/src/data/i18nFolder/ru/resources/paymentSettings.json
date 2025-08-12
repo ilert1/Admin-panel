@@ -87,7 +87,8 @@
         "createFinancialInstitutionBtn": "Добавить фин. институт",
         "createFinancialInstitutionTitle": "Добавление финансового института",
         "editingFinancialInstitution": "Изменение финансового института",
-        "deleteFinancialInstitution": "Удалить фин. институт?"
+        "deleteFinancialInstitution": "Удалить фин. институт?",
+        "deletedFinancialInstitution": "Финансовый институт успешно удален"
     },
     "resources.paymentSettings.systemPaymentInstruments": {
         "name": "Системные платёжные инструменты",
@@ -221,7 +222,6 @@
         "csvValidationError": "Ошибка валидации CSV",
         "csvValidationErrorDescription": "Поле \"%{field}\": значение \"%{input}\" должно содержать только строчные латинские буквы, цифры и подчёркивания.",
         "noData": "По заданным параметрам не найдено данных",
-        "terminals": "Терминалы",
-        "terminalsNotFound": "Термиалов не найдено"
+        "terminals": "Терминалы"
     }
 }

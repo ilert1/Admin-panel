@@ -24,6 +24,8 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
 import { useProvidersListWithoutPagination } from "@/hooks";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface TerminalCreateProps {
     onClose: () => void;
@@ -35,10 +37,13 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
-    const dataProvider = useDataProvider();
-    const controllerProps = useCreateController<TerminalWithId>();
+
     const { theme } = useTheme();
     const { filterValues } = useListContext();
+    const dataProvider = useDataProvider();
+    const controllerProps = useCreateController<TerminalWithId>();
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
@@ -59,7 +64,8 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
                     .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
             )
-            .optional()
+            .optional(),
+        payment_types: z.array(z.string()).optional().default([])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -69,7 +75,8 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             verbose_name: "",
             description: "",
             details: "{}",
-            allocation_timeout_seconds: 2
+            allocation_timeout_seconds: 2,
+            payment_types: []
         }
     });
 
@@ -92,9 +99,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         try {
             const res = await dataProvider.create<TerminalWithId>("terminals", {
                 data: {
-                    provider: data.provider,
-                    verbose_name: data.verbose_name,
-                    description: data.description,
+                    ...data,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     ...(data.allocation_timeout_seconds !== undefined && {
                         allocation_timeout_seconds: data.allocation_timeout_seconds
@@ -223,6 +228,24 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
                         <FormField
                             control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                            isLoading={isLoadingAllPaymentTypes}
+                                            disabled={submitButtonDisabled}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2 sm:w-full">
@@ -259,6 +282,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                 </FormItem>
                             )}
                         />
+
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"

@@ -24,6 +24,8 @@ import {
 import { Merchant, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 
+const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
+
 export class MerchantsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<Merchant>> {
         const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
@@ -66,7 +68,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {
@@ -242,7 +244,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
             id,
             {
                 currentPage: 1,
-                pageSize: 1000,
+                pageSize: 10000,
                 orderBy: "weight",
                 sortOrder: "desc"
             },
@@ -260,6 +262,60 @@ export class MerchantsDataProvider extends IBaseDataProvider {
             throw new Error(res.data.error?.error_message);
         } else if ("detail" in res.data) {
             throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    async getMerchantUniqueness(id: string, signal?: AbortSignal): Promise<UniquenessResponse[] | undefined> {
+        const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
+            method: "GET",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            signal
+        });
+
+        const data = await res.json();
+
+        if ("data" in data && data.success) {
+            return data.data as UniquenessResponse[];
+        } else if ("data" in data && !data.success) {
+            throw new Error(data.error?.error_message);
+        } else if ("detail" in data) {
+            throw new Error(data.detail?.[0].msg);
+        } else if ("error_code" in data && data.error_code === 9002) {
+            throw new Error("Unexpected error");
+        }
+
+        Promise.reject();
+    }
+
+    async updateMerchantUniqueness(
+        id: string,
+        uniqueness: Uniquness,
+        signal?: AbortSignal
+    ): Promise<UniquenessResponse[] | undefined> {
+        const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            body: JSON.stringify({
+                uniqueness: {
+                    ...uniqueness
+                }
+            }),
+            signal
+        });
+
+        const data = await res.json();
+
+        if ("data" in data && data.success) {
+            return data.data;
+        } else if ("data" in data && !data.success) {
+            throw new Error(data.error?.error_message);
+        } else if ("detail" in data) {
+            throw new Error(data.detail?.[0].msg);
         }
     }
 }

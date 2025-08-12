@@ -88,7 +88,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {

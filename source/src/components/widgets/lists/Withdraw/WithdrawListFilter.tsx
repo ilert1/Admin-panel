@@ -174,7 +174,7 @@ export const WithdrawListFilter = () => {
 
             <div>
                 <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex flex-wrap items-center gap-3 text-neutral-60 dark:text-neutral-30">
+                    <div className="mt-2 flex flex-wrap items-center gap-3 text-neutral-60 dark:text-neutral-30">
                         <button
                             className={chooseClassTabActive(0)}
                             onClick={() => onTabChanged(0)}

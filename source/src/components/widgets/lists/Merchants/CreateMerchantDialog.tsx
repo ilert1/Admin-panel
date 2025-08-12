@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { MerchantCreate } from "../../create/MerchantCreate";
+import { MerchantCreate } from "../../create";
 
 interface CreateMerchantDialogProps {
     open: boolean;

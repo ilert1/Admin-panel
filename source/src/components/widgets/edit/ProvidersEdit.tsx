@@ -90,7 +90,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
         if (data.payment_types) {
             payment_types = [...data.payment_types];
-            delete data.payment_types;
         }
 
         const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
@@ -111,14 +110,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                     })
                 )
             );
-
-            await providersDataProvider.addPaymentTypes({
-                id,
-                data: {
-                    codes: payment_types
-                },
-                previousData: undefined
-            });
 
             appToast("success", translate("app.ui.edit.editSuccess"));
             refresh();
@@ -180,6 +171,22 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
                     <FormField
                         control={form.control}
+                        name="payment_types"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <FormControl>
+                                    <PaymentTypeMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={allPaymentTypes || []}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
                         name="methods"
                         render={({ field }) => (
                             <FormItem className="w-full p-2">
@@ -195,22 +202,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                     />
                                 </FormControl>
                                 <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="payment_types"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <FormControl>
-                                    <PaymentTypeMultiSelect
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        options={allPaymentTypes || []}
-                                    />
-                                </FormControl>
                             </FormItem>
                         )}
                     />

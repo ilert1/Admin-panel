@@ -85,7 +85,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
             await systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet(
                 {
                     currentPage: 1,
-                    pageSize: 1000
+                    pageSize: 10000
                 },
                 {
                     headers: {

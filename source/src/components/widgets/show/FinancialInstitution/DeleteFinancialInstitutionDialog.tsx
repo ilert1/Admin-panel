@@ -36,6 +36,10 @@ export const DeleteFinancialInstitutionDialog = ({
                 id
             });
             refresh();
+            appToast(
+                "success",
+                translate("resources.paymentSettings.financialInstitution.deletedFinancialInstitution")
+            );
             onQuickShowOpenChange(false);
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
