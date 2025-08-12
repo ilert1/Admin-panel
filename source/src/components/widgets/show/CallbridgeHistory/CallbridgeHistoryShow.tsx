@@ -8,6 +8,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowMappingSheet } from "../../lists/Mappings/ShowMappingSheet";
 import { SimpleTable } from "../../shared";
+import { Label } from "@/components/ui/label";
 
 interface CallbridgeHistoryShowProps {
     id: string;
@@ -36,7 +37,10 @@ const schema = {
         transaction_id: { type: ["string", "null"], readOnly: true, title: "Transaction ID" },
         next_retry_at: { type: ["string", "null"], format: "date-time", readOnly: true, title: "Next Retry At" },
         trigger_type: { type: ["string", "null"], readOnly: true, title: "Trigger Type" },
-        original_url: { type: ["string", "null"], readOnly: true, title: "Original URL" }
+
+        original_url: { type: ["string", "null"], readOnly: true, title: "Original URL" },
+
+        request_url: { type: ["string", "null"], readOnly: true, title: "Request URL" }
     }
 };
 
@@ -90,6 +94,10 @@ const uischema = {
         {
             type: "HorizontalLayout",
             elements: [{ type: "Control", scope: "#/properties/original_url" }]
+        },
+        {
+            type: "HorizontalLayout",
+            elements: [{ type: "Control", scope: "#/properties/request_url" }]
         }
     ]
 };
@@ -122,6 +130,7 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
 
     const code = queryData?.map(el => JSON.stringify(el, null, "\t")).join(",\n");
 
+    console.log(code);
     const parsedOnceRequest = JSON.parse(formData?.request_body ?? "{}");
     const parsedOnceResponse = JSON.parse(formData?.response_body ?? "{}");
     // changes_history
@@ -143,88 +152,87 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                 />
                 {/* <SimpleTable /> */}
                 {/* <div className="min-h-[200px]"> */}
-                <div className="flex h-28 min-h-[300px] gap-4 overflow-auto pt-0">
-                    <MonacoEditor
-                        disabled
-                        height="h-full"
-                        width="100%"
-                        onMountEditor={() => {}}
-                        onErrorsChange={() => {}}
-                        onValidChange={() => {}}
-                        code={JSON.stringify(formData?.request_headers, null, "\t") ?? ""}
-                        setCode={() => {}}
-                    />
-                    <MonacoEditor
-                        disabled
-                        height="h-full"
-                        width="100%"
-                        onMountEditor={() => {}}
-                        onErrorsChange={() => {}}
-                        onValidChange={() => {}}
-                        code={JSON.stringify(formData?.request_params, null, "\t") ?? ""}
-                        setCode={() => {}}
-                    />
-                </div>
-                <div className="mt-4 flex h-28 min-h-[300px] gap-4 overflow-auto pt-0">
-                    <MonacoEditor
-                        disabled
-                        height="h-full"
-                        width="100%"
-                        onMountEditor={() => {}}
-                        onErrorsChange={() => {}}
-                        onValidChange={() => {}}
-                        // code={JSON.stringify(formData?.request_body, null, "\t") ?? ""}
-                        code={JSON.stringify(parsedOnceRequest, null, "\t") ?? ""}
-                        setCode={() => {}}
-                    />
-                    <MonacoEditor
-                        disabled
-                        height="h-full"
-                        width="100%"
-                        onMountEditor={() => {}}
-                        onErrorsChange={() => {}}
-                        onValidChange={() => {}}
-                        code={JSON.stringify(formData?.request_params, null, "\t") ?? ""}
-                        setCode={() => {}}
-                    />
-                </div>
-                <div className="mt-4 flex h-28 min-h-[300px] gap-4 overflow-auto pt-0">
-                    <MonacoEditor
-                        disabled
-                        height="h-full"
-                        width="100%"
-                        onMountEditor={() => {}}
-                        onErrorsChange={() => {}}
-                        onValidChange={() => {}}
-                        // code={JSON.stringify(JSON.parse(JSON.parse(formData?.response_body ?? "")), null, "\t") ?? ""}
-                        code={JSON.stringify(parsedOnceResponse ?? "", null, "\t")}
-                        setCode={() => {}}
-                    />
-                    <MonacoEditor
-                        disabled
-                        height="h-full"
-                        width="100%"
-                        onMountEditor={() => {}}
-                        onErrorsChange={() => {}}
-                        onValidChange={() => {}}
-                        code={JSON.stringify(formData?.response_headers, null, "\t") ?? ""}
-                        setCode={() => {}}
-                    />
-                </div>
-                {/* <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
-                    <div className="flex h-full flex-col gap-2 px-4 md:px-[42px]">
-                        <MonacoEditor
-                            disabled
-                            height="h-full"
-                            width="100%"
-                            onMountEditor={() => {}}
-                            onErrorsChange={() => {}}
-                            onValidChange={() => {}}
-                            code={code ?? ""}
-                            setCode={() => {}}
-                        />
+                <div className="flex w-full gap-4 overflow-auto pt-0">
+                    <div className="w-full">
+                        <Label variant={"title-2"}>Request Headers</Label>
+                        <div className="h-28 min-h-[300px] w-full">
+                            <MonacoEditor
+                                disabled
+                                height="h-full"
+                                width="100%"
+                                onMountEditor={() => {}}
+                                onErrorsChange={() => {}}
+                                onValidChange={() => {}}
+                                code={JSON.stringify(formData?.request_headers, null, "\t") ?? ""}
+                                setCode={() => {}}
+                            />
+                        </div>
                     </div>
-                </div> */}
+                    <div className="w-full">
+                        <Label variant={"title-2"}>Request Params</Label>
+                        <div className="h-28 min-h-[300px] w-full">
+                            <MonacoEditor
+                                disabled
+                                height="h-full"
+                                width="100%"
+                                onMountEditor={() => {}}
+                                onErrorsChange={() => {}}
+                                onValidChange={() => {}}
+                                code={JSON.stringify(formData?.request_params, null, "\t") ?? ""}
+                                setCode={() => {}}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="flex w-full gap-4 overflow-auto pt-0">
+                    <div className="w-full">
+                        <Label variant={"title-2"}>Request Body</Label>
+                        <div className="h-28 min-h-[300px] w-full">
+                            <MonacoEditor
+                                disabled
+                                height="h-full"
+                                width="100%"
+                                onMountEditor={() => {}}
+                                onErrorsChange={() => {}}
+                                onValidChange={() => {}}
+                                code={JSON.stringify(formData?.request_body, null, "\t") ?? ""}
+                                setCode={() => {}}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="flex w-full gap-4 overflow-auto pt-0">
+                    <div className="w-full">
+                        <Label variant={"title-2"}>Response Body</Label>
+                        <div className="h-28 min-h-[300px] w-full">
+                            <MonacoEditor
+                                disabled
+                                height="h-full"
+                                width="100%"
+                                onMountEditor={() => {}}
+                                onErrorsChange={() => {}}
+                                onValidChange={() => {}}
+                                code={JSON.stringify(parsedOnceResponse ?? "", null, "\t")}
+                                setCode={() => {}}
+                            />
+                        </div>
+                    </div>
+                    <div className="w-full">
+                        <Label variant={"title-2"}>Response Headers</Label>
+                        <div className="h-28 min-h-[300px] w-full">
+                            <MonacoEditor
+                                disabled
+                                height="h-full"
+                                width="100%"
+                                onMountEditor={() => {}}
+                                onErrorsChange={() => {}}
+                                onValidChange={() => {}}
+                                code={JSON.stringify(formData?.response_headers, null, "\t") ?? ""}
+                                setCode={() => {}}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
             <ShowMappingSheet
                 id={formData?.mapping_id ?? ""}
@@ -277,6 +285,4 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
 // 		}
 // 	],
 // 	"request_url": null,
-// 	"response_body": "{\"callback_id\":\"3f1f66ab-68d4-4ece-99b3-8ccf2c68a08e\",\"success\":true,\"provider_state\":{\"id\":\"723c1b82-05f8-4803-97d5-b4cb12477402\",\"external_id\":\"9796066c-280d-4ff5-931d-4734e2e531db\",\"state\":{\"state_int\":14,\"state_description\":\"Expired\",\"final\":true},\"provider\":\"PFU2 Provider\",\"amount\":{\"currency\":null,\"shop_currency\":null,\"value\":{\"quantity\":12121,\"accuracy\":100}},\"fx_rate\":null,\"external_status\":\"cancelled\",\"external_status_details\":\"customer_confirm_timeout\",\"callback_id\":\"3f1f66ab-68d4-4ece-99b3-8ccf2c68a08e\"},\"error\":null,\"is_system_error\":false}",
-// 	"response_headers": {},
 // }
