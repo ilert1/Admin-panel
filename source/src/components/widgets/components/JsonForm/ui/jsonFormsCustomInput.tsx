@@ -1,4 +1,5 @@
-import { ControlProps, withJsonFormsControlProps } from "@jsonforms/react";
+import { withJsonFormsControlProps } from "@jsonforms/react";
+import { ControlProps } from "@jsonforms/core";
 import { Input } from "@/components/ui/Input/input"; // твой компонент
 import { isControl, isIntegerControl, isStringControl, RankedTester, rankWith } from "@jsonforms/core";
 
