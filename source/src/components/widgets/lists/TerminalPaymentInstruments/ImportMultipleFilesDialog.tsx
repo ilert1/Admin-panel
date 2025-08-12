@@ -55,7 +55,11 @@ export const ImportMultipleFilesDialog = (props: ImportMultipleFilesDialogProps)
 
     const { data: terminalData, isLoading: isLoadingTerminals } = useQuery({
         queryKey: ["terminal", "list", selectedProvider],
-        queryFn: () => terminalsDataProvider.getList("terminal", { filter: { provider: selectedProvider } }),
+        queryFn: () =>
+            terminalsDataProvider.getList("terminal", {
+                filter: { provider: selectedProvider },
+                pagination: { page: 1, perPage: 100000 }
+            }),
         enabled: !!selectedProvider,
         select: data => data.data
     });
