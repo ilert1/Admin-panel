@@ -14,7 +14,7 @@ import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { RefreshCw } from "lucide-react";
-import { useLoading, usePermissions, useRefresh } from "react-admin";
+import { useLoading, useRefresh } from "react-admin";
 import clsx from "clsx";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 import useTransactionFilter from "./useTransactionFilter";
@@ -52,7 +52,6 @@ export const TransactionListFilter = () => {
 
     const refresh = useRefresh();
     const loading = useLoading();
-    const { permissions } = usePermissions();
 
     const clearDisabled =
         !operationId &&
@@ -60,7 +59,7 @@ export const TransactionListFilter = () => {
         !customerPaymentId &&
         !startDate &&
         !typeTabActive &&
-        (permissions === "admin" ? !orderStatusFilter : !orderIngressStatusFilter);
+        (adminOnly ? !orderStatusFilter && !orderIngressStatusFilter : !orderIngressStatusFilter);
 
     return (
         <>
@@ -77,7 +76,8 @@ export const TransactionListFilter = () => {
                             customerPaymentId,
                             startDate,
                             typeTabActive,
-                            orderStatusFilter
+                            orderIngressStatusFilter,
+                            ...(adminOnly ? [orderStatusFilter] : [])
                         ]}
                         clearButtonDisabled={clearDisabled}
                         onClearFilters={clearFilters}
