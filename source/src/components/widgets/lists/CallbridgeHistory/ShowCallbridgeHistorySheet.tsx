@@ -2,7 +2,6 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { CallbridgeHistoryShow } from "../../show/CallbridgeHistory/CallbridgeHistoryShow";
-import { TextField } from "@/components/ui/text-field";
 
 interface ShowCallbridgeHistorySheetProps {
     id: string;

@@ -3,23 +3,14 @@ import { ControlProps } from "@jsonforms/core";
 import { Input } from "@/components/ui/Input/input"; // твой компонент
 import { isControl, isIntegerControl, isStringControl, RankedTester, rankWith } from "@jsonforms/core";
 
-const JsonFormsCustomInput = ({
-    data,
-    handleChange,
-    path,
-    label,
-    errors,
-    visible,
-    enabled,
-    description
-}: ControlProps) => {
+const JsonFormsCustomInput = ({ data, label, errors, visible, description }: ControlProps) => {
     if (!visible) return null;
 
     return (
         <div className="mb-2">
             <Input
                 label={label}
-                value={String(data) ?? ""}
+                value={data === null ? "-" : (String(data) ?? "")}
                 error={!!errors}
                 errorMessage={errors}
                 placeholder={description}
