@@ -80,6 +80,7 @@
         "fields": {
             "id": "ID",
             "state": "State",
+            "merchant_state": "Merchant state",
             "amount": "Amount",
             "provider": "Provider",
             "external_id": "External ID",

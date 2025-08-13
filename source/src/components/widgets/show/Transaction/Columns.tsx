@@ -96,9 +96,7 @@ export const useGetTransactionShowColumns = () => {
             ? [
                   {
                       accessorKey: "state",
-                      header: translate(
-                          `resources.transactions.fields.state.${permissions !== "admin" ? "title" : "merchant_state"}`
-                      ),
+                      header: translate(`resources.transactions.fields.state.merchant_state`),
                       cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
                           return (
                               <div className="min-w-28">
@@ -159,11 +157,11 @@ export const useGetTransactionShowColumns = () => {
                 );
             }
         },
-        ...(adminOnly
+        /* ...(adminOnly
             ? [
                   {
                       accessorKey: "state",
-                      header: translate(`resources.transactions.fields.state.title`),
+                      header: translate(`resources.transactions.stateUpdate.fields.merchant_state`),
                       cell: ({ row }: { row: Row<Transaction.TransactionStateUpdate> }) => {
                           return (
                               <div className="min-w-28">
@@ -175,7 +173,7 @@ export const useGetTransactionShowColumns = () => {
                       }
                   }
               ]
-            : []),
+            : []), */
         {
             id: "amount",
             header: translate("resources.transactions.stateUpdate.fields.amount"),

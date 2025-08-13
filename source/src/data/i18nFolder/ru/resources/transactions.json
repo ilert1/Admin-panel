@@ -79,7 +79,8 @@
         "title": "Обновление состояний",
         "fields": {
             "id": "ID",
-            "state": "Статус",
+            "state": "Состояние",
+            "merchant_state": "Состояние (мерчант)",
             "amount": "Сумма",
             "provider": "Провайдер",
             "external_id": "Внешний ID",
