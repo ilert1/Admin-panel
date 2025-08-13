@@ -14,16 +14,18 @@ const TooltipContent = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
     // eslint-disable-next-line react/prop-types
 >(({ className, sideOffset = 4, children, ...props }, ref) => (
-    <TooltipPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        className={cn(
-            "relative z-[60] max-w-60 rounded-md border border-green-40 bg-neutral-0 px-3 py-1.5 text-sm text-neutral-90 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-neutral-100 dark:text-neutral-0",
-            className
-        )}
-        {...props}>
-        {children}
-    </TooltipPrimitive.Content>
+    <TooltipPrimitive.Portal>
+        <TooltipPrimitive.Content
+            ref={ref}
+            sideOffset={sideOffset}
+            className={cn(
+                "relative z-[60] max-w-60 rounded-md border border-green-40 bg-neutral-0 px-3 py-1.5 text-sm text-neutral-90 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-neutral-100 dark:text-neutral-0",
+                className
+            )}
+            {...props}>
+            {children}
+        </TooltipPrimitive.Content>
+    </TooltipPrimitive.Portal>
 ));
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
