@@ -39,12 +39,12 @@ export const useGetPaymentTypes = (props: useGetPaymentTypesProps) => {
             const data = await dataProvider.getOne("provider", { id: provider, signal });
             const types = data.data.payment_types as PaymentTypeModel[];
 
-            if (!types || types.length === 0) {
-                const result = await dataProvider.getListWithoutPagination("payment_type", signal);
-                return result.data as PaymentTypeModel[];
-            }
+            // if (!types || types.length === 0) {
+            //     const result = await dataProvider.getListWithoutPagination("payment_type", signal);
+            //     return result.data as PaymentTypeModel[];
+            // }
 
-            return types;
+            return types ?? [];
         }
     });
 

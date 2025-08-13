@@ -30,7 +30,8 @@
         "value_error": "Поле value обязательное",
         "allocation_timeout_seconds": "Только целочисленные значения",
         "allocation_timeout_seconds_min": "Минимальное значение 1",
-        "allocation_timeout_seconds_max": "Максимальное значение 120"
+        "allocation_timeout_seconds_max": "Максимальное значение 120",
+        "providerHasNoPaymentTypes": "У провайдера нет платежных типов, выберите другого провайдера или добавьте платежные типы к провайдеру"
     },
     "resources.terminals.success": {
         "create": "Терминал %{name} успешно создан."

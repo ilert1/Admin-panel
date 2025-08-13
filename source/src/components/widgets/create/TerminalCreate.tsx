@@ -21,11 +21,10 @@ import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { TerminalCreate as ITerminalCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
 import { useProvidersListWithoutPagination } from "@/hooks";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
-import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface TerminalCreateProps {
     onClose: () => void;
@@ -42,15 +41,27 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const { filterValues } = useListContext();
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
-    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [availablePaymentTypes, setAvailablePaymentTypes] = useState<PaymentTypeModel[]>([]);
 
     const formSchema = z.object({
-        provider: z.string().min(1, translate("resources.terminals.errors.provider")),
+        provider: z
+            .string()
+            .min(1, translate("resources.terminals.errors.provider"))
+            .refine(val => {
+                if (val) {
+                    const foundProvider = providersData?.find(item => item.name === val);
+                    if (foundProvider?.payment_types?.length === 0) {
+                        return false;
+                    }
+                    return true;
+                }
+                return true;
+            }, translate("resources.terminals.errors.providerHasNoPaymentTypes")),
         verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
         description: z.union([z.string().trim(), z.literal("")]),
         details: z.string().trim().optional(),
@@ -86,6 +97,16 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
             if (providerFromFilter) {
                 form.setValue("provider", filterValues.provider);
+                if (providerFromFilter?.payment_types?.length === 0) {
+                    form.setError("provider", {
+                        type: "",
+                        message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
+                    });
+                    return;
+                } else if (providerFromFilter) {
+                    form.clearErrors("provider");
+                    setAvailablePaymentTypes(providerFromFilter?.payment_types || []);
+                }
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,11 +165,38 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     useEffect(() => {
         if (controllerProps.record) {
             form.reset({
+                provider: "",
+                verbose_name: "",
                 description: "",
-                verbose_name: ""
+                details: "{}",
+                allocation_timeout_seconds: 2,
+                payment_types: []
             });
         }
     }, [form, controllerProps.record]);
+
+    const val = form.watch("provider");
+    useEffect(() => {
+        if (val) {
+            const foundProvider = providersData?.find(item => item.name === val);
+            if (foundProvider?.payment_types?.length === 0) {
+                form.setError("provider", {
+                    type: "",
+                    message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
+                });
+                setAvailablePaymentTypes([]);
+                form.resetField("payment_types");
+                return;
+            } else if (val) {
+                form.clearErrors("provider");
+                setAvailablePaymentTypes(foundProvider?.payment_types || []);
+            }
+
+            form.resetField("payment_types");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData, val]);
 
     if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
 
@@ -235,8 +283,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                         <PaymentTypeMultiSelect
                                             value={field.value}
                                             onChange={field.onChange}
-                                            options={allPaymentTypes || []}
-                                            isLoading={isLoadingAllPaymentTypes}
+                                            options={availablePaymentTypes || []}
                                             disabled={submitButtonDisabled}
                                         />
                                     </FormControl>
