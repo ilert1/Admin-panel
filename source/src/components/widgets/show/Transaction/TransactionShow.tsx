@@ -23,6 +23,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
+import { getStateByRole } from "@/helpers/getStateByRole";
 
 interface TransactionShowProps {
     id: string;
@@ -144,13 +145,19 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 </SelectTrigger>
 
                                 <SelectContent className="!max-h-56 bg-neutral-0">
-                                    {states.map(state => (
-                                        <SelectItem key={state.state_int} value={state.state_int.toString()}>
-                                            {translate(
-                                                `resources.transactions.states.${state?.state_description?.toLowerCase()}`
-                                            )}
-                                        </SelectItem>
-                                    ))}
+                                    {states &&
+                                        states.map(
+                                            state =>
+                                                state.state_int && (
+                                                    <SelectItem
+                                                        key={state.state_int}
+                                                        value={state.state_int.toString()}>
+                                                        {translate(
+                                                            `resources.transactions.states.${state?.state_description?.toLowerCase()}`
+                                                        )}
+                                                    </SelectItem>
+                                                )
+                                        )}
                                 </SelectContent>
                             </Select>
 
@@ -236,9 +243,21 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 <TextField
                     label={translate("resources.transactions.fields.state.state_description")}
                     text={translate(
-                        `resources.transactions.states.${context.record.state.state_description.toLowerCase()}`
+                        `resources.transactions.${getStateByRole(permissions, data, context.record.state.state_int_ingress, context.record.state.state_int)}`
                     )}
                 />
+                {permissions === "admin" && (
+                    <TextField
+                        label={translate(
+                            `resources.transactions.fields.state.${permissions !== "admin" ? "title" : "merchant_state"}`
+                        )}
+                        text={
+                            translate(
+                                `resources.transactions.${getStateByRole("merchant", data, context.record.state.state_int_ingress)}`
+                            ) || ""
+                        }
+                    />
+                )}
                 <div>
                     <TextField
                         label={translate("resources.transactions.fields.rateInfo")}

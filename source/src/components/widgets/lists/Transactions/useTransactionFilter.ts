@@ -15,6 +15,8 @@ const useTransactionFilter = () => {
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const appToast = useAppToast();
     const translate = useTranslate();
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -28,11 +30,16 @@ const useTransactionFilter = () => {
     const [merchantValue, setMerchantValue] = useState("");
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
+    const [orderIngressStatusFilter, setOrderIngressStatusFilter] = useState(filterValues?.order_ingress_state || "");
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
-    const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    useEffect(() => {
+        if (!adminOnly) {
+            onPropertySelected("", "order_state");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (merchantData) {
@@ -53,7 +60,14 @@ const useTransactionFilter = () => {
     const onPropertySelected = debounce(
         (
             value: string | { from: string; to: string } | number,
-            type: "id" | "customer_payment_id" | "accountId" | "order_type" | "order_state" | "date"
+            type:
+                | "id"
+                | "customer_payment_id"
+                | "accountId"
+                | "order_type"
+                | "order_state"
+                | "order_ingress_state"
+                | "date"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
@@ -94,6 +108,11 @@ const useTransactionFilter = () => {
         onPropertySelected(order, "order_state");
     };
 
+    const onOrderIngressStatusChanged = (order: string) => {
+        setOrderIngressStatusFilter(order);
+        onPropertySelected(order, "order_ingress_state");
+    };
+
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
             if (date.from && date.to) {
@@ -121,6 +140,7 @@ const useTransactionFilter = () => {
         setMerchantValue("");
         setCustomerPaymentId("");
         setOrderStatusFilter("");
+        setOrderIngressStatusFilter("");
         setTypeTabActive(0);
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -181,6 +201,8 @@ const useTransactionFilter = () => {
         onCustomerPaymentIdChanged,
         orderStatusFilter,
         onOrderStatusChanged,
+        orderIngressStatusFilter,
+        onOrderIngressStatusChanged,
         merchantData,
         merchantsLoadingProcess,
         merchantId,

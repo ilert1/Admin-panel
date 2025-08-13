@@ -30,6 +30,8 @@ export const TransactionListFilter = () => {
         onCustomerPaymentIdChanged,
         orderStatusFilter,
         onOrderStatusChanged,
+        orderIngressStatusFilter,
+        onOrderIngressStatusChanged,
         merchantData,
         merchantsLoadingProcess,
         merchantId,
@@ -51,8 +53,13 @@ export const TransactionListFilter = () => {
     const refresh = useRefresh();
     const loading = useLoading();
 
-    const clearDiasbled =
-        !operationId && !merchantId && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
+    const clearDisabled =
+        !operationId &&
+        !merchantId &&
+        !customerPaymentId &&
+        !startDate &&
+        !typeTabActive &&
+        (adminOnly ? !orderStatusFilter && !orderIngressStatusFilter : !orderIngressStatusFilter);
 
     return (
         <>
@@ -69,9 +76,10 @@ export const TransactionListFilter = () => {
                             customerPaymentId,
                             startDate,
                             typeTabActive,
-                            orderStatusFilter
+                            orderIngressStatusFilter,
+                            ...(adminOnly ? [orderStatusFilter] : [])
                         ]}
-                        clearButtonDisabled={clearDiasbled}
+                        clearButtonDisabled={clearDisabled}
                         onClearFilters={clearFilters}
                     />
                 </div>
@@ -99,16 +107,62 @@ export const TransactionListFilter = () => {
                             />
                         </div>
 
-                        <div className="flex min-w-36 flex-1 flex-col gap-1">
+                        {adminOnly && (
+                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                                <Label variant="title-2" className="mb-0">
+                                    {translate("resources.transactions.filter.filterByOrderStatus")}
+                                </Label>
+
+                                <Select
+                                    onValueChange={val => {
+                                        return val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("");
+                                    }}
+                                    value={orderStatusFilter}>
+                                    <SelectTrigger className="h-[38px] text-ellipsis">
+                                        <SelectValue
+                                            placeholder={translate(
+                                                "resources.transactions.filter.filterAllPlaceholder"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        <SelectItem value="null">
+                                            {translate("resources.transactions.filter.showAll")}
+                                        </SelectItem>
+
+                                        {dictionaries &&
+                                            dictionaries.states &&
+                                            Object.keys(dictionaries.states).map(index => (
+                                                <SelectItem
+                                                    key={dictionaries.states[index]?.state_int}
+                                                    value={dictionaries.states[index]?.state_int?.toString() || ""}>
+                                                    {translate(
+                                                        `resources.transactions.states.${dictionaries?.states?.[
+                                                            index
+                                                        ]?.state_description?.toLowerCase()}`
+                                                    )}
+                                                </SelectItem>
+                                            ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        )}
+
+                        <div className="flex min-w-48 flex-1 flex-col gap-1">
                             <Label variant="title-2" className="mb-0">
-                                {translate("resources.transactions.filter.filterByOrderStatus")}
+                                {adminOnly
+                                    ? translate("resources.transactions.filter.filterByIngressOrderStatus")
+                                    : translate("resources.transactions.filter.filterByOrderStatus")}
                             </Label>
 
                             <Select
-                                onValueChange={val =>
-                                    val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
-                                }
-                                value={orderStatusFilter}>
+                                onValueChange={val => {
+                                    return val !== "null"
+                                        ? onOrderIngressStatusChanged(val)
+                                        : onOrderIngressStatusChanged("");
+                                }}
+                                value={orderIngressStatusFilter}>
                                 <SelectTrigger className="h-[38px] text-ellipsis">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
@@ -121,14 +175,11 @@ export const TransactionListFilter = () => {
                                     </SelectItem>
 
                                     {dictionaries &&
-                                        Object.keys(dictionaries.states).map(index => (
-                                            <SelectItem
-                                                key={dictionaries.states[index].state_int}
-                                                value={dictionaries.states[index].state_int.toString()}>
+                                        dictionaries.ingressStates &&
+                                        Object.keys(dictionaries.ingressStates).map(index => (
+                                            <SelectItem key={index} value={index?.toString() || ""}>
                                                 {translate(
-                                                    `resources.transactions.states.${dictionaries?.states?.[
-                                                        index
-                                                    ]?.state_description?.toLowerCase()}`
+                                                    `resources.transactions.merchantStates.${index?.toString()}`
                                                 )}
                                             </SelectItem>
                                         ))}

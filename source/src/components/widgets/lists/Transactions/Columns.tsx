@@ -2,8 +2,11 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
+import { getStateByRole } from "@/helpers/getStateByRole";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
+import { useFetchDictionaries } from "@/hooks";
+import { useMemo } from "react";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -12,6 +15,8 @@ export const useGetTransactionColumns = () => {
     const [locale] = useLocaleState();
     const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
     const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const data = useFetchDictionaries();
     const { openSheet } = useSheets();
 
     const handleOpenSheet = (id: string) => {
@@ -78,7 +83,7 @@ export const useGetTransactionColumns = () => {
                 />
             )
         },
-        ...(permissions === "admin"
+        ...(adminOnly
             ? [
                   {
                       header: translate("resources.withdraw.fields.merchant"),
@@ -115,8 +120,33 @@ export const useGetTransactionColumns = () => {
         {
             accessorKey: "state",
             header: translate("resources.transactions.fields.state.title"),
-            cell: ({ row }) => translate(`resources.transactions.states.${row.original.state_text.toLowerCase()}`) || ""
+            cell: ({ row }) => (
+                <div className="min-w-28">
+                    {translate(
+                        `resources.transactions.${getStateByRole(permissions, data, row.original.state_id_merchant, row.original.state_id)}`
+                    ) || ""}
+                </div>
+            )
         },
+        ...(adminOnly
+            ? [
+                  {
+                      accessorKey: "state",
+                      header: translate(
+                          `resources.transactions.fields.state.${adminOnly ? "title" : "merchant_state"}`
+                      ),
+                      cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
+                          return (
+                              <div className="min-w-28">
+                                  {translate(
+                                      `resources.transactions.${getStateByRole("merchant", data, row.original.state_id_merchant, row.original.state_id)}`
+                                  ) || ""}
+                              </div>
+                          );
+                      }
+                  }
+              ]
+            : []),
         {
             accessorKey: "sourceValue",
             header: translate("resources.transactions.fields.sourceValue"),

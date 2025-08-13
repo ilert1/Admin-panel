@@ -17,7 +17,8 @@
             "customer_id": "Customer ID"
         },
         "state": {
-            "title": "State",
+            "title": "Status",
+            "merchant_state": "Merchant status",
             "final": "Is final",
             "state_int": "Code",
             "state_description": "Status",
@@ -122,6 +123,7 @@
         "filterByProvider": "Provider",
         "filterAllPlaceholder": "All",
         "filterByOrderStatus": "Order status",
+        "filterByIngressOrderStatus": "Order status (Merchant)",
         "filterByDate": "Select period",
         "clearFilters": "Clear filters",
         "filterCustomerPaymentId": "Search by customer payment ID"
@@ -143,21 +145,13 @@
         "paid": "Paid",
         "fromoutside": "From outside",
         "waitpayout": "Wait payout",
-        "paidout": "Paid out",
-        "toreturnfrominside": "To return from inside",
-        "toreturnfromoutside": "To return from outside",
-        "reversed": "Reversed",
-        "changedfromcreated": "Changed from created",
-        "changedfrompaid": "Changed from paid",
-        "returned": "Returned",
         "todeny": "To deny",
         "processing": "Processing",
         "expired": "Expired",
-        "deleted": "Deleted",
         "success": "Success",
         "succes": "Success",
         "fail": "Fail",
-        "correction": "Correction",
+        "correction": "Dispute",
         "emptyrequisites": "Empty requisites",
         "limitfail": "Limit fail",
         "waitingforadminapproval": "Waiting for admin approval",
@@ -165,6 +159,21 @@
         "cascadefail": "Cascade fail",
         "enteredcascade": "Entered cascade",
         "exitedcascade": "Exited cascade",
-        "canceledprovider": "Canceled provider"
+        "canceledprovider": "Canceled provider",
+        "expiredtime": "Expired time cascade",
+        "unknown": "Unknown status"
+    },
+    "resources.transactions.merchantStates": {
+        "1": "Registered",
+        "2": "Pending",
+        "3": "Processing",
+        "4": "Success",
+        "5": "Other errors",
+        "6": "Empty requisites",
+        "7": "Amount limits error",
+        "8": "Cancelled by customer",
+        "9": "Payment expired",
+        "10": "Dispute",
+        "unknown": "Unknown status"
     }
 }
