@@ -5,10 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { JsonForm } from "../../components/JsonForm";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TextField } from "@/components/ui/text-field";
-import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowMappingSheet } from "../../lists/Mappings/ShowMappingSheet";
 import { SimpleTable } from "../../shared";
 import { Label } from "@/components/ui/label";
+import { CallbridgeHistoryTechnicalInfoShow } from "./CallbridgeHistoryTechnicalInfoShow";
+import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface CallbridgeHistoryShowProps {
     id: string;
@@ -104,7 +105,7 @@ const uischema = {
 
 export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
     const dataProvider = new CallbridgeDataProvider();
-    const [formData, setFormData] = useState<object | null>(null);
+    const [formData, setFormData] = useState<CallbackHistoryRead | null>(null);
     const [openMapping, setOpenMapping] = useState(false);
 
     const { isLoading } = useQuery({
@@ -134,6 +135,19 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
     const parsedOnceRequest = JSON.parse(formData?.request_body ?? "{}");
     const parsedOnceResponse = JSON.parse(formData?.response_body ?? "{}");
     // changes_history
+    const technicalInfo = {
+        // request_body: JSON.parse(formData?.request_body ?? "{}"),
+        // response_body: JSON.parse(formData?.response_body ?? "{}"),
+        request_headers: formData?.request_headers,
+        request_params: formData?.request_params,
+        response_headers: formData?.response_headers
+    };
+
+    const bodies = {
+        request_body: formData?.request_body,
+        response_body: formData?.response_body
+    };
+
     return (
         <>
             <div className="mx-5">
@@ -152,38 +166,7 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                 />
                 {/* <SimpleTable /> */}
                 {/* <div className="min-h-[200px]"> */}
-                <div className="flex w-full gap-4 overflow-auto pt-0">
-                    <div className="w-full">
-                        <Label variant={"title-2"}>Request Headers</Label>
-                        <div className="h-28 min-h-[300px] w-full">
-                            <MonacoEditor
-                                disabled
-                                height="h-full"
-                                width="100%"
-                                onMountEditor={() => {}}
-                                onErrorsChange={() => {}}
-                                onValidChange={() => {}}
-                                code={JSON.stringify(formData?.request_headers, null, "\t") ?? ""}
-                                setCode={() => {}}
-                            />
-                        </div>
-                    </div>
-                    <div className="w-full">
-                        <Label variant={"title-2"}>Request Params</Label>
-                        <div className="h-28 min-h-[300px] w-full">
-                            <MonacoEditor
-                                disabled
-                                height="h-full"
-                                width="100%"
-                                onMountEditor={() => {}}
-                                onErrorsChange={() => {}}
-                                onValidChange={() => {}}
-                                code={JSON.stringify(formData?.request_params, null, "\t") ?? ""}
-                                setCode={() => {}}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <CallbridgeHistoryTechnicalInfoShow technicalInfo={technicalInfo} bodies={bodies} />
                 <div className="flex w-full gap-4 overflow-auto pt-0">
                     <div className="w-full">
                         <Label variant={"title-2"}>Request Body</Label>
@@ -195,13 +178,11 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                                 onMountEditor={() => {}}
                                 onErrorsChange={() => {}}
                                 onValidChange={() => {}}
-                                code={JSON.stringify(formData?.request_body, null, "\t") ?? ""}
+                                code={JSON.stringify(parsedOnceRequest, null, "\t") ?? ""}
                                 setCode={() => {}}
                             />
                         </div>
                     </div>
-                </div>
-                <div className="flex w-full gap-4 overflow-auto pt-0">
                     <div className="w-full">
                         <Label variant={"title-2"}>Response Body</Label>
                         <div className="h-28 min-h-[300px] w-full">
@@ -213,21 +194,6 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                                 onErrorsChange={() => {}}
                                 onValidChange={() => {}}
                                 code={JSON.stringify(parsedOnceResponse ?? "", null, "\t")}
-                                setCode={() => {}}
-                            />
-                        </div>
-                    </div>
-                    <div className="w-full">
-                        <Label variant={"title-2"}>Response Headers</Label>
-                        <div className="h-28 min-h-[300px] w-full">
-                            <MonacoEditor
-                                disabled
-                                height="h-full"
-                                width="100%"
-                                onMountEditor={() => {}}
-                                onErrorsChange={() => {}}
-                                onValidChange={() => {}}
-                                code={JSON.stringify(formData?.response_headers, null, "\t") ?? ""}
                                 setCode={() => {}}
                             />
                         </div>
@@ -284,5 +250,3 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
 // 			}
 // 		}
 // 	],
-// 	"request_url": null,
-// }
