@@ -175,11 +175,13 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     useEffect(() => {
         if (val) {
             const foundProvider = providersData?.find(item => item.name === val);
+            console.log(foundProvider?.payment_types);
             if (foundProvider?.payment_types?.length === 0) {
                 form.setError("provider", {
                     type: "",
                     message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
                 });
+                setAvailablePaymentTypes([]);
                 return;
             } else if (val) {
                 form.clearErrors("provider");
