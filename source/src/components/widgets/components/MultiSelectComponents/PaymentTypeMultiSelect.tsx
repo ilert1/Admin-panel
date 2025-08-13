@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PaymentTypeMultiSelectProps {
     value: string[] | undefined;
@@ -35,6 +35,10 @@ export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
         setSelectedValues(values);
         onChange(values);
     };
+
+    useEffect(() => {
+        setSelectedValues(value || []);
+    }, [value]);
 
     return (
         <div>

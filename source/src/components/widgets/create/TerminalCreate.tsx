@@ -165,8 +165,12 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     useEffect(() => {
         if (controllerProps.record) {
             form.reset({
+                provider: "",
+                verbose_name: "",
                 description: "",
-                verbose_name: ""
+                details: "{}",
+                allocation_timeout_seconds: 2,
+                payment_types: []
             });
         }
     }, [form, controllerProps.record]);
@@ -175,7 +179,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     useEffect(() => {
         if (val) {
             const foundProvider = providersData?.find(item => item.name === val);
-            console.log(foundProvider?.payment_types);
             if (foundProvider?.payment_types?.length === 0) {
                 form.setError("provider", {
                     type: "",
@@ -187,6 +190,8 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 form.clearErrors("provider");
                 setAvailablePaymentTypes(foundProvider?.payment_types || []);
             }
+
+            form.resetField("payment_types");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData, val]);
