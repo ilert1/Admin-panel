@@ -15,6 +15,8 @@ const useTransactionFilter = () => {
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const appToast = useAppToast();
     const translate = useTranslate();
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
@@ -32,8 +34,12 @@ const useTransactionFilter = () => {
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
-    const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    useEffect(() => {
+        if (!adminOnly) {
+            onPropertySelected("", "order_state");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (merchantData) {
@@ -134,6 +140,7 @@ const useTransactionFilter = () => {
         setMerchantValue("");
         setCustomerPaymentId("");
         setOrderStatusFilter("");
+        setOrderIngressStatusFilter("");
         setTypeTabActive(0);
         setFilters({}, displayedFilters, true);
         setPage(1);
