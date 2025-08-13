@@ -459,15 +459,17 @@ interface KecloakRoles {
 }
 
 type UniqunessDirectionType = "deposit" | "withdraw";
+
 interface UniqunessItem {
-    max: number;
-    min: number;
+    max: string;
+    min: string;
     mode: string;
     chance: number;
     enable: boolean;
 }
 
 type UniqunessItemCreateEdit = Partial<UniqunessItem>;
+
 interface Uniquness {
     deposit?: UniqunessItem;
     withdraw?: UniqunessItem;
@@ -487,7 +489,3 @@ interface UniquenessResponse {
 
     uniqueness: Uniquness;
 }
-
-// name: "!Test6"
-// public_key: "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCD+sL0H3fqbyA0oGJnK2f3MIOk\nP4PSbD5MJieCqfQoYlkVb23MZSY77xrydnu4oeNVu4H61B5YFTpmDlbR1A3twTAr\nJxFMLccyg2jimA0me9pm1qbwcVBo/HK2t8weTXklmf+VVRSf4/ljY6B9o7fi5XIm\nvoh32pKDnGhFbsMbFQIDAQAB\n-----END PUBLIC KEY-----"
-// uniqueness: null

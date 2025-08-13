@@ -109,12 +109,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
-            min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
-            max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
+            min: Number(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
+            max: Number(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
             chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
             mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-            min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
-            max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
+            min2: Number(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
+            max2: Number(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
             chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
         }
     });
@@ -127,15 +127,15 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             const formData = {
                 deposit: {
                     mode: data.mode,
-                    min: data.min,
-                    max: data.max,
+                    min: String(data.min),
+                    max: String(data.max),
                     chance: data.chance,
                     enable: activityState
                 },
                 withdraw: {
                     mode: data.mode2,
-                    min: data.min2,
-                    max: data.max2,
+                    min: String(data.min2),
+                    max: String(data.max2),
                     chance: data.chance2,
                     enable: activityState2
                 }
@@ -157,12 +157,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         if (!isLoading && uniquenessData && isFetchedAfterMount) {
             const updatedValues = {
                 mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
-                min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
-                max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
+                min: Number(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
+                max: Number(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
                 chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
                 mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-                min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
-                max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
+                min2: Number(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
+                max2: Number(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
                 chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
             };
             setActivityState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
