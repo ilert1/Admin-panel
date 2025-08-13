@@ -22,10 +22,9 @@ const JsonFormsCustomInput = ({
                 value={String(data) ?? ""}
                 error={!!errors}
                 errorMessage={errors}
-                // onChange={e => handleChange(path, e.target.value)}
-                disabled={!enabled}
                 placeholder={description}
-                className="user-select-text bg-white disabled:dark:bg-muted"
+                className="user-select-text pointer-events-auto"
+                disableControls
             />
         </div>
     );

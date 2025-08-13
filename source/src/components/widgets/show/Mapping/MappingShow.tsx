@@ -25,7 +25,7 @@ import { useFetchDictionaries } from "@/hooks";
 interface MappingShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
-    externalData?: CallbackMappingRead;
+    externalData?: CallbackMappingRead | CallbackHistoryReadMapping;
 }
 
 export const MappingShow = (props: MappingShowProps) => {

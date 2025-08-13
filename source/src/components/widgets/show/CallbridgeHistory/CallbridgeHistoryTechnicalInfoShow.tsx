@@ -9,7 +9,6 @@ import {
     CallbackHistoryReadRequestBody,
     CallbackHistoryReadResponseBody
 } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
-import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 interface CallbridgeHistoryTechnicalInfoShowProps {
@@ -19,8 +18,8 @@ interface CallbridgeHistoryTechnicalInfoShowProps {
         response_headers?: CallbackHistoryReadRequestParams | null;
     };
     bodies: {
-        request_body: CallbackHistoryReadRequestBody;
-        response_body: CallbackHistoryReadResponseBody;
+        request_body?: CallbackHistoryReadRequestBody;
+        response_body?: CallbackHistoryReadResponseBody;
     };
 }
 
@@ -31,7 +30,7 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
     return (
         <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
             <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
-                {translate("resources.provider.fields.methods")}
+                {translate("resources.callbridge.history.show.technicalInfo")}
             </h3>
 
             {Object.keys(technicalInfo).length > 0 ? (
@@ -50,16 +49,18 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
 
                                     <AccordionContent>
                                         {key === "request_body" || key === "response_body" ? (
-                                            <MonacoEditor
-                                                value={JSON.stringify(JSON.parse(body ?? "{}"), null, "\t")}
-                                                language="json"
-                                                options={{
-                                                    readOnly: true,
-                                                    minimap: { enabled: false },
-                                                    scrollBeyondLastLine: false,
-                                                    lineNumbers: "on"
-                                                }}
-                                            />
+                                            <div className="h-28 min-h-[300px] w-full">
+                                                <MonacoEditor
+                                                    disabled
+                                                    height="h-full"
+                                                    width="100%"
+                                                    onMountEditor={() => {}}
+                                                    onErrorsChange={() => {}}
+                                                    onValidChange={() => {}}
+                                                    code={JSON.stringify(JSON.parse(body ?? "{}"), null, "\t")}
+                                                    setCode={() => {}}
+                                                />
+                                            </div>
                                         ) : (
                                             <Table key={key}>
                                                 <TableHeader>
@@ -77,7 +78,7 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                                                 </TableHeader>
 
                                                 <TableBody>
-                                                    {info &&
+                                                    {info && Object.keys(info).length > 0 ? (
                                                         Object.keys(info).map((key, rowIndex) => {
                                                             return (
                                                                 <TableRow className="border-muted" key={key}>
@@ -103,7 +104,14 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                                                                     </TableCell>
                                                                 </TableRow>
                                                             );
-                                                        })}
+                                                        })
+                                                    ) : (
+                                                        <TableRow>
+                                                            <TableCell colSpan={2} className="text-center">
+                                                                {translate("resources.provider.methodNotFound")}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    )}
                                                 </TableBody>
                                             </Table>
                                         )}

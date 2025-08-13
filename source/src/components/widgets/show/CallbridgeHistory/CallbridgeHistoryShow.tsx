@@ -3,110 +3,22 @@ import { CallbridgeDataProvider } from "@/data";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { JsonForm } from "../../components/JsonForm";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TextField } from "@/components/ui/text-field";
 import { ShowMappingSheet } from "../../lists/Mappings/ShowMappingSheet";
-import { SimpleTable } from "../../shared";
-import { Label } from "@/components/ui/label";
 import { CallbridgeHistoryTechnicalInfoShow } from "./CallbridgeHistoryTechnicalInfoShow";
 import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { useGetJsonFormSchemas } from "./useGetJsonFormSchemas";
 
 interface CallbridgeHistoryShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-const schema = {
-    type: "object",
-    properties: {
-        attempts: { type: ["integer", "null"], readOnly: true, title: "Attempts" },
-        callback_id: { type: ["string", "null"], readOnly: true, title: "Callback ID" },
-        status: { type: ["string", "null"], readOnly: true, title: "Status" },
-
-        response_status: { type: ["integer", "null"], readOnly: true, title: "Response Status" },
-        error_message: { type: ["string", "null"], readOnly: true, title: "Error Message" },
-        request_method: { type: ["string", "null"], readOnly: true, title: "Request Method" },
-
-        created_at: { type: ["string", "null"], format: "date-time", readOnly: true, title: "Created At" },
-        delivered_at: { type: ["string", "null"], format: "date-time", readOnly: true, title: "Delivered At" },
-        updated_at: { type: ["string", "null"], format: "date-time", readOnly: true, title: "Updated At" },
-
-        external_order_id: { type: ["string", "null"], readOnly: true, title: "External Order ID" },
-        id: { type: ["string", "null"], readOnly: true, title: "ID" },
-        mapping_id: { type: ["string", "null"], readOnly: true, title: "Mapping ID" },
-
-        transaction_id: { type: ["string", "null"], readOnly: true, title: "Transaction ID" },
-        next_retry_at: { type: ["string", "null"], format: "date-time", readOnly: true, title: "Next Retry At" },
-        trigger_type: { type: ["string", "null"], readOnly: true, title: "Trigger Type" },
-
-        original_url: { type: ["string", "null"], readOnly: true, title: "Original URL" },
-
-        request_url: { type: ["string", "null"], readOnly: true, title: "Request URL" }
-    }
-};
-
-const uischema = {
-    type: "VerticalLayout",
-    elements: [
-        {
-            type: "HorizontalLayout",
-            elements: [
-                {
-                    type: "Control",
-                    scope: "#/properties/attempts"
-                },
-                { type: "Control", scope: "#/properties/callback_id" },
-                { type: "Control", scope: "#/properties/status" }
-            ]
-        },
-        {
-            type: "HorizontalLayout",
-
-            elements: [
-                { type: "Control", scope: "#/properties/response_status" },
-                { type: "Control", scope: "#/properties/error_message" },
-                { type: "Control", scope: "#/properties/request_method" }
-            ]
-        },
-        {
-            type: "HorizontalLayout",
-            elements: [
-                { type: "Control", scope: "#/properties/created_at" },
-                { type: "Control", scope: "#/properties/delivered_at" },
-                { type: "Control", scope: "#/properties/updated_at" }
-            ]
-        },
-        {
-            type: "HorizontalLayout",
-            elements: [
-                { type: "Control", scope: "#/properties/external_order_id" },
-                { type: "Control", scope: "#/properties/id" },
-                { type: "Control", scope: "#/properties/mapping_id" }
-            ]
-        },
-        {
-            type: "HorizontalLayout",
-            elements: [
-                { type: "Control", scope: "#/properties/transaction_id" },
-                { type: "Control", scope: "#/properties/next_retry_at" },
-                { type: "Control", scope: "#/properties/trigger_type" }
-            ]
-        },
-        {
-            type: "HorizontalLayout",
-            elements: [{ type: "Control", scope: "#/properties/original_url" }]
-        },
-        {
-            type: "HorizontalLayout",
-            elements: [{ type: "Control", scope: "#/properties/request_url" }]
-        }
-    ]
-};
-
 export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
     const dataProvider = new CallbridgeDataProvider();
     const [formData, setFormData] = useState<CallbackHistoryRead | null>(null);
     const [openMapping, setOpenMapping] = useState(false);
+    const { schema, uischema } = useGetJsonFormSchemas();
 
     const { isLoading } = useQuery({
         queryKey: ["GetHistoryById", id],
@@ -117,27 +29,10 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
             return res.data.items;
         }
     });
-    // console.log(formData?.mapping);
 
-    const { data: queryData, isLoading: isLoadingForMonaco } = useQuery({
-        queryKey: ["GetHistoryById"],
-        queryFn: async ({ signal }) => {
-            const res = await dataProvider.getHistoryById("callbridge/v1/history", { id, signal });
-            return res.data.items;
-        }
-    });
+    if (isLoading || !formData) return <Loading />;
 
-    if (isLoading || !formData || isLoadingForMonaco) return <Loading />;
-
-    const code = queryData?.map(el => JSON.stringify(el, null, "\t")).join(",\n");
-
-    console.log(code);
-    const parsedOnceRequest = JSON.parse(formData?.request_body ?? "{}");
-    const parsedOnceResponse = JSON.parse(formData?.response_body ?? "{}");
-    // changes_history
     const technicalInfo = {
-        // request_body: JSON.parse(formData?.request_body ?? "{}"),
-        // response_body: JSON.parse(formData?.response_body ?? "{}"),
         request_headers: formData?.request_headers,
         request_params: formData?.request_params,
         response_headers: formData?.response_headers
@@ -155,49 +50,10 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                     <TextField text={id} copyValue onClick={() => setOpenMapping(true)} />
                 </div>
 
-                <JsonForm
-                    schema={schema}
-                    uischema={uischema}
-                    formData={formData}
-                    setFormData={setFormData}
-                    // onChange={({ data }) => setFormData(data)}
-                    // renderers={materialRenderers}
-                    // cells={materialCells}
-                />
+                <JsonForm schema={schema} uischema={uischema} formData={formData} setFormData={setFormData} />
                 {/* <SimpleTable /> */}
-                {/* <div className="min-h-[200px]"> */}
-                <CallbridgeHistoryTechnicalInfoShow technicalInfo={technicalInfo} bodies={bodies} />
-                <div className="flex w-full gap-4 overflow-auto pt-0">
-                    <div className="w-full">
-                        <Label variant={"title-2"}>Request Body</Label>
-                        <div className="h-28 min-h-[300px] w-full">
-                            <MonacoEditor
-                                disabled
-                                height="h-full"
-                                width="100%"
-                                onMountEditor={() => {}}
-                                onErrorsChange={() => {}}
-                                onValidChange={() => {}}
-                                code={JSON.stringify(parsedOnceRequest, null, "\t") ?? ""}
-                                setCode={() => {}}
-                            />
-                        </div>
-                    </div>
-                    <div className="w-full">
-                        <Label variant={"title-2"}>Response Body</Label>
-                        <div className="h-28 min-h-[300px] w-full">
-                            <MonacoEditor
-                                disabled
-                                height="h-full"
-                                width="100%"
-                                onMountEditor={() => {}}
-                                onErrorsChange={() => {}}
-                                onValidChange={() => {}}
-                                code={JSON.stringify(parsedOnceResponse ?? "", null, "\t")}
-                                setCode={() => {}}
-                            />
-                        </div>
-                    </div>
+                <div className="mx-5 mt-4">
+                    <CallbridgeHistoryTechnicalInfoShow technicalInfo={technicalInfo} bodies={bodies} />
                 </div>
             </div>
             <ShowMappingSheet

@@ -106,6 +106,19 @@
             "error": "Error",
             "sync": "Sync"
         },
+        "show": {
+            "fields": {
+                "attempts": "Attempts",
+                "response_status": "Response status",
+                "error_message": "Error message",
+                "request_method": "Request method",
+                "next_retry_at": "Next retry at",
+                "updated_at": "Updated at",
+                "delivered_at": "Delivered at",
+                "id": "ID"
+            },
+            "technicalInfo": "Technical info"
+        },
         "notFoundMessage": "Mappings not found."
     }
 }

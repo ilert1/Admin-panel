@@ -2,13 +2,13 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { MappingShow } from "../../show/Mapping/MappingShow";
-import { CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { CallbackHistoryReadMapping, CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface ShowMappingSheetProps {
     id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
-    externalData?: CallbackMappingRead;
+    externalData?: CallbackMappingRead | CallbackHistoryReadMapping | undefined;
 }
 export const ShowMappingSheet = ({ id, open, onOpenChange, externalData }: ShowMappingSheetProps) => {
     const translate = useTranslate();

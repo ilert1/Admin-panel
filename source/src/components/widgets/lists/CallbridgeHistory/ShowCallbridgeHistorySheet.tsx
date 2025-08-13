@@ -32,7 +32,6 @@ export const ShowCallbridgeHistorySheet = ({ id, open, onOpenChange }: ShowCallb
                                 <XIcon className="h-[28px] w-[28px]" />
                             </button>
                         </div>
-                        <TextField text={id} copyValue className="!text-display-1" />
                     </div>
                     <CallbridgeHistoryShow id={id} onOpenChange={onOpenChange} />
                     <SheetDescription></SheetDescription>

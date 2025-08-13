@@ -108,6 +108,18 @@
             "error": "Ошибка",
             "sync": "Синхронизация"
         },
+        "show": {
+            "fields": {
+                "attempts": "Количество попыток",
+                "response_status": "Статус ответа",
+                "error_message": "Сообщение об ошибке",
+                "request_method": "Метод запроса",
+                "next_retry_at": "Следующая попытка",
+                "updated_at": "Обновлено",
+                "delivered_at": "Доставлено"
+            },
+            "technicalInfo": "Техническая информация"
+        },
         "notFoundMessage": "Маппинги не найдены."
     }
 }
