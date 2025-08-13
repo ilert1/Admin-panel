@@ -114,10 +114,10 @@
                 "request_method": "Request method",
                 "next_retry_at": "Next retry at",
                 "updated_at": "Updated at",
-                "delivered_at": "Delivered at",
                 "id": "ID"
             },
-            "technicalInfo": "Technical info"
+            "technicalInfo": "Technical info",
+            "technicalInfoNotFound": "Technical info not found"
         },
         "notFoundMessage": "Mappings not found."
     }

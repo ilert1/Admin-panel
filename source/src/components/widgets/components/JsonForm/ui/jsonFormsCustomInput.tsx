@@ -3,14 +3,21 @@ import { ControlProps } from "@jsonforms/core";
 import { Input } from "@/components/ui/Input/input"; // твой компонент
 import { isControl, isIntegerControl, isStringControl, RankedTester, rankWith } from "@jsonforms/core";
 
-const JsonFormsCustomInput = ({ data, label, errors, visible, description }: ControlProps) => {
+const JsonFormsCustomInput = ({ data, label, errors, visible, description, schema }: ControlProps) => {
     if (!visible) return null;
+
+    let displayValue = data === null ? "-" : String(data);
+
+    if (schema?.type?.includes("string") && (schema.format === "date" || schema.format === "date-time") && data) {
+        const date = new Date(data);
+        displayValue = date.toLocaleString();
+    }
 
     return (
         <div className="mb-2">
             <Input
                 label={label}
-                value={data === null ? "-" : (String(data) ?? "")}
+                value={displayValue}
                 error={!!errors}
                 errorMessage={errors}
                 placeholder={description}

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { JsonForms } from "@jsonforms/react";
 import { MyCustomInputRenderer, myCustomInputTester } from "./ui/jsonFormsCustomInput";
-import { materialCells, materialRenderers } from "@jsonforms/material-renderers";
+import { vanillaCells, vanillaRenderers } from "@jsonforms/vanilla-renderers";
+import { gridLayoutRendererRegistryEntry } from "./ui/gridLayoutForJsonForm";
 
 interface JsonFormProps {
     schema: any;
@@ -12,14 +13,18 @@ interface JsonFormProps {
 
 export const JsonForm = ({ schema, uischema, formData, setFormData }: JsonFormProps) => {
     return (
-        <div className="mx-5">
+        <div>
             <JsonForms
                 schema={schema}
                 uischema={uischema}
                 data={formData}
                 onChange={({ data }) => setFormData(data)}
-                renderers={[...materialRenderers, { tester: myCustomInputTester, renderer: MyCustomInputRenderer }]}
-                cells={materialCells}
+                renderers={[
+                    ...vanillaRenderers,
+                    gridLayoutRendererRegistryEntry,
+                    { tester: myCustomInputTester, renderer: MyCustomInputRenderer }
+                ]}
+                cells={vanillaCells}
             />
         </div>
     );

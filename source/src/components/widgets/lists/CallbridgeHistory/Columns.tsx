@@ -152,6 +152,9 @@ export const useGetCallbridgeHistory = () => {
         {
             id: "state",
             cell: ({ row }) => {
+                if (row.original.changes_history && row.original.changes_history.length > 0)
+                    console.log(row.original.changes_history);
+
                 return (
                     <>
                         <Button

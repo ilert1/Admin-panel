@@ -108,7 +108,9 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                                                     ) : (
                                                         <TableRow>
                                                             <TableCell colSpan={2} className="text-center">
-                                                                {translate("resources.provider.methodNotFound")}
+                                                                {translate(
+                                                                    "resources.callbridge.history.show.technicalInfoNotFound"
+                                                                )}
                                                             </TableCell>
                                                         </TableRow>
                                                     )}
@@ -122,7 +124,7 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                 </Accordion>
             ) : (
                 <span className="self-center text-lg text-neutral-50">
-                    {translate("resources.provider.methodNotFound")}
+                    {translate("resources.callbridge.history.show.technicalInfoNotFound")}
                 </span>
             )}
         </div>

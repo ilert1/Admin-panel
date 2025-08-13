@@ -115,10 +115,10 @@
                 "error_message": "Сообщение об ошибке",
                 "request_method": "Метод запроса",
                 "next_retry_at": "Следующая попытка",
-                "updated_at": "Обновлено",
-                "delivered_at": "Доставлено"
+                "updated_at": "Обновлено"
             },
-            "technicalInfo": "Техническая информация"
+            "technicalInfo": "Техническая информация",
+            "technicalInfoNotFound": "Техническая информация отсутствует"
         },
         "notFoundMessage": "Маппинги не найдены."
     }
