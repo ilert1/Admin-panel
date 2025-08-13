@@ -258,7 +258,6 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                                     const option = localOptions.find(o => o.value === value);
                                                     const isCustomOption = !options.some(o => o.value === value);
                                                     const IconComponent = option?.icon;
-                                                    console.log(value);
 
                                                     return (
                                                         <Badge
