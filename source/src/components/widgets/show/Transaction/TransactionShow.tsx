@@ -34,6 +34,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
     const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const appToast = useAppToast();
 
@@ -53,7 +54,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         filter: { id },
         disableSyncWithLocation: true,
         queryOptions: {
-            enabled: permissions === "admin"
+            enabled: adminOnly
         }
     });
 
@@ -132,7 +133,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
     return (
         <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
-            {permissions === "admin" && (
+            {adminOnly && (
                 <div className={`flex flex-wrap justify-between gap-4`}>
                     {showState && (
                         <div className="flex items-center gap-2">
@@ -216,7 +217,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             </>
                         )}
 
-                        {permissions === "admin" && (
+                        {adminOnly && (
                             <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
                                 {sendWebhookLoading ? (
                                     <div className="w-[20px]">
@@ -246,11 +247,9 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         `resources.transactions.${getStateByRole(permissions, data, context.record.state.state_int_ingress, context.record.state.state_int)}`
                     )}
                 />
-                {permissions === "admin" && (
+                {adminOnly && (
                     <TextField
-                        label={translate(
-                            `resources.transactions.fields.state.${permissions !== "admin" ? "title" : "merchant_state"}`
-                        )}
+                        label={translate(`resources.transactions.fields.state.merchant_state`)}
                         text={
                             translate(
                                 `resources.transactions.${getStateByRole("merchant", data, context.record.state.state_int_ingress)}`
@@ -271,7 +270,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     />
                 </div>
 
-                {permissions === "admin" && (
+                {adminOnly && (
                     <>
                         {merchantsInfo?.length !== 0 ? (
                             merchantsInfo.map(el => {
@@ -317,7 +316,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 />
             )}
 
-            {(permissions === "admin" ||
+            {(adminOnly ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (
                 <div className="flex flex-col gap-2">
                     <span>{translate("resources.transactions.fields.fees")}</span>
@@ -325,7 +324,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     <SimpleTable
                         columns={feesColumns}
                         data={
-                            permissions === "admin"
+                            adminOnly
                                 ? context.record.fees
                                 : context.record.fees.filter(
                                       item =>
@@ -343,7 +342,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 </div>
             )}
 
-            {permissions === "admin" && (
+            {adminOnly && (
                 <div className="flex flex-col gap-2 [&_thead_th]:text-sm">
                     <span>{translate("resources.transactions.stateUpdate.title")}</span>
 

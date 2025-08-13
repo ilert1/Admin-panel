@@ -132,9 +132,7 @@ export const useGetTransactionColumns = () => {
             ? [
                   {
                       accessorKey: "state",
-                      header: translate(
-                          `resources.transactions.fields.state.${adminOnly ? "title" : "merchant_state"}`
-                      ),
+                      header: translate(`resources.transactions.fields.state.merchant_state`),
                       cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
                           return (
                               <div className="min-w-28">
