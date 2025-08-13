@@ -185,6 +185,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
                 });
                 setAvailablePaymentTypes([]);
+                form.resetField("payment_types");
                 return;
             } else if (val) {
                 form.clearErrors("provider");
@@ -193,6 +194,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
             form.resetField("payment_types");
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData, val]);
 
