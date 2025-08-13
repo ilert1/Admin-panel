@@ -6,12 +6,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { getStateByRole } from "@/helpers/getStateByRole";
 import { useFetchDictionaries } from "@/hooks";
 import { ColumnDef, Row } from "@tanstack/react-table";
+import { useMemo } from "react";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 
 export const useGetTransactionShowColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const dataDictionaries = useFetchDictionaries();
     const { openSheet } = useSheets();
 
@@ -90,7 +92,7 @@ export const useGetTransactionShowColumns = () => {
                 );
             }
         },
-        ...(permissions === "admin"
+        ...(adminOnly
             ? [
                   {
                       accessorKey: "state",
@@ -157,13 +159,11 @@ export const useGetTransactionShowColumns = () => {
                 );
             }
         },
-        ...(permissions === "admin"
+        ...(adminOnly
             ? [
                   {
                       accessorKey: "state",
-                      header: translate(
-                          `resources.transactions.fields.state.${permissions !== "admin" ? "title" : "merchant_state"}`
-                      ),
+                      header: translate(`resources.transactions.fields.state.title`),
                       cell: ({ row }: { row: Row<Transaction.TransactionStateUpdate> }) => {
                           return (
                               <div className="min-w-28">

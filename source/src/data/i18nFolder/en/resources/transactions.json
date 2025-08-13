@@ -167,7 +167,7 @@
         "1": "Registered",
         "2": "Pending",
         "3": "Processing",
-        "4": "Waiting for payout",
+        "4": "Success",
         "5": "Other errors",
         "6": "Empty requisites",
         "7": "Amount limits error",

@@ -6,6 +6,7 @@ import { getStateByRole } from "@/helpers/getStateByRole";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 import { useFetchDictionaries } from "@/hooks";
+import { useMemo } from "react";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -14,6 +15,7 @@ export const useGetTransactionColumns = () => {
     const [locale] = useLocaleState();
     const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
     const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const data = useFetchDictionaries();
     const { openSheet } = useSheets();
 
@@ -81,7 +83,7 @@ export const useGetTransactionColumns = () => {
                 />
             )
         },
-        ...(permissions === "admin"
+        ...(adminOnly
             ? [
                   {
                       header: translate("resources.withdraw.fields.merchant"),
@@ -126,12 +128,12 @@ export const useGetTransactionColumns = () => {
                 </div>
             )
         },
-        ...(permissions === "admin"
+        ...(adminOnly
             ? [
                   {
                       accessorKey: "state",
                       header: translate(
-                          `resources.transactions.fields.state.${permissions !== "admin" ? "title" : "merchant_state"}`
+                          `resources.transactions.fields.state.${adminOnly ? "title" : "merchant_state"}`
                       ),
                       cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
                           return (
