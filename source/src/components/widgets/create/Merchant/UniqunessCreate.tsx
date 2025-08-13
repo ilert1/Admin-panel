@@ -37,6 +37,11 @@ interface UniqunessCreateProps {
 
 const modes = ["percent", "absolute"];
 
+const safeNumber = (value: any, defaultValue: number = 0): number => {
+    const num = Number(value);
+    return isNaN(num) ? defaultValue : num;
+};
+
 export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const {
         merchantId,
@@ -109,12 +114,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
-            min: Number(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
-            max: Number(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
+            min: safeNumber(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
+            max: safeNumber(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
             chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
             mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-            min2: Number(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
-            max2: Number(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
+            min2: safeNumber(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
+            max2: safeNumber(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
             chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
         }
     });
@@ -157,12 +162,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         if (!isLoading && uniquenessData && isFetchedAfterMount) {
             const updatedValues = {
                 mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
-                min: Number(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
-                max: Number(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
+                min: safeNumber(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
+                max: safeNumber(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
                 chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
                 mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-                min2: Number(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
-                max2: Number(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
+                min2: safeNumber(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
+                max2: safeNumber(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
                 chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
             };
             setActivityState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
