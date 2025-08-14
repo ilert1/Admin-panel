@@ -10,8 +10,10 @@ export const getStateByRole = (
     switch (permissions) {
         case "admin":
             if (!state_id) return `${st}.unknown`;
-            return `${st}.${data?.states[state_id].state_description?.toLocaleLowerCase()}` || `${st}.unknown`;
+            return data?.states[state_id]?.state_description
+                ? `${st}.${data?.states[state_id]?.state_description?.toLocaleLowerCase()}`
+                : `${st}.unknown`;
         default:
-            return `${mst}.${state_id_merchant?.toString()}` || `${mst}.unknown`;
+            return state_id_merchant ? `${mst}.${state_id_merchant?.toString()}` : `${mst}.unknown`;
     }
 };

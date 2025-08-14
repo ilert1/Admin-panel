@@ -95,6 +95,7 @@ export class IBaseDataProvider {
         throw new Error("Method not implemented");
     }
     async getManyReference(resource: string, params: GetManyReferenceParams): Promise<GetManyReferenceResult> {
+        if (!params.id) return { data: [], total: 0 };
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/${params.id}/history`, {
             method: "GET",
             user: { authenticated: true, token: `Bearer ${localStorage.getItem("access-token")}` },
