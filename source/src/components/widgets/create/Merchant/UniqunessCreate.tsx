@@ -61,7 +61,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const refresh = useRefresh();
     const appToast = useAppToast();
     const dataProvider = new MerchantsDataProvider();
-    console.log(UNIQUENESS_WITHDRAW_DISABLED);
 
     const {
         data: uniquenessData,
