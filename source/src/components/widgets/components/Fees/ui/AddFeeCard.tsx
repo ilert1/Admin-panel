@@ -124,7 +124,7 @@ export const AddFeeCard = ({
                         value: accurateFeeAmount,
                         type: tempData.type,
                         direction: Number(tempData.direction),
-                        recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
+                        recipient: resource === FeesResource.MERCHANT ? "merchant_fee" : "provider_fee",
                         innerId: new Date().getTime()
                     }
                 ]);
@@ -137,7 +137,7 @@ export const AddFeeCard = ({
             value: accurateFeeAmount,
             type: tempData.type,
             direction: Number(tempData.direction),
-            recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
+            recipient: resource === FeesResource.MERCHANT ? "merchant_fee" : "provider_fee"
         };
 
         if (setFees) {
