@@ -42,7 +42,9 @@ const safeNumber = (value: any, defaultValue: number = 0): number => {
     return isNaN(num) ? defaultValue : num;
 };
 
-const UNIQUENESS_WITHDRAW_DISABLED = import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED === "true";
+const UNIQUENESS_WITHDRAW_DISABLED = import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED
+    ? import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED === "true"
+    : true;
 
 export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const {
@@ -59,6 +61,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const refresh = useRefresh();
     const appToast = useAppToast();
     const dataProvider = new MerchantsDataProvider();
+    console.log(UNIQUENESS_WITHDRAW_DISABLED);
 
     const {
         data: uniquenessData,
