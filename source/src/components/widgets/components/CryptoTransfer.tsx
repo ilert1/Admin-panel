@@ -61,7 +61,11 @@ export const CryptoTransfer = ({ repeatData, cryptoTransferState, setCryptoTrans
                     setMessage(translate("app.widgets.forms.cryptoTransfer.transferSuccess"));
                     setCryptoTransferState("success");
                 } else {
-                    setMessage(json.error ?? translate("resources.withdraw.errors.serverError"));
+                    if (json.code === "low_balance" || json.code === "low_amount") {
+                        setMessage(translate(`resources.withdraw.errors.${json.code}`));
+                    } else {
+                        setMessage(json.error ?? translate("resources.withdraw.errors.serverError"));
+                    }
                     setCryptoTransferState("error");
                 }
             })

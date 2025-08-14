@@ -4,7 +4,8 @@
     "resources.withdraw.cryptoTransferTitle": "Перевод криптовалюты",
     "resources.withdraw.resendQuestion": "Повторить перевод?",
     "resources.withdraw.errors": {
-        "lowAmountError": "Сумма перевода должна быть больше 2 USDT",
+        "low_amount": "Сумма перевода должна быть больше 2 USDT",
+        "low_balance": "Сумма перевода не должна превышать баланс",
         "serverError": "Произошла неизвестная ошибка на сервере"
     },
     "resources.withdraw.fields": {

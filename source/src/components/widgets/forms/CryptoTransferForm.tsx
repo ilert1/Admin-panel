@@ -420,7 +420,7 @@ export const CryptoTransferForm = (props: {
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}
                         {props.transferState === "error" && <Icon name="BlowFishCross" />}
                     </div>
-                    <span className="text-title-2">
+                    <span className="text-center text-title-2">
                         {props.showMessage && <div className="error-message">{props.showMessage}</div>}
                     </span>
                 </div>
