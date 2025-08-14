@@ -283,7 +283,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
 
     if (isLoading || !uniquenessData) {
         return (
-            <div className="h-[350px]">
+            <div className="h-[250px]">
                 <LoadingBlock />
             </div>
         );
