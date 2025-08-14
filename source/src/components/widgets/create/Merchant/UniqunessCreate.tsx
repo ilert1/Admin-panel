@@ -42,6 +42,8 @@ const safeNumber = (value: any, defaultValue: number = 0): number => {
     return isNaN(num) ? defaultValue : num;
 };
 
+const UNIQUENESS_WITHDRAW_DISABLED = import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED === "true";
+
 export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const {
         merchantId,
@@ -518,7 +520,11 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                         </div>
                         <div className="mt-5 flex justify-between border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                             <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                                {translate("resources.merchant.uniqueness.withdraw")}
+                                {translate("resources.merchant.uniqueness.withdraw") +
+                                    " " +
+                                    (UNIQUENESS_WITHDRAW_DISABLED
+                                        ? "(" + translate("resources.merchant.uniqueness.disabled") + ")"
+                                        : "")}
                             </h3>
                             <UniqunessActivityButton
                                 id={merchantId}
@@ -526,6 +532,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 activityState={activityState2}
                                 setActivityState={setActivityState2}
                                 setIsSomethingEdited={setIsSomethingEdited}
+                                disabled={UNIQUENESS_WITHDRAW_DISABLED}
                             />
                         </div>
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -546,6 +553,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <SelectTrigger
                                                     variant={SelectType.GRAY}
                                                     isError={fieldState.invalid}
+                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                                     errorMessage={<FormMessage />}>
                                                     <SelectValue />
                                                 </SelectTrigger>
@@ -585,6 +593,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 className="max-w-[85%]"
                                                 inputMode="decimal"
                                                 percentage
+                                                disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -617,6 +626,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode2") === "percent"}
+                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                                 />
                                             </div>
                                         </FormControl>
@@ -650,6 +660,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode2") === "percent"}
+                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                                 />
                                             </div>
                                         </FormControl>

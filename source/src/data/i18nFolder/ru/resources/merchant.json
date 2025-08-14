@@ -24,6 +24,7 @@
     "resources.merchant.uniqueness": {
         "uniquenessTitle": "Настройки уникализации",
         "uniqueness": "Уникализация",
+        "disabled": "Функционал недоступен",
         "deposit": "Пополнение",
         "withdraw": "Вывод",
         "add": "Добавить уникализацию",
