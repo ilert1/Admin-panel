@@ -31,10 +31,11 @@ const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrimitive.T
                 <SelectPrimitive.Trigger
                     ref={ref}
                     className={cn(
-                        variant === SelectType.GRAY ? "!bg-white dark:!bg-muted" : "",
+                        "bg-neutral-0 dark:bg-neutral-100",
+                        variant === SelectType.GRAY ? "bg-white dark:bg-muted" : "",
                         `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                         "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
-                        "border-neutral-40 bg-neutral-0 text-neutral-80 hover:!border-green-20 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
+                        "border-neutral-40 text-neutral-80 hover:!border-green-20 active:border-green-50 dark:border-neutral-60 dark:text-neutral-40",
                         "",
                         isError ? "!border-red-40 dark:!border-red-40" : "",
                         className

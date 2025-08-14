@@ -24,6 +24,7 @@
     "resources.merchant.uniqueness": {
         "uniquenessTitle": "Uniqueness settings",
         "uniqueness": "Uniqueness",
+        "disabled": "Functionality is not available",
         "deposit": "Deposit",
         "withdraw": "Withdraw",
         "add": "Add uniqueness",

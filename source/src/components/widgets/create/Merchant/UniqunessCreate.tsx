@@ -37,10 +37,9 @@ interface UniqunessCreateProps {
 
 const modes = ["percent", "absolute"];
 
-const safeNumber = (value: any, defaultValue: number = 0): number => {
-    const num = Number(value);
-    return isNaN(num) ? defaultValue : num;
-};
+const UNIQUENESS_WITHDRAW_DISABLED = import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED
+    ? import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED === "true"
+    : true;
 
 export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const {
@@ -114,12 +113,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
-            min: safeNumber(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
-            max: safeNumber(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
+            min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
+            max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
             chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
             mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-            min2: safeNumber(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
-            max2: safeNumber(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
+            min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
+            max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
             chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
         }
     });
@@ -132,15 +131,15 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             const formData = {
                 deposit: {
                     mode: data.mode,
-                    min: String(data.min),
-                    max: String(data.max),
+                    min: data.min,
+                    max: data.max,
                     chance: data.chance,
                     enable: activityState
                 },
                 withdraw: {
                     mode: data.mode2,
-                    min: String(data.min2),
-                    max: String(data.max2),
+                    min: data.min2,
+                    max: data.max2,
                     chance: data.chance2,
                     enable: activityState2
                 }
@@ -162,12 +161,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         if (!isLoading && uniquenessData && isFetchedAfterMount) {
             const updatedValues = {
                 mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
-                min: safeNumber(uniquenessData?.uniqueness?.deposit?.min) ?? 0,
-                max: safeNumber(uniquenessData?.uniqueness?.deposit?.max) ?? 0,
+                min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
+                max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
                 chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
                 mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-                min2: safeNumber(uniquenessData?.uniqueness?.withdraw?.min) ?? 0,
-                max2: safeNumber(uniquenessData?.uniqueness?.withdraw?.max) ?? 0,
+                min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
+                max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
                 chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
             };
             setActivityState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
@@ -199,53 +198,24 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         const allowNegative =
             field.name === "max" || field.name === "min" || field.name === "min2" || field.name === "max2";
 
-        value = value.replace(/[^0-9.-]/g, "");
+        value = value.replace(/[^0-9-]/g, "");
 
-        if (form.getValues(mode) === "percent") {
-            if (!allowNegative) {
-                value = value.replace(/-/g, "");
-            } else {
-                if (value.includes("-")) {
-                    const minusCount = (value.match(/-/g) || []).length;
-                    if (minusCount > 1 || (value.indexOf("-") !== 0 && value.includes("-"))) {
-                        value = value.replace(/-/g, "");
-                        if (value.length > 0) {
-                            value = "-" + value;
-                        }
-                    }
-                }
-            }
+        if (!allowNegative) {
+            value = value.replace(/-/g, "");
         } else {
-            if (!allowNegative) {
-                value = value.replace(/-/g, "");
-            } else {
-                if (value.includes("-")) {
-                    const minusCount = (value.match(/-/g) || []).length;
-                    if (minusCount > 1 || (value.indexOf("-") !== 0 && value.includes("-"))) {
-                        value = value.replace(/-/g, "");
-                        if (value.length > 0) {
-                            value = "-" + value;
-                        }
+            if (value.includes("-")) {
+                const minusCount = (value.match(/-/g) || []).length;
+                if (minusCount > 1 || value.indexOf("-") !== 0) {
+                    value = value.replace(/-/g, "");
+                    if (value.length > 0) {
+                        value = "-" + value;
                     }
                 }
             }
         }
 
-        const parts = value.split(".");
-        if (parts.length > 2) {
-            value = parts[0] + "." + parts[1];
-        }
-        if (parts.length === 2 && parts[1].length > 2) {
-            parts[1] = parts[1].slice(0, 2);
-            value = parts.join(".");
-        }
-
-        if (/^-?0[0-9]+/.test(value) && !value.startsWith("0.") && !value.startsWith("-0.")) {
+        if (/^-?0[0-9]+/.test(value)) {
             value = value.replace(/^(-?)0+/, "$1") || "0";
-        }
-
-        if (value === "." || value === "-.") {
-            value = value.replace(".", "0.");
         }
 
         e.target.value = value;
@@ -255,44 +225,27 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             return;
         }
 
-        if (value.endsWith(".") || value === "0." || value === "-0." || value === "-") {
+        if (value === "-") {
             form.setValue(field.name, value);
             return;
         }
 
-        const numericValue = parseFloat(value);
+        const numericValue = parseInt(value, 10);
         if (!isNaN(numericValue)) {
             let finalValue = numericValue;
 
             if (form.getValues(mode) === "percent") {
-                if (numericValue > 100) {
-                    finalValue = 100;
-                    e.target.value = "100";
-                }
-                if (numericValue < -100) {
-                    finalValue = -100;
-                    e.target.value = "-100";
-                }
-                if (!allowNegative && numericValue < 0) {
-                    finalValue = 0;
-                    e.target.value = "0";
-                }
+                if (numericValue > 100) finalValue = 100;
+                if (numericValue < -100) finalValue = -100;
+                if (!allowNegative && numericValue < 0) finalValue = 0;
             }
             if (form.getValues(mode) === "absolute") {
-                if (numericValue > 100000) {
-                    finalValue = 100000;
-                    e.target.value = "100000";
-                }
-                if (numericValue < -100000) {
-                    finalValue = -100000;
-                    e.target.value = "-100000";
-                }
-                if (!allowNegative && numericValue < 0) {
-                    finalValue = 0;
-                    e.target.value = "0";
-                }
+                if (numericValue > 100000) finalValue = 100000;
+                if (numericValue < -100000) finalValue = -100000;
+                if (!allowNegative && numericValue < 0) finalValue = 0;
             }
 
+            e.target.value = String(finalValue);
             form.setValue(field.name, finalValue);
         }
     };
@@ -518,7 +471,11 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                         </div>
                         <div className="mt-5 flex justify-between border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                             <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                                {translate("resources.merchant.uniqueness.withdraw")}
+                                {translate("resources.merchant.uniqueness.withdraw") +
+                                    " " +
+                                    (UNIQUENESS_WITHDRAW_DISABLED
+                                        ? "(" + translate("resources.merchant.uniqueness.disabled") + ")"
+                                        : "")}
                             </h3>
                             <UniqunessActivityButton
                                 id={merchantId}
@@ -526,6 +483,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 activityState={activityState2}
                                 setActivityState={setActivityState2}
                                 setIsSomethingEdited={setIsSomethingEdited}
+                                disabled={UNIQUENESS_WITHDRAW_DISABLED}
                             />
                         </div>
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -546,6 +504,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <SelectTrigger
                                                     variant={SelectType.GRAY}
                                                     isError={fieldState.invalid}
+                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                                     errorMessage={<FormMessage />}>
                                                     <SelectValue />
                                                 </SelectTrigger>
@@ -585,6 +544,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 className="max-w-[85%]"
                                                 inputMode="decimal"
                                                 percentage
+                                                disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -617,6 +577,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode2") === "percent"}
+                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                                 />
                                             </div>
                                         </FormControl>
@@ -650,6 +611,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     className="max-w-[85%]"
                                                     inputMode="decimal"
                                                     percentage={form.getValues("mode2") === "percent"}
+                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
                                                 />
                                             </div>
                                         </FormControl>
