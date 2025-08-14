@@ -110,10 +110,52 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const copy = React.useCallback(() => {
             navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue));
-
             appToast("success", "", translate("app.ui.textField.copied"));
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [inputValue, propValue]);
+
+        const handleCut = (e: React.ClipboardEvent<HTMLInputElement>) => {
+            e.preventDefault();
+            const input = inputRef.current;
+            if (!input) return;
+
+            const start = input.selectionStart || 0;
+            const end = input.selectionEnd || 0;
+            const text = String(propValue !== undefined ? propValue : inputValue);
+
+            const selectedText = text.substring(start, end);
+            const newValue = text.substring(0, start) + text.substring(end);
+
+            if (onChange) {
+                const event = {
+                    target: { value: newValue }
+                } as React.ChangeEvent<HTMLInputElement>;
+                onChange(event);
+            }
+
+            if (propValue === undefined) {
+                setInputValue(newValue);
+            }
+
+            navigator.clipboard.writeText(selectedText).catch(err => console.error("Clipboard error:", err));
+
+            setTimeout(() => {
+                input.setSelectionRange(start, start);
+            }, 0);
+        };
+
+        const handleCopy = (e: React.ClipboardEvent<HTMLInputElement>) => {
+            e.preventDefault();
+            const input = inputRef.current;
+            if (!input) return;
+
+            const start = input.selectionStart || 0;
+            const end = input.selectionEnd || 0;
+            const text = String(propValue !== undefined ? propValue : inputValue);
+            const selectedText = text.substring(start, end);
+
+            navigator.clipboard.writeText(selectedText).catch(err => console.error("Clipboard error:", err));
+        };
 
         const showClearButton = React.useMemo(
             () => inputValue?.toString() && isFocused && !disabled,
@@ -198,12 +240,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             className
                         )}
                         {...props}
-                        onCopy={() =>
-                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
-                        }
-                        onCut={() =>
-                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
-                        }
+                        onCopy={handleCopy}
+                        onCut={handleCut}
                         onContextMenu={type === "password_masked" ? e => e.preventDefault() : onContextMenu}
                         ref={inputRef}
                     />
