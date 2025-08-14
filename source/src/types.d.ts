@@ -461,8 +461,8 @@ interface KecloakRoles {
 type UniqunessDirectionType = "deposit" | "withdraw";
 
 interface UniqunessItem {
-    max: string;
-    min: string;
+    max: number;
+    min: number;
     mode: string;
     chance: number;
     enable: boolean;
@@ -470,7 +470,7 @@ interface UniqunessItem {
 
 type UniqunessItemCreateEdit = Partial<UniqunessItem>;
 
-interface Uniquness {
+interface Uniqueness {
     deposit?: UniqunessItem;
     withdraw?: UniqunessItem;
 }
@@ -487,5 +487,5 @@ interface UniquenessResponse {
     created_at: string;
     updated_at: string;
 
-    uniqueness: Uniquness;
+    uniqueness: Uniqueness;
 }

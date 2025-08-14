@@ -291,7 +291,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
 
     async updateMerchantUniqueness(
         id: string,
-        uniqueness: Uniquness,
+        uniqueness: Uniqueness,
         signal?: AbortSignal
     ): Promise<UniquenessResponse[] | undefined> {
         const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {

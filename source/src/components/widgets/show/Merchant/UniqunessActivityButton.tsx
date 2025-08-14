@@ -31,7 +31,8 @@ export const UniqunessActivityButton = ({
                 onClick={changeActivity}
                 className={clsx(
                     "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
-                    activityState ? "bg-green-50" : "bg-red-40"
+                    activityState ? "bg-green-50" : "bg-red-40",
+                    disabled && "cursor-auto"
                 )}>
                 <span
                     className={clsx(
