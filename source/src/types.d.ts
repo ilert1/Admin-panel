@@ -472,7 +472,6 @@ type UniqunessItemCreateEdit = Partial<UniqunessItem>;
 
 interface Uniqueness {
     deposit?: UniqunessItem;
-    withdraw?: UniqunessItem;
 }
 
 interface UniquenessResponse {

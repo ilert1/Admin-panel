@@ -37,10 +37,6 @@ interface UniqunessCreateProps {
 
 const modes = ["percent", "absolute"];
 
-const UNIQUENESS_WITHDRAW_DISABLED = import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED
-    ? import.meta.env.VITE_UNIQUENESS_WITHDRAW_DISABLED === "true"
-    : true;
-
 export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const {
         merchantId,
@@ -79,32 +75,20 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const [activityState, setActivityState] = useState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
-    const [activityState2, setActivityState2] = useState(uniquenessData?.uniqueness?.withdraw?.enable ?? false);
 
     const formSchema = z
         .object({
             mode: z.enum(modes as [string, ...string[]]),
             min: z.coerce.number().default(0),
             max: z.coerce.number().default(0),
-            chance: z.coerce.number().default(0),
-            mode2: z.enum(modes as [string, ...string[]]),
-            min2: z.coerce.number().default(0),
-            max2: z.coerce.number().default(0),
-            chance2: z.coerce.number().default(0)
+            chance: z.coerce.number().default(0)
         })
-        .superRefine(({ max, min, min2, max2 }, ctx) => {
+        .superRefine(({ max, min }, ctx) => {
             if (min > max) {
                 ctx.addIssue({
                     code: "custom",
                     message: translate("resources.merchant.uniqueness.errors.minCantBeLess"),
                     path: ["min"]
-                });
-            }
-            if (min2 > max2) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: translate("resources.merchant.uniqueness.errors.minCantBeLess"),
-                    path: ["min2"]
                 });
             }
         });
@@ -115,11 +99,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
             min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
             max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
-            chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
-            mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-            min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
-            max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
-            chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
+            chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0
         }
     });
 
@@ -135,13 +115,6 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                     max: data.max,
                     chance: data.chance,
                     enable: activityState
-                },
-                withdraw: {
-                    mode: data.mode2,
-                    min: data.min2,
-                    max: data.max2,
-                    chance: data.chance2,
-                    enable: activityState2
                 }
             };
             dataProvider.updateMerchantUniqueness(merchantId, formData);
@@ -163,14 +136,9 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                 mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
                 min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
                 max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
-                chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0,
-                mode2: uniquenessData?.uniqueness?.withdraw?.mode ?? modes[0],
-                min2: uniquenessData?.uniqueness?.withdraw?.min ?? 0,
-                max2: uniquenessData?.uniqueness?.withdraw?.max ?? 0,
-                chance2: uniquenessData?.uniqueness?.withdraw?.chance ?? 0
+                chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0
             };
             setActivityState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
-            setActivityState2(uniquenessData?.uniqueness?.withdraw?.enable ?? false);
             form.reset(updatedValues);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -190,13 +158,11 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
 
     const handleInputChange = (
         e: ChangeEvent<HTMLInputElement>,
-        mode: "mode" | "mode2",
         field: ControllerRenderProps<z.infer<typeof formSchema>>
     ) => {
         let value = e.target.value;
 
-        const allowNegative =
-            field.name === "max" || field.name === "min" || field.name === "min2" || field.name === "max2";
+        const allowNegative = field.name === "max" || field.name === "min";
 
         value = value.replace(/[^0-9-]/g, "");
 
@@ -234,12 +200,12 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         if (!isNaN(numericValue)) {
             let finalValue = numericValue;
 
-            if (form.getValues(mode) === "percent") {
+            if (form.getValues("mode") === "percent") {
                 if (numericValue > 100) finalValue = 100;
                 if (numericValue < -100) finalValue = -100;
                 if (!allowNegative && numericValue < 0) finalValue = 0;
             }
-            if (form.getValues(mode) === "absolute") {
+            if (form.getValues("mode") === "absolute") {
                 if (numericValue > 100000) finalValue = 100000;
                 if (numericValue < -100000) finalValue = -100000;
                 if (!allowNegative && numericValue < 0) finalValue = 0;
@@ -412,7 +378,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <Input
                                                     {...field}
                                                     onChange={e => {
-                                                        handleInputChange(e, "mode", field);
+                                                        handleInputChange(e, field);
                                                     }}
                                                     value={field.value}
                                                     label={
@@ -445,7 +411,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                 <Input
                                                     {...field}
                                                     onChange={e => {
-                                                        handleInputChange(e, "mode", field);
+                                                        handleInputChange(e, field);
                                                     }}
                                                     value={field.value}
                                                     label={
@@ -469,158 +435,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 )}
                             />
                         </div>
-                        <div className="mt-5 flex justify-between border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
-                            <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                                {translate("resources.merchant.uniqueness.withdraw") +
-                                    " " +
-                                    (UNIQUENESS_WITHDRAW_DISABLED
-                                        ? "(" + translate("resources.merchant.uniqueness.disabled") + ")"
-                                        : "")}
-                            </h3>
-                            <UniqunessActivityButton
-                                id={merchantId}
-                                directionName="withdraw"
-                                activityState={activityState2}
-                                setActivityState={setActivityState2}
-                                setIsSomethingEdited={setIsSomethingEdited}
-                                disabled={UNIQUENESS_WITHDRAW_DISABLED}
-                            />
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <FormField
-                                control={form.control}
-                                name="mode2"
-                                render={({ field, fieldState }) => (
-                                    <FormItem>
-                                        <Label>{translate("resources.merchant.uniqueness.columns.mode")}</Label>
-                                        <Select
-                                            value={field.value}
-                                            onValueChange={e => {
-                                                form.setValue("min2", 0);
-                                                form.setValue("max2", 0);
-                                                field.onChange(e);
-                                            }}>
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    variant={SelectType.GRAY}
-                                                    isError={fieldState.invalid}
-                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
-                                                    errorMessage={<FormMessage />}>
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {modes.map(mode => (
-                                                        <SelectItem value={mode} key={mode} variant={SelectType.GRAY}>
-                                                            {translate(
-                                                                "resources.merchant.uniqueness.columns.modes." + mode
-                                                            )}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="chance2"
-                                render={({ field, fieldState }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                onChange={e => {
-                                                    handleOnlyPercentInputChange(e, field);
-                                                }}
-                                                value={field.value}
-                                                label={translate("resources.merchant.uniqueness.columns.chance")}
-                                                labelSize="note-1"
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                variant={InputTypes.GRAY}
-                                                className="max-w-[85%]"
-                                                inputMode="decimal"
-                                                percentage
-                                                disabled={UNIQUENESS_WITHDRAW_DISABLED}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="min2"
-                                render={({ field, fieldState }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <div className="relative">
-                                                <Input
-                                                    {...field}
-                                                    onChange={e => {
-                                                        handleInputChange(e, "mode2", field);
-                                                    }}
-                                                    value={field.value}
-                                                    label={
-                                                        form.getValues("mode2") === "percent"
-                                                            ? translate("resources.merchant.uniqueness.columns.min")
-                                                            : translate(
-                                                                  "resources.merchant.uniqueness.columns.min"
-                                                              ).split(",")[0]
-                                                    }
-                                                    labelSize="note-1"
-                                                    error={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}
-                                                    variant={InputTypes.GRAY}
-                                                    className="max-w-[85%]"
-                                                    inputMode="decimal"
-                                                    percentage={form.getValues("mode2") === "percent"}
-                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="max2"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="">
-                                        <FormControl>
-                                            <div className="relative">
-                                                <Input
-                                                    {...field}
-                                                    onChange={e => {
-                                                        handleInputChange(e, "mode2", field);
-                                                    }}
-                                                    value={field.value}
-                                                    label={
-                                                        form.getValues("mode2") === "percent"
-                                                            ? translate("resources.merchant.uniqueness.columns.max")
-                                                            : translate(
-                                                                  "resources.merchant.uniqueness.columns.max"
-                                                              ).split(",")[0]
-                                                    }
-                                                    labelSize="note-1"
-                                                    error={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}
-                                                    variant={InputTypes.GRAY}
-                                                    className="max-w-[85%]"
-                                                    inputMode="decimal"
-                                                    percentage={form.getValues("mode2") === "percent"}
-                                                    disabled={UNIQUENESS_WITHDRAW_DISABLED}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-
-                        <div className="ml-auto flex w-full flex-col gap-3 space-x-0 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
+                        <div className="ml-auto mt-2 flex w-full flex-col gap-3 space-x-0 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                             <Button
                                 onClick={form.handleSubmit(onSubmit)}
                                 type="submit"
