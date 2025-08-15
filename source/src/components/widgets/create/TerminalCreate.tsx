@@ -176,6 +176,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     }, [form, controllerProps.record]);
 
     const val = form.watch("provider");
+
     useEffect(() => {
         if (val) {
             const foundProvider = providersData?.find(item => item.name === val);
@@ -191,10 +192,11 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 form.clearErrors("provider");
                 setAvailablePaymentTypes(foundProvider?.payment_types || []);
             }
-
+        } else {
+            form.clearErrors("provider");
+            setAvailablePaymentTypes([]);
             form.resetField("payment_types");
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData, val]);
 
