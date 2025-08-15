@@ -8,6 +8,11 @@ import { ShowMappingSheet } from "../../lists/Mappings/ShowMappingSheet";
 import { CallbridgeHistoryTechnicalInfoShow } from "./CallbridgeHistoryTechnicalInfoShow";
 import { CallbackHistoryRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { useGetJsonFormSchemas } from "./useGetJsonFormSchemas";
+import { useGetCallbridgeHistoryColumns } from "./Columns";
+import { SimpleTable } from "../../shared";
+import { TableTypes } from "../../shared/SimpleTable";
+import clsx from "clsx";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 interface CallbridgeHistoryShowProps {
     id: string;
@@ -19,6 +24,8 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
     const [formData, setFormData] = useState<CallbackHistoryRead | null>(null);
     const [openMapping, setOpenMapping] = useState(false);
     const { schema, uischema } = useGetJsonFormSchemas();
+    const { columns } = useGetCallbridgeHistoryColumns();
+    const [currentState, setCurrentState] = useState(false);
 
     const { isLoading } = useQuery({
         queryKey: ["GetHistoryById", id],
@@ -43,6 +50,10 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
         response_body: formData?.response_body
     };
 
+    const changeActivity = () => {
+        setCurrentState(!currentState);
+    };
+
     return (
         <>
             <div className="flex flex-col gap-4 px-[20px] md:px-[45px]">
@@ -52,10 +63,46 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
 
                 <JsonForm schema={schema} uischema={uischema} formData={formData} setFormData={setFormData} />
 
+                <label className="flex items-center gap-2 self-end">
+                    <button
+                        onClick={changeActivity}
+                        className={clsx(
+                            "flex w-11 items-center rounded-[50px] p-0.5 outline outline-1",
+                            currentState
+                                ? "bg-neutral-100 outline-transparent dark:bg-green-50 dark:outline-green-40"
+                                : "bg-transparent outline-green-40 dark:outline-green-50"
+                        )}>
+                        <span
+                            className={clsx(
+                                "h-5 w-5 rounded-full outline outline-1 transition-all",
+                                currentState
+                                    ? "translate-x-full bg-neutral-0 outline-transparent dark:bg-neutral-100 dark:outline-green-40"
+                                    : "translate-x-0 bg-green-50 outline-green-40 dark:bg-green-50 dark:outline-transparent"
+                            )}
+                        />
+                    </button>
+                    <p className="text-base text-neutral-90 dark:text-neutral-30">JSON</p>
+                </label>
+                {!currentState ? (
+                    <div className="w-full">
+                        <SimpleTable
+                            columns={columns}
+                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            //@ts-ignore
+                            data={formData?.changes_history ?? []}
+                            tableType={TableTypes.COLORED}
+                            className="max-h-96 overflow-auto overflow-x-hidden"
+                        />
+                    </div>
+                ) : (
+                    <div className="h-[350px] w-full">
+                        <MonacoEditor code={JSON.stringify(formData?.changes_history, null, 2)} height="h-full" />
+                    </div>
+                )}
+
                 <div className="">
                     <CallbridgeHistoryTechnicalInfoShow technicalInfo={technicalInfo} bodies={bodies} />
                 </div>
-                {/* <SimpleTable /> */}
             </div>
             <ShowMappingSheet
                 id={formData?.mapping_id ?? ""}
@@ -66,44 +113,3 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
         </>
     );
 };
-
-// 	"changes_history": [
-// 		{
-// 			"changed_at": "2025-08-12T08:38:05.747334+00:00",
-// 			"delivered_at": {
-// 				"from": null,
-// 				"to": "2025-08-12T08:38:05.699333+00:00"
-// 			},
-// 			"external_order_id": {
-// 				"from": null,
-// 				"to": "9796066c-280d-4ff5-931d-4734e2e531db"
-// 			},
-// 			"response_body": {
-// 				"from": null,
-// 				"to": "{\"callback_id\":\"3f1f66ab-68d4-4ece-99b3-8ccf2c68a08e\",\"success\":true,\"provider_state\":{\"id\":\"723c1b82-05f8-4803-97d5-b4cb12477402\",\"external_id\":\"9796066c-280d-4ff5-931d-4734e2e531db\",\"state\":{\"state_int\":14,\"state_description\":\"Expired\",\"final\":true},\"provider\":\"PFU2 Provider\",\"amount\":{\"currency\":null,\"shop_currency\":null,\"value\":{\"quantity\":12121,\"accuracy\":100}},\"fx_rate\":null,\"external_status\":\"cancelled\",\"external_status_details\":\"customer_confirm_timeout\",\"callback_id\":\"3f1f66ab-68d4-4ece-99b3-8ccf2c68a08e\"},\"error\":null,\"is_system_error\":false}"
-// 			},
-// 			"response_headers": {
-// 				"from": null,
-// 				"to": {}
-// 			},
-// 			"response_status": {
-// 				"from": null,
-// 				"to": 200
-// 			},
-// 			"status": {
-// 				"from": "quick_processing",
-// 				"to": "success"
-// 			},
-// 			"transaction_id": {
-// 				"from": null,
-// 				"to": "723c1b82-05f8-4803-97d5-b4cb12477402"
-// 			}
-// 		},
-// 		{
-// 			"changed_at": "2025-08-12T08:38:05.715515+00:00",
-// 			"status": {
-// 				"from": "queued",
-// 				"to": "quick_processing"
-// 			}
-// 		}
-// 	],

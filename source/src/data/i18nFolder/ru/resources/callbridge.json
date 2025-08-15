@@ -117,6 +117,8 @@
                 "next_retry_at": "Следующая попытка",
                 "updated_at": "Обновлено"
             },
+            "fromTo": "Из / В",
+            "fromToDate": "С / До",
             "technicalInfo": "Техническая информация",
             "technicalInfoNotFound": "Техническая информация отсутствует"
         },
