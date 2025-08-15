@@ -44,7 +44,7 @@ export const MerchantSettingsDialog = ({ open, onOpenChange, merchantId }: Merch
                     className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                     <DialogHeader>
                         <DialogTitle className="mb-4 text-center !text-display-1">
-                            {translate("resources.merchant.settings.uniquenessTitle")}
+                            {translate("resources.merchant.settings.title")}
                         </DialogTitle>
                         <DialogDescription />
                         <div className="mt-5 w-full">

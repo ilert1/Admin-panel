@@ -19,10 +19,11 @@ import {
 } from "@/components/ui/select";
 import { ChangeEvent, useEffect, useState } from "react";
 import { MerchantsDataProvider } from "@/data";
-import { UniqunessActivityButton } from "../../show/Merchant/UniqunessActivityButton";
+import { MerchantSettingsActivityButton } from "../../show/Merchant/MerchantSettingsActivityButton";
 import { LoadingBlock } from "@/components/ui/loading";
 import { useQuery } from "@tanstack/react-query";
 import { ConfirmCloseDialog } from "../../show/Mapping/ConfirmCloseDialog";
+import { Textarea } from "@/components/ui/textarea";
 
 interface UniqunessCreateProps {
     merchantId: string;
@@ -74,10 +75,16 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const [activityState, setActivityState] = useState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
-
     const formSchema = z
         .object({
+            antifraud: z.boolean(),
+            antifraoud_attempts: z.coerce
+                .number({ message: translate("resources.merchant.settings.errors.antifraoudAttemptsNan") })
+                .gte(0, translate("resources.merchant.settings.errors.antifraoudAttemptsMin"))
+                .lte(100000, translate("resources.merchant.settings.errors.antifraoudAttemptsMax"))
+                .default(0),
+            public_key: z.string().trim().optional(),
+            uniqueness: z.boolean(),
             mode: z.enum(modes as [string, ...string[]]),
             min: z.coerce.number().default(0),
             max: z.coerce.number().default(0),
@@ -96,6 +103,10 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            antifraud: uniquenessData?.antifraud ?? true,
+            antifraoud_attempts: uniquenessData?.antifraoud_attempts ?? 0,
+            public_key: uniquenessData?.public_key ?? "",
+            uniqueness: uniquenessData?.uniqueness?.deposit?.enable ?? false,
             mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
             min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
             max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
@@ -109,13 +120,16 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
         setSubmitButtonDisabled(true);
         try {
             const formData = {
+                antifraud: data.antifraud,
+                antifraoud_attempts: data.antifraoud_attempts,
+                public_key: data.public_key ?? "",
                 uniqueness: {
                     deposit: {
                         mode: data.mode,
                         min: data.min,
                         max: data.max,
                         chance: data.chance,
-                        enable: activityState
+                        enable: data.uniqueness
                     }
                 }
             };
@@ -135,12 +149,16 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
     useEffect(() => {
         if (!isLoading && uniquenessData && isFetchedAfterMount) {
             const updatedValues = {
+                antifraud: uniquenessData?.antifraud ?? true,
+                antifraoud_attempts: uniquenessData?.antifraoud_attempts ?? 0,
+                public_key: uniquenessData?.public_key ?? "",
+                uniqueness: uniquenessData?.uniqueness?.deposit?.enable ?? false,
                 mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
                 min: uniquenessData?.uniqueness?.deposit?.min ?? 0,
                 max: uniquenessData?.uniqueness?.deposit?.max ?? 0,
                 chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0
             };
-            setActivityState(uniquenessData?.uniqueness?.deposit?.enable ?? false);
+
             form.reset(updatedValues);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -296,19 +314,97 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-                    <div className="flex flex-col flex-wrap gap-6">
-                        <div className="flex justify-between">
-                            <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                                {translate("resources.merchant.settings.deposit")}
-                            </h3>
-                            <UniqunessActivityButton
-                                id={merchantId}
-                                directionName="deposit"
-                                activityState={activityState}
-                                setActivityState={setActivityState}
-                                setIsSomethingEdited={setIsSomethingEdited}
-                            />
-                        </div>
+                    <div className="flex flex-col flex-wrap gap-4">
+                        <FormField
+                            control={form.control}
+                            name="public_key"
+                            render={({ field }) => {
+                                return (
+                                    <FormItem className="mb-2">
+                                        <Label>{translate("resources.merchant.settings.public_key")}</Label>
+
+                                        <FormControl>
+                                            <Textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                spellCheck={false}
+                                                className="!mt-0 h-36 w-full resize-none overflow-auto rounded text-title-1 outline-none dark:bg-muted"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                );
+                            }}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="antifraud"
+                            render={({ field }) => (
+                                <FormItem className="flex items-center justify-between">
+                                    <FormControl>
+                                        <>
+                                            <p className="text-display-4 text-neutral-90 dark:text-neutral-30">
+                                                {translate("resources.merchant.settings.antifraud")}
+                                            </p>
+
+                                            <MerchantSettingsActivityButton
+                                                id={merchantId}
+                                                activityState={field.value}
+                                                setActivityState={field.onChange}
+                                                setIsSomethingEdited={setIsSomethingEdited}
+                                            />
+                                        </>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="antifraoud_attempts"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="mb-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            onChange={field.onChange}
+                                            value={field.value}
+                                            label={translate("resources.merchant.settings.antifraoud_attempts")}
+                                            labelSize="note-1"
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            variant={InputTypes.GRAY}
+                                            className="max-w-[85%]"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="uniqueness"
+                            render={({ field }) => (
+                                <FormItem className="flex items-center justify-between">
+                                    <FormControl>
+                                        <>
+                                            <p className="text-display-4 text-neutral-90 dark:text-neutral-30">
+                                                {translate("resources.merchant.settings.uniqueness")}
+                                            </p>
+
+                                            <MerchantSettingsActivityButton
+                                                id={merchantId}
+                                                activityState={field.value}
+                                                setActivityState={field.onChange}
+                                                setIsSomethingEdited={setIsSomethingEdited}
+                                            />
+                                        </>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <FormField
                                 control={form.control}
@@ -346,6 +442,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="chance"
@@ -371,6 +468,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="min"
@@ -404,6 +502,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="max"
@@ -438,6 +537,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                                 )}
                             />
                         </div>
+
                         <div className="ml-auto mt-2 flex w-full flex-col gap-3 space-x-0 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                             <Button
                                 onClick={form.handleSubmit(onSubmit)}
@@ -447,6 +547,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                                 disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
+
                             <Button
                                 type="button"
                                 variant="outline_gray"
@@ -466,6 +567,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                     </div>
                 </form>
             </Form>
+
             <ConfirmCloseDialog
                 open={confirmCloseDialogOpen}
                 onOpenChange={setConfirmDialogOpen}

@@ -26,6 +26,9 @@
         "uniquenessTitle": "Uniqueness settings",
         "uniqueness": "Uniqueness",
         "disabled": "Functionality is not available",
+        "antifraud": "Antifraud",
+        "antifraoud_attempts": "Antifraud attempts",
+        "public_key": "Public key",
         "deposit": "Deposit",
         "withdraw": "Withdraw",
         "add": "Add uniqueness",
@@ -41,7 +44,10 @@
             }
         },
         "errors": {
-            "minCantBeLess": "Minimum value cant be greater then maximum"
+            "minCantBeLess": "Minimum value cant be greater then maximum",
+            "antifraoudAttemptsNan": "Enter a number",
+            "antifraoudAttemptsMin": "The number of trigger attempts must be greater than or equal to 0",
+            "antifraoudAttemptsMax": "The number of trigger attempts should not exceed 100000"
         },
         "successMessage": "Uniqueness saved successfully"
     },
