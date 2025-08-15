@@ -77,12 +77,12 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
 
     const formSchema = z
         .object({
-            antifraud: z.boolean(),
-            antifraoud_attempts: z.coerce
-                .number({ message: translate("resources.merchant.settings.errors.antifraoudAttemptsNan") })
-                .gte(0, translate("resources.merchant.settings.errors.antifraoudAttemptsMin"))
-                .lte(100000, translate("resources.merchant.settings.errors.antifraoudAttemptsMax"))
-                .default(0),
+            // antifraud: z.boolean(),
+            // antifraoud_attempts: z.coerce
+            //     .number({ message: translate("resources.merchant.settings.errors.antifraoudAttemptsNan") })
+            //     .gte(0, translate("resources.merchant.settings.errors.antifraoudAttemptsMin"))
+            //     .lte(100000, translate("resources.merchant.settings.errors.antifraoudAttemptsMax"))
+            //     .default(0),
             public_key: z.string().trim().optional(),
             uniqueness: z.boolean(),
             mode: z.enum(modes as [string, ...string[]]),
@@ -103,8 +103,8 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            antifraud: uniquenessData?.antifraud ?? true,
-            antifraoud_attempts: uniquenessData?.antifraoud_attempts ?? 0,
+            // antifraud: uniquenessData?.antifraud ?? true,
+            // antifraoud_attempts: uniquenessData?.antifraoud_attempts ?? 0,
             public_key: uniquenessData?.public_key ?? "",
             uniqueness: uniquenessData?.uniqueness?.deposit?.enable ?? false,
             mode: uniquenessData?.uniqueness?.deposit?.mode ?? modes[0],
@@ -120,8 +120,8 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
         setSubmitButtonDisabled(true);
         try {
             const formData = {
-                antifraud: data.antifraud,
-                antifraoud_attempts: data.antifraoud_attempts,
+                // antifraud: data.antifraud,
+                // antifraoud_attempts: data.antifraoud_attempts,
                 public_key: data.public_key ?? "",
                 uniqueness: {
                     deposit: {
@@ -337,11 +337,11 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                             }}
                         />
 
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="antifraud"
                             render={({ field }) => (
-                                <FormItem className="flex items-center justify-between">
+                                <FormItem className="flex items-center gap-2">
                                     <FormControl>
                                         <>
                                             <p className="text-display-4 text-neutral-90 dark:text-neutral-30">
@@ -380,7 +380,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                                     </FormControl>
                                 </FormItem>
                             )}
-                        />
+                        /> */}
 
                         <FormField
                             control={form.control}

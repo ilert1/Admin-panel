@@ -485,8 +485,8 @@ declare namespace Merchant {
     }
 
     interface SettingsUpdate {
-        antifraoud_attempts: number;
-        antifraud: boolean;
+        antifraoud_attempts?: number;
+        antifraud?: boolean;
         public_key: string;
         uniqueness: Uniqueness;
     }
