@@ -1,9 +1,8 @@
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 
-interface IUniqunessActivityButton {
+interface IMerchantSettingsActivityButton {
     id: string;
-    directionName: string;
     activityState: boolean;
     setActivityState: (state: boolean) => void;
     isFetching?: boolean;
@@ -11,13 +10,13 @@ interface IUniqunessActivityButton {
     setIsSomethingEdited: (state: boolean) => void;
 }
 
-export const UniqunessActivityButton = ({
+export const MerchantSettingsActivityButton = ({
     activityState,
     setActivityState,
     isFetching,
     disabled,
     setIsSomethingEdited
-}: IUniqunessActivityButton) => {
+}: IMerchantSettingsActivityButton) => {
     const changeActivity = () => {
         setActivityState(!activityState);
         setIsSomethingEdited?.(true);
