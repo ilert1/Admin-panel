@@ -458,33 +458,38 @@ interface KecloakRoles {
     name: string;
 }
 
-type UniqunessDirectionType = "deposit" | "withdraw";
+declare namespace Merchant {
+    interface Uniqueness {
+        deposit: {
+            max: number;
+            min: number;
+            mode: string;
+            chance: number;
+            enable: boolean;
+        };
+    }
 
-interface UniqunessItem {
-    max: number;
-    min: number;
-    mode: string;
-    chance: number;
-    enable: boolean;
-}
+    interface SettingsResponse {
+        id: string;
+        name: string;
 
-type UniqunessItemCreateEdit = Partial<UniqunessItem>;
+        antifraoud_attempts: number;
+        antifraud: boolean;
+        meta: object;
 
-interface Uniqueness {
-    deposit?: UniqunessItem;
-}
+        public_key: string;
+        created_at: string;
+        updated_at: string;
 
-interface UniquenessResponse {
-    id: string;
-    name: string;
+        uniqueness: Uniqueness;
+    }
 
-    antifraoud_attempts: number;
-    antifraud: boolean;
-    meta: object;
-
-    public_key: number;
-    created_at: string;
-    updated_at: string;
-
-    uniqueness: Uniqueness;
+    interface SettingsUpdate {
+        name?: string;
+        antifraoud_attempts?: number;
+        antifraud?: boolean;
+        meta?: object;
+        public_key?: string;
+        uniqueness: Uniqueness;
+    }
 }

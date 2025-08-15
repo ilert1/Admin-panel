@@ -7,15 +7,15 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { UniqunessCreate } from "../../create/Merchant/UniqunessCreate";
+import { MerchantSettings } from "../../create/Merchant/MerchantSettings";
 import { useState } from "react";
 
-interface UniquenessDialogProps {
+interface MerchantSettingsDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
     merchantId: string;
 }
-export const UniquenessDialog = ({ open, onOpenChange, merchantId }: UniquenessDialogProps) => {
+export const MerchantSettingsDialog = ({ open, onOpenChange, merchantId }: MerchantSettingsDialogProps) => {
     const translate = useTranslate();
 
     const [isSomethingEdited, setIsSomethingEdited] = useState(false);
@@ -44,12 +44,12 @@ export const UniquenessDialog = ({ open, onOpenChange, merchantId }: UniquenessD
                     className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                     <DialogHeader>
                         <DialogTitle className="mb-4 text-center !text-display-1">
-                            {translate("resources.merchant.uniqueness.uniquenessTitle")}
+                            {translate("resources.merchant.settings.uniquenessTitle")}
                         </DialogTitle>
                         <DialogDescription />
                         <div className="mt-5 w-full">
                             <div className="flex w-full flex-col gap-2">
-                                <UniqunessCreate
+                                <MerchantSettings
                                     merchantId={merchantId}
                                     onOpenChange={onOpenChange}
                                     isSomethingEdited={isSomethingEdited}

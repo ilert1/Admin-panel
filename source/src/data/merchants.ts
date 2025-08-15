@@ -265,7 +265,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         }
     }
 
-    async getMerchantUniqueness(id: string, signal?: AbortSignal): Promise<UniquenessResponse[] | undefined> {
+    async getMerchantSettings(id: string, signal?: AbortSignal): Promise<Merchant.SettingsResponse[] | undefined> {
         const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
             method: "GET",
             headers: {
@@ -277,7 +277,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         const data = await res.json();
 
         if ("data" in data && data.success) {
-            return data.data as UniquenessResponse[];
+            return data.data;
         } else if ("data" in data && !data.success) {
             throw new Error(data.error?.error_message);
         } else if ("detail" in data) {
@@ -289,22 +289,18 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         Promise.reject();
     }
 
-    async updateMerchantUniqueness(
+    async updateMerchantSettings(
         id: string,
-        uniqueness: Uniqueness,
+        body: Merchant.SettingsUpdate,
         signal?: AbortSignal
-    ): Promise<UniquenessResponse[] | undefined> {
+    ): Promise<Merchant.SettingsResponse[] | undefined> {
         const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             },
-            body: JSON.stringify({
-                uniqueness: {
-                    ...uniqueness
-                }
-            }),
+            body: JSON.stringify({ ...body }),
             signal
         });
 

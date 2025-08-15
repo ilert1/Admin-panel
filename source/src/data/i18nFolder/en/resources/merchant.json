@@ -21,7 +21,8 @@
     "resources.merchant.success": {
         "create": "Merchant %{name} has been successfully created."
     },
-    "resources.merchant.uniqueness": {
+    "resources.merchant.settings": {
+        "title": "Merchant settings",
         "uniquenessTitle": "Uniqueness settings",
         "uniqueness": "Uniqueness",
         "disabled": "Functionality is not available",

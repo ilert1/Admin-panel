@@ -37,7 +37,7 @@ interface UniqunessCreateProps {
 
 const modes = ["percent", "absolute"];
 
-export const UniqunessCreate = (props: UniqunessCreateProps) => {
+export const MerchantSettings = (props: UniqunessCreateProps) => {
     const {
         merchantId,
         onOpenChange,
@@ -61,7 +61,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         queryKey: ["merchantUniqueness", merchantId],
         queryFn: async () => {
             try {
-                const res = await dataProvider.getMerchantUniqueness(merchantId);
+                const res = await dataProvider.getMerchantSettings(merchantId);
                 return res ?? null;
             } catch (error) {
                 appToast("error", translate("resources.withdraw.errors.serverError"));
@@ -87,7 +87,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
             if (min > max) {
                 ctx.addIssue({
                     code: "custom",
-                    message: translate("resources.merchant.uniqueness.errors.minCantBeLess"),
+                    message: translate("resources.merchant.settings.errors.minCantBeLess"),
                     path: ["min"]
                 });
             }
@@ -109,19 +109,21 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         setSubmitButtonDisabled(true);
         try {
             const formData = {
-                deposit: {
-                    mode: data.mode,
-                    min: data.min,
-                    max: data.max,
-                    chance: data.chance,
-                    enable: activityState
+                uniqueness: {
+                    deposit: {
+                        mode: data.mode,
+                        min: data.min,
+                        max: data.max,
+                        chance: data.chance,
+                        enable: activityState
+                    }
                 }
             };
-            dataProvider.updateMerchantUniqueness(merchantId, formData);
-            appToast("success", translate("resources.merchant.uniqueness.successMessage"));
+            dataProvider.updateMerchantSettings(merchantId, formData);
+            appToast("success", translate("resources.merchant.settings.successMessage"));
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
-            else appToast("error", translate("resources.merchant.uniqueness.errors.unexpectedError"));
+            else appToast("error", translate("resources.merchant.settings.errors.unexpectedError"));
         } finally {
             refresh();
             setSubmitButtonDisabled(false);
@@ -154,6 +156,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
         });
 
         return () => subscription.unsubscribe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form.watch, defaultValues]);
 
     const handleInputChange = (
@@ -296,7 +299,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                     <div className="flex flex-col flex-wrap gap-6">
                         <div className="flex justify-between">
                             <h3 className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                                {translate("resources.merchant.uniqueness.deposit")}
+                                {translate("resources.merchant.settings.deposit")}
                             </h3>
                             <UniqunessActivityButton
                                 id={merchantId}
@@ -312,7 +315,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                 name="mode"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <Label>{translate("resources.merchant.uniqueness.columns.mode")}</Label>
+                                        <Label>{translate("resources.merchant.settings.columns.mode")}</Label>
                                         <Select
                                             value={field.value}
                                             onValueChange={e => {
@@ -333,7 +336,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     {modes.map(mode => (
                                                         <SelectItem value={mode} key={mode} variant={SelectType.GRAY}>
                                                             {translate(
-                                                                "resources.merchant.uniqueness.columns.modes." + mode
+                                                                "resources.merchant.settings.columns.modes." + mode
                                                             )}
                                                         </SelectItem>
                                                     ))}
@@ -355,7 +358,7 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     handleOnlyPercentInputChange(e, field);
                                                 }}
                                                 value={field.value}
-                                                label={translate("resources.merchant.uniqueness.columns.chance")}
+                                                label={translate("resources.merchant.settings.columns.chance")}
                                                 labelSize="note-1"
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
@@ -383,9 +386,9 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     value={field.value}
                                                     label={
                                                         form.getValues("mode") === "percent"
-                                                            ? translate("resources.merchant.uniqueness.columns.min")
+                                                            ? translate("resources.merchant.settings.columns.min")
                                                             : translate(
-                                                                  "resources.merchant.uniqueness.columns.min"
+                                                                  "resources.merchant.settings.columns.min"
                                                               ).split(",")[0]
                                                     }
                                                     labelSize="note-1"
@@ -416,9 +419,9 @@ export const UniqunessCreate = (props: UniqunessCreateProps) => {
                                                     value={field.value}
                                                     label={
                                                         form.getValues("mode") === "percent"
-                                                            ? translate("resources.merchant.uniqueness.columns.max")
+                                                            ? translate("resources.merchant.settings.columns.max")
                                                             : translate(
-                                                                  "resources.merchant.uniqueness.columns.max"
+                                                                  "resources.merchant.settings.columns.max"
                                                               ).split(",")[0]
                                                     }
                                                     labelSize="note-1"

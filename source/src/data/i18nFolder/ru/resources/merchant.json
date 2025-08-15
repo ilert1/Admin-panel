@@ -21,7 +21,8 @@
     "resources.merchant.success": {
         "create": "Мерчант %{name} успешно создан."
     },
-    "resources.merchant.uniqueness": {
+    "resources.merchant.settings": {
+        "title": "Настройки мерчанта",
         "uniquenessTitle": "Настройки уникализации",
         "uniqueness": "Уникализация",
         "disabled": "Функционал недоступен",

@@ -17,7 +17,7 @@ import { DeleteMerchantDialog } from "../../lists/Merchants/DeleteMerchantDialog
 import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { useFetchDictionaries } from "@/hooks";
-import { UniquenessDialog } from "./UniquenessDialog";
+import { MerchantSettingsDialog } from "./MerchantSettingsDialog";
 
 interface MerchantShowProps {
     id: string;
@@ -101,7 +101,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     <div className="self-end px-[42px]">
                         <div className="flex gap-2">
                             <Button className="" onClick={() => setuniqeunessOpen(true)}>
-                                {translate("resources.merchant.uniqueness.uniquenessTitle")}
+                                {translate("resources.merchant.settings.title")}
                             </Button>
                             <Button className="" onClick={handleEditClicked}>
                                 {translate("app.ui.actions.edit")}
@@ -142,7 +142,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     </div>
                 </div>
             </div>
-            <UniquenessDialog open={uniqeunessOpen} onOpenChange={setuniqeunessOpen} merchantId={id} />
+            <MerchantSettingsDialog open={uniqeunessOpen} onOpenChange={setuniqeunessOpen} merchantId={id} />
             <EditMerchantDialog id={id} open={editDialogOpen} onOpenChange={setEditDialogOpen} />
             <DeleteMerchantDialog
                 id={id}
