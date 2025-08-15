@@ -29,6 +29,7 @@ interface InputProps extends BasicInputProps {
     borderColor?: BorderColor;
     disableErrorMessage?: boolean;
     percentage?: boolean;
+    disableControls?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -50,6 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             borderColor = "border-neutral-40",
             disableErrorMessage = false,
             percentage = false,
+            disableControls = false,
             ...props
         },
         ref
@@ -158,8 +160,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         };
 
         const showClearButton = React.useMemo(
-            () => inputValue?.toString() && isFocused && !disabled,
-            [disabled, inputValue, isFocused]
+            () => inputValue?.toString() && isFocused && !disabled && !disableControls,
+            [disableControls, disabled, inputValue, isFocused]
         );
 
         React.useEffect(() => {
