@@ -320,7 +320,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                             name="public_key"
                             render={({ field }) => {
                                 return (
-                                    <FormItem className="mb-2">
+                                    <FormItem className="mb-4">
                                         <Label>{translate("resources.merchant.settings.public_key")}</Label>
 
                                         <FormControl>
@@ -386,7 +386,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                             control={form.control}
                             name="uniqueness"
                             render={({ field }) => (
-                                <FormItem className="flex items-center justify-between">
+                                <FormItem className="flex items-end gap-2">
                                     <FormControl>
                                         <>
                                             <p className="text-display-4 text-neutral-90 dark:text-neutral-30">
