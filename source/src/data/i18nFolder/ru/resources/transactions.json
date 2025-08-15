@@ -14,7 +14,15 @@
             "external_status": "Внешний статус",
             "parentId": "ID родительской транзакции",
             "customer_payment_id": "ID платежа клиента",
-            "customer_id": "ID клиента"
+            "customer_id": "ID клиента",
+            "phone_number": "Номер телефона",
+            "email": "Email",
+            "first_name": "Имя",
+            "last_name": "Фамилия",
+            "country": "Страна",
+            "user_agent": "User agent",
+            "ip": "IP",
+            "fingerprint": "Fingerprint"
         },
         "state": {
             "title": "Статус",

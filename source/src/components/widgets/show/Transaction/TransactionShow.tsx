@@ -24,6 +24,8 @@ import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { getStateByRole } from "@/helpers/getStateByRole";
+import { JsonForm } from "../../components/JsonForm";
+import { useGetJsonFormDataForTransactions } from "./useGetJsonFormDataForTransactions";
 
 interface TransactionShowProps {
     id: string;
@@ -35,6 +37,8 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const { openSheet, closeSheet } = useSheets();
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+
+    const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
 
     const appToast = useAppToast();
 
@@ -130,6 +134,13 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         context.record?.source?.id,
         context.record?.destination?.id
     );
+
+    const adminData =
+        context.record.type === 1 ? context.record.source.requisites[0] : context.record.destination.requisites[0];
+    const adminCustomerData = context.record.meta.customer_data;
+
+    console.log(adminData);
+    console.log(adminCustomerData);
 
     return (
         <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
@@ -300,6 +311,22 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </>
                 )}
             </div>
+
+            {adminOnly ? (
+                <JsonForm
+                    formData={context.record}
+                    schema={adminSchema}
+                    uischema={adminUISchema}
+                    setFormData={() => {}}
+                />
+            ) : (
+                <JsonForm
+                    formData={context.record.meta.customer_data}
+                    schema={merchantSchema}
+                    uischema={merchantUISchema}
+                    setFormData={() => {}}
+                />
+            )}
 
             {isHistoryLoading ? (
                 <LoadingBlock className="flex-shrink-1 h-auto max-h-72 min-h-24" />

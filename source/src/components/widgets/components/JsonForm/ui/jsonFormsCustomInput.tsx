@@ -6,7 +6,7 @@ import { isControl, isIntegerControl, isStringControl, RankedTester, rankWith } 
 const JsonFormsCustomInput = ({ data, label, errors, visible, description, schema }: ControlProps) => {
     if (!visible) return null;
 
-    let displayValue = data === null ? "-" : String(data);
+    let displayValue = !data || data === null ? "-" : String(data);
 
     if (schema?.type?.includes("string") && (schema.format === "date" || schema.format === "date-time") && data) {
         const date = new Date(data);
