@@ -11,11 +11,12 @@ const JsonFormsCustomTextArea = ({ data, errors, visible, description, label }: 
         <div className="mb-2">
             <Label>{label}</Label>
             <Textarea
-                value={data ?? "-"}
+                defaultValue={data ?? "-"}
                 error={!!errors}
                 errorMessage={errors}
                 placeholder={description}
-                className="user-select-text pointer-events-auto max-h-[150px]"
+                className="user-select-text max-h-[150px]"
+                readOnly
             />
         </div>
     );
