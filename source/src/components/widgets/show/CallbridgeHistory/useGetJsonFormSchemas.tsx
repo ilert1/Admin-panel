@@ -125,10 +125,7 @@ export const useGetJsonFormSchemas = () => {
                 type: "Control",
                 scope: "#/properties/response_status"
             },
-            {
-                type: "Control",
-                scope: "#/properties/error_message"
-            },
+
             {
                 type: "Control",
                 scope: "#/properties/request_method"
@@ -175,7 +172,13 @@ export const useGetJsonFormSchemas = () => {
                 type: "Control",
                 scope: "#/properties/trigger_type"
             },
-
+            {
+                type: "Control",
+                scope: "#/properties/error_message",
+                options: {
+                    colSpan: 3
+                }
+            },
             // 6
             {
                 type: "Control",

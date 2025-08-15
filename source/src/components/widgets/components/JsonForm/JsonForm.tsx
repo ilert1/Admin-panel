@@ -3,6 +3,7 @@ import { JsonForms } from "@jsonforms/react";
 import { MyCustomInputRenderer, myCustomInputTester } from "./ui/jsonFormsCustomInput";
 import { vanillaCells, vanillaRenderers } from "@jsonforms/vanilla-renderers";
 import { gridLayoutRendererRegistryEntry } from "./ui/gridLayoutForJsonForm";
+import { MyCustomTextAreaRenderer, myCustomTextAreaTester } from "./ui/jsoonFormsCustomTextArea";
 
 interface JsonFormProps {
     schema: any;
@@ -22,6 +23,7 @@ export const JsonForm = ({ schema, uischema, formData, setFormData }: JsonFormPr
                 renderers={[
                     ...vanillaRenderers,
                     gridLayoutRendererRegistryEntry,
+                    { tester: myCustomTextAreaTester, renderer: MyCustomTextAreaRenderer },
                     { tester: myCustomInputTester, renderer: MyCustomInputRenderer }
                 ]}
                 cells={vanillaCells}

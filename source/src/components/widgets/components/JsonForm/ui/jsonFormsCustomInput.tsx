@@ -1,6 +1,6 @@
 import { withJsonFormsControlProps } from "@jsonforms/react";
 import { ControlProps } from "@jsonforms/core";
-import { Input } from "@/components/ui/Input/input"; // твой компонент
+import { Input } from "@/components/ui/Input/input";
 import { isControl, isIntegerControl, isStringControl, RankedTester, rankWith } from "@jsonforms/core";
 
 const JsonFormsCustomInput = ({ data, label, errors, visible, description, schema }: ControlProps) => {
