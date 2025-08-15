@@ -2,13 +2,13 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { CallbridgeHistoryShow } from "../../show/CallbridgeHistory/CallbridgeHistoryShow";
-import { TextField } from "@/components/ui/text-field";
 
 interface ShowCallbridgeHistorySheetProps {
     id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
+
 export const ShowCallbridgeHistorySheet = ({ id, open, onOpenChange }: ShowCallbridgeHistorySheetProps) => {
     const translate = useTranslate();
 
@@ -16,7 +16,7 @@ export const ShowCallbridgeHistorySheet = ({ id, open, onOpenChange }: ShowCallb
         <>
             <Sheet open={open} onOpenChange={onOpenChange}>
                 <SheetContent
-                    className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col overflow-hidden border-0 p-0 sm:max-w-[1015px]"
+                    className="top-[84px] m-0 flex h-full !max-h-[calc(100dvh-84px)] w-full flex-col overflow-auto border-0 p-0 sm:max-w-[1015px]"
                     tabIndex={-1}
                     close={false}>
                     <div className="flex-shrink-0 p-4 !pb-[0] md:p-[42px]">
@@ -31,7 +31,6 @@ export const ShowCallbridgeHistorySheet = ({ id, open, onOpenChange }: ShowCallb
                                 <XIcon className="h-[28px] w-[28px]" />
                             </button>
                         </div>
-                        <TextField text={id} copyValue className="!text-display-1" />
                     </div>
                     <CallbridgeHistoryShow id={id} onOpenChange={onOpenChange} />
                     <SheetDescription></SheetDescription>
