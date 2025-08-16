@@ -83,7 +83,12 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
             //     .gte(0, translate("resources.merchant.settings.errors.antifraoudAttemptsMin"))
             //     .lte(100000, translate("resources.merchant.settings.errors.antifraoudAttemptsMax"))
             //     .default(0),
-            public_key: z.string().trim().optional(),
+            public_key: z
+                .string({ message: translate("resources.merchant.errors.required") })
+                .startsWith("-----BEGIN PUBLIC KEY-----", translate("resources.merchant.errors.publicKey"))
+                .endsWith("-----END PUBLIC KEY-----", translate("resources.merchant.errors.publicKey"))
+                .optional()
+                .or(z.literal("")),
             uniqueness: z.boolean(),
             mode: z.enum(modes as [string, ...string[]]),
             min: z.coerce.number().default(0),
