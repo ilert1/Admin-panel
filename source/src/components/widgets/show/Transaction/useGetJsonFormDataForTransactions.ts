@@ -145,56 +145,6 @@ export const useGetJsonFormDataForTransactions = () => {
                 type: ["string", "null"],
                 readOnly: true,
                 title: translate("resources.callbridge.history.show.fields.hash_link")
-            },
-            customer_id: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.customer_id")
-            },
-            customer_payment_id: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.customer_payment_id")
-            },
-            customer_phone_number: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.phone_number")
-            },
-            email: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.email")
-            },
-            first_name: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.first_name")
-            },
-            last_name: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.last_name")
-            },
-            country: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.country")
-            },
-            user_agent: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.user_agent")
-            },
-            ip: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.ip")
-            },
-            fingerprint: {
-                type: ["string", "null"],
-                readOnly: true,
-                title: translate("resources.transactions.fields.meta.fingerprint")
             }
         }
     };

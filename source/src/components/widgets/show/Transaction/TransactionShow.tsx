@@ -134,13 +134,14 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         context.record?.source?.id,
         context.record?.destination?.id
     );
+    let adminData = {};
+    let adminCustomerData = {};
 
-    const adminData =
-        context.record.type === 1 ? context.record.source.requisites[0] : context.record.destination.requisites[0];
-    const adminCustomerData = context.record.meta.customer_data;
-
-    console.log(adminData);
-    console.log(adminCustomerData);
+    if (adminOnly) {
+        adminData =
+            context.record.type === 1 ? context.record.source.requisites[0] : context.record.destination.requisites[0];
+        adminCustomerData = context.record.meta.customer_data;
+    }
 
     return (
         <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
@@ -313,12 +314,23 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
             </div>
 
             {adminOnly ? (
-                <JsonForm
-                    formData={context.record}
-                    schema={adminSchema}
-                    uischema={adminUISchema}
-                    setFormData={() => {}}
-                />
+                <>
+                    <JsonForm
+                        formData={adminData}
+                        schema={adminSchema}
+                        uischema={adminUISchema}
+                        setFormData={() => {}}
+                    />
+                    <div>
+                        <h1 className="mb-2 text-display-1">{"Customer Data"}</h1>
+                        <JsonForm
+                            formData={adminCustomerData}
+                            schema={merchantSchema}
+                            uischema={merchantUISchema}
+                            setFormData={() => {}}
+                        />
+                    </div>
+                </>
             ) : (
                 <JsonForm
                     formData={context.record.meta.customer_data}
