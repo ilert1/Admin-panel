@@ -11,6 +11,8 @@
         "amount_value": "Amount",
         "currency": "Currency",
         "meta": {
+            "payment_type": "Payment type",
+            "provider": "Provider",
             "external_status": "External status",
             "parentId": "Parent transaction ID",
             "customer_payment_id": "Customer payment ID",

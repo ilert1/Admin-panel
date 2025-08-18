@@ -11,6 +11,8 @@
         "amount_value": "Сумма",
         "currency": "Валюта",
         "meta": {
+            "payment_type": "Платёжный тип",
+            "provider": "Провайдер",
             "external_status": "Внешний статус",
             "parentId": "ID родительской транзакции",
             "customer_payment_id": "ID платежа клиента",

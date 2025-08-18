@@ -231,7 +231,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </div>
                 </div>
             )}
-            <div className="flex items-baseline gap-3 md:gap-6">
+            <div className="flex flex-wrap items-baseline gap-3 md:gap-6 lg:flex-nowrap">
                 <TextField
                     label={translate("resources.transactions.fields.type")}
                     text={translate(
@@ -298,6 +298,18 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             />
                         )}
                     </>
+                )}
+
+                <TextField
+                    label={translate("resources.transactions.fields.meta.payment_type")}
+                    text={context.record.meta.payment_type ?? "-"}
+                />
+
+                {adminOnly && (
+                    <TextField
+                        label={translate("resources.transactions.fields.meta.provider")}
+                        text={context.record.meta.provider ?? "-"}
+                    />
                 )}
             </div>
 

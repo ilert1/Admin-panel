@@ -108,6 +108,8 @@ declare namespace Transaction {
     };
 
     type Meta = {
+        payment_type: string;
+        provider: string;
         external_status: string;
         external_status_details: string;
         fail_url: string;
