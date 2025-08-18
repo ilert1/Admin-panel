@@ -138,7 +138,8 @@
         "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?",
         "chooseFinInstitution": "Выберите финансовый институт",
         "selectPaymentType": "Выберите платёжный тип",
-        "noAvailablePaymentTypes": "Нет доступных платёжных типов"
+        "noAvailablePaymentTypes": "Нет доступных платёжных типов",
+        "noAvailableCurrencies": "Нет доступных валют"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Терминальные платёжные инструменты",
