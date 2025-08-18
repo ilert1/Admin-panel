@@ -10,7 +10,8 @@ const JsonFormsCustomInput = ({ data, label, errors, visible, description, schem
 
     if (schema?.type?.includes("string") && (schema.format === "date" || schema.format === "date-time") && data) {
         const date = new Date(data);
-        displayValue = date.toLocaleString();
+        displayValue = date.toLocaleString().split(",").join(" ");
+        console.log(displayValue);
     }
 
     return (
