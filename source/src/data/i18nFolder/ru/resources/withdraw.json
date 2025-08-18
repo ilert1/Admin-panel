@@ -6,6 +6,7 @@
     "resources.withdraw.errors": {
         "low_amount": "Сумма перевода должна быть больше 2 USDT",
         "low_balance": "Сумма перевода не должна превышать баланс",
+        "trnService_error": "Произошла ошибка, обратитесь к администратору с указанием суммы вывода",
         "serverError": "Произошла неизвестная ошибка на сервере"
     },
     "resources.withdraw.fields": {
