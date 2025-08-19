@@ -12,7 +12,6 @@ export const useGetCurrencyColumns = () => {
     const [currencyId, setCurrencyId] = useState("");
 
     const [showEditDialog, setShowEditDialog] = useState(false);
-    const [showAddCurrencyDialog, setShowAddCurrencyDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     const columns: ColumnDef<CurrencyWithId>[] = [
@@ -112,8 +111,6 @@ export const useGetCurrencyColumns = () => {
         currencyId,
         showEditDialog,
         setShowEditDialog,
-        showAddCurrencyDialog,
-        setShowAddCurrencyDialog,
         showDeleteDialog,
         setShowDeleteDialog
     };
