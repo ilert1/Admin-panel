@@ -13,7 +13,7 @@
         "example": "Пример",
         "edit": "Изменить",
         "delete": "Удалить",
-        "accuracy": "Точность",
+        "accuracy": "Точность отображения баланса",
         "defaultAccuracyPlaceholder": "По умолчанию 2"
     },
     "resources.currency.errors": {
