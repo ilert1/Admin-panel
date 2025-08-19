@@ -82,7 +82,7 @@
         "sendWebhook": "Отправить вебхук",
         "sendWebhookSuccessMsg": "Вебхук для ордера %{id} успешно отправлен",
         "notFound": "Транзакция не найдена",
-        "transactionData": "Данные транзакции",
+        "transactionData": "Реквизиты транзакции",
         "customerData": "Данные пользователя"
     },
     "resources.transactions.stateUpdate": {

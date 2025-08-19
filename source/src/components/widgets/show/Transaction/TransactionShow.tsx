@@ -24,8 +24,11 @@ import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { getStateByRole } from "@/helpers/getStateByRole";
-import { JsonForm } from "../../components/JsonForm";
 import { useGetJsonFormDataForTransactions } from "./useGetJsonFormDataForTransactions";
+import { EyeIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { TransactionCustomerDataDialog } from "./TransactionCustomerDataDialog";
+import { TransactionRequisitesDialog } from "./TransactionRequisitesDialog";
 
 interface TransactionShowProps {
     id: string;
@@ -37,6 +40,8 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const { openSheet, closeSheet } = useSheets();
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const [requisitesOpen, setRequisitesOpen] = useState(false);
+    const [customerDataOpen, setCustomerDataOpen] = useState(false);
 
     const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
 
@@ -134,6 +139,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         context.record?.source?.id,
         context.record?.destination?.id
     );
+
     let adminData = {};
     let adminCustomerData = {};
 
@@ -245,7 +251,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </div>
                 </div>
             )}
-            <div className="flex items-baseline gap-3 md:gap-6">
+            <div className="flex flex-wrap items-baseline gap-3 md:gap-6">
                 <TextField
                     label={translate("resources.transactions.fields.type")}
                     text={translate(
@@ -313,43 +319,46 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         )}
                     </>
                 )}
-            </div>
-
-            {adminOnly ? (
-                <>
-                    {adminData && Object.keys(adminData).length && (
-                        <div>
-                            <h1 className="mb-4 text-display-1">
-                                {translate("resources.transactions.show.transactionData")}
-                            </h1>
-                            <JsonForm
-                                formData={adminData}
-                                schema={adminSchema}
-                                uischema={adminUISchema}
-                                setFormData={() => {}}
-                                showNull={false}
-                            />
+                <div>
+                    <div className="flex items-center gap-4">
+                        {adminOnly && (
+                            <div className="flex flex-col items-center justify-center">
+                                <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                                    {translate("resources.transactions.show.transactionData")}
+                                </Label>
+                                <Button
+                                    disabled={!adminData || Object.keys(adminData).length === 0}
+                                    onClick={() => {
+                                        setRequisitesOpen(true);
+                                    }}
+                                    variant="text_btn"
+                                    className="flex size-7 h-7 w-7 items-center bg-transparent p-0 text-green-50 hover:text-green-40 disabled:text-neutral-90">
+                                    <EyeIcon className=" " />
+                                </Button>
+                            </div>
+                        )}
+                        <div className="flex flex-col items-center justify-center">
+                            <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                                {translate("resources.transactions.show.customerData")}
+                            </Label>
+                            <Button
+                                disabled={
+                                    adminOnly
+                                        ? !adminCustomerData || Object.keys(adminCustomerData).length === 0
+                                        : !context.record.meta?.customer_data ||
+                                          Object.keys(context.record.meta?.customer_data).length === 0
+                                }
+                                onClick={() => {
+                                    setCustomerDataOpen(true);
+                                }}
+                                variant="text_btn"
+                                className="flex size-7 h-7 w-7 items-center bg-transparent p-0 text-green-50 hover:text-green-40 disabled:text-neutral-90">
+                                <EyeIcon className=" " />
+                            </Button>
                         </div>
-                    )}
-                    <div>
-                        <h1 className="mb-4 text-display-1">{translate("resources.transactions.show.customerData")}</h1>
-                        <JsonForm
-                            formData={adminCustomerData}
-                            schema={merchantSchema}
-                            uischema={merchantUISchema}
-                            setFormData={() => {}}
-                            showNull={false}
-                        />
                     </div>
-                </>
-            ) : (
-                <JsonForm
-                    formData={context.record.meta.customer_data}
-                    schema={merchantSchema}
-                    uischema={merchantUISchema}
-                    setFormData={() => {}}
-                />
-            )}
+                </div>
+            </div>
 
             {isHistoryLoading ? (
                 <LoadingBlock className="flex-shrink-1 h-auto max-h-72 min-h-24" />
@@ -401,6 +410,21 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </ListContextProvider>
                 </div>
             )}
+
+            <TransactionCustomerDataDialog
+                open={customerDataOpen}
+                onOpenChange={setCustomerDataOpen}
+                schema={merchantSchema}
+                uiSchema={merchantUISchema}
+                data={adminOnly ? adminCustomerData : context.record.meta.customer_data}
+            />
+            <TransactionRequisitesDialog
+                open={requisitesOpen}
+                onOpenChange={setRequisitesOpen}
+                schema={adminSchema}
+                uiSchema={adminUISchema}
+                data={adminData}
+            />
         </div>
     );
 };
