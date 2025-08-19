@@ -333,7 +333,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     className={clsx(
                         "flex-shrink-1 h-auto",
                         !history && "min-h-24",
-                        history && history.length > 1 && "max-h-96"
+                        history && history.length > 1 && adminOnly && "max-h-96"
                     )}
                 />
             )}
