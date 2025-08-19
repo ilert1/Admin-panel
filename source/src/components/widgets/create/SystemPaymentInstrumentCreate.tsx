@@ -96,16 +96,22 @@ export const SystemPaymentInstrumentCreate = ({ onOpenChange }: SystemPaymentIns
     };
 
     const finInstValue = form.watch("financial_institution_code");
+
     useEffect(() => {
+        form.resetField("currency_code");
+
         if (!finInstValue) {
             setPaymentTypes([]);
+            setAvailableCurrencies([]);
         } else if (financialInstitutions && finInstValue) {
             form.resetField("payment_type_code");
             const found = financialInstitutions?.find(item => item.code === finInstValue);
-            console.log(found);
+
             if (found) {
                 setPaymentTypes(found?.payment_types || []);
                 setAvailableCurrencies(found?.currencies || []);
+            } else {
+                setAvailableCurrencies([]);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,8 +130,6 @@ export const SystemPaymentInstrumentCreate = ({ onOpenChange }: SystemPaymentIns
     const paymentsDisabled = !paymentTypes || paymentTypes.length === 0;
     const currenciesDisabled = !availableCurrencies || availableCurrencies.length === 0;
     const financialInstitutionsDisabled = !financialInstitutions || financialInstitutions.length === 0;
-
-    console.log();
 
     return (
         <FormProvider {...form}>

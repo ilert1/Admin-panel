@@ -75,7 +75,14 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     };
 
     const onSelectChange = (currentValue: string) => {
-        onChange(currentValue === value ? "" : currentValue);
+        if (currentValue === value) {
+            onChange("");
+            if (setIdValue) setIdValue("");
+            setOpen(false);
+            return;
+        }
+
+        onChange(currentValue);
 
         if (setIdValue && idField) {
             const variantId = variants.find(el => {
