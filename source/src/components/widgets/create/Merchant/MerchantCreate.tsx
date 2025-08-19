@@ -14,12 +14,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { useFetchDictionaries } from "@/hooks";
+import { useCurrenciesListWithoutPagination, useFetchDictionaries } from "@/hooks";
 import { Fees } from "../../components/Fees";
+import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
 
 export type FeeType = "inner" | "default";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const { openSheet } = useSheets();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -117,7 +119,8 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 recipient: z.string(),
                 direction: z.string()
             })
-        )
+        ),
+        currencies: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -125,7 +128,8 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         defaultValues: {
             name: "",
             description: "",
-            fees: {}
+            fees: {},
+            currencies: []
         }
     });
 
@@ -175,6 +179,20 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                             variant={InputTypes.GRAY}
                                         />
                                     </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="currencies"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <CurrenciesMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={currenciesData || []}
+                                        isLoading={currenciesLoadingProcess}
+                                    />
                                 </FormItem>
                             )}
                         />

@@ -77,6 +77,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
     const fees = context.record.fees;
     const payment_types = context.record.payment_types;
+
     return (
         <>
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">

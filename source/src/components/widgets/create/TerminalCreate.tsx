@@ -23,8 +23,9 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalCreate as ITerminalCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { useProvidersListWithoutPagination } from "@/hooks";
+import { useCurrenciesListWithoutPagination, useProvidersListWithoutPagination } from "@/hooks";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { CurrencySelect } from "../components/Selects/CurrencySelect";
 
 export interface TerminalCreateProps {
     onClose: () => void;
@@ -32,6 +33,8 @@ export interface TerminalCreateProps {
 
 export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -76,7 +79,10 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
             )
             .optional(),
-        payment_types: z.array(z.string()).optional().default([])
+        payment_types: z.array(z.string()).optional().default([]),
+        src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
+        dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        callback_url: z.string().optional().nullable().default(null)
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -87,7 +93,9 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             description: "",
             details: "{}",
             allocation_timeout_seconds: 2,
-            payment_types: []
+            payment_types: [],
+            src_currency_code: "",
+            dst_currency_code: ""
         }
     });
 
@@ -180,6 +188,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     useEffect(() => {
         if (val) {
             const foundProvider = providersData?.find(item => item.name === val);
+
             if (foundProvider?.payment_types?.length === 0) {
                 form.setError("provider", {
                     type: "",
@@ -207,12 +216,12 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="flex flex-wrap">
-                        <div className="grid w-full gap-2 md:grid-cols-2">
+                        <div className="grid w-full gap-x-4 gap-y-2 md:grid-cols-2">
                             <FormField
                                 control={form.control}
                                 name="provider"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2 md:col-span-2">
+                                    <FormItem className="w-full md:col-span-2">
                                         <Label>{translate("resources.direction.provider")}</Label>
                                         <ProviderSelect
                                             providers={providersData || []}
@@ -227,11 +236,12 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="verbose_name"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="w-full">
                                         <FormControl>
                                             <Input
                                                 label={translate("resources.terminals.fields.verbose_name")}
@@ -252,7 +262,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                 control={form.control}
                                 name="allocation_timeout_seconds"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="w-full">
                                         <FormControl>
                                             <Input
                                                 label={translate(
@@ -274,63 +284,126 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                     </FormItem>
                                 )}
                             />
-                        </div>
 
-                        <FormField
-                            control={form.control}
-                            name="payment_types"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <PaymentTypeMultiSelect
+                            <FormField
+                                control={form.control}
+                                name="src_currency_code"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.sourceCurrency")}</Label>
+                                        <CurrencySelect
+                                            currencies={currenciesData || []}
                                             value={field.value}
                                             onChange={field.onChange}
-                                            options={availablePaymentTypes || []}
-                                            disabled={submitButtonDisabled}
+                                            isError={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            disabled={currenciesLoadingProcess}
+                                            modal
                                         />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                    </FormItem>
+                                )}
+                            />
 
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2 sm:w-full">
-                                    <Label className="">{translate("resources.terminals.fields.description")}</Label>
-                                    <FormControl>
-                                        <Textarea
-                                            {...field}
-                                            value={field.value ?? ""}
-                                            placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="!mt-0 h-24 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
+                            <FormField
+                                control={form.control}
+                                name="dst_currency_code"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.destinationCurrency")}</Label>
+                                        <CurrencySelect
+                                            currencies={currenciesData || []}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            disabled={currenciesLoadingProcess}
+                                            modal
                                         />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                    </FormItem>
+                                )}
+                            />
 
-                        <FormField
-                            control={form.control}
-                            name="details"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <Label>{translate("resources.terminals.fields.details")}</Label>
-                                    <FormControl>
-                                        <MonacoEditor
-                                            width="100%"
-                                            onMountEditor={() => setMonacoEditorMounted(true)}
-                                            onErrorsChange={setHasErrors}
-                                            onValidChange={setHasValid}
-                                            code={field.value ?? "{}"}
-                                            setCode={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="payment_types"
+                                render={({ field }) => (
+                                    <FormItem className="w-full sm:col-span-2">
+                                        <FormControl>
+                                            <PaymentTypeMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={availablePaymentTypes || []}
+                                                disabled={submitButtonDisabled}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="callback_url"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full sm:col-span-2">
+                                        <FormControl>
+                                            <Input
+                                                label={translate("resources.callbridge.mapping.fields.callback_url")}
+                                                autoCorrect="off"
+                                                autoCapitalize="none"
+                                                spellCheck="false"
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                variant={InputTypes.GRAY}
+                                                {...field}
+                                                value={field.value || ""}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/*  */}
+
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem className="w-full sm:col-span-2">
+                                        <Label className="">
+                                            {translate("resources.terminals.fields.description")}
+                                        </Label>
+                                        <FormControl>
+                                            <Textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                placeholder={translate("resources.wallet.manage.fields.descr")}
+                                                className="!mt-0 h-24 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="details"
+                                render={({ field }) => (
+                                    <FormItem className="w-full sm:col-span-2">
+                                        <Label>{translate("resources.terminals.fields.details")}</Label>
+                                        <FormControl>
+                                            <MonacoEditor
+                                                width="100%"
+                                                onMountEditor={() => setMonacoEditorMounted(true)}
+                                                onErrorsChange={setHasErrors}
+                                                onValidChange={setHasValid}
+                                                code={field.value ?? "{}"}
+                                                setCode={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button

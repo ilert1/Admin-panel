@@ -7,13 +7,14 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useFetchDictionaries, usePreventFocus } from "@/hooks";
+import { useCurrenciesListWithoutPagination, useFetchDictionaries, usePreventFocus } from "@/hooks";
 import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { MerchantsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
 
 interface MerchantEditProps {
     id?: string;
@@ -21,6 +22,8 @@ interface MerchantEditProps {
 }
 
 export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+
     const data = useFetchDictionaries();
     const dataProvider = useDataProvider();
     const merchantsDataProvider = new MerchantsDataProvider();
@@ -55,7 +58,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             .refine(value => value === null || !/\s/.test(value), {
                 message: translate("resources.merchant.errors.noSpaces")
             }),
-        payment_types: z.array(z.string()).optional()
+        payment_types: z.array(z.string()).optional(),
+        currencies: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -65,7 +69,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             name: "",
             description: "",
             keycloak_id: "",
-            payment_types: []
+            payment_types: [],
+            currencies: []
         }
     });
 
@@ -76,7 +81,9 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 name: merchant.name || "",
                 description: merchant.description || "",
                 keycloak_id: merchant.keycloak_id || "",
-                payment_types: merchant?.payment_types?.map(pt => pt.code) || []
+                payment_types: merchant?.payment_types?.map(pt => pt.code) || [],
+                // currencies: merchant?.currencies || []
+                currencies: []
             };
 
             form.reset(updatedValues);
@@ -235,6 +242,20 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             options={allPaymentTypes || []}
                                         />
                                     </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="currencies"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <CurrenciesMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={currenciesData || []}
+                                        isLoading={currenciesLoadingProcess}
+                                    />
                                 </FormItem>
                             )}
                         />
