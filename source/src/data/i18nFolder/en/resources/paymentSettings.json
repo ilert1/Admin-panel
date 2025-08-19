@@ -140,7 +140,8 @@
         "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
         "chooseFinInstitution": "Choose financial institution",
         "selectPaymentType": "Select payment type",
-        "noAvailablePaymentTypes": "No available payment types"
+        "noAvailablePaymentTypes": "No available payment types",
+        "noAvailableCurrencies": "No available currencies"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",
