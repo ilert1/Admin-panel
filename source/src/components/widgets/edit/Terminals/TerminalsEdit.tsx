@@ -68,7 +68,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                     .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
             )
             .optional(),
-        payment_types: z.array(z.string()).optional()
+        payment_types: z.array(z.string()).optional().default([]),
+        src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
+        dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        callback_url: z.string().optional().nullable().default(null),
+        state: z.enum(["active", "inactive"])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -78,7 +82,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             description: "",
             details: "{}",
             allocation_timeout_seconds: 2,
-            payment_types: []
+            payment_types: [],
+            src_currency_code: "",
+            dst_currency_code: "",
+            callback_url: null,
+            state: "inactive"
         }
     });
 
@@ -89,7 +97,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 description: terminal.description || "",
                 details: JSON.stringify(terminal.details, null, 2) || "{}",
                 allocation_timeout_seconds: terminal?.allocation_timeout_seconds ?? 2,
-                payment_types: terminal?.payment_types?.map(pt => pt.code) || []
+                payment_types: terminal?.payment_types?.map(pt => pt.code) || [],
+                src_currency_code: terminal?.src_currency_code || "",
+                dst_currency_code: terminal?.dst_currency_code || "",
+                callback_url: terminal?.callback_url || null,
+                state: terminal?.state || "inactive"
             };
 
             form.reset(updatedValues);
