@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
     LayoutProps,
@@ -12,26 +11,45 @@ import {
 import { withJsonFormsLayoutProps } from "@jsonforms/react";
 import { JsonFormsDispatch } from "@jsonforms/react";
 
-export interface GridLayoutElement {
-    type: "GridLayout";
-    elements: any[];
-}
-
 export interface GridControlElement {
     type: "Control";
     scope: string;
     options?: {
         colSpan?: number;
+        showNull?: boolean;
     };
 }
 
-const GridLayoutRenderer: React.FC<LayoutProps> = ({ uischema, schema, path, renderers, cells }) => {
+export interface GridLayoutElement {
+    type: "GridLayout";
+    elements: GridControlElement[];
+}
+
+const GridLayoutRenderer: React.FC<LayoutProps> = ({ uischema, schema, path, renderers, cells, data, config }) => {
     const gridLayout = uischema as GridLayoutElement;
     const { elements = [] } = gridLayout;
 
+    const getFieldData = (scope: string) => {
+        const fieldName = scope.replace("#/properties/", "");
+        return data?.[fieldName];
+    };
+
+    const shouldHideElement = (element: GridControlElement) => {
+        const elementOptions = element.options || {};
+        const globalDefaults = config || {};
+
+        const showNull =
+            elementOptions.showNull !== undefined ? elementOptions.showNull : globalDefaults.showNull !== false;
+        const fieldData = getFieldData(element.scope);
+
+        return !showNull && (!fieldData || fieldData === null || fieldData === "");
+    };
+
+    const visibleElements = elements.filter(element => !shouldHideElement(element));
+
     return (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 md:gap-4 lg:grid-cols-3">
-            {elements.map((element, index) => {
+            {visibleElements.map((element, index) => {
                 const elementOptions = element.options || {};
                 const colSpan = elementOptions.colSpan || 1;
 

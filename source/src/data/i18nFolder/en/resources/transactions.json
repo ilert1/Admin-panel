@@ -81,7 +81,9 @@
         "commitTransaction": "Commit the transaction?",
         "sendWebhook": "Send a webhook",
         "sendWebhookSuccessMsg": "The webhook for the order %{id} has been successfully sent",
-        "notFound": "Transaction not found"
+        "notFound": "Transaction not found",
+        "transactionData": "Transaction data",
+        "customerData": "Customer data"
     },
     "resources.transactions.stateUpdate": {
         "title": "State update ",

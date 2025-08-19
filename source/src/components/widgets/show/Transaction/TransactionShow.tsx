@@ -139,8 +139,10 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
     if (adminOnly) {
         adminData =
-            context.record.type === 1 ? context.record.source.requisites[0] : context.record.destination.requisites[0];
-        adminCustomerData = context.record.meta.customer_data;
+            context.record.type === 1
+                ? context.record.source?.requisites?.[0]
+                : context.record.destination?.requisites?.[0];
+        adminCustomerData = context.record.meta?.customer_data;
     }
 
     return (
@@ -315,19 +317,28 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
             {adminOnly ? (
                 <>
-                    <JsonForm
-                        formData={adminData}
-                        schema={adminSchema}
-                        uischema={adminUISchema}
-                        setFormData={() => {}}
-                    />
+                    {adminData && Object.keys(adminData).length && (
+                        <div>
+                            <h1 className="mb-4 text-display-1">
+                                {translate("resources.transactions.show.transactionData")}
+                            </h1>
+                            <JsonForm
+                                formData={adminData}
+                                schema={adminSchema}
+                                uischema={adminUISchema}
+                                setFormData={() => {}}
+                                showNull={false}
+                            />
+                        </div>
+                    )}
                     <div>
-                        <h1 className="mb-2 text-display-1">{"Customer Data"}</h1>
+                        <h1 className="mb-4 text-display-1">{translate("resources.transactions.show.customerData")}</h1>
                         <JsonForm
                             formData={adminCustomerData}
                             schema={merchantSchema}
                             uischema={merchantUISchema}
                             setFormData={() => {}}
+                            showNull={false}
                         />
                     </div>
                 </>

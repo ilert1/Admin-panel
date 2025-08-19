@@ -154,160 +154,275 @@ export const useGetJsonFormDataForTransactions = () => {
         options: {
             variant: "grid",
             columns: 3,
-            gap: "1rem"
+            gap: "1rem",
+            showNull: false
         },
         elements: [
             {
                 type: "Control",
-                scope: "#/properties/attempts"
+                scope: "#/properties/attempts",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/financial_institution_code"
+                scope: "#/properties/financial_institution_code",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/financial_institution_type"
+                scope: "#/properties/financial_institution_type",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/financial_institution_reference"
+                scope: "#/properties/financial_institution_reference",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/financial_institution_bic"
+                scope: "#/properties/financial_institution_bic",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/financial_institution_bin"
+                scope: "#/properties/financial_institution_bin",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/financial_institution_country"
+                scope: "#/properties/financial_institution_country",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/financial_institution_name"
+                scope: "#/properties/financial_institution_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/otp_code"
+                scope: "#/properties/otp_code",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/bank_name"
+                scope: "#/properties/bank_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_number"
+                scope: "#/properties/card_number",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_first_digits"
+                scope: "#/properties/card_first_digits",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_last_digits"
+                scope: "#/properties/card_last_digits",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_cvc"
+                scope: "#/properties/card_cvc",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_holder"
+                scope: "#/properties/card_holder",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_lifetime"
+                scope: "#/properties/card_lifetime",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_lifetime_month"
+                scope: "#/properties/card_lifetime_month",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/card_lifetime_year"
+                scope: "#/properties/card_lifetime_year",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/iban_number"
+                scope: "#/properties/iban_number",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/iban_name"
+                scope: "#/properties/iban_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/phone_number"
+                scope: "#/properties/phone_number",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/phone_last_digits"
+                scope: "#/properties/phone_last_digits",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/account_number"
+                scope: "#/properties/account_number",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/account_name"
+                scope: "#/properties/account_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/blockchain_network"
+                scope: "#/properties/blockchain_network",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/blockchain_address"
+                scope: "#/properties/blockchain_address",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/hash"
+                scope: "#/properties/hash",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/hash_link"
+                scope: "#/properties/hash_link",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/customer_id"
+                scope: "#/properties/customer_id",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/customer_payment_id"
+                scope: "#/properties/customer_payment_id",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/customer_phone_number"
+                scope: "#/properties/customer_phone_number",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/email"
+                scope: "#/properties/email",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/first_name"
+                scope: "#/properties/first_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/last_name"
+                scope: "#/properties/last_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/country"
+                scope: "#/properties/country",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/user_agent"
+                scope: "#/properties/user_agent",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/ip"
+                scope: "#/properties/ip",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/fingerprint"
+                scope: "#/properties/fingerprint",
+                options: {
+                    showNull: false
+                }
             }
         ]
     };
@@ -373,48 +488,79 @@ export const useGetJsonFormDataForTransactions = () => {
         options: {
             variant: "grid",
             columns: 3,
-            gap: "1rem"
+            gap: "1rem",
+            showNull: false
         },
         elements: [
             {
                 type: "Control",
-                scope: "#/properties/customer_id"
+                scope: "#/properties/customer_id",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/customer_payment_id"
+                scope: "#/properties/customer_payment_id",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/phone_number"
+                scope: "#/properties/phone_number",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/email"
+                scope: "#/properties/email",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/first_name"
+                scope: "#/properties/first_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/last_name"
+                scope: "#/properties/last_name",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/country"
+                scope: "#/properties/country",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/user_agent"
+                scope: "#/properties/user_agent",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/ip"
+                scope: "#/properties/ip",
+                options: {
+                    showNull: false
+                }
             },
             {
                 type: "Control",
-                scope: "#/properties/fingerprint"
+                scope: "#/properties/fingerprint",
+                options: {
+                    showNull: false
+                }
             }
         ]
     };
