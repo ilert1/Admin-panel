@@ -24,6 +24,8 @@ import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { getStateByRole } from "@/helpers/getStateByRole";
+import { Label } from "@/components/ui/label";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 interface TransactionShowProps {
     id: string;
@@ -300,10 +302,18 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </>
                 )}
 
-                <TextField
-                    label={translate("resources.transactions.fields.meta.payment_type")}
-                    text={context.record.meta.payment_type ?? "-"}
-                />
+                <div>
+                    <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                        {translate("resources.transactions.fields.meta.payment_type")}
+                    </Label>
+                    <div className="flex flex-wrap gap-2">
+                        {context.record.meta.payment_type ? (
+                            <PaymentTypeIcon type={context.record.meta.payment_type} />
+                        ) : (
+                            <span>-</span>
+                        )}
+                    </div>
+                </div>
 
                 {adminOnly && (
                     <TextField
