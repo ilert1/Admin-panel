@@ -1,11 +1,26 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render as rtlRender, screen, fireEvent } from "@testing-library/react";
 import { AccountListFilter } from "./AccountListFilter";
 import useAccountFilter from "./useAccountFilter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MemoryRouter } from "react-router-dom";
+import React from "react";
 
 jest.mock("./useAccountFilter", () => ({
     __esModule: true,
     default: jest.fn()
 }));
+
+function render(ui: React.ReactElement) {
+    const queryClient = new QueryClient({
+        defaultOptions: { queries: { retry: false } }
+    });
+
+    return rtlRender(
+        <QueryClientProvider client={queryClient}>
+            <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>{ui}</MemoryRouter>
+        </QueryClientProvider>
+    );
+}
 
 describe("AccountListFilter", () => {
     const mockUseAccountFilter = useAccountFilter as jest.Mock;
@@ -16,10 +31,10 @@ describe("AccountListFilter", () => {
             reportLoading: false,
             merchantData: [{ id: "1", name: "Test Merchant" }],
             merchantId: "1",
-            merchantValue: { id: "1", name: "Test Merchant" },
+            merchantValue: "Test Merchant",
             setMerchantValue: jest.fn(),
             merchantsLoadingProcess: false,
-            translate: (key: string) => key, // просто возвращаем ключ
+            translate: (key: string) => key,
             clearFilters: jest.fn(),
             onMerchantChanged: jest.fn(),
             adminOnly: true,
@@ -37,6 +52,7 @@ describe("AccountListFilter", () => {
 
     it("вызывает clearFilters при клике на Clear в FilterButtonGroup", () => {
         const clearFiltersMock = jest.fn();
+
         mockUseAccountFilter.mockReturnValueOnce({
             ...mockUseAccountFilter(),
             clearFilters: clearFiltersMock
@@ -44,7 +60,6 @@ describe("AccountListFilter", () => {
 
         render(<AccountListFilter />);
 
-        // Кнопку из FilterButtonGroup найти по role/text (у тебя там внутри передается onClearFilters)
         const button = screen.getByRole("button", { name: /clear/i });
         fireEvent.click(button);
 
@@ -53,6 +68,7 @@ describe("AccountListFilter", () => {
 
     it("вызывает handleDownloadReport при клике на кнопку скачивания", () => {
         const handleDownloadReportMock = jest.fn();
+
         mockUseAccountFilter.mockReturnValueOnce({
             ...mockUseAccountFilter(),
             handleDownloadReport: handleDownloadReportMock

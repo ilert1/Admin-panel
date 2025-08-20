@@ -5,7 +5,7 @@ export default async (): Promise<Config> => {
     return {
         preset: "ts-jest",
         testEnvironment: "jsdom",
-        roots: ["<rootDir>/src"],
+        roots: ["<rootDir>/"],
         transform: {
             "^.+\\.(ts|tsx)$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.json", babelConfig: true }],
             "^.+\\.(js|jsx)$": "babel-jest"
