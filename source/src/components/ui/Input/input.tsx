@@ -226,8 +226,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             (inputValue && inputValue.toString().length > 0)) && (
                             <span className="select-none pl-2">
                                 <Copy
+                                    data-testid="copy-btn"
                                     className="h-4 w-4 cursor-pointer dark:text-neutral-60"
-                                    role="img"
                                     onClick={copy}
                                 />
                             </span>

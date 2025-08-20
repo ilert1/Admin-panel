@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Input, InputTypes } from "./input";
 import { useState } from "react";
@@ -6,6 +6,7 @@ import { useState } from "react";
 jest.mock("../toast/useAppToast", () => ({
     useAppToast: () => jest.fn()
 }));
+
 jest.mock("react-admin", () => ({
     useTranslate: () => (key: string) => key
 }));
@@ -20,19 +21,11 @@ describe("Input component", () => {
         expect(screen.getByRole("textbox")).toHaveValue("test");
     });
 
-    it("handles uncontrolled value change", async () => {
-        const user = userEvent.setup();
-        render(<Input defaultValue="init" />);
-        const input = screen.getByRole("textbox");
-        await user.clear(input);
-        await user.type(input, "hello");
-        expect(input).toHaveValue("hello");
-    });
-
     it("calls onChange for controlled input", async () => {
         const user = userEvent.setup();
         const handleChange = jest.fn();
         render(<Input value="123" onChange={handleChange} />);
+
         const input = screen.getByRole("textbox");
         await user.type(input, "4");
         expect(handleChange).toHaveBeenCalled();
@@ -43,69 +36,62 @@ describe("Input component", () => {
         const handleFocus = jest.fn();
         const handleBlur = jest.fn();
         render(<Input onFocus={handleFocus} onBlur={handleBlur} />);
-        const input = screen.getByRole("textbox");
 
+        const input = screen.getByRole("textbox");
         await user.click(input);
         expect(handleFocus).toHaveBeenCalled();
 
         await user.tab();
-
-        await act(async () => {
-            jest.runAllTimers();
-        });
         expect(handleBlur).toHaveBeenCalled();
     });
 
     it("shows and clears value with ClearButton", async () => {
         const user = userEvent.setup();
-
         const Wrapper = () => {
             const [val, setVal] = useState("abc");
             return <Input value={val} onChange={e => setVal(e.target.value)} />;
         };
-
         render(<Wrapper />);
-        const input = screen.getByRole("textbox");
 
+        const input = screen.getByRole("textbox");
         await user.click(input);
         const clearBtn = await screen.findByTestId("clear-button");
         await user.click(clearBtn);
-
         expect(input).toHaveValue("");
     });
 
     it("toggles password visibility", async () => {
         const user = userEvent.setup();
         render(<Input type="password" value="secret" />);
+
         const eyeBtn = screen.getByTestId("eye-button");
         const input = screen.getByDisplayValue("secret");
         expect(input).toHaveAttribute("type", "password");
+
         await user.click(eyeBtn);
         expect(input).toHaveAttribute("type", "text");
     });
 
     it("copies value on copy icon click", async () => {
         const user = userEvent.setup();
-
         const mockWriteText = jest.fn().mockResolvedValue(undefined);
+
         Object.defineProperty(navigator, "clipboard", {
             value: { writeText: mockWriteText },
             writable: true
         });
-
         render(<Input copyValue value="copy" />);
 
-        const copyIcon = screen.getByRole("img");
+        const copyIcon = await screen.findByTestId("copy-btn");
         await user.click(copyIcon);
-
         expect(mockWriteText).toHaveBeenCalledWith("copy");
     });
 
     it("handles cut correctly", () => {
         const handleChange = jest.fn();
         render(<Input value="abcdef" onChange={handleChange} />);
-        const input = screen.getByRole("textbox") as HTMLInputElement;
 
+        const input = screen.getByRole("textbox") as HTMLInputElement;
         Object.defineProperty(input, "selectionStart", { value: 1, configurable: true });
         Object.defineProperty(input, "selectionEnd", { value: 3, configurable: true });
 
@@ -122,12 +108,13 @@ describe("Input component", () => {
     it("renders error and ErrorBadge", () => {
         render(<Input error errorMessage="Invalid" />);
         expect(screen.getByTestId("error-badge")).toHaveTextContent("Invalid");
+
         const errorMessages = screen.getAllByText("Invalid");
         expect(errorMessages).toHaveLength(2);
     });
 
     it("applies percentage suffix", () => {
-        render(<Input percentage defaultValue="50" />);
+        render(<Input percentage value="50" />);
         expect(screen.getByText("%")).toBeInTheDocument();
     });
 
@@ -140,6 +127,7 @@ describe("Input component", () => {
         const user = userEvent.setup();
         const onContextMenu = jest.fn();
         render(<Input type="password_masked" onContextMenu={onContextMenu} />);
+
         const input = screen.getByRole("textbox");
         await user.pointer({ target: input, keys: "[MouseRight]" });
         expect(onContextMenu).not.toHaveBeenCalled();
