@@ -33,8 +33,8 @@ export const TransactionCustomerDataDialog = (props: TransactionCustomerDataDial
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
-                <DialogFooter>
-                    <div>
+                <DialogFooter className="!w-full">
+                    <div className="w-full">
                         <JsonForm
                             formData={data}
                             schema={schema}
@@ -42,7 +42,7 @@ export const TransactionCustomerDataDialog = (props: TransactionCustomerDataDial
                             setFormData={() => {}}
                             showNull={false}
                         />
-                        <div className="flex justify-end">
+                        <div className="mt-5 flex justify-end">
                             <Button onClick={() => onOpenChange(false)}>{translate("app.ui.actions.close")}</Button>
                         </div>
                     </div>

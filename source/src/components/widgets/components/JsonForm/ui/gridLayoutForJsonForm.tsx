@@ -57,7 +57,8 @@ const GridLayoutRenderer: React.FC<LayoutProps> = ({ uischema, schema, path, ren
                     <div
                         key={index}
                         style={{
-                            gridColumn: colSpan > 1 ? "1 / -1" : ""
+                            gridColumn: colSpan > 1 ? "1 / -1" : "",
+                            width: "100%"
                         }}>
                         <JsonFormsDispatch
                             uischema={element}
