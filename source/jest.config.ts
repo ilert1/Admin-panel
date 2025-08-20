@@ -16,10 +16,10 @@ export default async (): Promise<Config> => {
             global: { branches: 80, functions: 80, lines: 80, statements: 80 }
         },
         moduleNameMapper: {
-            "^@/(.*)$": "<rootDir>/source/$1",
-            "\\.(css|scss|sass)$": "<rootDir>/source/__mocks__/styleMock.ts",
-            "^(.*)\\.svg\\?react$": "<rootDir>/source/__mocks__/svgReactMock.ts",
-            "\\.svg$": "<rootDir>/source/__mocks__/svgMock.ts"
+            "^.+\\.svg\\?react$": "<rootDir>/src/__mocks__/svgReactMock.tsx",
+            "^.+\\.svg$": "<rootDir>/src/__mocks__/svgMock.ts",
+            "^.+\\.(css|scss|sass)$": "<rootDir>/src/__mocks__/styleMock.ts",
+            "^@/(.*)$": "<rootDir>/src/$1"
         }
     };
 };
