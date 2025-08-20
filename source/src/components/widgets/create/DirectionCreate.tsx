@@ -43,6 +43,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import clsx from "clsx";
 
+const kindArray: string[] = ["sequential", "fanout"];
+
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
     const controllerProps = useCreateController<IDirectionCreate>();
     const dataProvider = useDataProvider();
@@ -158,7 +160,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             .enum(directionTypes.map(type => type.value) as [string, ...string[]], {
                 message: translate("resources.direction.errors.typeError")
             })
-            .default("withdraw")
+            .default("withdraw"),
+        kind: z.enum(kindArray as [string, ...string[]])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -173,7 +176,8 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             provider: "",
             terminal: "",
             weight: 0,
-            type: "withdraw"
+            type: "withdraw",
+            kind: "sequential"
         }
     });
 
@@ -491,6 +495,39 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                                 <SelectItem value="inactive" variant={SelectType.GRAY}>
                                                     {translate("resources.direction.fields.stateInactive")}
                                                 </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="kind"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>{translate("resources.direction.fields.kinds.kind")}</Label>
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.direction.fields.kinds.kind")}
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {kindArray.map(kind => {
+                                                    return (
+                                                        <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
+                                                            {translate(`resources.direction.fields.kinds.${kind}`)}
+                                                        </SelectItem>
+                                                    );
+                                                })}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>

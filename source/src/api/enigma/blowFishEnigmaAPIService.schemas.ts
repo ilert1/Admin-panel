@@ -1375,6 +1375,7 @@ export interface Direction {
     dst_currency: Currency;
     /** List of payment types associated with this direction */
     payment_types?: PaymentTypeBase[];
+    kind?: string;
 }
 
 /**

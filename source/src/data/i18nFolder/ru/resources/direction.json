@@ -23,7 +23,12 @@
         "api_key": "Информация об аутентификации",
         "merchantsDirections": "Направления мерчанта ",
         "isActive": "Активность",
-        "terminal": "Терминал"
+        "terminal": "Терминал",
+        "kinds": {
+            "kind": "Тип направления",
+            "sequential": "Последовательное",
+            "fanout": "Разветвленное"
+        }
     },
     "resources.direction.fees": {
         "fees": "Комиссии",
@@ -38,7 +43,6 @@
         "error": "Ошибка",
         "errorWhenCreating": "Произошла ошибка при создании комиссии",
         "successDelete": "Коммисия успешно удалена",
-
         "directionFieldError": "Направление обязательно должно быть выбрано",
         "currencyFieldError": "Валюта обязательно должна быть выбрана",
         "valueFieldError": "Коммиссия должна быть положительным числом.",
@@ -47,7 +51,6 @@
         "valueMustBeFinite": "Значение должно быть конечным числом",
         "valueMaxPrecisionError": "Допускается максимум 2 знака после запятой",
         "errorAlreadyExist": "Комиссия с таким типом уже существует",
-
         "smallFeeDialog": {
             "title": "Размер комиссии",
             "lessThenOne": " меньше 1%",
