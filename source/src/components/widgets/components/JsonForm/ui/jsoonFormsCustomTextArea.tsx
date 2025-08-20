@@ -15,7 +15,7 @@ const JsonFormsCustomTextArea = ({ data, errors, visible, description, label }: 
                 error={!!errors}
                 errorMessage={errors}
                 placeholder={description}
-                className="user-select-text max-h-[150px]"
+                className="user-select-text pointer-events-auto max-h-[150px] dark:!bg-muted"
                 readOnly
             />
         </div>
