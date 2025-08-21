@@ -159,6 +159,40 @@ declare namespace Transaction {
         success_url?: string;
     };
 
+    type TransactionAccountRequisites = {
+        requisites: [
+            {
+                financial_institution_code: string | null;
+                financial_institution_type: string | null;
+                financial_institution_reference: string | null;
+                financial_institution_bic: string | null;
+                financial_institution_bin: string | null;
+                financial_institution_country: string | null;
+                financial_institution_name: string | null;
+                otp_code: string | null;
+                bank_name: string | null;
+                card_number: string | null;
+                card_first_digits?: string | null;
+                card_last_digits?: string | null;
+                card_cvc?: string | null;
+                card_holder?: string | null;
+                card_lifetime?: string | null;
+                card_lifetime_month?: string | null;
+                card_lifetime_year?: string | null;
+                iban_number?: string | null;
+                iban_name?: string | null;
+                phone_number?: string | null;
+                phone_last_digits?: string | null;
+                account_number?: string | null;
+                account_name?: string | null;
+                blockchain_network?: string | null;
+                blockchain_address?: string | null;
+                hash?: string | null;
+                hash_link?: string | null;
+            }
+        ];
+    };
+
     type Transaction = {
         id: string;
         committed: boolean;
@@ -166,23 +200,14 @@ declare namespace Transaction {
         destination: {
             id: string;
             amount: Omit<Amount, "type", "shop_currency">;
-
-            requisites: [
-                {
-                    hash: string;
-                    hash_link: string;
-                    blockchain_network: string;
-                    blockchain_address: string;
-                }
-            ];
-        };
+        } & TransactionAccountRequisites;
         dispute: boolean;
         fees: import("./api/enigma/blowFishEnigmaAPIService.schemas").Fee[];
         meta: Meta;
         payload?: Payload;
         rate_info: RateInfo;
         result: Result;
-        source: Account;
+        source: Account & TransactionAccountRequisites;
         state: State;
         type: number;
     };

@@ -43,7 +43,7 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
 
                             return (
                                 <AccordionItem key={key} value={key}>
-                                    <AccordionTrigger className="text-neutral-90 dark:text-neutral-0">
+                                    <AccordionTrigger className="text-xs text-neutral-90 dark:text-neutral-0 sm:text-sm md:text-base">
                                         {key}
                                     </AccordionTrigger>
 
