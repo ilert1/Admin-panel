@@ -252,7 +252,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </div>
                 </div>
             )}
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2 md:gap-x-4 md:gap-y-2 lg:flex-nowrap">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2 md:gap-x-4 md:gap-y-2">
                 <TextField
                     label={translate("resources.transactions.fields.type")}
                     text={translate(
