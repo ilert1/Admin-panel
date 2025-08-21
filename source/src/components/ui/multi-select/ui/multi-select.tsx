@@ -296,6 +296,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                                                 </span>
                                                             )}
                                                             <XCircle
+                                                                data-testid="x-circle"
                                                                 className="ml-2 h-4 w-4 cursor-pointer rounded-full transition-colors hover:bg-red-40"
                                                                 onClick={event => {
                                                                     event.stopPropagation();
@@ -309,6 +310,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                     </div>
                                     <div className="flex flex-wrap items-center justify-end">
                                         <XIcon
+                                            data-testid="x-icon"
                                             className="mx-2 h-4 cursor-pointer text-muted-foreground"
                                             onClick={event => {
                                                 event.stopPropagation();
@@ -350,6 +352,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                         <Command
                             filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
                             <CommandInput
+                                data-testid="command-input"
                                 value={inputValue}
                                 onValueChange={handleInputChange}
                                 placeholder={
@@ -489,6 +492,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                     </PopoverContent>
                     {animation > 0 && selectedValues.length > 0 && (
                         <WandSparkles
+                            data-testid="wand-sparkles"
                             className={cn(
                                 "my-2 h-3 w-3 cursor-pointer bg-background text-foreground",
                                 isAnimating ? "" : "text-muted-foreground"
