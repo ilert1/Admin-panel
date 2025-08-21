@@ -36,7 +36,9 @@ const OPTIONS = [
 
 describe("MultiSelect", () => {
     it("рендерит placeholder если нет выбранных значений", () => {
-        render(<MultiSelect options={OPTIONS} selectedValues={[]} onValueChange={jest.fn()} />);
+        render(
+            <MultiSelect options={OPTIONS} selectedValues={[]} onValueChange={jest.fn()} placeholder="Select options" />
+        );
         expect(screen.getByText("Select options")).toBeInTheDocument();
     });
 
@@ -128,5 +130,11 @@ describe("MultiSelect", () => {
         render(<MultiSelect options={OPTIONS} selectedValues={["a"]} onValueChange={jest.fn()} animation={1} />);
 
         expect(screen.getByTestId("wand-sparkles")).toBeInTheDocument();
+    });
+
+    it("показывает лоадер, если передан соответствующий пропс", () => {
+        render(<MultiSelect options={OPTIONS} selectedValues={[]} onValueChange={jest.fn()} isLoading />);
+
+        expect(screen.getByTestId("loading-block")).toBeInTheDocument();
     });
 });

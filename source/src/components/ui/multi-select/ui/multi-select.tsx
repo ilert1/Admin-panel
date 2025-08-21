@@ -250,7 +250,10 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                                 <div className="flex w-full items-center justify-between">
                                     <div className="flex max-h-32 flex-wrap items-center gap-y-1 overflow-y-auto">
                                         {isLoading ? (
-                                            <LoadingBlock className="!h-4 !w-4 overflow-hidden" />
+                                            <LoadingBlock
+                                                data-testid="loading-block"
+                                                className="!h-4 !w-4 overflow-hidden"
+                                            />
                                         ) : (
                                             selectedValues
                                                 // .slice(0, maxCount)
