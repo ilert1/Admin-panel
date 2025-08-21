@@ -22,6 +22,7 @@ module.exports = {
         "no-undef": "off",
         "no-unused-vars": "off",
         "eslint no-empty": "off",
+        "react/prop-types": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
         "@typescript-eslint/no-empty-function": "off"
     }
