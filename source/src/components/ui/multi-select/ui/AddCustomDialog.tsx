@@ -36,15 +36,11 @@ export const AddCustomDialog = (props: AddCustomDialogProps) => {
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const [found, setFound] = useState("");
-    const doesExist = localOptions.some(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (opt: any) => opt.value === code || opt.label?.toLowerCase() === code.toLowerCase()
-    );
+    const doesExist = localOptions.some(opt => opt.value === code || opt.label?.toLowerCase() === code.toLowerCase());
     useEffect(() => {
         if (doesExist) {
             setFound(
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                localOptions.find((opt: any) => opt.value === code || opt.label?.toLowerCase() === code.toLowerCase())
+                localOptions.find(opt => opt.value === code || opt.label?.toLowerCase() === code.toLowerCase())
                     ?.label ?? ""
             );
         }

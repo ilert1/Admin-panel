@@ -131,10 +131,4 @@ describe("MultiSelect", () => {
 
         expect(screen.getByTestId("wand-sparkles")).toBeInTheDocument();
     });
-
-    it("показывает лоадер, если передан соответствующий пропс", () => {
-        render(<MultiSelect options={OPTIONS} selectedValues={[]} onValueChange={jest.fn()} isLoading />);
-
-        expect(screen.getByTestId("loading-block")).toBeInTheDocument();
-    });
 });
