@@ -79,6 +79,7 @@ export const TextField = ({
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy
+                                data-testid="copy-icon"
                                 className={cn(
                                     "h-4 w-4 cursor-pointer",
                                     (type === "link" || onClick) &&
