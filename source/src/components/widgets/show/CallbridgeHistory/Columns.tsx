@@ -35,8 +35,8 @@ export const useGetCallbridgeHistoryColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div>
-                        {row.original.status.from + " / "}
-                        {row.original.status.to}
+                        {(row.original.status?.from || "-") + " / "}
+                        {row.original.status?.to || "-"}
                     </div>
                 );
             }
