@@ -12,7 +12,7 @@ jest.mock("react-admin", () => {
     const actual = jest.requireActual("react-admin");
     return {
         ...actual,
-        useTranslate: () => (key: string) => key // мокнем только useTranslate
+        useTranslate: () => (key: string) => key
     };
 });
 
