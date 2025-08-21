@@ -25,6 +25,7 @@ interface MultiSelectProps extends ButtonHTMLAttributes<HTMLButtonElement>, Vari
     isLoading?: boolean;
     addingNew?: boolean;
     disabled?: boolean;
+    draggable?: boolean;
 }
 
 export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
@@ -42,6 +43,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
             isLoading = false,
             addingNew = false,
             disabled = false,
+            draggable = false,
             ...props
         },
         ref
@@ -55,13 +57,20 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
         const [inputValue, setInputValue] = useState("");
         const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
-        const { localOptions, setLocalOptions, toggleOption, handleClear, toggleAll, areAllSelected } =
-            useMultiSelectLogic({
-                options,
-                selectedValues,
-                onValueChange,
-                addingNew
-            });
+        const {
+            localOptions,
+            setLocalOptions,
+            toggleOption,
+            handleClear,
+            toggleAll,
+            areAllSelected,
+            handleReorderValues
+        } = useMultiSelectLogic({
+            options,
+            selectedValues,
+            onValueChange,
+            addingNew
+        });
 
         const handleTogglePopover = () => {
             setIsPopoverOpen(prev => !prev);
@@ -89,6 +98,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                             ref={ref}
                             {...props}
                             disabled={disabled}
+                            draggable={draggable}
                             onClick={handleTogglePopover}
                             className={className}
                             selectedValues={selectedValues}
@@ -102,6 +112,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
                             isAnimating={isAnimating}
                             onToggleOption={toggleOption}
                             onClear={handleClear}
+                            onReorderValues={handleReorderValues}
                         />
                     </PopoverTrigger>
 

@@ -69,6 +69,13 @@ export const useMultiSelectLogic = ({
         }
     };
 
+    const handleReorderValues = (fromIndex: number, toIndex: number) => {
+        const reorderedValues = [...selectedValues];
+        const [movedItem] = reorderedValues.splice(fromIndex, 1);
+        reorderedValues.splice(toIndex, 0, movedItem);
+        onValueChange(reorderedValues);
+    };
+
     const areAllSelected = selectedValues.length === localOptions.length;
 
     return {
@@ -77,6 +84,7 @@ export const useMultiSelectLogic = ({
         toggleOption,
         handleClear,
         toggleAll,
-        areAllSelected
+        areAllSelected,
+        handleReorderValues
     };
 };

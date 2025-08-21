@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import { ButtonHTMLAttributes, forwardRef, useState } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { XIcon, ChevronDown } from "lucide-react";
 
@@ -23,6 +23,8 @@ interface MultiSelectButtonProps
     isAnimating: boolean;
     onToggleOption: (value: string) => void;
     onClear: () => void;
+    onReorderValues: (fromIndex: number, toIndex: number) => void;
+    draggable: boolean;
 }
 
 export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButtonProps>(
@@ -39,12 +41,49 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
             isAnimating,
             onToggleOption,
             onClear,
+            onReorderValues,
+            draggable,
             disabled,
             className,
             ...props
         },
         ref
     ) => {
+        const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+        const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+        const handleDragStart = (index: number) => {
+            setDraggedIndex(index);
+        };
+
+        const handleDragOver = (index: number) => {
+            setDragOverIndex(index);
+        };
+
+        const handleDragEnd = () => {
+            if (draggedIndex !== null && dragOverIndex !== null && draggedIndex !== dragOverIndex) {
+                onReorderValues(draggedIndex, dragOverIndex);
+            }
+            setDraggedIndex(null);
+            setDragOverIndex(null);
+        };
+
+        const dragHandlers = draggable
+            ? {
+                  onDragStart: handleDragStart,
+                  onDragOver: handleDragOver,
+                  onDragEnd: handleDragEnd,
+                  isDragging: draggedIndex,
+                  isDragOver: dragOverIndex
+              }
+            : {
+                  onDragStart: () => {},
+                  onDragOver: () => {},
+                  onDragEnd: () => {},
+                  isDragging: null,
+                  isDragOver: null
+              };
+
         return (
             <Button
                 disabled={disabled}
@@ -64,10 +103,11 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                             {isLoading ? (
                                 <LoadingBlock className="!h-4 !w-4 overflow-hidden" />
                             ) : (
-                                selectedValues.map(value => (
+                                selectedValues.map((value, index) => (
                                     <MultiSelectBadge
                                         key={value}
                                         value={value}
+                                        index={index}
                                         localOptions={localOptions}
                                         options={options}
                                         addingNew={addingNew}
@@ -75,6 +115,12 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                                         animation={animation}
                                         isAnimating={isAnimating}
                                         onToggle={onToggleOption}
+                                        draggable={draggable}
+                                        onDragStart={dragHandlers.onDragStart}
+                                        onDragOver={dragHandlers.onDragOver}
+                                        onDragEnd={dragHandlers.onDragEnd}
+                                        isDragging={dragHandlers.isDragging === index}
+                                        isDragOver={dragHandlers.isDragOver === index}
                                     />
                                 ))
                             )}

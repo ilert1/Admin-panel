@@ -19,9 +19,6 @@ export const multiSelectVariants = cva("m-1 transition ease-out duration-150", {
     }
 });
 
-/**
- * Option object structure for MultiSelect
- */
 export interface MultiSelectOption {
     /** The text to display for the option. */
     label: string;
