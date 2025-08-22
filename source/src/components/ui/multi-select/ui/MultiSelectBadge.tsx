@@ -19,6 +19,7 @@ interface MultiSelectBadgeProps extends VariantProps<typeof multiSelectVariants>
     onDragStart: (index: number) => void;
     onDragOver: (index: number) => void;
     onDragEnd: () => void;
+    onDragLeave: () => void;
     isDragging: boolean;
     isDragOver: boolean;
 }
@@ -37,6 +38,7 @@ export const MultiSelectBadge: React.FC<MultiSelectBadgeProps> = ({
     onDragStart,
     onDragOver,
     onDragEnd,
+    onDragLeave,
     isDragging,
     isDragOver
 }: MultiSelectBadgeProps) => {
@@ -47,6 +49,7 @@ export const MultiSelectBadge: React.FC<MultiSelectBadgeProps> = ({
     const handleDragStart = (e: React.DragEvent) => {
         if (!draggable) return;
         e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", "");
         onDragStart(index);
     };
 
@@ -63,19 +66,40 @@ export const MultiSelectBadge: React.FC<MultiSelectBadgeProps> = ({
         onDragOver(index);
     };
 
+    const handleDragLeave = (e: React.DragEvent) => {
+        if (!draggable) return;
+        e.preventDefault();
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX;
+        const y = e.clientY;
+
+        if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+            onDragLeave();
+        }
+    };
+
     const handleDrop = (e: React.DragEvent) => {
         if (!draggable) return;
         e.preventDefault();
         onDragEnd();
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handleDragEndGlobal = (_e: React.DragEvent) => {
+        if (!draggable) return;
+        onDragEnd();
+    };
+
     return (
         <Badge
+            onClick={() => {}}
             draggable={draggable}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
             onDrop={handleDrop}
+            onDragEnd={handleDragEndGlobal}
             className={cn(
                 isAnimating ? "animate-bounce" : "",
                 multiSelectVariants({ variant }),
@@ -84,8 +108,8 @@ export const MultiSelectBadge: React.FC<MultiSelectBadgeProps> = ({
                 isCustomOption ? "border-dashed border-green-40" : "",
                 !option && "border-dashed border-red-40",
                 draggable && "cursor-move",
-                draggable && isDragging && "z-50 scale-105 opacity-50 shadow-lg",
-                draggable && isDragOver && !isDragging && "scale-105 ring-2 ring-blue-400 ring-opacity-50"
+                draggable && isDragging && "z-50 opacity-50 shadow-lg",
+                draggable && isDragOver && !isDragging && "scale-95 ring-2 ring-green-40 ring-opacity-50"
             )}
             style={{ animationDuration: `${animation}s` }}>
             {draggable && (
