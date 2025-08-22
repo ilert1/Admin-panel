@@ -14,7 +14,7 @@ const JsonFormsCustomInput = ({ data, label, visible, schema, config }: ControlP
     return (
         <div className="mb-2 flex max-w-full flex-col gap-1">
             <label className="block text-note-1 text-neutral-60 md:text-nowrap">{label}</label>
-            <span className="text-wrap break-words break-all">{displayValue}</span>
+            <span className="text-wrap break-words break-all text-neutral-90 dark:text-neutral-0">{displayValue}</span>
         </div>
     );
 };

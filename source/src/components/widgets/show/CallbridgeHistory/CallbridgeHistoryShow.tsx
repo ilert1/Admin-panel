@@ -96,7 +96,11 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                     </div>
                 ) : (
                     <div className="h-[350px] w-full">
-                        <MonacoEditor code={JSON.stringify(formData?.changes_history, null, 2)} height="h-full" />
+                        <MonacoEditor
+                            code={JSON.stringify(formData?.changes_history, null, 2)}
+                            height="h-full"
+                            disabled
+                        />
                     </div>
                 )}
 
