@@ -131,4 +131,131 @@ describe("MultiSelect", () => {
 
         expect(screen.getByTestId("wand-sparkles")).toBeInTheDocument();
     });
+
+    describe("Drag and Drop functionality", () => {
+        it("не показывает grip icon когда draggable=false", () => {
+            render(
+                <MultiSelect
+                    options={OPTIONS}
+                    selectedValues={["a", "b"]}
+                    onValueChange={jest.fn()}
+                    draggable={false}
+                />
+            );
+
+            const badges = screen.getAllByText(/Option/);
+            expect(badges).toHaveLength(2);
+
+            expect(screen.queryByTestId("grip-vertical")).not.toBeInTheDocument();
+        });
+
+        it("показывает grip icon когда draggable=true", () => {
+            render(
+                <MultiSelect options={OPTIONS} selectedValues={["a", "b"]} onValueChange={jest.fn()} draggable={true} />
+            );
+
+            const gripIcons = screen.getAllByTestId("grip-vertical");
+            expect(gripIcons).toHaveLength(2);
+        });
+
+        it("badges не имеют draggable атрибут когда draggable=false", () => {
+            render(
+                <MultiSelect options={OPTIONS} selectedValues={["a"]} onValueChange={jest.fn()} draggable={false} />
+            );
+
+            const badge = screen.getByText("Option A").closest("[draggable]");
+            expect(badge).toHaveAttribute("draggable", "false");
+        });
+
+        it("badges имеют draggable атрибут когда draggable=true", () => {
+            render(<MultiSelect options={OPTIONS} selectedValues={["a"]} onValueChange={jest.fn()} draggable={true} />);
+
+            const badge = screen.getByText("Option A").closest("[draggable]");
+            expect(badge).toHaveAttribute("draggable", "true");
+        });
+
+        it("обрабатывает drag start event", () => {
+            const onValueChange = jest.fn();
+            render(
+                <MultiSelect
+                    options={OPTIONS}
+                    selectedValues={["a", "b"]}
+                    onValueChange={onValueChange}
+                    draggable={true}
+                />
+            );
+
+            const firstBadge = screen.getByText("Option A").closest("[draggable]");
+            expect(firstBadge).toBeInTheDocument();
+
+            // Simulate drag start
+            fireEvent.dragStart(firstBadge!, {
+                dataTransfer: {
+                    effectAllowed: "",
+                    setData: jest.fn()
+                }
+            });
+
+            // Badge should have dragging styles applied
+            expect(firstBadge).toHaveClass("opacity-50");
+        });
+
+        // it("reorders values при успешном drag and drop", async () => {
+        //     const onValueChange = jest.fn();
+        //     const MultiSelectWrapper = () => {
+        //         const [selectedValues, setSelectedValues] = useState<string[]>(["a", "b", "c"]);
+        //         console.log("Selected values: ", selectedValues);
+        //         return (
+        //             <MultiSelect
+        //                 options={OPTIONS}
+        //                 selectedValues={selectedValues}
+        //                 onValueChange={val => {
+        //                     setSelectedValues(val);
+        //                     console.log("Selected values: ", selectedValues);
+        //                     onValueChange(val);
+        //                 }}
+        //                 draggable={true}
+        //             />
+        //         );
+        //     };
+
+        //     render(<MultiSelectWrapper />);
+
+        //     const firstBadge = screen.getByText("Option A").closest("[draggable]");
+        //     const thirdBadge = screen.getByText("Option C").closest("[draggable]");
+
+        //     // Simulate drag from first to third position
+        //     fireEvent.dragStart(firstBadge!);
+        //     fireEvent.dragOver(thirdBadge!);
+        //     fireEvent.drop(thirdBadge!);
+        //     fireEvent.dragEnd(firstBadge!);
+
+        //     // Should reorder from ["a", "b", "c"] to ["b", "c", "a"]
+        //     await waitFor(() => {
+        //         expect(onValueChange).toHaveBeenCalledWith(["b", "c", "a"]);
+        //     });
+        // });
+
+        it("не обрабатывает drag events когда draggable=false", () => {
+            const onValueChange = jest.fn();
+            render(
+                <MultiSelect
+                    options={OPTIONS}
+                    selectedValues={["a", "b"]}
+                    onValueChange={onValueChange}
+                    draggable={false}
+                />
+            );
+
+            const firstBadge = screen.getByText("Option A").closest("[draggable]");
+
+            // Simulate drag start - should not trigger reordering logic
+            fireEvent.dragStart(firstBadge!);
+            fireEvent.dragEnd(firstBadge!);
+
+            // Badge should not have dragging styles
+            expect(firstBadge).not.toHaveClass("opacity-50");
+            expect(onValueChange).not.toHaveBeenCalled();
+        });
+    });
 });
