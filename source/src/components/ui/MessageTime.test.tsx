@@ -2,14 +2,12 @@ import { render, screen } from "@testing-library/react";
 import moment from "moment";
 import { MessageTime } from "./MessageTime";
 
-// Устанавливаем локаль для тестового окружения
 moment.locale("en");
 
 describe("MessageTime", () => {
-    const mockTimestamp = 1672531200000; // 1 января 2023, 00:00:00 UTC
+    const mockTimestamp = 1672531200000;
 
     beforeEach(() => {
-        // Сбрасываем локаль перед каждым тестом
         moment.locale("en");
     });
 
@@ -49,7 +47,7 @@ describe("MessageTime", () => {
     });
 
     it("uses different timestamp values correctly", () => {
-        const differentTimestamp = 1672617600000; // 2 января 2023, 00:00:00 UTC
+        const differentTimestamp = 1672617600000;
 
         render(<MessageTime locale="ru" timestamp={differentTimestamp} />);
 
@@ -89,7 +87,6 @@ describe("MessageTime", () => {
     it("applies correct moment locale for English", () => {
         render(<MessageTime locale="en" timestamp={mockTimestamp} />);
 
-        // Проверяем, что для английской локали используется es-us
         const expectedTime = moment(mockTimestamp).locale("es-us").format("LT");
         expect(screen.getByText(expectedTime)).toBeInTheDocument();
     });
@@ -97,7 +94,6 @@ describe("MessageTime", () => {
     it("applies correct moment locale for non-English languages", () => {
         render(<MessageTime locale="de" timestamp={mockTimestamp} />);
 
-        // Проверяем, что для немецкой локали используется de
         const expectedTime = moment(mockTimestamp).locale("de").format("LT");
         expect(screen.getByText(expectedTime)).toBeInTheDocument();
     });
