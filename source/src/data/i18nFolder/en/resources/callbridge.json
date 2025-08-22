@@ -144,6 +144,10 @@
                 "hash": "Hash",
                 "hash_link": "Hash link"
             },
+            "technicalInfoTable": {
+                "key": "Key",
+                "value": "Value"
+            },
             "fromTo": "From / To",
             "fromToDate": "From / To",
             "technicalInfo": "Technical info",
