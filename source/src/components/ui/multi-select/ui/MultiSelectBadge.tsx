@@ -114,6 +114,7 @@ export const MultiSelectBadge: React.FC<MultiSelectBadgeProps> = ({
             style={{ animationDuration: `${animation}s` }}>
             {draggable && (
                 <GripVertical
+                    data-testid="grip-vertical"
                     className={cn(
                         "mr-1 h-3 w-3 flex-shrink-0 opacity-30 transition-all duration-200 group-hover:opacity-60"
                     )}
