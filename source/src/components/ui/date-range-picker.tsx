@@ -213,6 +213,7 @@ export function DateRangePicker({
 
                             {openPopover && dateRange?.from && dateRange?.to ? (
                                 <span
+                                    data-testid="clear-btn"
                                     onClick={e => {
                                         e.preventDefault();
                                         onChange(undefined);
