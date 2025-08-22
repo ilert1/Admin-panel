@@ -89,7 +89,6 @@ describe("DataTable", () => {
         fireEvent.keyDown(option!, {
             key: " "
         });
-        console.log(document.body.innerHTML);
         expect(setPerPage).toHaveBeenCalledWith(50);
     });
 
