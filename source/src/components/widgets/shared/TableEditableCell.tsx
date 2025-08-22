@@ -61,12 +61,13 @@ export function TableEditableCell<T>({
 
                     <div className="flex flex-col items-center">
                         {isFetching ? (
-                            <div className="flex items-center justify-center">
+                            <div data-testid="loading-spinner" className="flex items-center justify-center">
                                 <LoadingBalance className="h-6 w-6 overflow-hidden" />
                             </div>
                         ) : (
                             <>
                                 <Button
+                                    data-testid="x-icon"
                                     disabled={isFetching}
                                     onClick={onExit}
                                     variant="secondary"
@@ -74,6 +75,7 @@ export function TableEditableCell<T>({
                                     <X className="h-5" />
                                 </Button>
                                 <Button
+                                    data-testid="check-icon"
                                     onClick={() => onSubmit(value.trim())}
                                     variant="secondary"
                                     className="h-auto p-0">
@@ -94,6 +96,7 @@ export function TableEditableCell<T>({
                     />
 
                     <Button
+                        data-testid="pencil-icon"
                         onClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
                         variant="secondary"
                         className="absolute right-2 top-2 flex h-auto items-center p-0">
