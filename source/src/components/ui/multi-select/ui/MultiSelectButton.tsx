@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef, useState } from "react";
+import { ButtonHTMLAttributes, forwardRef, useEffect, useRef, useState } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { XIcon, ChevronDown } from "lucide-react";
 
@@ -51,6 +51,28 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
     ) => {
         const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
         const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+        const containerRef = useRef<HTMLDivElement>(null);
+        const [wrapped, setWrapped] = useState(false);
+
+        useEffect(() => {
+            const container = containerRef.current;
+            if (!container) return;
+
+            const checkWrap = () => {
+                const children = Array.from(container.children) as HTMLElement[];
+                if (children.length < 2) return;
+                const firstTop = children[0].getBoundingClientRect().top;
+                const lastTop = children[children.length - 1].getBoundingClientRect().top;
+                setWrapped(firstTop !== lastTop);
+            };
+
+            const observer = new ResizeObserver(checkWrap);
+            observer.observe(container);
+            checkWrap();
+
+            return () => observer.disconnect();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [containerRef.current]);
 
         const handleDragStart = (index: number) => {
             setDraggedIndex(index);
@@ -68,11 +90,16 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
             setDragOverIndex(null);
         };
 
+        const handleDragLeave = () => {
+            setDragOverIndex(null);
+        };
+
         const dragHandlers = draggable
             ? {
                   onDragStart: handleDragStart,
                   onDragOver: handleDragOver,
                   onDragEnd: handleDragEnd,
+                  onDragLeave: handleDragLeave,
                   isDragging: draggedIndex,
                   isDragOver: dragOverIndex
               }
@@ -80,6 +107,7 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                   onDragStart: () => {},
                   onDragOver: () => {},
                   onDragEnd: () => {},
+                  onDragLeave: () => {},
                   isDragging: null,
                   isDragOver: null
               };
@@ -119,6 +147,7 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                                         onDragStart={dragHandlers.onDragStart}
                                         onDragOver={dragHandlers.onDragOver}
                                         onDragEnd={dragHandlers.onDragEnd}
+                                        onDragLeave={dragHandlers.onDragLeave}
                                         isDragging={dragHandlers.isDragging === index}
                                         isDragOver={dragHandlers.isDragOver === index}
                                     />
@@ -134,10 +163,13 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                                     onClear();
                                 }}
                             />
-                            <Separator orientation="vertical" className="flex h-full min-h-6" />
+                            {!wrapped && <Separator orientation="vertical" className="flex h-full min-h-6" />}
                             <ChevronDown
                                 id="multiSelectToggleIcon"
-                                className="!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40"
+                                className={cn(
+                                    "!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40",
+                                    wrapped && "mt-1"
+                                )}
                                 pointerEvents="none !important"
                             />
                         </div>
