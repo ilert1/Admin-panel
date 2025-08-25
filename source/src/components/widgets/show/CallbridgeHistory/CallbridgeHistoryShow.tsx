@@ -91,7 +91,6 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                             //@ts-ignore
                             data={formData?.changes_history ?? []}
                             tableType={TableTypes.COLORED}
-                            className="max-h-96 overflow-auto overflow-x-hidden"
                         />
                     </div>
                 ) : (
