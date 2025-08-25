@@ -225,6 +225,14 @@ describe("SimpleTable", () => {
             expect(table).toBeInTheDocument();
             expect(header).toBeInTheDocument();
         });
+
+        it("correct scrolling behavior for simpleTable", () => {
+            render(<SimpleTable columns={mockColumns} data={mockData} />);
+
+            const tableContainer = screen.getByTestId("table-container");
+
+            expect(tableContainer).toHaveClass("max-h-96");
+        });
     });
 
     describe("Edge cases", () => {

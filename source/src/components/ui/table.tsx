@@ -45,7 +45,10 @@ const Table = React.forwardRef<
 
     return (
         <div className={cn("flex-shrink-1 relative mb-2", className)}>
-            <div ref={tableRef} className={cn("relative h-full w-full overflow-auto", simple && "max-h-96")}>
+            <div
+                data-testid="table-container"
+                ref={tableRef}
+                className={cn("relative h-full w-full overflow-auto", simple && "max-h-96")}>
                 <table ref={ref} className={cn("h-full w-full caption-bottom border-collapse text-sm")} {...props} />
             </div>
             {/* Right shadow */}
