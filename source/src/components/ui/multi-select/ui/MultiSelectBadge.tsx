@@ -92,7 +92,9 @@ export const MultiSelectBadge: React.FC<MultiSelectBadgeProps> = ({
 
     return (
         <Badge
-            onClick={() => {}}
+            onClick={e => {
+                if (draggable) e.stopPropagation();
+            }}
             draggable={draggable}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
@@ -116,7 +118,7 @@ export const MultiSelectBadge: React.FC<MultiSelectBadgeProps> = ({
                 <GripVertical
                     data-testid="grip-vertical"
                     className={cn(
-                        "mr-1 h-3 w-3 flex-shrink-0 opacity-30 transition-all duration-200 group-hover:opacity-60"
+                        "pointer-events-none mr-1 h-3 w-3 flex-shrink-0 opacity-30 transition-all duration-200 group-hover:opacity-60"
                     )}
                 />
             )}

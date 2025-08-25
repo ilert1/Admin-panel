@@ -151,11 +151,16 @@ export const PaymentTypeIcon = memo(
                 </TooltipProvider>
             );
         }
+
         return (
             <TooltipProvider>
                 <Tooltip delayDuration={100}>
                     <TooltipTrigger role="tooltip" asChild>
-                        <div className={cn("h-auto w-auto cursor-default p-0", metaIconMargin ? "mr-2" : "")}>
+                        <div
+                            onClick={e => {
+                                e.stopPropagation();
+                            }}
+                            className={cn("h-auto w-auto cursor-default p-0", metaIconMargin ? "mr-2" : "")}>
                             <Icon className={cn(className)} />
                         </div>
                     </TooltipTrigger>
