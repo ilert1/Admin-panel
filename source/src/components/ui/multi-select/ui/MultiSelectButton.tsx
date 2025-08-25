@@ -154,20 +154,20 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                                 ))
                             )}
                         </div>
-                        <div className="flex flex-wrap items-center justify-end">
+                        <div className="flex flex-wrap items-center justify-end gap-2">
                             <XIcon
                                 data-testid="x-icon"
-                                className="mx-2 h-4 cursor-pointer text-muted-foreground"
+                                className="h-4 cursor-pointer text-muted-foreground"
                                 onClick={event => {
                                     event.stopPropagation();
                                     onClear();
                                 }}
                             />
-                            {!wrapped && <Separator orientation="vertical" className="flex h-full min-h-6" />}
+                            {/* {!wrapped && <Separator orientation="vertical" className="flex h-full min-h-6" />} */}
                             <ChevronDown
                                 id="multiSelectToggleIcon"
                                 className={cn(
-                                    "!pointer-events-none mx-2 h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40",
+                                    "!pointer-events-none h-4 cursor-pointer text-green-50 transition-transform dark:text-green-40",
                                     wrapped && "mt-1"
                                 )}
                                 pointerEvents="none !important"
