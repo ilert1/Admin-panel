@@ -154,7 +154,7 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                                 ))
                             )}
                         </div>
-                        <div className="flex flex-wrap items-center justify-end gap-2">
+                        <div className="flex flex-wrap items-center justify-end gap-y-2">
                             <XIcon
                                 data-testid="x-icon"
                                 className="h-4 cursor-pointer text-muted-foreground"
