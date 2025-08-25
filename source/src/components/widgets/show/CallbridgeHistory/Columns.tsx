@@ -38,8 +38,8 @@ export const useGetCallbridgeHistoryColumns = () => {
 
                 return (
                     <div>
-                        {from ?? translate(`resources.callbridge.history.callbacksStatus.${from}`) + " / "}
-                        {to ?? translate(`resources.callbridge.history.callbacksStatus.${to}`)}
+                        {from ? translate(`resources.callbridge.history.callbacksStatus.${from}`) + " / " : " / "}
+                        {to ? translate(`resources.callbridge.history.callbacksStatus.${to}`) : ""}
                     </div>
                 );
             }

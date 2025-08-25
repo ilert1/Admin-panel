@@ -1,14 +1,21 @@
 import { withJsonFormsControlProps } from "@jsonforms/react";
 import { ControlProps } from "@jsonforms/core";
 import { isControl, isIntegerControl, isStringControl, RankedTester, rankWith } from "@jsonforms/core";
+import { useTranslate } from "react-admin";
 
 const JsonFormsCustomInput = ({ data, label, visible, schema, config }: ControlProps) => {
+    const translate = useTranslate();
     if (!visible || (!data && !config.showNull)) return null;
     let displayValue = !data || data === null ? "-" : String(data);
+    console.log();
 
     if (schema?.type?.includes("string") && (schema.format === "date" || schema.format === "date-time") && data) {
         const date = new Date(data);
         displayValue = date.toLocaleString().split(",").join(" ");
+    }
+
+    if (schema.callbdridgeStatus) {
+        displayValue = translate(`resources.callbridge.history.callbacksStatus.${data}`);
     }
 
     return (
