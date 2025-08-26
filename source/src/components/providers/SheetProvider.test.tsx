@@ -118,7 +118,7 @@ describe("SheetProvider", () => {
             getByText("Close Account").click();
         });
 
-        waitFor(() => expect(getByTestId("sheets-count")).toHaveTextContent("0"));
+        await waitFor(() => expect(getByTestId("sheets-count")).toHaveTextContent("0"));
     });
 
     it("closes all sheets", async () => {
@@ -137,7 +137,7 @@ describe("SheetProvider", () => {
             getByText("Close All").click();
         });
 
-        waitFor(() => expect(getByTestId("sheets-count")).toHaveTextContent("0"));
+        await waitFor(() => expect(getByTestId("sheets-count")).toHaveTextContent("0"));
     });
 
     it("handles multiple sheets of same type", async () => {
@@ -230,6 +230,6 @@ describe("SheetProvider", () => {
             getByText("Close All").click();
         });
 
-        waitFor(() => expect(getByTestId("sheets-count")).toHaveTextContent("0"));
+        await waitFor(() => expect(getByTestId("sheets-count")).toHaveTextContent("0"));
     });
 });
