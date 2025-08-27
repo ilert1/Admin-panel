@@ -11,10 +11,20 @@
         "amount_value": "Amount",
         "currency": "Currency",
         "meta": {
+            "payment_type": "Payment type",
+            "provider": "Provider",
             "external_status": "External status",
             "parentId": "Parent transaction ID",
             "customer_payment_id": "Customer payment ID",
-            "customer_id": "Customer ID"
+            "customer_id": "Customer ID",
+            "phone_number": "Phone number",
+            "email": "Email",
+            "first_name": "First name",
+            "last_name": "Last name",
+            "country": "Country",
+            "user_agent": "User agent",
+            "ip": "IP",
+            "fingerprint": "Fingerprint"
         },
         "state": {
             "title": "Status",
@@ -73,7 +83,9 @@
         "commitTransaction": "Commit the transaction?",
         "sendWebhook": "Send a webhook",
         "sendWebhookSuccessMsg": "The webhook for the order %{id} has been successfully sent",
-        "notFound": "Transaction not found"
+        "notFound": "Transaction not found",
+        "transactionData": "Requisites",
+        "customerData": "Customer data"
     },
     "resources.transactions.stateUpdate": {
         "title": "State update ",

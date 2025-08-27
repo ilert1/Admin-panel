@@ -33,10 +33,13 @@ export const useGetCallbridgeHistoryColumns = () => {
             id: "status",
             header: `${translate("resources.callbridge.history.fields.status")} ${translate("resources.callbridge.history.show.fromTo")}`,
             cell: ({ row }) => {
+                const from = row.original.status?.from ?? "-";
+                const to = row.original.status?.to ?? "-";
+
                 return (
                     <div>
-                        {row.original.status.from + " / "}
-                        {row.original.status.to}
+                        {from ? translate(`resources.callbridge.history.callbacksStatus.${from}`) + " / " : " / "}
+                        {to ? translate(`resources.callbridge.history.callbacksStatus.${to}`) : ""}
                     </div>
                 );
             }

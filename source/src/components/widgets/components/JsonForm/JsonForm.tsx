@@ -10,9 +10,10 @@ interface JsonFormProps {
     uischema: any;
     formData: any;
     setFormData: any;
+    showNull?: boolean;
 }
 
-export const JsonForm = ({ schema, uischema, formData, setFormData }: JsonFormProps) => {
+export const JsonForm = ({ schema, uischema, formData, setFormData, showNull = true }: JsonFormProps) => {
     return (
         <div>
             <JsonForms
@@ -27,6 +28,7 @@ export const JsonForm = ({ schema, uischema, formData, setFormData }: JsonFormPr
                     { tester: myCustomInputTester, renderer: MyCustomInputRenderer }
                 ]}
                 cells={vanillaCells}
+                config={{ showNull }}
             />
         </div>
     );

@@ -32,7 +32,7 @@ export function SimpleTable<TData, TValue>({
     });
 
     return (
-        <Table className={className}>
+        <Table className={className} simple>
             <TableHeader className="border border-neutral-40 px-4 py-[9px] text-left text-base leading-4 text-white dark:border-muted">
                 {table.getHeaderGroups().map((headerGroup, i) => (
                     <TableRow className="relative" key={i}>

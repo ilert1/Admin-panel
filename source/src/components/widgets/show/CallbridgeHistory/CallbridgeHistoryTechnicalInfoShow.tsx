@@ -43,7 +43,7 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
 
                             return (
                                 <AccordionItem key={key} value={key}>
-                                    <AccordionTrigger className="text-neutral-90 dark:text-neutral-0">
+                                    <AccordionTrigger className="text-xs text-neutral-90 dark:text-neutral-0 sm:text-sm md:text-base">
                                         {key}
                                     </AccordionTrigger>
 
@@ -65,12 +65,14 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                                             <Table key={key}>
                                                 <TableHeader>
                                                     <TableRow className="relative bg-green-50 hover:bg-green-50">
-                                                        {["Key", "Value"].map((header, j) => {
+                                                        {["key", "value"].map((header, j) => {
                                                             return (
                                                                 <TableHead
                                                                     key={j}
                                                                     className="border border-neutral-40 px-4 py-[9px] text-left text-base leading-4 text-white dark:border-muted">
-                                                                    {header}
+                                                                    {translate(
+                                                                        `resources.callbridge.history.show.technicalInfoTable.${header}`
+                                                                    )}
                                                                 </TableHead>
                                                             );
                                                         })}

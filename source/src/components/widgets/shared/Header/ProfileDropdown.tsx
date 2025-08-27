@@ -117,7 +117,9 @@ export const ProfileDropdown = ({ handleLogout }: { handleLogout: () => void }) 
                         : `border-green-20 bg-white dark:border-muted dark:bg-muted`
                 )}
                 onClick={() => setProfileOpen(!profileOpen)}>
-                <Avatar className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center border-2 border-green-40 bg-muted">
+                <Avatar
+                    data-testid="profile-avatar"
+                    className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center border-2 border-green-40 bg-muted">
                     <Blowfish />
                 </Avatar>
 

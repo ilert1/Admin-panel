@@ -25,10 +25,14 @@ export type CurrencyWithId = Currency & { id: string };
 
 export class CurrenciesDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CurrencyWithId>> {
+        const fieldsForSearch = params.filter ? Object.keys(params.filter).filter(item => item === "code") : [];
+
         const res = await currencyEndpointsListCurrenciesEnigmaV1CurrencyGet(
             {
                 currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
             },
             {
                 headers: {

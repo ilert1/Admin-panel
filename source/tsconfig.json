@@ -1,7 +1,14 @@
 {
     "compilerOptions": {
         "target": "ES6",
-        "types": ["vite/client", "./src/types.d.ts", "vite-plugin-svgr/client"],
+        "types": [
+            "vite/client",
+            "./src/types.d.ts",
+            "vite-plugin-svgr/client",
+            "jest",
+            "node",
+            "@testing-library/jest-dom"
+        ],
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
         "skipLibCheck": true,

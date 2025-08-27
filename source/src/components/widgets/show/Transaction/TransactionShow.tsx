@@ -24,6 +24,12 @@ import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { getStateByRole } from "@/helpers/getStateByRole";
+import { Label } from "@/components/ui/label";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { useGetJsonFormDataForTransactions } from "./useGetJsonFormDataForTransactions";
+import { EyeIcon } from "lucide-react";
+import { TransactionCustomerDataDialog } from "./TransactionCustomerDataDialog";
+import { TransactionRequisitesDialog } from "./TransactionRequisitesDialog";
 
 interface TransactionShowProps {
     id: string;
@@ -35,6 +41,10 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const { openSheet, closeSheet } = useSheets();
     const { permissions } = usePermissions();
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
+    const [requisitesOpen, setRequisitesOpen] = useState(false);
+    const [customerDataOpen, setCustomerDataOpen] = useState(false);
+
+    const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
 
     const appToast = useAppToast();
 
@@ -130,6 +140,17 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         context.record?.source?.id,
         context.record?.destination?.id
     );
+
+    let adminData = {};
+    let adminCustomerData = {};
+
+    if (adminOnly) {
+        adminData =
+            context.record.type === 1
+                ? context.record.source?.requisites?.[0]
+                : context.record.destination?.requisites?.[0];
+        adminCustomerData = context.record.meta?.customer_data;
+    }
 
     return (
         <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
@@ -231,7 +252,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </div>
                 </div>
             )}
-            <div className="flex items-baseline gap-3 md:gap-6">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2 md:gap-x-4 md:gap-y-2">
                 <TextField
                     label={translate("resources.transactions.fields.type")}
                     text={translate(
@@ -279,6 +300,8 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                         key={`merchant-${el.id}`}
                                         label={translate("resources.transactions.fields.destination.header")}
                                         text={el.name ?? ""}
+                                        className="max-w-[150px]"
+                                        wrap={true}
                                         onClick={
                                             el.name
                                                 ? () =>
@@ -299,6 +322,67 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         )}
                     </>
                 )}
+
+                <div>
+                    <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                        {translate("resources.transactions.fields.meta.payment_type")}
+                    </Label>
+                    <div className="flex flex-wrap gap-2">
+                        {context.record.meta.payment_type ? (
+                            <PaymentTypeIcon type={context.record.meta.payment_type} />
+                        ) : (
+                            <span>-</span>
+                        )}
+                    </div>
+                </div>
+
+                {adminOnly && (
+                    <TextField
+                        label={translate("resources.transactions.fields.meta.provider")}
+                        className="max-w-[150px]"
+                        wrap={true}
+                        text={context.record.meta.provider ?? "-"}
+                    />
+                )}
+                {/* <div> */}
+                {/* <div className="flex items-center gap-4"> */}
+                {adminOnly && (
+                    <div className="flex flex-col items-center justify-center">
+                        <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                            {translate("resources.transactions.show.transactionData")}
+                        </Label>
+                        <Button
+                            disabled={!adminData || Object.keys(adminData).length === 0}
+                            onClick={() => {
+                                setRequisitesOpen(true);
+                            }}
+                            variant="text_btn"
+                            className="flex size-7 h-7 w-7 items-center bg-transparent p-0 text-green-50 hover:text-green-40 disabled:text-neutral-90">
+                            <EyeIcon className=" " />
+                        </Button>
+                    </div>
+                )}
+                <div className="flex flex-col items-center justify-center">
+                    <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
+                        {translate("resources.transactions.show.customerData")}
+                    </Label>
+                    <Button
+                        disabled={
+                            adminOnly
+                                ? !adminCustomerData || Object.keys(adminCustomerData).length === 0
+                                : !context.record.meta?.customer_data ||
+                                  Object.keys(context.record.meta?.customer_data).length === 0
+                        }
+                        onClick={() => {
+                            setCustomerDataOpen(true);
+                        }}
+                        variant="text_btn"
+                        className="flex size-7 h-7 w-7 items-center bg-transparent p-0 text-green-50 hover:text-green-40 disabled:text-neutral-90">
+                        <EyeIcon className=" " />
+                    </Button>
+                </div>
+                {/* </div> */}
+                {/* </div> */}
             </div>
 
             {isHistoryLoading ? (
@@ -311,7 +395,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     className={clsx(
                         "flex-shrink-1 h-auto",
                         !history && "min-h-24",
-                        history && history.length > 1 && "max-h-96"
+                        history && history.length > 1 && adminOnly && "max-h-96"
                     )}
                 />
             )}
@@ -351,6 +435,21 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     </ListContextProvider>
                 </div>
             )}
+
+            <TransactionCustomerDataDialog
+                open={customerDataOpen}
+                onOpenChange={setCustomerDataOpen}
+                schema={merchantSchema}
+                uiSchema={merchantUISchema}
+                data={adminOnly ? adminCustomerData : context.record.meta.customer_data}
+            />
+            <TransactionRequisitesDialog
+                open={requisitesOpen}
+                onOpenChange={setRequisitesOpen}
+                schema={adminSchema}
+                uiSchema={adminUISchema}
+                data={adminData}
+            />
         </div>
     );
 };

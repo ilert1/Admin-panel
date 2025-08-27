@@ -16,6 +16,7 @@ interface CurrenciesMultiSelectProps {
     className?: string;
     placeholder?: string;
     labelSize?: "title-2" | "note-1" | undefined;
+    draggable?: boolean;
 }
 
 export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
@@ -29,7 +30,8 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
         variant,
         className,
         placeholder,
-        labelSize
+        labelSize,
+        draggable = false
     } = props;
     const translate = useTranslate();
 
@@ -83,6 +85,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 isLoading={isLoading}
                 variant={variant ?? "default"}
                 className={className}
+                draggable={draggable}
             />
         </div>
     );

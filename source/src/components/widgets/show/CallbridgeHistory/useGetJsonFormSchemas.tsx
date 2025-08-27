@@ -19,7 +19,8 @@ export const useGetJsonFormSchemas = () => {
             status: {
                 type: ["string", "null"],
                 readOnly: true,
-                title: translate("resources.callbridge.history.fields.status")
+                title: translate("resources.callbridge.history.fields.status"),
+                callbdridgeStatus: true
             },
             response_status: {
                 type: ["integer", "null"],

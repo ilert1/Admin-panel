@@ -133,12 +133,14 @@ export const useGetAccountsColumns = () => {
                       ),
                       cell: ({ row }: { row: Row<Account> }) => {
                           return (
-                              <EditButton
-                                  onClick={() => {
-                                      setShowAccountId(row.original.id);
-                                      setShowEditDialog(true);
-                                  }}
-                              />
+                              row.original.id && (
+                                  <EditButton
+                                      onClick={() => {
+                                          setShowAccountId(row.original.id);
+                                          setShowEditDialog(true);
+                                      }}
+                                  />
+                              )
                           );
                       }
                   }
@@ -147,7 +149,7 @@ export const useGetAccountsColumns = () => {
         {
             id: "history",
             cell: ({ row }) => {
-                return <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;
+                return row.original.id && <ShowButton onClick={() => handleOpenSheet(row.original.id)} />;
             }
         }
     ];

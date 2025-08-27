@@ -184,6 +184,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 ) {
                     setIsFocused(false);
                     inputRef.current?.blur();
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     props.onBlur?.(e as any);
                 }
             };
@@ -224,7 +225,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         ((propValue && propValue.toString().length > 0) ||
                             (inputValue && inputValue.toString().length > 0)) && (
                             <span className="select-none pl-2">
-                                <Copy className="h-4 w-4 cursor-pointer dark:text-neutral-60" onClick={copy} />
+                                <Copy
+                                    data-testid="copy-btn"
+                                    className="h-4 w-4 cursor-pointer dark:text-neutral-60"
+                                    onClick={copy}
+                                />
                             </span>
                         )}
                     <input
@@ -247,7 +252,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         onContextMenu={type === "password_masked" ? e => e.preventDefault() : onContextMenu}
                         ref={inputRef}
                     />
-                    <span className="flex items-center" ref={iconsBoxRef}>
+                    <span role="button" className="flex items-center" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
                         {error && <ErrorBadge errorMessage={errorMessage} disableErrorMessage={disableErrorMessage} />}
                         {(type === "password" || type === "password_masked") && (

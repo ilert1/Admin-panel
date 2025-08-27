@@ -91,12 +91,15 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
                             //@ts-ignore
                             data={formData?.changes_history ?? []}
                             tableType={TableTypes.COLORED}
-                            className="max-h-96 overflow-auto overflow-x-hidden"
                         />
                     </div>
                 ) : (
                     <div className="h-[350px] w-full">
-                        <MonacoEditor code={JSON.stringify(formData?.changes_history, null, 2)} height="h-full" />
+                        <MonacoEditor
+                            code={JSON.stringify(formData?.changes_history, null, 2)}
+                            height="h-full"
+                            disabled
+                        />
                     </div>
                 )}
 

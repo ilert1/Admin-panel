@@ -7,10 +7,10 @@ import { TableTypes } from "../../../shared/SimpleTable";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
-import { TerminalAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { TerminalBaseAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface IAuthDataViewer {
-    authData: TerminalAuth | undefined;
+    authData: TerminalBaseAuth | undefined;
     showAuthDataEditSheet: () => void;
 }
 

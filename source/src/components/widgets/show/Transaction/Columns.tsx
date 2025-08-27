@@ -181,7 +181,7 @@ export const useGetTransactionShowColumns = () => {
                 const val = row.original.amount.value.quantity / row.original.amount.value.accuracy;
                 return (
                     <div className="text-center">
-                        <span>{val ? val + " " + row.original.amount.currency : "-"}</span>
+                        <span>{val ? `${val} ${row.original.amount.currency || ""}` : "-"}</span>
                     </div>
                 );
             }
