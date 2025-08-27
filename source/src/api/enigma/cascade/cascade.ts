@@ -6,11 +6,11 @@
  */
 import type {
     ApiResponseCascadeRead,
+    ApiResponseCascadeSchema,
     ApiResponseDictStrStr,
-    ApiResponseOffsetPaginationCascadeRead,
+    ApiResponseOffsetPaginationCascadeSchema,
     CascadeCreate,
-    CascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetParams,
-    CascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetParams,
+    CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetParams,
     CascadeEndpointsListCascadesEnigmaV1CascadeGetParams,
     CascadeUpdate,
     HTTPValidationError
@@ -19,11 +19,67 @@ import type {
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
+ * Returns a paginated list of cascades filtered by merchant unique ID
+ * @summary Get a paginated list of cascades by merchant
+ */
+export type cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponse200 = {
+    data: ApiResponseOffsetPaginationCascadeSchema;
+    status: 200;
+};
+
+export type cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponseComposite =
+    | cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponse200
+    | cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponse422;
+
+export type cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponse =
+    cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getCascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetUrl = (
+    merchantId: string,
+    params?: CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetParams
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? "null" : value.toString());
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/merchant/${merchantId}?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/merchant/${merchantId}`;
+};
+
+export const cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGet = async (
+    merchantId: string,
+    params?: CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetParams,
+    options?: RequestInit
+): Promise<cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponse> => {
+    return authFetch<cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetResponse>(
+        getCascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetUrl(merchantId, params),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
  * Returns a paginated list of cascades with filtering and pagination
  * @summary Get a paginated list of cascades
  */
 export type cascadeEndpointsListCascadesEnigmaV1CascadeGetResponse200 = {
-    data: ApiResponseOffsetPaginationCascadeRead;
+    data: ApiResponseOffsetPaginationCascadeSchema;
     status: 200;
 };
 
@@ -42,7 +98,7 @@ export type cascadeEndpointsListCascadesEnigmaV1CascadeGetResponse =
     };
 
 export const getCascadeEndpointsListCascadesEnigmaV1CascadeGetUrl = (
-    params: CascadeEndpointsListCascadesEnigmaV1CascadeGetParams
+    params?: CascadeEndpointsListCascadesEnigmaV1CascadeGetParams
 ) => {
     const normalizedParams = new URLSearchParams();
 
@@ -60,7 +116,7 @@ export const getCascadeEndpointsListCascadesEnigmaV1CascadeGetUrl = (
 };
 
 export const cascadeEndpointsListCascadesEnigmaV1CascadeGet = async (
-    params: CascadeEndpointsListCascadesEnigmaV1CascadeGetParams,
+    params?: CascadeEndpointsListCascadesEnigmaV1CascadeGetParams,
     options?: RequestInit
 ): Promise<cascadeEndpointsListCascadesEnigmaV1CascadeGetResponse> => {
     return authFetch<cascadeEndpointsListCascadesEnigmaV1CascadeGetResponse>(
@@ -119,7 +175,7 @@ export const cascadeEndpointsCreateCascadeEnigmaV1CascadePost = async (
  * @summary Get cascade details
  */
 export type cascadeEndpointsGetCascadeEnigmaV1CascadeCascadeIdGetResponse200 = {
-    data: ApiResponseCascadeRead;
+    data: ApiResponseCascadeSchema;
     status: 200;
 };
 
@@ -159,7 +215,7 @@ export const cascadeEndpointsGetCascadeEnigmaV1CascadeCascadeIdGet = async (
  * @summary Update cascade
  */
 export type cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPutResponse200 = {
-    data: ApiResponseCascadeRead;
+    data: ApiResponseCascadeSchema;
     status: 200;
 };
 
@@ -233,118 +289,6 @@ export const cascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDelete = async
         {
             ...options,
             method: "DELETE"
-        }
-    );
-};
-
-/**
- * Returns cascades filtered by type (deposit/withdraw)
- * @summary Get cascades by type
- */
-export type cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponse200 = {
-    data: ApiResponseOffsetPaginationCascadeRead;
-    status: 200;
-};
-
-export type cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponseComposite =
-    | cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponse200
-    | cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponse422;
-
-export type cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponse =
-    cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getCascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetUrl = (
-    cascadeType: string,
-    params: CascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetParams
-) => {
-    const normalizedParams = new URLSearchParams();
-
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (value !== undefined) {
-            normalizedParams.append(key, value === null ? "null" : value.toString());
-        }
-    });
-
-    const stringifiedParams = normalizedParams.toString();
-
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/type/${cascadeType}?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/type/${cascadeType}`;
-};
-
-export const cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGet = async (
-    cascadeType: string,
-    params: CascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetParams,
-    options?: RequestInit
-): Promise<cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponse> => {
-    return authFetch<cascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetResponse>(
-        getCascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetUrl(cascadeType, params),
-        {
-            ...options,
-            method: "GET"
-        }
-    );
-};
-
-/**
- * Returns cascades filtered by source currency code
- * @summary Get cascades by currency
- */
-export type cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponse200 = {
-    data: ApiResponseOffsetPaginationCascadeRead;
-    status: 200;
-};
-
-export type cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponseComposite =
-    | cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponse200
-    | cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponse422;
-
-export type cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponse =
-    cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getCascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetUrl = (
-    currencyCode: string,
-    params: CascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetParams
-) => {
-    const normalizedParams = new URLSearchParams();
-
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (value !== undefined) {
-            normalizedParams.append(key, value === null ? "null" : value.toString());
-        }
-    });
-
-    const stringifiedParams = normalizedParams.toString();
-
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/currency/${currencyCode}?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/currency/${currencyCode}`;
-};
-
-export const cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGet = async (
-    currencyCode: string,
-    params: CascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetParams,
-    options?: RequestInit
-): Promise<cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponse> => {
-    return authFetch<cascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetResponse>(
-        getCascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetUrl(currencyCode, params),
-        {
-            ...options,
-            method: "GET"
         }
     );
 };

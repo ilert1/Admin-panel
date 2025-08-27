@@ -296,6 +296,7 @@ export const providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypair
 
 /**
  * Associates existing payment types with a provider using UUID. Skips already linked types.
+ * @deprecated
  * @summary Add payment types to provider by ID
  */
 export type providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse200 = {
@@ -342,6 +343,7 @@ export const providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProvi
 
 /**
  * Disassociates a payment type from a provider using UUID.
+ * @deprecated
  * @summary Remove payment type from provider by ID
  */
 export type providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =

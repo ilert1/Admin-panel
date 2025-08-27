@@ -245,6 +245,9 @@
                 "ofReward": "вознаграждения"
             }
         },
+        "ttl": {
+            "ttl": "Настройки TTL"
+        },
         "multiSelect": {
             "selectAll": "Выбрать все",
             "selectPaymentTypes": "Выберите платёжные типы",

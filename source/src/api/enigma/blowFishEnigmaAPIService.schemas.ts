@@ -56,26 +56,51 @@ export interface ApiResponseCascadeRead {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseCascadeTerminalReadError = ErrorBody | null;
+export type ApiResponseCascadeSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseCascadeTerminalReadMeta = unknown | null;
+export type ApiResponseCascadeSchemaMeta = unknown | null;
 
-export interface ApiResponseCascadeTerminalRead {
+export interface ApiResponseCascadeSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: CascadeTerminalRead;
+    data: CascadeSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseCascadeTerminalReadError;
+    error?: ApiResponseCascadeSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseCascadeTerminalReadMeta;
+    meta?: ApiResponseCascadeSchemaMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseCascadeTerminalSchemaError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseCascadeTerminalSchemaMeta = unknown | null;
+
+export interface ApiResponseCascadeTerminalSchema {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: CascadeTerminalSchema;
+    /** The error details if the request was not successful */
+    error?: ApiResponseCascadeTerminalSchemaError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseCascadeTerminalSchemaMeta;
 }
 
 /**
@@ -206,51 +231,51 @@ export interface ApiResponseKeyPair {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseMerchantCascadeReadError = ErrorBody | null;
+export type ApiResponseMerchantCascadeSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseMerchantCascadeReadMeta = unknown | null;
+export type ApiResponseMerchantCascadeSchemaMeta = unknown | null;
 
-export interface ApiResponseMerchantCascadeRead {
+export interface ApiResponseMerchantCascadeSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: MerchantCascadeRead;
+    data: MerchantCascadeSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseMerchantCascadeReadError;
+    error?: ApiResponseMerchantCascadeSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseMerchantCascadeReadMeta;
+    meta?: ApiResponseMerchantCascadeSchemaMeta;
 }
 
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseMerchantError = ErrorBody | null;
+export type ApiResponseMerchantSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseMerchantMeta = unknown | null;
+export type ApiResponseMerchantSchemaMeta = unknown | null;
 
-export interface ApiResponseMerchant {
+export interface ApiResponseMerchantSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: Merchant;
+    data: MerchantSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseMerchantError;
+    error?: ApiResponseMerchantSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseMerchantMeta;
+    meta?: ApiResponseMerchantSchemaMeta;
 }
 
 /**
@@ -306,76 +331,51 @@ export interface ApiResponseNoneType {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationCascadeReadError = ErrorBody | null;
+export type ApiResponseOffsetPaginationCascadeSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationCascadeReadMeta = unknown | null;
+export type ApiResponseOffsetPaginationCascadeSchemaMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationCascadeRead {
+export interface ApiResponseOffsetPaginationCascadeSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationCascadeRead;
+    data: OffsetPaginationCascadeSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationCascadeReadError;
+    error?: ApiResponseOffsetPaginationCascadeSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationCascadeReadMeta;
+    meta?: ApiResponseOffsetPaginationCascadeSchemaMeta;
 }
 
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationCascadeTerminalReadError = ErrorBody | null;
+export type ApiResponseOffsetPaginationCascadeTerminalSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationCascadeTerminalReadMeta = unknown | null;
+export type ApiResponseOffsetPaginationCascadeTerminalSchemaMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationCascadeTerminalRead {
+export interface ApiResponseOffsetPaginationCascadeTerminalSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationCascadeTerminalRead;
+    data: OffsetPaginationCascadeTerminalSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationCascadeTerminalReadError;
+    error?: ApiResponseOffsetPaginationCascadeTerminalSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationCascadeTerminalReadMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
-export type ApiResponseOffsetPaginationCascadeTerminalWithDetailsError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationCascadeTerminalWithDetailsMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationCascadeTerminalWithDetails {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationCascadeTerminalWithDetails;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationCascadeTerminalWithDetailsError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationCascadeTerminalWithDetailsMeta;
+    meta?: ApiResponseOffsetPaginationCascadeTerminalSchemaMeta;
 }
 
 /**
@@ -456,76 +456,51 @@ export interface ApiResponseOffsetPaginationFinancialInstitution {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationMerchantCascadeReadError = ErrorBody | null;
+export type ApiResponseOffsetPaginationMerchantCascadeSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationMerchantCascadeReadMeta = unknown | null;
+export type ApiResponseOffsetPaginationMerchantCascadeSchemaMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationMerchantCascadeRead {
+export interface ApiResponseOffsetPaginationMerchantCascadeSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationMerchantCascadeRead;
+    data: OffsetPaginationMerchantCascadeSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationMerchantCascadeReadError;
+    error?: ApiResponseOffsetPaginationMerchantCascadeSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationMerchantCascadeReadMeta;
+    meta?: ApiResponseOffsetPaginationMerchantCascadeSchemaMeta;
 }
 
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationMerchantCascadeWithDetailsError = ErrorBody | null;
+export type ApiResponseOffsetPaginationMerchantSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationMerchantCascadeWithDetailsMeta = unknown | null;
+export type ApiResponseOffsetPaginationMerchantSchemaMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationMerchantCascadeWithDetails {
+export interface ApiResponseOffsetPaginationMerchantSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationMerchantCascadeWithDetails;
+    data: OffsetPaginationMerchantSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationMerchantCascadeWithDetailsError;
+    error?: ApiResponseOffsetPaginationMerchantSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationMerchantCascadeWithDetailsMeta;
-}
-
-/**
- * The error details if the request was not successful
- */
-export type ApiResponseOffsetPaginationMerchantError = ErrorBody | null;
-
-/**
- * The meta details if the request. DEPRECATED
- * @deprecated
- */
-export type ApiResponseOffsetPaginationMerchantMeta = unknown | null;
-
-export interface ApiResponseOffsetPaginationMerchant {
-    /** Indicates whether the request was successful */
-    success?: boolean;
-    /** The actual response data if the request was successful */
-    data: OffsetPaginationMerchant;
-    /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationMerchantError;
-    /**
-     * The meta details if the request. DEPRECATED
-     * @deprecated
-     */
-    meta?: ApiResponseOffsetPaginationMerchantMeta;
+    meta?: ApiResponseOffsetPaginationMerchantSchemaMeta;
 }
 
 /**
@@ -995,15 +970,18 @@ export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInst
 }
 
 export interface CascadeCondition {
-    /** Whether this terminal is enabled in the cascade */
-    enabled?: boolean;
+    /** Whether this is an extra/backup terminal (must have weight=0) */
+    extra?: boolean;
     /**
      * Terminal weight for load balancing (0 for extra terminals)
      * @minimum 0
      */
     weight?: number;
-    /** Whether this is an extra/backup terminal (must have weight=0) */
-    extra?: boolean;
+    /**
+     * Priority rank of the terminal(1 = highest priority)
+     * @minimum 1
+     */
+    rank: number;
     /** Time-to-live configuration for terminal availability */
     ttl?: TTLConfig;
 }
@@ -1043,6 +1021,8 @@ export interface CascadeCreate {
     description?: CascadeCreateDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeCreateDetails;
+    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
+    payment_types?: string[];
 }
 
 export type CascadeKind = (typeof CascadeKind)[keyof typeof CascadeKind];
@@ -1088,12 +1068,61 @@ export interface CascadeRead {
     description?: CascadeReadDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeReadDetails;
+    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
+    payment_types?: string[];
     /** Unique identifier of the cascade */
     id: string;
     /** Timestamp when the cascade was created (ISO 8601 format) */
     created_at: string;
     /** Timestamp when the cascade was last updated (ISO 8601 format) */
     updated_at: string;
+}
+
+/**
+ * Optional detailed description of the cascade purpose
+ */
+export type CascadeSchemaDescription = string | null;
+
+/**
+ * Additional configuration parameters and metadata
+ */
+export type CascadeSchemaDetails = { [key: string]: unknown };
+
+export interface CascadeSchema {
+    /**
+     * Human-readable name of the cascade
+     * @minLength 1
+     * @maxLength 255
+     */
+    name: string;
+    /** Type of cascade defining operation direction */
+    type?: CascadeType;
+    /**
+     * Source currency code (ISO 4217 format)
+     * @minLength 3
+     * @maxLength 3
+     */
+    src_currency_code: string;
+    /** Execution strategy: sequential (one by one) or fanout (parallel) */
+    cascade_kind?: CascadeKind;
+    /** Current operational state of the cascade */
+    state?: CascadeState;
+    /** Priority configuration for cascade ordering */
+    priority_policy: PriorityPolicy;
+    /** Optional detailed description of the cascade purpose */
+    description?: CascadeSchemaDescription;
+    /** Additional configuration parameters and metadata */
+    details?: CascadeSchemaDetails;
+    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
+    payment_types?: string[];
+    /** Unique identifier of the cascade */
+    id: string;
+    /** Timestamp when the cascade was created (ISO 8601 format) */
+    created_at: string;
+    /** Timestamp when the cascade was last updated (ISO 8601 format) */
+    updated_at: string;
+    /** List of cascade terminals */
+    cascade_terminals?: CascadeTerminalRead[];
 }
 
 export type CascadeState = (typeof CascadeState)[keyof typeof CascadeState];
@@ -1126,6 +1155,31 @@ export interface CascadeTerminalRead {
     condition?: CascadeCondition;
     /** Unique identifier of the cascade terminal record */
     id: string;
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was created */
+    updated_at: string;
+}
+
+export interface CascadeTerminalSchema {
+    /** Unique identifier of the cascade this terminal belongs to */
+    cascade_id: string;
+    /** Unique identifier of the terminal in this cascade */
+    terminal_id: string;
+    /** Current operational state of the cascade terminal */
+    state?: CascadeTerminalState;
+    /** Configuration for terminal behavior within the cascade */
+    condition?: CascadeCondition;
+    /** Unique identifier of the cascade terminal record */
+    id: string;
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was created */
+    updated_at: string;
+    /** Cascade this terminal belongs to */
+    cascade: CascadeRead;
+    /** Terminal this terminal belongs to */
+    terminal: TerminalRead;
 }
 
 export type CascadeTerminalState = (typeof CascadeTerminalState)[keyof typeof CascadeTerminalState];
@@ -1151,54 +1205,6 @@ export interface CascadeTerminalUpdate {
     state?: CascadeTerminalUpdateState;
     /** Updated configuration for terminal behavior within the cascade */
     condition?: CascadeTerminalUpdateCondition;
-}
-
-/**
- * Human-readable name of the terminal
- */
-export type CascadeTerminalWithDetailsTerminalName = string | null;
-
-/**
- * Name of the payment provider
- */
-export type CascadeTerminalWithDetailsProviderName = string | null;
-
-/**
- * Source currency code of the terminal
- */
-export type CascadeTerminalWithDetailsSrcCurrency = string | null;
-
-/**
- * Destination currency code of the terminal
- */
-export type CascadeTerminalWithDetailsDstCurrency = string | null;
-
-/**
- * Current operational state of the terminal itself
- */
-export type CascadeTerminalWithDetailsTerminalState = string | null;
-
-export interface CascadeTerminalWithDetails {
-    /** Unique identifier of the cascade this terminal belongs to */
-    cascade_id: string;
-    /** Unique identifier of the terminal in this cascade */
-    terminal_id: string;
-    /** Current operational state of the cascade terminal */
-    state?: CascadeTerminalState;
-    /** Configuration for terminal behavior within the cascade */
-    condition?: CascadeCondition;
-    /** Unique identifier of the cascade terminal record */
-    id: string;
-    /** Human-readable name of the terminal */
-    terminal_name?: CascadeTerminalWithDetailsTerminalName;
-    /** Name of the payment provider */
-    provider_name?: CascadeTerminalWithDetailsProviderName;
-    /** Source currency code of the terminal */
-    src_currency?: CascadeTerminalWithDetailsSrcCurrency;
-    /** Destination currency code of the terminal */
-    dst_currency?: CascadeTerminalWithDetailsDstCurrency;
-    /** Current operational state of the terminal itself */
-    terminal_state?: CascadeTerminalWithDetailsTerminalState;
 }
 
 export type CascadeType = (typeof CascadeType)[keyof typeof CascadeType];
@@ -1241,6 +1247,11 @@ export type CascadeUpdateDetailsAnyOf = { [key: string]: unknown };
  */
 export type CascadeUpdateDetails = CascadeUpdateDetailsAnyOf | null;
 
+/**
+ * Updated payment types explicitly assigned to cascade
+ */
+export type CascadeUpdatePaymentTypes = string[] | null;
+
 export interface CascadeUpdate {
     /** Updated human-readable name of the cascade */
     name?: CascadeUpdateName;
@@ -1254,6 +1265,8 @@ export interface CascadeUpdate {
     description?: CascadeUpdateDescription;
     /** Updated additional configuration parameters and metadata */
     details?: CascadeUpdateDetails;
+    /** Updated payment types explicitly assigned to cascade */
+    payment_types?: CascadeUpdatePaymentTypes;
 }
 
 export interface CurrenciesLink {
@@ -1344,6 +1357,21 @@ export type DirectionFees = { [key: string]: Fee };
  */
 export type DirectionAccountId = string | null;
 
+/**
+ * Associated cascade ID
+ */
+export type DirectionCascadeId = string | null;
+
+/**
+ * Cascade kind (sequential/fanout)
+ */
+export type DirectionCascadeKind = string | null;
+
+/**
+ * Condition DSL configuration
+ */
+export type DirectionCondition = CascadeCondition | null;
+
 export interface Direction {
     /** Unique identifier for the direction */
     id: string;
@@ -1375,7 +1403,12 @@ export interface Direction {
     dst_currency: Currency;
     /** List of payment types associated with this direction */
     payment_types?: PaymentTypeBase[];
-    kind?: string;
+    /** Associated cascade ID */
+    cascade_id?: DirectionCascadeId;
+    /** Cascade kind (sequential/fanout) */
+    cascade_kind?: DirectionCascadeKind;
+    /** Condition DSL configuration */
+    condition?: DirectionCondition;
 }
 
 /**
@@ -1388,6 +1421,13 @@ export type DirectionCreateDescription = string | null;
  */
 export type DirectionCreateAccountId = string | null;
 
+export type DirectionCreateFeesAnyOf = { [key: string]: Fee };
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type DirectionCreateFees = DirectionCreateFeesAnyOf | null;
+
 /**
  * Associated cascade ID
  */
@@ -1396,24 +1436,12 @@ export type DirectionCreateCascadeId = string | null;
 /**
  * Cascade kind (sequential/fanout)
  */
-export type DirectionCreateKind = string | null;
-
-export type DirectionCreateConditionAnyOf = { [key: string]: unknown };
+export type DirectionCreateCascadeKind = string | null;
 
 /**
  * Condition DSL configuration
  */
-export type DirectionCreateCondition = DirectionCreateConditionAnyOf | null;
-
-/**
- * Fee configuration
- */
-export type DirectionCreateFees = { [key: string]: unknown };
-
-/**
- * Limits configuration
- */
-export type DirectionCreateLimits = { [key: string]: unknown };
+export type DirectionCreateCondition = CascadeCondition | null;
 
 export interface DirectionCreate {
     /** Name of the direction */
@@ -1444,16 +1472,16 @@ export interface DirectionCreate {
     terminal: string;
     /** Unique codes of the payment types to link */
     payment_types?: string[];
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: DirectionCreateFees;
+    /** Limits configuration */
+    limits?: LimitsCreate;
     /** Associated cascade ID */
     cascade_id?: DirectionCreateCascadeId;
     /** Cascade kind (sequential/fanout) */
-    kind?: DirectionCreateKind;
+    cascade_kind?: DirectionCreateCascadeKind;
     /** Condition DSL configuration */
     condition?: DirectionCreateCondition;
-    /** Fee configuration */
-    fees?: DirectionCreateFees;
-    /** Limits configuration */
-    limits?: DirectionCreateLimits;
 }
 
 export type DirectionState = (typeof DirectionState)[keyof typeof DirectionState];
@@ -1533,6 +1561,18 @@ export type DirectionUpdateTerminal = string | null;
  */
 export type DirectionUpdatePaymentTypes = string[] | null;
 
+export type DirectionUpdateFeesAnyOf = { [key: string]: Fee };
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type DirectionUpdateFees = DirectionUpdateFeesAnyOf | null;
+
+/**
+ * Limits for direction
+ */
+export type DirectionUpdateLimitsProperty = LimitsUpdate | null;
+
 /**
  * Associated cascade ID
  */
@@ -1541,28 +1581,12 @@ export type DirectionUpdateCascadeId = string | null;
 /**
  * Cascade kind (sequential/fanout)
  */
-export type DirectionUpdateKind = string | null;
-
-export type DirectionUpdateConditionAnyOf = { [key: string]: unknown };
+export type DirectionUpdateCascadeKind = string | null;
 
 /**
  * Condition DSL configuration
  */
-export type DirectionUpdateCondition = DirectionUpdateConditionAnyOf | null;
-
-export type DirectionUpdateFeesAnyOf = { [key: string]: unknown };
-
-/**
- * Fee configuration
- */
-export type DirectionUpdateFees = DirectionUpdateFeesAnyOf | null;
-
-export type DirectionUpdateLimitsPropertyAnyOf = { [key: string]: unknown };
-
-/**
- * Limits configuration
- */
-export type DirectionUpdateLimitsProperty = DirectionUpdateLimitsPropertyAnyOf | null;
+export type DirectionUpdateCondition = CascadeCondition | null;
 
 export interface DirectionUpdate {
     /** Name of the direction */
@@ -1589,16 +1613,16 @@ export interface DirectionUpdate {
     terminal?: DirectionUpdateTerminal;
     /** Unique codes of the payment types to link */
     payment_types?: DirectionUpdatePaymentTypes;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: DirectionUpdateFees;
+    /** Limits for direction */
+    limits: DirectionUpdateLimitsProperty;
     /** Associated cascade ID */
     cascade_id?: DirectionUpdateCascadeId;
     /** Cascade kind (sequential/fanout) */
-    kind?: DirectionUpdateKind;
+    cascade_kind?: DirectionUpdateCascadeKind;
     /** Condition DSL configuration */
     condition?: DirectionUpdateCondition;
-    /** Fee configuration */
-    fees?: DirectionUpdateFees;
-    /** Limits configuration */
-    limits?: DirectionUpdateLimitsProperty;
 }
 
 /**
@@ -1661,6 +1685,18 @@ export type DirectionUpdateBulkItemTerminal = string | null;
  */
 export type DirectionUpdateBulkItemPaymentTypes = string[] | null;
 
+export type DirectionUpdateBulkItemFeesAnyOf = { [key: string]: Fee };
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type DirectionUpdateBulkItemFees = DirectionUpdateBulkItemFeesAnyOf | null;
+
+/**
+ * Limits for direction
+ */
+export type DirectionUpdateBulkItemLimits = LimitsUpdate | null;
+
 /**
  * Associated cascade ID
  */
@@ -1669,28 +1705,12 @@ export type DirectionUpdateBulkItemCascadeId = string | null;
 /**
  * Cascade kind (sequential/fanout)
  */
-export type DirectionUpdateBulkItemKind = string | null;
-
-export type DirectionUpdateBulkItemConditionAnyOf = { [key: string]: unknown };
+export type DirectionUpdateBulkItemCascadeKind = string | null;
 
 /**
  * Condition DSL configuration
  */
-export type DirectionUpdateBulkItemCondition = DirectionUpdateBulkItemConditionAnyOf | null;
-
-export type DirectionUpdateBulkItemFeesAnyOf = { [key: string]: unknown };
-
-/**
- * Fee configuration
- */
-export type DirectionUpdateBulkItemFees = DirectionUpdateBulkItemFeesAnyOf | null;
-
-export type DirectionUpdateBulkItemLimitsAnyOf = { [key: string]: unknown };
-
-/**
- * Limits configuration
- */
-export type DirectionUpdateBulkItemLimits = DirectionUpdateBulkItemLimitsAnyOf | null;
+export type DirectionUpdateBulkItemCondition = CascadeCondition | null;
 
 export interface DirectionUpdateBulkItem {
     /** Name of the direction */
@@ -1717,16 +1737,16 @@ export interface DirectionUpdateBulkItem {
     terminal?: DirectionUpdateBulkItemTerminal;
     /** Unique codes of the payment types to link */
     payment_types?: DirectionUpdateBulkItemPaymentTypes;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: DirectionUpdateBulkItemFees;
+    /** Limits for direction */
+    limits: DirectionUpdateBulkItemLimits;
     /** Associated cascade ID */
     cascade_id?: DirectionUpdateBulkItemCascadeId;
     /** Cascade kind (sequential/fanout) */
-    kind?: DirectionUpdateBulkItemKind;
+    cascade_kind?: DirectionUpdateBulkItemCascadeKind;
     /** Condition DSL configuration */
     condition?: DirectionUpdateBulkItemCondition;
-    /** Fee configuration */
-    fees?: DirectionUpdateBulkItemFees;
-    /** Limits configuration */
-    limits?: DirectionUpdateBulkItemLimits;
     /** Unique identifier of the direction to update */
     id: string;
 }
@@ -2212,6 +2232,15 @@ export interface Limits {
     reward: LimitValuesOutput;
 }
 
+export interface LimitsCreate {
+    /** Limits for payin operations (deposit transactions) */
+    payin?: LimitValuesInput;
+    /** Limits for payout operations (withdrawal transactions) */
+    payout?: LimitValuesInput;
+    /** Limits for reward operations (bonus/cashback transactions) */
+    reward?: LimitValuesInput;
+}
+
 /**
  * Updated limits for payin operations
  */
@@ -2234,36 +2263,6 @@ export interface LimitsUpdate {
     payout?: LimitsUpdatePayout;
     /** Updated limits for reward operations */
     reward?: LimitsUpdateReward;
-}
-
-/**
- * Description of the merchant
- */
-export type MerchantDescription = string | null;
-
-/**
- * Keycloak identifier for the merchant
- */
-export type MerchantKeycloakId = string | null;
-
-/**
- * Mapping of fee configurations with fee.id as key
- */
-export type MerchantFees = { [key: string]: Fee };
-
-export interface Merchant {
-    /** Unique identifier of the merchant */
-    id: string;
-    /** Name of the merchant */
-    name: string;
-    /** Description of the merchant */
-    description?: MerchantDescription;
-    /** Keycloak identifier for the merchant */
-    keycloak_id?: MerchantKeycloakId;
-    /** Mapping of fee configurations with fee.id as key */
-    fees?: MerchantFees;
-    /** List of payment types associated with this merchant */
-    payment_types?: PaymentTypeBase[];
 }
 
 /**
@@ -2292,12 +2291,9 @@ export interface MerchantBase {
     keycloak_id?: MerchantBaseKeycloakId;
     /** Mapping of fee configurations with fee.id as key */
     fees?: MerchantBaseFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsOutput;
 }
-
-/**
- * Identifier of the user who assigned the cascade to merchant
- */
-export type MerchantCascadeCreateAssignedBy = string | null;
 
 export interface MerchantCascadeCreate {
     /** Unique identifier of the merchant */
@@ -2306,19 +2302,7 @@ export interface MerchantCascadeCreate {
     cascade_id: string;
     /** Current state of the merchant-cascade assignment */
     state?: MerchantCascadeState;
-    /** Identifier of the user who assigned the cascade to merchant */
-    assigned_by?: MerchantCascadeCreateAssignedBy;
 }
-
-/**
- * Identifier of the user who assigned the cascade to merchant
- */
-export type MerchantCascadeReadAssignedBy = string | null;
-
-/**
- * Timestamp when the cascade was assigned to the merchant
- */
-export type MerchantCascadeReadAssignedAt = string | null;
 
 export interface MerchantCascadeRead {
     /** Unique identifier of the merchant */
@@ -2327,16 +2311,31 @@ export interface MerchantCascadeRead {
     cascade_id: string;
     /** Current state of the merchant-cascade assignment */
     state?: MerchantCascadeState;
-    /** Identifier of the user who assigned the cascade to merchant */
-    assigned_by?: MerchantCascadeReadAssignedBy;
     /** Unique identifier of the merchant-cascade assignment record */
     id: string;
-    /** Timestamp when the cascade was assigned to the merchant */
-    assigned_at?: MerchantCascadeReadAssignedAt;
     /** Timestamp when the record was created */
     created_at: string;
     /** Timestamp when the record was last updated */
     updated_at: string;
+}
+
+export interface MerchantCascadeSchema {
+    /** Unique identifier of the merchant */
+    merchant_id: string;
+    /** Unique identifier of the cascade assigned to merchant */
+    cascade_id: string;
+    /** Current state of the merchant-cascade assignment */
+    state?: MerchantCascadeState;
+    /** Unique identifier of the merchant-cascade assignment record */
+    id: string;
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was last updated */
+    updated_at: string;
+    /** Cascade this merchant cascade belongs to */
+    cascade: CascadeRead;
+    /** Merchant this merchant cascade belongs to */
+    merchant: MerchantBase;
 }
 
 export type MerchantCascadeState = (typeof MerchantCascadeState)[keyof typeof MerchantCascadeState];
@@ -2352,80 +2351,9 @@ export const MerchantCascadeState = {
  */
 export type MerchantCascadeUpdateState = MerchantCascadeState | null;
 
-/**
- * Updated identifier of the user who assigned the cascade
- */
-export type MerchantCascadeUpdateAssignedBy = string | null;
-
 export interface MerchantCascadeUpdate {
     /** Updated state of the merchant-cascade assignment */
     state?: MerchantCascadeUpdateState;
-    /** Updated identifier of the user who assigned the cascade */
-    assigned_by?: MerchantCascadeUpdateAssignedBy;
-}
-
-/**
- * Identifier of the user who assigned the cascade to merchant
- */
-export type MerchantCascadeWithDetailsAssignedBy = string | null;
-
-/**
- * Timestamp when the cascade was assigned to the merchant
- */
-export type MerchantCascadeWithDetailsAssignedAt = string | null;
-
-/**
- * Human-readable name of the assigned cascade
- */
-export type MerchantCascadeWithDetailsCascadeName = string | null;
-
-/**
- * Type of the assigned cascade
- */
-export type MerchantCascadeWithDetailsCascadeType = string | null;
-
-/**
- * Source currency code of the assigned cascade
- */
-export type MerchantCascadeWithDetailsCascadeSrcCurrency = string | null;
-
-/**
- * Execution strategy of the assigned cascade
- */
-export type MerchantCascadeWithDetailsCascadeKind = string | null;
-
-/**
- * Current operational state of the assigned cascade
- */
-export type MerchantCascadeWithDetailsCascadeState = string | null;
-
-export interface MerchantCascadeWithDetails {
-    /** Unique identifier of the merchant */
-    merchant_id: string;
-    /** Unique identifier of the cascade assigned to merchant */
-    cascade_id: string;
-    /** Current state of the merchant-cascade assignment */
-    state?: MerchantCascadeState;
-    /** Identifier of the user who assigned the cascade to merchant */
-    assigned_by?: MerchantCascadeWithDetailsAssignedBy;
-    /** Unique identifier of the merchant-cascade assignment record */
-    id: string;
-    /** Timestamp when the cascade was assigned to the merchant */
-    assigned_at?: MerchantCascadeWithDetailsAssignedAt;
-    /** Timestamp when the record was created */
-    created_at: string;
-    /** Timestamp when the record was last updated */
-    updated_at: string;
-    /** Human-readable name of the assigned cascade */
-    cascade_name?: MerchantCascadeWithDetailsCascadeName;
-    /** Type of the assigned cascade */
-    cascade_type?: MerchantCascadeWithDetailsCascadeType;
-    /** Source currency code of the assigned cascade */
-    cascade_src_currency?: MerchantCascadeWithDetailsCascadeSrcCurrency;
-    /** Execution strategy of the assigned cascade */
-    cascade_kind?: MerchantCascadeWithDetailsCascadeKind;
-    /** Current operational state of the assigned cascade */
-    cascade_state?: MerchantCascadeWithDetailsCascadeState;
 }
 
 /**
@@ -2438,6 +2366,11 @@ export type MerchantCreateDescription = string | null;
  */
 export type MerchantCreateKeycloakId = string | null;
 
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantCreateFees = { [key: string]: Fee };
+
 export interface MerchantCreate {
     /** Unique identifier of the merchant */
     id: string;
@@ -2447,10 +2380,64 @@ export interface MerchantCreate {
     description?: MerchantCreateDescription;
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantCreateKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantCreateFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsInput;
     /** Unique codes of the payment types to link */
     payment_types?: string[];
     /** Currency codes for allowed source currencies */
-    currencies?: string[];
+    allowed_src_currencies?: string[];
+}
+
+/**
+ * Description of the merchant
+ */
+export type MerchantSchemaDescription = string | null;
+
+/**
+ * Keycloak identifier for the merchant
+ */
+export type MerchantSchemaKeycloakId = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantSchemaFees = { [key: string]: Fee };
+
+export interface MerchantSchema {
+    /** Unique identifier of the merchant */
+    id: string;
+    /** Name of the merchant */
+    name: string;
+    /** Description of the merchant */
+    description?: MerchantSchemaDescription;
+    /** Keycloak identifier for the merchant */
+    keycloak_id?: MerchantSchemaKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantSchemaFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsOutput;
+    /** List of payment types associated with this merchant */
+    payment_types?: PaymentTypeBase[];
+    /** Currency codes for allowed source currencies */
+    allowed_src_currencies?: Currency[];
+    /** List of merchant cascades */
+    merchant_cascades?: MerchantCascadeRead[];
+}
+
+export interface MerchantSettingsInput {
+    /** Timeout settings for deposit */
+    deposit?: TimeoutSettings;
+    /** Timeout settings for withdraw */
+    withdraw?: TimeoutSettings;
+}
+
+export interface MerchantSettingsOutput {
+    /** Timeout settings for deposit */
+    deposit?: TimeoutSettings;
+    /** Timeout settings for withdraw */
+    withdraw?: TimeoutSettings;
 }
 
 /**
@@ -2469,6 +2456,11 @@ export type MerchantUpdateDescription = string | null;
 export type MerchantUpdateKeycloakId = string | null;
 
 /**
+ * Settings for merchant availability
+ */
+export type MerchantUpdateSettings = MerchantSettingsInput | null;
+
+/**
  * Unique codes of the payment types to link
  */
 export type MerchantUpdatePaymentTypes = string[] | null;
@@ -2476,7 +2468,7 @@ export type MerchantUpdatePaymentTypes = string[] | null;
 /**
  * Currency codes for allowed source currencies
  */
-export type MerchantUpdateCurrencies = string[] | null;
+export type MerchantUpdateAllowedSrcCurrencies = string[] | null;
 
 export interface MerchantUpdate {
     /** Name of the merchant */
@@ -2485,10 +2477,12 @@ export interface MerchantUpdate {
     description?: MerchantUpdateDescription;
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantUpdateKeycloakId;
+    /** Settings for merchant availability */
+    settings?: MerchantUpdateSettings;
     /** Unique codes of the payment types to link */
     payment_types?: MerchantUpdatePaymentTypes;
     /** Currency codes for allowed source currencies */
-    currencies?: MerchantUpdateCurrencies;
+    allowed_src_currencies?: MerchantUpdateAllowedSrcCurrencies;
 }
 
 /**
@@ -2526,10 +2520,10 @@ export interface MergedCascade {
     description?: MergedCascadeDescription;
     /** Additional configuration parameters and metadata */
     details?: MergedCascadeDetails;
+    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
+    payment_types?: string[];
     /** Unique identifier of the merged cascade (virtual ID) */
     id: string;
-    /** Whether this is a virtual merged cascade (always true for merged cascades) */
-    is_virtual?: boolean;
     /** List of original cascade IDs that were merged to create this view */
     original_cascade_ids?: string[];
     /** List of terminals in the merged cascade with resolved conflicts */
@@ -2586,9 +2580,9 @@ export interface MergedCascadeView {
     merged_cascade: MergedCascade;
 }
 
-export interface OffsetPaginationCascadeRead {
+export interface OffsetPaginationCascadeSchema {
     /** A list of items in the current page */
-    items: CascadeRead[];
+    items: CascadeSchema[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -2597,20 +2591,9 @@ export interface OffsetPaginationCascadeRead {
     total: number;
 }
 
-export interface OffsetPaginationCascadeTerminalRead {
+export interface OffsetPaginationCascadeTerminalSchema {
     /** A list of items in the current page */
-    items: CascadeTerminalRead[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
-export interface OffsetPaginationCascadeTerminalWithDetails {
-    /** A list of items in the current page */
-    items: CascadeTerminalWithDetails[];
+    items: CascadeTerminalSchema[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -2652,9 +2635,9 @@ export interface OffsetPaginationFinancialInstitution {
     total: number;
 }
 
-export interface OffsetPaginationMerchantCascadeRead {
+export interface OffsetPaginationMerchantCascadeSchema {
     /** A list of items in the current page */
-    items: MerchantCascadeRead[];
+    items: MerchantCascadeSchema[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -2663,20 +2646,9 @@ export interface OffsetPaginationMerchantCascadeRead {
     total: number;
 }
 
-export interface OffsetPaginationMerchantCascadeWithDetails {
+export interface OffsetPaginationMerchantSchema {
     /** A list of items in the current page */
-    items: MerchantCascadeWithDetails[];
-    /** The maximum number of items returned in a single page */
-    limit: number;
-    /** The starting index for the current page */
-    offset: number;
-    /** The total number of available items */
-    total: number;
-}
-
-export interface OffsetPaginationMerchant {
-    /** A list of items in the current page */
-    items: Merchant[];
+    items: MerchantSchema[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -3223,16 +3195,6 @@ export type TerminalCreateDescription = string | null;
 export type TerminalCreateDetails = { [key: string]: unknown };
 
 /**
- * Terminal limits configuration
- */
-export type TerminalCreateLimits = { [key: string]: unknown };
-
-/**
- * Terminal settings configuration
- */
-export type TerminalCreateSettings = { [key: string]: unknown };
-
-/**
  * Authentication configuration
  */
 export type TerminalCreateAuth = { [key: string]: unknown };
@@ -3262,9 +3224,9 @@ export interface TerminalCreate {
     /** Destination currency code */
     dst_currency_code: string;
     /** Terminal limits configuration */
-    limits?: TerminalCreateLimits;
+    limits?: LimitsCreate;
     /** Terminal settings configuration */
-    settings?: TerminalCreateSettings;
+    settings?: TerminalSettings;
     /** Terminal state */
     state?: TerminalState;
     /** Indicates if the account is created */
@@ -3504,11 +3466,6 @@ export type TerminalReadDstCurrencyCode = string | null;
 export type TerminalReadLimits = { [key: string]: unknown };
 
 /**
- * Terminal settings configuration
- */
-export type TerminalReadSettings = { [key: string]: unknown };
-
-/**
  * Mapping of fee configurations with fee.id as key
  */
 export type TerminalReadFees = { [key: string]: Fee };
@@ -3544,7 +3501,7 @@ export interface TerminalRead {
     /** Terminal limits configuration */
     limits?: TerminalReadLimits;
     /** Terminal settings configuration */
-    settings?: TerminalReadSettings;
+    settings?: TerminalSettings;
     /** Terminal state */
     state?: TerminalState;
     /** Provider name associated with the terminal */
@@ -3561,6 +3518,11 @@ export interface TerminalRead {
     details?: TerminalReadDetails;
     /** List of payment types associated with this terminal */
     payment_types?: PaymentTypeBase[];
+}
+
+export interface TerminalSettings {
+    /** Time-to-live configuration for terminal availability */
+    ttl?: TTLConfig;
 }
 
 export type TerminalState = (typeof TerminalState)[keyof typeof TerminalState];
@@ -3681,19 +3643,15 @@ export type TerminalUpdateSrcCurrencyCode = string | null;
  */
 export type TerminalUpdateDstCurrencyCode = string | null;
 
-export type TerminalUpdateLimitsAnyOf = { [key: string]: unknown };
-
 /**
  * Terminal limits configuration
  */
-export type TerminalUpdateLimits = TerminalUpdateLimitsAnyOf | null;
-
-export type TerminalUpdateSettingsAnyOf = { [key: string]: unknown };
+export type TerminalUpdateLimits = LimitsUpdate | null;
 
 /**
  * Terminal settings configuration
  */
-export type TerminalUpdateSettings = TerminalUpdateSettingsAnyOf | null;
+export type TerminalUpdateSettings = TerminalSettings | null;
 
 /**
  * Terminal state
@@ -3759,6 +3717,11 @@ export interface TimeoutConfig {
     start_to_close_timeout?: string;
     /** Maximum wait time for an external condition, if applicable. */
     wait_condition_timeout?: string;
+}
+
+export interface TimeoutSettings {
+    /** Time-to-live configuration for terminal availability */
+    ttl?: TTLConfig;
 }
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];
@@ -4060,56 +4023,135 @@ export type DirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailable
     terminal_id?: string | null;
 };
 
+export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder;
+};
+
+export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder =
+    (typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder)[keyof typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
 export type CascadeEndpointsListCascadesEnigmaV1CascadeGetParams = {
-    args: unknown;
-    kwargs: unknown;
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder;
 };
 
-export type CascadeEndpointsListCascadesByTypeEnigmaV1CascadeTypeCascadeTypeGetParams = {
-    args: unknown;
-    kwargs: unknown;
-};
+export type CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder =
+    (typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder)[keyof typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder];
 
-export type CascadeEndpointsListCascadesByCurrencyEnigmaV1CascadeCurrencyCurrencyCodeGetParams = {
-    args: unknown;
-    kwargs: unknown;
-};
-
-export type CascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetParams = {
-    args: unknown;
-    kwargs: unknown;
-};
-
-export type CascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetParams = {
-    args: unknown;
-    kwargs: unknown;
-};
-
-export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams = {
-    args: unknown;
-    kwargs: unknown;
-};
-
-export type MerchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetParams = {
-    args: unknown;
-    kwargs: unknown;
-};
-
-export type MerchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetParams = {
-    args: unknown;
-    kwargs: unknown;
-};
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
 
 export type MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams = {
     cascade_type: string;
     src_currency: string;
 };
 
-export type DirectionProjectionEndpointsRebuildMerchantDirectionsEnigmaV1DirectionProjectionRebuildMerchantMerchantIdPostParams =
-    {
-        cascade_type?: string | null;
-        src_currency?: string | null;
-    };
+export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams = {
+    args: unknown;
+    kwargs: unknown;
+};
 
 export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
     /**

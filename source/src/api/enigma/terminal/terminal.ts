@@ -548,6 +548,7 @@ export const terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDelete 
 
 /**
  * Associates existing payment types with a terminal. Skips already linked types.
+ * @deprecated
  * @summary Add payment types to terminal
  */
 export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse200 = {
@@ -593,6 +594,7 @@ export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalI
 
 /**
  * Automatically associates all available payment types with a terminal based on its provider's payment types.
+ * @deprecated
  * @summary Automatically add available payment types to terminal
  */
 export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse200 =
@@ -640,6 +642,7 @@ export const terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTermi
 
 /**
  * Disassociates a payment type from a terminal by its code.
+ * @deprecated
  * @summary Remove payment type from terminal
  */
 export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
@@ -689,6 +692,7 @@ export const terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTermi
 
 /**
  * Creates a callback URL for a terminal
+ * @deprecated
  * @summary Create callback URL for terminal
  */
 export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse200 = {

@@ -6,7 +6,6 @@ import { useGetMerchantShowColumns } from "./Columns";
 import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
 import { Fees } from "../../components/Fees";
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
@@ -18,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { useFetchDictionaries } from "@/hooks";
 import { MerchantSettingsDialog } from "./MerchantSettingsDialog";
+import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface MerchantShowProps {
     id: string;
@@ -41,7 +41,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
         onOpenChange(false);
     }
 
-    const context = useAbortableShowController<Merchant>({
+    const context = useAbortableShowController<MerchantSchema>({
         resource: "merchant",
         id,
         queryOptions: {
@@ -74,6 +74,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
+
+    console.log(context.record);
 
     const fees = context.record.fees;
     const payment_types = context.record.payment_types;

@@ -5,13 +5,10 @@
  * OpenAPI spec version: local
  */
 import type {
-    ApiResponseCascadeTerminalRead,
+    ApiResponseCascadeTerminalSchema,
     ApiResponseDictStrStr,
-    ApiResponseOffsetPaginationCascadeTerminalRead,
-    ApiResponseOffsetPaginationCascadeTerminalWithDetails,
+    ApiResponseOffsetPaginationCascadeTerminalSchema,
     CascadeTerminalCreate,
-    CascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetParams,
-    CascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetParams,
     CascadeTerminalUpdate,
     HTTPValidationError
 } from "../blowFishEnigmaAPIService.schemas";
@@ -19,11 +16,44 @@ import type {
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
+ * Returns all cascades that include a specific terminal
+ * @summary Get cascades for terminal
+ */
+export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse200 = {
+    data: ApiResponseOffsetPaginationCascadeTerminalSchema;
+    status: 200;
+};
+
+export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponseComposite =
+    cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse200;
+
+export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse =
+    cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getCascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetUrl = () => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal`;
+};
+
+export const cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGet = async (
+    options?: RequestInit
+): Promise<cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse> => {
+    return authFetch<cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse>(
+        getCascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetUrl(),
+        {
+            ...options,
+            method: "GET"
+        }
+    );
+};
+
+/**
  * Adds a terminal to a cascade with specified conditions
  * @summary Add terminal to cascade
  */
 export type cascadeTerminalEndpointsCreateCascadeTerminalEnigmaV1CascadeTerminalPostResponse200 = {
-    data: ApiResponseCascadeTerminalRead;
+    data: ApiResponseCascadeTerminalSchema;
     status: 200;
 };
 
@@ -65,7 +95,7 @@ export const cascadeTerminalEndpointsCreateCascadeTerminalEnigmaV1CascadeTermina
  * @summary Get cascade terminal details
  */
 export type cascadeTerminalEndpointsGetCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdGetResponse200 = {
-    data: ApiResponseCascadeTerminalRead;
+    data: ApiResponseCascadeTerminalSchema;
     status: 200;
 };
 
@@ -107,7 +137,7 @@ export const cascadeTerminalEndpointsGetCascadeTerminalEnigmaV1CascadeTerminalCa
  * @summary Update cascade terminal
  */
 export type cascadeTerminalEndpointsUpdateCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdPutResponse200 = {
-    data: ApiResponseCascadeTerminalRead;
+    data: ApiResponseCascadeTerminalSchema;
     status: 200;
 };
 
@@ -192,125 +222,6 @@ export const cascadeTerminalEndpointsRemoveTerminalFromCascadeEnigmaV1CascadeTer
         {
             ...options,
             method: "DELETE"
-        }
-    );
-};
-
-/**
- * Returns all terminals associated with a specific cascade
- * @summary Get terminals in cascade
- */
-export type cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponse200 = {
-    data: ApiResponseOffsetPaginationCascadeTerminalWithDetails;
-    status: 200;
-};
-
-export type cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponseComposite =
-    | cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponse200
-    | cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponse422;
-
-export type cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponse =
-    cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getCascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetUrl = (
-    cascadeId: string,
-    params: CascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetParams
-) => {
-    const normalizedParams = new URLSearchParams();
-
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (value !== undefined) {
-            normalizedParams.append(key, value === null ? "null" : value.toString());
-        }
-    });
-
-    const stringifiedParams = normalizedParams.toString();
-
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal/cascade/${cascadeId}?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal/cascade/${cascadeId}`;
-};
-
-export const cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGet = async (
-    cascadeId: string,
-    params: CascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetParams,
-    options?: RequestInit
-): Promise<cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponse> => {
-    return authFetch<cascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetResponse>(
-        getCascadeTerminalEndpointsListTerminalsInCascadeEnigmaV1CascadeTerminalCascadeCascadeIdGetUrl(
-            cascadeId,
-            params
-        ),
-        {
-            ...options,
-            method: "GET"
-        }
-    );
-};
-
-/**
- * Returns all cascades that include a specific terminal
- * @summary Get cascades for terminal
- */
-export type cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponse200 = {
-    data: ApiResponseOffsetPaginationCascadeTerminalRead;
-    status: 200;
-};
-
-export type cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponseComposite =
-
-        | cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponse200
-        | cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponse422;
-
-export type cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponse =
-    cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getCascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetUrl = (
-    terminalId: string,
-    params: CascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetParams
-) => {
-    const normalizedParams = new URLSearchParams();
-
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (value !== undefined) {
-            normalizedParams.append(key, value === null ? "null" : value.toString());
-        }
-    });
-
-    const stringifiedParams = normalizedParams.toString();
-
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal/terminal/${terminalId}?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal/terminal/${terminalId}`;
-};
-
-export const cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGet = async (
-    terminalId: string,
-    params: CascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetParams,
-    options?: RequestInit
-): Promise<cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponse> => {
-    return authFetch<cascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetResponse>(
-        getCascadeTerminalEndpointsListCascadesForTerminalEnigmaV1CascadeTerminalTerminalTerminalIdGetUrl(
-            terminalId,
-            params
-        ),
-        {
-            ...options,
-            method: "GET"
         }
     );
 };

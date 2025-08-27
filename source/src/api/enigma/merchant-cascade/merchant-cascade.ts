@@ -6,27 +6,88 @@
  */
 import type {
     ApiResponseDictStrStr,
-    ApiResponseMerchantCascadeRead,
+    ApiResponseMerchantCascadeSchema,
     ApiResponseMergedCascadeView,
-    ApiResponseOffsetPaginationMerchantCascadeRead,
-    ApiResponseOffsetPaginationMerchantCascadeWithDetails,
+    ApiResponseOffsetPaginationMerchantCascadeSchema,
     HTTPValidationError,
     MerchantCascadeCreate,
     MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams,
-    MerchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetParams,
     MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams,
-    MerchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetParams,
     MerchantCascadeUpdate
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
 
 /**
+ * Returns a merged view of all cascades for a merchant with terminal conflict resolution
+ * @summary Get merged cascade view for merchant
+ */
+export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse200 =
+    {
+        data: ApiResponseMergedCascadeView;
+        status: 200;
+    };
+
+export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponseComposite =
+
+        | merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse200
+        | merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse422;
+
+export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse =
+    merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponseComposite & {
+        headers: Headers;
+    };
+
+export const getMerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetUrl =
+    (
+        merchantId: string,
+        params: MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams
+    ) => {
+        const normalizedParams = new URLSearchParams();
+
+        Object.entries(params || {}).forEach(([key, value]) => {
+            if (value !== undefined) {
+                normalizedParams.append(key, value === null ? "null" : value.toString());
+            }
+        });
+
+        const stringifiedParams = normalizedParams.toString();
+
+        return stringifiedParams.length > 0
+            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view?${stringifiedParams}`
+            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view`;
+    };
+
+export const merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGet =
+    async (
+        merchantId: string,
+        params: MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams,
+        options?: RequestInit
+    ): Promise<merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse> => {
+        return authFetch<merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse>(
+            getMerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetUrl(
+                merchantId,
+                params
+            ),
+            {
+                ...options,
+                method: "GET"
+            }
+        );
+    };
+
+/**
  * Returns a paginated list of merchant cascade assignments with filtering
  * @summary Get merchant cascade assignments
  */
 export type merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetResponse200 = {
-    data: ApiResponseOffsetPaginationMerchantCascadeRead;
+    data: ApiResponseOffsetPaginationMerchantCascadeSchema;
     status: 200;
 };
 
@@ -80,7 +141,7 @@ export const merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascade
  * @summary Assign cascade to merchant
  */
 export type merchantCascadeEndpointsAssignCascadeToMerchantEnigmaV1MerchantCascadePostResponse200 = {
-    data: ApiResponseMerchantCascadeRead;
+    data: ApiResponseMerchantCascadeSchema;
     status: 200;
 };
 
@@ -122,7 +183,7 @@ export const merchantCascadeEndpointsAssignCascadeToMerchantEnigmaV1MerchantCasc
  * @summary Get merchant cascade assignment details
  */
 export type merchantCascadeEndpointsGetMerchantCascadeEnigmaV1MerchantCascadeMerchantCascadeIdGetResponse200 = {
-    data: ApiResponseMerchantCascadeRead;
+    data: ApiResponseMerchantCascadeSchema;
     status: 200;
 };
 
@@ -164,7 +225,7 @@ export const merchantCascadeEndpointsGetMerchantCascadeEnigmaV1MerchantCascadeMe
  * @summary Update merchant cascade assignment
  */
 export type merchantCascadeEndpointsUpdateMerchantCascadeEnigmaV1MerchantCascadeMerchantCascadeIdPutResponse200 = {
-    data: ApiResponseMerchantCascadeRead;
+    data: ApiResponseMerchantCascadeSchema;
     status: 200;
 };
 
@@ -252,187 +313,3 @@ export const merchantCascadeEndpointsRemoveCascadeFromMerchantEnigmaV1MerchantCa
         }
     );
 };
-
-/**
- * Returns all cascades assigned to a specific merchant
- * @summary Get cascades for merchant
- */
-export type merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponse200 = {
-    data: ApiResponseOffsetPaginationMerchantCascadeWithDetails;
-    status: 200;
-};
-
-export type merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponseComposite =
-
-        | merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponse200
-        | merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponse422;
-
-export type merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponse =
-    merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getMerchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetUrl = (
-    merchantId: string,
-    params: MerchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetParams
-) => {
-    const normalizedParams = new URLSearchParams();
-
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (value !== undefined) {
-            normalizedParams.append(key, value === null ? "null" : value.toString());
-        }
-    });
-
-    const stringifiedParams = normalizedParams.toString();
-
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}`;
-};
-
-export const merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGet = async (
-    merchantId: string,
-    params: MerchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetParams,
-    options?: RequestInit
-): Promise<merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponse> => {
-    return authFetch<merchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetResponse>(
-        getMerchantCascadeEndpointsListCascadesForMerchantEnigmaV1MerchantCascadeMerchantMerchantIdGetUrl(
-            merchantId,
-            params
-        ),
-        {
-            ...options,
-            method: "GET"
-        }
-    );
-};
-
-/**
- * Returns all merchants assigned to a specific cascade
- * @summary Get merchants for cascade
- */
-export type merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponse200 = {
-    data: ApiResponseOffsetPaginationMerchantCascadeRead;
-    status: 200;
-};
-
-export type merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponseComposite =
-
-        | merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponse200
-        | merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponse422;
-
-export type merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponse =
-    merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getMerchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetUrl = (
-    cascadeId: string,
-    params: MerchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetParams
-) => {
-    const normalizedParams = new URLSearchParams();
-
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (value !== undefined) {
-            normalizedParams.append(key, value === null ? "null" : value.toString());
-        }
-    });
-
-    const stringifiedParams = normalizedParams.toString();
-
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/cascade/${cascadeId}?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/cascade/${cascadeId}`;
-};
-
-export const merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGet = async (
-    cascadeId: string,
-    params: MerchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetParams,
-    options?: RequestInit
-): Promise<merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponse> => {
-    return authFetch<merchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetResponse>(
-        getMerchantCascadeEndpointsListMerchantsForCascadeEnigmaV1MerchantCascadeCascadeCascadeIdGetUrl(
-            cascadeId,
-            params
-        ),
-        {
-            ...options,
-            method: "GET"
-        }
-    );
-};
-
-/**
- * Returns a merged view of all cascades for a merchant with terminal conflict resolution
- * @summary Get merged cascade view for merchant
- */
-export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse200 =
-    {
-        data: ApiResponseMergedCascadeView;
-        status: 200;
-    };
-
-export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse422 =
-    {
-        data: HTTPValidationError;
-        status: 422;
-    };
-
-export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponseComposite =
-
-        | merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse200
-        | merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse422;
-
-export type merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse =
-    merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getMerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetUrl =
-    (
-        merchantId: string,
-        params: MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams
-    ) => {
-        const normalizedParams = new URLSearchParams();
-
-        Object.entries(params || {}).forEach(([key, value]) => {
-            if (value !== undefined) {
-                normalizedParams.append(key, value === null ? "null" : value.toString());
-            }
-        });
-
-        const stringifiedParams = normalizedParams.toString();
-
-        return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view`;
-    };
-
-export const merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGet =
-    async (
-        merchantId: string,
-        params: MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams,
-        options?: RequestInit
-    ): Promise<merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse> => {
-        return authFetch<merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetResponse>(
-            getMerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetUrl(
-                merchantId,
-                params
-            ),
-            {
-                ...options,
-                method: "GET"
-            }
-        );
-    };

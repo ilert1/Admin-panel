@@ -11,12 +11,15 @@ import { ChangeEvent, DragEvent, useState } from "react";
 import { feesDataProvider, FeesResource, MerchantsDataProvider } from "@/data";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { FeeCreate, TTLConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useCurrenciesListWithoutPagination, useFetchDictionaries } from "@/hooks";
 import { Fees } from "../../components/Fees";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { TTL } from "../../components/TTL";
 
 export type FeeType = "inner" | "default";
 
@@ -33,6 +36,10 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     const merchantsDataProvider = new MerchantsDataProvider();
 
     const [fees, setFees] = useState<FeeCreate[]>([]);
+    const [ttl, setTTL] = useState<TTLConfig>({
+        min: 0,
+        max: 0
+    });
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [fileContent, setFileContent] = useState("");
 
@@ -61,16 +68,25 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     };
 
     const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async data => {
+        console.log("Submit");
+
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);
 
-        if (data?.description?.length === 0) {
-            data.description = null;
+        const formData = {
+            ...data,
+            settings: {
+                ttl: ttl
+            }
+        };
+
+        if (formData?.description?.length === 0) {
+            formData.description = null;
         }
 
         try {
-            const json = await merchantsDataProvider.createNewFlow({ data });
+            const json = await merchantsDataProvider.createNewFlow({ data: formData });
             feeDataProvider.setId(json.data.id);
 
             await fees.reduce((accum, item) => {
@@ -101,6 +117,8 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     };
 
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+
     const formSchema = z.object({
         name: z
             .string({ message: translate("resources.merchant.errors.required") })
@@ -120,7 +138,8 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 direction: z.string()
             })
         ),
-        currencies: z.array(z.string()).optional()
+        currencies: z.array(z.string()).optional(),
+        payment_types: z.array(z.string()).optional().default([])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -129,7 +148,8 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             name: "",
             description: "",
             fees: {},
-            currencies: []
+            currencies: [],
+            payment_types: []
         }
     });
 
@@ -182,6 +202,25 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                            isLoading={isLoadingAllPaymentTypes}
+                                            disabled={submitButtonDisabled}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={form.control}
                             name="currencies"
@@ -223,9 +262,11 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 </form>
             </Form>
             <Fees id={""} fees={fees} feesResource={FeesResource.MERCHANT} setFees={setFees} feeType="inner" />
+            <TTL ttl={ttl} onChange={(ttl: TTLConfig) => setTTL(ttl)} />
             <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
+                    type="submit"
                     variant="default"
                     className="flex-1"
                     disabled={submitButtonDisabled}>

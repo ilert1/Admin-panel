@@ -546,7 +546,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_Merchant__"
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_MerchantSchema__"
                 }
               }
             }
@@ -586,7 +586,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -632,7 +632,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -686,7 +686,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -786,7 +786,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -855,7 +855,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -912,7 +912,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -938,6 +938,7 @@
         "summary": "Add payment types to merchant",
         "description": "Associates existing payment types with a merchant. Skips already linked types.",
         "operationId": "MerchantEndpoints_add_payment_types_to_merchant_enigma_v1_merchant__merchant_id__add_payment_types_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "merchant_id",
@@ -968,7 +969,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -994,6 +995,7 @@
         "summary": "Remove payment type from merchant",
         "description": "Disassociates a payment type from a merchant by its code.",
         "operationId": "MerchantEndpoints_remove_payment_type_from_merchant_enigma_v1_merchant__merchant_id__remove_payment_type__payment_type_code__delete",
+        "deprecated": true,
         "parameters": [
           {
             "name": "merchant_id",
@@ -1027,7 +1029,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_Merchant_"
+                  "$ref": "#/components/schemas/ApiResponse_MerchantSchema_"
                 }
               }
             }
@@ -1485,6 +1487,7 @@
         "summary": "Add payment types to provider by ID",
         "description": "Associates existing payment types with a provider using UUID. Skips already linked types.",
         "operationId": "ProviderEndpoints_add_payment_types_to_provider_by_id_enigma_v1_provider__provider_id__add_payment_types_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "provider_id",
@@ -1542,6 +1545,7 @@
         "summary": "Remove payment type from provider by ID",
         "description": "Disassociates a payment type from a provider using UUID.",
         "operationId": "ProviderEndpoints_remove_payment_type_from_provider_by_id_enigma_v1_provider__provider_id__remove_payment_type__payment_type_code__delete",
+        "deprecated": true,
         "parameters": [
           {
             "name": "provider_id",
@@ -2360,6 +2364,7 @@
         "summary": "Add payment types to terminal",
         "description": "Associates existing payment types with a terminal. Skips already linked types.",
         "operationId": "TerminalEndpoints_add_payment_types_to_terminal_enigma_v1_terminal__terminal_id__add_payment_types_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "terminal_id",
@@ -2417,6 +2422,7 @@
         "summary": "Automatically add available payment types to terminal",
         "description": "Automatically associates all available payment types with a terminal based on its provider's payment types.",
         "operationId": "TerminalEndpoints_auto_add_payment_types_to_terminal_enigma_v1_terminal__terminal_id__auto_add_payment_types_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "terminal_id",
@@ -2464,6 +2470,7 @@
         "summary": "Remove payment type from terminal",
         "description": "Disassociates a payment type from a terminal by its code.",
         "operationId": "TerminalEndpoints_remove_payment_type_from_terminal_enigma_v1_terminal__terminal_id__remove_payment_type__payment_type_code__delete",
+        "deprecated": true,
         "parameters": [
           {
             "name": "terminal_id",
@@ -2524,6 +2531,7 @@
         "summary": "Create callback URL for terminal",
         "description": "Creates a callback URL for a terminal",
         "operationId": "TerminalEndpoints_create_callback_enigma_v1_terminal__terminal_id__callback_post",
+        "deprecated": true,
         "parameters": [
           {
             "name": "terminal_id",
@@ -2739,6 +2747,7 @@
         "summary": "Create a new direction",
         "description": "Registers a new direction in the system",
         "operationId": "DirectionEndpoints_create_direction_enigma_v1_direction_post",
+        "deprecated": true,
         "requestBody": {
           "required": true,
           "content": {
@@ -2792,7 +2801,7 @@
               "title": "Merchant Id"
             },
             "description": "The unique identifier of the merchant",
-            "example": "merchant_001"
+            "example": "123e4567-e89b-12d3-a456-426614174001"
           },
           {
             "name": "ids",
@@ -3145,7 +3154,8 @@
               }
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/enigma/v1/direction/{direction_id}/state": {
@@ -3156,6 +3166,7 @@
         "summary": "Update state for a direction",
         "description": "Updates the state (active/inactive) for the specified direction",
         "operationId": "DirectionEndpoints_update_state_enigma_v1_direction__direction_id__state_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3213,6 +3224,7 @@
         "summary": "Update type for a direction",
         "description": "Updates the type ('universal', 'deposit', 'withdraw') for the specified direction",
         "operationId": "DirectionEndpoints_update_type_enigma_v1_direction__direction_id__type_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3270,6 +3282,7 @@
         "summary": "Add a new fee to a direction",
         "description": "Associates a new fee with a specified direction",
         "operationId": "DirectionEndpoints_add_fee_enigma_v1_direction__direction_id__fee_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3327,6 +3340,7 @@
         "summary": "Update an existing fee for a direction",
         "description": "Modifies an existing fee associated with a specified direction",
         "operationId": "DirectionEndpoints_update_fee_enigma_v1_direction__direction_id__fee__fee_id__patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3395,6 +3409,7 @@
         "summary": "Remove a fee from a direction",
         "description": "Deletes a specific fee associated with a given direction",
         "operationId": "DirectionEndpoints_delete_fee_enigma_v1_direction__direction_id__fee__fee_id__delete",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3559,6 +3574,7 @@
         "summary": "Get available payment types based on merchant, provider, and terminal",
         "description": "Returns a list of payment types that are common across the specified merchant, provider, and terminal. If no parameters are provided, all payment types are returned.",
         "operationId": "DirectionEndpoints_get_available_payment_types_enigma_v1_direction_available_payment_types_get",
+        "deprecated": true,
         "parameters": [
           {
             "name": "merchant_id",
@@ -3642,6 +3658,7 @@
         "summary": "Add payment types to direction",
         "description": "Associates existing payment types with a direction. Skips already linked types.",
         "operationId": "DirectionEndpoints_add_payment_types_to_direction_enigma_v1_direction__direction_id__add_payment_types_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3699,6 +3716,7 @@
         "summary": "Automatically add available payment types to direction",
         "description": "Automatically associates all available payment types with a direction based on merchant and terminal intersection.",
         "operationId": "DirectionEndpoints_auto_add_payment_types_to_direction_enigma_v1_direction__direction_id__auto_add_payment_types_patch",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3746,6 +3764,7 @@
         "summary": "Remove payment type from direction",
         "description": "Disassociates a payment type from a direction by its code.",
         "operationId": "DirectionEndpoints_remove_payment_type_from_direction_enigma_v1_direction__direction_id__remove_payment_type__payment_type_code__delete",
+        "deprecated": true,
         "parameters": [
           {
             "name": "direction_id",
@@ -3798,6 +3817,264 @@
         }
       }
     },
+    "/enigma/v1/cascade/merchant/{merchant_id}": {
+      "get": {
+        "tags": [
+          "Cascade"
+        ],
+        "summary": "Get a paginated list of cascades by merchant",
+        "description": "Returns a paginated list of cascades filtered by merchant unique ID",
+        "operationId": "CascadeEndpoints_list_cascades_by_merchant_id_enigma_v1_cascade_merchant__merchant_id__get",
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The unique identifier of the merchant",
+              "title": "Merchant Id"
+            },
+            "description": "The unique identifier of the merchant",
+            "example": "123e4567-e89b-12d3-a456-426614174001"
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "List of identifiers for filtering",
+              "title": "Ids"
+            },
+            "description": "List of identifiers for filtering"
+          },
+          {
+            "name": "createdBefore",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Upper bound for creation date filter",
+              "title": "Createdbefore"
+            },
+            "description": "Upper bound for creation date filter"
+          },
+          {
+            "name": "createdAfter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lower bound for creation date filter",
+              "title": "Createdafter"
+            },
+            "description": "Lower bound for creation date filter"
+          },
+          {
+            "name": "updatedBefore",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Upper bound for update date filter",
+              "title": "Updatedbefore"
+            },
+            "description": "Upper bound for update date filter"
+          },
+          {
+            "name": "updatedAfter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lower bound for update date filter",
+              "title": "Updatedafter"
+            },
+            "description": "Lower bound for update date filter"
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Current page number (starting from 1)",
+              "default": 1,
+              "title": "Currentpage"
+            },
+            "description": "Current page number (starting from 1)"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of records per page",
+              "default": 20,
+              "title": "Pagesize"
+            },
+            "description": "Number of records per page"
+          },
+          {
+            "name": "searchField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search fields",
+              "description": "Names of the fields to search (comma-separated or repeated)."
+            },
+            "description": "Names of the fields to search (comma-separated or repeated)."
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search strings",
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            },
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+          },
+          {
+            "name": "searchIgnoreCase",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "title": "Case sensitivity",
+              "description": "If true, the search will be case-insensitive.",
+              "default": true
+            },
+            "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sorting field",
+              "description": "Field to sort the results by",
+              "default": "name"
+            },
+            "description": "Field to sort the results by"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "title": "Sorting order",
+              "description": "Sort order: 'asc' or 'desc'",
+              "default": "asc"
+            },
+            "description": "Sort order: 'asc' or 'desc'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeSchema__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/enigma/v1/cascade": {
       "get": {
         "tags": [
@@ -3808,20 +4085,216 @@
         "operationId": "CascadeEndpoints_list_cascades_enigma_v1_cascade_get",
         "parameters": [
           {
-            "name": "args",
+            "name": "ids",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
-              "title": "Args"
-            }
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "List of identifiers for filtering",
+              "title": "Ids"
+            },
+            "description": "List of identifiers for filtering"
           },
           {
-            "name": "kwargs",
+            "name": "createdBefore",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
-              "title": "Kwargs"
-            }
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Upper bound for creation date filter",
+              "title": "Createdbefore"
+            },
+            "description": "Upper bound for creation date filter"
+          },
+          {
+            "name": "createdAfter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lower bound for creation date filter",
+              "title": "Createdafter"
+            },
+            "description": "Lower bound for creation date filter"
+          },
+          {
+            "name": "updatedBefore",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Upper bound for update date filter",
+              "title": "Updatedbefore"
+            },
+            "description": "Upper bound for update date filter"
+          },
+          {
+            "name": "updatedAfter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Lower bound for update date filter",
+              "title": "Updatedafter"
+            },
+            "description": "Lower bound for update date filter"
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Current page number (starting from 1)",
+              "default": 1,
+              "title": "Currentpage"
+            },
+            "description": "Current page number (starting from 1)"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of records per page",
+              "default": 20,
+              "title": "Pagesize"
+            },
+            "description": "Number of records per page"
+          },
+          {
+            "name": "searchField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search fields",
+              "description": "Names of the fields to search (comma-separated or repeated)."
+            },
+            "description": "Names of the fields to search (comma-separated or repeated)."
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search strings",
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            },
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+          },
+          {
+            "name": "searchIgnoreCase",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "title": "Case sensitivity",
+              "description": "If true, the search will be case-insensitive.",
+              "default": true
+            },
+            "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sorting field",
+              "description": "Field to sort the results by",
+              "default": "name"
+            },
+            "description": "Field to sort the results by"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "title": "Sorting order",
+              "description": "Sort order: 'asc' or 'desc'",
+              "default": "asc"
+            },
+            "description": "Sort order: 'asc' or 'desc'"
           }
         ],
         "responses": {
@@ -3830,7 +4303,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeRead__"
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeSchema__"
                 }
               }
             }
@@ -3917,7 +4390,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_CascadeRead_"
+                  "$ref": "#/components/schemas/ApiResponse_CascadeSchema_"
                 }
               }
             }
@@ -3972,7 +4445,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_CascadeRead_"
+                  "$ref": "#/components/schemas/ApiResponse_CascadeSchema_"
                 }
               }
             }
@@ -4035,131 +4508,27 @@
         }
       }
     },
-    "/enigma/v1/cascade/type/{cascade_type}": {
-      "get": {
-        "tags": [
-          "Cascade"
-        ],
-        "summary": "Get cascades by type",
-        "description": "Returns cascades filtered by type (deposit/withdraw)",
-        "operationId": "CascadeEndpoints_list_cascades_by_type_enigma_v1_cascade_type__cascade_type__get",
-        "parameters": [
-          {
-            "name": "cascade_type",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "Cascade type",
-              "title": "Cascade Type"
-            },
-            "description": "Cascade type",
-            "example": "deposit"
-          },
-          {
-            "name": "args",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Args"
-            }
-          },
-          {
-            "name": "kwargs",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Kwargs"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeRead__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/enigma/v1/cascade/currency/{currency_code}": {
-      "get": {
-        "tags": [
-          "Cascade"
-        ],
-        "summary": "Get cascades by currency",
-        "description": "Returns cascades filtered by source currency code",
-        "operationId": "CascadeEndpoints_list_cascades_by_currency_enigma_v1_cascade_currency__currency_code__get",
-        "parameters": [
-          {
-            "name": "currency_code",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "Currency code",
-              "title": "Currency Code"
-            },
-            "description": "Currency code",
-            "example": "USD"
-          },
-          {
-            "name": "args",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Args"
-            }
-          },
-          {
-            "name": "kwargs",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Kwargs"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeRead__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/enigma/v1/cascade_terminal": {
+      "get": {
+        "tags": [
+          "Cascade Terminal"
+        ],
+        "summary": "Get cascades for terminal",
+        "description": "Returns all cascades that include a specific terminal",
+        "operationId": "CascadeTerminalEndpoints_list_cascade_terminals_enigma_v1_cascade_terminal_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeTerminalSchema__"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Cascade Terminal"
@@ -4183,7 +4552,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_CascadeTerminalRead_"
+                  "$ref": "#/components/schemas/ApiResponse_CascadeTerminalSchema_"
                 }
               }
             }
@@ -4227,7 +4596,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_CascadeTerminalRead_"
+                  "$ref": "#/components/schemas/ApiResponse_CascadeTerminalSchema_"
                 }
               }
             }
@@ -4279,7 +4648,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_CascadeTerminalRead_"
+                  "$ref": "#/components/schemas/ApiResponse_CascadeTerminalSchema_"
                 }
               }
             }
@@ -4322,485 +4691,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponse_dict_str__str__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/enigma/v1/cascade_terminal/cascade/{cascade_id}": {
-      "get": {
-        "tags": [
-          "Cascade Terminal"
-        ],
-        "summary": "Get terminals in cascade",
-        "description": "Returns all terminals associated with a specific cascade",
-        "operationId": "CascadeTerminalEndpoints_list_terminals_in_cascade_enigma_v1_cascade_terminal_cascade__cascade_id__get",
-        "parameters": [
-          {
-            "name": "cascade_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "description": "The unique identifier for the cascade",
-              "title": "Cascade Id"
-            },
-            "description": "The unique identifier for the cascade",
-            "example": "123e4567-e89b-12d3-a456-426614174001"
-          },
-          {
-            "name": "args",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Args"
-            }
-          },
-          {
-            "name": "kwargs",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Kwargs"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeTerminalWithDetails__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/enigma/v1/cascade_terminal/terminal/{terminal_id}": {
-      "get": {
-        "tags": [
-          "Cascade Terminal"
-        ],
-        "summary": "Get cascades for terminal",
-        "description": "Returns all cascades that include a specific terminal",
-        "operationId": "CascadeTerminalEndpoints_list_cascades_for_terminal_enigma_v1_cascade_terminal_terminal__terminal_id__get",
-        "parameters": [
-          {
-            "name": "terminal_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "description": "The unique identifier of the terminal",
-              "title": "Terminal Id"
-            },
-            "description": "The unique identifier of the terminal",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          {
-            "name": "args",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Args"
-            }
-          },
-          {
-            "name": "kwargs",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Kwargs"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_CascadeTerminalRead__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/enigma/v1/merchant_cascade": {
-      "get": {
-        "tags": [
-          "Merchant Cascade"
-        ],
-        "summary": "Get merchant cascade assignments",
-        "description": "Returns a paginated list of merchant cascade assignments with filtering",
-        "operationId": "MerchantCascadeEndpoints_list_merchant_cascades_enigma_v1_merchant_cascade_get",
-        "parameters": [
-          {
-            "name": "args",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Args"
-            }
-          },
-          {
-            "name": "kwargs",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Kwargs"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_MerchantCascadeRead__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Merchant Cascade"
-        ],
-        "summary": "Assign cascade to merchant",
-        "description": "Assigns a cascade to a merchant with specified configuration",
-        "operationId": "MerchantCascadeEndpoints_assign_cascade_to_merchant_enigma_v1_merchant_cascade_post",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MerchantCascadeCreate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_MerchantCascadeRead_"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/enigma/v1/merchant_cascade/{merchant_cascade_id}": {
-      "get": {
-        "tags": [
-          "Merchant Cascade"
-        ],
-        "summary": "Get merchant cascade assignment details",
-        "description": "Fetches details of a merchant cascade assignment by its ID",
-        "operationId": "MerchantCascadeEndpoints_get_merchant_cascade_enigma_v1_merchant_cascade__merchant_cascade_id__get",
-        "parameters": [
-          {
-            "name": "merchant_cascade_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Merchant Cascade Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_MerchantCascadeRead_"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Merchant Cascade"
-        ],
-        "summary": "Update merchant cascade assignment",
-        "description": "Updates merchant cascade assignment configuration",
-        "operationId": "MerchantCascadeEndpoints_update_merchant_cascade_enigma_v1_merchant_cascade__merchant_cascade_id__put",
-        "parameters": [
-          {
-            "name": "merchant_cascade_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Merchant Cascade Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MerchantCascadeUpdate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_MerchantCascadeRead_"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Merchant Cascade"
-        ],
-        "summary": "Remove cascade from merchant",
-        "description": "Removes a cascade assignment from a merchant",
-        "operationId": "MerchantCascadeEndpoints_remove_cascade_from_merchant_enigma_v1_merchant_cascade__merchant_cascade_id__delete",
-        "parameters": [
-          {
-            "name": "merchant_cascade_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Merchant Cascade Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_dict_str__str__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/enigma/v1/merchant_cascade/merchant/{merchant_id}": {
-      "get": {
-        "tags": [
-          "Merchant Cascade"
-        ],
-        "summary": "Get cascades for merchant",
-        "description": "Returns all cascades assigned to a specific merchant",
-        "operationId": "MerchantCascadeEndpoints_list_cascades_for_merchant_enigma_v1_merchant_cascade_merchant__merchant_id__get",
-        "parameters": [
-          {
-            "name": "merchant_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "The unique identifier of the merchant",
-              "title": "Merchant Id"
-            },
-            "description": "The unique identifier of the merchant",
-            "example": "123e4567-e89b-12d3-a456-426614174001"
-          },
-          {
-            "name": "args",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Args"
-            }
-          },
-          {
-            "name": "kwargs",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Kwargs"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_MerchantCascadeWithDetails__"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/enigma/v1/merchant_cascade/cascade/{cascade_id}": {
-      "get": {
-        "tags": [
-          "Merchant Cascade"
-        ],
-        "summary": "Get merchants for cascade",
-        "description": "Returns all merchants assigned to a specific cascade",
-        "operationId": "MerchantCascadeEndpoints_list_merchants_for_cascade_enigma_v1_merchant_cascade_cascade__cascade_id__get",
-        "parameters": [
-          {
-            "name": "cascade_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "description": "The unique identifier for the cascade",
-              "title": "Cascade Id"
-            },
-            "description": "The unique identifier for the cascade",
-            "example": "123e4567-e89b-12d3-a456-426614174001"
-          },
-          {
-            "name": "args",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Args"
-            }
-          },
-          {
-            "name": "kwargs",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "title": "Kwargs"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_MerchantCascadeRead__"
                 }
               }
             }
@@ -4882,57 +4772,207 @@
         }
       }
     },
-    "/enigma/v1/direction_projection/rebuild/merchant/{merchant_id}": {
-      "post": {
+    "/enigma/v1/merchant_cascade": {
+      "get": {
         "tags": [
-          "Direction Projection"
+          "Merchant Cascade"
         ],
-        "summary": "Rebuild directions for merchant",
-        "description": "Rebuilds the directions projection for a specific merchant from their assigned cascades",
-        "operationId": "DirectionProjectionEndpoints_rebuild_merchant_directions_enigma_v1_direction_projection_rebuild_merchant__merchant_id__post",
+        "summary": "Get merchant cascade assignments",
+        "description": "Returns a paginated list of merchant cascade assignments with filtering",
+        "operationId": "MerchantCascadeEndpoints_list_merchant_cascades_enigma_v1_merchant_cascade_get",
         "parameters": [
           {
-            "name": "merchant_id",
+            "name": "args",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Args"
+            }
+          },
+          {
+            "name": "kwargs",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Kwargs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_MerchantCascadeSchema__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Merchant Cascade"
+        ],
+        "summary": "Assign cascade to merchant",
+        "description": "Assigns a cascade to a merchant with specified configuration",
+        "operationId": "MerchantCascadeEndpoints_assign_cascade_to_merchant_enigma_v1_merchant_cascade_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MerchantCascadeCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_MerchantCascadeSchema_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/merchant_cascade/{merchant_cascade_id}": {
+      "get": {
+        "tags": [
+          "Merchant Cascade"
+        ],
+        "summary": "Get merchant cascade assignment details",
+        "description": "Fetches details of a merchant cascade assignment by its ID",
+        "operationId": "MerchantCascadeEndpoints_get_merchant_cascade_enigma_v1_merchant_cascade__merchant_cascade_id__get",
+        "parameters": [
+          {
+            "name": "merchant_cascade_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The unique identifier of the merchant",
-              "title": "Merchant Id"
-            },
-            "description": "The unique identifier of the merchant",
-            "example": "123e4567-e89b-12d3-a456-426614174001"
-          },
-          {
-            "name": "cascade_type",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
+              "format": "uuid",
+              "title": "Merchant Cascade Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_MerchantCascadeSchema_"
                 }
-              ],
-              "title": "Cascade Type"
+              }
             }
           },
-          {
-            "name": "src_currency",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
-              ],
-              "title": "Src Currency"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Merchant Cascade"
+        ],
+        "summary": "Update merchant cascade assignment",
+        "description": "Updates merchant cascade assignment configuration",
+        "operationId": "MerchantCascadeEndpoints_update_merchant_cascade_enigma_v1_merchant_cascade__merchant_cascade_id__put",
+        "parameters": [
+          {
+            "name": "merchant_cascade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Merchant Cascade Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MerchantCascadeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_MerchantCascadeSchema_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Merchant Cascade"
+        ],
+        "summary": "Remove cascade from merchant",
+        "description": "Removes a cascade assignment from a merchant",
+        "operationId": "MerchantCascadeEndpoints_remove_cascade_from_merchant_enigma_v1_merchant_cascade__merchant_cascade_id__delete",
+        "parameters": [
+          {
+            "name": "merchant_cascade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Merchant Cascade Id"
             }
           }
         ],
@@ -9060,7 +9100,7 @@
         ],
         "title": "ApiResponse[CascadeRead]"
       },
-      "ApiResponse_CascadeTerminalRead_": {
+      "ApiResponse_CascadeSchema_": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -9069,7 +9109,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/CascadeTerminalRead",
+            "$ref": "#/components/schemas/CascadeSchema",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -9099,7 +9139,48 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[CascadeTerminalRead]"
+        "title": "ApiResponse[CascadeSchema]"
+      },
+      "ApiResponse_CascadeTerminalSchema_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/CascadeTerminalSchema",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[CascadeTerminalSchema]"
       },
       "ApiResponse_Currency_": {
         "properties": {
@@ -9306,7 +9387,7 @@
         ],
         "title": "ApiResponse[KeyPair]"
       },
-      "ApiResponse_MerchantCascadeRead_": {
+      "ApiResponse_MerchantCascadeSchema_": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -9315,7 +9396,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/MerchantCascadeRead",
+            "$ref": "#/components/schemas/MerchantCascadeSchema",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -9345,9 +9426,9 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[MerchantCascadeRead]"
+        "title": "ApiResponse[MerchantCascadeSchema]"
       },
-      "ApiResponse_Merchant_": {
+      "ApiResponse_MerchantSchema_": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -9356,7 +9437,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/Merchant",
+            "$ref": "#/components/schemas/MerchantSchema",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -9386,7 +9467,7 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[Merchant]"
+        "title": "ApiResponse[MerchantSchema]"
       },
       "ApiResponse_MergedCascadeView_": {
         "properties": {
@@ -9471,7 +9552,7 @@
         ],
         "title": "ApiResponse[NoneType]"
       },
-      "ApiResponse_OffsetPagination_CascadeRead__": {
+      "ApiResponse_OffsetPagination_CascadeSchema__": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -9480,7 +9561,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/OffsetPagination_CascadeRead_",
+            "$ref": "#/components/schemas/OffsetPagination_CascadeSchema_",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -9510,9 +9591,9 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[OffsetPagination[CascadeRead]]"
+        "title": "ApiResponse[OffsetPagination[CascadeSchema]]"
       },
-      "ApiResponse_OffsetPagination_CascadeTerminalRead__": {
+      "ApiResponse_OffsetPagination_CascadeTerminalSchema__": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -9521,7 +9602,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/OffsetPagination_CascadeTerminalRead_",
+            "$ref": "#/components/schemas/OffsetPagination_CascadeTerminalSchema_",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -9551,48 +9632,7 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[OffsetPagination[CascadeTerminalRead]]"
-      },
-      "ApiResponse_OffsetPagination_CascadeTerminalWithDetails__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_CascadeTerminalWithDetails_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[CascadeTerminalWithDetails]]"
+        "title": "ApiResponse[OffsetPagination[CascadeTerminalSchema]]"
       },
       "ApiResponse_OffsetPagination_Currency__": {
         "properties": {
@@ -9717,7 +9757,7 @@
         ],
         "title": "ApiResponse[OffsetPagination[FinancialInstitution]]"
       },
-      "ApiResponse_OffsetPagination_MerchantCascadeRead__": {
+      "ApiResponse_OffsetPagination_MerchantCascadeSchema__": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -9726,7 +9766,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/OffsetPagination_MerchantCascadeRead_",
+            "$ref": "#/components/schemas/OffsetPagination_MerchantCascadeSchema_",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -9756,9 +9796,9 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[OffsetPagination[MerchantCascadeRead]]"
+        "title": "ApiResponse[OffsetPagination[MerchantCascadeSchema]]"
       },
-      "ApiResponse_OffsetPagination_MerchantCascadeWithDetails__": {
+      "ApiResponse_OffsetPagination_MerchantSchema__": {
         "properties": {
           "success": {
             "type": "boolean",
@@ -9767,7 +9807,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/OffsetPagination_MerchantCascadeWithDetails_",
+            "$ref": "#/components/schemas/OffsetPagination_MerchantSchema_",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -9797,48 +9837,7 @@
         "required": [
           "data"
         ],
-        "title": "ApiResponse[OffsetPagination[MerchantCascadeWithDetails]]"
-      },
-      "ApiResponse_OffsetPagination_Merchant__": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Indicates whether the request was successful",
-            "default": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/OffsetPagination_Merchant_",
-            "description": "The actual response data if the request was successful"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ErrorBody"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The error details if the request was not successful"
-          },
-          "meta": {
-            "anyOf": [
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Meta",
-            "description": "The meta details if the request. DEPRECATED",
-            "deprecated": true
-          }
-        },
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "title": "ApiResponse[OffsetPagination[Merchant]]"
+        "title": "ApiResponse[OffsetPagination[MerchantSchema]]"
       },
       "ApiResponse_OffsetPagination_PaymentTypeModel__": {
         "properties": {
@@ -10680,14 +10679,14 @@
       },
       "CascadeCondition": {
         "properties": {
-          "enabled": {
+          "extra": {
             "type": "boolean",
-            "title": "Enabled",
-            "description": "Whether this terminal is enabled in the cascade",
-            "default": true,
+            "title": "Extra",
+            "description": "Whether this is an extra/backup terminal (must have weight=0)",
+            "default": false,
             "examples": [
-              true,
-              false
+              false,
+              true
             ]
           },
           "weight": {
@@ -10703,14 +10702,15 @@
               10
             ]
           },
-          "extra": {
-            "type": "boolean",
-            "title": "Extra",
-            "description": "Whether this is an extra/backup terminal (must have weight=0)",
-            "default": false,
+          "rank": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Rank",
+            "description": "Priority rank of the terminal(1 = highest priority)",
             "examples": [
-              false,
-              true
+              1,
+              2,
+              5
             ]
           },
           "ttl": {
@@ -10719,6 +10719,9 @@
           }
         },
         "type": "object",
+        "required": [
+          "rank"
+        ],
         "title": "CascadeCondition"
       },
       "CascadeCreate": {
@@ -10800,12 +10803,24 @@
             "description": "Additional configuration parameters and metadata",
             "examples": [
               {
-                "retry_count": 3,
-                "timeout": 30
-              },
-              {
-                "custom_field": "value"
+                "key": "value"
               }
+            ]
+          },
+          "payment_types": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
+            "examples": [
+              [
+                "card2card",
+                "sbp",
+                "qiwi"
+              ]
             ]
           }
         },
@@ -10904,12 +10919,24 @@
             "description": "Additional configuration parameters and metadata",
             "examples": [
               {
-                "retry_count": 3,
-                "timeout": 30
-              },
-              {
-                "custom_field": "value"
+                "key": "value"
               }
+            ]
+          },
+          "payment_types": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
+            "examples": [
+              [
+                "card2card",
+                "sbp",
+                "qiwi"
+              ]
             ]
           },
           "id": {
@@ -10948,6 +10975,150 @@
           "updated_at"
         ],
         "title": "CascadeRead"
+      },
+      "CascadeSchema": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Name",
+            "description": "Human-readable name of the cascade",
+            "examples": [
+              "Main USD Deposit Cascade",
+              "EUR Withdraw Priority 1"
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/CascadeType",
+            "description": "Type of cascade defining operation direction",
+            "default": "deposit",
+            "examples": [
+              "deposit",
+              "withdraw"
+            ]
+          },
+          "src_currency_code": {
+            "type": "string",
+            "maxLength": 3,
+            "minLength": 3,
+            "title": "Src Currency Code",
+            "description": "Source currency code (ISO 4217 format)",
+            "examples": [
+              "USD",
+              "EUR",
+              "RUB"
+            ]
+          },
+          "cascade_kind": {
+            "$ref": "#/components/schemas/CascadeKind",
+            "description": "Execution strategy: sequential (one by one) or fanout (parallel)",
+            "default": "sequential",
+            "examples": [
+              "sequential",
+              "fanout"
+            ]
+          },
+          "state": {
+            "$ref": "#/components/schemas/CascadeState",
+            "description": "Current operational state of the cascade",
+            "default": "active",
+            "examples": [
+              "active",
+              "inactive"
+            ]
+          },
+          "priority_policy": {
+            "$ref": "#/components/schemas/PriorityPolicy",
+            "description": "Priority configuration for cascade ordering"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Optional detailed description of the cascade purpose",
+            "examples": [
+              "Primary cascade for handling USD deposits",
+              "Backup cascade for EUR withdrawals"
+            ]
+          },
+          "details": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Details",
+            "description": "Additional configuration parameters and metadata",
+            "examples": [
+              {
+                "key": "value"
+              }
+            ]
+          },
+          "payment_types": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
+            "examples": [
+              [
+                "card2card",
+                "sbp",
+                "qiwi"
+              ]
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier of the cascade",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At",
+            "description": "Timestamp when the cascade was created (ISO 8601 format)",
+            "examples": [
+              "2024-01-15T10:30:00Z"
+            ]
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At",
+            "description": "Timestamp when the cascade was last updated (ISO 8601 format)",
+            "examples": [
+              "2024-01-15T14:45:30Z"
+            ]
+          },
+          "cascade_terminals": {
+            "items": {
+              "$ref": "#/components/schemas/CascadeTerminalRead"
+            },
+            "type": "array",
+            "title": "Cascade Terminals",
+            "description": "List of cascade terminals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "src_currency_code",
+          "priority_policy",
+          "id",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CascadeSchema"
       },
       "CascadeState": {
         "type": "string",
@@ -11039,57 +11210,35 @@
             "examples": [
               "456e7890-f12b-34c5-d678-426614174002"
             ]
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At",
+            "description": "Timestamp when the record was created",
+            "examples": [
+              "2024-01-15T10:30:00Z"
+            ]
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At",
+            "description": "Timestamp when the record was created",
+            "examples": [
+              "2024-01-15T14:45:30Z"
+            ]
           }
         },
         "type": "object",
         "required": [
           "cascade_id",
           "terminal_id",
-          "id"
+          "id",
+          "created_at",
+          "updated_at"
         ],
         "title": "CascadeTerminalRead"
       },
-      "CascadeTerminalState": {
-        "type": "string",
-        "enum": [
-          "active",
-          "inactive"
-        ],
-        "title": "CascadeTerminalState"
-      },
-      "CascadeTerminalUpdate": {
-        "properties": {
-          "state": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/CascadeTerminalState"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Updated operational state of the cascade terminal",
-            "examples": [
-              "active",
-              "inactive"
-            ]
-          },
-          "condition": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/CascadeCondition"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Updated configuration for terminal behavior within the cascade"
-          }
-        },
-        "type": "object",
-        "title": "CascadeTerminalUpdate"
-      },
-      "CascadeTerminalWithDetails": {
+      "CascadeTerminalSchema": {
         "properties": {
           "cascade_id": {
             "type": "string",
@@ -11131,98 +11280,82 @@
               "456e7890-f12b-34c5-d678-426614174002"
             ]
           },
-          "terminal_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Terminal Name",
-            "description": "Human-readable name of the terminal",
+          "created_at": {
+            "type": "string",
+            "title": "Created At",
+            "description": "Timestamp when the record was created",
             "examples": [
-              "USD Terminal 1",
-              "EUR Payment Gateway"
+              "2024-01-15T10:30:00Z"
             ]
           },
-          "provider_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Provider Name",
-            "description": "Name of the payment provider",
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At",
+            "description": "Timestamp when the record was created",
             "examples": [
-              "Pay4U",
-              "StripeGateway",
-              "PayPalPro"
+              "2024-01-15T14:45:30Z"
             ]
           },
-          "src_currency": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Src Currency",
-            "description": "Source currency code of the terminal",
-            "examples": [
-              "USD",
-              "EUR",
-              "RUB"
-            ]
+          "cascade": {
+            "$ref": "#/components/schemas/CascadeRead",
+            "description": "Cascade this terminal belongs to"
           },
-          "dst_currency": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dst Currency",
-            "description": "Destination currency code of the terminal",
-            "examples": [
-              "USD",
-              "EUR",
-              "RUB"
-            ]
-          },
-          "terminal_state": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Terminal State",
-            "description": "Current operational state of the terminal itself",
-            "examples": [
-              "active",
-              "inactive",
-              "maintenance"
-            ]
+          "terminal": {
+            "$ref": "#/components/schemas/TerminalRead",
+            "description": "Terminal this terminal belongs to"
           }
         },
         "type": "object",
         "required": [
           "cascade_id",
           "terminal_id",
-          "id"
+          "id",
+          "created_at",
+          "updated_at",
+          "cascade",
+          "terminal"
         ],
-        "title": "CascadeTerminalWithDetails"
+        "title": "CascadeTerminalSchema"
+      },
+      "CascadeTerminalState": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "CascadeTerminalState"
+      },
+      "CascadeTerminalUpdate": {
+        "properties": {
+          "state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CascadeTerminalState"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated operational state of the cascade terminal",
+            "examples": [
+              "active",
+              "inactive"
+            ]
+          },
+          "condition": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CascadeCondition"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated configuration for terminal behavior within the cascade"
+          }
+        },
+        "type": "object",
+        "title": "CascadeTerminalUpdate"
       },
       "CascadeType": {
         "type": "string",
@@ -11323,12 +11456,31 @@
             "description": "Updated additional configuration parameters and metadata",
             "examples": [
               {
-                "retry_count": 3,
-                "timeout": 30
+                "key": "value"
+              }
+            ]
+          },
+          "payment_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                },
+                "type": "array"
               },
               {
-                "custom_field": "value"
+                "type": "null"
               }
+            ],
+            "title": "Payment Types",
+            "description": "Updated payment types explicitly assigned to cascade",
+            "examples": [
+              [
+                "card2card",
+                "sbp",
+                "qiwi"
+              ]
             ]
           }
         },
@@ -11650,6 +11802,42 @@
             "type": "array",
             "title": "Payment Types",
             "description": "List of payment types associated with this direction"
+          },
+          "cascade_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cascade Id",
+            "description": "Associated cascade ID"
+          },
+          "cascade_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cascade Kind",
+            "description": "Cascade kind (sequential/fanout)"
+          },
+          "condition": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CascadeCondition"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Condition DSL configuration"
           }
         },
         "type": "object",
@@ -11789,6 +11977,28 @@
               ]
             ]
           },
+          "fees": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Fee"
+                },
+                "propertyNames": {
+                  "format": "uuid"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key"
+          },
+          "limits": {
+            "$ref": "#/components/schemas/LimitsCreate",
+            "description": "Limits configuration"
+          },
           "cascade_id": {
             "anyOf": [
               {
@@ -11802,7 +12012,7 @@
             "title": "Cascade Id",
             "description": "Associated cascade ID"
           },
-          "kind": {
+          "cascade_kind": {
             "anyOf": [
               {
                 "type": "string"
@@ -11811,33 +12021,19 @@
                 "type": "null"
               }
             ],
-            "title": "Kind",
+            "title": "Cascade Kind",
             "description": "Cascade kind (sequential/fanout)"
           },
           "condition": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/CascadeCondition"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Condition",
             "description": "Condition DSL configuration"
-          },
-          "fees": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Fees",
-            "description": "Fee configuration"
-          },
-          "limits": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Limits",
-            "description": "Limits configuration"
           }
         },
         "type": "object",
@@ -12056,6 +12252,35 @@
               ]
             ]
           },
+          "fees": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Fee"
+                },
+                "propertyNames": {
+                  "format": "uuid"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key"
+          },
+          "limits": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LimitsUpdate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Limits for direction"
+          },
           "cascade_id": {
             "anyOf": [
               {
@@ -12069,7 +12294,7 @@
             "title": "Cascade Id",
             "description": "Associated cascade ID"
           },
-          "kind": {
+          "cascade_kind": {
             "anyOf": [
               {
                 "type": "string"
@@ -12078,50 +12303,25 @@
                 "type": "null"
               }
             ],
-            "title": "Kind",
+            "title": "Cascade Kind",
             "description": "Cascade kind (sequential/fanout)"
           },
           "condition": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/CascadeCondition"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Condition",
             "description": "Condition DSL configuration"
-          },
-          "fees": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Fees",
-            "description": "Fee configuration"
-          },
-          "limits": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Limits",
-            "description": "Limits configuration"
           }
         },
         "type": "object",
+        "required": [
+          "limits"
+        ],
         "title": "DirectionUpdate"
       },
       "DirectionUpdateBulkItem": {
@@ -12312,6 +12512,35 @@
               ]
             ]
           },
+          "fees": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/Fee"
+                },
+                "propertyNames": {
+                  "format": "uuid"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key"
+          },
+          "limits": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LimitsUpdate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Limits for direction"
+          },
           "cascade_id": {
             "anyOf": [
               {
@@ -12325,7 +12554,7 @@
             "title": "Cascade Id",
             "description": "Associated cascade ID"
           },
-          "kind": {
+          "cascade_kind": {
             "anyOf": [
               {
                 "type": "string"
@@ -12334,47 +12563,19 @@
                 "type": "null"
               }
             ],
-            "title": "Kind",
+            "title": "Cascade Kind",
             "description": "Cascade kind (sequential/fanout)"
           },
           "condition": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/CascadeCondition"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Condition",
             "description": "Condition DSL configuration"
-          },
-          "fees": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Fees",
-            "description": "Fee configuration"
-          },
-          "limits": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Limits",
-            "description": "Limits configuration"
           },
           "id": {
             "type": "string",
@@ -12385,6 +12586,7 @@
         },
         "type": "object",
         "required": [
+          "limits",
           "id"
         ],
         "title": "DirectionUpdateBulkItem"
@@ -13611,6 +13813,42 @@
         ],
         "title": "Limits"
       },
+      "LimitsCreate": {
+        "properties": {
+          "payin": {
+            "$ref": "#/components/schemas/LimitValues-Input",
+            "description": "Limits for payin operations (deposit transactions)",
+            "examples": [
+              {
+                "max": 50000,
+                "min": 100
+              }
+            ]
+          },
+          "payout": {
+            "$ref": "#/components/schemas/LimitValues-Input",
+            "description": "Limits for payout operations (withdrawal transactions)",
+            "examples": [
+              {
+                "max": 100000,
+                "min": 500
+              }
+            ]
+          },
+          "reward": {
+            "$ref": "#/components/schemas/LimitValues-Input",
+            "description": "Limits for reward operations (bonus/cashback transactions)",
+            "examples": [
+              {
+                "max": 1000,
+                "min": 1
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "LimitsCreate"
+      },
       "LimitsUpdate": {
         "properties": {
           "payin": {
@@ -13667,97 +13905,6 @@
         },
         "type": "object",
         "title": "LimitsUpdate"
-      },
-      "Merchant": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Unique identifier of the merchant",
-            "examples": [
-              "merchant_001"
-            ]
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Name of the merchant",
-            "examples": [
-              "Merchant A"
-            ]
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description",
-            "description": "Description of the merchant",
-            "examples": [
-              "Leading merchant in the region"
-            ]
-          },
-          "keycloak_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Keycloak Id",
-            "description": "Keycloak identifier for the merchant",
-            "examples": [
-              "keycloak_123"
-            ]
-          },
-          "fees": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/Fee"
-            },
-            "propertyNames": {
-              "format": "uuid"
-            },
-            "type": "object",
-            "title": "Fees",
-            "description": "Mapping of fee configurations with fee.id as key",
-            "examples": [
-              {
-                "123e4567-e89b-12d3-a456-426614174000": {
-                  "currency": "USD",
-                  "description": "Fee for service",
-                  "direction": 1,
-                  "id": "123e4567-e89b-12d3-a456-426614174000",
-                  "recipient": "recipient@example.com",
-                  "type": 3,
-                  "value": {
-                    "accuracy": 100,
-                    "quantity": 1234
-                  }
-                }
-              }
-            ]
-          },
-          "payment_types": {
-            "items": {
-              "$ref": "#/components/schemas/PaymentTypeBase"
-            },
-            "type": "array",
-            "title": "Payment Types",
-            "description": "List of payment types associated with this merchant"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
-        "title": "Merchant"
       },
       "MerchantBase": {
         "properties": {
@@ -13833,6 +13980,10 @@
                 }
               }
             ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/MerchantSettings-Output",
+            "description": "Settings for merchant availability"
           }
         },
         "type": "object",
@@ -13868,22 +14019,6 @@
             "examples": [
               "active",
               "inactive"
-            ]
-          },
-          "assigned_by": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Assigned By",
-            "description": "Identifier of the user who assigned the cascade to merchant",
-            "examples": [
-              "admin_user_123",
-              "system_auto"
             ]
           }
         },
@@ -13922,22 +14057,6 @@
               "inactive"
             ]
           },
-          "assigned_by": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Assigned By",
-            "description": "Identifier of the user who assigned the cascade to merchant",
-            "examples": [
-              "admin_user_123",
-              "system_auto"
-            ]
-          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -13945,22 +14064,6 @@
             "description": "Unique identifier of the merchant-cascade assignment record",
             "examples": [
               "456e7890-f12b-34c5-d678-426614174002"
-            ]
-          },
-          "assigned_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Assigned At",
-            "description": "Timestamp when the cascade was assigned to the merchant",
-            "examples": [
-              "2024-01-15T10:30:00Z"
             ]
           },
           "created_at": {
@@ -13992,52 +14095,7 @@
         ],
         "title": "MerchantCascadeRead"
       },
-      "MerchantCascadeState": {
-        "type": "string",
-        "enum": [
-          "active",
-          "inactive"
-        ],
-        "title": "MerchantCascadeState"
-      },
-      "MerchantCascadeUpdate": {
-        "properties": {
-          "state": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/MerchantCascadeState"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Updated state of the merchant-cascade assignment",
-            "examples": [
-              "active",
-              "inactive"
-            ]
-          },
-          "assigned_by": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Assigned By",
-            "description": "Updated identifier of the user who assigned the cascade",
-            "examples": [
-              "admin_user_123",
-              "system_auto"
-            ]
-          }
-        },
-        "type": "object",
-        "title": "MerchantCascadeUpdate"
-      },
-      "MerchantCascadeWithDetails": {
+      "MerchantCascadeSchema": {
         "properties": {
           "merchant_id": {
             "type": "string",
@@ -14065,22 +14123,6 @@
               "inactive"
             ]
           },
-          "assigned_by": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Assigned By",
-            "description": "Identifier of the user who assigned the cascade to merchant",
-            "examples": [
-              "admin_user_123",
-              "system_auto"
-            ]
-          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -14088,22 +14130,6 @@
             "description": "Unique identifier of the merchant-cascade assignment record",
             "examples": [
               "456e7890-f12b-34c5-d678-426614174002"
-            ]
-          },
-          "assigned_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Assigned At",
-            "description": "Timestamp when the cascade was assigned to the merchant",
-            "examples": [
-              "2024-01-15T10:30:00Z"
             ]
           },
           "created_at": {
@@ -14124,86 +14150,13 @@
               "2024-01-15T14:45:30Z"
             ]
           },
-          "cascade_name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cascade Name",
-            "description": "Human-readable name of the assigned cascade",
-            "examples": [
-              "Main USD Deposit Cascade",
-              "EUR Withdraw Priority 1"
-            ]
+          "cascade": {
+            "$ref": "#/components/schemas/CascadeRead",
+            "description": "Cascade this merchant cascade belongs to"
           },
-          "cascade_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cascade Type",
-            "description": "Type of the assigned cascade",
-            "examples": [
-              "deposit",
-              "withdraw"
-            ]
-          },
-          "cascade_src_currency": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cascade Src Currency",
-            "description": "Source currency code of the assigned cascade",
-            "examples": [
-              "USD",
-              "EUR",
-              "RUB"
-            ]
-          },
-          "cascade_kind": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cascade Kind",
-            "description": "Execution strategy of the assigned cascade",
-            "examples": [
-              "sequential",
-              "fanout"
-            ]
-          },
-          "cascade_state": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cascade State",
-            "description": "Current operational state of the assigned cascade",
-            "examples": [
-              "active",
-              "inactive"
-            ]
+          "merchant": {
+            "$ref": "#/components/schemas/MerchantBase",
+            "description": "Merchant this merchant cascade belongs to"
           }
         },
         "type": "object",
@@ -14212,9 +14165,40 @@
           "cascade_id",
           "id",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "cascade",
+          "merchant"
         ],
-        "title": "MerchantCascadeWithDetails"
+        "title": "MerchantCascadeSchema"
+      },
+      "MerchantCascadeState": {
+        "type": "string",
+        "enum": [
+          "active",
+          "inactive"
+        ],
+        "title": "MerchantCascadeState"
+      },
+      "MerchantCascadeUpdate": {
+        "properties": {
+          "state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MerchantCascadeState"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated state of the merchant-cascade assignment",
+            "examples": [
+              "active",
+              "inactive"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "MerchantCascadeUpdate"
       },
       "MerchantCreate": {
         "properties": {
@@ -14223,7 +14207,7 @@
             "title": "Id",
             "description": "Unique identifier of the merchant",
             "examples": [
-              "123e4567-e89b-12d3-a456-426614174001"
+              "merchant_001"
             ]
           },
           "name": {
@@ -14264,6 +14248,37 @@
               "keycloak_123"
             ]
           },
+          "fees": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Fee"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "type": "object",
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key",
+            "examples": [
+              {
+                "123e4567-e89b-12d3-a456-426614174000": {
+                  "currency": "USD",
+                  "description": "Fee for service",
+                  "direction": 1,
+                  "id": "123e4567-e89b-12d3-a456-426614174000",
+                  "recipient": "recipient@example.com",
+                  "type": 3,
+                  "value": {
+                    "accuracy": 100,
+                    "quantity": 1234
+                  }
+                }
+              }
+            ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/MerchantSettings-Input",
+            "description": "Settings for merchant availability"
+          },
           "payment_types": {
             "items": {
               "type": "string",
@@ -14279,12 +14294,12 @@
               ]
             ]
           },
-          "currencies": {
+          "allowed_src_currencies": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Currencies",
+            "title": "Allowed Src Currencies",
             "description": "Currency codes for allowed source currencies",
             "examples": [
               [
@@ -14301,6 +14316,145 @@
           "name"
         ],
         "title": "MerchantCreate"
+      },
+      "MerchantSchema": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the merchant",
+            "examples": [
+              "merchant_001"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the merchant",
+            "examples": [
+              "Merchant A"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the merchant",
+            "examples": [
+              "Leading merchant in the region"
+            ]
+          },
+          "keycloak_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Keycloak Id",
+            "description": "Keycloak identifier for the merchant",
+            "examples": [
+              "keycloak_123"
+            ]
+          },
+          "fees": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Fee"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "type": "object",
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key",
+            "examples": [
+              {
+                "123e4567-e89b-12d3-a456-426614174000": {
+                  "currency": "USD",
+                  "description": "Fee for service",
+                  "direction": 1,
+                  "id": "123e4567-e89b-12d3-a456-426614174000",
+                  "recipient": "recipient@example.com",
+                  "type": 3,
+                  "value": {
+                    "accuracy": 100,
+                    "quantity": 1234
+                  }
+                }
+              }
+            ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/MerchantSettings-Output",
+            "description": "Settings for merchant availability"
+          },
+          "payment_types": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentTypeBase"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "List of payment types associated with this merchant"
+          },
+          "allowed_src_currencies": {
+            "items": {
+              "$ref": "#/components/schemas/Currency"
+            },
+            "type": "array",
+            "title": "Allowed Src Currencies",
+            "description": "Currency codes for allowed source currencies"
+          },
+          "merchant_cascades": {
+            "items": {
+              "$ref": "#/components/schemas/MerchantCascadeRead"
+            },
+            "type": "array",
+            "title": "Merchant Cascades",
+            "description": "List of merchant cascades"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "MerchantSchema"
+      },
+      "MerchantSettings-Input": {
+        "properties": {
+          "deposit": {
+            "$ref": "#/components/schemas/TimeoutSettings",
+            "description": "Timeout settings for deposit"
+          },
+          "withdraw": {
+            "$ref": "#/components/schemas/TimeoutSettings",
+            "description": "Timeout settings for withdraw"
+          }
+        },
+        "type": "object",
+        "title": "MerchantSettings"
+      },
+      "MerchantSettings-Output": {
+        "properties": {
+          "deposit": {
+            "$ref": "#/components/schemas/TimeoutSettings",
+            "description": "Timeout settings for deposit"
+          },
+          "withdraw": {
+            "$ref": "#/components/schemas/TimeoutSettings",
+            "description": "Timeout settings for withdraw"
+          }
+        },
+        "type": "object",
+        "title": "MerchantSettings"
       },
       "MerchantUpdate": {
         "properties": {
@@ -14349,6 +14503,17 @@
               "keycloak_123"
             ]
           },
+          "settings": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MerchantSettings-Input"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Settings for merchant availability"
+          },
           "payment_types": {
             "anyOf": [
               {
@@ -14371,7 +14536,7 @@
               ]
             ]
           },
-          "currencies": {
+          "allowed_src_currencies": {
             "anyOf": [
               {
                 "items": {
@@ -14383,7 +14548,7 @@
                 "type": "null"
               }
             ],
-            "title": "Currencies",
+            "title": "Allowed Src Currencies",
             "description": "Currency codes for allowed source currencies",
             "examples": [
               [
@@ -14476,12 +14641,24 @@
             "description": "Additional configuration parameters and metadata",
             "examples": [
               {
-                "retry_count": 3,
-                "timeout": 30
-              },
-              {
-                "custom_field": "value"
+                "key": "value"
               }
+            ]
+          },
+          "payment_types": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
+            "examples": [
+              [
+                "card2card",
+                "sbp",
+                "qiwi"
+              ]
             ]
           },
           "id": {
@@ -14491,15 +14668,6 @@
             "description": "Unique identifier of the merged cascade (virtual ID)",
             "examples": [
               "123e4567-e89b-12d3-a456-426614174000"
-            ]
-          },
-          "is_virtual": {
-            "type": "boolean",
-            "title": "Is Virtual",
-            "description": "Whether this is a virtual merged cascade (always true for merged cascades)",
-            "default": true,
-            "examples": [
-              true
             ]
           },
           "original_cascade_ids": {
@@ -14705,11 +14873,11 @@
         ],
         "title": "MergedCascadeView"
       },
-      "OffsetPagination_CascadeRead_": {
+      "OffsetPagination_CascadeSchema_": {
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/CascadeRead"
+              "$ref": "#/components/schemas/CascadeSchema"
             },
             "type": "array",
             "title": "Items",
@@ -14747,13 +14915,13 @@
           "offset",
           "total"
         ],
-        "title": "OffsetPagination[CascadeRead]"
+        "title": "OffsetPagination[CascadeSchema]"
       },
-      "OffsetPagination_CascadeTerminalRead_": {
+      "OffsetPagination_CascadeTerminalSchema_": {
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/CascadeTerminalRead"
+              "$ref": "#/components/schemas/CascadeTerminalSchema"
             },
             "type": "array",
             "title": "Items",
@@ -14791,51 +14959,7 @@
           "offset",
           "total"
         ],
-        "title": "OffsetPagination[CascadeTerminalRead]"
-      },
-      "OffsetPagination_CascadeTerminalWithDetails_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/CascadeTerminalWithDetails"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[CascadeTerminalWithDetails]"
+        "title": "OffsetPagination[CascadeTerminalSchema]"
       },
       "OffsetPagination_Currency_": {
         "properties": {
@@ -14969,11 +15093,11 @@
         ],
         "title": "OffsetPagination[FinancialInstitution]"
       },
-      "OffsetPagination_MerchantCascadeRead_": {
+      "OffsetPagination_MerchantCascadeSchema_": {
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/MerchantCascadeRead"
+              "$ref": "#/components/schemas/MerchantCascadeSchema"
             },
             "type": "array",
             "title": "Items",
@@ -15011,13 +15135,13 @@
           "offset",
           "total"
         ],
-        "title": "OffsetPagination[MerchantCascadeRead]"
+        "title": "OffsetPagination[MerchantCascadeSchema]"
       },
-      "OffsetPagination_MerchantCascadeWithDetails_": {
+      "OffsetPagination_MerchantSchema_": {
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/MerchantCascadeWithDetails"
+              "$ref": "#/components/schemas/MerchantSchema"
             },
             "type": "array",
             "title": "Items",
@@ -15055,51 +15179,7 @@
           "offset",
           "total"
         ],
-        "title": "OffsetPagination[MerchantCascadeWithDetails]"
-      },
-      "OffsetPagination_Merchant_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/Merchant"
-            },
-            "type": "array",
-            "title": "Items",
-            "description": "A list of items in the current page"
-          },
-          "limit": {
-            "type": "integer",
-            "title": "Limit",
-            "description": "The maximum number of items returned in a single page",
-            "examples": [
-              10
-            ]
-          },
-          "offset": {
-            "type": "integer",
-            "title": "Offset",
-            "description": "The starting index for the current page",
-            "examples": [
-              0
-            ]
-          },
-          "total": {
-            "type": "integer",
-            "title": "Total",
-            "description": "The total number of available items",
-            "examples": [
-              100
-            ]
-          }
-        },
-        "type": "object",
-        "required": [
-          "items",
-          "limit",
-          "offset",
-          "total"
-        ],
-        "title": "OffsetPagination[Merchant]"
+        "title": "OffsetPagination[MerchantSchema]"
       },
       "OffsetPagination_PaymentTypeModel_": {
         "properties": {
@@ -16994,15 +17074,11 @@
             ]
           },
           "limits": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Limits",
+            "$ref": "#/components/schemas/LimitsCreate",
             "description": "Terminal limits configuration"
           },
           "settings": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Settings",
+            "$ref": "#/components/schemas/TerminalSettings",
             "description": "Terminal settings configuration"
           },
           "state": {
@@ -17637,9 +17713,7 @@
             "description": "Terminal limits configuration"
           },
           "settings": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Settings",
+            "$ref": "#/components/schemas/TerminalSettings",
             "description": "Terminal settings configuration"
           },
           "state": {
@@ -17741,6 +17815,16 @@
           "provider"
         ],
         "title": "TerminalRead"
+      },
+      "TerminalSettings": {
+        "properties": {
+          "ttl": {
+            "$ref": "#/components/schemas/TTLConfig",
+            "description": "Time-to-live configuration for terminal availability"
+          }
+        },
+        "type": "object",
+        "title": "TerminalSettings"
       },
       "TerminalState": {
         "type": "string",
@@ -18031,27 +18115,23 @@
           "limits": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/LimitsUpdate"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Limits",
             "description": "Terminal limits configuration"
           },
           "settings": {
             "anyOf": [
               {
-                "additionalProperties": true,
-                "type": "object"
+                "$ref": "#/components/schemas/TerminalSettings"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Settings",
             "description": "Terminal settings configuration"
           },
           "state": {
@@ -18165,6 +18245,16 @@
         },
         "type": "object",
         "title": "TimeoutConfig"
+      },
+      "TimeoutSettings": {
+        "properties": {
+          "ttl": {
+            "$ref": "#/components/schemas/TTLConfig",
+            "description": "Time-to-live configuration for terminal availability"
+          }
+        },
+        "type": "object",
+        "title": "TimeoutSettings"
       },
       "TransactionType": {
         "type": "integer",
