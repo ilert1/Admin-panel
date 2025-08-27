@@ -1,6 +1,6 @@
 {
     "resources.cascadeSettings.name": "Настройки каскадов",
-    "resources.cascadeSettings.cascadeList": {
+    "resources.cascadeSettings.cascades": {
         "name": "Каскады"
     },
     "resources.cascadeSettings.cascadeTerminals": {

@@ -39,8 +39,8 @@ export const AdminCascadeResources = ({ showCaptions }: { showCaptions: boolean 
                 icon: <CascadeSettings />,
                 childrens: [
                     {
-                        name: "cascadeList",
-                        path: "/cascadeSettings/cascadeList",
+                        name: "cascades",
+                        path: "/cascadeSettings/cascades",
                         icon: <CascadeList />
                     },
                     {
