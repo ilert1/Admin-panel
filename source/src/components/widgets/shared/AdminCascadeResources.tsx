@@ -74,7 +74,7 @@ export const AdminCascadeResources = ({ showCaptions }: { showCaptions: boolean 
                                 localStorage.setItem(ADMIN_CASCADE_OPEN, String(!openAccordion));
                                 setOpenAccordion(!openAccordion);
                             }}
-                            className={`pointer flex w-full items-center justify-between pl-6 text-left transition-colors duration-150 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black [&:hover>svg>path]:stroke-controlElements [&:hover>svg>rect]:stroke-controlElements [&>svg>path]:transition-all [&>svg>rect]:transition-all ${
+                            className={`pointer flex w-full items-center justify-between pl-6 text-left transition-colors duration-150 animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black [&:hover>svg>path]:stroke-controlElements [&>svg>path]:transition-all ${
                                 showCaptions ? "gap-3" : ""
                             }`}>
                             <div className={cn("flex items-center", showCaptions ? "gap-3" : "")}>
@@ -126,8 +126,8 @@ export const AdminCascadeResources = ({ showCaptions }: { showCaptions: boolean 
                                             "flex items-center gap-3 py-2 pl-4 leading-normal transition-colors duration-150 animate-in fade-in-0",
                                             showCaptions ? "" : "ml-2",
                                             location.pathname === customRoute.path
-                                                ? "text-controlElements dark:bg-muted [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all dark:[&>svg>path]:stroke-controlElements [&>svg>rect]:stroke-controlElements dark:[&>svg>rect]:stroke-controlElements"
-                                                : "text-neutral-90 hover:text-controlElements dark:text-neutral-0 dark:hover:bg-muted dark:hover:text-controlElements [&:hover>svg>path]:stroke-controlElements dark:[&:hover>svg>path]:stroke-controlElements [&:hover>svg>rect]:stroke-controlElements dark:[&:hover>svg>rect]:stroke-controlElements [&>svg>path]:stroke-neutral-90 [&>svg>path]:transition-all dark:[&>svg>path]:stroke-neutral-0 [&>svg>rect]:stroke-neutral-90 [&>svg>rect]:transition-all dark:[&>svg>rect]:stroke-neutral-0"
+                                                ? "text-controlElements dark:bg-muted [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all dark:[&>svg>path]:stroke-controlElements"
+                                                : "text-neutral-90 hover:text-controlElements dark:text-neutral-0 dark:hover:bg-muted dark:hover:text-controlElements [&:hover>svg>path]:stroke-controlElements dark:[&:hover>svg>path]:stroke-controlElements [&>svg>path]:stroke-neutral-90 [&>svg>path]:transition-all dark:[&>svg>path]:stroke-neutral-0"
                                         )}>
                                         {showCaptions && (
                                             <>
