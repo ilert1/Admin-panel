@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { CryptoTransferForm } from "./CryptoTransferForm";
 import { useTranslate, useDataProvider } from "react-admin";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
@@ -29,6 +28,10 @@ jest.mock("@/data/i18nFolder", () => ({
         en: {},
         ru: {}
     }
+}));
+
+jest.mock("@hookform/resolvers/zod", () => ({
+    zodResolver: jest.fn()
 }));
 
 describe("CryptoTransferForm", () => {
@@ -90,52 +93,52 @@ describe("CryptoTransferForm", () => {
         mockUseQuery.mockReturnValue({ data: [] });
     });
 
-    // it("submits form with valid values", async () => {
-    //     render(<CryptoTransferForm {...defaultProps} />);
+    it("submits form with valid values", async () => {
+        render(<CryptoTransferForm {...defaultProps} />);
 
-    //     const amountInput = screen.getByRole("textbox");
-    //     const submitBtn = screen.getByRole("button", { name: "Create transfer" });
+        const amountInput = screen.getByRole("textbox");
+        const submitBtn = screen.getByRole("button", { name: "Create transfer" });
 
-    //     // замокали данные для select
-    //     (useAbortableInfiniteGetList as jest.Mock).mockReturnValue({
-    //         data: {
-    //             pages: [
-    //                 {
-    //                     data: [
-    //                         {
-    //                             id: 1,
-    //                             address: "T123456789012345678901234567890123",
-    //                             description: "Test Wallet"
-    //                         }
-    //                     ]
-    //                 }
-    //             ]
-    //         },
-    //         isFetched: true,
-    //         isFetching: false,
-    //         fetchNextPage: jest.fn()
-    //     });
+        (useAbortableInfiniteGetList as jest.Mock).mockReturnValue({
+            data: {
+                pages: [
+                    {
+                        data: [
+                            {
+                                id: 1,
+                                address: "T123456789012345678901234567890123",
+                                description: "Test Wallet"
+                            }
+                        ]
+                    }
+                ]
+            },
+            isFetched: true,
+            isFetching: false,
+            fetchNextPage: jest.fn()
+        });
 
-    //     fireEvent.click(screen.getByRole("combobox"));
-    //     fireEvent.change(document.querySelector("select")!, {
-    //         target: { value: "T123456789012345678901234567890123" }
-    //     });
+        fireEvent.keyDown(screen.getByRole("combobox"), {
+            key: " "
+        });
+        const option = screen.getByText("T123456789012345678901234567890123").parentElement;
+        fireEvent.keyDown(option!, {
+            key: " "
+        });
+        fireEvent.change(amountInput, { target: { value: "10" } });
 
-    //     await userEvent.type(amountInput, "10");
-    //     fireEvent.blur(amountInput);
+        await waitFor(() => expect(submitBtn).toBeEnabled());
 
-    //     await waitFor(() => expect(submitBtn).toBeEnabled());
+        fireEvent.click(submitBtn);
 
-    //     fireEvent.click(submitBtn);
-
-    //     await waitFor(() =>
-    //         expect(defaultProps.create).toHaveBeenCalledWith({
-    //             address: "T123456789012345678901234567890123",
-    //             amount: 10,
-    //             accuracy: 100
-    //         })
-    //     );
-    // });
+        await waitFor(() =>
+            expect(defaultProps.create).toHaveBeenCalledWith({
+                address: "T123456789012345678901234567890123",
+                amount: "10",
+                accuracy: 100
+            })
+        );
+    });
 
     it("sets all amount when checkbox clicked", async () => {
         render(<CryptoTransferForm {...defaultProps} />);
@@ -184,7 +187,7 @@ describe("CryptoTransferForm", () => {
         });
     });
 
-    it("renders lastUsedWallet in select", async () => {
+    it("renders lastUsedWallet in select", () => {
         (useAbortableInfiniteGetList as jest.Mock).mockReturnValue({
             data: {
                 pages: [
@@ -210,9 +213,10 @@ describe("CryptoTransferForm", () => {
 
         render(<CryptoTransferForm {...defaultProps} />);
 
-        const combobox = screen.getByRole("combobox");
-        await userEvent.click(combobox);
+        fireEvent.keyDown(screen.getByRole("combobox"), {
+            key: " "
+        });
 
-        expect(await screen.findByText("Last used wallet")).toBeInTheDocument();
+        expect(screen.getByText("Last used wallet")).toBeInTheDocument();
     });
 });
