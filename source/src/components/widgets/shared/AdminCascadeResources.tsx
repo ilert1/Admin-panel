@@ -129,15 +129,13 @@ export const AdminCascadeResources = ({ showCaptions }: { showCaptions: boolean 
                                                 ? "text-controlElements dark:bg-muted [&>svg>path]:stroke-controlElements [&>svg>path]:transition-all dark:[&>svg>path]:stroke-controlElements"
                                                 : "text-neutral-90 hover:text-controlElements dark:text-neutral-0 dark:hover:bg-muted dark:hover:text-controlElements [&:hover>svg>path]:stroke-controlElements dark:[&:hover>svg>path]:stroke-controlElements [&>svg>path]:stroke-neutral-90 [&>svg>path]:transition-all dark:[&>svg>path]:stroke-neutral-0"
                                         )}>
+                                        {customRoute.icon}
                                         {showCaptions && (
-                                            <>
-                                                {customRoute.icon}
-                                                <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
-                                                    {translate(
-                                                        `resources.${customViewRoutes?.name}.${customRoute.name}.name`
-                                                    )}
-                                                </span>
-                                            </>
+                                            <span className="m-0 p-0 leading-[22px] transition-opacity animate-in fade-in-0">
+                                                {translate(
+                                                    `resources.${customViewRoutes?.name}.${customRoute.name}.name`
+                                                )}
+                                            </span>
                                         )}
                                     </NavLink>
                                 </TooltipTrigger>
