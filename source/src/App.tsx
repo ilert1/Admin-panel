@@ -29,7 +29,8 @@ import {
     WalletsList,
     WalletTransactionsList,
     WalletLinkedTransactionsList,
-    TerminalsList
+    TerminalsList,
+    CascadesList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -189,12 +190,18 @@ export const App = () => {
                                                     element={<SystemPaymentInstrumentsList />}
                                                 />
                                                 <Route path="currency" element={<CurrenciesList />} />
-                                                {/* <Resource name="currency" list={CurrenciesList} icon={BanknoteIcon} /> */}
                                             </Resource>
 
                                             <Resource name="callbridge" icon={Split}>
                                                 <Route path="mapping" element={<MappingsList />} />
                                                 <Route path="history" element={<CallbackHistoryList />} />
+                                            </Resource>
+
+                                            <Resource name="cascadeSettings" icon={Split}>
+                                                <Route path="cascadeList" element={<CascadesList />} />
+                                                <Route path="cascadeTerminals" element={<CascadesList />} />
+                                                <Route path="cascadeMerchants" element={<CascadesList />} />
+                                                <Route path="cascadeConflicts" element={<CascadesList />} />
                                             </Resource>
                                         </>
                                     )}

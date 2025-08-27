@@ -45,6 +45,8 @@ export const useGetResourceHeaderData = () => {
                 return getResLabel(`${resourceName[0]}.${resourceName[1]}`);
             } else if (resourceName[0] === "paymentSettings") {
                 return getResLabel(`paymentSettings.${resourceName[1]}`);
+            } else if (resourceName[0] === "cascadeSettings") {
+                return getResLabel(`cascadeSettings.${resourceName[1]}`);
             }
 
             return getResLabel(resourceName[0], permissions);

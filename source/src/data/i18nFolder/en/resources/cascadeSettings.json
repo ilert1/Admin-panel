@@ -1,0 +1,15 @@
+{
+    "resources.cascadeSettings.name": "Cascade Settings",
+    "resources.cascadeSettings.cascadeList": {
+        "name": "Cascades"
+    },
+    "resources.cascadeSettings.cascadeTerminals": {
+        "name": "Cascade terminals"
+    },
+    "resources.cascadeSettings.cascadeMerchants": {
+        "name": "Cascade merchants"
+    },
+    "resources.cascadeSettings.cascadeConflicts": {
+        "name": "Cascade conflicts"
+    }
+}

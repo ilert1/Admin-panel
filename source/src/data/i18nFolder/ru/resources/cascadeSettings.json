@@ -1,0 +1,15 @@
+{
+    "resources.cascadeSettings.name": "Настройки каскадов",
+    "resources.cascadeSettings.cascadeList": {
+        "name": "Каскады"
+    },
+    "resources.cascadeSettings.cascadeTerminals": {
+        "name": "Терминалы каскадов"
+    },
+    "resources.cascadeSettings.cascadeMerchants": {
+        "name": "Каскады мерчантов"
+    },
+    "resources.cascadeSettings.cascadeConflicts": {
+        "name": "Конфликты каскадов"
+    }
+}

@@ -11,6 +11,7 @@ import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
 import { AdminCallbridgeResources } from "@/components/widgets/shared/AdminCallbridgeResources";
 import { AdminPaymentToolResources } from "@/components/widgets/shared/AdminPaymentToolResources";
+import { AdminCascadeResources } from "@/components/widgets/shared/AdminCascadeResources";
 
 export interface SidebarProps {
     resourceName: string[];
@@ -90,7 +91,8 @@ export const Sidebar = (props: SidebarProps) => {
                     if (
                         !resource.includes("wallet") &&
                         !resource.includes("callbridge") &&
-                        !resource.includes("paymentSettings")
+                        !resource.includes("paymentSettings") &&
+                        !resource.includes("cascadeSettings")
                     ) {
                         return (
                             <TooltipProvider key={resource} delayDuration={100}>
@@ -139,6 +141,7 @@ export const Sidebar = (props: SidebarProps) => {
                     </>
                 )}
                 <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />
+                {permissions === "admin" && <AdminCascadeResources showCaptions={showCaptions && !isMobile} />}
             </nav>
 
             {permissions === "admin" && (
