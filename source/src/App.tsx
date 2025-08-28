@@ -202,9 +202,9 @@ export const App = () => {
 
                                             <Resource name="cascadeSettings" icon={Split}>
                                                 <Route path="cascades" element={<CascadesList />} />
-                                                <Route path="cascadeTerminals" element={<CascadesList />} />
-                                                <Route path="cascadeMerchants" element={<CascadesList />} />
-                                                <Route path="cascadeConflicts" element={<CascadesList />} />
+                                                <Route path="cascadeTerminals" element={<div />} />
+                                                <Route path="cascadeMerchants" element={<div />} />
+                                                <Route path="cascadeConflicts" element={<div />} />
                                             </Resource>
                                         </>
                                     )}

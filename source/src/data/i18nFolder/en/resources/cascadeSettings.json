@@ -1,7 +1,18 @@
 {
     "resources.cascadeSettings.name": "Cascade Settings",
     "resources.cascadeSettings.cascades": {
-        "name": "Cascades"
+        "name": "Cascades",
+        "fields": {
+            "created_at": "Created at",
+            "updated_at": "Updated at",
+            "name": "Cascade",
+            "type": "Type",
+            "src_currency_code": "Currency",
+            "cascade_kind": "Kind",
+            "rank": "Rank",
+            "state": "State",
+            "login": "Changed"
+        }
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Cascade terminals"

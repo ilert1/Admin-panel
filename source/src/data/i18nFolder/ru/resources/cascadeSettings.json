@@ -1,7 +1,18 @@
 {
     "resources.cascadeSettings.name": "Настройки каскадов",
     "resources.cascadeSettings.cascades": {
-        "name": "Каскады"
+        "name": "Каскады",
+        "fields": {
+            "created_at": "Создан",
+            "updated_at": "Изменён",
+            "name": "Каскад",
+            "type": "Тип",
+            "src_currency_code": "Валюта отправления",
+            "cascade_kind": "Вид",
+            "rank": "Ранг",
+            "state": "Состояние",
+            "login": "Кем изменен"
+        }
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Терминалы каскадов"
