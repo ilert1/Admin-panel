@@ -24,10 +24,17 @@
         "merchantsDirections": "Directions of merchant ",
         "isActive": "Activity",
         "terminal": "Terminal",
+        "cascade": "Cascade",
         "kinds": {
             "kind": "Direction kind",
+            "cascadeKind": "Cascade kind",
             "sequential": "Sequential",
             "fanout": "Fanout"
+        },
+        "condition": {
+            "condition": "Condition",
+            "rank": "Requisite weight",
+            "extra": "Priority"
         }
     },
     "resources.direction.fees": {

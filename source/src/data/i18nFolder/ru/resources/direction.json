@@ -24,10 +24,17 @@
         "merchantsDirections": "Направления мерчанта ",
         "isActive": "Активность",
         "terminal": "Терминал",
+        "cascade": "Каскад",
         "kinds": {
-            "kind": "Тип направления",
+            "kind": "Вид направления",
+            "cascadeKind": "Вид каскада",
             "sequential": "Последовательное",
             "fanout": "Разветвленное"
+        },
+        "condition": {
+            "condition": "Условия",
+            "rank": "Вес реквизитов",
+            "extra": "Приоритет"
         }
     },
     "resources.direction.fees": {

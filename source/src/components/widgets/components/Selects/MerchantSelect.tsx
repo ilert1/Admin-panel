@@ -1,9 +1,9 @@
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { IPopoverSelect, PopoverSelect } from "./PopoverSelect";
 import { useTranslate } from "react-admin";
 
 interface MerchantSelectProps extends IPopoverSelect {
-    merchants: Merchant[];
+    merchants: MerchantSchema[];
 }
 
 export const MerchantSelect = ({

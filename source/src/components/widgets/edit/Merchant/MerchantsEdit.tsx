@@ -8,13 +8,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
 import { useCurrenciesListWithoutPagination, useFetchDictionaries, usePreventFocus } from "@/hooks";
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { MerchantsDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
+import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { TTL } from "../../components/TTL";
 
 interface MerchantEditProps {
     id?: string;
@@ -37,15 +38,23 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["merchant", id],
-        queryFn: ({ signal }) => dataProvider.getOne<Merchant>("merchant", { id, signal }),
+        queryFn: ({ signal }) => dataProvider.getOne<MerchantSchema>("merchant", { id, signal }),
         enabled: true,
         select: data => data.data
+    });
+
+    const [ttl, setTTL] = useState({
+        depositMin: merchant?.settings?.deposit?.ttl?.min || 0,
+        depositMax: merchant?.settings?.deposit?.ttl?.max || 0,
+        withdrawMin: merchant?.settings?.withdraw?.ttl?.min || 0,
+        withdrawMax: merchant?.settings?.withdraw?.ttl?.max || 0
     });
 
     const translate = useTranslate();
     const refresh = useRefresh();
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
+    const [editTTLClicked, setEditTTLClicked] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const formSchema = z.object({
@@ -59,7 +68,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 message: translate("resources.merchant.errors.noSpaces")
             }),
         payment_types: z.array(z.string()).optional(),
-        currencies: z.array(z.string()).optional()
+        allowed_src_currencies: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -70,7 +79,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             description: "",
             keycloak_id: "",
             payment_types: [],
-            currencies: []
+            allowed_src_currencies: []
         }
     });
 
@@ -82,8 +91,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 description: merchant.description || "",
                 keycloak_id: merchant.keycloak_id || "",
                 payment_types: merchant?.payment_types?.map(pt => pt.code) || [],
-                // currencies: merchant?.currencies || []
-                currencies: []
+                allowed_src_currencies:
+                    (merchant?.allowed_src_currencies &&
+                        merchant?.allowed_src_currencies?.length &&
+                        merchant.allowed_src_currencies.map(el => el.code)) ||
+                    []
             };
 
             form.reset(updatedValues);
@@ -113,7 +125,23 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         try {
             await dataProvider.update("merchant", {
                 id,
-                data,
+                data: {
+                    ...data,
+                    settings: {
+                        deposit: {
+                            ttl: {
+                                min: ttl.depositMin,
+                                max: ttl.depositMax
+                            }
+                        },
+                        withdraw: {
+                            ttl: {
+                                min: ttl.withdrawMin,
+                                max: ttl.withdrawMax
+                            }
+                        }
+                    }
+                },
                 previousData: undefined
             });
 
@@ -194,6 +222,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="description"
@@ -247,7 +276,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                         />
                         <FormField
                             control={form.control}
-                            name="currencies"
+                            name="allowed_src_currencies"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
                                     <CurrenciesMultiSelect
@@ -262,7 +291,14 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     </div>
                 </form>
             </Form>
-
+            <TTL
+                ttl={ttl}
+                onChange={(ttl: { depositMin: number; depositMax: number; withdrawMin: number; withdrawMax: number }) =>
+                    setTTL(ttl)
+                }
+                editClicked={editTTLClicked}
+                setEditClicked={setEditTTLClicked}
+            />
             <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}

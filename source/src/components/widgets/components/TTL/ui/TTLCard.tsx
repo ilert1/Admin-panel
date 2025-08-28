@@ -1,10 +1,14 @@
-import { TTLConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useTranslate } from "react-admin";
 
 interface LimitCardProps {
-    ttl: TTLConfig;
+    ttl: {
+        depositMin: number;
+        depositMax: number;
+        withdrawMin: number;
+        withdrawMax: number;
+    };
     setEditClicked: (state: boolean) => void;
 }
 
@@ -19,8 +23,20 @@ export const TTLCard = (props: LimitCardProps) => {
                 <div className="items-left flex flex-col justify-center gap-4 sm:flex-row sm:items-center">
                     <div className="flex flex-1 flex-col gap-1 sm:gap-2">
                         <div className="grid grid-cols-2">
-                            <TextField text={ttl.min?.toString() ?? ""} label="min" />
-                            <TextField text={ttl.max?.toString() ?? ""} label="max" />
+                            <div className="flex flex-1 flex-col gap-1 sm:gap-2">
+                                <TextField text={translate("app.widgets.limits.deposit")} />
+                                <div className="flex flex-row gap-2 sm:flex-col">
+                                    <TextField text={ttl.depositMin?.toString() ?? ""} label="min" />
+                                    <TextField text={ttl.depositMax?.toString() ?? ""} label="max" />
+                                </div>
+                            </div>
+                            <div className="flex flex-1 flex-col gap-1 sm:gap-2">
+                                <TextField text={translate("app.widgets.limits.payment")} />
+                                <div className="flex flex-row gap-2 sm:flex-col">
+                                    <TextField text={ttl.withdrawMin?.toString() ?? ""} label="min" />
+                                    <TextField text={ttl.withdrawMax?.toString() ?? ""} label="max" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

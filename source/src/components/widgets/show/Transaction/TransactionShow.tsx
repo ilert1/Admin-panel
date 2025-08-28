@@ -20,7 +20,7 @@ import { useGetTransactionShowColumns } from "./Columns";
 import clsx from "clsx";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { getStateByRole } from "@/helpers/getStateByRole";
@@ -96,7 +96,11 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
     const { isMerchantsLoading, merchantData } = useMerchantsListWithoutPagination();
 
-    const getNameAndIdByType = (type: number, sourceMerch: Merchant | undefined, destMerch: Merchant | undefined) => {
+    const getNameAndIdByType = (
+        type: number,
+        sourceMerch: MerchantSchema | undefined,
+        destMerch: MerchantSchema | undefined
+    ) => {
         switch (type) {
             case 1:
                 return [{ name: destMerch?.name || "", id: destMerch?.id }];

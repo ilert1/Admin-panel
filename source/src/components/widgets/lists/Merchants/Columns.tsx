@@ -1,4 +1,4 @@
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
@@ -7,6 +7,7 @@ import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
@@ -25,7 +26,7 @@ export const useGetMerchantColumns = () => {
         openSheet("merchant", { id, merchantName });
     };
 
-    const columns: ColumnDef<Merchant>[] = [
+    const columns: ColumnDef<MerchantSchema>[] = [
         {
             id: "id",
             accessorKey: "id",
@@ -124,6 +125,26 @@ export const useGetMerchantColumns = () => {
                                   );
                               })
                             : "-"}
+                    </div>
+                );
+            }
+        },
+        {
+            id: "currencies",
+            accessorKey: "currencies",
+            header: translate("resources.merchant.fields.currencies"),
+            cell: ({ row }) => {
+                const currencies = row.original.allowed_src_currencies;
+
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {currencies?.map(el => {
+                            return (
+                                <Badge key={el.code} variant="currency">
+                                    {el.code}
+                                </Badge>
+                            );
+                        })}
                     </div>
                 );
             }

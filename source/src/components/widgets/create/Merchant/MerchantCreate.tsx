@@ -11,7 +11,7 @@ import { ChangeEvent, DragEvent, useState } from "react";
 import { feesDataProvider, FeesResource, MerchantsDataProvider } from "@/data";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { FeeCreate, TTLConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useCurrenciesListWithoutPagination, useFetchDictionaries } from "@/hooks";
@@ -36,10 +36,15 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     const merchantsDataProvider = new MerchantsDataProvider();
 
     const [fees, setFees] = useState<FeeCreate[]>([]);
-    const [ttl, setTTL] = useState<TTLConfig>({
-        min: 0,
-        max: 0
+    const [editClicked, setEditClicked] = useState(false);
+
+    const [ttl, setTTL] = useState({
+        depositMin: 0,
+        depositMax: 0,
+        withdrawMin: 0,
+        withdrawMax: 0
     });
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [fileContent, setFileContent] = useState("");
 
@@ -77,7 +82,18 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         const formData = {
             ...data,
             settings: {
-                ttl: ttl
+                deposit: {
+                    ttl: {
+                        min: ttl.depositMin,
+                        max: ttl.depositMax
+                    }
+                },
+                withdraw: {
+                    ttl: {
+                        min: ttl.withdrawMin,
+                        max: ttl.withdrawMax
+                    }
+                }
             }
         };
 
@@ -147,6 +163,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         defaultValues: {
             name: "",
             description: "",
+            public_key: "",
             fees: {},
             currencies: [],
             payment_types: []
@@ -262,14 +279,21 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 </form>
             </Form>
             <Fees id={""} fees={fees} feesResource={FeesResource.MERCHANT} setFees={setFees} feeType="inner" />
-            <TTL ttl={ttl} onChange={(ttl: TTLConfig) => setTTL(ttl)} />
+            <TTL
+                ttl={ttl}
+                onChange={(ttl: { depositMin: number; depositMax: number; withdrawMin: number; withdrawMax: number }) =>
+                    setTTL(ttl)
+                }
+                editClicked={editClicked}
+                setEditClicked={setEditClicked}
+            />
             <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
                     type="submit"
                     variant="default"
                     className="flex-1"
-                    disabled={submitButtonDisabled}>
+                    disabled={submitButtonDisabled || editClicked}>
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button type="button" variant="outline_gray" className="flex-1" onClick={() => onOpenChange(false)}>

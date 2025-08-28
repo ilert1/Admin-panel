@@ -18,6 +18,7 @@ import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowCo
 import { useFetchDictionaries } from "@/hooks";
 import { MerchantSettingsDialog } from "./MerchantSettingsDialog";
 import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Badge } from "@/components/ui/badge";
 
 interface MerchantShowProps {
     id: string;
@@ -99,6 +100,25 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         />
                         <TextField label="Keycloak ID" copyValue text={context.record.keycloak_id || ""} />
 
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                            </small>
+
+                            <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                                {context.record.allowed_src_currencies &&
+                                context.record.allowed_src_currencies.length > 0 ? (
+                                    context.record.allowed_src_currencies.map(value => (
+                                        <Badge key={value.code} variant="currency">
+                                            {value.code}
+                                        </Badge>
+                                    ))
+                                ) : (
+                                    <span className="title-1">-</span>
+                                )}
+                            </div>
+                        </div>
+
                         <PaymentsTypesShowComponent payment_types={payment_types} />
                     </div>
                     <div className="self-end px-[42px]">
@@ -115,6 +135,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         </div>
                     </div>
                 </div>
+
                 <div className="mt-1 w-full flex-1 px-4 md:mt-4 md:px-[42px]">
                     <Fees
                         id={id}

@@ -7,7 +7,10 @@
         "descr": "Описание",
         "directions": "Направления",
         "fees": "Комиссии",
-        "pays": "PayIn/PayOut"
+        "pays": "PayIn/PayOut",
+        "currencies": "Разрешенные валюты отправителя",
+        "minTTL": "Минимальное TTL в секундах",
+        "maxTTL": "Максимальное TTL в секундах"
     },
     "resources.merchant.errors": {
         "id": "ID обязательно должен быть заполнен",

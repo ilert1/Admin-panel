@@ -1,22 +1,25 @@
-import { TTLConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { TTLCard } from "./TTLCard";
 import { EditTTLCard } from "./EditTTLCard";
 
 interface TTLProps {
     id?: string;
-    ttl: TTLConfig;
+    ttl: {
+        depositMin: number;
+        depositMax: number;
+        withdrawMin: number;
+        withdrawMax: number;
+    };
     className?: string;
-    onChange?: (value: TTLConfig) => void;
+    onChange?: (value: { depositMin: number; depositMax: number; withdrawMin: number; withdrawMax: number }) => void;
+    editClicked: boolean;
+    setEditClicked: (state: boolean) => void;
 }
 
 export const TTL = (props: TTLProps) => {
-    const { id, ttl, className, onChange } = props;
+    const { id, ttl, className, onChange, editClicked, setEditClicked } = props;
     const translate = useTranslate();
-
-    const [editClicked, setEditClicked] = useState(false);
 
     return (
         <div className={cn("mt-[10px] w-full px-2")}>

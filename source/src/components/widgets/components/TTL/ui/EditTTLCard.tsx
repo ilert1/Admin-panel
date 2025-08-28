@@ -3,14 +3,19 @@ import { useRefresh, useTranslate } from "react-admin";
 import { useState } from "react";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { z } from "zod";
-import { TTLConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Input, InputTypes } from "@/components/ui/Input/input";
+import { TextField } from "@/components/ui/text-field";
 
 interface EditTTLCardProps {
     id?: string;
-    ttl: TTLConfig;
+    ttl: {
+        depositMin: number;
+        depositMax: number;
+        withdrawMin: number;
+        withdrawMax: number;
+    };
     setEditClicked: (state: boolean) => void;
-    onChange?: (value: TTLConfig) => void;
+    onChange?: (value: { depositMin: number; depositMax: number; withdrawMin: number; withdrawMax: number }) => void;
 }
 
 export const EditTTLCard = (props: EditTTLCardProps) => {
@@ -24,7 +29,7 @@ export const EditTTLCard = (props: EditTTLCardProps) => {
 
     const limitSchema = z
         .object({
-            max: z.coerce
+            depositMax: z.coerce
                 .number()
                 .min(
                     1,
@@ -33,7 +38,25 @@ export const EditTTLCard = (props: EditTTLCardProps) => {
                     })
                 )
                 .max(999999999.99),
-            min: z.coerce
+            depositMin: z.coerce
+                .number()
+                .min(
+                    1,
+                    translate("app.widgets.limits.errors.minTooSmallForOne", {
+                        field: translate("app.widgets.limits.errors.ofPayment")
+                    })
+                )
+                .max(999999999.99),
+            withdrawMax: z.coerce
+                .number()
+                .min(
+                    1,
+                    translate("app.widgets.limits.errors.minTooSmallForOne", {
+                        field: translate("app.widgets.limits.errors.ofDeposit")
+                    })
+                )
+                .max(999999999.99),
+            withdrawMin: z.coerce
                 .number()
                 .min(
                     1,
@@ -45,20 +68,34 @@ export const EditTTLCard = (props: EditTTLCardProps) => {
         })
         .refine(
             data => {
-                if (data.max === 0) {
+                if (data.withdrawMax === 0) {
                     return true;
                 }
-                return data.min <= data.max;
+                return data.withdrawMin <= data.withdrawMax;
             },
             {
                 message: translate("app.widgets.limits.errors.minGreaterThanMax"),
-                path: ["max"]
+                path: ["withdrawMax"]
+            }
+        )
+        .refine(
+            data => {
+                if (data.depositMax === 0) {
+                    return true;
+                }
+                return data.depositMin <= data.depositMax;
+            },
+            {
+                message: translate("app.widgets.limits.errors.minGreaterThanMax"),
+                path: ["depositMax"]
             }
         );
 
-    const [localTTL, setLocalTTL] = useState<TTLConfig>({
-        min: ttl.min ?? 0,
-        max: ttl.max ?? 0
+    const [localTTL, setLocalTTL] = useState({
+        depositMin: ttl.depositMin ?? 0,
+        depositMax: ttl.depositMax ?? 0,
+        withdrawMin: ttl.withdrawMin ?? 0,
+        withdrawMax: ttl.withdrawMax ?? 0
     });
 
     // const handleSubmit = async () => {
@@ -161,33 +198,59 @@ export const EditTTLCard = (props: EditTTLCardProps) => {
 
     return (
         <div className="mb-4 flex flex-col gap-6 rounded-8 bg-muted p-4 sm:gap-4">
-            <div className="flex flex-col gap-4 md:flex-row">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4">
                 <div className="flex flex-1 flex-col gap-2 md:gap-4">
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
+                    <TextField text={translate("app.widgets.limits.deposit")} className="text-display-5" />
+                    <div className="flex flex-col gap-4">
                         <Input
                             variant={InputTypes.GRAY}
-                            label="min"
-                            value={String(localTTL.min)}
-                            onChange={e => handleChange("min", e.target.value)}
+                            label={translate("resources.merchant.fields.minTTL")}
+                            value={localTTL.depositMin}
+                            onChange={e => handleChange("depositMin", e.target.value)}
                             inputMode="numeric"
                             tabIndex={0}
+                            error={errors.depositMin}
                             disableErrorMessage
-                            error={errors.min}
                         />
                         <Input
                             variant={InputTypes.GRAY}
-                            label="max"
-                            value={String(localTTL.max)}
+                            label={translate("resources.merchant.fields.maxTTL")}
+                            value={localTTL.depositMax}
                             tabIndex={0}
-                            onChange={e => handleChange("max", e.target.value)}
+                            onChange={e => handleChange("depositMax", e.target.value)}
                             inputMode="numeric"
+                            error={errors.depositMax}
                             disableErrorMessage
-                            error={errors.max}
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-1 flex-col gap-2 md:gap-4">
+                    <TextField text={translate("app.widgets.limits.payment")} className="text-display-5" />
+                    <div className="flex flex-col gap-4">
+                        <Input
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.merchant.fields.minTTL")}
+                            value={localTTL.withdrawMin}
+                            onChange={e => handleChange("withdrawMin", e.target.value)}
+                            inputMode="numeric"
+                            tabIndex={0}
+                            error={errors.withdrawMin}
+                            disableErrorMessage
+                        />
+                        <Input
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.merchant.fields.maxTTL")}
+                            value={localTTL.withdrawMax}
+                            tabIndex={0}
+                            onChange={e => handleChange("withdrawMax", e.target.value)}
+                            inputMode="numeric"
+                            error={errors.withdrawMax}
+                            disableErrorMessage
                         />
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col justify-start gap-[10px] sm:flex-row">
+            <div className="flex flex-col justify-end gap-[10px] sm:flex-row">
                 <Button type="button" onClick={handleSave}>
                     {translate("app.ui.actions.save")}
                 </Button>
