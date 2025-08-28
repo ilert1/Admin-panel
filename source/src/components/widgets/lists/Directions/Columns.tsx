@@ -116,7 +116,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             accessorKey: "cascade_id",
             header: translate("resources.direction.fields.cascade"),
             cell: ({ row }) => {
-                const cascadeId = row.getValue("cascade_id");
+                const cascadeId = row.original.cascade_id;
 
                 return (
                     <div>
@@ -134,7 +134,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         /> */}
                         <TextField
                             className="text-neutral-70"
-                            text={cascadeId}
+                            text={cascadeId ?? ""}
                             wrap
                             copyValue
                             lineClamp
