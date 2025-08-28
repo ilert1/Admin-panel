@@ -10,8 +10,11 @@
             "src_currency_code": "Валюта отправления",
             "cascade_kind": "Вид",
             "rank": "Ранг",
-            "state": "Состояние",
-            "login": "Кем изменен"
+            "state": "Состояние"
+        },
+        "placeholders": {
+            "type": "Тип",
+            "src_currency_code": "Валюта отправления"
         }
     },
     "resources.cascadeSettings.cascadeTerminals": {

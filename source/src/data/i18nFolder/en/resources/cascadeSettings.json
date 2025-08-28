@@ -10,8 +10,11 @@
             "src_currency_code": "Currency",
             "cascade_kind": "Kind",
             "rank": "Rank",
-            "state": "State",
-            "login": "Changed"
+            "state": "State"
+        },
+        "placeholders": {
+            "type": "Type",
+            "src_currency_code": "Currency"
         }
     },
     "resources.cascadeSettings.cascadeTerminals": {

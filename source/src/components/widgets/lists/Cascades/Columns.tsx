@@ -2,6 +2,7 @@ import { CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 
 export const useGetCascadeColumns = () => {
@@ -12,6 +13,7 @@ export const useGetCascadeColumns = () => {
     // const handleCascadeShowOpen = (id: string) => {
     //     openSheet("cascade", { id });
     // };
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<CascadeSchema>[] = [
         {
@@ -82,11 +84,6 @@ export const useGetCascadeColumns = () => {
             cell: ({ row }) => <TextField text={row.original.state ?? ""} minWidth="50px" />
         },
         {
-            accessorKey: "login",
-            header: translate("resources.cascadeSettings.cascades.fields.login"),
-            cell: ({ row }) => <TextField text={""} minWidth="50px" />
-        },
-        {
             id: "actions",
             cell: ({ row }) => {
                 return (
@@ -100,6 +97,8 @@ export const useGetCascadeColumns = () => {
         }
     ];
     return {
+        createDialogOpen,
+        setCreateDialogOpen,
         columns
     };
 };
