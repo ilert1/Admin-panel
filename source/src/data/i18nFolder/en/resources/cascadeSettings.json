@@ -8,6 +8,7 @@
             "created_at": "Created at",
             "updated_at": "Updated at",
             "name": "Name",
+            "description": "Description",
             "cascade": "Cascade",
             "type": "Type",
             "src_currency_code": "Currency",
@@ -19,6 +20,25 @@
         "placeholders": {
             "type": "Type",
             "src_currency_code": "Currency"
+        },
+        "types": {
+            "deposit": "Deposit",
+            "withdrawal": "Withdrawal"
+        },
+        "kinds": {
+            "sequential": "Sequential",
+            "fanout": "Fanout"
+        },
+        "state": {
+            "active": "Active",
+            "inactive": "Inactive",
+            "archived": "Archived"
+        },
+        "errors": {
+            "name": "Name is required",
+            "rankRequired": "Rank is required",
+            "src_currency_code": "Currency is required",
+            "alreadyExist": "Cascade already exist"
         }
     },
     "resources.cascadeSettings.cascadeTerminals": {

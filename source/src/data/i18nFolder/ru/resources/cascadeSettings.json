@@ -8,6 +8,7 @@
             "created_at": "Создан",
             "updated_at": "Изменён",
             "name": "Имя",
+            "description": "Описание",
             "cascade": "Каскад",
             "type": "Тип",
             "src_currency_code": "Валюта отправления",
@@ -19,6 +20,25 @@
         "placeholders": {
             "type": "Тип",
             "src_currency_code": "Валюта отправления"
+        },
+        "types": {
+            "deposit": "Депозит",
+            "withdrawal": "Вывод средств"
+        },
+        "kinds": {
+            "sequential": "Последовательный",
+            "fanout": "Разветвленный"
+        },
+        "state": {
+            "active": "Активен",
+            "inactive": "Не активен",
+            "archived": "В архиве"
+        },
+        "errors": {
+            "name": "Имя обязательно",
+            "rankRequired": "Ранг обязателен",
+            "src_currency_code": "Валюта отправления обязательна",
+            "alreadyExist": "Каскад уже существует"
         }
     },
     "resources.cascadeSettings.cascadeTerminals": {
