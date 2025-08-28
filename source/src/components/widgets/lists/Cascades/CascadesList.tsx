@@ -5,6 +5,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { DataTable } from "../../shared";
 import { useGetCascadeColumns } from "./Columns";
 import { CascadesListFilter } from "./CascadesListFilter";
+import { CreateCascadeDialog } from "./CreateCascadeDialog";
 
 export const CascadesList = () => {
     const listContext = useAbortableListController<CascadeSchema>({
@@ -12,7 +13,7 @@ export const CascadesList = () => {
         sort: { field: "created_at", order: "DESC" }
     });
 
-    const { columns, setCreateDialogOpen } = useGetCascadeColumns();
+    const { columns, createDialogOpen, setCreateDialogOpen } = useGetCascadeColumns();
 
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);
@@ -23,6 +24,8 @@ export const CascadesList = () => {
             <CascadesListFilter handleCreateClicked={handleCreateClicked} />
 
             {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+
+            <CreateCascadeDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
         </ListContextProvider>
     );
 };

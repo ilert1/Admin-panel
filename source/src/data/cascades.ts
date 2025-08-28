@@ -11,12 +11,7 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import {
-    CascadeCreate,
-    CascadeRead,
-    CascadeSchema,
-    DirectionCreate
-} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CascadeCreate, CascadeRead, CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     cascadeEndpointsCreateCascadeEnigmaV1CascadePost,
     cascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDelete,
@@ -84,7 +79,7 @@ export class CascadesDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams<DirectionCreate>): Promise<CreateResult<CascadeRead>> {
+    async create(resource: string, params: CreateParams<CascadeCreate>): Promise<CreateResult<CascadeRead>> {
         const res = await cascadeEndpointsCreateCascadeEnigmaV1CascadePost(params.data as CascadeCreate, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`

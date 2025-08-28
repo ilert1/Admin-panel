@@ -42,7 +42,7 @@ export const useGetCascadeColumns = () => {
         },
         {
             accessorKey: "name",
-            header: translate("resources.cascadeSettings.cascades.fields.name"),
+            header: translate("resources.cascadeSettings.cascades.fields.cascade"),
             cell: ({ row }) => (
                 <div>
                     <TextField text={row.original.name} />

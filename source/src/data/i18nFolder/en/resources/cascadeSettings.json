@@ -3,15 +3,18 @@
     "resources.cascadeSettings.cascades": {
         "name": "Cascades",
         "createNew": "Create cascade",
+        "creatingCascade": "Creating cascade",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
-            "name": "Cascade",
+            "name": "Name",
+            "cascade": "Cascade",
             "type": "Type",
             "src_currency_code": "Currency",
             "cascade_kind": "Kind",
             "rank": "Rank",
-            "state": "State"
+            "state": "State",
+            "details": "Other parameters"
         },
         "placeholders": {
             "type": "Type",
