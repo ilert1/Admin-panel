@@ -47,7 +47,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         isLoading: isLoadingCascadeData,
         isFetchedAfterMount
     } = useQuery({
-        queryKey: ["direction", id],
+        queryKey: ["cascade", id],
         queryFn: ({ signal }) => dataProvider.getOne<CascadeSchema>("cascade", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
@@ -128,7 +128,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                 appToast(
                     "error",
                     error.message.includes("already exist")
-                        ? translate("resources.provider.errors.alreadyInUse")
+                        ? translate("resources.cascadeSettings.cascades.errors.alreadyExist")
                         : error.message
                 );
             } else {
