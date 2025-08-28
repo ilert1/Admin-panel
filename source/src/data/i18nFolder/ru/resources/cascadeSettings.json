@@ -4,6 +4,7 @@
         "name": "Каскады",
         "createNew": "Добавить каскад",
         "creatingCascade": "Добавление каскада",
+        "deleteCascade": "Удалить каскад?",
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",

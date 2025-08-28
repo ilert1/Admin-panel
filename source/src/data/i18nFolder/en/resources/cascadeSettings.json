@@ -4,6 +4,7 @@
         "name": "Cascades",
         "createNew": "Create cascade",
         "creatingCascade": "Creating cascade",
+        "deleteCascade": "Delete cascade?",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
