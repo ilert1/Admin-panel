@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useFetchDictionaries } from "@/hooks";
 import { DeleteCascadeDialog } from "./DeleteCascadeDialog";
 import { useState } from "react";
+import { EditCascadeDialog } from "./EditCascadeDialog";
 
 export interface DirectionsShowProps {
     id: string;
@@ -21,6 +22,7 @@ export const CascadeShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const [locale] = useLocaleState();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
@@ -133,6 +135,8 @@ export const CascadeShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 onQuickShowOpenChange={onOpenChange}
                 id={id}
             />
+
+            <EditCascadeDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />
         </div>
     );
 };
