@@ -2,6 +2,7 @@
     "resources.cascadeSettings.name": "Настройки каскадов",
     "resources.cascadeSettings.cascades": {
         "name": "Каскады",
+        "createNew": "Добавить каскад",
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",

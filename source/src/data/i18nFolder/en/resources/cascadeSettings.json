@@ -2,6 +2,7 @@
     "resources.cascadeSettings.name": "Cascade Settings",
     "resources.cascadeSettings.cascades": {
         "name": "Cascades",
+        "createNew": "Create cascade",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
