@@ -7,6 +7,7 @@
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
+            "id": "ID",
             "name": "Name",
             "description": "Description",
             "cascade": "Cascade",

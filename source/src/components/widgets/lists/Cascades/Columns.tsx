@@ -1,4 +1,5 @@
 import { CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
@@ -8,11 +9,12 @@ import { useLocaleState, useTranslate } from "react-admin";
 export const useGetCascadeColumns = () => {
     const [locale] = useLocaleState();
     const translate = useTranslate();
-    // const { openSheet } = useSheets();
+    const { openSheet } = useSheets();
 
-    // const handleCascadeShowOpen = (id: string) => {
-    //     openSheet("cascade", { id });
-    // };
+    const handleCascadeShowOpen = (id: string) => {
+        openSheet("cascade", { id });
+    };
+
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<CascadeSchema>[] = [
@@ -86,13 +88,7 @@ export const useGetCascadeColumns = () => {
         {
             id: "actions",
             cell: ({ row }) => {
-                return (
-                    <ShowButton
-                    // onClick={() => {
-                    //     handleCascadeShowOpen(row.original.id);
-                    // }}
-                    />
-                );
+                return <ShowButton onClick={() => handleCascadeShowOpen(row.original.id)} />;
             }
         }
     ];

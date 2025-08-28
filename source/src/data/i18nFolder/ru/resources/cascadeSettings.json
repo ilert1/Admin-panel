@@ -7,6 +7,7 @@
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",
+            "id": "ID",
             "name": "Имя",
             "description": "Описание",
             "cascade": "Каскад",
