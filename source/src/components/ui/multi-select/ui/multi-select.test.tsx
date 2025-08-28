@@ -47,14 +47,14 @@ describe("MultiSelect", () => {
         expect(screen.getByText("Option A")).toBeInTheDocument();
     });
 
-    it("открывает и закрывает поповер по клику", () => {
+    it("открывает и закрывает поповер по клику", async () => {
         render(<MultiSelect options={OPTIONS} selectedValues={[]} onValueChange={jest.fn()} />);
 
         fireEvent.click(screen.getByRole("combobox"));
         expect(screen.getByRole("dialog")).toBeInTheDocument();
 
         fireEvent.keyDown(document, { key: "Escape" });
-        waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     });
 
     it("добавляет и убирает опцию при клике", () => {

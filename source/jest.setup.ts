@@ -17,3 +17,5 @@ class ResizeObserver {
 window.HTMLElement.prototype.scrollIntoView = function () {
     return null;
 };
+window.HTMLElement.prototype.hasPointerCapture = () => false;
+window.HTMLElement.prototype.releasePointerCapture = () => {};

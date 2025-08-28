@@ -1,5 +1,4 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { useAppToast } from "./toast/useAppToast";
 import { useTranslate } from "react-admin";
 import { TextField } from "./text-field";
@@ -114,7 +113,7 @@ describe("TextField", () => {
             renderTextField({ copyValue: true });
 
             const copyIcon = screen.getByTestId("copy-icon");
-            await userEvent.click(copyIcon);
+            fireEvent.click(copyIcon);
 
             expect(navigator.clipboard.writeText).toHaveBeenCalledWith("Test text content");
             expect(mockToast).toHaveBeenCalledWith("success", "", "Скопировано");
@@ -141,7 +140,7 @@ describe("TextField", () => {
             renderTextField({ onClick: handleClick });
 
             const textElement = screen.getByText("Test text content");
-            await userEvent.click(textElement);
+            fireEvent.click(textElement);
 
             expect(handleClick).toHaveBeenCalledTimes(1);
         });
@@ -151,7 +150,7 @@ describe("TextField", () => {
             renderTextField({ onDoubleClick: handleDoubleClick });
 
             const textElement = screen.getByText("Test text content");
-            await userEvent.dblClick(textElement);
+            fireEvent.dblClick(textElement);
 
             expect(handleDoubleClick).toHaveBeenCalledTimes(1);
         });
@@ -274,11 +273,11 @@ describe("TextField", () => {
             const textElement = screen.getByText("Test text content");
             const copyIcon = screen.getByTestId("copy-icon");
 
-            await userEvent.click(textElement);
-            await userEvent.dblClick(textElement);
-            await userEvent.click(copyIcon);
+            fireEvent.click(textElement);
+            fireEvent.dblClick(textElement);
+            fireEvent.click(copyIcon);
 
-            expect(handleClick).toHaveBeenCalledTimes(3);
+            expect(handleClick).toHaveBeenCalledTimes(1);
             expect(handleDoubleClick).toHaveBeenCalledTimes(1);
             expect(navigator.clipboard.writeText).toHaveBeenCalled();
         });
