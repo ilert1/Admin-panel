@@ -67,7 +67,20 @@
         }
     },
     "resources.cascadeSettings.cascadeMerchants": {
-        "name": "Каскады мерчантов"
+        "name": "Каскады мерчантов",
+        "createNew": "Добавить связь мерчанта и каскада",
+        "fields": {
+            "merchant": "Мерчант",
+            "cascade": "Каскад",
+            "state": "Состояние",
+            "type": "Тип каскада",
+            "src_currency": "Валюта отправления",
+            "kind": "Вид каскада",
+            "cascade_state": "Состояние каскада",
+            "created_at": "Создан",
+            "updated_at": "Изменён",
+            "changed_by": "Кем изменён"
+        }
     },
     "resources.cascadeSettings.cascadeConflicts": {
         "name": "Конфликты каскадов"

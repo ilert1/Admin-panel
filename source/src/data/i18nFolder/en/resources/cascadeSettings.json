@@ -67,7 +67,20 @@
         }
     },
     "resources.cascadeSettings.cascadeMerchants": {
-        "name": "Cascade merchants"
+        "name": "Cascade merchants",
+        "createNew": "Create link between merchant and cascade",
+        "fields": {
+            "merchant": "Merchant",
+            "cascade": "Cascade",
+            "state": "State",
+            "type": "Cascade type",
+            "src_currency": "Source currency",
+            "kind": "Cascade kind",
+            "cascade_state": "Cascade state",
+            "created_at": "Created at",
+            "updated_at": "Updated at",
+            "changed_by": "Changed by"
+        }
     },
     "resources.cascadeSettings.cascadeConflicts": {
         "name": "Cascade conflicts"

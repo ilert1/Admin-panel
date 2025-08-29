@@ -74,6 +74,8 @@ import { initializeStore } from "./helpers/persistentStore";
 import { CascadesDataProvider } from "./data/cascades";
 import { CascadeTerminalDataProvider } from "./data/cascade_terminal";
 import { CascadeTerminalsList } from "./components/widgets/lists/CascadeTerminals";
+import { CascadeMerchantsList } from "./components/widgets/lists/CascadeMerchants/CascadeMerchantsList";
+import { CascadeMerchantsDataProvider } from "./data/merchant_cascade";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
@@ -121,6 +123,8 @@ const dataProvider = combineDataProviders(resource => {
         return new CascadesDataProvider();
     } else if (resource === "cascade_terminal") {
         return new CascadeTerminalDataProvider();
+    } else if (resource === "merchant_cascade") {
+        return new CascadeMerchantsDataProvider();
     } else {
         return BaseDataProvider;
     }
@@ -207,7 +211,7 @@ export const App = () => {
                                             <Resource name="cascadeSettings" icon={Split}>
                                                 <Route path="cascades" element={<CascadesList />} />
                                                 <Route path="cascadeTerminals" element={<CascadeTerminalsList />} />
-                                                <Route path="cascadeMerchants" element={<div />} />
+                                                <Route path="cascadeMerchants" element={<CascadeMerchantsList />} />
                                                 <Route path="cascadeConflicts" element={<div />} />
                                             </Resource>
                                         </>
