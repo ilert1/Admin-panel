@@ -1,7 +1,7 @@
 import { CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Badge } from "@/components/ui/badge";
-import { ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
@@ -48,7 +48,15 @@ export const useGetCascadeColumns = () => {
             header: translate("resources.cascadeSettings.cascades.fields.cascade"),
             cell: ({ row }) => (
                 <div>
-                    <TextField text={row.original.name} />
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("cascade", {
+                                id: row.original.id
+                            });
+                        }}>
+                        {row.original.name}
+                    </Button>
                     <TextField
                         className="text-neutral-70"
                         text={row.original.id}
