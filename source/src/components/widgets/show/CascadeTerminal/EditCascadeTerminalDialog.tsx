@@ -24,7 +24,7 @@ export const EditCascadeTerminalDialog = ({ open, id, onOpenChange }: EditCascad
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">
-                        {translate("resources.direction.editingDirection")}
+                        {translate("resources.cascadeSettings.cascadeTerminals.editingCascadeTerminal")}
                     </DialogTitle>
                     <DialogDescription />
                     <CascadeEdit id={id} onOpenChange={onOpenChange} />

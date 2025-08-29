@@ -53,6 +53,7 @@
         "cascadeTerminal": "Cascade terminal",
         "createNew": "Create link between terminal and cascade",
         "creatingCascadeTerminal": "Creating link between terminal and cascade",
+        "editingCascadeTerminal": "Editing cascade terminal",
         "deleteCascadeTerminal": "Delete cascade terminal?",
         "fields": {
             "created_at": "Created at",
