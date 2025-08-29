@@ -10,12 +10,12 @@ import { DeleteCascadeDialog } from "./DeleteCascadeDialog";
 import { useState } from "react";
 import { EditCascadeDialog } from "./EditCascadeDialog";
 
-export interface DirectionsShowProps {
+export interface CascadeShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-export const CascadeShow = ({ id, onOpenChange }: DirectionsShowProps) => {
+export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
     const context = useAbortableShowController<CascadeSchema>({ resource: "cascades", id });
     const data = useFetchDictionaries();
     const translate = useTranslate();
