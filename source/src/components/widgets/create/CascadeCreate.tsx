@@ -47,7 +47,8 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         type: z.enum(CASCADE_TYPE as [string, ...string[]]).default(CASCADE_TYPE[0]),
         rank: z.coerce
             .number({ message: translate("resources.cascadeSettings.cascades.errors.rankRequired") })
-            .int(translate("resources.cascadeSettings.cascades.errors.rankRequired")),
+            .int(translate("resources.cascadeSettings.cascades.errors.rankRequired"))
+            .min(1, translate("resources.cascadeSettings.cascades.errors.rankMin")),
         src_currency_code: z
             .string()
             .min(1, translate("resources.cascadeSettings.cascades.errors.src_currency_code"))

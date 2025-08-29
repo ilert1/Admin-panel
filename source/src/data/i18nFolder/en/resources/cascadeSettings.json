@@ -39,6 +39,7 @@
         "errors": {
             "name": "Name is required",
             "rankRequired": "Rank is required",
+            "rankMin": "The value must be greater than or equal 1",
             "src_currency_code": "Currency is required",
             "alreadyExist": "Cascade already exist"
         },
@@ -75,8 +76,8 @@
             "weight": "Enter the correct weight value",
             "rank": "Enter the correct competitive weight value",
             "ttl": "Enter the correct TTL value",
-            "weightMin": "The value must be greater than 0",
-            "rankMin": "The value must be greater than 1"
+            "weightMin": "The value must be greater than or equal 0",
+            "rankMin": "The value must be greater than or equal 1"
         }
     },
     "resources.cascadeSettings.cascadeMerchants": {
