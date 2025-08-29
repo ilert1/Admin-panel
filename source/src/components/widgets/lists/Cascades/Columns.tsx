@@ -1,5 +1,6 @@
 import { CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { Badge } from "@/components/ui/badge";
 import { ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
@@ -68,7 +69,11 @@ export const useGetCascadeColumns = () => {
         {
             accessorKey: "src_currency_code",
             header: translate("resources.cascadeSettings.cascades.fields.src_currency_code"),
-            cell: ({ row }) => <TextField text={row.original.src_currency_code} minWidth="50px" />
+            cell: ({ row }) => (
+                <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    <Badge variant="currency">{row.original.src_currency_code}</Badge>
+                </div>
+            )
         },
         {
             accessorKey: "cascade_kind",
