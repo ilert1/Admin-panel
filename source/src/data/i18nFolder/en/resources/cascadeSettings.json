@@ -41,11 +41,14 @@
             "rankRequired": "Rank is required",
             "src_currency_code": "Currency is required",
             "alreadyExist": "Cascade already exist"
-        }
+        },
+        "selectPlaceholder": "Select cascade",
+        "notFoundMessage": "Cascades not found."
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Cascade terminals",
         "createNew": "Create link between terminal and cascade",
+        "creatingCascadeTerminal": "Creating link between terminal and cascade",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
@@ -64,6 +67,16 @@
             "ttl_max": "TTL max",
             "enabled": "State condition",
             "state": "State"
+        },
+        "errors": {
+            "alreadyExist": "The cascade already exists",
+            "cascade_id": "Select cascade",
+            "terminal_id": "Select terminal",
+            "weight": "Enter the correct weight value",
+            "rank": "Enter the correct competitive weight value",
+            "ttl": "Enter the correct TTL value",
+            "weightMin": "The value must be greater than 0",
+            "rankMin": "The value must be greater than 1"
         }
     },
     "resources.cascadeSettings.cascadeMerchants": {

@@ -7,6 +7,7 @@ import { useGetCascadeTerminalsColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
+import { CreateCascadeTerminalsDialog } from "./CreateCascadeTerminalsDialog";
 
 export const CascadeTerminalsList = () => {
     const translate = useTranslate();
@@ -15,7 +16,7 @@ export const CascadeTerminalsList = () => {
         sort: { field: "created_at", order: "DESC" }
     });
 
-    const { columns, setCreateDialogOpen } = useGetCascadeTerminalsColumns();
+    const { columns, createDialogOpen, setCreateDialogOpen } = useGetCascadeTerminalsColumns();
 
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);
@@ -37,6 +38,8 @@ export const CascadeTerminalsList = () => {
             </div>
 
             {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
+
+            <CreateCascadeTerminalsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
         </ListContextProvider>
     );
 };

@@ -41,11 +41,14 @@
             "rankRequired": "Ранг обязателен",
             "src_currency_code": "Валюта отправления обязательна",
             "alreadyExist": "Каскад уже существует"
-        }
+        },
+        "selectPlaceholder": "Выберите каскад",
+        "notFoundMessage": "Каскады не найдены."
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Терминалы каскадов",
         "createNew": "Добавить связь терминала и каскада",
+        "creatingCascadeTerminal": "Добавление связь терминала и каскада",
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",
@@ -64,6 +67,16 @@
             "ttl_max": "TTL max",
             "enabled": "Состояние условий",
             "state": "Состояние"
+        },
+        "errors": {
+            "alreadyExist": "Каскад уже существует",
+            "cascade_id": "Выберите каскад",
+            "terminal_id": "Выберите терминал",
+            "weight": "Введите корректное значение веса",
+            "rank": "Введите корректное значение конкурентного веса",
+            "ttl": "Введите корректное значение TTL",
+            "weightMin": "Значение должно быть больше 0",
+            "rankMin": "Значение должно быть больше 1"
         }
     },
     "resources.cascadeSettings.cascadeMerchants": {
