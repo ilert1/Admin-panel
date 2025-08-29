@@ -21,6 +21,7 @@ interface SheetDataMap {
     terminalPaymentInstruments: { id: string | undefined };
     systemPaymentInstrument: { id: string | undefined };
     cascade: { id: string | undefined };
+    cascadeTerminal: { id: string | undefined };
 }
 
 type SheetState<K extends SheetKey> = {

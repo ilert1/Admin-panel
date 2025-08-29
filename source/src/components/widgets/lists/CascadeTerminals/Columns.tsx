@@ -170,14 +170,8 @@ export const useGetCascadeTerminalsColumns = () => {
         },
         {
             id: "actions",
-            cell: () => {
-                return (
-                    <ShowButton
-                        onClick={() => {
-                            // handleCascadeShowOpen(row.original.id);
-                        }}
-                    />
-                );
+            cell: ({ row }) => {
+                return <ShowButton onClick={() => openSheet("cascadeTerminal", { id: row.original.id })} />;
             }
         }
     ];
