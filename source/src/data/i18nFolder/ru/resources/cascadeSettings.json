@@ -52,6 +52,7 @@
         "cascadeTerminal": "Терминал каскадов",
         "createNew": "Добавить связь терминала и каскада",
         "creatingCascadeTerminal": "Добавление связь терминала и каскада",
+        "deleteCascadeTerminal": "Удалить терминал каскадов?",
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",

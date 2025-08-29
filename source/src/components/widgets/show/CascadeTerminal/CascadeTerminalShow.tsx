@@ -6,17 +6,21 @@ import { CascadeTerminalSchema } from "@/api/enigma/blowFishEnigmaAPIService.sch
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { Badge } from "@/components/ui/badge";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { DeleteCascadeTerminalDialog } from "./DeleteCascadeTerminalDialog";
+import { useState } from "react";
 
 export interface CascadeTerminalShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-export const CascadeTerminalShow = ({ id }: CascadeTerminalShowProps) => {
+export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowProps) => {
     const context = useAbortableShowController<CascadeTerminalSchema>({ resource: "cascade_terminals", id });
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { openSheet } = useSheets();
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -199,6 +203,13 @@ export const CascadeTerminalShow = ({ id }: CascadeTerminalShowProps) => {
                     </Button>
                 </div>
             </div>
+
+            <DeleteCascadeTerminalDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onQuickShowOpenChange={onOpenChange}
+                id={id}
+            />
         </div>
     );
 };
