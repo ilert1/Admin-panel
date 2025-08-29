@@ -1,6 +1,7 @@
 import { CascadeTerminalSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { useSheets } from "@/components/providers/SheetProvider";
 import { Badge } from "@/components/ui/badge";
-import { ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
@@ -9,11 +10,7 @@ import { useLocaleState, useTranslate } from "react-admin";
 export const useGetCascadeTerminalsColumns = () => {
     const [locale] = useLocaleState();
     const translate = useTranslate();
-    // const { openSheet } = useSheets();
-
-    // const handleCascadeShowOpen = (id: string) => {
-    //     openSheet("cascade", { id });
-    // };
+    const { openSheet } = useSheets();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
@@ -54,7 +51,15 @@ export const useGetCascadeTerminalsColumns = () => {
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.cascade"),
             cell: ({ row }) => (
                 <div>
-                    <TextField text={row.original.cascade.name} />
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("cascade", {
+                                id: row.original.cascade.id
+                            });
+                        }}>
+                        {row.original.cascade.name}
+                    </Button>
                     <TextField
                         className="text-neutral-70"
                         text={row.original.cascade.id}
@@ -93,7 +98,19 @@ export const useGetCascadeTerminalsColumns = () => {
         {
             accessorKey: "provider",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.provider"),
-            cell: ({ row }) => <TextField text={row.original.terminal.provider.name} />
+            cell: ({ row }) => (
+                <Button
+                    variant={"resourceLink"}
+                    onClick={() => {
+                        if (row.original.terminal.provider.id) {
+                            openSheet("provider", {
+                                id: row.original.terminal.provider.id
+                            });
+                        }
+                    }}>
+                    {row.original.terminal.provider.name}
+                </Button>
+            )
         },
         {
             accessorKey: "src_currency",
@@ -145,7 +162,7 @@ export const useGetCascadeTerminalsColumns = () => {
         },
         {
             id: "actions",
-            cell: ({ row }) => {
+            cell: () => {
                 return (
                     <ShowButton
                         onClick={() => {

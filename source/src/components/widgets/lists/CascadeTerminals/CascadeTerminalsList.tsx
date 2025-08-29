@@ -11,7 +11,8 @@ import { CirclePlus } from "lucide-react";
 export const CascadeTerminalsList = () => {
     const translate = useTranslate();
     const listContext = useAbortableListController<CascadeTerminalSchema>({
-        resource: "cascade_terminals"
+        resource: "cascade_terminals",
+        sort: { field: "created_at", order: "DESC" }
     });
 
     const { columns, setCreateDialogOpen } = useGetCascadeTerminalsColumns();
