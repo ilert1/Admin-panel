@@ -73,6 +73,7 @@ import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstrument
 import { initializeStore } from "./helpers/persistentStore";
 import { CascadesDataProvider } from "./data/cascades";
 import { CascadeTerminalDataProvider } from "./data/cascade_terminal";
+import { CascadeTerminalsList } from "./components/widgets/lists/CascadeTerminals";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
@@ -205,7 +206,7 @@ export const App = () => {
 
                                             <Resource name="cascadeSettings" icon={Split}>
                                                 <Route path="cascades" element={<CascadesList />} />
-                                                <Route path="cascadeTerminals" element={<div />} />
+                                                <Route path="cascadeTerminals" element={<CascadeTerminalsList />} />
                                                 <Route path="cascadeMerchants" element={<div />} />
                                                 <Route path="cascadeConflicts" element={<div />} />
                                             </Resource>

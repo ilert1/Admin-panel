@@ -44,7 +44,27 @@
         }
     },
     "resources.cascadeSettings.cascadeTerminals": {
-        "name": "Терминалы каскадов"
+        "name": "Терминалы каскадов",
+        "createNew": "Добавить связь терминала и каскада",
+        "fields": {
+            "created_at": "Создан",
+            "updated_at": "Изменён",
+            "id": "ID",
+            "name": "Имя",
+            "cascade": "Каскад",
+            "terminal": "Терминал",
+            "terminal_state": "Состояние терминала",
+            "provider": "Провайдер",
+            "src_currency": "Валюта отправления",
+            "dst_currency": "Валюта зачисления",
+            "weight": "Вес",
+            "rank": "Конкурентный вес",
+            "extra": "Приоритет",
+            "ttl_min": "TTL min",
+            "ttl_max": "TTL max",
+            "enabled": "Состояние условий",
+            "state": "Состояние"
+        }
     },
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Каскады мерчантов"

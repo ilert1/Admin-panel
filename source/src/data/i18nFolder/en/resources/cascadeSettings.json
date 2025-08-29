@@ -44,7 +44,27 @@
         }
     },
     "resources.cascadeSettings.cascadeTerminals": {
-        "name": "Cascade terminals"
+        "name": "Cascade terminals",
+        "createNew": "Create link between terminal and cascade",
+        "fields": {
+            "created_at": "Created at",
+            "updated_at": "Updated at",
+            "id": "ID",
+            "name": "Name",
+            "cascade": "Cascade",
+            "terminal": "Terminal",
+            "terminal_state": "Terminal state",
+            "provider": "Provider",
+            "src_currency": "Source currency",
+            "dst_currency": "Destination currency",
+            "weight": "Weight",
+            "rank": "Competitive weight",
+            "extra": "Extra",
+            "ttl_min": "TTL min",
+            "ttl_max": "TTL max",
+            "enabled": "State condition",
+            "state": "State"
+        }
     },
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Cascade merchants"
