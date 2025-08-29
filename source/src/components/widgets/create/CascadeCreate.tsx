@@ -8,7 +8,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { PaymentTypeCreate as IPaymentTypeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
@@ -30,7 +29,7 @@ const CASCADE_KIND = ["sequential", "fanout"];
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController<IPaymentTypeCreate>();
+    const controllerProps = useCreateController();
     const { theme } = useTheme();
     const appToast = useAppToast();
     const translate = useTranslate();
