@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -34,6 +34,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
     const { theme } = useTheme();
     const appToast = useAppToast();
     const translate = useTranslate();
+    const refresh = useRefresh();
 
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
 
@@ -86,6 +87,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             });
 
             appToast("success", translate("app.ui.create.createSuccess"));
+            refresh();
             onClose();
         } catch (error) {
             if (error instanceof Error) {
