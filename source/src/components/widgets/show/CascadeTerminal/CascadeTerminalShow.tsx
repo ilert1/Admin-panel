@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { DeleteCascadeTerminalDialog } from "./DeleteCascadeTerminalDialog";
 import { useState } from "react";
+import { EditCascadeTerminalDialog } from "./EditCascadeTerminalDialog";
 
 export interface CascadeTerminalShowProps {
     id: string;
@@ -21,6 +22,7 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
     const { openSheet } = useSheets();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -210,6 +212,8 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                 onQuickShowOpenChange={onOpenChange}
                 id={id}
             />
+
+            <EditCascadeTerminalDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />
         </div>
     );
 };
