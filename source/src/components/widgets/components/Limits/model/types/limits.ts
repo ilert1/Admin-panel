@@ -6,3 +6,5 @@ export interface UpdateLimitsType {
     rewardMin: string;
     rewardMax: string;
 }
+
+export type ResourceType = "direction" | "terminal";

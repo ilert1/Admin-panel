@@ -19,6 +19,7 @@
         "pleaseGen": "Пожалуйста, создайте ключи в провайдерах",
         "stateActive": "Активно",
         "stateInactive": "Не активно",
+        "stateArchived": "Архивированно",
         "description": "Описание",
         "api_key": "Информация об аутентификации",
         "merchantsDirections": "Направления мерчанта ",
@@ -33,8 +34,9 @@
         },
         "condition": {
             "condition": "Условия",
-            "rank": "Вес реквизитов",
-            "extra": "Приоритет"
+            "rank": "Вес реквизита",
+            "extra": "Приоритет",
+            "prioritized": "В приоритете"
         }
     },
     "resources.direction.fees": {

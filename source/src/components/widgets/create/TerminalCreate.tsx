@@ -35,6 +35,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { TTL } from "../components/TTL";
 
 export interface TerminalCreateProps {
     onClose: () => void;
@@ -359,6 +360,9 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                                         <SelectItem value="inactive" variant={SelectType.GRAY}>
                                                             {translate("resources.direction.fields.stateInactive")}
                                                         </SelectItem>
+                                                        <SelectItem value="archived" variant={SelectType.GRAY}>
+                                                            {translate("resources.direction.fields.stateArchived")}
+                                                        </SelectItem>
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
@@ -449,6 +453,12 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                     )}
                                 />
                             </div>
+
+                            {/* <TTL 
+                                ttl={}
+                                editClicked={editClicked}
+                                setEditClicked={setEditClicked}
+                            /> */}
                         </div>
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">

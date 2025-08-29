@@ -19,6 +19,7 @@
         "pleaseGen": "Please create keys in providers",
         "stateActive": "Active",
         "stateInactive": "Inactive",
+        "stateArchived": "Archived",
         "description": "Description",
         "api_key": "Auth data",
         "merchantsDirections": "Directions of merchant ",
@@ -34,7 +35,8 @@
         "condition": {
             "condition": "Condition",
             "rank": "Requisite weight",
-            "extra": "Priority"
+            "extra": "Priority",
+            "prioritized": "Prioritized"
         }
     },
     "resources.direction.fees": {

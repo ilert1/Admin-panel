@@ -17,6 +17,15 @@ import { ProviderBase, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIServ
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 
 interface ProviderEditParams {
     provider: ProviderBase;
@@ -185,7 +194,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="flex flex-wrap">
-                    <div className="grid w-full gap-2 md:grid-cols-2">
+                    <div className="grid w-full md:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="verbose_name"
@@ -228,6 +237,40 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                             }}
                                         />
                                     </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label>{translate("resources.direction.fields.active")}</Label>
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.direction.fields.active")}
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectItem value="active" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateActive")}
+                                                </SelectItem>
+                                                <SelectItem value="inactive" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateInactive")}
+                                                </SelectItem>
+                                                <SelectItem value="archived" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateArchived")}
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />

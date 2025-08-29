@@ -52,6 +52,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const feesVariants = [context.record.src_currency];
     !(context.record.dst_currency.code === context.record.src_currency.code) &&
         feesVariants.push(context.record.dst_currency);
+    const isPrioritized = context.record.condition?.extra ?? false;
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -74,8 +75,17 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-2">
                     <div className="flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
-                        <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
-
+                        <div>
+                            <TextField
+                                label={translate("resources.direction.fields.name")}
+                                text={context.record.name}
+                            />
+                            {!isPrioritized && (
+                                <Badge variant={"destructive"} className="!rounded-16 bg-red-50 py-0">
+                                    {translate("resources.direction.fields.condition.prioritized")}
+                                </Badge>
+                            )}
+                        </div>
                         <div className="flex flex-col">
                             <small className="mb-0.5 text-sm text-neutral-60">
                                 {translate("resources.direction.fields.srcCurr")}
@@ -165,6 +175,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={String(context.record.condition?.rank ?? "")}
                         />
 
+                        {/* <TextField
+                            label={translate("resources.direction.fields.condition.rank")}
+                            text={String(context.record.cascade_id)}
+                        /> */}
+
                         <TextField
                             label={translate("resources.direction.provider")}
                             className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
@@ -210,7 +225,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     className="max-h-[45dvh]"
                 />
 
-                <LimitsList id={context.record.id} limits={context.record.limits} />
+                <LimitsList id={context.record.id} limits={context.record.limits} resource="direction" />
             </div>
 
             <DeleteDirectionDialog

@@ -24,7 +24,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="max-h-full w-full max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[900px]">
+                className="max-h-full w-full max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.terminals.editingTerminal")}

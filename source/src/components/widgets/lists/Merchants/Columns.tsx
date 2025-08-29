@@ -138,13 +138,15 @@ export const useGetMerchantColumns = () => {
 
                 return (
                     <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                        {currencies?.map(el => {
-                            return (
-                                <Badge key={el.code} variant="currency">
-                                    {el.code}
-                                </Badge>
-                            );
-                        })}
+                        {currencies && currencies?.length > 0
+                            ? currencies?.map(el => {
+                                  return (
+                                      <Badge key={el.code} variant="currency">
+                                          {el.code}
+                                      </Badge>
+                                  );
+                              })
+                            : "-"}
                     </div>
                 );
             }
