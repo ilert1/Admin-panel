@@ -72,6 +72,7 @@ import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstru
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 import { initializeStore } from "./helpers/persistentStore";
 import { CascadesDataProvider } from "./data/cascades";
+import { CascadeTerminalDataProvider } from "./data/cascade_terminal";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
@@ -117,6 +118,8 @@ const dataProvider = combineDataProviders(resource => {
         return new SystemPaymentInstrumentsProvider();
     } else if (resource === "cascades") {
         return new CascadesDataProvider();
+    } else if (resource === "cascade_terminal") {
+        return new CascadeTerminalDataProvider();
     } else {
         return BaseDataProvider;
     }
