@@ -11,3 +11,4 @@ export { WalletsList } from "./Wallets";
 export { WalletLinkedTransactionsList } from "./WalletLinkedTransactions";
 export { WalletTransactionsList } from "./WalletTransactions";
 export { CascadesList } from "./Cascades";
+export { CascadeTerminalsList } from "./CascadeTerminals";
