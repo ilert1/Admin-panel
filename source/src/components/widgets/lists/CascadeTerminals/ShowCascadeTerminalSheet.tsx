@@ -3,13 +3,13 @@ import { useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 import { CascadeTerminalShow } from "../../show/CascadeTerminal";
 
-export interface ShowCascadeSheetProps {
+export interface ShowCascadeTerminalSheetProps {
     id?: string;
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
 
-export const ShowCascadeSheet = ({ id = "", open, onOpenChange = () => {} }: ShowCascadeSheetProps) => {
+export const ShowCascadeTerminalSheet = ({ id = "", open, onOpenChange = () => {} }: ShowCascadeTerminalSheetProps) => {
     const translate = useTranslate();
 
     return (
