@@ -2,6 +2,7 @@
     "resources.cascadeSettings.name": "Настройки каскадов",
     "resources.cascadeSettings.cascades": {
         "name": "Каскады",
+        "cascade": "Каскад",
         "createNew": "Добавить каскад",
         "creatingCascade": "Добавление каскада",
         "deleteCascade": "Удалить каскад?",
@@ -48,6 +49,7 @@
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Терминалы каскадов",
+        "cascadeTerminal": "Терминал каскадов",
         "createNew": "Добавить связь терминала и каскада",
         "creatingCascadeTerminal": "Добавление связь терминала и каскада",
         "fields": {

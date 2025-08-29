@@ -2,6 +2,7 @@
     "resources.cascadeSettings.name": "Cascade Settings",
     "resources.cascadeSettings.cascades": {
         "name": "Cascades",
+        "cascade": "Cascade",
         "createNew": "Create cascade",
         "creatingCascade": "Creating cascade",
         "deleteCascade": "Delete cascade?",
@@ -48,6 +49,7 @@
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Cascade terminals",
+        "cascadeTerminal": "Cascade terminal",
         "createNew": "Create link between terminal and cascade",
         "creatingCascadeTerminal": "Creating link between terminal and cascade",
         "fields": {
