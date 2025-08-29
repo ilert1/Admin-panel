@@ -95,7 +95,7 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
         setSubmitButtonDisabled(true);
 
         try {
-            await dataProvider.create("cascadeTerminals", { data });
+            await dataProvider.create("cascade_terminals", { data });
 
             appToast("success", translate("app.ui.create.createSuccess"));
             refresh();
