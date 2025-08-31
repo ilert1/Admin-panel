@@ -1,5 +1,6 @@
 import { ShowAccountSheet } from "../widgets/lists/Accounts/ShowAccountSheet";
 import { ShowCallbridgeHistorySheet } from "../widgets/lists/CallbridgeHistory/ShowCallbridgeHistorySheet";
+import { ShowCascadeMerchantSheet } from "../widgets/lists/CascadeMerchants/ShowCascadeMerchantSheet";
 import { ShowCascadeSheet } from "../widgets/lists/Cascades/ShowCascadeSheet";
 import { ShowDirectionSheet } from "../widgets/lists/Directions/ShowDirectionSheet";
 import { ShowFinancialInstitutionSheet } from "../widgets/lists/FinancialInstitution/ShowFinancialInstitutionSheet";
@@ -32,7 +33,8 @@ export const SHEETS_COMPONENTS = {
     financialInstitution: ShowFinancialInstitutionSheet,
     terminalPaymentInstruments: ShowTerminalPaymentInstrumentsSheet,
     systemPaymentInstrument: SystemPaymentInstrumentSheet,
-    cascade: ShowCascadeSheet
+    cascade: ShowCascadeSheet,
+    cascadeMerchant: ShowCascadeMerchantSheet
 };
 
 export const SheetManager = () => {

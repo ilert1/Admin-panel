@@ -7,15 +7,16 @@ import { useGetCascadeMerchantColumns } from "./Columns";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
+import { CreateCascadeMerchantsDialog } from "./CreateCascadeMerchantDialog";
 
 export const CascadeMerchantsList = () => {
     const translate = useTranslate();
     const listContext = useAbortableListController<MerchantCascadeSchema>({
-        resource: "merchant_cascade",
+        resource: "cascadeSettings/cascadeMerchants",
         sort: { field: "created_at", order: "DESC" }
     });
 
-    const { columns, setCreateDialogOpen } = useGetCascadeMerchantColumns();
+    const { columns, setCreateDialogOpen, createDialogOpen, isMerchantsLoading } = useGetCascadeMerchantColumns();
 
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);
@@ -90,7 +91,12 @@ export const CascadeMerchantsList = () => {
                 </div>
             </div>
 
-            {listContext.isLoading ? <LoadingBlock /> : <DataTable columns={columns} data={mockData} />}
+            {listContext.isLoading || isMerchantsLoading ? (
+                <LoadingBlock />
+            ) : (
+                <DataTable columns={columns} data={mockData} />
+            )}
+            <CreateCascadeMerchantsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
         </ListContextProvider>
     );
 };

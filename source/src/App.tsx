@@ -123,7 +123,7 @@ const dataProvider = combineDataProviders(resource => {
         return new CascadesDataProvider();
     } else if (resource === "cascade_terminal") {
         return new CascadeTerminalDataProvider();
-    } else if (resource === "merchant_cascade") {
+    } else if (resource.includes("cascadeMerchants")) {
         return new CascadeMerchantsDataProvider();
     } else {
         return BaseDataProvider;

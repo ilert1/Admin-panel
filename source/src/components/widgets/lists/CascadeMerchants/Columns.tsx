@@ -22,10 +22,17 @@ export const useGetCascadeMerchantColumns = () => {
             accessorKey: "id",
             header: "ID",
             cell: ({ row }) => (
-                <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                <TextField
+                    text={row.original.id}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="50px"
+                    onClick={() => openSheet("cascadeMerchant", { id: row.original.id })}
+                />
             )
         },
-
         {
             id: "merchant",
             accessorKey: "merchant",
@@ -164,17 +171,18 @@ export const useGetCascadeMerchantColumns = () => {
         },
         {
             id: "actions",
-            cell: () => {
+            cell: ({ row }) => {
                 return (
                     <ShowButton
                         onClick={() => {
-                            // handleCascadeShowOpen(row.original.id);
+                            openSheet("cascadeMerchant", { id: row.original.id });
                         }}
                     />
                 );
             }
         }
     ];
+
     return {
         createDialogOpen,
         isMerchantsLoading,

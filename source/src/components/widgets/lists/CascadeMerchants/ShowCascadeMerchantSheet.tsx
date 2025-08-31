@@ -1,16 +1,15 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
-import { CascadeShow } from "../../show/Cascade";
 import { CascadeMerchantShow } from "../../show/CascadeMerchant/CascadeMerchantShow";
 
-export interface ShowCascadeSheetProps {
+export interface ShowCascadeMerchantSheetProps {
     id?: string;
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
 
-export const ShowCascadeSheet = ({ id = "", open, onOpenChange = () => {} }: ShowCascadeSheetProps) => {
+export const ShowCascadeMerchantSheet = ({ id = "", open, onOpenChange = () => {} }: ShowCascadeMerchantSheetProps) => {
     const translate = useTranslate();
 
     return (

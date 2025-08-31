@@ -21,6 +21,7 @@ interface SheetDataMap {
     terminalPaymentInstruments: { id: string | undefined };
     systemPaymentInstrument: { id: string | undefined };
     cascade: { id: string | undefined };
+    cascadeMerchant: { id: string | undefined };
 }
 
 type SheetState<K extends SheetKey> = {
@@ -75,6 +76,7 @@ export const SheetProvider = ({ children }: { children: ReactNode }) => {
         </SheetContext.Provider>
     );
 };
+
 export const useSheets = () => {
     const context = useContext(SheetContext);
     if (!context) {
