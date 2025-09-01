@@ -95,7 +95,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         </small>
 
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                            <Badge variant="currency">{context.record.src_currency_code}</Badge>
+                            <Badge variant="currency">{context.record.src_currency?.code}</Badge>
                         </div>
                     </div>
 

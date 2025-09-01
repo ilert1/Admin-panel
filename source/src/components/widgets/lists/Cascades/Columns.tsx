@@ -79,7 +79,7 @@ export const useGetCascadeColumns = () => {
             header: translate("resources.cascadeSettings.cascades.fields.src_currency_code"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge variant="currency">{row.original.src_currency_code}</Badge>
+                    <Badge variant="currency">{row.original.src_currency.code}</Badge>
                 </div>
             )
         },

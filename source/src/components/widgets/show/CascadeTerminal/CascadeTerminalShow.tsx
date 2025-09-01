@@ -160,7 +160,7 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                         </small>
 
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                            <Badge variant="currency">{context.record.terminal.src_currency_code}</Badge>
+                            <Badge variant="currency">{context.record.terminal.src_currency?.code}</Badge>
                         </div>
                     </div>
 
@@ -170,7 +170,7 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                         </small>
 
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                            <Badge variant="currency">{context.record.terminal.dst_currency_code}</Badge>
+                            <Badge variant="currency">{context.record.terminal.dst_currency?.code}</Badge>
                         </div>
                     </div>
 
