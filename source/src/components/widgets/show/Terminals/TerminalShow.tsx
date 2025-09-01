@@ -15,11 +15,18 @@ import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
+import { Badge, BadgeProps } from "@/components/ui/badge";
 
 interface TerminalShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
+
+const statesMap = {
+    active: ["success", "resources.direction.fields.stateActive"],
+    inactive: ["destructive", "resources.direction.fields.stateInactive"],
+    archived: ["warning", "resources.direction.fields.stateArchived"]
+};
 export const TerminalShow = ({ id }: TerminalShowProps) => {
     const context = useAbortableShowController<TerminalWithId>({ resource: "terminals", id });
     const { openSheet } = useSheets();
@@ -33,20 +40,28 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     if (context.isLoading || !context.record) {
         return <LoadingBlock />;
     }
+    const src_cur = context.record.src_currency_code;
+    const dst_cur = context.record.dst_currency_code;
 
     return (
         <>
             <div className="flex flex-col px-4 md:px-[45px]">
                 <div className="flex flex-col">
                     <div className="flex flex-col">
-                        <TextField text={id} copyValue className="text-display-4" />
+                        <div className="mb-2 flex flex-wrap justify-between gap-2">
+                            <TextField text={id} copyValue className="text-display-4" />
+                            {context.record.state && (
+                                <Badge variant={statesMap[context.record.state][0] as BadgeProps["variant"]}>
+                                    {translate(statesMap[context.record.state][1])}
+                                </Badge>
+                            )}
+                        </div>
 
                         <div className="grid gap-4 md:grid-cols-2 md:gap-6">
                             <TextField
                                 text={context.record?.verbose_name || ""}
                                 label={translate("resources.terminals.fields.verbose_name")}
                             />
-
                             <TextField
                                 label={translate("resources.terminals.fields.provider")}
                                 className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
@@ -57,16 +72,26 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                                     });
                                 }}
                             />
-
                             <TextField
                                 text={context.record?.allocation_timeout_seconds?.toString() ?? ""}
                                 label={translate("resources.terminals.fields.allocation_timeout_seconds")}
                             />
-
                             <TextField
                                 text={context.record?.description ?? ""}
                                 label={translate("resources.terminals.fields.description")}
                             />
+                            <div>
+                                <Label className="dark:!text-neutral-60">
+                                    {translate("resources.direction.sourceCurrency")}
+                                </Label>
+                                {src_cur ? <Badge variant="currency">{src_cur}</Badge> : <TextField text="-" />}
+                            </div>
+                            <div>
+                                <Label className="dark:!text-neutral-60">
+                                    {translate("resources.direction.destinationCurrency")}
+                                </Label>
+                                {dst_cur ? <Badge variant="currency">{dst_cur}</Badge> : <TextField text="-" />}
+                            </div>
 
                             <div className="md:col-span-2">
                                 <TextField
@@ -123,6 +148,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 </div>
 
                 <Fees fees={context.record?.fees} feesResource={FeesResource.TERMINAL} id={id} padding={false} />
+                {/* <Limits limits={context.record?.limits ?? {}} id={id} resource="terminal" /> */}
             </div>
 
             <AuthDataEditSheet

@@ -106,7 +106,7 @@ export type merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeG
     };
 
 export const getMerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetUrl = (
-    params: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams
+    params?: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams
 ) => {
     const normalizedParams = new URLSearchParams();
 
@@ -124,7 +124,7 @@ export const getMerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCasc
 };
 
 export const merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGet = async (
-    params: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams,
+    params?: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams,
     options?: RequestInit
 ): Promise<merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetResponse> => {
     return authFetch<merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetResponse>(

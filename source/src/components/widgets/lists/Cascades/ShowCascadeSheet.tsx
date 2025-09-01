@@ -22,7 +22,7 @@ export const ShowCascadeSheet = ({ id = "", open, onOpenChange = () => {} }: Sho
                     <div>
                         <div className="flex items-center justify-between">
                             <SheetTitle className="!text-display-1">
-                                {translate("resources.direction.direction")}
+                                {translate("resources.cascadeSettings.cascades.cascade")}
                             </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>

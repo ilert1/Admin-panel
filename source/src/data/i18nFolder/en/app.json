@@ -86,18 +86,47 @@
         "accountHistory": "Account history"
     },
     "app.errors": {
-        "401": { "text": "Unauthorized" },
-        "403": { "text": "Access is denied" },
-        "404": { "text": "Page not found" },
-        "408": { "text": "Request timeout" },
-        "409": { "text": "Conflict" },
-        "413": { "text": "Payload too large" },
-        "415": { "text": "Unsupported media type", "hint": "Try uploading the media in a different format" },
-        "429": { "text": "Too many requests", "hint": "Please try again later" },
-        "500": { "text": "Internal server error", "hint": "Please try again later" },
-        "502": { "text": "Bad gateway", "hint": "Please modify your request" },
-        "503": { "text": "Service unavailable", "hint": "Please try again later" },
-        "504": { "text": "Timeout" }
+        "401": {
+            "text": "Unauthorized"
+        },
+        "403": {
+            "text": "Access is denied"
+        },
+        "404": {
+            "text": "Page not found"
+        },
+        "408": {
+            "text": "Request timeout"
+        },
+        "409": {
+            "text": "Conflict"
+        },
+        "413": {
+            "text": "Payload too large"
+        },
+        "415": {
+            "text": "Unsupported media type",
+            "hint": "Try uploading the media in a different format"
+        },
+        "429": {
+            "text": "Too many requests",
+            "hint": "Please try again later"
+        },
+        "500": {
+            "text": "Internal server error",
+            "hint": "Please try again later"
+        },
+        "502": {
+            "text": "Bad gateway",
+            "hint": "Please modify your request"
+        },
+        "503": {
+            "text": "Service unavailable",
+            "hint": "Please try again later"
+        },
+        "504": {
+            "text": "Timeout"
+        }
     },
     "app.theme": {
         "light": "Light theme",
@@ -202,10 +231,8 @@
             "payment": "Withdraw",
             "deposit": "Deposit",
             "limits": "Limits",
-
             "deleteLimits": "Reset limits?",
             "reset": "Reset",
-
             "updatedSuccessfully": "Limits updated successfully",
             "resetedSuccessfully": "Limits reset successfully",
             "errors": {
@@ -219,6 +246,9 @@
                 "ofReward": "reward"
             }
         },
+        "ttl": {
+            "ttl": "TTL settings"
+        },
         "multiSelect": {
             "selectAll": "Select all",
             "selectCurrencies": "Select currencies",
@@ -227,13 +257,11 @@
             "selectTerminals": "Select terminals",
             "noResultFound": "No results found.",
             "selectProviderAtFirst": "Select provider first",
-
             "searchPlaceholder": "Search...",
             "searchOrAddPlaceholder": "Search or add...",
             "addNew": "Add field",
             "optionAlreadyExists": "Option already added",
             "reqFieldRegex": "It is allowed to enter lowercase Latin letters, numbers, points and underscores",
-
             "confirmDialog": {
                 "areYouSure": "Are you sure you want to add a required field with code",
                 "add": "Add",

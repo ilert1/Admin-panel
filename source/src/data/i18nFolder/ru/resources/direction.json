@@ -19,11 +19,25 @@
         "pleaseGen": "Пожалуйста, создайте ключи в провайдерах",
         "stateActive": "Активно",
         "stateInactive": "Не активно",
+        "stateArchived": "Архивированно",
         "description": "Описание",
         "api_key": "Информация об аутентификации",
         "merchantsDirections": "Направления мерчанта ",
         "isActive": "Активность",
-        "terminal": "Терминал"
+        "terminal": "Терминал",
+        "cascade": "Каскад",
+        "kinds": {
+            "kind": "Вид направления",
+            "cascadeKind": "Вид каскада",
+            "sequential": "Последовательное",
+            "fanout": "Разветвленное"
+        },
+        "condition": {
+            "condition": "Условия",
+            "rank": "Вес реквизита",
+            "extra": "Приоритет",
+            "prioritized": "В приоритете"
+        }
     },
     "resources.direction.fees": {
         "fees": "Комиссии",
@@ -38,7 +52,6 @@
         "error": "Ошибка",
         "errorWhenCreating": "Произошла ошибка при создании комиссии",
         "successDelete": "Коммисия успешно удалена",
-
         "directionFieldError": "Направление обязательно должно быть выбрано",
         "currencyFieldError": "Валюта обязательно должна быть выбрана",
         "valueFieldError": "Коммиссия должна быть положительным числом.",
@@ -47,7 +60,6 @@
         "valueMustBeFinite": "Значение должно быть конечным числом",
         "valueMaxPrecisionError": "Допускается максимум 2 знака после запятой",
         "errorAlreadyExist": "Комиссия с таким типом уже существует",
-
         "smallFeeDialog": {
             "title": "Размер комиссии",
             "lessThenOne": " меньше 1%",

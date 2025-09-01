@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { useRefresh, useTranslate } from "react-admin";
 import { useState } from "react";
-import { UpdateLimitsType } from "../model/types/limits";
+import { ResourceType, UpdateLimitsType } from "../model/types/limits";
 import { updateLimits } from "../model/api/updateLimits";
 import { LimitInputGroup } from "./LimitInputGroup";
 import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -13,11 +13,12 @@ interface EditLimitCardProps {
     directionId: string;
     limitsData: Limits;
     setEditClicked: (state: boolean) => void;
+    resource: ResourceType;
 }
 
 export const EditLimitCard = (props: EditLimitCardProps) => {
     const translate = useTranslate();
-    const { directionId, limitsData, setEditClicked } = props;
+    const { directionId, limitsData, setEditClicked, resource } = props;
     const refresh = useRefresh();
 
     const appToast = useAppToast();

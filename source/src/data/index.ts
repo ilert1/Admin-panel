@@ -17,3 +17,5 @@ export { OperationsDataProvider } from "./operations";
 export { feesDataProvider, FeesResource };
 export { PayoutDataProvider } from "./payout";
 export { AccountsDataProvider } from "./accounts";
+export { CascadesDataProvider } from "./cascades";
+export { CascadeTerminalDataProvider } from "./cascade_terminal";

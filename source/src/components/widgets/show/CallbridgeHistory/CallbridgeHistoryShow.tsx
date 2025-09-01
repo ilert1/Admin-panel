@@ -58,7 +58,7 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
         <>
             <div className="flex flex-col gap-4 px-[20px] md:px-[45px]">
                 <div className="">
-                    <TextField text={id} copyValue onClick={() => setOpenMapping(true)} />
+                     <TextField text={id} copyValue onClick={() => setOpenMapping(true)} />
                 </div>
 
                 <JsonForm schema={schema} uischema={uischema} formData={formData} setFormData={setFormData} />

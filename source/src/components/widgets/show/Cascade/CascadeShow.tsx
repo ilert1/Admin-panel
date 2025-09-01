@@ -5,26 +5,24 @@ import { Button } from "@/components/ui/Button";
 import { CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { Badge } from "@/components/ui/badge";
-import { useFetchDictionaries } from "@/hooks";
 import { DeleteCascadeDialog } from "./DeleteCascadeDialog";
 import { useState } from "react";
 import { EditCascadeDialog } from "./EditCascadeDialog";
 
-export interface DirectionsShowProps {
+export interface CascadeShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-export const CascadeShow = ({ id, onOpenChange }: DirectionsShowProps) => {
+export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
     const context = useAbortableShowController<CascadeSchema>({ resource: "cascades", id });
-    const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    if (context.isLoading || !context.record || !data) {
+    if (context.isLoading || !context.record) {
         return <Loading />;
     }
 

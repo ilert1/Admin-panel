@@ -77,7 +77,15 @@ export const useGetCascadeTerminalsColumns = () => {
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.terminal"),
             cell: ({ row }) => (
                 <div>
-                    <TextField text={row.original.terminal.verbose_name} />
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("terminal", {
+                                id: row.original.terminal.terminal_id
+                            });
+                        }}>
+                        {row.original.terminal.verbose_name}
+                    </Button>
                     <TextField
                         className="text-neutral-70"
                         text={row.original.terminal.terminal_id}
@@ -162,14 +170,8 @@ export const useGetCascadeTerminalsColumns = () => {
         },
         {
             id: "actions",
-            cell: () => {
-                return (
-                    <ShowButton
-                        onClick={() => {
-                            // handleCascadeShowOpen(row.original.id);
-                        }}
-                    />
-                );
+            cell: ({ row }) => {
+                return <ShowButton onClick={() => openSheet("cascadeTerminal", { id: row.original.id })} />;
             }
         }
     ];

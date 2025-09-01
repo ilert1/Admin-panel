@@ -2,8 +2,10 @@
     "resources.cascadeSettings.name": "Настройки каскадов",
     "resources.cascadeSettings.cascades": {
         "name": "Каскады",
+        "cascade": "Каскад",
         "createNew": "Добавить каскад",
         "creatingCascade": "Добавление каскада",
+        "editingCascade": "Изменение каскада",
         "deleteCascade": "Удалить каскад?",
         "fields": {
             "created_at": "Создан",
@@ -39,13 +41,20 @@
         "errors": {
             "name": "Имя обязательно",
             "rankRequired": "Ранг обязателен",
+            "rankMin": "Значение должно быть больше или равно 1",
             "src_currency_code": "Валюта отправления обязательна",
             "alreadyExist": "Каскад уже существует"
-        }
+        },
+        "selectPlaceholder": "Выберите каскад",
+        "notFoundMessage": "Каскады не найдены."
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Терминалы каскадов",
+        "cascadeTerminal": "Терминал каскадов",
         "createNew": "Добавить связь терминала и каскада",
+        "creatingCascadeTerminal": "Добавление связь терминала и каскада",
+        "editingCascadeTerminal": "Изменение терминала каскадов",
+        "deleteCascadeTerminal": "Удалить терминал каскадов?",
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",
@@ -64,6 +73,16 @@
             "ttl_max": "TTL max",
             "enabled": "Состояние условий",
             "state": "Состояние"
+        },
+        "errors": {
+            "alreadyExist": "Каскад уже существует",
+            "cascade_id": "Выберите каскад",
+            "terminal_id": "Выберите терминал",
+            "weight": "Введите корректное значение веса",
+            "rank": "Введите корректное значение конкурентного веса",
+            "ttl": "Введите корректное значение TTL",
+            "weightMin": "Значение должно быть больше или равно 0",
+            "rankMin": "Значение должно быть больше или равно 1"
         }
     },
     "resources.cascadeSettings.cascadeMerchants": {

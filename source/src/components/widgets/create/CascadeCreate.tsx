@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -8,7 +8,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { PaymentTypeCreate as IPaymentTypeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
@@ -30,10 +29,11 @@ const CASCADE_KIND = ["sequential", "fanout"];
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
     const dataProvider = useDataProvider();
-    const controllerProps = useCreateController<IPaymentTypeCreate>();
+    const controllerProps = useCreateController();
     const { theme } = useTheme();
     const appToast = useAppToast();
     const translate = useTranslate();
+    const refresh = useRefresh();
 
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
 
@@ -47,7 +47,8 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         type: z.enum(CASCADE_TYPE as [string, ...string[]]).default(CASCADE_TYPE[0]),
         rank: z.coerce
             .number({ message: translate("resources.cascadeSettings.cascades.errors.rankRequired") })
-            .int(translate("resources.cascadeSettings.cascades.errors.rankRequired")),
+            .int(translate("resources.cascadeSettings.cascades.errors.rankRequired"))
+            .min(1, translate("resources.cascadeSettings.cascades.errors.rankMin")),
         src_currency_code: z
             .string()
             .min(1, translate("resources.cascadeSettings.cascades.errors.src_currency_code"))
@@ -86,6 +87,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             });
 
             appToast("success", translate("app.ui.create.createSuccess"));
+            refresh();
             onClose();
         } catch (error) {
             if (error instanceof Error) {

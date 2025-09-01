@@ -1,4 +1,4 @@
-import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
@@ -43,19 +43,28 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             id: "name",
             header: translate("resources.direction.fields.name"),
             cell: ({ row }) => {
+                const isPrioritized = row.original.condition?.extra ?? false;
+
                 return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            handleDirectionShowOpen(row.original.id);
-                        }}
-                        className="whitespace-break-spaces text-left">
-                        {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
-                    </Button>
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                handleDirectionShowOpen(row.original.id);
+                            }}
+                            className="whitespace-break-spaces text-left">
+                            {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
+                        </Button>
+                        {!isPrioritized && (
+                            <Badge variant={"destructive"} className="!rounded-16 bg-red-50 py-0">
+                                {translate("resources.direction.fields.condition.prioritized")}
+                            </Badge>
+                        )}
+                        {/* {isPrioritized && <Badge variant={"destructive"}>Prioritized</Badge>} */}
+                    </div>
                 );
             }
         },
-
         {
             id: "src_currency",
             accessorKey: "src_currency",
@@ -81,7 +90,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             accessorKey: "merchant",
             header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
-                const merchant: Merchant = row.getValue("merchant");
+                const merchant: MerchantSchema = row.getValue("merchant");
 
                 const merchId = getMerchantId(merchant.id);
 
@@ -110,6 +119,56 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         />
                     </div>
                 );
+            }
+        },
+        {
+            id: "cascade",
+            accessorKey: "cascade_id",
+            header: translate("resources.direction.fields.cascade"),
+            cell: ({ row }) => {
+                const cascadeId = row.original.cascade_id;
+
+                return (
+                    <div>
+                        {/* <TextField
+                            text={merchant.name ?? ""}
+                            onClick={
+                                merchId
+                                    ? () =>
+                                          openSheet("merchant", {
+                                              id: merchant.id ?? "",
+                                              merchantName: merchant.name
+                                          })
+                                    : undefined
+                            }
+                        /> */}
+                        <TextField
+                            className="text-neutral-70"
+                            text={cascadeId ?? ""}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
+                );
+            }
+        },
+        {
+            id: "cascade kind",
+            header: translate("resources.direction.fields.kinds.cascadeKind"),
+            cell: ({ row }) => {
+                const cascadeKind = row.original.cascade_kind;
+                return <TextField text={cascadeKind ?? ""} />;
+            }
+        },
+        {
+            id: "weight",
+            header: translate("resources.direction.fields.condition.rank"),
+            cell: ({ row }) => {
+                const weight = row.original.condition?.rank;
+                return <TextField text={weight?.toString() ?? ""} />;
             }
         },
         {

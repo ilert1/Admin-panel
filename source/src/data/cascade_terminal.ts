@@ -22,12 +22,24 @@ import {
 
 export class CascadeTerminalDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeTerminalSchema>> {
-        const res = await cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGet({
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(item => item === "cascade_id" || item === "terminal_id")
+            : [];
+
+        const res = await cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGet(
+            {
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
             },
-            signal: params.signal || params.filter?.signal
-        });
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                },
+                signal: params.signal || params.filter?.signal
+            }
+        );
 
         if ("data" in res.data && res.data.success) {
             return {

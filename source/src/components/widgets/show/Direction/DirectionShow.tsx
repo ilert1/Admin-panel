@@ -7,7 +7,7 @@ import { FeesResource } from "@/data";
 import { DeleteDirectionDialog } from "./DeleteDirectionDialog";
 import { EditDirectionDialog } from "./EditDirectionDialog";
 import { Fees } from "../../components/Fees";
-import { Direction, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, MerchantBaseFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { LimitsList } from "../../components/Limits/ui/LimitsList";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
@@ -29,7 +29,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-    const [fees, setFees] = useState<MerchantFees>();
+    const [fees, setFees] = useState<MerchantBaseFees>();
 
     const handleDeleteClicked = useCallback(() => {
         setDeleteDialogOpen(prev => !prev);
@@ -52,6 +52,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const feesVariants = [context.record.src_currency];
     !(context.record.dst_currency.code === context.record.src_currency.code) &&
         feesVariants.push(context.record.dst_currency);
+    const isPrioritized = context.record.condition?.extra ?? false;
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -74,8 +75,17 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-2">
                     <div className="flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
-                        <TextField label={translate("resources.direction.fields.name")} text={context.record.name} />
-
+                        <div>
+                            <TextField
+                                label={translate("resources.direction.fields.name")}
+                                text={context.record.name}
+                            />
+                            {!isPrioritized && (
+                                <Badge variant={"destructive"} className="!rounded-16 bg-red-50 py-0">
+                                    {translate("resources.direction.fields.condition.prioritized")}
+                                </Badge>
+                            )}
+                        </div>
                         <div className="flex flex-col">
                             <small className="mb-0.5 text-sm text-neutral-60">
                                 {translate("resources.direction.fields.srcCurr")}
@@ -122,6 +132,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             text={String(context.record.weight)}
                             wrap
                         />
+                        <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
                     </div>
 
                     <div className="ml-2 flex flex-col gap-2 md:ml-[32px] md:gap-[24px]">
@@ -135,6 +146,39 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                                 });
                             }}
                         />
+
+                        <TextField
+                            label={translate("resources.direction.fields.cascade")}
+                            text={context.record.cascade_id ?? ""}
+                            onClick={
+                                context.record.cascade_id
+                                    ? () => {
+                                          // openSheet("merchant", {
+                                          //     id: context.record.merchant.id ?? "",
+                                          //     merchantName: context.record.merchant.name ?? ""
+                                          // });
+                                      }
+                                    : undefined
+                            }
+                        />
+
+                        <TextField
+                            label={translate("resources.direction.fields.kinds.cascadeKind")}
+                            text={
+                                context.record.cascade_kind
+                                    ? translate(`resources.direction.fields.kinds.${context.record.cascade_kind}`)
+                                    : ""
+                            }
+                        />
+                        <TextField
+                            label={translate("resources.direction.fields.condition.rank")}
+                            text={String(context.record.condition?.rank ?? "")}
+                        />
+
+                        {/* <TextField
+                            label={translate("resources.direction.fields.condition.rank")}
+                            text={String(context.record.cascade_id)}
+                        /> */}
 
                         <TextField
                             label={translate("resources.direction.provider")}
@@ -160,12 +204,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             label={translate("resources.direction.fields.description")}
                             text={context.record.description ?? ""}
                         />
-                        <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
                     </div>
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={handleEditClicked}>
+                    <Button className="" onClick={handleEditClicked} disabled={!!context.record.cascade_id}>
                         {translate("app.ui.actions.edit")}
                     </Button>
 
@@ -182,7 +225,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     className="max-h-[45dvh]"
                 />
 
-                <LimitsList id={context.record.id} limits={context.record.limits} />
+                <LimitsList id={context.record.id} limits={context.record.limits} resource="direction" />
             </div>
 
             <DeleteDirectionDialog

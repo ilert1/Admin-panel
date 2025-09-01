@@ -11,7 +11,7 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     CallbackMappingCreate,
     CallbackMappingRead,
@@ -179,7 +179,7 @@ export class CallbridgeDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<Merchant, "id">>> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<MerchantSchema, "id">>> {
         const res = await callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`

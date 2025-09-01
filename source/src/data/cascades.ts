@@ -58,6 +58,37 @@ export class CascadesDataProvider extends IBaseDataProvider {
         };
     }
 
+    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<CascadeSchema>> {
+        const res = await cascadeEndpointsListCascadesEnigmaV1CascadeGet(
+            {
+                currentPage: 1,
+                pageSize: 10000
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                },
+                signal
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data.items,
+                total: res.data.data.total
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return {
+            data: [],
+            total: 0
+        };
+    }
+
     async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<CascadeSchema>> {
         const res = await cascadeEndpointsGetCascadeEnigmaV1CascadeCascadeIdGet(params.id, {
             headers: {

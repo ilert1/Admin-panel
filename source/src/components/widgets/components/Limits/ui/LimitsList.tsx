@@ -4,15 +4,17 @@ import { useTranslate } from "react-admin";
 import { LimitCard } from "./LimitCard";
 import { EditLimitCard } from "./EditLimitCard";
 import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ResourceType } from "../model/types/limits";
 
 interface LimitsProps {
     id: string;
     limits: Limits;
     className?: string;
+    resource: ResourceType;
 }
 
 export const LimitsList = (props: LimitsProps) => {
-    const { id, limits, className } = props;
+    const { id, limits, className, resource } = props;
     const translate = useTranslate();
 
     const [editClicked, setEditClicked] = useState(false);
@@ -25,7 +27,12 @@ export const LimitsList = (props: LimitsProps) => {
                 </h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {editClicked ? (
-                        <EditLimitCard directionId={id} setEditClicked={setEditClicked} limitsData={limits} />
+                        <EditLimitCard
+                            directionId={id}
+                            setEditClicked={setEditClicked}
+                            limitsData={limits}
+                            resource={resource}
+                        />
                     ) : (
                         <LimitCard limits={limits} setEditClicked={setEditClicked} directionId={id} />
                     )}

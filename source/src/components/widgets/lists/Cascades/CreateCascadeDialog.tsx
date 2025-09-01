@@ -6,7 +6,7 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useRefresh, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { CascadeCreate } from "../../create/CascadeCreate";
 
 interface CreateCascadeDialogProps {
@@ -14,7 +14,6 @@ interface CreateCascadeDialogProps {
     onOpenChange?: (state: boolean) => void;
 }
 export const CreateCascadeDialog = ({ open, onOpenChange = () => {} }: CreateCascadeDialogProps) => {
-    const refresh = useRefresh();
     const translate = useTranslate();
 
     return (
@@ -27,12 +26,7 @@ export const CreateCascadeDialog = ({ open, onOpenChange = () => {} }: CreateCas
                         {translate("resources.cascadeSettings.cascades.creatingCascade")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <CascadeCreate
-                        onClose={() => {
-                            refresh();
-                            onOpenChange(false);
-                        }}
-                    />
+                    <CascadeCreate onClose={() => onOpenChange(false)} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

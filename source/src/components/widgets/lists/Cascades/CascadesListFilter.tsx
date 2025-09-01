@@ -14,7 +14,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
     const clearDisabled = !type && !currency;
 
     return (
-        <div className="mb-4">
+        <>
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-2 sm:flex-row">
@@ -40,34 +40,32 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
             </div>
 
             <AnimatedContainer open={openFiltersClicked}>
-                <div className="flex flex-col gap-2">
-                    <div className="flex flex-wrap gap-2 sm:flex-nowrap">
-                        <div className="flex w-full flex-col gap-2 md:flex-row">
-                            <div className="flex w-full flex-wrap gap-2 sm:flex-nowrap">
-                                <Input
-                                    label={translate("resources.cascadeSettings.cascades.fields.type")}
-                                    labelSize="title-2"
-                                    value={type}
-                                    onChange={onTypeChanged}
-                                    className="min-w-40"
-                                    placeholder={translate("resources.cascadeSettings.cascades.placeholders.type")}
-                                />
+                <div className="mb-6">
+                    <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
+                        <div className="flex w-full flex-wrap gap-2 sm:flex-nowrap">
+                            <Input
+                                label={translate("resources.cascadeSettings.cascades.fields.type")}
+                                labelSize="title-2"
+                                value={type}
+                                onChange={onTypeChanged}
+                                className="min-w-40"
+                                placeholder={translate("resources.cascadeSettings.cascades.placeholders.type")}
+                            />
 
-                                <Input
-                                    label={translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
-                                    labelSize="title-2"
-                                    value={currency}
-                                    onChange={onCurrencyChanged}
-                                    className="min-w-40"
-                                    placeholder={translate(
-                                        "resources.cascadeSettings.cascades.placeholders.src_currency_code"
-                                    )}
-                                />
-                            </div>
+                            <Input
+                                label={translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
+                                labelSize="title-2"
+                                value={currency}
+                                onChange={onCurrencyChanged}
+                                className="min-w-40"
+                                placeholder={translate(
+                                    "resources.cascadeSettings.cascades.placeholders.src_currency_code"
+                                )}
+                            />
                         </div>
                     </div>
                 </div>
             </AnimatedContainer>
-        </div>
+        </>
     );
 };

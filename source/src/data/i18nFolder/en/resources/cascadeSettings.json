@@ -2,8 +2,10 @@
     "resources.cascadeSettings.name": "Cascade Settings",
     "resources.cascadeSettings.cascades": {
         "name": "Cascades",
+        "cascade": "Cascade",
         "createNew": "Create cascade",
         "creatingCascade": "Creating cascade",
+        "editingCascade": "Editing cascade",
         "deleteCascade": "Delete cascade?",
         "fields": {
             "created_at": "Created at",
@@ -39,13 +41,20 @@
         "errors": {
             "name": "Name is required",
             "rankRequired": "Rank is required",
+            "rankMin": "The value must be greater than or equal 1",
             "src_currency_code": "Currency is required",
             "alreadyExist": "Cascade already exist"
-        }
+        },
+        "selectPlaceholder": "Select cascade",
+        "notFoundMessage": "Cascades not found."
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Cascade terminals",
+        "cascadeTerminal": "Cascade terminal",
         "createNew": "Create link between terminal and cascade",
+        "creatingCascadeTerminal": "Creating link between terminal and cascade",
+        "editingCascadeTerminal": "Editing cascade terminal",
+        "deleteCascadeTerminal": "Delete cascade terminal?",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
@@ -64,6 +73,16 @@
             "ttl_max": "TTL max",
             "enabled": "State condition",
             "state": "State"
+        },
+        "errors": {
+            "alreadyExist": "The cascade already exists",
+            "cascade_id": "Select cascade",
+            "terminal_id": "Select terminal",
+            "weight": "Enter the correct weight value",
+            "rank": "Enter the correct competitive weight value",
+            "ttl": "Enter the correct TTL value",
+            "weightMin": "The value must be greater than or equal 0",
+            "rankMin": "The value must be greater than or equal 1"
         }
     },
     "resources.cascadeSettings.cascadeMerchants": {

@@ -17,6 +17,15 @@ import { ProviderBase, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIServ
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 
 interface ProviderEditParams {
     provider: ProviderBase;
@@ -68,7 +77,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                     .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
             )
             .optional(),
-        payment_types: z.array(z.string()).optional()
+        payment_types: z.array(z.string()).optional().default([]),
+        src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
+        dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        callback_url: z.string().optional().nullable().default(null),
+        state: z.enum(["active", "inactive"])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -78,7 +91,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             description: "",
             details: "{}",
             allocation_timeout_seconds: 2,
-            payment_types: []
+            payment_types: [],
+            src_currency_code: "",
+            dst_currency_code: "",
+            callback_url: null,
+            state: "inactive"
         }
     });
 
@@ -89,7 +106,11 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 description: terminal.description || "",
                 details: JSON.stringify(terminal.details, null, 2) || "{}",
                 allocation_timeout_seconds: terminal?.allocation_timeout_seconds ?? 2,
-                payment_types: terminal?.payment_types?.map(pt => pt.code) || []
+                payment_types: terminal?.payment_types?.map(pt => pt.code) || [],
+                src_currency_code: terminal?.src_currency_code || "",
+                dst_currency_code: terminal?.dst_currency_code || "",
+                callback_url: terminal?.callback_url || null,
+                state: terminal?.state || "inactive"
             };
 
             form.reset(updatedValues);
@@ -173,7 +194,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="flex flex-wrap">
-                    <div className="grid w-full gap-2 md:grid-cols-2">
+                    <div className="grid w-full md:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="verbose_name"
@@ -216,6 +237,40 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                             }}
                                         />
                                     </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label>{translate("resources.direction.fields.active")}</Label>
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.direction.fields.active")}
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectItem value="active" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateActive")}
+                                                </SelectItem>
+                                                <SelectItem value="inactive" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateInactive")}
+                                                </SelectItem>
+                                                <SelectItem value="archived" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateArchived")}
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />

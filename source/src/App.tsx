@@ -15,7 +15,9 @@ import {
     CallbridgeDataProvider,
     BaseDataProvider,
     PayoutDataProvider,
-    AccountsDataProvider
+    AccountsDataProvider,
+    CascadeTerminalDataProvider,
+    CascadesDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -30,7 +32,8 @@ import {
     WalletTransactionsList,
     WalletLinkedTransactionsList,
     TerminalsList,
-    CascadesList
+    CascadesList,
+    CascadeTerminalsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -71,9 +74,6 @@ import { FinancialInstitutionProvider } from "./data/financialInstitution";
 import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 import { initializeStore } from "./helpers/persistentStore";
-import { CascadesDataProvider } from "./data/cascades";
-import { CascadeTerminalDataProvider } from "./data/cascade_terminal";
-import { CascadeTerminalsList } from "./components/widgets/lists/CascadeTerminals";
 import { CascadeMerchantsList } from "./components/widgets/lists/CascadeMerchants/CascadeMerchantsList";
 import { CascadeMerchantsDataProvider } from "./data/merchant_cascade";
 
@@ -121,7 +121,7 @@ const dataProvider = combineDataProviders(resource => {
         return new SystemPaymentInstrumentsProvider();
     } else if (resource === "cascades") {
         return new CascadesDataProvider();
-    } else if (resource === "cascade_terminal") {
+    } else if (resource === "cascade_terminals") {
         return new CascadeTerminalDataProvider();
     } else if (resource.includes("cascadeMerchants")) {
         return new CascadeMerchantsDataProvider();

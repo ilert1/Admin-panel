@@ -9,8 +9,15 @@ import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
+import { Badge, BadgeProps } from "@/components/ui/badge";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
+
+const statesMap = {
+    active: ["success", "resources.direction.fields.stateActive"],
+    inactive: ["destructive", "resources.direction.fields.stateInactive"],
+    archived: ["warning", "resources.direction.fields.stateArchived"]
+};
 
 export const useGetTerminalColumns = () => {
     const translate = useTranslate();
@@ -165,6 +172,36 @@ export const useGetTerminalColumns = () => {
                         )}
                     </div>
                 );
+            }
+        },
+        {
+            id: "source currency",
+            accessorKey: "source_currency",
+            header: translate("resources.direction.sourceCurrency"),
+            cell: ({ row }) => {
+                const src_cur = row.original.src_currency_code;
+                return src_cur ? <Badge variant="currency">{src_cur}</Badge> : "-";
+            }
+        },
+        {
+            id: "destination currency",
+            accessorKey: "destination_currency",
+            header: translate("resources.direction.destinationCurrency"),
+            cell: ({ row }) => {
+                const dst_cur = row.original.dst_currency_code;
+                return dst_cur ? <Badge variant="currency">{dst_cur}</Badge> : "-";
+            }
+        },
+        {
+            id: "state",
+            accessorKey: "state",
+            header: translate("resources.direction.fields.active"),
+            cell: ({ row }) => {
+                const state = row.original.state;
+                if (!state) return <TextField text="" />;
+
+                const mp = statesMap[state];
+                return <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>;
             }
         },
         {

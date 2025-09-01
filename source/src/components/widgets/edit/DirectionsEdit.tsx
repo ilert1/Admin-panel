@@ -36,6 +36,8 @@ export interface DirectionEditProps {
     onOpenChange: (state: boolean) => void;
 }
 
+const kindArray: string[] = ["sequential", "fanout"];
+
 export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const dataProvider = useDataProvider();
     const directionDataProvider = new DirectionsDataProvider();
@@ -109,7 +111,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         type: z.enum(directionTypes.map(type => type.value) as [string, ...string[]], {
             message: translate("resources.direction.errors.typeError")
         }),
-        payment_types: z.array(z.string()).optional()
+        payment_types: z.array(z.string()).optional(),
+        kind: z.enum(kindArray as [string, ...string[]])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -125,7 +128,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             terminal: "",
             weight: 0,
             type: "universal",
-            payment_types: []
+            payment_types: [],
+            kind: "sequential"
         }
     });
 
@@ -142,7 +146,8 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 terminal: direction.terminal.terminal_id || "",
                 weight: direction.weight || 0,
                 type: direction.type || undefined,
-                payment_types: direction?.payment_types?.map(pt => pt.code) || []
+                payment_types: direction?.payment_types?.map(pt => pt.code) || [],
+                kind: direction?.kind || "sequential"
             };
 
             form.reset(updatedValues);
@@ -429,6 +434,38 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                             <SelectItem value="inactive" variant={SelectType.GRAY}>
                                                 {translate("resources.direction.fields.stateInactive")}
                                             </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="kind"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <Label>{translate("resources.direction.fields.kinds.kind")}</Label>
+                                <Select value={field.value} onValueChange={field.onChange}>
+                                    <FormControl>
+                                        <SelectTrigger
+                                            variant={SelectType.GRAY}
+                                            isError={fieldState.invalid}
+                                            errorMessage={<FormMessage />}>
+                                            <SelectValue
+                                                placeholder={translate("resources.direction.fields.kinds.kind")}
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {kindArray.map(kind => {
+                                                return (
+                                                    <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
+                                                        {translate(`resources.direction.fields.kinds.${kind}`)}
+                                                    </SelectItem>
+                                                );
+                                            })}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
