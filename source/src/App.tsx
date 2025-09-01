@@ -15,7 +15,9 @@ import {
     CallbridgeDataProvider,
     BaseDataProvider,
     PayoutDataProvider,
-    AccountsDataProvider
+    AccountsDataProvider,
+    CascadeTerminalDataProvider,
+    CascadesDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -29,7 +31,9 @@ import {
     WalletsList,
     WalletTransactionsList,
     WalletLinkedTransactionsList,
-    TerminalsList
+    TerminalsList,
+    CascadesList,
+    CascadeTerminalsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -113,6 +117,10 @@ const dataProvider = combineDataProviders(resource => {
         return new TerminalPaymentInstrumentsProvider();
     } else if (resource === "systemPaymentInstruments") {
         return new SystemPaymentInstrumentsProvider();
+    } else if (resource === "cascades") {
+        return new CascadesDataProvider();
+    } else if (resource === "cascade_terminals") {
+        return new CascadeTerminalDataProvider();
     } else {
         return BaseDataProvider;
     }
@@ -189,12 +197,18 @@ export const App = () => {
                                                     element={<SystemPaymentInstrumentsList />}
                                                 />
                                                 <Route path="currency" element={<CurrenciesList />} />
-                                                {/* <Resource name="currency" list={CurrenciesList} icon={BanknoteIcon} /> */}
                                             </Resource>
 
                                             <Resource name="callbridge" icon={Split}>
                                                 <Route path="mapping" element={<MappingsList />} />
                                                 <Route path="history" element={<CallbackHistoryList />} />
+                                            </Resource>
+
+                                            <Resource name="cascadeSettings" icon={Split}>
+                                                <Route path="cascades" element={<CascadesList />} />
+                                                <Route path="cascadeTerminals" element={<CascadeTerminalsList />} />
+                                                <Route path="cascadeMerchants" element={<div />} />
+                                                <Route path="cascadeConflicts" element={<div />} />
                                             </Resource>
                                         </>
                                     )}

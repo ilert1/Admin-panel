@@ -278,12 +278,10 @@ export class MerchantsDataProvider extends IBaseDataProvider {
 
         if ("data" in data && data.success) {
             return data.data;
-        } else if ("data" in data && !data.success) {
-            throw new Error(data.error?.error_message);
-        } else if ("detail" in data) {
-            throw new Error(data.detail?.[0].msg);
-        } else if ("error_code" in data && data.error_code === 9002) {
-            throw new Error("Unexpected error");
+        } else if ("error" in data) {
+            throw new Error(
+                data.error_description ? data.error_description : data.error ? data.error : "Unexpected error"
+            );
         }
 
         Promise.reject();

@@ -66,11 +66,12 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                 return res ?? null;
             } catch (error) {
                 appToast("error", translate("resources.withdraw.errors.serverError"));
+                console.error(error);
                 onOpenChange(false);
             }
         },
         enabled: !!merchantId,
-        select: data => data?.[0] ?? null
+        select: data => data ?? null
     });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);

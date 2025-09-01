@@ -8,6 +8,7 @@ export const InitLoading = () => {
 
     return (
         <div
+            data-testid="init-loading"
             className="fixed inset-0 flex items-center justify-center"
             style={{
                 backgroundImage: bgImage,
@@ -22,7 +23,7 @@ export const InitLoading = () => {
 
 export const Loading = ({ className = "" }: { className?: string }) => {
     return (
-        <div className={`absolute inset-0 flex items-center justify-center ${className}`}>
+        <div data-testid="loading" className={`absolute inset-0 flex items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );
@@ -30,7 +31,7 @@ export const Loading = ({ className = "" }: { className?: string }) => {
 
 export const LoadingBlock = ({ className = "" }: { className?: string }) => {
     return (
-        <div className={`flex h-full w-full items-center justify-center ${className}`}>
+        <div data-testid="loading-block" className={`flex h-full w-full items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );
@@ -38,14 +39,14 @@ export const LoadingBlock = ({ className = "" }: { className?: string }) => {
 
 export const LoadingBalance = ({ className = "" }: { className?: string }) => {
     return (
-        <div className={`flex items-center justify-center ${className}`}>
+        <div data-testid="loading-balance" className={`flex items-center justify-center ${className}`}>
             <RingSpinner />
         </div>
     );
 };
 export const RingSpinner = () => {
     return (
-        <svg className={`h-24 w-24 animate-spin`} viewBox="0 0 100 100">
+        <svg data-testid="ring-spinner" className={`h-24 w-24 animate-spin`} viewBox="0 0 100 100">
             <defs>
                 <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="28.01%" stopColor="#57CD8C" />

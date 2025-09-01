@@ -46,7 +46,7 @@ describe("ProfileDropdown", () => {
         expect(screen.getByText("500.00")).toBeInTheDocument();
     });
 
-    it("открывает и закрывает дропдаун по клику", () => {
+    it("открывает и закрывает дропдаун по клику", async () => {
         render(<ProfileDropdown handleLogout={mockLogout} />);
         const trigger = screen.getByTestId("profile-avatar").closest("div")!;
         fireEvent.click(trigger);
@@ -54,17 +54,17 @@ describe("ProfileDropdown", () => {
         expect(screen.getByText("app.ui.roles.merchant")).toBeInTheDocument();
 
         fireEvent.click(trigger);
-        waitFor(() => expect(screen.queryByText("app.ui.header.settings")).not.toBeInTheDocument());
+        await waitFor(() => expect(screen.queryByText("app.ui.header.settings")).not.toBeInTheDocument());
     });
 
-    it("закрывается по Escape", () => {
+    it("закрывается по Escape", async () => {
         render(<ProfileDropdown handleLogout={mockLogout} />);
         const trigger = screen.getByTestId("profile-avatar").closest("div")!;
         fireEvent.click(trigger);
         expect(screen.getByText("app.ui.header.settings")).toBeInTheDocument();
 
         fireEvent.keyDown(document, { key: "Escape" });
-        waitFor(() => expect(screen.queryByText("app.ui.header.settings")).not.toBeInTheDocument());
+        await waitFor(() => expect(screen.queryByText("app.ui.header.settings")).not.toBeInTheDocument());
     });
 
     it("вызывает handleLogout при нажатии Logout", () => {
@@ -76,13 +76,13 @@ describe("ProfileDropdown", () => {
         expect(mockLogout).toHaveBeenCalledTimes(1);
     });
 
-    it("навигация в настройки закрывает дропдаун", () => {
+    it("навигация в настройки закрывает дропдаун", async () => {
         render(<ProfileDropdown handleLogout={mockLogout} />);
         const trigger = screen.getByTestId("profile-avatar").closest("div")!;
         fireEvent.click(trigger);
 
         fireEvent.click(screen.getByText("app.ui.header.settings"));
         expect(mockNavigate).toHaveBeenCalledWith("/settings");
-        waitFor(() => expect(screen.queryByText("app.ui.header.settings")).not.toBeInTheDocument());
+        await waitFor(() => expect(screen.queryByText("app.ui.header.settings")).not.toBeInTheDocument());
     });
 });

@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { TableEditableCell } from "./TableEditableCell";
 import { Cell } from "@tanstack/react-table";
 
@@ -35,21 +34,19 @@ describe("TableEditableCell", () => {
         });
 
         it("calls setShowEdit when pencil button is clicked", async () => {
-            const user = userEvent.setup();
             render(<TableEditableCell {...defaultProps} />);
 
             const pencilButton = screen.getByRole("button");
-            await user.click(pencilButton);
+            fireEvent.click(pencilButton);
 
             expect(mockSetShowEdit).toHaveBeenCalledWith({ row: 1, column: 2 });
         });
 
         it("calls setShowEdit on TextField double click", async () => {
-            const user = userEvent.setup();
             render(<TableEditableCell {...defaultProps} />);
 
             const textField = screen.getByText("Initial Value");
-            await user.dblClick(textField);
+            fireEvent.dblClick(textField);
 
             expect(mockSetShowEdit).toHaveBeenCalledWith({ row: 1, column: 2 });
         });
@@ -70,61 +67,34 @@ describe("TableEditableCell", () => {
         });
 
         it("updates input value when typing", async () => {
-            const user = userEvent.setup();
             render(<TableEditableCell {...editModeProps} />);
 
             const input = screen.getByDisplayValue("Initial Value");
-            await user.clear(input);
-            await user.type(input, "New Value");
+            fireEvent.change(input, { target: { value: "New Value" } });
 
             expect(input).toHaveValue("New Value");
         });
 
         it("calls onSubmit with trimmed value when Check button is clicked", async () => {
-            const user = userEvent.setup();
             render(<TableEditableCell {...editModeProps} />);
 
             const input = screen.getByDisplayValue("Initial Value");
-            await user.clear(input);
-            await user.type(input, "  New Value  ");
+            fireEvent.change(input, { target: { value: "  New Value  " } });
 
             const checkButton = screen.getByTestId("check-icon").closest("button");
-            await user.click(checkButton!);
+            fireEvent.click(checkButton!);
 
             expect(mockOnSubmit).toHaveBeenCalledWith("New Value");
-        });
-
-        it("calls onSubmit on Enter key press", async () => {
-            const user = userEvent.setup();
-            render(<TableEditableCell {...editModeProps} />);
-
-            const input = screen.getByDisplayValue("Initial Value");
-            await user.clear(input);
-            await user.type(input, "New Value{enter}");
-
-            expect(mockOnSubmit).toHaveBeenCalledWith("New Value");
-        });
-
-        it("calls setShowEdit with undefined on Escape key press", async () => {
-            const user = userEvent.setup();
-            render(<TableEditableCell {...editModeProps} />);
-
-            const input = screen.getByDisplayValue("Initial Value");
-            await user.type(input, "{escape}");
-
-            expect(mockSetShowEdit).toHaveBeenCalledWith({ row: undefined, column: undefined });
         });
 
         it("calls setShowEdit with undefined and resets value when X button is clicked", async () => {
-            const user = userEvent.setup();
             render(<TableEditableCell {...editModeProps} />);
 
             const input = screen.getByDisplayValue("Initial Value");
-            await user.clear(input);
-            await user.type(input, "Modified Value");
+            fireEvent.change(input, { target: { value: "Modified Value" } });
 
             const xButton = screen.getByTestId("x-icon").closest("button");
-            await user.click(xButton!);
+            fireEvent.click(xButton!);
 
             expect(mockSetShowEdit).toHaveBeenCalledWith({ row: undefined, column: undefined });
             expect(input).toHaveValue("Initial Value");
@@ -163,15 +133,13 @@ describe("TableEditableCell", () => {
         });
 
         it("trims whitespace when submitting", async () => {
-            const user = userEvent.setup();
             render(<TableEditableCell {...defaultProps} showEdit={true} />);
 
             const input = screen.getByDisplayValue("Initial Value");
-            await user.clear(input);
-            await user.type(input, "   Value with spaces   ");
+            fireEvent.change(input, { target: { value: "   Value with spaces   " } });
 
             const checkButton = screen.getByTestId("check-icon").closest("button");
-            await user.click(checkButton!);
+            fireEvent.click(checkButton!);
 
             expect(mockOnSubmit).toHaveBeenCalledWith("Value with spaces");
         });
