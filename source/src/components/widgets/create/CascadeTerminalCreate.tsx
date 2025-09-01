@@ -132,7 +132,9 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
                             name="cascade_id"
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <Label>{translate("resources.direction.fields.terminal")}</Label>
+                                    <Label>
+                                        {translate("resources.cascadeSettings.cascadeTerminals.fields.cascade")}
+                                    </Label>
                                     <PopoverSelect
                                         variants={cascadesData || []}
                                         value={cascadeValueName}
@@ -158,7 +160,9 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
                             name="terminal_id"
                             render={({ field, fieldState }) => (
                                 <FormItem>
-                                    <Label>{translate("resources.direction.fields.terminal")}</Label>
+                                    <Label>
+                                        {translate("resources.cascadeSettings.cascadeTerminals.fields.terminal")}
+                                    </Label>
                                     <PopoverSelect
                                         variants={terminalsData || []}
                                         value={terminalValueName}

@@ -177,7 +177,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                         name="cascade_id"
                         render={({ field, fieldState }) => (
                             <FormItem>
-                                <Label>{translate("resources.direction.fields.terminal")}</Label>
+                                <Label>{translate("resources.cascadeSettings.cascadeTerminals.fields.cascade")}</Label>
                                 <PopoverSelect
                                     variants={cascadesData || []}
                                     value={cascadeValueName}
@@ -201,7 +201,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                         name="terminal_id"
                         render={({ field, fieldState }) => (
                             <FormItem>
-                                <Label>{translate("resources.direction.fields.terminal")}</Label>
+                                <Label>{translate("resources.cascadeSettings.cascadeTerminals.fields.terminal")}</Label>
                                 <PopoverSelect
                                     variants={terminalsData || []}
                                     value={terminalValueName}
