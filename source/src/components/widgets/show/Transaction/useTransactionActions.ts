@@ -110,9 +110,7 @@ export const useTransactionActions = (
                     if (json.success) {
                         appToast(
                             "success",
-                            translate(
-                                translate("resources.transactions.show.sendWebhookSuccessMsg", { id: json.blowfish_id })
-                            )
+                            translate("resources.transactions.show.sendWebhookSuccessMsg", { id: record.id })
                         );
                         refresh();
                     } else {
