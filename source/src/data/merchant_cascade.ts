@@ -23,10 +23,24 @@ import {
 
 export class CascadeMerchantsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<MerchantCascadeSchema>> {
+        // "cascade_kind" | "src_currency_code" | "merchant" | "cascade_type"
+
+        const fieldsForSearch = params.filter
+            ? Object.keys(params.filter).filter(
+                  item =>
+                      item === "cascade_kind" ||
+                      item === "src_currency_code" ||
+                      item === "merchant" ||
+                      item === "cascade_type"
+              )
+            : [];
+
         const res = await merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGet(
             {
-                args: {},
-                kwargs: {}
+                currentPage: params?.pagination?.page,
+                pageSize: params?.pagination?.perPage,
+                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
             },
             {
                 headers: {
