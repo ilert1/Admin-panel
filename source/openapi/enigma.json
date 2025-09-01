@@ -182,10 +182,10 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                            "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                             "title": "Currency Code"
                         },
-                        "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                        "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                         "example": "RUB"
                     }
                 ],
@@ -216,10 +216,10 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                            "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                             "title": "Currency Code"
                         },
-                        "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                        "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                         "example": "RUB"
                     }
                 ],
@@ -254,10 +254,10 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                            "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                             "title": "Currency Code"
                         },
-                        "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                        "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                         "example": "RUB"
                     }
                 ],
@@ -3379,6 +3379,148 @@
                 "summary": "Get cascades for terminal",
                 "description": "Returns all cascades that include a specific terminal",
                 "operationId": "CascadeTerminalEndpoints_list_cascade_terminals_enigma_v1_cascade_terminal_get",
+                "parameters": [
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "description": "List of identifiers for filtering",
+                            "title": "Ids"
+                        },
+                        "description": "List of identifiers for filtering"
+                    },
+                    {
+                        "name": "createdBefore",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Upper bound for creation date filter",
+                            "title": "Createdbefore"
+                        },
+                        "description": "Upper bound for creation date filter"
+                    },
+                    {
+                        "name": "createdAfter",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Lower bound for creation date filter",
+                            "title": "Createdafter"
+                        },
+                        "description": "Lower bound for creation date filter"
+                    },
+                    {
+                        "name": "updatedBefore",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Upper bound for update date filter",
+                            "title": "Updatedbefore"
+                        },
+                        "description": "Upper bound for update date filter"
+                    },
+                    {
+                        "name": "updatedAfter",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Lower bound for update date filter",
+                            "title": "Updatedafter"
+                        },
+                        "description": "Lower bound for update date filter"
+                    },
+                    {
+                        "name": "currentPage",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Current page number (starting from 1)",
+                            "default": 1,
+                            "title": "Currentpage"
+                        },
+                        "description": "Current page number (starting from 1)"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Number of records per page",
+                            "default": 20,
+                            "title": "Pagesize"
+                        },
+                        "description": "Number of records per page"
+                    },
+                    {
+                        "name": "searchField",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "Names of the fields to search (comma-separated or repeated)."
+                        },
+                        "description": "Names of the fields to search (comma-separated or repeated)."
+                    },
+                    {
+                        "name": "searchString",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+                        },
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+                    },
+                    {
+                        "name": "searchIgnoreCase",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "title": "Case sensitivity",
+                            "description": "If true, the search will be case-insensitive.",
+                            "default": true
+                        },
+                        "description": "If true, the search will be case-insensitive."
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "title": "Sorting field",
+                            "description": "Field to sort the results by",
+                            "default": "cascade_id"
+                        },
+                        "description": "Field to sort the results by"
+                    },
+                    {
+                        "name": "sortOrder",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "enum": ["asc", "desc"],
+                            "type": "string",
+                            "title": "Sorting order",
+                            "description": "Sort order: 'asc' or 'desc'",
+                            "default": "asc"
+                        },
+                        "description": "Sort order: 'asc' or 'desc'"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -3389,6 +3531,12 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": { "schema": { "$ref": "#/components/schemas/HTTPValidationError" } }
+                        }
                     }
                 }
             },
@@ -3398,10 +3546,10 @@
                 "description": "Adds a terminal to a cascade with specified conditions",
                 "operationId": "CascadeTerminalEndpoints_create_cascade_terminal_enigma_v1_cascade_terminal_post",
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": { "schema": { "$ref": "#/components/schemas/CascadeTerminalCreate" } }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -3576,8 +3724,146 @@
                 "description": "Returns a paginated list of merchant cascade assignments with filtering",
                 "operationId": "MerchantCascadeEndpoints_list_merchant_cascades_enigma_v1_merchant_cascade_get",
                 "parameters": [
-                    { "name": "args", "in": "query", "required": true, "schema": { "title": "Args" } },
-                    { "name": "kwargs", "in": "query", "required": true, "schema": { "title": "Kwargs" } }
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "description": "List of identifiers for filtering",
+                            "title": "Ids"
+                        },
+                        "description": "List of identifiers for filtering"
+                    },
+                    {
+                        "name": "createdBefore",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Upper bound for creation date filter",
+                            "title": "Createdbefore"
+                        },
+                        "description": "Upper bound for creation date filter"
+                    },
+                    {
+                        "name": "createdAfter",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Lower bound for creation date filter",
+                            "title": "Createdafter"
+                        },
+                        "description": "Lower bound for creation date filter"
+                    },
+                    {
+                        "name": "updatedBefore",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Upper bound for update date filter",
+                            "title": "Updatedbefore"
+                        },
+                        "description": "Upper bound for update date filter"
+                    },
+                    {
+                        "name": "updatedAfter",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string", "format": "date-time" }, { "type": "null" }],
+                            "description": "Lower bound for update date filter",
+                            "title": "Updatedafter"
+                        },
+                        "description": "Lower bound for update date filter"
+                    },
+                    {
+                        "name": "currentPage",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Current page number (starting from 1)",
+                            "default": 1,
+                            "title": "Currentpage"
+                        },
+                        "description": "Current page number (starting from 1)"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Number of records per page",
+                            "default": 20,
+                            "title": "Pagesize"
+                        },
+                        "description": "Number of records per page"
+                    },
+                    {
+                        "name": "searchField",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search fields",
+                            "description": "Names of the fields to search (comma-separated or repeated)."
+                        },
+                        "description": "Names of the fields to search (comma-separated or repeated)."
+                    },
+                    {
+                        "name": "searchString",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "array", "items": { "type": "string" } }, { "type": "null" }],
+                            "title": "Search strings",
+                            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+                        },
+                        "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+                    },
+                    {
+                        "name": "searchIgnoreCase",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "title": "Case sensitivity",
+                            "description": "If true, the search will be case-insensitive.",
+                            "default": true
+                        },
+                        "description": "If true, the search will be case-insensitive."
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [{ "type": "string" }, { "type": "null" }],
+                            "title": "Sorting field",
+                            "description": "Field to sort the results by",
+                            "default": "cascade_id"
+                        },
+                        "description": "Field to sort the results by"
+                    },
+                    {
+                        "name": "sortOrder",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "enum": ["asc", "desc"],
+                            "type": "string",
+                            "title": "Sorting order",
+                            "description": "Sort order: 'asc' or 'desc'",
+                            "default": "asc"
+                        },
+                        "description": "Sort order: 'asc' or 'desc'"
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -4238,10 +4524,10 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                            "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                             "title": "Currency Code"
                         },
-                        "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                        "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                         "example": "RUB"
                     }
                 ],
@@ -4944,10 +5230,10 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                            "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                             "title": "Currency Code"
                         },
-                        "description": "The unique three-letter currency code, e.g., 'USD', 'EUR'",
+                        "description": "The unique three-letter currency code, e.g., 'RUB', 'AZN'",
                         "example": "RUB"
                     }
                 ],
@@ -7783,13 +8069,6 @@
             },
             "CascadeCondition": {
                 "properties": {
-                    "extra": {
-                        "type": "boolean",
-                        "title": "Extra",
-                        "description": "Whether this is an extra/backup terminal (must have weight=0)",
-                        "default": false,
-                        "examples": [false, true]
-                    },
                     "weight": {
                         "type": "integer",
                         "minimum": 0.0,
@@ -7798,20 +8077,25 @@
                         "default": 1,
                         "examples": [0, 1, 5, 10]
                     },
+                    "extra": {
+                        "type": "boolean",
+                        "title": "Extra",
+                        "description": "Whether this is an extra/backup terminal (must have weight=0)",
+                        "default": false,
+                        "examples": [false, true]
+                    },
                     "rank": {
-                        "type": "integer",
-                        "minimum": 1.0,
+                        "anyOf": [{ "type": "integer", "minimum": 1.0 }, { "type": "null" }],
                         "title": "Rank",
                         "description": "Priority rank of the terminal(1 = highest priority)",
                         "examples": [1, 2, 5]
                     },
                     "ttl": {
-                        "$ref": "#/components/schemas/TTLConfig",
+                        "anyOf": [{ "$ref": "#/components/schemas/TTLConfig" }, { "type": "null" }],
                         "description": "Time-to-live configuration for terminal availability"
                     }
                 },
                 "type": "object",
-                "required": ["rank"],
                 "title": "CascadeCondition"
             },
             "CascadeCreate": {
@@ -7822,7 +8106,7 @@
                         "minLength": 1,
                         "title": "Name",
                         "description": "Human-readable name of the cascade",
-                        "examples": ["Main USD Deposit Cascade", "EUR Withdraw Priority 1"]
+                        "examples": ["Main RUB Deposit Cascade", "AZN Withdraw Priority 1"]
                     },
                     "type": {
                         "$ref": "#/components/schemas/CascadeType",
@@ -7830,25 +8114,11 @@
                         "default": "deposit",
                         "examples": ["deposit", "withdraw"]
                     },
-                    "src_currency_code": {
-                        "type": "string",
-                        "maxLength": 3,
-                        "minLength": 3,
-                        "title": "Src Currency Code",
-                        "description": "Source currency code (ISO 4217 format)",
-                        "examples": ["USD", "EUR", "RUB"]
-                    },
                     "cascade_kind": {
                         "$ref": "#/components/schemas/CascadeKind",
                         "description": "Execution strategy: sequential (one by one) or fanout (parallel)",
                         "default": "sequential",
                         "examples": ["sequential", "fanout"]
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeState",
-                        "description": "Current operational state of the cascade",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
                     },
                     "priority_policy": {
                         "$ref": "#/components/schemas/PriorityPolicy",
@@ -7858,7 +8128,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Description",
                         "description": "Optional detailed description of the cascade purpose",
-                        "examples": ["Primary cascade for handling USD deposits", "Backup cascade for EUR withdrawals"]
+                        "examples": ["Primary cascade for handling RUB deposits", "Backup cascade for AZN withdrawals"]
                     },
                     "details": {
                         "additionalProperties": true,
@@ -7867,16 +8137,24 @@
                         "description": "Additional configuration parameters and metadata",
                         "examples": [{ "key": "value" }]
                     },
+                    "src_currency_code": {
+                        "type": "string",
+                        "maxLength": 3,
+                        "minLength": 3,
+                        "title": "Src Currency Code",
+                        "description": "Source currency code (ISO 4217 format)",
+                        "examples": ["RUB", "AZN", "RUB"]
+                    },
                     "payment_types": {
                         "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
                         "type": "array",
                         "title": "Payment Types",
                         "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
-                        "examples": [["card2card", "sbp", "qiwi"]]
+                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency_code", "priority_policy"],
+                "required": ["name", "priority_policy", "src_currency_code"],
                 "title": "CascadeCreate"
             },
             "CascadeKind": { "type": "string", "enum": ["sequential", "fanout"], "title": "CascadeKind" },
@@ -7888,7 +8166,7 @@
                         "minLength": 1,
                         "title": "Name",
                         "description": "Human-readable name of the cascade",
-                        "examples": ["Main USD Deposit Cascade", "EUR Withdraw Priority 1"]
+                        "examples": ["Main RUB Deposit Cascade", "AZN Withdraw Priority 1"]
                     },
                     "type": {
                         "$ref": "#/components/schemas/CascadeType",
@@ -7896,25 +8174,11 @@
                         "default": "deposit",
                         "examples": ["deposit", "withdraw"]
                     },
-                    "src_currency_code": {
-                        "type": "string",
-                        "maxLength": 3,
-                        "minLength": 3,
-                        "title": "Src Currency Code",
-                        "description": "Source currency code (ISO 4217 format)",
-                        "examples": ["USD", "EUR", "RUB"]
-                    },
                     "cascade_kind": {
                         "$ref": "#/components/schemas/CascadeKind",
                         "description": "Execution strategy: sequential (one by one) or fanout (parallel)",
                         "default": "sequential",
                         "examples": ["sequential", "fanout"]
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeState",
-                        "description": "Current operational state of the cascade",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
                     },
                     "priority_policy": {
                         "$ref": "#/components/schemas/PriorityPolicy",
@@ -7924,7 +8188,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Description",
                         "description": "Optional detailed description of the cascade purpose",
-                        "examples": ["Primary cascade for handling USD deposits", "Backup cascade for EUR withdrawals"]
+                        "examples": ["Primary cascade for handling RUB deposits", "Backup cascade for AZN withdrawals"]
                     },
                     "details": {
                         "additionalProperties": true,
@@ -7933,13 +8197,6 @@
                         "description": "Additional configuration parameters and metadata",
                         "examples": [{ "key": "value" }]
                     },
-                    "payment_types": {
-                        "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
-                        "type": "array",
-                        "title": "Payment Types",
-                        "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
-                        "examples": [["card2card", "sbp", "qiwi"]]
-                    },
                     "id": {
                         "type": "string",
                         "format": "uuid",
@@ -7947,21 +8204,35 @@
                         "description": "Unique identifier of the cascade",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
                     },
+                    "state": {
+                        "$ref": "#/components/schemas/CascadeState",
+                        "description": "Current operational state of the cascade",
+                        "examples": ["active", "inactive"]
+                    },
+                    "src_currency": { "$ref": "#/components/schemas/Currency", "description": "Source currency code" },
+                    "payment_types": {
+                        "items": { "$ref": "#/components/schemas/PaymentTypeBase" },
+                        "type": "array",
+                        "title": "Payment Types",
+                        "description": "List of payment types associated with this cascade"
+                    },
                     "created_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Created At",
-                        "description": "Timestamp when the cascade was created (ISO 8601 format)",
+                        "description": "Timestamp when the record was created",
                         "examples": ["2024-01-15T10:30:00Z"]
                     },
                     "updated_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Updated At",
-                        "description": "Timestamp when the cascade was last updated (ISO 8601 format)",
+                        "description": "Timestamp when the record was last updated",
                         "examples": ["2024-01-15T14:45:30Z"]
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency_code", "priority_policy", "id", "created_at", "updated_at"],
+                "required": ["name", "priority_policy", "id", "state", "src_currency", "created_at", "updated_at"],
                 "title": "CascadeRead"
             },
             "CascadeSchema": {
@@ -7972,7 +8243,7 @@
                         "minLength": 1,
                         "title": "Name",
                         "description": "Human-readable name of the cascade",
-                        "examples": ["Main USD Deposit Cascade", "EUR Withdraw Priority 1"]
+                        "examples": ["Main RUB Deposit Cascade", "AZN Withdraw Priority 1"]
                     },
                     "type": {
                         "$ref": "#/components/schemas/CascadeType",
@@ -7980,25 +8251,11 @@
                         "default": "deposit",
                         "examples": ["deposit", "withdraw"]
                     },
-                    "src_currency_code": {
-                        "type": "string",
-                        "maxLength": 3,
-                        "minLength": 3,
-                        "title": "Src Currency Code",
-                        "description": "Source currency code (ISO 4217 format)",
-                        "examples": ["USD", "EUR", "RUB"]
-                    },
                     "cascade_kind": {
                         "$ref": "#/components/schemas/CascadeKind",
                         "description": "Execution strategy: sequential (one by one) or fanout (parallel)",
                         "default": "sequential",
                         "examples": ["sequential", "fanout"]
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeState",
-                        "description": "Current operational state of the cascade",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
                     },
                     "priority_policy": {
                         "$ref": "#/components/schemas/PriorityPolicy",
@@ -8008,7 +8265,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Description",
                         "description": "Optional detailed description of the cascade purpose",
-                        "examples": ["Primary cascade for handling USD deposits", "Backup cascade for EUR withdrawals"]
+                        "examples": ["Primary cascade for handling RUB deposits", "Backup cascade for AZN withdrawals"]
                     },
                     "details": {
                         "additionalProperties": true,
@@ -8017,13 +8274,6 @@
                         "description": "Additional configuration parameters and metadata",
                         "examples": [{ "key": "value" }]
                     },
-                    "payment_types": {
-                        "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
-                        "type": "array",
-                        "title": "Payment Types",
-                        "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
-                        "examples": [["card2card", "sbp", "qiwi"]]
-                    },
                     "id": {
                         "type": "string",
                         "format": "uuid",
@@ -8031,16 +8281,30 @@
                         "description": "Unique identifier of the cascade",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
                     },
+                    "state": {
+                        "$ref": "#/components/schemas/CascadeState",
+                        "description": "Current operational state of the cascade",
+                        "examples": ["active", "inactive"]
+                    },
+                    "src_currency": { "$ref": "#/components/schemas/Currency", "description": "Source currency code" },
+                    "payment_types": {
+                        "items": { "$ref": "#/components/schemas/PaymentTypeBase" },
+                        "type": "array",
+                        "title": "Payment Types",
+                        "description": "List of payment types associated with this cascade"
+                    },
                     "created_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Created At",
-                        "description": "Timestamp when the cascade was created (ISO 8601 format)",
+                        "description": "Timestamp when the record was created",
                         "examples": ["2024-01-15T10:30:00Z"]
                     },
                     "updated_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Updated At",
-                        "description": "Timestamp when the cascade was last updated (ISO 8601 format)",
+                        "description": "Timestamp when the record was last updated",
                         "examples": ["2024-01-15T14:45:30Z"]
                     },
                     "cascade_terminals": {
@@ -8051,7 +8315,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency_code", "priority_policy", "id", "created_at", "updated_at"],
+                "required": ["name", "priority_policy", "id", "state", "src_currency", "created_at", "updated_at"],
                 "title": "CascadeSchema"
             },
             "CascadeState": { "type": "string", "enum": ["active", "inactive"], "title": "CascadeState" },
@@ -8070,12 +8334,6 @@
                         "title": "Terminal Id",
                         "description": "Unique identifier of the terminal in this cascade",
                         "examples": ["987fcdeb-51a2-43d1-b678-426614174001"]
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeTerminalState",
-                        "description": "Current operational state of the cascade terminal",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
                     },
                     "condition": {
                         "$ref": "#/components/schemas/CascadeCondition",
@@ -8102,12 +8360,6 @@
                         "description": "Unique identifier of the terminal in this cascade",
                         "examples": ["987fcdeb-51a2-43d1-b678-426614174001"]
                     },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeTerminalState",
-                        "description": "Current operational state of the cascade terminal",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
-                    },
                     "condition": {
                         "$ref": "#/components/schemas/CascadeCondition",
                         "description": "Configuration for terminal behavior within the cascade"
@@ -8119,21 +8371,32 @@
                         "description": "Unique identifier of the cascade terminal record",
                         "examples": ["456e7890-f12b-34c5-d678-426614174002"]
                     },
+                    "state": {
+                        "$ref": "#/components/schemas/CascadeTerminalState",
+                        "description": "Current operational state of the cascade terminal",
+                        "examples": ["active", "inactive"]
+                    },
+                    "terminal": {
+                        "$ref": "#/components/schemas/TerminalRead",
+                        "description": "Terminal this terminal belongs to"
+                    },
                     "created_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Created At",
                         "description": "Timestamp when the record was created",
                         "examples": ["2024-01-15T10:30:00Z"]
                     },
                     "updated_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Updated At",
-                        "description": "Timestamp when the record was created",
+                        "description": "Timestamp when the record was last updated",
                         "examples": ["2024-01-15T14:45:30Z"]
                     }
                 },
                 "type": "object",
-                "required": ["cascade_id", "terminal_id", "id", "created_at", "updated_at"],
+                "required": ["cascade_id", "terminal_id", "id", "state", "terminal", "created_at", "updated_at"],
                 "title": "CascadeTerminalRead"
             },
             "CascadeTerminalSchema": {
@@ -8152,12 +8415,6 @@
                         "description": "Unique identifier of the terminal in this cascade",
                         "examples": ["987fcdeb-51a2-43d1-b678-426614174001"]
                     },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeTerminalState",
-                        "description": "Current operational state of the cascade terminal",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
-                    },
                     "condition": {
                         "$ref": "#/components/schemas/CascadeCondition",
                         "description": "Configuration for terminal behavior within the cascade"
@@ -8169,29 +8426,45 @@
                         "description": "Unique identifier of the cascade terminal record",
                         "examples": ["456e7890-f12b-34c5-d678-426614174002"]
                     },
+                    "state": {
+                        "$ref": "#/components/schemas/CascadeTerminalState",
+                        "description": "Current operational state of the cascade terminal",
+                        "examples": ["active", "inactive"]
+                    },
+                    "terminal": {
+                        "$ref": "#/components/schemas/TerminalRead",
+                        "description": "Terminal this terminal belongs to"
+                    },
                     "created_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Created At",
                         "description": "Timestamp when the record was created",
                         "examples": ["2024-01-15T10:30:00Z"]
                     },
                     "updated_at": {
                         "type": "string",
+                        "format": "date-time",
                         "title": "Updated At",
-                        "description": "Timestamp when the record was created",
+                        "description": "Timestamp when the record was last updated",
                         "examples": ["2024-01-15T14:45:30Z"]
                     },
                     "cascade": {
                         "$ref": "#/components/schemas/CascadeRead",
                         "description": "Cascade this terminal belongs to"
-                    },
-                    "terminal": {
-                        "$ref": "#/components/schemas/TerminalRead",
-                        "description": "Terminal this terminal belongs to"
                     }
                 },
                 "type": "object",
-                "required": ["cascade_id", "terminal_id", "id", "created_at", "updated_at", "cascade", "terminal"],
+                "required": [
+                    "cascade_id",
+                    "terminal_id",
+                    "id",
+                    "state",
+                    "terminal",
+                    "created_at",
+                    "updated_at",
+                    "cascade"
+                ],
                 "title": "CascadeTerminalSchema"
             },
             "CascadeTerminalState": {
@@ -8221,7 +8494,7 @@
                         "anyOf": [{ "type": "string", "maxLength": 255, "minLength": 1 }, { "type": "null" }],
                         "title": "Name",
                         "description": "Updated human-readable name of the cascade",
-                        "examples": ["Main USD Deposit Cascade", "EUR Withdraw Priority 1"]
+                        "examples": ["Main RUB Deposit Cascade", "AZN Withdraw Priority 1"]
                     },
                     "cascade_kind": {
                         "anyOf": [{ "$ref": "#/components/schemas/CascadeKind" }, { "type": "null" }],
@@ -8241,7 +8514,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Description",
                         "description": "Updated detailed description of the cascade purpose",
-                        "examples": ["Primary cascade for handling USD deposits", "Backup cascade for EUR withdrawals"]
+                        "examples": ["Primary cascade for handling RUB deposits", "Backup cascade for AZN withdrawals"]
                     },
                     "details": {
                         "anyOf": [{ "additionalProperties": true, "type": "object" }, { "type": "null" }],
@@ -8256,7 +8529,7 @@
                         ],
                         "title": "Payment Types",
                         "description": "Updated payment types explicitly assigned to cascade",
-                        "examples": [["card2card", "sbp", "qiwi"]]
+                        "examples": [["card2card", "sbp"]]
                     }
                 },
                 "type": "object",
@@ -8269,7 +8542,7 @@
                         "type": "array",
                         "title": "Codes",
                         "description": "Unique codes of the currencies to link (ISO 4217)",
-                        "examples": [["USD", "EUR"]]
+                        "examples": [["RUB", "AZN"]]
                     }
                 },
                 "type": "object",
@@ -8320,7 +8593,7 @@
                         "type": "string",
                         "title": "Code",
                         "description": "Currency code (ISO)",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "symbol": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
@@ -8436,7 +8709,20 @@
                         "propertyNames": { "format": "uuid" },
                         "type": "object",
                         "title": "Fees",
-                        "description": "Mapping of fee configurations with fee.id as key"
+                        "description": "Mapping of fee configurations with fee.id as key",
+                        "examples": [
+                            {
+                                "123e4567-e89b-12d3-a456-426614174000": {
+                                    "currency": "USD",
+                                    "description": "Fee for service",
+                                    "direction": 1,
+                                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                                    "recipient": "recipient@example.com",
+                                    "type": 3,
+                                    "value": { "accuracy": 100, "quantity": 1234 }
+                                }
+                            }
+                        ]
                     },
                     "limits": {
                         "$ref": "#/components/schemas/Limits",
@@ -8530,13 +8816,13 @@
                         "type": "string",
                         "title": "Src Currency",
                         "description": "Source currency code",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "dst_currency": {
                         "type": "string",
                         "title": "Dst Currency",
                         "description": "Destination currency code",
-                        "examples": ["EUR"]
+                        "examples": ["AZN"]
                     },
                     "weight": {
                         "type": "integer",
@@ -8645,13 +8931,13 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Src Currency",
                         "description": "Source currency code",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "dst_currency": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Dst Currency",
                         "description": "Destination currency code",
-                        "examples": ["EUR"]
+                        "examples": ["AZN"]
                     },
                     "weight": {
                         "anyOf": [{ "type": "integer" }, { "type": "null" }],
@@ -8755,13 +9041,13 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Src Currency",
                         "description": "Source currency code",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "dst_currency": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Dst Currency",
                         "description": "Destination currency code",
-                        "examples": ["EUR"]
+                        "examples": ["AZN"]
                     },
                     "weight": {
                         "anyOf": [{ "type": "integer" }, { "type": "null" }],
@@ -9035,7 +9321,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Currency",
                         "description": "Currency code for the fee",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "value": {
                         "anyOf": [
@@ -9102,7 +9388,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Currency",
                         "description": "Currency code for the fee",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "value": {
                         "anyOf": [
@@ -9499,7 +9785,7 @@
                 "required": ["private_key", "public_key"],
                 "title": "KeyPair"
             },
-            "LimitValues-Input": {
+            "LimitValues": {
                 "properties": {
                     "min": {
                         "anyOf": [
@@ -9529,38 +9815,29 @@
                 "type": "object",
                 "title": "LimitValues"
             },
-            "LimitValues-Output": {
-                "properties": {
-                    "min": { "$ref": "#/components/schemas/RateValue", "description": "Minimum limit value" },
-                    "max": { "$ref": "#/components/schemas/RateValue", "description": "Maximum limit value" }
-                },
-                "type": "object",
-                "title": "LimitValues"
-            },
             "Limits": {
                 "properties": {
-                    "payin": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payin" },
-                    "payout": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for payout" },
-                    "reward": { "$ref": "#/components/schemas/LimitValues-Output", "description": "Limits for reward" }
+                    "payin": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for payin" },
+                    "payout": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for payout" },
+                    "reward": { "$ref": "#/components/schemas/LimitValues", "description": "Limits for reward" }
                 },
                 "type": "object",
-                "required": ["payin", "payout", "reward"],
                 "title": "Limits"
             },
             "LimitsCreate": {
                 "properties": {
                     "payin": {
-                        "$ref": "#/components/schemas/LimitValues-Input",
+                        "$ref": "#/components/schemas/LimitValues",
                         "description": "Limits for payin operations (deposit transactions)",
                         "examples": [{ "max": 50000, "min": 100 }]
                     },
                     "payout": {
-                        "$ref": "#/components/schemas/LimitValues-Input",
+                        "$ref": "#/components/schemas/LimitValues",
                         "description": "Limits for payout operations (withdrawal transactions)",
                         "examples": [{ "max": 100000, "min": 500 }]
                     },
                     "reward": {
-                        "$ref": "#/components/schemas/LimitValues-Input",
+                        "$ref": "#/components/schemas/LimitValues",
                         "description": "Limits for reward operations (bonus/cashback transactions)",
                         "examples": [{ "max": 1000, "min": 1 }]
                     }
@@ -9571,17 +9848,17 @@
             "LimitsUpdate": {
                 "properties": {
                     "payin": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
                         "description": "Updated limits for payin operations",
                         "examples": [{ "max": 75000, "min": 200 }]
                     },
                     "payout": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
                         "description": "Updated limits for payout operations",
                         "examples": [{ "max": 150000, "min": 1000 }]
                     },
                     "reward": {
-                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues-Input" }, { "type": "null" }],
+                        "anyOf": [{ "$ref": "#/components/schemas/LimitValues" }, { "type": "null" }],
                         "description": "Updated limits for reward operations",
                         "examples": [{ "max": 2000, "min": 5 }]
                     }
@@ -9624,7 +9901,7 @@
                         "examples": [
                             {
                                 "123e4567-e89b-12d3-a456-426614174000": {
-                                    "currency": "USD",
+                                    "currency": "RUB",
                                     "description": "Fee for service",
                                     "direction": 1,
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
@@ -9658,12 +9935,6 @@
                         "title": "Cascade Id",
                         "description": "Unique identifier of the cascade assigned to merchant",
                         "examples": ["987fcdeb-51a2-43d1-b678-426614174001"]
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/MerchantCascadeState",
-                        "description": "Current state of the merchant-cascade assignment",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
                     }
                 },
                 "type": "object",
@@ -9685,18 +9956,21 @@
                         "description": "Unique identifier of the cascade assigned to merchant",
                         "examples": ["987fcdeb-51a2-43d1-b678-426614174001"]
                     },
-                    "state": {
-                        "$ref": "#/components/schemas/MerchantCascadeState",
-                        "description": "Current state of the merchant-cascade assignment",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
-                    },
                     "id": {
                         "type": "string",
                         "format": "uuid",
                         "title": "Id",
                         "description": "Unique identifier of the merchant-cascade assignment record",
                         "examples": ["456e7890-f12b-34c5-d678-426614174002"]
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/MerchantCascadeState",
+                        "description": "Current state of the merchant-cascade assignment",
+                        "examples": ["active", "inactive"]
+                    },
+                    "cascade": {
+                        "$ref": "#/components/schemas/CascadeRead",
+                        "description": "Cascade this merchant cascade belongs to"
                     },
                     "created_at": {
                         "type": "string",
@@ -9714,7 +9988,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["merchant_id", "cascade_id", "id", "created_at", "updated_at"],
+                "required": ["merchant_id", "cascade_id", "id", "state", "cascade", "created_at", "updated_at"],
                 "title": "MerchantCascadeRead"
             },
             "MerchantCascadeSchema": {
@@ -9732,18 +10006,21 @@
                         "description": "Unique identifier of the cascade assigned to merchant",
                         "examples": ["987fcdeb-51a2-43d1-b678-426614174001"]
                     },
-                    "state": {
-                        "$ref": "#/components/schemas/MerchantCascadeState",
-                        "description": "Current state of the merchant-cascade assignment",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
-                    },
                     "id": {
                         "type": "string",
                         "format": "uuid",
                         "title": "Id",
                         "description": "Unique identifier of the merchant-cascade assignment record",
                         "examples": ["456e7890-f12b-34c5-d678-426614174002"]
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/MerchantCascadeState",
+                        "description": "Current state of the merchant-cascade assignment",
+                        "examples": ["active", "inactive"]
+                    },
+                    "cascade": {
+                        "$ref": "#/components/schemas/CascadeRead",
+                        "description": "Cascade this merchant cascade belongs to"
                     },
                     "created_at": {
                         "type": "string",
@@ -9759,17 +10036,22 @@
                         "description": "Timestamp when the record was last updated",
                         "examples": ["2024-01-15T14:45:30Z"]
                     },
-                    "cascade": {
-                        "$ref": "#/components/schemas/CascadeRead",
-                        "description": "Cascade this merchant cascade belongs to"
-                    },
                     "merchant": {
                         "$ref": "#/components/schemas/MerchantBase",
                         "description": "Merchant this merchant cascade belongs to"
                     }
                 },
                 "type": "object",
-                "required": ["merchant_id", "cascade_id", "id", "created_at", "updated_at", "cascade", "merchant"],
+                "required": [
+                    "merchant_id",
+                    "cascade_id",
+                    "id",
+                    "state",
+                    "cascade",
+                    "created_at",
+                    "updated_at",
+                    "merchant"
+                ],
                 "title": "MerchantCascadeSchema"
             },
             "MerchantCascadeState": {
@@ -9823,7 +10105,7 @@
                         "examples": [
                             {
                                 "123e4567-e89b-12d3-a456-426614174000": {
-                                    "currency": "USD",
+                                    "currency": "RUB",
                                     "description": "Fee for service",
                                     "direction": 1,
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
@@ -9850,7 +10132,7 @@
                         "type": "array",
                         "title": "Allowed Src Currencies",
                         "description": "Currency codes for allowed source currencies",
-                        "examples": [["USD", "EUR", "RUB"]]
+                        "examples": [["RUB", "AZN", "RUB"]]
                     }
                 },
                 "type": "object",
@@ -9892,7 +10174,7 @@
                         "examples": [
                             {
                                 "123e4567-e89b-12d3-a456-426614174000": {
-                                    "currency": "USD",
+                                    "currency": "RUB",
                                     "description": "Fee for service",
                                     "direction": 1,
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
@@ -9995,7 +10277,7 @@
                         "anyOf": [{ "items": { "type": "string" }, "type": "array" }, { "type": "null" }],
                         "title": "Allowed Src Currencies",
                         "description": "Currency codes for allowed source currencies",
-                        "examples": [["USD", "EUR", "RUB"]]
+                        "examples": [["RUB", "AZN", "RUB"]]
                     }
                 },
                 "type": "object",
@@ -10009,7 +10291,7 @@
                         "minLength": 1,
                         "title": "Name",
                         "description": "Human-readable name of the cascade",
-                        "examples": ["Main USD Deposit Cascade", "EUR Withdraw Priority 1"]
+                        "examples": ["Main RUB Deposit Cascade", "AZN Withdraw Priority 1"]
                     },
                     "type": {
                         "$ref": "#/components/schemas/CascadeType",
@@ -10017,25 +10299,11 @@
                         "default": "deposit",
                         "examples": ["deposit", "withdraw"]
                     },
-                    "src_currency_code": {
-                        "type": "string",
-                        "maxLength": 3,
-                        "minLength": 3,
-                        "title": "Src Currency Code",
-                        "description": "Source currency code (ISO 4217 format)",
-                        "examples": ["USD", "EUR", "RUB"]
-                    },
                     "cascade_kind": {
                         "$ref": "#/components/schemas/CascadeKind",
                         "description": "Execution strategy: sequential (one by one) or fanout (parallel)",
                         "default": "sequential",
                         "examples": ["sequential", "fanout"]
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeState",
-                        "description": "Current operational state of the cascade",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
                     },
                     "priority_policy": {
                         "$ref": "#/components/schemas/PriorityPolicy",
@@ -10045,7 +10313,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Description",
                         "description": "Optional detailed description of the cascade purpose",
-                        "examples": ["Primary cascade for handling USD deposits", "Backup cascade for EUR withdrawals"]
+                        "examples": ["Primary cascade for handling RUB deposits", "Backup cascade for AZN withdrawals"]
                     },
                     "details": {
                         "additionalProperties": true,
@@ -10054,19 +10322,19 @@
                         "description": "Additional configuration parameters and metadata",
                         "examples": [{ "key": "value" }]
                     },
-                    "payment_types": {
-                        "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
-                        "type": "array",
-                        "title": "Payment Types",
-                        "description": "Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections",
-                        "examples": [["card2card", "sbp", "qiwi"]]
-                    },
                     "id": {
                         "type": "string",
                         "format": "uuid",
                         "title": "Id",
                         "description": "Unique identifier of the merged cascade (virtual ID)",
                         "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+                    },
+                    "src_currency": { "$ref": "#/components/schemas/Currency", "description": "Source currency code" },
+                    "state": {
+                        "$ref": "#/components/schemas/CascadeState",
+                        "description": "Current operational state of the merged cascade",
+                        "default": "active",
+                        "examples": ["active", "inactive"]
                     },
                     "original_cascade_ids": {
                         "items": { "type": "string", "format": "uuid" },
@@ -10089,7 +10357,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["name", "src_currency_code", "priority_policy", "id"],
+                "required": ["name", "priority_policy", "id", "src_currency"],
                 "title": "MergedCascade"
             },
             "MergedCascadeTerminal": {
@@ -10108,21 +10376,21 @@
                         "description": "Unique identifier of the terminal in this cascade",
                         "examples": ["987fcdeb-51a2-43d1-b678-426614174001"]
                     },
-                    "state": {
-                        "$ref": "#/components/schemas/CascadeTerminalState",
-                        "description": "Current operational state of the cascade terminal",
-                        "default": "active",
-                        "examples": ["active", "inactive"]
-                    },
                     "condition": {
                         "$ref": "#/components/schemas/CascadeCondition",
                         "description": "Configuration for terminal behavior within the cascade"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/CascadeTerminalState",
+                        "description": "Current operational state of the merged cascade terminal",
+                        "default": "inactive",
+                        "examples": ["active", "inactive"]
                     },
                     "cascade_name": {
                         "type": "string",
                         "title": "Cascade Name",
                         "description": "Human-readable name of the cascade this terminal belongs to",
-                        "examples": ["Main USD Deposit Cascade", "EUR Withdraw Priority 1"]
+                        "examples": ["Main RUB Deposit Cascade", "AZN Withdraw Priority 1"]
                     },
                     "priority_rank": {
                         "type": "integer",
@@ -10189,7 +10457,7 @@
                         "type": "string",
                         "title": "Src Currency",
                         "description": "Source currency code for the cascade view",
-                        "examples": ["USD", "EUR", "RUB"]
+                        "examples": ["RUB", "AZN", "RUB"]
                     },
                     "merged_cascade": {
                         "$ref": "#/components/schemas/MergedCascade",
@@ -11455,7 +11723,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Description",
                         "description": "Updated detailed description of the payment instrument.",
-                        "examples": ["Updated description for primary USD card deposits."]
+                        "examples": ["Updated description for primary RUB card deposits."]
                     },
                     "meta": {
                         "anyOf": [{ "additionalProperties": true, "type": "object" }, { "type": "null" }],
@@ -11604,7 +11872,7 @@
                         "type": "string",
                         "title": "Cascade Name",
                         "description": "Human-readable name of the conflicting cascade",
-                        "examples": ["Main USD Deposit Cascade", "EUR Withdraw Priority 1"]
+                        "examples": ["Main RUB Deposit Cascade", "AZN Withdraw Priority 1"]
                     },
                     "priority_rank": {
                         "type": "integer",
@@ -11671,16 +11939,16 @@
                         "examples": ["Pay4U"]
                     },
                     "src_currency_code": {
-                        "type": "string",
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Src Currency Code",
                         "description": "Source currency code",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "dst_currency_code": {
-                        "type": "string",
+                        "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Dst Currency Code",
                         "description": "Destination currency code",
-                        "examples": ["EUR"]
+                        "examples": ["AZN"]
                     },
                     "limits": {
                         "$ref": "#/components/schemas/LimitsCreate",
@@ -11689,30 +11957,6 @@
                     "settings": {
                         "$ref": "#/components/schemas/TerminalSettings",
                         "description": "Terminal settings configuration"
-                    },
-                    "state": {
-                        "$ref": "#/components/schemas/TerminalState",
-                        "description": "Terminal state",
-                        "default": "active",
-                        "examples": ["active"]
-                    },
-                    "account_created": {
-                        "type": "boolean",
-                        "title": "Account Created",
-                        "description": "Indicates if the account is created",
-                        "default": false,
-                        "examples": [false]
-                    },
-                    "auth": {
-                        "additionalProperties": true,
-                        "type": "object",
-                        "title": "Auth",
-                        "description": "Authentication configuration"
-                    },
-                    "callback_url": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Callback Url",
-                        "description": "Callback URL for notifications"
                     },
                     "payment_types": {
                         "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
@@ -11723,7 +11967,7 @@
                     }
                 },
                 "type": "object",
-                "required": ["verbose_name", "provider", "src_currency_code", "dst_currency_code"],
+                "required": ["verbose_name", "provider"],
                 "title": "TerminalCreate"
             },
             "TerminalDeleteAuth": {
@@ -11923,7 +12167,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Terminal Currency Code",
                         "description": "Provider's code for the currency (if different from system)",
-                        "examples": ["WRUB"]
+                        "examples": ["RUB"]
                     },
                     "terminal_financial_institution_code": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
@@ -11989,7 +12233,7 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Terminal Currency Code",
                         "description": "Terminal's code for the currency (if different from system)",
-                        "examples": ["WRUB"]
+                        "examples": ["RUB"]
                     },
                     "terminal_financial_institution_code": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
@@ -12035,24 +12279,15 @@
                         "default": 2,
                         "examples": [2]
                     },
-                    "src_currency_code": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Src Currency Code",
-                        "description": "Source currency code",
-                        "examples": ["USD"]
+                    "src_currency": {
+                        "anyOf": [{ "$ref": "#/components/schemas/Currency" }, { "type": "null" }],
+                        "description": "Source currency code"
                     },
-                    "dst_currency_code": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Dst Currency Code",
-                        "description": "Destination currency code",
-                        "examples": ["EUR"]
+                    "dst_currency": {
+                        "anyOf": [{ "$ref": "#/components/schemas/Currency" }, { "type": "null" }],
+                        "description": "Destination currency code"
                     },
-                    "limits": {
-                        "additionalProperties": true,
-                        "type": "object",
-                        "title": "Limits",
-                        "description": "Terminal limits configuration"
-                    },
+                    "limits": { "$ref": "#/components/schemas/Limits", "description": "Terminal limits configuration" },
                     "settings": {
                         "$ref": "#/components/schemas/TerminalSettings",
                         "description": "Terminal settings configuration"
@@ -12076,7 +12311,7 @@
                         "examples": [
                             {
                                 "123e4567-e89b-12d3-a456-426614174000": {
-                                    "currency": "USD",
+                                    "currency": "RUB",
                                     "description": "Fee for service",
                                     "direction": 1,
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
@@ -12172,7 +12407,7 @@
                         "examples": [
                             {
                                 "123e4567-e89b-12d3-a456-426614174000": {
-                                    "currency": "USD",
+                                    "currency": "RUB",
                                     "description": "Fee for service",
                                     "direction": 1,
                                     "id": "123e4567-e89b-12d3-a456-426614174000",
@@ -12219,13 +12454,13 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Src Currency Code",
                         "description": "Source currency code",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "dst_currency_code": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Dst Currency Code",
                         "description": "Destination currency code",
-                        "examples": ["EUR"]
+                        "examples": ["AZN"]
                     },
                     "limits": {
                         "additionalProperties": true,
@@ -12280,13 +12515,13 @@
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Src Currency Code",
                         "description": "Source currency code",
-                        "examples": ["USD"]
+                        "examples": ["RUB"]
                     },
                     "dst_currency_code": {
                         "anyOf": [{ "type": "string" }, { "type": "null" }],
                         "title": "Dst Currency Code",
                         "description": "Destination currency code",
-                        "examples": ["EUR"]
+                        "examples": ["AZN"]
                     },
                     "limits": {
                         "anyOf": [{ "$ref": "#/components/schemas/LimitsUpdate" }, { "type": "null" }],
@@ -12300,16 +12535,6 @@
                         "anyOf": [{ "$ref": "#/components/schemas/TerminalState" }, { "type": "null" }],
                         "description": "Terminal state",
                         "examples": ["active"]
-                    },
-                    "auth": {
-                        "anyOf": [{ "additionalProperties": true, "type": "object" }, { "type": "null" }],
-                        "title": "Auth",
-                        "description": "Authentication configuration"
-                    },
-                    "callback_url": {
-                        "anyOf": [{ "type": "string" }, { "type": "null" }],
-                        "title": "Callback Url",
-                        "description": "Callback URL for notifications"
                     },
                     "payment_types": {
                         "anyOf": [
