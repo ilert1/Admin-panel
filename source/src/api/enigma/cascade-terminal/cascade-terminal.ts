@@ -9,10 +9,7 @@ import type {
     ApiResponseDictStrStr,
     ApiResponseOffsetPaginationCascadeTerminalSchema,
     CascadeTerminalCreate,
-<<<<<<< HEAD
-=======
     CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetParams,
->>>>>>> INT-89
     CascadeTerminalUpdate,
     HTTPValidationError
 } from "../blowFishEnigmaAPIService.schemas";
@@ -28,10 +25,6 @@ export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalG
     status: 200;
 };
 
-<<<<<<< HEAD
-export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponseComposite =
-    cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse200;
-=======
 export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse422 = {
     data: HTTPValidationError;
     status: 422;
@@ -40,24 +33,12 @@ export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalG
 export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponseComposite =
     | cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse200
     | cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse422;
->>>>>>> INT-89
 
 export type cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse =
     cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponseComposite & {
         headers: Headers;
     };
 
-<<<<<<< HEAD
-export const getCascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal`;
-};
-
-export const cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGet = async (
-    options?: RequestInit
-): Promise<cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse> => {
-    return authFetch<cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse>(
-        getCascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetUrl(),
-=======
 export const getCascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetUrl = (
     params?: CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetParams
 ) => {
@@ -82,7 +63,6 @@ export const cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminal
 ): Promise<cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse> => {
     return authFetch<cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetResponse>(
         getCascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetUrl(params),
->>>>>>> INT-89
         {
             ...options,
             method: "GET"

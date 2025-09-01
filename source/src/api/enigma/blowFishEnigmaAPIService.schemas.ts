@@ -969,11 +969,6 @@ export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInst
     currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
 }
 
-<<<<<<< HEAD
-export interface CascadeCondition {
-    /** Whether this is an extra/backup terminal (must have weight=0) */
-    extra?: boolean;
-=======
 /**
  * Priority rank of the terminal(1 = highest priority)
  */
@@ -985,28 +980,17 @@ export type CascadeConditionRank = number | null;
 export type CascadeConditionTtl = TTLConfig | null;
 
 export interface CascadeCondition {
->>>>>>> INT-89
     /**
      * Terminal weight for load balancing (0 for extra terminals)
      * @minimum 0
      */
     weight?: number;
-<<<<<<< HEAD
-    /**
-     * Priority rank of the terminal(1 = highest priority)
-     * @minimum 1
-     */
-    rank: number;
-    /** Time-to-live configuration for terminal availability */
-    ttl?: TTLConfig;
-=======
     /** Whether this is an extra/backup terminal (must have weight=0) */
     extra?: boolean;
     /** Priority rank of the terminal(1 = highest priority) */
     rank?: CascadeConditionRank;
     /** Time-to-live configuration for terminal availability */
     ttl?: CascadeConditionTtl;
->>>>>>> INT-89
 }
 
 /**
@@ -1028,36 +1012,20 @@ export interface CascadeCreate {
     name: string;
     /** Type of cascade defining operation direction */
     type?: CascadeType;
-<<<<<<< HEAD
-    /**
-     * Source currency code (ISO 4217 format)
-     * @minLength 3
-     * @maxLength 3
-     */
-    src_currency_code: string;
     /** Execution strategy: sequential (one by one) or fanout (parallel) */
     cascade_kind?: CascadeKind;
-    /** Current operational state of the cascade */
-    state?: CascadeState;
-=======
-    /** Execution strategy: sequential (one by one) or fanout (parallel) */
-    cascade_kind?: CascadeKind;
->>>>>>> INT-89
     /** Priority configuration for cascade ordering */
     priority_policy: PriorityPolicy;
     /** Optional detailed description of the cascade purpose */
     description?: CascadeCreateDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeCreateDetails;
-<<<<<<< HEAD
-=======
     /**
      * Source currency code (ISO 4217 format)
      * @minLength 3
      * @maxLength 3
      */
     src_currency_code: string;
->>>>>>> INT-89
     /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
     payment_types?: string[];
 }
@@ -1089,36 +1057,14 @@ export interface CascadeRead {
     name: string;
     /** Type of cascade defining operation direction */
     type?: CascadeType;
-<<<<<<< HEAD
-    /**
-     * Source currency code (ISO 4217 format)
-     * @minLength 3
-     * @maxLength 3
-     */
-    src_currency_code: string;
     /** Execution strategy: sequential (one by one) or fanout (parallel) */
     cascade_kind?: CascadeKind;
-    /** Current operational state of the cascade */
-    state?: CascadeState;
-=======
-    /** Execution strategy: sequential (one by one) or fanout (parallel) */
-    cascade_kind?: CascadeKind;
->>>>>>> INT-89
     /** Priority configuration for cascade ordering */
     priority_policy: PriorityPolicy;
     /** Optional detailed description of the cascade purpose */
     description?: CascadeReadDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeReadDetails;
-<<<<<<< HEAD
-    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
-    payment_types?: string[];
-    /** Unique identifier of the cascade */
-    id: string;
-    /** Timestamp when the cascade was created (ISO 8601 format) */
-    created_at: string;
-    /** Timestamp when the cascade was last updated (ISO 8601 format) */
-=======
     /** Unique identifier of the cascade */
     id: string;
     /** Current operational state of the cascade */
@@ -1130,7 +1076,6 @@ export interface CascadeRead {
     /** Timestamp when the record was created */
     created_at: string;
     /** Timestamp when the record was last updated */
->>>>>>> INT-89
     updated_at: string;
 }
 
@@ -1153,36 +1098,14 @@ export interface CascadeSchema {
     name: string;
     /** Type of cascade defining operation direction */
     type?: CascadeType;
-<<<<<<< HEAD
-    /**
-     * Source currency code (ISO 4217 format)
-     * @minLength 3
-     * @maxLength 3
-     */
-    src_currency_code: string;
     /** Execution strategy: sequential (one by one) or fanout (parallel) */
     cascade_kind?: CascadeKind;
-    /** Current operational state of the cascade */
-    state?: CascadeState;
-=======
-    /** Execution strategy: sequential (one by one) or fanout (parallel) */
-    cascade_kind?: CascadeKind;
->>>>>>> INT-89
     /** Priority configuration for cascade ordering */
     priority_policy: PriorityPolicy;
     /** Optional detailed description of the cascade purpose */
     description?: CascadeSchemaDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeSchemaDetails;
-<<<<<<< HEAD
-    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
-    payment_types?: string[];
-    /** Unique identifier of the cascade */
-    id: string;
-    /** Timestamp when the cascade was created (ISO 8601 format) */
-    created_at: string;
-    /** Timestamp when the cascade was last updated (ISO 8601 format) */
-=======
     /** Unique identifier of the cascade */
     id: string;
     /** Current operational state of the cascade */
@@ -1194,7 +1117,6 @@ export interface CascadeSchema {
     /** Timestamp when the record was created */
     created_at: string;
     /** Timestamp when the record was last updated */
->>>>>>> INT-89
     updated_at: string;
     /** List of cascade terminals */
     cascade_terminals?: CascadeTerminalRead[];
@@ -1213,11 +1135,6 @@ export interface CascadeTerminalCreate {
     cascade_id: string;
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
-<<<<<<< HEAD
-    /** Current operational state of the cascade terminal */
-    state?: CascadeTerminalState;
-=======
->>>>>>> INT-89
     /** Configuration for terminal behavior within the cascade */
     condition?: CascadeCondition;
 }
@@ -1227,20 +1144,10 @@ export interface CascadeTerminalRead {
     cascade_id: string;
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
-<<<<<<< HEAD
-    /** Current operational state of the cascade terminal */
-    state?: CascadeTerminalState;
-=======
->>>>>>> INT-89
     /** Configuration for terminal behavior within the cascade */
     condition?: CascadeCondition;
     /** Unique identifier of the cascade terminal record */
     id: string;
-<<<<<<< HEAD
-    /** Timestamp when the record was created */
-    created_at: string;
-    /** Timestamp when the record was created */
-=======
     /** Current operational state of the cascade terminal */
     state: CascadeTerminalState;
     /** Terminal this terminal belongs to */
@@ -1248,7 +1155,6 @@ export interface CascadeTerminalRead {
     /** Timestamp when the record was created */
     created_at: string;
     /** Timestamp when the record was last updated */
->>>>>>> INT-89
     updated_at: string;
 }
 
@@ -1257,25 +1163,10 @@ export interface CascadeTerminalSchema {
     cascade_id: string;
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
-<<<<<<< HEAD
-    /** Current operational state of the cascade terminal */
-    state?: CascadeTerminalState;
-=======
->>>>>>> INT-89
     /** Configuration for terminal behavior within the cascade */
     condition?: CascadeCondition;
     /** Unique identifier of the cascade terminal record */
     id: string;
-<<<<<<< HEAD
-    /** Timestamp when the record was created */
-    created_at: string;
-    /** Timestamp when the record was created */
-    updated_at: string;
-    /** Cascade this terminal belongs to */
-    cascade: CascadeRead;
-    /** Terminal this terminal belongs to */
-    terminal: TerminalRead;
-=======
     /** Current operational state of the cascade terminal */
     state: CascadeTerminalState;
     /** Terminal this terminal belongs to */
@@ -1286,7 +1177,6 @@ export interface CascadeTerminalSchema {
     updated_at: string;
     /** Cascade this terminal belongs to */
     cascade: CascadeRead;
->>>>>>> INT-89
 }
 
 export type CascadeTerminalState = (typeof CascadeTerminalState)[keyof typeof CascadeTerminalState];
@@ -2341,15 +2231,6 @@ export interface LimitsCreate {
     reward?: LimitValues;
 }
 
-export interface LimitsCreate {
-    /** Limits for payin operations (deposit transactions) */
-    payin?: LimitValuesInput;
-    /** Limits for payout operations (withdrawal transactions) */
-    payout?: LimitValuesInput;
-    /** Limits for reward operations (bonus/cashback transactions) */
-    reward?: LimitValuesInput;
-}
-
 /**
  * Updated limits for payin operations
  */
@@ -2409,11 +2290,6 @@ export interface MerchantCascadeCreate {
     merchant_id: string;
     /** Unique identifier of the cascade assigned to merchant */
     cascade_id: string;
-<<<<<<< HEAD
-    /** Current state of the merchant-cascade assignment */
-    state?: MerchantCascadeState;
-=======
->>>>>>> INT-89
 }
 
 export interface MerchantCascadeRead {
@@ -2421,19 +2297,12 @@ export interface MerchantCascadeRead {
     merchant_id: string;
     /** Unique identifier of the cascade assigned to merchant */
     cascade_id: string;
-<<<<<<< HEAD
-    /** Current state of the merchant-cascade assignment */
-    state?: MerchantCascadeState;
-    /** Unique identifier of the merchant-cascade assignment record */
-    id: string;
-=======
     /** Unique identifier of the merchant-cascade assignment record */
     id: string;
     /** Current state of the merchant-cascade assignment */
     state: MerchantCascadeState;
     /** Cascade this merchant cascade belongs to */
     cascade: CascadeRead;
->>>>>>> INT-89
     /** Timestamp when the record was created */
     created_at: string;
     /** Timestamp when the record was last updated */
@@ -2445,28 +2314,16 @@ export interface MerchantCascadeSchema {
     merchant_id: string;
     /** Unique identifier of the cascade assigned to merchant */
     cascade_id: string;
-<<<<<<< HEAD
-    /** Current state of the merchant-cascade assignment */
-    state?: MerchantCascadeState;
-    /** Unique identifier of the merchant-cascade assignment record */
-    id: string;
-=======
     /** Unique identifier of the merchant-cascade assignment record */
     id: string;
     /** Current state of the merchant-cascade assignment */
     state: MerchantCascadeState;
     /** Cascade this merchant cascade belongs to */
     cascade: CascadeRead;
->>>>>>> INT-89
     /** Timestamp when the record was created */
     created_at: string;
     /** Timestamp when the record was last updated */
     updated_at: string;
-<<<<<<< HEAD
-    /** Cascade this merchant cascade belongs to */
-    cascade: CascadeRead;
-=======
->>>>>>> INT-89
     /** Merchant this merchant cascade belongs to */
     merchant: MerchantBase;
 }
@@ -2637,40 +2494,20 @@ export interface MergedCascade {
     name: string;
     /** Type of cascade defining operation direction */
     type?: CascadeType;
-<<<<<<< HEAD
-    /**
-     * Source currency code (ISO 4217 format)
-     * @minLength 3
-     * @maxLength 3
-     */
-    src_currency_code: string;
     /** Execution strategy: sequential (one by one) or fanout (parallel) */
     cascade_kind?: CascadeKind;
-    /** Current operational state of the cascade */
-    state?: CascadeState;
-=======
-    /** Execution strategy: sequential (one by one) or fanout (parallel) */
-    cascade_kind?: CascadeKind;
->>>>>>> INT-89
     /** Priority configuration for cascade ordering */
     priority_policy: PriorityPolicy;
     /** Optional detailed description of the cascade purpose */
     description?: MergedCascadeDescription;
     /** Additional configuration parameters and metadata */
     details?: MergedCascadeDetails;
-<<<<<<< HEAD
-    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
-    payment_types?: string[];
-    /** Unique identifier of the merged cascade (virtual ID) */
-    id: string;
-=======
     /** Unique identifier of the merged cascade (virtual ID) */
     id: string;
     /** Source currency code */
     src_currency: Currency;
     /** Current operational state of the merged cascade */
     state?: CascadeState;
->>>>>>> INT-89
     /** List of original cascade IDs that were merged to create this view */
     original_cascade_ids?: string[];
     /** List of terminals in the merged cascade with resolved conflicts */
@@ -2689,17 +2526,10 @@ export interface MergedCascadeTerminal {
     cascade_id: string;
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
-<<<<<<< HEAD
-    /** Current operational state of the cascade terminal */
-    state?: CascadeTerminalState;
-    /** Configuration for terminal behavior within the cascade */
-    condition?: CascadeCondition;
-=======
     /** Configuration for terminal behavior within the cascade */
     condition?: CascadeCondition;
     /** Current operational state of the merged cascade terminal */
     state?: CascadeTerminalState;
->>>>>>> INT-89
     /** Human-readable name of the cascade this terminal belongs to */
     cascade_name: string;
     /** Priority rank of the cascade this terminal belongs to */
@@ -3349,16 +3179,6 @@ export type TerminalCreateDescription = string | null;
 export type TerminalCreateDetails = { [key: string]: unknown };
 
 /**
-<<<<<<< HEAD
- * Authentication configuration
- */
-export type TerminalCreateAuth = { [key: string]: unknown };
-
-/**
- * Callback URL for notifications
- */
-export type TerminalCreateCallbackUrl = string | null;
-=======
  * Source currency code
  */
 export type TerminalCreateSrcCurrencyCode = string | null;
@@ -3367,7 +3187,6 @@ export type TerminalCreateSrcCurrencyCode = string | null;
  * Destination currency code
  */
 export type TerminalCreateDstCurrencyCode = string | null;
->>>>>>> INT-89
 
 export interface TerminalCreate {
     /** Name of the terminal */
@@ -3385,30 +3204,13 @@ export interface TerminalCreate {
     /** Provider name of the terminal */
     provider: string;
     /** Source currency code */
-<<<<<<< HEAD
-    src_currency_code: string;
-    /** Destination currency code */
-    dst_currency_code: string;
-=======
     src_currency_code?: TerminalCreateSrcCurrencyCode;
     /** Destination currency code */
     dst_currency_code?: TerminalCreateDstCurrencyCode;
->>>>>>> INT-89
     /** Terminal limits configuration */
     limits?: LimitsCreate;
     /** Terminal settings configuration */
     settings?: TerminalSettings;
-<<<<<<< HEAD
-    /** Terminal state */
-    state?: TerminalState;
-    /** Indicates if the account is created */
-    account_created?: boolean;
-    /** Authentication configuration */
-    auth?: TerminalCreateAuth;
-    /** Callback URL for notifications */
-    callback_url?: TerminalCreateCallbackUrl;
-=======
->>>>>>> INT-89
     /** Unique codes of the payment types to link */
     payment_types?: string[];
 }
@@ -3627,25 +3429,12 @@ export type TerminalReadDescription = string | null;
 /**
  * Source currency code
  */
-<<<<<<< HEAD
-export type TerminalReadSrcCurrencyCode = string | null;
-=======
 export type TerminalReadSrcCurrency = Currency | null;
->>>>>>> INT-89
 
 /**
  * Destination currency code
  */
-<<<<<<< HEAD
-export type TerminalReadDstCurrencyCode = string | null;
-
-/**
- * Terminal limits configuration
- */
-export type TerminalReadLimits = { [key: string]: unknown };
-=======
 export type TerminalReadDstCurrency = Currency | null;
->>>>>>> INT-89
 
 /**
  * Mapping of fee configurations with fee.id as key
@@ -3677,19 +3466,11 @@ export interface TerminalRead {
     /** Timeout for allocation in seconds */
     allocation_timeout_seconds?: number;
     /** Source currency code */
-<<<<<<< HEAD
-    src_currency_code?: TerminalReadSrcCurrencyCode;
-    /** Destination currency code */
-    dst_currency_code?: TerminalReadDstCurrencyCode;
-    /** Terminal limits configuration */
-    limits?: TerminalReadLimits;
-=======
     src_currency?: TerminalReadSrcCurrency;
     /** Destination currency code */
     dst_currency?: TerminalReadDstCurrency;
     /** Terminal limits configuration */
     limits?: Limits;
->>>>>>> INT-89
     /** Terminal settings configuration */
     settings?: TerminalSettings;
     /** Terminal state */
@@ -3848,21 +3629,6 @@ export type TerminalUpdateSettings = TerminalSettings | null;
  */
 export type TerminalUpdateState = TerminalState | null;
 
-<<<<<<< HEAD
-export type TerminalUpdateAuthPropertyAnyOf = { [key: string]: unknown };
-
-/**
- * Authentication configuration
- */
-export type TerminalUpdateAuthProperty = TerminalUpdateAuthPropertyAnyOf | null;
-
-/**
- * Callback URL for notifications
- */
-export type TerminalUpdateCallbackUrl = string | null;
-
-=======
->>>>>>> INT-89
 /**
  * Unique codes of the payment types to link
  */
@@ -3887,13 +3653,6 @@ export interface TerminalUpdate {
     settings?: TerminalUpdateSettings;
     /** Terminal state */
     state?: TerminalUpdateState;
-<<<<<<< HEAD
-    /** Authentication configuration */
-    auth?: TerminalUpdateAuthProperty;
-    /** Callback URL for notifications */
-    callback_url?: TerminalUpdateCallbackUrl;
-=======
->>>>>>> INT-89
     /** Unique codes of the payment types to link */
     payment_types?: TerminalUpdatePaymentTypes;
 }
@@ -4339,8 +4098,6 @@ export const CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder = {
     desc: "desc"
 } as const;
 
-<<<<<<< HEAD
-=======
 export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetParams = {
     /**
      * List of identifiers for filtering
@@ -4401,19 +4158,12 @@ export const CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminal
     desc: "desc"
 } as const;
 
->>>>>>> INT-89
 export type MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams = {
     cascade_type: string;
     src_currency: string;
 };
 
 export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams = {
-<<<<<<< HEAD
-    args: unknown;
-    kwargs: unknown;
-};
-
-=======
     /**
      * List of identifiers for filtering
      */
@@ -4473,7 +4223,6 @@ export const MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascade
     desc: "desc"
 } as const;
 
->>>>>>> INT-89
 export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
     /**
      * List of identifiers for filtering
