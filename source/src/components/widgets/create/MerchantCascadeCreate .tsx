@@ -1,6 +1,5 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
 import { useForm } from "react-hook-form";
-import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -8,10 +7,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { PaymentTypeCreate as IPaymentTypeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import {
     Select,
     SelectContent,
@@ -21,16 +18,12 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { CurrencySelect } from "../components/Selects/CurrencySelect";
-import { useCurrenciesListWithoutPagination } from "@/hooks";
-import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { useQuery } from "@tanstack/react-query";
 import { MerchantsDataProvider } from "@/data";
-import { CascadesDataProvider } from "@/data/cascades";
+import { MerchantSelect } from "../components/Selects/MerchantSelect";
+import { CascadeSelect } from "../components/Selects/CascadeSelect";
 
-const CASCADE_TYPE = ["deposit", "withdrawal"];
 const CASCADE_STATE = ["active", "inactive", "archived"];
-const CASCADE_KIND = ["sequential", "fanout"];
 
 interface MerchantCascadeCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -40,13 +33,11 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
     const { onOpenChange } = props;
     const dataProvider = useDataProvider();
     const merchantsDataProvider = new MerchantsDataProvider();
-    const cascadesDataProvider = new CascadesDataProvider();
+    // const cascadesDataProvider = new CascadesDataProvider();
     const controllerProps = useCreateController({ resource: "cascadeSettings/cascadeMerchants" });
     const { theme } = useTheme();
     const appToast = useAppToast();
     const translate = useTranslate();
-
-    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
 
     const { data: merchants, isLoading: isLoadingMerchants } = useQuery({
         queryKey: ["merchants_list"],
@@ -60,9 +51,6 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
     // });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const [hasErrors, setHasErrors] = useState(false);
-    const [isValid, setIsValid] = useState(true);
-    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
 
     const formSchema = z.object({
         merchant: z.string().min(1, translate("resources.cascadeSettings.cascades.errors.name")).trim(),
@@ -73,7 +61,9 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            state: CASCADE_STATE[0]
+            state: CASCADE_STATE[0],
+            cascade: "",
+            merchant: ""
         }
     });
 
@@ -83,15 +73,12 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
         setSubmitButtonDisabled(true);
 
         try {
-            await dataProvider.create("cascades", {
-                data: {
-                    ...data,
-                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {}
-                }
+            await dataProvider.create("cascadeSettings/cascadeMerchants", {
+                data
             });
 
             appToast("success", translate("app.ui.create.createSuccess"));
-            onClose();
+            onOpenChange(false);
         } catch (error) {
             if (error instanceof Error) {
                 if (error.message.includes("already exists")) {
@@ -107,9 +94,9 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
         }
     };
 
-    if (controllerProps.isLoading || isCurrenciesLoading || theme.length === 0)
+    if (controllerProps.isLoading || isLoadingMerchants || theme.length === 0)
         return (
-            <div className="h-[300px]">
+            <div className="h-[324px]">
                 <Loading />
             </div>
         );
@@ -121,119 +108,55 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
                     <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="merchant"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.cascadeSettings.cascades.fields.name")}
-                                        />
+                                        <>
+                                            <Label>
+                                                {translate(
+                                                    "resources.cascadeSettings.cascadeMerchants.fields.merchant"
+                                                )}
+                                            </Label>
+                                            <MerchantSelect
+                                                merchants={merchants?.data || []}
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
+                                                disabled={isLoadingMerchants}
+                                                modal
+                                            />
+                                        </>
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
-                            name="type"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.cascadeSettings.cascades.fields.type")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_TYPE.map(type => (
-                                                    <SelectItem value={type} variant={SelectType.GRAY} key={type}>
-                                                        {translate(`resources.cascadeSettings.cascades.types.${type}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="rank"
+                            name="cascade"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.cascadeSettings.cascades.fields.rank")}
-                                        />
+                                        <>
+                                            <Label>
+                                                {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade")}
+                                            </Label>
+                                            <CascadeSelect
+                                                cascades={[]}
+                                                // cascades={merchants?.data || []}
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
+                                                disabled={isLoadingMerchants}
+                                                modal
+                                            />
+                                        </>
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
-
-                        <FormField
-                            control={form.control}
-                            name="src_currency_code"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>
-                                        {translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
-                                    </Label>
-                                    <CurrencySelect
-                                        currencies={currenciesData || []}
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={currenciesLoadingProcess}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="cascade_kind"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.cascadeSettings.cascades.fields.cascade_kind")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_KIND.map(kind => (
-                                                    <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
-                                                        {translate(`resources.cascadeSettings.cascades.kinds.${kind}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-
                         <FormField
                             control={form.control}
                             name="state"
@@ -262,64 +185,18 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
                                 </FormItem>
                             )}
                         />
-
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="col-span-1 sm:col-span-2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.cascadeSettings.cascades.fields.description")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="details"
-                            render={({ field }) => {
-                                return (
-                                    <FormItem className="col-span-1 sm:col-span-2">
-                                        <Label>{translate("resources.cascadeSettings.cascades.fields.details")}</Label>
-                                        <FormControl>
-                                            <MonacoEditor
-                                                onErrorsChange={setHasErrors}
-                                                onValidChange={setIsValid}
-                                                onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value ?? "{}"}
-                                                setCode={field.onChange}
-                                                allowEmptyValues
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                );
-                            }}
-                        />
                     </div>
 
                     <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
-                        <Button
-                            type="submit"
-                            variant="default"
-                            className="flex-1"
-                            disabled={
-                                submitButtonDisabled ||
-                                hasErrors ||
-                                (!isValid && form.watch("details")?.length !== 0) ||
-                                !monacoEditorMounted
-                            }>
+                        <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
 
-                        <Button type="button" variant="outline_gray" className="flex-1" onClick={onClose}>
+                        <Button
+                            type="button"
+                            variant="outline_gray"
+                            className="flex-1"
+                            onClick={() => onOpenChange(false)}>
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

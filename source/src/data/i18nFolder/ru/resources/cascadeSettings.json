@@ -88,6 +88,8 @@
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Каскады мерчантов",
         "createNew": "Добавить связь мерчанта и каскада",
+        "editingCascade": "Изменение связи мерчанта и каскада",
+        "deleteCascadeMerchant": "Удалить связь мерчанта и каскада?",
         "fields": {
             "merchant": "Мерчант",
             "cascade": "Каскад",
@@ -103,5 +105,9 @@
     },
     "resources.cascadeSettings.cascadeConflicts": {
         "name": "Конфликты каскадов"
+    },
+    "resources.cascadeSettings.select": {
+        "notFoundMessage": "Каскады не найдены.",
+        "selectPlaceholder": "Выберите каскад"
     }
 }

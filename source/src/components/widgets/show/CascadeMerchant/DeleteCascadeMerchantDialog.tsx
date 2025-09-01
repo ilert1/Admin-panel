@@ -10,13 +10,18 @@ import {
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useDelete, useRefresh, useTranslate } from "react-admin";
 
-export interface DeleteCascadeDialogProps {
+export interface DeleteCascadeMerchantDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
     id: string;
     onQuickShowOpenChange: (state: boolean) => void;
 }
-export const DeleteCascadeDialog = ({ open, id, onOpenChange, onQuickShowOpenChange }: DeleteCascadeDialogProps) => {
+export const DeleteCascadeMerchantDialog = ({
+    open,
+    id,
+    onOpenChange,
+    onQuickShowOpenChange
+}: DeleteCascadeMerchantDialogProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     const [deleteOne] = useDelete();
@@ -43,7 +48,7 @@ export const DeleteCascadeDialog = ({ open, id, onOpenChange, onQuickShowOpenCha
             <DialogContent className="max-h-[250px] max-w-[270px] overflow-auto bg-muted sm:max-h-[200px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">
-                        {translate("resources.cascadeSettings.cascades.deleteCascade")}
+                        {translate("resources.cascadeSettings.cascadeMerchants.deleteCascadeMerchant")}
                     </DialogTitle>
                     <DialogDescription />
                 </DialogHeader>

@@ -107,7 +107,7 @@ export const useGetCascadeMerchantColumns = () => {
             accessorKey: "source_currency",
             header: translate("resources.cascadeSettings.cascadeMerchants.fields.src_currency"),
             cell: ({ row }) => {
-                const currency_code = row.original.cascade.src_currency_code;
+                const currency_code = row.original.cascade.src_currency.code;
                 return currency_code ? <Badge variant="currency">{currency_code}</Badge> : <TextField text="" />;
             }
         },

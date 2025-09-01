@@ -95,7 +95,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                 name: cascadeData.name || "",
                 type: cascadeData.type || CASCADE_TYPE[0],
                 rank: cascadeData.priority_policy.rank || undefined,
-                src_currency_code: cascadeData.src_currency_code || "",
+                src_currency: cascadeData.src_currency.code || "",
                 cascade_kind: cascadeData.cascade_kind || CASCADE_KIND[0],
                 state: cascadeData.state || CASCADE_STATE[0],
                 description: cascadeData.description || "",

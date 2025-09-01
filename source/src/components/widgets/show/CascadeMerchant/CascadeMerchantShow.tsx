@@ -4,11 +4,12 @@ import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 // import { MerchantCascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 // import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { useFetchDictionaries } from "@/hooks";
 import { useState } from "react";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { EditCascadeMerchantDialog } from "./EditCascadeMerchantDialog";
+import { DeleteCascadeMerchantDialog } from "./DeleteCascadeMerchantDialog";
 
 export interface CascadeMerchantShowProps {
     id: string;
@@ -18,7 +19,6 @@ export interface CascadeMerchantShowProps {
 export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowProps) => {
     // const context = useAbortableShowController<MerchantCascadeSchema>({ resource: "cascadeSettings/cascadeMerchants", id });
     const { openSheet } = useSheets();
-    const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
 
@@ -191,58 +191,35 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                             "resources.cascadeSettings.cascades.state." + cascadeMerchantData.cascade.state
                         )}
                     />
-                    {/* 
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.type")}
-                        text={cascadeMerchantData.type ?? ""}
-                    />
-
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
-                        </small>
-
-                        <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                            <Badge variant="currency">{cascadeMerchantData.src_currency_code}</Badge>
-                        </div>
-                    </div>
-
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.cascade_kind")}
-                        text={cascadeMerchantData.cascade_kind ?? ""}
-                    />
-
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.rank")}
-                        text={cascadeMerchantData.priority_policy.rank.toString()}
-                    />
-
-                    <TextField
-                        className="grid-cols-1 md:grid-cols-2"
-                        label={translate("resources.cascadeSettings.cascades.fields.description")}
-                        text={cascadeMerchantData.description ?? ""}
-                    /> */}
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={() => {}}>
+                    <Button
+                        className=""
+                        onClick={() => {
+                            setEditDialogOpen(true);
+                        }}>
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="" onClick={() => {}} variant={"outline_gray"}>
+                    <Button
+                        className=""
+                        onClick={() => {
+                            setDeleteDialogOpen(true);
+                        }}
+                        variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
             </div>
 
-            {/* <DeleteCascadeDialog
+            <DeleteCascadeMerchantDialog
                 open={deleteDialogOpen}
                 onOpenChange={setDeleteDialogOpen}
                 onQuickShowOpenChange={onOpenChange}
                 id={id}
             />
-
-            <EditCascadeDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} /> */}
+            <EditCascadeMerchantDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />
         </div>
     );
 };

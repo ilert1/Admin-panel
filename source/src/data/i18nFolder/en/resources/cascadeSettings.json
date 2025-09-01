@@ -88,6 +88,8 @@
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Cascade merchants",
         "createNew": "Create link between merchant and cascade",
+        "editingCascade": "Editing link between merchant and cascade",
+        "deleteCascadeMerchant": "Delete link between merchant and cascade?",
         "fields": {
             "merchant": "Merchant",
             "cascade": "Cascade",
@@ -103,5 +105,9 @@
     },
     "resources.cascadeSettings.cascadeConflicts": {
         "name": "Cascade conflicts"
+    },
+    "resources.cascadeSettings.select": {
+        "notFoundMessage": "Cascades not found.",
+        "selectPlaceholder": "Select cascade"
     }
 }
