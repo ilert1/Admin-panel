@@ -119,7 +119,7 @@ const dataProvider = combineDataProviders(resource => {
         return new SystemPaymentInstrumentsProvider();
     } else if (resource === "cascades") {
         return new CascadesDataProvider();
-    } else if (resource === "cascade_terminal") {
+    } else if (resource === "cascade_terminals") {
         return new CascadeTerminalDataProvider();
     } else {
         return BaseDataProvider;
