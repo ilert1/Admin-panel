@@ -113,7 +113,7 @@ export const CascadeTerminalsListFilter = ({ handleCreateClicked }: { handleCrea
                                 placeholder={translate("resources.cascadeSettings.cascades.selectPlaceholder")}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.cascadeSettings.cascades.notFoundMessage")}
-                                disabled={isCascadesLoading || !!terminalName}
+                                disabled={isCascadesLoading || !!terminalName || !!providerName}
                                 isLoading={isCascadesLoading}
                             />
                         </div>
