@@ -1,7 +1,7 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
@@ -81,7 +81,15 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
         callback_url: z.string().optional().nullable().default(null),
-        state: z.enum(["active", "inactive"])
+        state: z.enum(["active", "inactive"]),
+        minTTL: z.coerce
+            .number()
+            .min(0, translate("resources.terminals.errors.minTTL"))
+            .max(100000, translate("resources.terminals.errors.maxTTL")),
+        maxTTL: z.coerce
+            .number()
+            .min(0, translate("resources.terminals.errors.minTTL"))
+            .max(100000, translate("resources.terminals.errors.maxTTL"))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -95,7 +103,9 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             src_currency_code: "",
             dst_currency_code: "",
             callback_url: null,
-            state: "inactive"
+            state: "inactive",
+            minTTL: 0,
+            maxTTL: 0
         }
     });
 
@@ -110,7 +120,9 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 src_currency_code: terminal?.src_currency?.code || "",
                 dst_currency_code: terminal?.dst_currency?.code || "",
                 callback_url: terminal?.callback_url || null,
-                state: terminal?.state || "inactive"
+                state: terminal?.state || "inactive",
+                minTTL: terminal?.settings?.ttl?.min || 0,
+                maxTTL: terminal?.settings?.ttl?.max || 0
             };
 
             form.reset(updatedValues);
@@ -142,6 +154,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 id,
                 data: {
                     ...data,
+                    settings: { ttl: { min: data.minTTL, max: data.maxTTL } },
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     allocation_timeout_seconds:
                         data.allocation_timeout_seconds !== undefined ? data.allocation_timeout_seconds : null
@@ -180,6 +193,50 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             onClose();
         }
     };
+
+    const handleChange = useCallback(
+        (key: "minTTL" | "maxTTL", value: string) => {
+            value = value.replace(/[^0-9.]/g, "");
+
+            const parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts[1];
+            }
+
+            if (parts.length === 2 && parts[1].length > 2) {
+                parts[1] = parts[1].slice(0, 2);
+                value = parts.join(".");
+            }
+
+            if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+                value = value.replace(/^0+/, "") || "0";
+            }
+
+            if (value === "") {
+                form.resetField(key);
+                return;
+            }
+
+            if (value.endsWith(".") || value === "0.") {
+                return;
+            }
+
+            const numericValue = parseFloat(value);
+            if (!isNaN(numericValue)) {
+                let finalValue = numericValue;
+
+                if (numericValue > 100000) {
+                    finalValue = 100000;
+                }
+                if (numericValue < 0) {
+                    finalValue = 0;
+                }
+
+                form.setValue(key, finalValue);
+            }
+        },
+        [form]
+    );
 
     usePreventFocus({ dependencies: [terminal] });
 
@@ -235,6 +292,46 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                                 const value = e.target.value.replace(/\D/, "");
                                                 field.onChange(value);
                                             }}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="minTTL"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.minTTL")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("minTTL", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxTTL"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.maxTTL")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("maxTTL", e.target.value)}
                                         />
                                     </FormControl>
                                 </FormItem>
