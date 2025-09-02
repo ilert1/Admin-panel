@@ -13,8 +13,11 @@ import {
 import { IBaseDataProvider } from "./base";
 import {
     CascadeCreate,
+    CascadeKind,
     CascadeRead,
     CascadeSchema,
+    CascadeState,
+    CascadeType,
     CascadeUpdate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
@@ -25,6 +28,10 @@ import {
     cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut
 } from "@/api/enigma/cascade/cascade";
 
+export const CASCADE_TYPE = Object.values(CascadeType);
+export const CASCADE_STATE = Object.values(CascadeState);
+export const CASCADE_KIND = Object.values(CascadeKind);
+
 export interface CascadeUpdateParams extends CascadeUpdate {
     id: string;
 }
@@ -32,7 +39,9 @@ export interface CascadeUpdateParams extends CascadeUpdate {
 export class CascadesDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeSchema>> {
         const fieldsForSearch = params.filter
-            ? Object.keys(params.filter).filter(item => item === "type" || item === "src_currency_code")
+            ? Object.keys(params.filter).filter(
+                  item => item === "name" || item === "type" || item === "cascade_kind" || item === "state"
+              )
             : [];
 
         const res = await cascadeEndpointsListCascadesEnigmaV1CascadeGet(

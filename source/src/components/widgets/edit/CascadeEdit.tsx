@@ -22,14 +22,10 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { CascadesDataProvider } from "@/data";
-import { CascadeKind, CascadeState, CascadeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 import { CascadeUpdateParams } from "@/data/cascades";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-
-const CASCADE_TYPE = Object.values(CascadeType);
-const CASCADE_STATE = Object.values(CascadeState);
-const CASCADE_KIND = Object.values(CascadeKind);
 
 export interface CascadeEditProps {
     id: string;

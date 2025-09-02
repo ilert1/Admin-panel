@@ -6,12 +6,26 @@ import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import useCascadesListFilter from "./useCascadesListFilter";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 
 export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicked: () => void }) => {
-    const { translate, type, currency, onClearFilters, onTypeChanged, onCurrencyChanged } = useCascadesListFilter();
+    const {
+        translate,
+        name,
+        onNameChanged,
+        type,
+        onTypeChanged,
+        cascadeKind,
+        onCascadeKindChanged,
+        state,
+        onStateChanged,
+        onClearFilters
+    } = useCascadesListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !type && !currency;
+    const clearDisabled = !name && !type && !cascadeKind && !state;
 
     return (
         <>
@@ -20,7 +34,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                 <div className="flex flex-col gap-2 sm:flex-row">
                     <div className="flex flex-col gap-4 sm:flex-row">
                         <FilterButtonGroup
-                            filterList={[type, currency]}
+                            filterList={[name, type, cascadeKind, state]}
                             onClearFilters={onClearFilters}
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
@@ -44,24 +58,115 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                     <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
                         <div className="flex w-full flex-wrap gap-2 sm:flex-nowrap">
                             <Input
-                                label={translate("resources.cascadeSettings.cascades.fields.type")}
+                                label={translate("resources.cascadeSettings.cascades.fields.name")}
                                 labelSize="title-2"
-                                value={type}
-                                onChange={onTypeChanged}
+                                value={name}
+                                onChange={onNameChanged}
                                 className="min-w-40"
-                                placeholder={translate("resources.cascadeSettings.cascades.placeholders.type")}
+                                placeholder={translate("resources.cascadeSettings.cascades.placeholders.name")}
                             />
 
-                            <Input
-                                label={translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
-                                labelSize="title-2"
-                                value={currency}
-                                onChange={onCurrencyChanged}
-                                className="min-w-40"
-                                placeholder={translate(
-                                    "resources.cascadeSettings.cascades.placeholders.src_currency_code"
-                                )}
-                            />
+                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                                <Label variant="title-2" className="mb-0">
+                                    {translate("resources.cascadeSettings.cascades.fields.type")}
+                                </Label>
+
+                                <Select
+                                    value={type}
+                                    onValueChange={val => {
+                                        return val !== "null" ? onTypeChanged(val) : onTypeChanged("");
+                                    }}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translate(
+                                                "resources.cascadeSettings.cascades.placeholders.type"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="null">
+                                                {translate("resources.cascadeSettings.cascades.placeholders.showAll")}
+                                            </SelectItem>
+
+                                            {CASCADE_TYPE.map(type => (
+                                                <SelectItem value={type} key={type}>
+                                                    {translate(`resources.cascadeSettings.cascades.types.${type}`)}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                                <Label variant="title-2" className="mb-0">
+                                    {translate("resources.cascadeSettings.cascades.fields.cascade_kind")}
+                                </Label>
+
+                                <Select
+                                    value={cascadeKind}
+                                    onValueChange={val => {
+                                        return val !== "null" ? onCascadeKindChanged(val) : onCascadeKindChanged("");
+                                    }}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translate(
+                                                "resources.cascadeSettings.cascades.placeholders.cascade_kind"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="null">
+                                                {translate("resources.cascadeSettings.cascades.placeholders.showAll")}
+                                            </SelectItem>
+
+                                            {CASCADE_KIND.map(kind => (
+                                                <SelectItem value={kind} key={kind}>
+                                                    {translate(`resources.cascadeSettings.cascades.kinds.${kind}`)}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                                <Label variant="title-2" className="mb-0">
+                                    {translate("resources.cascadeSettings.cascades.fields.state")}
+                                </Label>
+
+                                <Select
+                                    value={state}
+                                    onValueChange={val => {
+                                        return val !== "null" ? onStateChanged(val) : onStateChanged("");
+                                    }}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translate(
+                                                "resources.cascadeSettings.cascades.placeholders.state"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="null">
+                                                {translate("resources.cascadeSettings.cascades.placeholders.showAll")}
+                                            </SelectItem>
+
+                                            {CASCADE_STATE.map(state => (
+                                                <SelectItem value={state} key={state}>
+                                                    {translate(`resources.cascadeSettings.cascades.state.${state}`)}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -22,14 +22,10 @@ import {
 } from "@/components/ui/select";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { useCurrenciesListWithoutPagination } from "@/hooks";
-import { CascadeKind, CascadeState, CascadeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { CascadesDataProvider } from "@/data";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-
-const CASCADE_TYPE = Object.values(CascadeType);
-const CASCADE_STATE = Object.values(CascadeState);
-const CASCADE_KIND = Object.values(CascadeKind);
+import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
     const cascadesDataProvider = new CascadesDataProvider();
