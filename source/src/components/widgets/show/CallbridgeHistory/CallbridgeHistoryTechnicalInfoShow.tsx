@@ -40,6 +40,12 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                         .map(key => {
                             const info = technicalInfo[key as keyof typeof technicalInfo];
                             const body = bodies[key as keyof typeof bodies];
+                            let isJSON = false;
+                            try {
+                                isJSON = !!JSON.parse(body ?? "{}");
+                            } catch (e) {
+                                isJSON = false;
+                            }
 
                             return (
                                 <AccordionItem key={key} value={key}>
@@ -57,7 +63,11 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                                                     onMountEditor={() => {}}
                                                     onErrorsChange={() => {}}
                                                     onValidChange={() => {}}
-                                                    code={JSON.stringify(JSON.parse(body ?? "{}"), null, "\t")}
+                                                    code={
+                                                        isJSON
+                                                            ? JSON.stringify(JSON.parse(body ?? "{}"), null, "\t")
+                                                            : (body ?? "{}")
+                                                    }
                                                     setCode={() => {}}
                                                 />
                                             </div>
