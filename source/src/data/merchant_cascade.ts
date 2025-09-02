@@ -11,7 +11,11 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { MerchantCascadeCreate, MerchantCascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    CascadeSchema,
+    MerchantCascadeCreate,
+    MerchantCascadeSchema
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 import {
     merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGet,
@@ -20,19 +24,12 @@ import {
     merchantCascadeEndpointsUpdateMerchantCascadeEnigmaV1MerchantCascadeMerchantCascadeIdPut,
     merchantCascadeEndpointsRemoveCascadeFromMerchantEnigmaV1MerchantCascadeMerchantCascadeIdDelete
 } from "@/api/enigma/merchant-cascade/merchant-cascade";
+import { cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGet } from "@/api/enigma/cascade/cascade";
 
 export class CascadeMerchantsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<MerchantCascadeSchema>> {
-        // "cascade_kind" | "src_currency_code" | "merchant" | "cascade_type"
-
         const fieldsForSearch = params.filter
-            ? Object.keys(params.filter).filter(
-                  item =>
-                      item === "cascade_kind" ||
-                      item === "src_currency_code" ||
-                      item === "merchant" ||
-                      item === "cascade_type"
-              )
+            ? Object.keys(params.filter).filter(item => item === "merchant_id" || item === "cascade_id")
             : [];
 
         const res = await merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGet(
@@ -161,5 +158,30 @@ export class CascadeMerchantsDataProvider extends IBaseDataProvider {
                 id: params.id
             }
         };
+    }
+
+    async getMerchantCascades(merchantId: string): Promise<CascadeSchema[]> {
+        const res = await cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGet(
+            merchantId,
+            {
+                pageSize: 100000,
+                currentPage: 1
+            },
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
+            }
+        );
+
+        if ("data" in res.data && res.data.success) {
+            return res.data.data.items;
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
     }
 }
