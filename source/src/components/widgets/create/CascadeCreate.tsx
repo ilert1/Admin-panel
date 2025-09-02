@@ -24,6 +24,8 @@ import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { useCurrenciesListWithoutPagination } from "@/hooks";
 import { CascadeKind, CascadeState, CascadeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { CascadesDataProvider } from "@/data";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 const CASCADE_TYPE = Object.values(CascadeType);
 const CASCADE_STATE = Object.values(CascadeState);
@@ -38,6 +40,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
     const refresh = useRefresh();
 
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
@@ -59,6 +62,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             .trim(),
         cascade_kind: z.enum([CASCADE_KIND[0], ...CASCADE_KIND.slice(0)]).default(CASCADE_KIND[0]),
         state: z.enum([CASCADE_STATE[0], ...CASCADE_STATE.slice(0)]).default(CASCADE_STATE[0]),
+        payment_types: z.array(z.string()).optional().default([]),
         description: z.string().trim().optional(),
         details: z.string().trim().optional()
     });
@@ -74,6 +78,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             src_currency_code: "",
             cascade_kind: CASCADE_KIND[0],
             state: CASCADE_STATE[0],
+            payment_types: [],
             description: "",
             details: "{}"
         }
@@ -262,6 +267,24 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="col-span-1 sm:col-span-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                            isLoading={isLoadingAllPaymentTypes}
+                                            disabled={submitButtonDisabled}
+                                        />
+                                    </FormControl>
                                 </FormItem>
                             )}
                         />

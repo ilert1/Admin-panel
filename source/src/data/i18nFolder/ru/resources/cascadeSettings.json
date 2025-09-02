@@ -19,6 +19,7 @@
             "cascade_kind": "Вид",
             "rank": "Ранг",
             "state": "Состояние",
+            "payment_types": "Платёжные типы",
             "details": "Другие параметры"
         },
         "placeholders": {

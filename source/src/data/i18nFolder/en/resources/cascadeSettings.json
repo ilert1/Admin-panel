@@ -19,6 +19,7 @@
             "cascade_kind": "Kind",
             "rank": "Rank",
             "state": "State",
+            "payment_types": "Payment types",
             "details": "Other parameters"
         },
         "placeholders": {

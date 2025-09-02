@@ -24,6 +24,8 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { CascadesDataProvider } from "@/data";
 import { CascadeKind, CascadeState, CascadeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { CascadeUpdateParams } from "@/data/cascades";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 const CASCADE_TYPE = Object.values(CascadeType);
 const CASCADE_STATE = Object.values(CascadeState);
@@ -36,6 +38,8 @@ export interface CascadeEditProps {
 
 export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
     const cascadesDataProvider = new CascadesDataProvider();
+
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
@@ -70,6 +74,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         }),
         cascade_kind: z.enum([CASCADE_KIND[0], ...CASCADE_KIND.slice(0)]).default(CASCADE_KIND[0]),
         state: z.enum([CASCADE_STATE[0], ...CASCADE_STATE.slice(0)]).default(CASCADE_STATE[0]),
+        payment_types: z.array(z.string()).optional().default([]),
         description: z.string().trim().optional(),
         details: z.string().trim().optional()
     });
@@ -84,6 +89,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
             },
             cascade_kind: CASCADE_KIND[0],
             state: CASCADE_STATE[0],
+            payment_types: [],
             description: "",
             details: "{}"
         }
@@ -100,6 +106,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                 src_currency: cascadeData.src_currency.code || "",
                 cascade_kind: cascadeData.cascade_kind || CASCADE_KIND[0],
                 state: cascadeData.state || CASCADE_STATE[0],
+                payment_types: cascadeData?.payment_types?.map(pt => pt.code) || [],
                 description: cascadeData.description || "",
                 details: JSON.stringify(cascadeData.details, null, 2) || "{}"
             };
@@ -278,6 +285,24 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                             )}
                         />
                     </div>
+
+                    <FormField
+                        control={form.control}
+                        name="payment_types"
+                        render={({ field }) => (
+                            <FormItem className="col-span-1 sm:col-span-2">
+                                <FormControl>
+                                    <PaymentTypeMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={allPaymentTypes || []}
+                                        isLoading={isLoadingAllPaymentTypes}
+                                        disabled={submitButtonDisabled}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
                     <FormField
                         control={form.control}
