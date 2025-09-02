@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { CascadeEdit } from "../../edit/CascadeEdit";
+import { CascadeTerminalEdit } from "../../edit/CascadeTerminalEdit";
 
 export interface EditCascadeTerminalDialogProps {
     open: boolean;
@@ -27,7 +27,7 @@ export const EditCascadeTerminalDialog = ({ open, id, onOpenChange }: EditCascad
                         {translate("resources.cascadeSettings.cascadeTerminals.editingCascadeTerminal")}
                     </DialogTitle>
                     <DialogDescription />
-                    <CascadeEdit id={id} onOpenChange={onOpenChange} />
+                    <CascadeTerminalEdit id={id} onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

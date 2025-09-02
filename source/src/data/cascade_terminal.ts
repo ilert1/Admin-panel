@@ -14,7 +14,8 @@ import { IBaseDataProvider } from "./base";
 import {
     CascadeTerminalCreate,
     CascadeTerminalSchema,
-    CascadeTerminalState
+    CascadeTerminalState,
+    CascadeTerminalUpdate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     cascadeTerminalEndpointsCreateCascadeTerminalEnigmaV1CascadeTerminalPost,
@@ -24,7 +25,10 @@ import {
     cascadeTerminalEndpointsUpdateCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdPut
 } from "@/api/enigma/cascade-terminal/cascade-terminal";
 
-export const CASCADE_TERMINAL_STATE = Object.keys(CascadeTerminalState);
+export const CASCADE_TERMINAL_STATE = Object.values(CascadeTerminalState);
+export interface CascadeTerminalUpdateParams extends CascadeTerminalUpdate {
+    id: string;
+}
 
 export class CascadeTerminalDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeTerminalSchema>> {
@@ -115,7 +119,10 @@ export class CascadeTerminalDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<CascadeTerminalSchema>> {
+    async update(
+        resource: string,
+        params: UpdateParams<CascadeTerminalUpdateParams>
+    ): Promise<UpdateResult<CascadeTerminalSchema>> {
         const res = await cascadeTerminalEndpointsUpdateCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdPut(
             params.id,
             params.data,

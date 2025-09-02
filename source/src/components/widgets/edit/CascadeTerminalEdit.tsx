@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -16,49 +16,42 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { usePreventFocus, useTerminalsListWithoutPagination } from "@/hooks";
+import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { CascadeTerminalSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
-import { useCascadesListWithoutPagination } from "@/hooks/useCascadesListWithoutPagination";
-import { PopoverSelect } from "../components/Selects/PopoverSelect";
-import { CASCADE_TERMINAL_STATE } from "@/data/cascade_terminal";
+import {
+    CASCADE_TERMINAL_STATE,
+    CascadeTerminalDataProvider,
+    CascadeTerminalUpdateParams
+} from "@/data/cascade_terminal";
 
 export interface CascadeTerminalEditProps {
-    id?: string;
+    id: string;
     onOpenChange: (state: boolean) => void;
 }
 
 export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditProps) => {
-    const dataProvider = useDataProvider();
+    const cascadeTerminalDataProvider = new CascadeTerminalDataProvider();
 
     const {
         data: cascadeTerminalData,
         isLoading: isLoadingCascadeTerminalData,
         isFetchedAfterMount
     } = useQuery({
-        queryKey: ["cascade", id],
-        queryFn: ({ signal }) => dataProvider.getOne<CascadeTerminalSchema>("cascade", { id: id ?? "", signal }),
-        enabled: true,
+        queryKey: ["cascade_terminals", id],
+        queryFn: ({ signal }) => cascadeTerminalDataProvider.getOne("cascade_terminals", { id, signal }),
         select: data => data.data
     });
     const appToast = useAppToast();
 
-    const { terminalsData, isTerminalsLoading } = useTerminalsListWithoutPagination();
-    const { cascadesData, isCascadesLoading } = useCascadesListWithoutPagination();
-
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-    const [terminalValueName, setTerminalValueName] = useState("");
-    const [cascadeValueName, setCascadeValueName] = useState("");
     const [isFinished, setIsFinished] = useState(false);
 
     const translate = useTranslate();
     const refresh = useRefresh();
 
     const formSchema = z.object({
-        cascade_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.cascade_id")),
-        terminal_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.terminal_id")),
         state: z
             .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
             .default(CASCADE_TERMINAL_STATE[0]),
@@ -91,8 +84,6 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            cascade_id: "",
-            terminal_id: "",
             state: CASCADE_TERMINAL_STATE[0],
             condition: {
                 extra: false,
@@ -134,10 +125,10 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
         setSubmitButtonDisabled(true);
 
         try {
-            await dataProvider.update<CascadeTerminalSchema>("cascade_terminals", {
+            await cascadeTerminalDataProvider.update("cascade_terminals", {
                 id,
                 data,
-                previousData: undefined
+                previousData: cascadeTerminalData as CascadeTerminalUpdateParams
             });
 
             appToast("success", translate("app.ui.edit.editSuccess"));
@@ -162,7 +153,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
 
     usePreventFocus({ dependencies: [cascadeTerminalData] });
 
-    if (isLoadingCascadeTerminalData || isCascadesLoading || !cascadeTerminalData || !isFinished)
+    if (isLoadingCascadeTerminalData || !cascadeTerminalData || !isFinished)
         return (
             <div className="h-[150px]">
                 <Loading />
@@ -173,56 +164,6 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
-                    <FormField
-                        control={form.control}
-                        name="cascade_id"
-                        render={({ field, fieldState }) => (
-                            <FormItem>
-                                <Label>{translate("resources.cascadeSettings.cascadeTerminals.fields.cascade")}</Label>
-                                <PopoverSelect
-                                    variants={cascadesData || []}
-                                    value={cascadeValueName}
-                                    idField="id"
-                                    setIdValue={field.onChange}
-                                    onChange={setCascadeValueName}
-                                    variantKey="name"
-                                    placeholder={translate("resources.cascadeSettings.cascades.selectPlaceholder")}
-                                    commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                    notFoundMessage={translate("resources.cascadeSettings.cascades.notFoundMessage")}
-                                    isError={fieldState.invalid}
-                                    errorMessage={fieldState.error?.message}
-                                    modal
-                                />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="terminal_id"
-                        render={({ field, fieldState }) => (
-                            <FormItem>
-                                <Label>{translate("resources.cascadeSettings.cascadeTerminals.fields.terminal")}</Label>
-                                <PopoverSelect
-                                    disabled={!form.watch("cascade_id") || isTerminalsLoading}
-                                    variants={terminalsData || []}
-                                    value={terminalValueName}
-                                    idField="terminal_id"
-                                    setIdValue={field.onChange}
-                                    onChange={setTerminalValueName}
-                                    variantKey="verbose_name"
-                                    placeholder={translate("resources.terminals.selectPlaceholder")}
-                                    commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                    notFoundMessage={translate("resources.terminals.notFoundMessage")}
-                                    isError={fieldState.invalid}
-                                    isLoading={isTerminalsLoading}
-                                    errorMessage={fieldState.error?.message}
-                                    modal
-                                />
-                            </FormItem>
-                        )}
-                    />
-
                     <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
                         <FormField
                             control={form.control}
