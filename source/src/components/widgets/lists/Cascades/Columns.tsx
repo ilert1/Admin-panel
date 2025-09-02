@@ -6,6 +6,7 @@ import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export const useGetCascadeColumns = () => {
     const [locale] = useLocaleState();
@@ -110,6 +111,28 @@ export const useGetCascadeColumns = () => {
             accessorKey: "priority_policy.rank",
             header: translate("resources.cascadeSettings.cascades.fields.rank"),
             cell: ({ row }) => <TextField text={row.original.priority_policy.rank.toString()} minWidth="50px" />
+        },
+        {
+            id: "payment_types",
+            header: translate("resources.cascadeSettings.cascades.fields.payment_types"),
+            cell: ({ row }) => {
+                return (
+                    <div className="max-w-auto flex flex-wrap gap-2">
+                        {row.original.payment_types && row.original.payment_types.length > 0
+                            ? row.original.payment_types?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"]}
+                                      />
+                                  );
+                              })
+                            : "-"}
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "state",
