@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -22,13 +22,15 @@ import {
 } from "@/components/ui/select";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { CascadeKind, CascadeState, CascadeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CascadesDataProvider } from "@/data";
 
-const CASCADE_TYPE = ["deposit", "withdrawal"];
-const CASCADE_STATE = ["active", "inactive", "archived"];
-const CASCADE_KIND = ["sequential", "fanout"];
+const CASCADE_TYPE = Object.values(CascadeType);
+const CASCADE_STATE = Object.values(CascadeState);
+const CASCADE_KIND = Object.values(CascadeKind);
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
-    const dataProvider = useDataProvider();
+    const cascadesDataProvider = new CascadesDataProvider();
     const controllerProps = useCreateController();
     const { theme } = useTheme();
     const appToast = useAppToast();
@@ -44,17 +46,19 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.cascadeSettings.cascades.errors.name")).trim(),
-        type: z.enum(CASCADE_TYPE as [string, ...string[]]).default(CASCADE_TYPE[0]),
-        rank: z.coerce
-            .number({ message: translate("resources.cascadeSettings.cascades.errors.rankRequired") })
-            .int(translate("resources.cascadeSettings.cascades.errors.rankRequired"))
-            .min(1, translate("resources.cascadeSettings.cascades.errors.rankMin")),
+        type: z.enum([CASCADE_TYPE[0], ...CASCADE_TYPE.slice(0)]).default(CASCADE_TYPE[0]),
+        priority_policy: z.object({
+            rank: z.coerce
+                .number({ message: translate("resources.cascadeSettings.cascades.errors.rankRequired") })
+                .int(translate("resources.cascadeSettings.cascades.errors.rankRequired"))
+                .min(1, translate("resources.cascadeSettings.cascades.errors.rankMin"))
+        }),
         src_currency_code: z
             .string()
             .min(1, translate("resources.cascadeSettings.cascades.errors.src_currency_code"))
             .trim(),
-        cascade_kind: z.enum(CASCADE_KIND as [string, ...string[]]).default(CASCADE_KIND[0]),
-        state: z.enum(CASCADE_STATE as [string, ...string[]]).default(CASCADE_STATE[0]),
+        cascade_kind: z.enum([CASCADE_KIND[0], ...CASCADE_KIND.slice(0)]).default(CASCADE_KIND[0]),
+        state: z.enum([CASCADE_STATE[0], ...CASCADE_STATE.slice(0)]).default(CASCADE_STATE[0]),
         description: z.string().trim().optional(),
         details: z.string().trim().optional()
     });
@@ -64,7 +68,9 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         defaultValues: {
             name: "",
             type: CASCADE_TYPE[0],
-            rank: undefined,
+            priority_policy: {
+                rank: undefined
+            },
             src_currency_code: "",
             cascade_kind: CASCADE_KIND[0],
             state: CASCADE_STATE[0],
@@ -79,7 +85,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         setSubmitButtonDisabled(true);
 
         try {
-            await dataProvider.create("cascades", {
+            await cascadesDataProvider.create("cascades", {
                 data: {
                     ...data,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {}
@@ -165,7 +171,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
 
                         <FormField
                             control={form.control}
-                            name="rank"
+                            name="priority_policy.rank"
                             render={({ field, fieldState }) => (
                                 <FormItem>
                                     <FormControl>

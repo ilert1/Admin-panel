@@ -27,7 +27,7 @@
         },
         "types": {
             "deposit": "Депозит",
-            "withdrawal": "Вывод средств"
+            "withdraw": "Вывод средств"
         },
         "kinds": {
             "sequential": "Последовательный",

@@ -11,7 +11,12 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { CascadeCreate, CascadeRead, CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    CascadeCreate,
+    CascadeRead,
+    CascadeSchema,
+    CascadeUpdate
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     cascadeEndpointsCreateCascadeEnigmaV1CascadePost,
     cascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDelete,
@@ -19,6 +24,10 @@ import {
     cascadeEndpointsListCascadesEnigmaV1CascadeGet,
     cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut
 } from "@/api/enigma/cascade/cascade";
+
+export interface CascadeUpdateParams extends CascadeUpdate {
+    id: string;
+}
 
 export class CascadesDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeSchema>> {
@@ -130,12 +139,16 @@ export class CascadesDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<CascadeSchema>> {
-        const res = await cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut(params.id, params.data, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async update(resource: string, params: UpdateParams<CascadeUpdateParams>): Promise<UpdateResult<CascadeSchema>> {
+        const res = await cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut(
+            params.id,
+            params.data as CascadeUpdate,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
             }
-        });
+        );
 
         if ("data" in res.data && res.data.success) {
             return {

@@ -27,7 +27,7 @@
         },
         "types": {
             "deposit": "Deposit",
-            "withdrawal": "Withdrawal"
+            "withdraw": "Withdrawal"
         },
         "kinds": {
             "sequential": "Sequential",
