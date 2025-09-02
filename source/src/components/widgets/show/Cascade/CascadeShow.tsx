@@ -56,7 +56,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                             <p className="text-nowrap">
                                 {new Date(context.record.created_at).toLocaleDateString(locale)}
                             </p>
-                            <p className="text-nowrap text-neutral-70">
+                            <p className="text-nowrap">
                                 {new Date(context.record.created_at).toLocaleTimeString(locale)}
                             </p>
                         </div>
@@ -71,7 +71,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                             <p className="text-nowrap">
                                 {new Date(context.record.updated_at).toLocaleDateString(locale)}
                             </p>
-                            <p className="text-nowrap text-neutral-70">
+                            <p className="text-nowrap">
                                 {new Date(context.record.updated_at).toLocaleTimeString(locale)}
                             </p>
                         </div>
@@ -86,7 +86,11 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
 
                     <TextField
                         label={translate("resources.cascadeSettings.cascades.fields.type")}
-                        text={context.record.type ?? ""}
+                        text={
+                            context.record.type
+                                ? translate(`resources.cascadeSettings.cascades.types.${context.record.type}`)
+                                : ""
+                        }
                     />
 
                     <div className="flex flex-col">
@@ -101,7 +105,11 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
 
                     <TextField
                         label={translate("resources.cascadeSettings.cascades.fields.cascade_kind")}
-                        text={context.record.cascade_kind ?? ""}
+                        text={
+                            context.record.cascade_kind
+                                ? translate(`resources.cascadeSettings.cascades.kinds.${context.record.cascade_kind}`)
+                                : ""
+                        }
                     />
 
                     <TextField
@@ -117,11 +125,11 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={() => {}}>
+                    <Button className="" onClick={() => setEditDialogOpen(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="" onClick={() => {}} variant={"outline_gray"}>
+                    <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
