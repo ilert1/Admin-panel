@@ -7,6 +7,7 @@
         "creatingCascade": "Creating cascade",
         "editingCascade": "Editing cascade",
         "deleteCascade": "Delete cascade?",
+        "linkedTerminals": "Connected terminals",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
@@ -72,6 +73,7 @@
             "dst_currency": "Destination currency",
             "weight": "Weight",
             "rank": "Competitive weight",
+            "rankSmall": "Rank",
             "extra": "Extra",
             "ttl_min": "TTL min",
             "ttl_max": "TTL max",

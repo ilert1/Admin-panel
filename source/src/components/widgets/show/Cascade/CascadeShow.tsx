@@ -10,6 +10,10 @@ import { useState } from "react";
 import { EditCascadeDialog } from "./EditCascadeDialog";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { SimpleTable } from "../../shared";
+import { TableTypes } from "../../shared/SimpleTable";
+import clsx from "clsx";
+import { useGetCascadeShowColumns } from "./Columns";
 
 export interface CascadeShowProps {
     id: string;
@@ -23,6 +27,8 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+    const { cascadeTerminalColumns } = useGetCascadeShowColumns();
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -158,6 +164,23 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                     <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                    <span>{translate("resources.cascadeSettings.cascades.linkedTerminals")}</span>
+
+                    <SimpleTable
+                        columns={cascadeTerminalColumns}
+                        data={context.record.cascade_terminals || []}
+                        tableType={TableTypes.COLORED}
+                        className={clsx(
+                            "flex-shrink-1 h-auto",
+                            !context.record.cascade_terminals && "min-h-24",
+                            context.record.cascade_terminals &&
+                                context.record.cascade_terminals.length > 1 &&
+                                "max-h-96"
+                        )}
+                    />
                 </div>
             </div>
 
