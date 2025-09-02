@@ -125,7 +125,7 @@ export const useGetCascadeTerminalsColumns = () => {
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.src_currency"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge variant="currency">{row.original.terminal.src_currency_code}</Badge>
+                    <Badge variant="currency">{row.original.terminal.src_currency?.code}</Badge>
                 </div>
             )
         },
@@ -134,7 +134,7 @@ export const useGetCascadeTerminalsColumns = () => {
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.dst_currency"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge variant="currency">{row.original.terminal.dst_currency_code}</Badge>
+                    <Badge variant="currency">{row.original.terminal.dst_currency?.code}</Badge>
                 </div>
             )
         },

@@ -72,21 +72,39 @@ export const useGetCascadeColumns = () => {
         {
             accessorKey: "type",
             header: translate("resources.cascadeSettings.cascades.fields.type"),
-            cell: ({ row }) => <TextField text={row.original.type ?? ""} minWidth="50px" />
+            cell: ({ row }) => (
+                <TextField
+                    text={
+                        row.original.type
+                            ? translate(`resources.cascadeSettings.cascades.types.${row.original.type}`)
+                            : ""
+                    }
+                    minWidth="50px"
+                />
+            )
         },
         {
             accessorKey: "src_currency_code",
             header: translate("resources.cascadeSettings.cascades.fields.src_currency_code"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge variant="currency">{row.original.src_currency_code}</Badge>
+                    <Badge variant="currency">{row.original.src_currency.code}</Badge>
                 </div>
             )
         },
         {
             accessorKey: "cascade_kind",
             header: translate("resources.cascadeSettings.cascades.fields.cascade_kind"),
-            cell: ({ row }) => <TextField text={row.original.cascade_kind ?? ""} minWidth="50px" />
+            cell: ({ row }) => (
+                <TextField
+                    text={
+                        row.original.cascade_kind
+                            ? translate(`resources.cascadeSettings.cascades.kinds.${row.original.cascade_kind}`)
+                            : ""
+                    }
+                    minWidth="50px"
+                />
+            )
         },
         {
             accessorKey: "priority_policy.rank",
@@ -96,7 +114,20 @@ export const useGetCascadeColumns = () => {
         {
             accessorKey: "state",
             header: translate("resources.cascadeSettings.cascades.fields.state"),
-            cell: ({ row }) => <TextField text={row.original.state ?? ""} minWidth="50px" />
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center">
+                    {row.original.state === "active" && (
+                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.active")}
+                        </span>
+                    )}
+                    {row.original.state === "inactive" && (
+                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.inactive")}
+                        </span>
+                    )}
+                </div>
+            )
         },
         {
             id: "actions",

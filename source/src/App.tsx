@@ -33,7 +33,9 @@ import {
     WalletLinkedTransactionsList,
     TerminalsList,
     CascadesList,
-    CascadeTerminalsList
+    CascadeTerminalsList,
+    CascadeMerchantsList,
+    CascadeConflictsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -74,7 +76,6 @@ import { FinancialInstitutionProvider } from "./data/financialInstitution";
 import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 import { initializeStore } from "./helpers/persistentStore";
-import { CascadeMerchantsList } from "./components/widgets/lists/CascadeMerchants/CascadeMerchantsList";
 import { CascadeMerchantsDataProvider } from "./data/merchant_cascade";
 
 const dataProvider = combineDataProviders(resource => {
@@ -212,7 +213,7 @@ export const App = () => {
                                                 <Route path="cascades" element={<CascadesList />} />
                                                 <Route path="cascadeTerminals" element={<CascadeTerminalsList />} />
                                                 <Route path="cascadeMerchants" element={<CascadeMerchantsList />} />
-                                                <Route path="cascadeConflicts" element={<div />} />
+                                                <Route path="cascadeConflicts" element={<CascadeConflictsList />} />
                                             </Resource>
                                         </>
                                     )}

@@ -11,7 +11,15 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { CascadeCreate, CascadeRead, CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    CascadeCreate,
+    CascadeKind,
+    CascadeRead,
+    CascadeSchema,
+    CascadeState,
+    CascadeType,
+    CascadeUpdate
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     cascadeEndpointsCreateCascadeEnigmaV1CascadePost,
     cascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDelete,
@@ -20,10 +28,20 @@ import {
     cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut
 } from "@/api/enigma/cascade/cascade";
 
+export const CASCADE_TYPE = Object.values(CascadeType);
+export const CASCADE_STATE = Object.values(CascadeState);
+export const CASCADE_KIND = Object.values(CascadeKind);
+
+export interface CascadeUpdateParams extends CascadeUpdate {
+    id: string;
+}
+
 export class CascadesDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeSchema>> {
         const fieldsForSearch = params.filter
-            ? Object.keys(params.filter).filter(item => item === "type" || item === "src_currency_code")
+            ? Object.keys(params.filter).filter(
+                  item => item === "name" || item === "type" || item === "cascade_kind" || item === "state"
+              )
             : [];
 
         const res = await cascadeEndpointsListCascadesEnigmaV1CascadeGet(
@@ -130,12 +148,16 @@ export class CascadesDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<CascadeSchema>> {
-        const res = await cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut(params.id, params.data, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("access-token")}`
+    async update(resource: string, params: UpdateParams<CascadeUpdateParams>): Promise<UpdateResult<CascadeSchema>> {
+        const res = await cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut(
+            params.id,
+            params.data as CascadeUpdate,
+            {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+                }
             }
-        });
+        );
 
         if ("data" in res.data && res.data.success) {
             return {

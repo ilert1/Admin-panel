@@ -19,15 +19,19 @@
             "cascade_kind": "Kind",
             "rank": "Rank",
             "state": "State",
+            "payment_types": "Payment types",
             "details": "Other parameters"
         },
         "placeholders": {
-            "type": "Type",
-            "src_currency_code": "Currency"
+            "name": "Name",
+            "type": "All types",
+            "cascade_kind": "All kinds",
+            "state": "All states",
+            "showAll": "Show all"
         },
         "types": {
             "deposit": "Deposit",
-            "withdrawal": "Withdrawal"
+            "withdraw": "Withdrawal"
         },
         "kinds": {
             "sequential": "Sequential",

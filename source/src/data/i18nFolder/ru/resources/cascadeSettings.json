@@ -19,15 +19,19 @@
             "cascade_kind": "Вид",
             "rank": "Ранг",
             "state": "Состояние",
+            "payment_types": "Платёжные типы",
             "details": "Другие параметры"
         },
         "placeholders": {
-            "type": "Тип",
-            "src_currency_code": "Валюта отправления"
+            "name": "Имя",
+            "type": "Все типы",
+            "cascade_kind": "Все виды",
+            "state": "Все состояния",
+            "showAll": "Показать все"
         },
         "types": {
             "deposit": "Депозит",
-            "withdrawal": "Вывод средств"
+            "withdraw": "Вывод средств"
         },
         "kinds": {
             "sequential": "Последовательный",

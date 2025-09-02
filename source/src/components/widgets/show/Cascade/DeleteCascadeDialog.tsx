@@ -22,20 +22,17 @@ export const DeleteCascadeDialog = ({ open, id, onOpenChange, onQuickShowOpenCha
     const [deleteOne] = useDelete();
     const appToast = useAppToast();
 
-    const handleDelete = () => {
-        const deleteElem = async () => {
-            try {
-                await deleteOne("cascadeSettings/cascadeMerchants", {
-                    id
-                });
-                refresh();
-                onOpenChange(false);
-                onQuickShowOpenChange(false);
-            } catch (error) {
-                if (error instanceof Error) appToast("error", error.message);
-            }
-        };
-        deleteElem();
+    const handleDelete = async () => {
+        try {
+            await deleteOne("cascades", {
+                id
+            });
+            refresh();
+            onOpenChange(false);
+            onQuickShowOpenChange(false);
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+        }
     };
 
     return (

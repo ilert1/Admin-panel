@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { DeleteCascadeDialog } from "./DeleteCascadeDialog";
 import { useState } from "react";
 import { EditCascadeDialog } from "./EditCascadeDialog";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface CascadeShowProps {
     id: string;
@@ -56,7 +58,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                             <p className="text-nowrap">
                                 {new Date(context.record.created_at).toLocaleDateString(locale)}
                             </p>
-                            <p className="text-nowrap text-neutral-70">
+                            <p className="text-nowrap">
                                 {new Date(context.record.created_at).toLocaleTimeString(locale)}
                             </p>
                         </div>
@@ -71,7 +73,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                             <p className="text-nowrap">
                                 {new Date(context.record.updated_at).toLocaleDateString(locale)}
                             </p>
-                            <p className="text-nowrap text-neutral-70">
+                            <p className="text-nowrap">
                                 {new Date(context.record.updated_at).toLocaleTimeString(locale)}
                             </p>
                         </div>
@@ -86,7 +88,11 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
 
                     <TextField
                         label={translate("resources.cascadeSettings.cascades.fields.type")}
-                        text={context.record.type ?? ""}
+                        text={
+                            context.record.type
+                                ? translate(`resources.cascadeSettings.cascades.types.${context.record.type}`)
+                                : ""
+                        }
                     />
 
                     <div className="flex flex-col">
@@ -95,13 +101,33 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         </small>
 
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                            <Badge variant="currency">{context.record.src_currency_code}</Badge>
+                            <Badge variant="currency">{context.record.src_currency?.code}</Badge>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.payment_types")}
+                        </small>
+
+                        <div className="max-w-auto flex flex-wrap gap-2">
+                            {context.record.payment_types && context.record.payment_types?.length > 0 ? (
+                                context.record.payment_types.map(pt => {
+                                    return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" />;
+                                })
+                            ) : (
+                                <span className="title-1">-</span>
+                            )}
                         </div>
                     </div>
 
                     <TextField
                         label={translate("resources.cascadeSettings.cascades.fields.cascade_kind")}
-                        text={context.record.cascade_kind ?? ""}
+                        text={
+                            context.record.cascade_kind
+                                ? translate(`resources.cascadeSettings.cascades.kinds.${context.record.cascade_kind}`)
+                                : ""
+                        }
                     />
 
                     <TextField
@@ -110,18 +136,26 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                     />
 
                     <TextField
-                        className="grid-cols-1 md:grid-cols-2"
+                        className="md:col-span-2"
                         label={translate("resources.cascadeSettings.cascades.fields.description")}
                         text={context.record.description ?? ""}
                     />
+
+                    <div className="flex flex-col gap-1 md:col-span-2">
+                        <small className="text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.details")}
+                        </small>
+
+                        <MonacoEditor disabled code={JSON.stringify(context.record.details || "{}", null, 2)} />
+                    </div>
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={() => {}}>
+                    <Button className="" onClick={() => setEditDialogOpen(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="" onClick={() => {}} variant={"outline_gray"}>
+                    <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
