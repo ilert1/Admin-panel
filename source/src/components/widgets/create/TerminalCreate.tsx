@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,7 +35,6 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { TTL } from "../components/TTL";
 
 export interface TerminalCreateProps {
     onClose: () => void;
@@ -61,40 +60,59 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [availablePaymentTypes, setAvailablePaymentTypes] = useState<PaymentTypeModel[]>([]);
 
-    const formSchema = z.object({
-        provider: z
-            .string()
-            .min(1, translate("resources.terminals.errors.provider"))
-            .refine(val => {
-                if (val) {
-                    const foundProvider = providersData?.find(item => item.name === val);
-                    if (foundProvider?.payment_types?.length === 0) {
-                        return false;
+    const formSchema = z
+        .object({
+            provider: z
+                .string()
+                .min(1, translate("resources.terminals.errors.provider"))
+                .refine(val => {
+                    if (val) {
+                        const foundProvider = providersData?.find(item => item.name === val);
+                        if (foundProvider?.payment_types?.length === 0) {
+                            return false;
+                        }
+                        return true;
                     }
                     return true;
+                }, translate("resources.terminals.errors.providerHasNoPaymentTypes")),
+            verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
+            description: z.union([z.string().trim(), z.literal("")]),
+            details: z.string().trim().optional(),
+            allocation_timeout_seconds: z
+                .literal("")
+                .transform(() => undefined)
+                .or(
+                    z.coerce
+                        .number({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                        .int({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                        .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
+                        .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
+                )
+                .optional(),
+            payment_types: z.array(z.string()).optional().default([]),
+            src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
+            dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+            callback_url: z.string().optional().nullable().default(null),
+            state: z.enum(["active", "inactive"]),
+            minTTL: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            maxTTL: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(999999999.99)
+        })
+        .refine(
+            data => {
+                if (data.maxTTL === 0) {
+                    return true;
                 }
-                return true;
-            }, translate("resources.terminals.errors.providerHasNoPaymentTypes")),
-        verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.union([z.string().trim(), z.literal("")]),
-        details: z.string().trim().optional(),
-        allocation_timeout_seconds: z
-            .literal("")
-            .transform(() => undefined)
-            .or(
-                z.coerce
-                    .number({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
-                    .int({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
-                    .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
-                    .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
-            )
-            .optional(),
-        payment_types: z.array(z.string()).optional().default([]),
-        src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
-        dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
-        callback_url: z.string().optional().nullable().default(null),
-        state: z.enum(["active", "inactive"])
-    });
+
+                return data.minTTL <= data.maxTTL;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["maxTTL"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -107,7 +125,10 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             payment_types: [],
             src_currency_code: "",
             dst_currency_code: "",
-            state: "inactive"
+            state: "inactive",
+            maxTTL: 0,
+            minTTL: 0,
+            callback_url: ""
         }
     });
 
@@ -141,6 +162,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             const res = await dataProvider.create<TerminalWithId>("terminals", {
                 data: {
                     ...data,
+                    settings: { ttl: { min: data.minTTL, max: data.maxTTL } },
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     ...(data.allocation_timeout_seconds !== undefined && {
                         allocation_timeout_seconds: data.allocation_timeout_seconds
@@ -190,7 +212,13 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 description: "",
                 details: "{}",
                 allocation_timeout_seconds: 2,
-                payment_types: []
+                payment_types: [],
+                src_currency_code: "",
+                dst_currency_code: "",
+                state: "inactive",
+                maxTTL: 0,
+                minTTL: 0,
+                callback_url: ""
             });
         }
     }, [form, controllerProps.record]);
@@ -220,6 +248,50 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData, val]);
+
+    const handleChange = useCallback(
+        (key: "minTTL" | "maxTTL", value: string) => {
+            value = value.replace(/[^0-9.]/g, "");
+
+            const parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts[1];
+            }
+
+            if (parts.length === 2 && parts[1].length > 2) {
+                parts[1] = parts[1].slice(0, 2);
+                value = parts.join(".");
+            }
+
+            if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+                value = value.replace(/^0+/, "") || "0";
+            }
+
+            if (value === "") {
+                form.resetField(key);
+                return;
+            }
+
+            if (value.endsWith(".") || value === "0.") {
+                return;
+            }
+
+            const numericValue = parseFloat(value);
+            if (!isNaN(numericValue)) {
+                let finalValue = numericValue;
+
+                if (numericValue > 100000) {
+                    finalValue = 100000;
+                }
+                if (numericValue < 0) {
+                    finalValue = 0;
+                }
+
+                form.setValue(key, finalValue);
+            }
+        },
+        [form]
+    );
 
     if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
 
@@ -366,6 +438,46 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="minTTL"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    label={translate("app.widgets.ttl.minTTL")}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    className=""
+                                                    value={field.value ?? ""}
+                                                    variant={InputTypes.GRAY}
+                                                    onChange={e => handleChange("minTTL", e.target.value)}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="maxTTL"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    label={translate("app.widgets.ttl.maxTTL")}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    className=""
+                                                    value={field.value ?? ""}
+                                                    variant={InputTypes.GRAY}
+                                                    onChange={e => handleChange("maxTTL", e.target.value)}
+                                                />
+                                            </FormControl>
                                         </FormItem>
                                     )}
                                 />
