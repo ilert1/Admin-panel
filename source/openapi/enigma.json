@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "BlowFish - Enigma API Service",
-    "version": "local"
+    "version": "develop"
   },
   "paths": {
     "/health": {
@@ -11101,7 +11101,7 @@
         "properties": {
           "weight": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Weight",
             "description": "Terminal weight for load balancing (0 for extra terminals)",
             "default": 1,
@@ -11126,7 +11126,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 1.0
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -12005,8 +12005,8 @@
           },
           "accuracy": {
             "type": "integer",
-            "maximum": 16.0,
-            "minimum": 1.0,
+            "maximum": 16,
+            "minimum": 1,
             "title": "Accuracy",
             "description": "Accuracy of the currency (number of decimal places)",
             "default": 2,
@@ -12066,8 +12066,8 @@
           },
           "accuracy": {
             "type": "integer",
-            "maximum": 16.0,
-            "minimum": 1.0,
+            "maximum": 16,
+            "minimum": 1,
             "title": "Accuracy",
             "description": "Accuracy of the currency (number of decimal places)",
             "default": 2,
@@ -12321,8 +12321,8 @@
           },
           "weight": {
             "type": "integer",
-            "maximum": 1000.0,
-            "minimum": 0.0,
+            "maximum": 1000,
+            "minimum": 0,
             "title": "Weight",
             "description": "Weight of the direction",
             "default": 0,
@@ -12727,9 +12727,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "limits"
-        ],
         "title": "DirectionUpdate"
       },
       "DirectionUpdateBulkItem": {
@@ -12994,7 +12991,6 @@
         },
         "type": "object",
         "required": [
-          "limits",
           "id"
         ],
         "title": "DirectionUpdateBulkItem"
@@ -14142,7 +14138,7 @@
             "description": "Minimum limit value",
             "examples": [
               0,
-              10.0,
+              10,
               "100.50",
               {
                 "accuracy": 100,
@@ -14172,7 +14168,7 @@
             "description": "Maximum limit value",
             "examples": [
               10000,
-              50000.0,
+              50000,
               "100000.00",
               {
                 "accuracy": 100,
@@ -16104,7 +16100,7 @@
         "properties": {
           "rank": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Rank",
             "description": "Priority rank of the cascade (1 = highest priority)",
             "examples": [
@@ -16182,10 +16178,10 @@
                 "get_trade_methods_payin": {
                   "execution_name": "api_get_trade_methods",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16196,10 +16192,10 @@
                 "get_trade_methods_payout": {
                   "execution_name": "api_get_trade_methods_payout",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16210,8 +16206,8 @@
                 "h2h_async": {
                   "execution_name": "PayIn_h2h_async",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1
                   },
                   "task_queue": "pay4u-workflows",
@@ -16223,10 +16219,10 @@
                 "h2h_sync": {
                   "execution_name": "PayIn_h2h_sync",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": [
                       "ProviderError",
                       "ValidationError"
@@ -16242,10 +16238,10 @@
                 "h2h_sync_out": {
                   "execution_name": "PayOut_h2h",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": []
                   },
                   "task_queue": "pay4u-workflows",
@@ -16355,10 +16351,10 @@
                 "get_trade_methods_payin": {
                   "execution_name": "api_get_trade_methods",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16369,10 +16365,10 @@
                 "get_trade_methods_payout": {
                   "execution_name": "api_get_trade_methods_payout",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16383,8 +16379,8 @@
                 "h2h_async": {
                   "execution_name": "PayIn_h2h_async",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1
                   },
                   "task_queue": "pay4u-workflows",
@@ -16396,10 +16392,10 @@
                 "h2h_sync": {
                   "execution_name": "PayIn_h2h_sync",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": [
                       "ProviderError",
                       "ValidationError"
@@ -16415,10 +16411,10 @@
                 "h2h_sync_out": {
                   "execution_name": "PayOut_h2h",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": []
                   },
                   "task_queue": "pay4u-workflows",
@@ -16477,10 +16473,10 @@
                 "get_trade_methods_payin": {
                   "execution_name": "api_get_trade_methods",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16491,10 +16487,10 @@
                 "get_trade_methods_payout": {
                   "execution_name": "api_get_trade_methods_payout",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16505,8 +16501,8 @@
                 "h2h_async": {
                   "execution_name": "PayIn_h2h_async",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1
                   },
                   "task_queue": "pay4u-workflows",
@@ -16518,10 +16514,10 @@
                 "h2h_sync": {
                   "execution_name": "PayIn_h2h_sync",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": [
                       "ProviderError",
                       "ValidationError"
@@ -16537,10 +16533,10 @@
                 "h2h_sync_out": {
                   "execution_name": "PayOut_h2h",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": []
                   },
                   "task_queue": "pay4u-workflows",
@@ -16611,10 +16607,10 @@
                 "get_trade_methods_payin": {
                   "execution_name": "api_get_trade_methods",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16625,10 +16621,10 @@
                 "get_trade_methods_payout": {
                   "execution_name": "api_get_trade_methods_payout",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16639,8 +16635,8 @@
                 "h2h_async": {
                   "execution_name": "PayIn_h2h_async",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1
                   },
                   "task_queue": "pay4u-workflows",
@@ -16652,10 +16648,10 @@
                 "h2h_sync": {
                   "execution_name": "PayIn_h2h_sync",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": [
                       "ProviderError",
                       "ValidationError"
@@ -16671,10 +16667,10 @@
                 "h2h_sync_out": {
                   "execution_name": "PayOut_h2h",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": []
                   },
                   "task_queue": "pay4u-workflows",
@@ -16717,7 +16713,7 @@
         "properties": {
           "quantity": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Quantity",
             "description": "The quantity part of the rate value. It represents the numeric value without the decimal separator. For example, '12.34' is stored as 1234.",
             "default": 0,
@@ -16727,7 +16723,7 @@
           },
           "accuracy": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Accuracy",
             "description": "The accuracy factor for the rate value. It must be a power of 10 (e.g., 1, 10, 100, 1000) corresponding to the number of decimal places.",
             "default": 1,
@@ -16800,18 +16796,18 @@
             "type": "number",
             "title": "Initial Interval",
             "description": "Initial interval between attempts, in seconds.",
-            "default": 1.0,
+            "default": 1,
             "examples": [
-              1.0
+              1
             ]
           },
           "backoff_coefficient": {
             "type": "number",
             "title": "Backoff Coefficient",
             "description": "Exponential backoff coefficient for retry interval.",
-            "default": 2.0,
+            "default": 2,
             "examples": [
-              2.0
+              2
             ]
           },
           "maximum_interval": {
@@ -16826,12 +16822,12 @@
             "title": "Maximum Interval",
             "description": "Maximum interval between attempts, in seconds. If None, unlimited.",
             "examples": [
-              10.0
+              10
             ]
           },
           "maximum_attempts": {
             "type": "integer",
-            "exclusiveMinimum": 0.0,
+            "exclusiveMinimum": 0,
             "title": "Maximum Attempts",
             "description": "Maximum number of attempts. 1 means no retries (only one attempt).",
             "default": 1,
@@ -17082,7 +17078,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -17100,7 +17096,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -17401,8 +17397,8 @@
           },
           "allocation_timeout_seconds": {
             "type": "integer",
-            "maximum": 120.0,
-            "minimum": 0.0,
+            "maximum": 120,
+            "minimum": 0,
             "title": "Allocation Timeout Seconds",
             "description": "Timeout for allocation in seconds (0 to 120)",
             "default": 2,
@@ -18271,7 +18267,7 @@
               }
             ],
             "title": "Callback Url",
-            "description": "Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration."
+            "description": "Callback URL template or final callback URL"
           },
           "details": {
             "additionalProperties": true,
@@ -18284,46 +18280,34 @@
               }
             ]
           },
-          "src_currency_code": {
+          "src_currency": {
             "anyOf": [
               {
-                "type": "string"
+                "$ref": "#/components/schemas/Currency"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Src Currency Code",
-            "description": "Source currency code",
-            "examples": [
-              "RUB"
-            ]
+            "description": "Source currency code"
           },
-          "dst_currency_code": {
+          "dst_currency": {
             "anyOf": [
               {
-                "type": "string"
+                "$ref": "#/components/schemas/Currency"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Dst Currency Code",
-            "description": "Destination currency code",
-            "examples": [
-              "AZN"
-            ]
+            "description": "Destination currency code"
           },
           "limits": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Limits",
+            "$ref": "#/components/schemas/Limits",
             "description": "Terminal limits configuration"
           },
           "settings": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Settings",
+            "$ref": "#/components/schemas/TerminalSettings",
             "description": "Terminal settings configuration"
           },
           "state": {
@@ -18333,6 +18317,14 @@
             "examples": [
               "active"
             ]
+          },
+          "payment_types": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentTypeBase"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "List of payment types associated with this terminal"
           }
         },
         "type": "object",
@@ -18397,8 +18389,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 120.0,
-                "minimum": 0.0
+                "maximum": 120,
+                "minimum": 0
               },
               {
                 "type": "null"
