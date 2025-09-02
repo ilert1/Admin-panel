@@ -76,8 +76,6 @@ export const MerchantShow = (props: MerchantShowProps) => {
         return <Loading />;
     }
 
-    console.log(context.record);
-
     const fees = context.record.fees;
     const payment_types = context.record.payment_types;
 
