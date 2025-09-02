@@ -3,7 +3,6 @@ import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
-
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,7 +18,6 @@ import { Fees } from "../../components/Fees";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
-import { TTL } from "../../components/TTL";
 
 export type FeeType = "inner" | "default";
 
@@ -36,14 +34,6 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     const merchantsDataProvider = new MerchantsDataProvider();
 
     const [fees, setFees] = useState<FeeCreate[]>([]);
-    const [editClicked, setEditClicked] = useState(false);
-
-    const [ttl, setTTL] = useState({
-        depositMin: 0,
-        depositMax: 0,
-        withdrawMin: 0,
-        withdrawMax: 0
-    });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [fileContent, setFileContent] = useState("");
@@ -84,14 +74,14 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             settings: {
                 deposit: {
                     ttl: {
-                        min: ttl.depositMin,
-                        max: ttl.depositMax
+                        min: form.getValues("minTTLDep"),
+                        max: form.getValues("maxTTLDep")
                     }
                 },
                 withdraw: {
                     ttl: {
-                        min: ttl.withdrawMin,
-                        max: ttl.withdrawMax
+                        min: form.getValues("minTTLWith"),
+                        max: form.getValues("maxTTLWith")
                     }
                 }
             }
@@ -135,28 +125,71 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
-    const formSchema = z.object({
-        name: z
-            .string({ message: translate("resources.merchant.errors.required") })
-            .min(1, translate("resources.merchant.errors.name"))
-            .trim(),
-        public_key: z
-            .string({ message: translate("resources.merchant.errors.required") })
-            .startsWith("-----BEGIN PUBLIC KEY-----", translate("resources.merchant.errors.publicKey"))
-            .endsWith("-----END PUBLIC KEY-----", translate("resources.merchant.errors.publicKey")),
-        description: z.string().trim().nullable(),
-        fees: z.record(
-            z.object({
-                type: z.number(),
-                value: z.number(),
-                currency: z.string(),
-                recipient: z.string(),
-                direction: z.string()
-            })
-        ),
-        currencies: z.array(z.string()).optional(),
-        payment_types: z.array(z.string()).optional().default([])
-    });
+    const formSchema = z
+        .object({
+            name: z
+                .string({ message: translate("resources.merchant.errors.required") })
+                .min(1, translate("resources.merchant.errors.name"))
+                .trim(),
+            public_key: z
+                .string({ message: translate("resources.merchant.errors.required") })
+                .startsWith("-----BEGIN PUBLIC KEY-----", translate("resources.merchant.errors.publicKey"))
+                .endsWith("-----END PUBLIC KEY-----", translate("resources.merchant.errors.publicKey")),
+            description: z.string().trim().nullable(),
+            fees: z.record(
+                z.object({
+                    type: z.number(),
+                    value: z.number(),
+                    currency: z.string(),
+                    recipient: z.string(),
+                    direction: z.string()
+                })
+            ),
+            currencies: z.array(z.string()).optional(),
+            payment_types: z.array(z.string()).optional().default([]),
+            minTTLDep: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            maxTTLDep: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            minTTLWith: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            maxTTLWith: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99)
+        })
+        .refine(
+            data => {
+                if (data.maxTTLDep === 0) {
+                    return true;
+                }
+
+                return data.minTTLDep <= data.maxTTLDep;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["maxTTLDep"]
+            }
+        )
+        .refine(
+            data => {
+                if (data.maxTTLWith === 0) {
+                    return true;
+                }
+
+                return data.minTTLWith <= data.maxTTLWith;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["maxTTLWith"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -166,9 +199,54 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
             public_key: "",
             fees: {},
             currencies: [],
-            payment_types: []
+            payment_types: [],
+            minTTLDep: 0,
+            maxTTLDep: 0,
+            minTTLWith: 0,
+            maxTTLWith: 0
         }
     });
+
+    const handleChange = (key: "minTTLDep" | "maxTTLDep" | "minTTLWith" | "maxTTLWith", value: string) => {
+        value = value.replace(/[^0-9.]/g, "");
+
+        const parts = value.split(".");
+        if (parts.length > 2) {
+            value = parts[0] + "." + parts[1];
+        }
+
+        if (parts.length === 2 && parts[1].length > 2) {
+            parts[1] = parts[1].slice(0, 2);
+            value = parts.join(".");
+        }
+
+        if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+
+        if (value === "") {
+            form.resetField(key);
+            return;
+        }
+
+        if (value.endsWith(".") || value === "0.") {
+            return;
+        }
+
+        const numericValue = parseFloat(value);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+
+            if (numericValue > 100000) {
+                finalValue = 100000;
+            }
+            if (numericValue < 0) {
+                finalValue = 0;
+            }
+
+            form.setValue(key, finalValue);
+        }
+    };
 
     if (controllerProps.isLoading || !data)
         return (
@@ -214,6 +292,86 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="minTTLDep"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.minTTLDep")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("minTTLDep", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxTTLDep"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.maxTTLDep")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("maxTTLDep", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="minTTLWith"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.minTTLWith")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("minTTLWith", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxTTLWith"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.maxTTLWith")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("maxTTLWith", e.target.value)}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -279,21 +437,13 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                 </form>
             </Form>
             <Fees id={""} fees={fees} feesResource={FeesResource.MERCHANT} setFees={setFees} feeType="inner" />
-            <TTL
-                ttl={ttl}
-                onChange={(ttl: { depositMin: number; depositMax: number; withdrawMin: number; withdrawMax: number }) =>
-                    setTTL(ttl)
-                }
-                editClicked={editClicked}
-                setEditClicked={setEditClicked}
-            />
             <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}
                     type="submit"
                     variant="default"
                     className="flex-1"
-                    disabled={submitButtonDisabled || editClicked}>
+                    disabled={submitButtonDisabled}>
                     {translate("app.ui.actions.save")}
                 </Button>
                 <Button type="button" variant="outline_gray" className="flex-1" onClick={() => onOpenChange(false)}>

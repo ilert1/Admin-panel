@@ -247,7 +247,16 @@
             }
         },
         "ttl": {
-            "ttl": "TTL settings"
+            "ttl": "TTL settings",
+            "minTTL": "Minimum TTL in seconds",
+            "maxTTL": "Maximum TTL in seconds",
+            "minTTLDep": "Minimum deposit TTL in seconds",
+            "maxTTLDep": "Maximum deposit TTL in seconds",
+            "minTTLWith": "Minimum withdraw TTL in seconds",
+            "maxTTLWith": "Maximum withdraw TTL in seconds",
+            "errors": {
+                "minGreaterThanMax": "The maximum value of TTL limit cannot be less than the minimum value"
+            }
         },
         "multiSelect": {
             "selectAll": "Select all",

@@ -134,9 +134,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -149,6 +149,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -488,9 +506,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -503,6 +521,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -1141,9 +1177,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -1156,6 +1192,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -1692,9 +1746,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -1707,6 +1761,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -2665,9 +2737,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -2680,6 +2752,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -2888,9 +2978,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -2903,6 +2993,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -3999,9 +4107,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -4014,6 +4122,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -4245,9 +4371,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -4260,6 +4386,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -4678,9 +4822,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -4693,6 +4837,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -5166,9 +5328,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -5181,6 +5343,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -5558,9 +5738,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -5573,6 +5753,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -5742,9 +5940,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -5757,6 +5955,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -6326,9 +6542,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -6341,6 +6557,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -6586,9 +6820,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -6601,6 +6835,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -7258,9 +7510,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -7273,6 +7525,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -7518,9 +7788,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -7533,6 +7803,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -7961,9 +8249,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -7976,6 +8264,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -8259,9 +8565,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -8274,6 +8580,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -8518,9 +8842,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -8533,6 +8857,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -9174,9 +9516,9 @@
                 }
               ],
               "title": "Search strings",
-              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
             },
-            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by “|”."
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
           },
           {
             "name": "searchIgnoreCase",
@@ -9189,6 +9531,24 @@
               "default": true
             },
             "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
           },
           {
             "name": "orderBy",
@@ -12184,7 +12544,7 @@
             ]
           },
           "merchant": {
-            "$ref": "#/components/schemas/MerchantBase",
+            "$ref": "#/components/schemas/MerchantSchema",
             "description": "Merchant ID associated with the direction"
           },
           "provider": {

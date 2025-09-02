@@ -100,6 +100,27 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         />
                         <TextField label="Keycloak ID" copyValue text={context.record.keycloak_id || ""} />
 
+                        <TextField
+                            label={translate("app.widgets.ttl.minTTLDep")}
+                            copyValue
+                            text={String(context.record.settings?.deposit?.ttl?.min)}
+                        />
+                        <TextField
+                            label={translate("app.widgets.ttl.maxTTLDep")}
+                            copyValue
+                            text={String(context.record.settings?.deposit?.ttl?.max)}
+                        />
+                        <TextField
+                            label={translate("app.widgets.ttl.minTTLWith")}
+                            copyValue
+                            text={String(context.record.settings?.withdraw?.ttl?.min)}
+                        />
+                        <TextField
+                            label={translate("app.widgets.ttl.maxTTLWith")}
+                            copyValue
+                            text={String(context.record.settings?.withdraw?.ttl?.max)}
+                        />
+
                         <div className="flex flex-col">
                             <small className="mb-0.5 text-sm text-neutral-60">
                                 {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
