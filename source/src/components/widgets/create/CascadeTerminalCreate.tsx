@@ -100,7 +100,7 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
     }, [cascadeValueName, cascadesData]);
 
     const { data: terminalsData, isLoading: isTerminalsLoading } = useQuery({
-        queryKey: ["terminals", "getListWithoutPagination"],
+        queryKey: ["terminals", "getListWithoutPagination", currentCascadeStructure?.id],
         queryFn: ({ signal }) =>
             terminalsDataProvider.getListWithoutPagination(
                 "terminals",
