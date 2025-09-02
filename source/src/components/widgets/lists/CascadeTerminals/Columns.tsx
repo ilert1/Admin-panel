@@ -7,7 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 
-const statesMap = {
+export const cascadeTerminalStatesMap = {
     active: ["success", "resources.direction.fields.stateActive"],
     inactive: ["destructive", "resources.direction.fields.stateInactive"],
     archived: ["warning", "resources.direction.fields.stateArchived"]
@@ -120,10 +120,10 @@ export const useGetCascadeTerminalsColumns = () => {
             accessorKey: "terminal_state",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.terminal_state"),
             cell: ({ row }) => {
-                const state = row.original.state;
+                const state = row.original.terminal.state;
                 if (!state) return <TextField text="" />;
 
-                const mp = statesMap[state];
+                const mp = cascadeTerminalStatesMap[state];
                 return <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>;
             }
         },
