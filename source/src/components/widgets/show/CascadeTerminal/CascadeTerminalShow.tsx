@@ -58,7 +58,7 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                             <p className="text-nowrap">
                                 {new Date(context.record.created_at).toLocaleDateString(locale)}
                             </p>
-                            <p className="text-nowrap text-neutral-70">
+                            <p className="text-nowrap">
                                 {new Date(context.record.created_at).toLocaleTimeString(locale)}
                             </p>
                         </div>
@@ -73,15 +73,15 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                             <p className="text-nowrap">
                                 {new Date(context.record.updated_at).toLocaleDateString(locale)}
                             </p>
-                            <p className="text-nowrap text-neutral-70">
+                            <p className="text-nowrap">
                                 {new Date(context.record.updated_at).toLocaleTimeString(locale)}
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col items-start">
                         <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.cascade")}
+                            {translate("resources.cascadeSettings.cascadeTerminals.fields.cascade")}
                         </small>
 
                         <Button
@@ -105,9 +105,9 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                         />
                     </div>
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col items-start">
                         <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.terminal")}
+                            {translate("resources.cascadeSettings.cascadeTerminals.fields.terminal")}
                         </small>
 
                         <Button
@@ -131,9 +131,9 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                         />
                     </div>
 
-                    <div className="flex flex-col">
+                    <div className="flex flex-col items-start">
                         <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.provider")}
+                            {translate("resources.cascadeSettings.cascadeTerminals.fields.provider")}
                         </small>
 
                         <Button
@@ -150,13 +150,13 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                     </div>
 
                     <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.extra")}
+                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
                         text={String(context.record.condition?.extra)}
                     />
 
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.src_currency")}
+                            {translate("resources.cascadeSettings.cascadeTerminals.fields.src_currency")}
                         </small>
 
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
@@ -166,7 +166,7 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
 
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.dst_currency")}
+                            {translate("resources.cascadeSettings.cascadeTerminals.fields.dst_currency")}
                         </small>
 
                         <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
@@ -175,32 +175,32 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                     </div>
 
                     <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.weight")}
+                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.weight")}
                         text={context.record.condition?.weight?.toString() ?? ""}
                     />
 
                     <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.rank")}
+                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.rank")}
                         text={context.record.condition?.rank?.toString() ?? ""}
                     />
 
                     <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.ttl_min")}
+                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_min")}
                         text={context.record.condition?.ttl?.min?.toString() ?? ""}
                     />
 
                     <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.ttl_max")}
+                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_max")}
                         text={context.record.condition?.ttl?.max?.toString() ?? ""}
                     />
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={() => {}}>
+                    <Button className="" onClick={() => setEditDialogOpen(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="" onClick={() => {}} variant={"outline_gray"}>
+                    <Button className="" onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
