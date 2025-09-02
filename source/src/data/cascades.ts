@@ -48,8 +48,11 @@ export class CascadesDataProvider extends IBaseDataProvider {
             {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
-                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+                ...(fieldsForSearch.length > 0 && {
+                    searchMode: "starts_with",
+                    searchField: fieldsForSearch,
+                    searchString: fieldsForSearch.map(item => params.filter?.[item])
+                })
             },
             {
                 headers: {
