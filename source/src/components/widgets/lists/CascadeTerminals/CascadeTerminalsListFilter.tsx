@@ -86,7 +86,7 @@ export const CascadeTerminalsListFilter = ({ handleCreateClicked }: { handleCrea
                                 variants={terminalsData || []}
                                 variantKey="verbose_name"
                                 value={terminalName}
-                                onChange={val => setTerminalName(val)}
+                                onChange={setTerminalName}
                                 idField="terminal_id"
                                 setIdValue={onTerminalIdChanged}
                                 disabled={terminalsLoadingProcess || !providerName || !!cascadeName}

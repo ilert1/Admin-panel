@@ -48,7 +48,6 @@ const useCascadeTerminalsListFilter = () => {
             setTerminalName("");
         }
 
-        setCascadeName(id);
         onPropertySelected(id, "cascade_id");
     };
 
