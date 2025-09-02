@@ -11,7 +11,11 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { CascadeTerminalCreate, CascadeTerminalSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    CascadeTerminalCreate,
+    CascadeTerminalSchema,
+    CascadeTerminalState
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     cascadeTerminalEndpointsCreateCascadeTerminalEnigmaV1CascadeTerminalPost,
     cascadeTerminalEndpointsGetCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdGet,
@@ -19,6 +23,8 @@ import {
     cascadeTerminalEndpointsRemoveTerminalFromCascadeEnigmaV1CascadeTerminalCascadeTerminalIdDelete,
     cascadeTerminalEndpointsUpdateCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdPut
 } from "@/api/enigma/cascade-terminal/cascade-terminal";
+
+export const CASCADE_TERMINAL_STATE = Object.keys(CascadeTerminalState);
 
 export class CascadeTerminalDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeTerminalSchema>> {
@@ -30,8 +36,11 @@ export class CascadeTerminalDataProvider extends IBaseDataProvider {
             {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
-                ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+                ...(fieldsForSearch.length > 0 && {
+                    searchField: fieldsForSearch,
+                    searchMode: "starts_with",
+                    searchString: fieldsForSearch.map(item => params.filter?.[item])
+                })
             },
             {
                 headers: {

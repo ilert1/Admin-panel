@@ -1,13 +1,12 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { PaymentTypeCreate as IPaymentTypeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,22 +18,22 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useTerminalsListWithoutPagination } from "@/hooks";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { useCascadesListWithoutPagination } from "@/hooks/useCascadesListWithoutPagination";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-
-const CASCADE_TERMINAL_STATE = ["active", "inactive", "archived"];
+import { CascadeTerminalDataProvider, TerminalsDataProvider } from "@/data";
+import { CASCADE_TERMINAL_STATE } from "@/data/cascade_terminal";
+import { useQuery } from "@tanstack/react-query";
 
 export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
-    const dataProvider = useDataProvider();
-    const controllerProps = useCreateController<IPaymentTypeCreate>();
+    const cascadeTerminalDataProvider = new CascadeTerminalDataProvider();
+    const terminalsDataProvider = new TerminalsDataProvider();
+    const controllerProps = useCreateController();
     const { theme } = useTheme();
     const appToast = useAppToast();
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const { terminalsData, isTerminalsLoading } = useTerminalsListWithoutPagination();
     const { cascadesData, isCascadesLoading } = useCascadesListWithoutPagination();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -44,7 +43,9 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
     const formSchema = z.object({
         cascade_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.cascade_id")),
         terminal_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.terminal_id")),
-        state: z.enum(CASCADE_TERMINAL_STATE as [string, ...string[]]).default(CASCADE_TERMINAL_STATE[0]),
+        state: z
+            .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
+            .default(CASCADE_TERMINAL_STATE[0]),
         condition: z.object({
             extra: z.boolean(),
             weight: z.coerce
@@ -89,13 +90,35 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
         }
     });
 
+    const currentCascadeStructure = useMemo(() => {
+        if (cascadeValueName) {
+            return cascadesData?.find(cascade => cascade.id === form.getValues("cascade_id"));
+        } else {
+            return undefined;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cascadeValueName, cascadesData]);
+
+    const { data: terminalsData, isLoading: isTerminalsLoading } = useQuery({
+        queryKey: ["terminals", "getListWithoutPagination"],
+        queryFn: ({ signal }) =>
+            terminalsDataProvider.getListWithoutPagination(
+                "terminals",
+                ["src_currency_code"],
+                [currentCascadeStructure?.src_currency.code || ""],
+                signal
+            ),
+        enabled: !!currentCascadeStructure?.src_currency.code,
+        select: data => data.data
+    });
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);
 
         try {
-            await dataProvider.create("cascade_terminals", { data });
+            await cascadeTerminalDataProvider.create("cascade_terminals", { data });
 
             appToast("success", translate("app.ui.create.createSuccess"));
             refresh();
@@ -115,7 +138,7 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
         }
     };
 
-    if (controllerProps.isLoading || isTerminalsLoading || isCascadesLoading || theme.length === 0)
+    if (controllerProps.isLoading || isCascadesLoading || theme.length === 0)
         return (
             <div className="h-[300px]">
                 <Loading />
@@ -164,6 +187,7 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
                                         {translate("resources.cascadeSettings.cascadeTerminals.fields.terminal")}
                                     </Label>
                                     <PopoverSelect
+                                        disabled={!form.watch("cascade_id") || isTerminalsLoading}
                                         variants={terminalsData || []}
                                         value={terminalValueName}
                                         idField="terminal_id"
@@ -174,6 +198,7 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
                                         commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                         notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                         isError={fieldState.invalid}
+                                        isLoading={isTerminalsLoading}
                                         errorMessage={fieldState.error?.message}
                                         modal
                                     />

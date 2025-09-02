@@ -23,8 +23,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { useCascadesListWithoutPagination } from "@/hooks/useCascadesListWithoutPagination";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
-
-const CASCADE_TERMINAL_STATE = ["active", "inactive", "archived"];
+import { CASCADE_TERMINAL_STATE } from "@/data/cascade_terminal";
 
 export interface CascadeTerminalEditProps {
     id?: string;
@@ -60,7 +59,9 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
     const formSchema = z.object({
         cascade_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.cascade_id")),
         terminal_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.terminal_id")),
-        state: z.enum(CASCADE_TERMINAL_STATE as [string, ...string[]]).default(CASCADE_TERMINAL_STATE[0]),
+        state: z
+            .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
+            .default(CASCADE_TERMINAL_STATE[0]),
         condition: z.object({
             extra: z.boolean(),
             weight: z.coerce
@@ -161,7 +162,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
 
     usePreventFocus({ dependencies: [cascadeTerminalData] });
 
-    if (isLoadingCascadeTerminalData || isTerminalsLoading || isCascadesLoading || !cascadeTerminalData || !isFinished)
+    if (isLoadingCascadeTerminalData || isCascadesLoading || !cascadeTerminalData || !isFinished)
         return (
             <div className="h-[150px]">
                 <Loading />
@@ -203,6 +204,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                             <FormItem>
                                 <Label>{translate("resources.cascadeSettings.cascadeTerminals.fields.terminal")}</Label>
                                 <PopoverSelect
+                                    disabled={!form.watch("cascade_id") || isTerminalsLoading}
                                     variants={terminalsData || []}
                                     value={terminalValueName}
                                     idField="terminal_id"
@@ -213,6 +215,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                     notFoundMessage={translate("resources.terminals.notFoundMessage")}
                                     isError={fieldState.invalid}
+                                    isLoading={isTerminalsLoading}
                                     errorMessage={fieldState.error?.message}
                                     modal
                                 />
