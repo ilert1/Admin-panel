@@ -1389,7 +1389,7 @@ export interface Direction {
     /** Account identifier associated with the direction */
     account_id?: DirectionAccountId;
     /** Merchant ID associated with the direction */
-    merchant: MerchantBase;
+    merchant: MerchantSchema;
     /** Provider name associated with the direction */
     provider: ProviderBase;
     /** Terminal ID associated with the direction */
@@ -3707,13 +3707,17 @@ export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3723,6 +3727,17 @@ export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
      */
     sortOrder?: CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder;
 };
+
+export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode =
+    (typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode)[keyof typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder =
     (typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder)[keyof typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder];
@@ -3751,13 +3766,17 @@ export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3767,6 +3786,17 @@ export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams = {
      */
     sortOrder?: MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder;
 };
+
+export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode =
+    (typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode)[keyof typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder =
     (typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder)[keyof typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder];
@@ -3795,13 +3825,17 @@ export type ProviderEndpointsListProvidersEnigmaV1ProviderGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3811,6 +3845,17 @@ export type ProviderEndpointsListProvidersEnigmaV1ProviderGetParams = {
      */
     sortOrder?: ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder;
 };
+
+export type ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode =
+    (typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode)[keyof typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder =
     (typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder)[keyof typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder];
@@ -3850,13 +3895,17 @@ export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3866,6 +3915,17 @@ export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
      */
     sortOrder?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
 };
+
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode =
+    (typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode)[keyof typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
     (typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
@@ -3894,13 +3954,17 @@ export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3910,6 +3974,17 @@ export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams = {
      */
     sortOrder?: DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder;
 };
+
+export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode =
+    (typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode)[keyof typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder =
     (typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder)[keyof typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder];
@@ -3938,13 +4013,17 @@ export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchan
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3954,6 +4033,17 @@ export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchan
      */
     sortOrder?: DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder;
 };
+
+export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode =
+    (typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode)[keyof typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder =
     (typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder)[keyof typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder];
@@ -4004,13 +4094,17 @@ export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerch
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4020,6 +4114,17 @@ export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerch
      */
     sortOrder?: CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder;
 };
+
+export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode =
+    (typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode)[keyof typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder =
     (typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder)[keyof typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder];
@@ -4064,13 +4169,17 @@ export type CascadeEndpointsListCascadesEnigmaV1CascadeGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4080,6 +4189,17 @@ export type CascadeEndpointsListCascadesEnigmaV1CascadeGetParams = {
      */
     sortOrder?: CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder;
 };
+
+export type CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode =
+    (typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode)[keyof typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder =
     (typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder)[keyof typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder];
@@ -4124,13 +4244,17 @@ export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalG
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4140,6 +4264,17 @@ export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalG
      */
     sortOrder?: CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder;
 };
+
+export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode =
+    (typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode)[keyof typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder =
     (typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder)[keyof typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder];
@@ -4189,13 +4324,17 @@ export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeG
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4205,6 +4344,17 @@ export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeG
      */
     sortOrder?: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder;
 };
+
+export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode =
+    (typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode)[keyof typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder =
     (typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder)[keyof typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder];
@@ -4233,13 +4383,17 @@ export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4249,6 +4403,17 @@ export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
      */
     sortOrder?: PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder;
 };
+
+export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode =
+    (typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode)[keyof typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder =
     (typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder)[keyof typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder];
@@ -4269,13 +4434,17 @@ export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetPa
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4285,6 +4454,17 @@ export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetPa
      */
     sortOrder?: PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder;
 };
+
+export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode =
+    (typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode)[keyof typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder =
     (typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder)[keyof typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder];
@@ -4336,13 +4516,17 @@ export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1Financ
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4352,6 +4536,17 @@ export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1Financ
      */
     sortOrder?: FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder;
 };
+
+export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode =
+    (typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode)[keyof typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder =
     (typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder)[keyof typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder];
@@ -4388,13 +4583,17 @@ export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fina
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4404,6 +4603,17 @@ export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fina
      */
     sortOrder?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder;
 };
+
+export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode =
+    (typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode)[keyof typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder =
     (typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder)[keyof typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder];
@@ -4455,13 +4665,17 @@ export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -4471,6 +4685,18 @@ export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1
      */
     sortOrder?: SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder;
 };
+
+export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode =
+    (typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode)[keyof typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder =
     (typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder)[keyof typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder];
@@ -4509,13 +4735,17 @@ export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigma
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -4525,6 +4755,18 @@ export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigma
          */
         sortOrder?: SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder;
     };
+
+export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode =
+    (typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode)[keyof typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder =
     (typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder)[keyof typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder];
@@ -4579,13 +4821,17 @@ export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnig
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -4595,6 +4841,18 @@ export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnig
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder;
     };
+
+export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder =
     (typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder];
@@ -4641,13 +4899,17 @@ export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnig
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -4657,6 +4919,18 @@ export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnig
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder;
     };
+
+export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder =
     (typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder];
@@ -4703,13 +4977,17 @@ export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTer
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -4719,6 +4997,18 @@ export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTer
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder;
     };
+
+export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder =
     (typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder];
@@ -4765,13 +5055,17 @@ export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEn
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -4781,6 +5075,18 @@ export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEn
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder;
     };
+
+export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder =
     (typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder];
