@@ -1,11 +1,17 @@
 import { CascadeTerminalSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Badge } from "@/components/ui/badge";
+import { Badge, BadgeProps } from "@/components/ui/badge";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
+
+const statesMap = {
+    active: ["success", "resources.direction.fields.stateActive"],
+    inactive: ["destructive", "resources.direction.fields.stateInactive"],
+    archived: ["warning", "resources.direction.fields.stateArchived"]
+};
 
 export const useGetCascadeTerminalsColumns = () => {
     const [locale] = useLocaleState();
@@ -43,7 +49,19 @@ export const useGetCascadeTerminalsColumns = () => {
             accessorKey: "id",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.id"),
             cell: ({ row }) => (
-                <TextField text={row.original.id} wrap copyValue lineClamp linesCount={1} minWidth="50px" />
+                <TextField
+                    text={row.original.id}
+                    onClick={() => {
+                        openSheet("cascadeTerminal", {
+                            id: row.original.id
+                        });
+                    }}
+                    wrap
+                    copyValue
+                    lineClamp
+                    linesCount={1}
+                    minWidth="100px"
+                />
             )
         },
         {
@@ -67,7 +85,7 @@ export const useGetCascadeTerminalsColumns = () => {
                         copyValue
                         lineClamp
                         linesCount={1}
-                        minWidth="50px"
+                        minWidth="100px"
                     />
                 </div>
             )
@@ -93,7 +111,7 @@ export const useGetCascadeTerminalsColumns = () => {
                         copyValue
                         lineClamp
                         linesCount={1}
-                        minWidth="50px"
+                        minWidth="100px"
                     />
                 </div>
             )
@@ -101,7 +119,13 @@ export const useGetCascadeTerminalsColumns = () => {
         {
             accessorKey: "terminal_state",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.terminal_state"),
-            cell: ({ row }) => <TextField text={row.original.terminal.state || ""} />
+            cell: ({ row }) => {
+                const state = row.original.state;
+                if (!state) return <TextField text="" />;
+
+                const mp = statesMap[state];
+                return <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>;
+            }
         },
         {
             accessorKey: "provider",
@@ -166,7 +190,20 @@ export const useGetCascadeTerminalsColumns = () => {
         {
             accessorKey: "state",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.state"),
-            cell: ({ row }) => <TextField text={row.original.state || ""} />
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center">
+                    {row.original.state === "active" && (
+                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.active")}
+                        </span>
+                    )}
+                    {row.original.state === "inactive" && (
+                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.inactive")}
+                        </span>
+                    )}
+                </div>
+            )
         },
         {
             id: "actions",
