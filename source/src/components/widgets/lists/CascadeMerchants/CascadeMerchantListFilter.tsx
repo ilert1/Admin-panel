@@ -2,17 +2,33 @@ import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { useCascadeMerchantsListFilter } from "./useCascadeMerchantsListFilter";
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
+import { Label } from "@/components/ui/label";
+import { CascadeSelect } from "../../components/Selects/CascadeSelect";
 
 export const CascadeMerchantListFilter = ({ handleCreateClicked }: { handleCreateClicked: () => void }) => {
-    const { translate, type, currency, onClearFilters, onTypeChanged, onCurrencyChanged } =
-        useCascadeMerchantsListFilter();
+    const {
+        translate,
+        onClearFilters,
+        onMerchantChanged,
+        onCascadeChanged,
+        cascadeValue,
+        setCascadeValue,
+        cascadeId,
+        merchantData,
+        merchantsLoadingProcess,
+        merchantValue,
+        setMerchantValue,
+        merchantId,
+        cascadeData,
+        cascadesLoadingProcess
+    } = useCascadeMerchantsListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !type && !currency;
+    const clearDisabled = !merchantId && !cascadeId;
 
     return (
         <>
@@ -21,7 +37,7 @@ export const CascadeMerchantListFilter = ({ handleCreateClicked }: { handleCreat
                 <div className="flex flex-col gap-2 sm:flex-row">
                     <div className="flex flex-col gap-4 sm:flex-row">
                         <FilterButtonGroup
-                            filterList={[type, currency]}
+                            filterList={[merchantId, cascadeId]}
                             onClearFilters={onClearFilters}
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
@@ -39,30 +55,38 @@ export const CascadeMerchantListFilter = ({ handleCreateClicked }: { handleCreat
                     </div>
                 </div>
             </div>
-            {/* Мерчант Тип каскада Валюта каскада Вид каскада */}
             <AnimatedContainer open={openFiltersClicked}>
                 <div className="mb-6">
                     <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
                         <div className="flex w-full flex-wrap gap-2 sm:flex-nowrap">
-                            <Input
-                                label={translate("resources.cascadeSettings.cascades.fields.type")}
-                                labelSize="title-2"
-                                value={type}
-                                onChange={onTypeChanged}
-                                className="min-w-40"
-                                placeholder={translate("resources.cascadeSettings.cascades.placeholders.type")}
-                            />
-
-                            <Input
-                                label={translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
-                                labelSize="title-2"
-                                value={currency}
-                                onChange={onCurrencyChanged}
-                                className="min-w-40"
-                                placeholder={translate(
-                                    "resources.cascadeSettings.cascades.placeholders.src_currency_code"
-                                )}
-                            />
+                            <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
+                                <Label variant={"title-2"} className="md:text-nowrap">
+                                    {translate("resources.cascadeSettings.cascadeMerchants.fields.merchant")}
+                                </Label>
+                                <MerchantSelect
+                                    merchants={merchantData || []}
+                                    value={merchantValue}
+                                    onChange={setMerchantValue}
+                                    setIdValue={onMerchantChanged}
+                                    disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
+                                    style="Black"
+                                />
+                            </div>
+                            <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
+                                <Label variant={"title-2"} className="md:text-nowrap">
+                                    {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade")}
+                                </Label>
+                                <CascadeSelect
+                                    cascades={cascadeData ?? []}
+                                    value={cascadeValue}
+                                    onChange={setCascadeValue}
+                                    setIdValue={onCascadeChanged}
+                                    disabled={cascadesLoadingProcess || !merchantId}
+                                    isLoading={cascadesLoadingProcess}
+                                    style="Black"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

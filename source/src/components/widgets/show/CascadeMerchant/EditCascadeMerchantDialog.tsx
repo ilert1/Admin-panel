@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { CascadeEdit } from "../../edit/CascadeEdit";
+import { MerchantCascadeEdit } from "../../edit";
 
 export interface EditCascadeMerchantDialogProps {
     open: boolean;
@@ -21,13 +21,13 @@ export const EditCascadeMerchantDialog = ({ open, id, onOpenChange }: EditCascad
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
+                className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[500px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">
                         {translate("resources.cascadeSettings.cascadeMerchants.editingCascade")}
                     </DialogTitle>
                     <DialogDescription />
-                    <CascadeEdit id={id} onOpenChange={onOpenChange} />
+                    <MerchantCascadeEdit id={id} onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

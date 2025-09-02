@@ -15,7 +15,6 @@ import { useQuery } from "@tanstack/react-query";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { TTL } from "../../components/TTL";
 
 interface MerchantEditProps {
     id?: string;
@@ -43,33 +42,68 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         select: data => data.data
     });
 
-    const [ttl, setTTL] = useState({
-        depositMin: merchant?.settings?.deposit?.ttl?.min || 0,
-        depositMax: merchant?.settings?.deposit?.ttl?.max || 0,
-        withdrawMin: merchant?.settings?.withdraw?.ttl?.min || 0,
-        withdrawMax: merchant?.settings?.withdraw?.ttl?.max || 0
-    });
-
     const translate = useTranslate();
     const refresh = useRefresh();
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
-    const [editTTLClicked, setEditTTLClicked] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const formSchema = z.object({
-        id: z.string().min(1, translate("resources.merchant.errors.id")).trim(),
-        name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
-        description: z.string().trim().nullable(),
-        keycloak_id: z
-            .string()
-            .nullable()
-            .refine(value => value === null || !/\s/.test(value), {
-                message: translate("resources.merchant.errors.noSpaces")
-            }),
-        payment_types: z.array(z.string()).optional(),
-        allowed_src_currencies: z.array(z.string()).optional()
-    });
+    const formSchema = z
+        .object({
+            id: z.string().min(1, translate("resources.merchant.errors.id")).trim(),
+            name: z.string().min(1, translate("resources.merchant.errors.name")).trim(),
+            description: z.string().trim().nullable(),
+            keycloak_id: z
+                .string()
+                .nullable()
+                .refine(value => value === null || !/\s/.test(value), {
+                    message: translate("resources.merchant.errors.noSpaces")
+                }),
+            payment_types: z.array(z.string()).optional(),
+            allowed_src_currencies: z.array(z.string()).optional(),
+            minTTLDep: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            maxTTLDep: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            minTTLWith: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            maxTTLWith: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99)
+        })
+        .refine(
+            data => {
+                if (data.maxTTLDep === 0) {
+                    return true;
+                }
+
+                return data.minTTLDep <= data.maxTTLDep;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["maxTTLDep"]
+            }
+        )
+        .refine(
+            data => {
+                if (data.maxTTLWith === 0) {
+                    return true;
+                }
+
+                return data.minTTLWith <= data.maxTTLWith;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["maxTTLWith"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -79,7 +113,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             description: "",
             keycloak_id: "",
             payment_types: [],
-            allowed_src_currencies: []
+            allowed_src_currencies: [],
+            minTTLDep: 0,
+            maxTTLDep: 0,
+            minTTLWith: 0,
+            maxTTLWith: 0
         }
     });
 
@@ -95,7 +133,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     (merchant?.allowed_src_currencies &&
                         merchant?.allowed_src_currencies?.length &&
                         merchant.allowed_src_currencies.map(el => el.code)) ||
-                    []
+                    [],
+                minTTLDep: merchant?.settings?.deposit?.ttl?.min || 0,
+                maxTTLDep: merchant?.settings?.deposit?.ttl?.max || 0,
+                minTTLWith: merchant?.settings?.withdraw?.ttl?.min || 0,
+                maxTTLWith: merchant?.settings?.withdraw?.ttl?.max || 0
             };
 
             form.reset(updatedValues);
@@ -130,14 +172,14 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     settings: {
                         deposit: {
                             ttl: {
-                                min: ttl.depositMin,
-                                max: ttl.depositMax
+                                min: data.minTTLDep,
+                                max: data.maxTTLDep
                             }
                         },
                         withdraw: {
                             ttl: {
-                                min: ttl.withdrawMin,
-                                max: ttl.withdrawMax
+                                min: data.minTTLWith,
+                                max: data.maxTTLWith
                             }
                         }
                     }
@@ -170,6 +212,47 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             setSubmitButtonDisabled(false);
         } finally {
             refresh();
+        }
+    };
+
+    const handleChange = (key: "minTTLDep" | "maxTTLDep" | "minTTLWith" | "maxTTLWith", value: string) => {
+        value = value.replace(/[^0-9.]/g, "");
+
+        const parts = value.split(".");
+        if (parts.length > 2) {
+            value = parts[0] + "." + parts[1];
+        }
+
+        if (parts.length === 2 && parts[1].length > 2) {
+            parts[1] = parts[1].slice(0, 2);
+            value = parts.join(".");
+        }
+
+        if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+
+        if (value === "") {
+            form.resetField(key);
+            return;
+        }
+
+        if (value.endsWith(".") || value === "0.") {
+            return;
+        }
+
+        const numericValue = parseFloat(value);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+
+            if (numericValue > 100000) {
+                finalValue = 100000;
+            }
+            if (numericValue < 0) {
+                finalValue = 0;
+            }
+
+            form.setValue(key, finalValue);
         }
     };
 
@@ -261,6 +344,86 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                         />
                         <FormField
                             control={form.control}
+                            name="minTTLDep"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.minTTLDep")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("minTTLDep", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxTTLDep"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.maxTTLDep")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("maxTTLDep", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="minTTLWith"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.minTTLWith")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("minTTLWith", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxTTLWith"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.maxTTLWith")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("maxTTLWith", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="payment_types"
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
@@ -291,14 +454,6 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                     </div>
                 </form>
             </Form>
-            <TTL
-                ttl={ttl}
-                onChange={(ttl: { depositMin: number; depositMax: number; withdrawMin: number; withdrawMax: number }) =>
-                    setTTL(ttl)
-                }
-                editClicked={editTTLClicked}
-                setEditClicked={setEditTTLClicked}
-            />
             <div className="ml-auto flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:w-2/5">
                 <Button
                     onClick={form.handleSubmit(onSubmit)}

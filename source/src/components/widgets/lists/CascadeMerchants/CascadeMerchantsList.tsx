@@ -6,6 +6,7 @@ import { DataTable } from "../../shared";
 import { useGetCascadeMerchantColumns } from "./Columns";
 import { CreateCascadeMerchantsDialog } from "./CreateCascadeMerchantDialog";
 import { CascadeMerchantListFilter } from "./CascadeMerchantListFilter";
+import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const CascadeMerchantsList = () => {
     const listContext = useAbortableListController<MerchantCascadeSchema>({
@@ -19,69 +20,16 @@ export const CascadeMerchantsList = () => {
         setCreateDialogOpen(true);
     };
 
-    const mockData: MerchantCascadeSchema[] = [
-        {
-            merchant: {
-                id: "1",
-                name: "Merchant",
-                description: "descr"
-            },
-            cascade: {
-                id: "1",
-                name: "Cascade",
-                description: "descr",
-                type: "deposit",
-                src_currency: { code: "USD", is_coin: false },
-                cascade_kind: "sequential",
-                state: "active",
-                priority_policy: { rank: 1 },
-                created_at: Date.now().toString(),
-                updated_at: Date.now().toString()
-            },
-            state: "active",
-            created_at: Date.now().toString(),
-            updated_at: Date.now().toString(),
-            id: "1",
-            cascade_id: "1",
-            merchant_id: "1"
-        },
-        {
-            merchant: {
-                id: "2",
-                name: "Merchant2",
-                description: "descr"
-            },
-            cascade: {
-                id: "2",
-                name: "Cascade2",
-                description: "descr",
-                type: "deposit",
-                src_currency: { code: "USD", is_coin: false },
-                cascade_kind: "sequential",
-                state: "inactive",
-                priority_policy: { rank: 1 },
-                created_at: Date.now().toString(),
-                updated_at: Date.now().toString()
-            },
-            state: "inactive",
-            created_at: Date.now().toString(),
-            updated_at: Date.now().toString(),
-            id: "2",
-            cascade_id: "2",
-            merchant_id: "2"
-        }
-    ];
-
-    listContext.data = mockData;
-
     return (
         <ListContextProvider value={listContext}>
+            <SyncDisplayedFilters />
+
             <CascadeMerchantListFilter handleCreateClicked={handleCreateClicked} />
 
             {listContext.isLoading || isMerchantsLoading ? (
                 <LoadingBlock />
             ) : (
-                <DataTable columns={columns} data={mockData} />
+                <DataTable columns={columns} data={listContext.data} />
             )}
 
             <CreateCascadeMerchantsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
