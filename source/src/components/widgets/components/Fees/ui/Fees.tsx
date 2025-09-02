@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
 import { useTranslate } from "react-admin";
-import { Currency, DirectionFees, FeeCreate, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Currency, DirectionFees, FeeCreate, MerchantBaseFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { FeeCard } from "./FeeCard";
 import { useFetchDictionaries } from "@/hooks";
@@ -13,7 +13,7 @@ interface FeesProps {
     className?: string;
     id: string;
     addFee?: boolean;
-    fees?: FeeCreate[] | MerchantFees | DirectionFees;
+    fees?: FeeCreate[] | MerchantBaseFees | DirectionFees;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     feesResource?: FeesResource;
     feesVariants?: Currency[];

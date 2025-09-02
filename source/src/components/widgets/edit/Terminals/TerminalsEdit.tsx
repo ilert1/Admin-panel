@@ -107,8 +107,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 details: JSON.stringify(terminal.details, null, 2) || "{}",
                 allocation_timeout_seconds: terminal?.allocation_timeout_seconds ?? 2,
                 payment_types: terminal?.payment_types?.map(pt => pt.code) || [],
-                src_currency_code: terminal?.src_currency_code || "",
-                dst_currency_code: terminal?.dst_currency_code || "",
+                src_currency_code: terminal?.src_currency?.code || "",
+                dst_currency_code: terminal?.dst_currency?.code || "",
                 callback_url: terminal?.callback_url || null,
                 state: terminal?.state || "inactive"
             };

@@ -42,7 +42,7 @@ export const useGetTransactionState = (props: UseGetTransactionStateProps) => {
     }
 
     return {
-        text: translate(`resources.transactions.states.${data.states[state].state_description.toLocaleLowerCase()}`),
+        text: translate(`resources.transactions.states.${data.states[state].state_description?.toLocaleLowerCase()}`),
         color: getBadgeColor(state)
     };
 };

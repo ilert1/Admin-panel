@@ -40,8 +40,8 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     if (context.isLoading || !context.record) {
         return <LoadingBlock />;
     }
-    const src_cur = context.record.src_currency_code;
-    const dst_cur = context.record.dst_currency_code;
+    const src_cur = context.record.src_currency?.code;
+    const dst_cur = context.record.dst_currency?.code;
 
     return (
         <>

@@ -147,7 +147,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 weight: direction.weight || 0,
                 type: direction.type || undefined,
                 payment_types: direction?.payment_types?.map(pt => pt.code) || [],
-                kind: direction?.kind || "sequential"
+                kind: direction?.cascade_kind || "sequential"
             };
 
             form.reset(updatedValues);

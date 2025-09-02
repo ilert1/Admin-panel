@@ -11,12 +11,7 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import {
-    PaymentTypesLink,
-    TerminalCreate,
-    TerminalRead,
-    TerminalUpdateCallbackUrl
-} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { PaymentTypesLink, TerminalCreate, TerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatch,
     terminalEndpointsAllTerminalsEnigmaV1TerminalGet,

@@ -179,7 +179,7 @@ export const useGetTerminalColumns = () => {
             accessorKey: "source_currency",
             header: translate("resources.direction.sourceCurrency"),
             cell: ({ row }) => {
-                const src_cur = row.original.src_currency_code;
+                const src_cur = row.original.src_currency?.code;
                 return src_cur ? <Badge variant="currency">{src_cur}</Badge> : "-";
             }
         },
@@ -188,7 +188,7 @@ export const useGetTerminalColumns = () => {
             accessorKey: "destination_currency",
             header: translate("resources.direction.destinationCurrency"),
             cell: ({ row }) => {
-                const dst_cur = row.original.dst_currency_code;
+                const dst_cur = row.original.dst_currency?.code;
                 return dst_cur ? <Badge variant="currency">{dst_cur}</Badge> : "-";
             }
         },
