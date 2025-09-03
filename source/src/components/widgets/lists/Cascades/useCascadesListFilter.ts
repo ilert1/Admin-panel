@@ -1,3 +1,4 @@
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 import { useCascadesListWithoutPagination } from "@/hooks/useCascadesListWithoutPagination";
 import { debounce } from "lodash";
 import { useState } from "react";
@@ -7,21 +8,26 @@ const useCascadesListFilter = () => {
     const translate = useTranslate();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const { cascadesData, isCascadesLoading } = useCascadesListWithoutPagination();
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
 
     const [name, setName] = useState(filterValues?.name || "");
     const [type, setType] = useState(filterValues?.type || "");
     const [cascadeKind, setCascadeKind] = useState(filterValues?.cascade_kind || "");
     const [state, setState] = useState(filterValues?.state || "");
+    const [srcCurrencyCode, setSrcCurrencyCode] = useState(filterValues?.src_currency_code || "");
 
-    const onPropertySelected = debounce((value: string, type: "name" | "type" | "cascade_kind" | "state") => {
-        if (value) {
-            setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
-        } else {
-            Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters, true);
-        }
-        setPage(1);
-    }, 300);
+    const onPropertySelected = debounce(
+        (value: string, type: "name" | "type" | "cascade_kind" | "state" | "src_currency_code") => {
+            if (value) {
+                setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
+            } else {
+                Reflect.deleteProperty(filterValues, type);
+                setFilters(filterValues, displayedFilters, true);
+            }
+            setPage(1);
+        },
+        300
+    );
 
     const onNameChanged = (name: string) => {
         setName(name);
@@ -43,6 +49,11 @@ const useCascadesListFilter = () => {
         onPropertySelected(state, "state");
     };
 
+    const onSrcCurrencyCodeChanged = (currency: string) => {
+        setSrcCurrencyCode(currency);
+        onPropertySelected(currency, "src_currency_code");
+    };
+
     const onClearFilters = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -50,6 +61,7 @@ const useCascadesListFilter = () => {
         setType("");
         setCascadeKind("");
         setState("");
+        setSrcCurrencyCode("");
     };
 
     return {
@@ -64,6 +76,10 @@ const useCascadesListFilter = () => {
         onCascadeKindChanged,
         state,
         onStateChanged,
+        currenciesData,
+        currenciesLoadingProcess,
+        srcCurrencyCode,
+        onSrcCurrencyCodeChanged,
         onClearFilters
     };
 };

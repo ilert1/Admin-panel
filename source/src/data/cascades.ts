@@ -40,7 +40,12 @@ export class CascadesDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeSchema>> {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(
-                  item => item === "name" || item === "type" || item === "cascade_kind" || item === "state"
+                  item =>
+                      item === "name" ||
+                      item === "type" ||
+                      item === "cascade_kind" ||
+                      item === "state" ||
+                      item === "src_currency_code"
               )
             : [];
 

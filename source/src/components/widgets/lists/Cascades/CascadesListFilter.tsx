@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
+import { CurrencySelect } from "../../components/Selects/CurrencySelect";
 
 export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicked: () => void }) => {
     const {
@@ -23,11 +24,15 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
         onCascadeKindChanged,
         state,
         onStateChanged,
+        currenciesData,
+        currenciesLoadingProcess,
+        srcCurrencyCode,
+        onSrcCurrencyCodeChanged,
         onClearFilters
     } = useCascadesListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !name && !type && !cascadeKind && !state;
+    const clearDisabled = !srcCurrencyCode && !name && !type && !cascadeKind && !state;
 
     return (
         <>
@@ -36,7 +41,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                 <div className="flex flex-col gap-2 sm:flex-row">
                     <div className="flex flex-col gap-4 sm:flex-row">
                         <FilterButtonGroup
-                            filterList={[name, type, cascadeKind, state]}
+                            filterList={[name, type, cascadeKind, state, srcCurrencyCode]}
                             onClearFilters={onClearFilters}
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
@@ -178,6 +183,25 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
+                            </div>
+
+                            <div className="flex min-w-36 flex-1 flex-col">
+                                <Label variant={"title-2"}>
+                                    {translate(
+                                        "resources.paymentSettings.systemPaymentInstruments.fields.currency_code"
+                                    )}
+                                </Label>
+                                <CurrencySelect
+                                    currencies={currenciesData ?? []}
+                                    value={srcCurrencyCode}
+                                    onChange={onSrcCurrencyCodeChanged}
+                                    disabled={currenciesLoadingProcess}
+                                    style="Black"
+                                    placeholder={translate(
+                                        "resources.paymentSettings.systemPaymentInstruments.placeholders.currencyCode"
+                                    )}
+                                    isLoading={currenciesLoadingProcess}
+                                />
                             </div>
                         </div>
                     </div>
