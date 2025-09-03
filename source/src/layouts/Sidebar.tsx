@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { AdminCryptoStoreResources } from "@/components/widgets/shared";
 import { useTheme } from "@/components/providers";
 import { usePermissions, useResourceDefinitions, useTranslate } from "react-admin";
-import { createElement, useEffect, useState } from "react";
+import React, { createElement, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Button } from "@/components/ui/Button";
@@ -95,12 +95,12 @@ export const Sidebar = (props: SidebarProps) => {
                         !resource.includes("cascadeSettings")
                     ) {
                         return (
-                            <>
+                            <React.Fragment key={resource}>
                                 {resource.includes("direction") && permissions === "admin" && (
                                     <AdminCascadeResources showCaptions={showCaptions && !isMobile} />
                                 )}
-                                <div key={resource} className="w-full">
-                                    <TooltipProvider key={resource} delayDuration={100}>
+                                <div className="w-full">
+                                    <TooltipProvider delayDuration={100}>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <NavLink
@@ -137,7 +137,7 @@ export const Sidebar = (props: SidebarProps) => {
                                         </Tooltip>
                                     </TooltipProvider>
                                 </div>
-                            </>
+                            </React.Fragment>
                         );
                     }
                 })}

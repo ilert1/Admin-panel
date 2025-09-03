@@ -92,7 +92,7 @@ export const useGetCascadeColumns = () => {
             header: translate("resources.cascadeSettings.cascades.fields.payment_types"),
             cell: ({ row }) => {
                 return (
-                    <div className="max-w-auto flex flex-wrap gap-2">
+                    <div className="max-w-auto flex min-w-32 flex-wrap gap-2">
                         {row.original.payment_types && row.original.payment_types.length > 0
                             ? row.original.payment_types?.map(pt => {
                                   return (
@@ -113,7 +113,7 @@ export const useGetCascadeColumns = () => {
             accessorKey: "state",
             header: translate("resources.cascadeSettings.cascades.fields.state"),
             cell: ({ row }) => (
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center text-white">
                     {row.original.state === "active" && (
                         <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                             {translate("resources.cascadeSettings.cascades.state.active")}

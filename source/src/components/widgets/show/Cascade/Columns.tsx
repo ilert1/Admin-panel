@@ -15,11 +15,35 @@ export const useGetCascadeShowColumns = () => {
             id: "show",
             header: "",
             cell: ({ row }) => (
-                <ShowButton
+                <>
+                    <ShowButton
+                        onClick={() => {
+                            openSheet("cascadeTerminal", { id: row.original.id });
+                        }}
+                    />
+                    {row.original.condition?.extra && (
+                        <span className="text-red-40 dark:text-red-40">
+                            {translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
+                        </span>
+                    )}
+                </>
+            )
+        },
+        {
+            accessorKey: "provider",
+            header: translate("resources.cascadeSettings.cascadeTerminals.fields.provider"),
+            cell: ({ row }) => (
+                <Button
+                    variant={"resourceLink"}
                     onClick={() => {
-                        openSheet("cascadeTerminal", { id: row.original.id });
-                    }}
-                />
+                        if (row.original.terminal.provider.id) {
+                            openSheet("provider", {
+                                id: row.original.terminal.provider.id
+                            });
+                        }
+                    }}>
+                    {row.original.terminal.provider.name}
+                </Button>
             )
         },
         {
@@ -49,36 +73,12 @@ export const useGetCascadeShowColumns = () => {
             )
         },
         {
-            accessorKey: "provider",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.provider"),
+            accessorKey: "currencies",
+            header: translate("resources.cascadeSettings.cascadeTerminals.fields.currencies"),
             cell: ({ row }) => (
-                <Button
-                    variant={"resourceLink"}
-                    onClick={() => {
-                        if (row.original.terminal.provider.id) {
-                            openSheet("provider", {
-                                id: row.original.terminal.provider.id
-                            });
-                        }
-                    }}>
-                    {row.original.terminal.provider.name}
-                </Button>
-            )
-        },
-        {
-            accessorKey: "src_currency",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.src_currency"),
-            cell: ({ row }) => (
-                <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                <div className="flex max-h-32 items-center gap-2">
                     <Badge variant="currency">{row.original.terminal.src_currency?.code}</Badge>
-                </div>
-            )
-        },
-        {
-            accessorKey: "dst_currency",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.dst_currency"),
-            cell: ({ row }) => (
-                <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    {">"}
                     <Badge variant="currency">{row.original.terminal.dst_currency?.code}</Badge>
                 </div>
             )
@@ -94,19 +94,13 @@ export const useGetCascadeShowColumns = () => {
             cell: ({ row }) => <TextField text={row.original.condition?.rank?.toString() || ""} />
         },
         {
-            accessorKey: "extra",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.extra"),
-            cell: ({ row }) => <TextField text={row.original.condition?.extra?.toString() || ""} />
-        },
-        {
             accessorKey: "ttl_min",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_min"),
-            cell: ({ row }) => <TextField text={row.original.condition?.ttl?.min?.toString() || ""} />
-        },
-        {
-            accessorKey: "ttl_max",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_max"),
-            cell: ({ row }) => <TextField text={row.original.condition?.ttl?.max?.toString() || ""} />
+            header: translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_minmax"),
+            cell: ({ row }) => (
+                <TextField
+                    text={`${row.original.condition?.ttl?.min?.toString() || ""} / ${row.original.condition?.ttl?.max?.toString() || ""}`}
+                />
+            )
         },
         {
             accessorKey: "state",
@@ -114,12 +108,12 @@ export const useGetCascadeShowColumns = () => {
             cell: ({ row }) => (
                 <div className="flex items-center justify-center">
                     {row.original.state === "active" && (
-                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal text-white">
                             {translate("resources.cascadeSettings.cascades.state.active")}
                         </span>
                     )}
                     {row.original.state === "inactive" && (
-                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal text-white">
                             {translate("resources.cascadeSettings.cascades.state.inactive")}
                         </span>
                     )}
