@@ -255,6 +255,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         directionName={row.original.name}
                         activityState={row.original.state === "active"}
                         isFetching={isFetching}
+                        disabled={!!row.original.cascade_id}
                     />
                 );
             }
@@ -265,7 +266,12 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+                return (
+                    <TrashButton
+                        disabled={!!row.original.cascade_id}
+                        onClick={() => handleDeleteClicked(row.original.id)}
+                    />
+                );
             }
         },
         {

@@ -19,6 +19,7 @@ interface FeesProps {
     feesVariants?: Currency[];
     padding?: boolean;
     feeType?: FeeType;
+    disabled?: boolean;
 }
 
 export const Fees = (props: FeesProps) => {
@@ -31,7 +32,8 @@ export const Fees = (props: FeesProps) => {
         feesVariants = [],
         padding = true,
         feeType = "default",
-        setFees
+        setFees,
+        disabled = false
     } = props;
 
     const data = useFetchDictionaries();
@@ -95,6 +97,7 @@ export const Fees = (props: FeesProps) => {
                                       addFee={addFee}
                                       currency={fee.currency}
                                       direction={fee.direction}
+                                      disabled={disabled}
                                   />
                               );
                           })
@@ -121,7 +124,9 @@ export const Fees = (props: FeesProps) => {
                     <Button
                         onClick={() => setAddNewOpen(true)}
                         className="my-6 flex w-full gap-[4px] sm:w-2/5"
-                        disabled={isFeeCreateArray ? fees?.length > 2 : Object.values(fees ?? {}).length > 2}>
+                        disabled={
+                            disabled || (isFeeCreateArray ? fees?.length > 2 : Object.values(fees ?? {}).length > 2)
+                        }>
                         <PlusCircle className="h-[16px] w-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>

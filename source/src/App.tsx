@@ -32,9 +32,9 @@ import {
     WalletTransactionsList,
     WalletLinkedTransactionsList,
     TerminalsList,
-    CascadesList,
-    CascadeMerchantsList,
-    CascadeConflictsList
+    CascadesList
+    // CascadeMerchantsList,
+    // CascadeConflictsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -210,9 +210,8 @@ export const App = () => {
 
                                             <Resource name="cascadeSettings" icon={Split}>
                                                 <Route path="cascades" element={<CascadesList />} />
-                                                {/* <Route path="cascadeTerminals" element={<CascadeTerminalsList />} /> */}
-                                                <Route path="cascadeMerchants" element={<CascadeMerchantsList />} />
-                                                <Route path="cascadeConflicts" element={<CascadeConflictsList />} />
+                                                {/* <Route path="cascadeMerchants" element={<CascadeMerchantsList />} />
+                                                <Route path="cascadeConflicts" element={<CascadeConflictsList />} /> */}
                                             </Resource>
                                         </>
                                     )}

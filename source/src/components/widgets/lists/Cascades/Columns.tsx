@@ -5,11 +5,10 @@ import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useLocaleState, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export const useGetCascadeColumns = () => {
-    const [locale] = useLocaleState();
     const translate = useTranslate();
     const { openSheet } = useSheets();
 
@@ -20,30 +19,6 @@ export const useGetCascadeColumns = () => {
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
     const columns: ColumnDef<CascadeSchema>[] = [
-        {
-            accessorKey: "created_at",
-            header: translate("resources.cascadeSettings.cascades.fields.created_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.created_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.created_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
-        {
-            accessorKey: "updated_at",
-            header: translate("resources.cascadeSettings.cascades.fields.updated_at"),
-            cell: ({ row }) => (
-                <>
-                    <p className="text-nowrap">{new Date(row.original.updated_at).toLocaleDateString(locale)}</p>
-                    <p className="text-nowrap text-neutral-70">
-                        {new Date(row.original.updated_at).toLocaleTimeString(locale)}
-                    </p>
-                </>
-            )
-        },
         {
             accessorKey: "name",
             header: translate("resources.cascadeSettings.cascades.fields.cascade"),
