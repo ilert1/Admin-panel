@@ -93,6 +93,7 @@
     },
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Cascade merchants",
+        "nameSingular": "Cascade merchant",
         "createNew": "Create link between merchant and cascade",
         "editingCascade": "Editing link between merchant and cascade",
         "deleteCascadeMerchant": "Delete link between merchant and cascade?",
@@ -106,7 +107,10 @@
             "cascade_state": "Cascade state",
             "created_at": "Created at",
             "updated_at": "Updated at",
-            "changed_by": "Changed by"
+            "changed_by": "Changed by",
+            "rank": "Priority policy",
+            "payment_types": "Payment types",
+            "cascade_id": "Cascade ID"
         }
     },
     "resources.cascadeSettings.cascadeConflicts": {

@@ -7,6 +7,7 @@ import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 
 export const useGetCascadeMerchantColumns = () => {
     const [locale] = useLocaleState();
@@ -122,19 +123,74 @@ export const useGetCascadeMerchantColumns = () => {
             )
         },
         {
+            id: "rank",
+            accessorKey: "rank",
+            header: translate("resources.cascadeSettings.cascadeMerchants.fields.rank"),
+            cell: ({ row }) => <TextField text={String(row.original.cascade.priority_policy.rank)} />
+        },
+        {
+            id: "payment_types",
+            header: translate("resources.cascadeSettings.cascadeMerchants.fields.payment_types"),
+            cell: ({ row }) => {
+                const pt = row.original.cascade.payment_types;
+                return (
+                    <div className="max-w-auto flex min-w-[100px] flex-wrap gap-2">
+                        {pt && pt.length > 0
+                            ? pt?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"]}
+                                      />
+                                  );
+                              })
+                            : "-"}
+                    </div>
+                );
+            }
+        },
+        {
             id: "cascade_state",
             accessorKey: "cascade_state",
             header: translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_state"),
             cell: ({ row }) => (
-                <TextField text={translate("resources.cascadeSettings.cascades.state." + row.original.cascade.state)} />
+                <div className="flex items-center justify-center">
+                    {row.original.cascade.state === "active" && (
+                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.active")}
+                        </span>
+                    )}
+                    {row.original.cascade.state === "inactive" && (
+                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.inactive")}
+                        </span>
+                    )}
+                </div>
             )
         },
         {
-            id: "state",
             accessorKey: "state",
             header: translate("resources.cascadeSettings.cascadeMerchants.fields.state"),
             cell: ({ row }) => (
-                <TextField text={translate("resources.cascadeSettings.cascades.state." + row.original.state)} />
+                <div className="flex items-center justify-center">
+                    {row.original.state === "active" && (
+                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.active")}
+                        </span>
+                    )}
+                    {row.original.state === "inactive" && (
+                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.inactive")}
+                        </span>
+                    )}
+                    {/* {row.original.state === "archived" && (
+                        <span className="whitespace-nowrap rounded-20 bg-yellow-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                            {translate("resources.cascadeSettings.cascades.state.archived")}
+                        </span>
+                    )} */}
+                </div>
             )
         },
         {
@@ -161,13 +217,6 @@ export const useGetCascadeMerchantColumns = () => {
                     </p>
                 </>
             )
-        },
-        {
-            id: "changed_by",
-            accessorKey: "changed_by",
-            header: translate("resources.cascadeSettings.cascadeMerchants.fields.changed_by"),
-            cell: () => <TextField text={""} />
-            // cell: ({ row }) => <TextField text={row.original.cascade.changed_by || ""} />
         },
         {
             id: "actions",

@@ -31,7 +31,7 @@
             "showAll": "Показать все"
         },
         "types": {
-            "deposit": "Депозит",
+            "deposit": "Пополнение",
             "withdraw": "Вывод средств"
         },
         "kinds": {
@@ -93,6 +93,7 @@
     },
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Каскады мерчантов",
+        "nameSingular": "Каскад мерчанта",
         "createNew": "Добавить связь мерчанта и каскада",
         "editingCascade": "Изменение связи мерчанта и каскада",
         "deleteCascadeMerchant": "Удалить связь мерчанта и каскада?",
@@ -106,7 +107,10 @@
             "cascade_state": "Состояние каскада",
             "created_at": "Создан",
             "updated_at": "Изменён",
-            "changed_by": "Кем изменён"
+            "changed_by": "Кем изменён",
+            "rank": "Политика приоритета",
+            "payment_types": "Платёжные типы",
+            "cascade_id": "ID каскада"
         }
     },
     "resources.cascadeSettings.cascadeConflicts": {

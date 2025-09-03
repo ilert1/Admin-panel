@@ -8,6 +8,9 @@ import { useCascadeMerchantsListFilter } from "./useCascadeMerchantsListFilter";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 import { Label } from "@/components/ui/label";
 import { CascadeSelect } from "../../components/Selects/CascadeSelect";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CASCADE_STATE } from "@/data/cascades";
+import { Input } from "@/components/ui/Input/input";
 
 export const CascadeMerchantListFilter = ({ handleCreateClicked }: { handleCreateClicked: () => void }) => {
     const {
@@ -24,11 +27,15 @@ export const CascadeMerchantListFilter = ({ handleCreateClicked }: { handleCreat
         setMerchantValue,
         merchantId,
         cascadeData,
-        cascadesLoadingProcess
+        cascadesLoadingProcess,
+        state,
+        onStateChanged,
+        onCascadeIdFromInputChanged,
+        cascadeIdFromInput
     } = useCascadeMerchantsListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !merchantId && !cascadeId;
+    const clearDisabled = !merchantId && !cascadeId && !state;
 
     return (
         <>
@@ -37,7 +44,7 @@ export const CascadeMerchantListFilter = ({ handleCreateClicked }: { handleCreat
                 <div className="flex flex-col gap-2 sm:flex-row">
                     <div className="flex flex-col gap-4 sm:flex-row">
                         <FilterButtonGroup
-                            filterList={[merchantId, cascadeId]}
+                            filterList={[merchantId, cascadeId, state]}
                             onClearFilters={onClearFilters}
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
@@ -86,6 +93,46 @@ export const CascadeMerchantListFilter = ({ handleCreateClicked }: { handleCreat
                                     isLoading={cascadesLoadingProcess}
                                     style="Black"
                                 />
+                            </div>
+                            <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
+                                <Input
+                                    disabled={!merchantId}
+                                    label={translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_id")}
+                                    labelSize="title-2"
+                                    value={cascadeIdFromInput}
+                                    onChange={e => onCascadeIdFromInputChanged(e.target.value)}
+                                    placeholder={translate(
+                                        "resources.cascadeSettings.cascadeMerchants.fields.cascade_id"
+                                    )}
+                                />
+                            </div>
+                            <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
+                                <Label variant={"title-2"} className="md:text-nowrap">
+                                    {translate("resources.cascadeSettings.cascadeMerchants.fields.state")}
+                                </Label>
+                                <Select
+                                    value={state}
+                                    onValueChange={val => (val !== "null" ? onStateChanged(val) : onStateChanged(""))}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translate(
+                                                "resources.cascadeSettings.cascadeMerchants.fields.state"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="null">
+                                                {translate("resources.transactions.filter.showAll")}
+                                            </SelectItem>
+                                            {CASCADE_STATE.map(state => (
+                                                <SelectItem value={state} key={state}>
+                                                    {translate(`resources.cascadeSettings.cascades.state.${state}`)}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </div>
                     </div>

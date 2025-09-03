@@ -7,7 +7,9 @@ import { useListContext, useTranslate } from "react-admin";
 
 export const useCascadeMerchantsListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-
+    // cascade_id
+    // state
+    // MerchantCascadeState
     const translate = useTranslate();
     const dataProvider = new CascadeMerchantsDataProvider();
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
@@ -16,6 +18,8 @@ export const useCascadeMerchantsListFilter = () => {
     const [merchantValue, setMerchantValue] = useState("");
     const [cascadeId, setCascadeId] = useState(filterValues?.cascade_id || "");
     const [cascadeValue, setCascadeValue] = useState("");
+    const [cascadeIdFromInput, setCascadeIdFromInput] = useState("");
+    const [state, setState] = useState<string>(filterValues?.state || "");
 
     const { data: cascadeData, isLoading: cascadesLoadingProcess } = useQuery({
         queryKey: ["Cascades list"],
@@ -24,13 +28,20 @@ export const useCascadeMerchantsListFilter = () => {
     });
 
     useEffect(() => {
-        if (merchantData) {
+        if (merchantData && filterValues?.merchant) {
             setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.merchant)?.name || "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
 
-    const onPropertySelected = debounce((value: string, type: "merchant_id" | "cascade_id") => {
+    useEffect(() => {
+        if (cascadeData && filterValues?.cascade_id) {
+            setCascadeValue(cascadeData?.find(cascade => cascade.id === filterValues?.cascade_id)?.name || "");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cascadeData]);
+
+    const onPropertySelected = debounce((value: string, type: "merchant_id" | "cascade_id" | "state") => {
         if (value) {
             setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
         } else {
@@ -42,12 +53,29 @@ export const useCascadeMerchantsListFilter = () => {
 
     const onMerchantChanged = (merchant: string) => {
         setMerchantId(merchant);
-        onPropertySelected(merchant, "merchant_id");
+        if (merchant !== filterValues?.merchant) {
+            onPropertySelected(merchant, "merchant_id");
+        } else {
+            onPropertySelected("", "cascade_id");
+        }
     };
 
-    const onCascadeChanged = (merchant: string) => {
-        setCascadeId(merchant);
-        onPropertySelected(merchant, "cascade_id");
+    const onCascadeChanged = (cascade_id: string) => {
+        setCascadeId(cascade_id);
+        setCascadeIdFromInput("");
+        onPropertySelected(cascade_id, "cascade_id");
+    };
+
+    const onStateChanged = (state: string) => {
+        setState(state);
+        onPropertySelected(state, "state");
+    };
+
+    const onCascadeIdFromInputChanged = (cascadeId: string) => {
+        setCascadeIdFromInput(cascadeId);
+        setCascadeId("");
+        setCascadeValue("");
+        onPropertySelected(cascadeId, "cascade_id");
     };
 
     const onClearFilters = () => {
@@ -57,6 +85,8 @@ export const useCascadeMerchantsListFilter = () => {
         setMerchantValue("");
         setCascadeId("");
         setCascadeValue("");
+        setState("");
+        setCascadeIdFromInput("");
     };
 
     return {
@@ -73,6 +103,10 @@ export const useCascadeMerchantsListFilter = () => {
         setMerchantValue,
         merchantId,
         cascadeData,
-        cascadesLoadingProcess
+        cascadesLoadingProcess,
+        state,
+        onStateChanged,
+        onCascadeIdFromInputChanged,
+        cascadeIdFromInput
     };
 };

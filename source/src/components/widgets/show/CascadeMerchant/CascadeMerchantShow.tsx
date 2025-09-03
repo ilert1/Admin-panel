@@ -146,7 +146,6 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                         wrap
                         copyValue
                     />
-
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.cascadeSettings.cascadeMerchants.fields.src_currency")}
@@ -158,18 +157,21 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                             </Badge>
                         </div>
                     </div>
-
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_state")}
-                        text={translate("resources.cascadeSettings.cascades.state." + cascadeMerchantData?.state)}
-                    />
-
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascadeMerchants.fields.state")}
-                        text={translate(
-                            "resources.cascadeSettings.cascades.state." + cascadeMerchantData?.cascade.state
+                    <div>
+                        <Label className="dark:!text-neutral-60">
+                            {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_state")}
+                        </Label>
+                        {cascadeMerchantData?.cascade.state === "active" && (
+                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                                {translate("resources.cascadeSettings.cascades.state.active")}
+                            </span>
                         )}
-                    />
+                        {cascadeMerchantData?.cascade.state === "inactive" && (
+                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                                {translate("resources.cascadeSettings.cascades.state.inactive")}
+                            </span>
+                        )}
+                    </div>
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">

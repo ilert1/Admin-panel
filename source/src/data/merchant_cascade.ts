@@ -29,7 +29,9 @@ import { cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchant
 export class CascadeMerchantsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<MerchantCascadeSchema>> {
         const fieldsForSearch = params.filter
-            ? Object.keys(params.filter).filter(item => item === "merchant_id" || item === "cascade_id")
+            ? Object.keys(params.filter).filter(
+                  item => item === "merchant_id" || item === "cascade_id" || item === "state"
+              )
             : [];
 
         const res = await merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGet(
