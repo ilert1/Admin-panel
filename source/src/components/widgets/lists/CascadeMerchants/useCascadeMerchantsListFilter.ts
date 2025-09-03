@@ -7,9 +7,6 @@ import { useListContext, useTranslate } from "react-admin";
 
 export const useCascadeMerchantsListFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    // cascade_id
-    // state
-    // MerchantCascadeState
     const translate = useTranslate();
     const dataProvider = new CascadeMerchantsDataProvider();
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
