@@ -143,103 +143,6 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
 
                         <FormField
                             control={form.control}
-                            name="type"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.cascadeSettings.cascades.fields.type")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_TYPE.map(type => (
-                                                    <SelectItem value={type} variant={SelectType.GRAY} key={type}>
-                                                        {translate(`resources.cascadeSettings.cascades.types.${type}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="priority_policy.rank"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.cascadeSettings.cascades.fields.rank")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="src_currency_code"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>
-                                        {translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
-                                    </Label>
-                                    <CurrencySelect
-                                        currencies={currenciesData || []}
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={currenciesLoadingProcess}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="cascade_kind"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.cascadeSettings.cascades.fields.cascade_kind")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_KIND.map(kind => (
-                                                    <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
-                                                        {translate(`resources.cascadeSettings.cascades.kinds.${kind}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
                             name="state"
                             render={({ field, fieldState }) => (
                                 <FormItem>
@@ -269,6 +172,63 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
 
                         <FormField
                             control={form.control}
+                            name="description"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="col-span-1 sm:col-span-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.cascadeSettings.cascades.fields.description")}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="src_currency_code"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>
+                                        {translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
+                                    </Label>
+                                    <CurrencySelect
+                                        currencies={currenciesData || []}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={currenciesLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="priority_policy.rank"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.cascadeSettings.cascades.fields.rank")}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="payment_types"
                             render={({ field }) => (
                                 <FormItem className="col-span-1 sm:col-span-2">
@@ -287,18 +247,58 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
 
                         <FormField
                             control={form.control}
-                            name="description"
+                            name="type"
                             render={({ field, fieldState }) => (
-                                <FormItem className="col-span-1 sm:col-span-2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.cascadeSettings.cascades.fields.description")}
-                                        />
-                                    </FormControl>
+                                <FormItem>
+                                    <Label>{translate("resources.cascadeSettings.cascades.fields.type")}</Label>
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {CASCADE_TYPE.map(type => (
+                                                    <SelectItem value={type} variant={SelectType.GRAY} key={type}>
+                                                        {translate(`resources.cascadeSettings.cascades.types.${type}`)}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="cascade_kind"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>{translate("resources.cascadeSettings.cascades.fields.cascade_kind")}</Label>
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {CASCADE_KIND.map(kind => (
+                                                    <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
+                                                        {translate(`resources.cascadeSettings.cascades.kinds.${kind}`)}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />
