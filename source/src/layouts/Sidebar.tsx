@@ -95,47 +95,49 @@ export const Sidebar = (props: SidebarProps) => {
                         !resource.includes("cascadeSettings")
                     ) {
                         return (
-                            <div key={resource} className="w-full">
+                            <>
                                 {resource.includes("direction") && permissions === "admin" && (
                                     <AdminCascadeResources showCaptions={showCaptions && !isMobile} />
                                 )}
-                                <TooltipProvider key={resource} delayDuration={100}>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <NavLink
-                                                to={`/${resource}`}
-                                                className={
-                                                    resourceName[0] === resource
-                                                        ? "flex w-full items-center gap-3 bg-neutral-20 py-2 pl-6 leading-normal text-controlElements animate-in fade-in-0 dark:bg-black"
-                                                        : "flex w-full items-center gap-3 py-2 pl-6 leading-normal animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black"
-                                                }>
-                                                {createElement(resources[resource].icon, {})}
-                                                {showCaptions && !isMobile && (
-                                                    <span className="transition-opacity animate-in fade-in-0">
-                                                        {getResLabel(resources[resource].name, permissions)}
-                                                    </span>
-                                                )}
-                                            </NavLink>
-                                        </TooltipTrigger>
+                                <div key={resource} className="w-full">
+                                    <TooltipProvider key={resource} delayDuration={100}>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <NavLink
+                                                    to={`/${resource}`}
+                                                    className={
+                                                        resourceName[0] === resource
+                                                            ? "flex w-full items-center gap-3 bg-neutral-20 py-2 pl-6 leading-normal text-controlElements animate-in fade-in-0 dark:bg-black"
+                                                            : "flex w-full items-center gap-3 py-2 pl-6 leading-normal animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black"
+                                                    }>
+                                                    {createElement(resources[resource].icon, {})}
+                                                    {showCaptions && !isMobile && (
+                                                        <span className="transition-opacity animate-in fade-in-0">
+                                                            {getResLabel(resources[resource].name, permissions)}
+                                                        </span>
+                                                    )}
+                                                </NavLink>
+                                            </TooltipTrigger>
 
-                                        <TooltipContent
-                                            className={
-                                                showCaptions && !isMobile
-                                                    ? "hidden"
-                                                    : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:h-2 after:w-2 after:rotate-45 after:bg-neutral-0 dark:after:bg-neutral-100"
-                                            }
-                                            sideOffset={12}
-                                            side="right">
-                                            {getResLabel(resources[resource].name, permissions)}
-                                            <ChevronLeft
-                                                className="absolute -left-[13px] top-1.5 text-green-40"
-                                                width={20}
-                                                height={20}
-                                            />
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                            </div>
+                                            <TooltipContent
+                                                className={
+                                                    showCaptions && !isMobile
+                                                        ? "hidden"
+                                                        : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:h-2 after:w-2 after:rotate-45 after:bg-neutral-0 dark:after:bg-neutral-100"
+                                                }
+                                                sideOffset={12}
+                                                side="right">
+                                                {getResLabel(resources[resource].name, permissions)}
+                                                <ChevronLeft
+                                                    className="absolute -left-[13px] top-1.5 text-green-40"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                            </>
                         );
                     }
                 })}
