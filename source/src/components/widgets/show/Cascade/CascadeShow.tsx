@@ -66,13 +66,6 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                     />
 
                     <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.id")}
-                        text={context.record.id}
-                        wrap
-                        copyValue
-                    />
-
-                    <TextField
                         label={translate("resources.cascadeSettings.cascades.fields.type")}
                         text={
                             context.record.type
@@ -121,11 +114,42 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         text={context.record.priority_policy.rank.toString()}
                     />
 
-                    <TextField
-                        className="md:col-span-2"
-                        label={translate("resources.cascadeSettings.cascades.fields.description")}
-                        text={context.record.description ?? ""}
-                    />
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.created_at")}
+                        </small>
+
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(context.record.created_at).toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap">
+                                {new Date(context.record.created_at).toLocaleTimeString(locale)}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.updated_at")}
+                        </small>
+
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(context.record.updated_at).toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap">
+                                {new Date(context.record.updated_at).toLocaleTimeString(locale)}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2">
+                        <TextField
+                            label={translate("resources.cascadeSettings.cascades.fields.description")}
+                            text={context.record.description ?? ""}
+                        />
+                    </div>
 
                     <div className="flex flex-col gap-1 md:col-span-2">
                         <small className="text-sm text-neutral-60">
@@ -172,37 +196,6 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                                 "max-h-96"
                         )}
                     />
-                </div>
-                <div className="flex gap-2">
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.created_at")}
-                        </small>
-
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.updated_at")}
-                        </small>
-
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
