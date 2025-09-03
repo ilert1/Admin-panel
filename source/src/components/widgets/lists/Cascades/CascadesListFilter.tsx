@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 import { CurrencySelect } from "../../components/Selects/CurrencySelect";
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 
 export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicked: () => void }) => {
     const {
@@ -28,11 +29,16 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
         currenciesLoadingProcess,
         srcCurrencyCode,
         onSrcCurrencyCodeChanged,
+        merchantData,
+        merchantsLoadingProcess,
+        merchantValue,
+        setMerchantValue,
+        onMerchantIdChanged,
         onClearFilters
     } = useCascadesListFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
-    const clearDisabled = !srcCurrencyCode && !name && !type && !cascadeKind && !state;
+    const clearDisabled = !name && !type && !cascadeKind && !state && !srcCurrencyCode && !merchantValue;
 
     return (
         <>
@@ -41,7 +47,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                 <div className="flex flex-col gap-2 sm:flex-row">
                     <div className="flex flex-col gap-4 sm:flex-row">
                         <FilterButtonGroup
-                            filterList={[name, type, cascadeKind, state, srcCurrencyCode]}
+                            filterList={[name, type, cascadeKind, state, srcCurrencyCode, merchantValue]}
                             onClearFilters={onClearFilters}
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
@@ -63,7 +69,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
             <AnimatedContainer open={openFiltersClicked}>
                 <div className="mb-6">
                     <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
-                        <div className="flex w-full flex-wrap gap-2 sm:flex-nowrap">
+                        <div className="flex w-full flex-wrap gap-2">
                             <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]">
                                 <Label className="mb-0" variant="title-2">
                                     {translate("resources.cascadeSettings.cascades.cascade")}
@@ -80,6 +86,22 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                     notFoundMessage={translate("resources.cascadeSettings.cascades.notFoundMessage")}
                                     disabled={isCascadesLoading}
                                     isLoading={isCascadesLoading}
+                                />
+                            </div>
+
+                            <div className="flex min-w-36 flex-1 flex-col">
+                                <Label variant="title-2">
+                                    {translate("resources.transactions.filter.filterByAccount")}
+                                </Label>
+
+                                <MerchantSelect
+                                    merchants={merchantData || []}
+                                    value={merchantValue}
+                                    onChange={setMerchantValue}
+                                    setIdValue={onMerchantIdChanged}
+                                    disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
+                                    style="Black"
                                 />
                             </div>
 
@@ -191,6 +213,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                         "resources.paymentSettings.systemPaymentInstruments.fields.currency_code"
                                     )}
                                 </Label>
+
                                 <CurrencySelect
                                     currencies={currenciesData ?? []}
                                     value={srcCurrencyCode}

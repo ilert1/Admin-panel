@@ -24,6 +24,7 @@ import {
     cascadeEndpointsCreateCascadeEnigmaV1CascadePost,
     cascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDelete,
     cascadeEndpointsGetCascadeEnigmaV1CascadeCascadeIdGet,
+    cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGet,
     cascadeEndpointsListCascadesEnigmaV1CascadeGet,
     cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut
 } from "@/api/enigma/cascade/cascade";
@@ -38,6 +39,7 @@ export interface CascadeUpdateParams extends CascadeUpdate {
 
 export class CascadesDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<CascadeSchema>> {
+        let res;
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(
                   item =>
@@ -49,23 +51,44 @@ export class CascadesDataProvider extends IBaseDataProvider {
               )
             : [];
 
-        const res = await cascadeEndpointsListCascadesEnigmaV1CascadeGet(
-            {
-                currentPage: params?.pagination?.page,
-                pageSize: params?.pagination?.perPage,
-                ...(fieldsForSearch.length > 0 && {
-                    searchMode: "starts_with",
-                    searchField: fieldsForSearch,
-                    searchString: fieldsForSearch.map(item => params.filter?.[item])
-                })
-            },
-            {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("access-token")}`
+        if (params.filter.merchant) {
+            res = await cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGet(
+                params.filter.merchant,
+                {
+                    currentPage: params?.pagination?.page,
+                    pageSize: params?.pagination?.perPage,
+                    ...(fieldsForSearch.length > 0 && {
+                        searchMode: "starts_with",
+                        searchField: fieldsForSearch,
+                        searchString: fieldsForSearch.map(item => params.filter?.[item])
+                    })
                 },
-                signal: params.signal || params.filter?.signal
-            }
-        );
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    },
+                    signal: params.signal || params.filter?.signal
+                }
+            );
+        } else {
+            res = await cascadeEndpointsListCascadesEnigmaV1CascadeGet(
+                {
+                    currentPage: params?.pagination?.page,
+                    pageSize: params?.pagination?.perPage,
+                    ...(fieldsForSearch.length > 0 && {
+                        searchMode: "starts_with",
+                        searchField: fieldsForSearch,
+                        searchString: fieldsForSearch.map(item => params.filter?.[item])
+                    })
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
+                    },
+                    signal: params.signal || params.filter?.signal
+                }
+            );
+        }
 
         if ("data" in res.data && res.data.success) {
             return {
