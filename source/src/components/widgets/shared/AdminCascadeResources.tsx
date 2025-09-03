@@ -1,8 +1,8 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ADMIN_CASCADE_OPEN } from "@/helpers/localStorage";
-import CascadeConflicts from "@/lib/icons/CascadeConflicts";
+// import CascadeConflicts from "@/lib/icons/CascadeConflicts";
 import CascadeList from "@/lib/icons/CascadeList";
-import CascadeMerchants from "@/lib/icons/CascadeMerchants";
+// import CascadeMerchants from "@/lib/icons/CascadeMerchants";
 import CascadeSettings from "@/lib/icons/CascadeSettings";
 import CascadeTerminals from "@/lib/icons/CascadeTerminals";
 import { cn } from "@/lib/utils";
@@ -47,17 +47,17 @@ export const AdminCascadeResources = ({ showCaptions }: { showCaptions: boolean 
                         name: "cascadeTerminals",
                         path: "/cascadeSettings/cascadeTerminals",
                         icon: <CascadeTerminals />
-                    },
-                    {
-                        name: "cascadeMerchants",
-                        path: "/cascadeSettings/cascadeMerchants",
-                        icon: <CascadeMerchants />
-                    },
-                    {
-                        name: "cascadeConflicts",
-                        path: "/cascadeSettings/cascadeConflicts",
-                        icon: <CascadeConflicts />
                     }
+                    // {
+                    //     name: "cascadeMerchants",
+                    //     path: "/cascadeSettings/cascadeMerchants",
+                    //     icon: <CascadeMerchants />
+                    // },
+                    // {
+                    //     name: "cascadeConflicts",
+                    //     path: "/cascadeSettings/cascadeConflicts",
+                    //     icon: <CascadeConflicts />
+                    // }
                 ]
             });
         }

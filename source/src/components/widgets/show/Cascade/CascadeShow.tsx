@@ -55,35 +55,12 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-2 gap-2">
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.created_at")}
-                        </small>
-
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.updated_at")}
-                        </small>
-
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                            </p>
-                        </div>
-                    </div>
+                    <TextField
+                        label={translate("resources.cascadeSettings.cascades.fields.id")}
+                        text={context.record.id}
+                        wrap
+                        copyValue
+                    />
 
                     <TextField
                         label={translate("resources.cascadeSettings.cascades.fields.id")}
@@ -181,6 +158,37 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                                 "max-h-96"
                         )}
                     />
+                </div>
+                <div className="flex gap-2">
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.created_at")}
+                        </small>
+
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(context.record.created_at).toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap">
+                                {new Date(context.record.created_at).toLocaleTimeString(locale)}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.updated_at")}
+                        </small>
+
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(context.record.updated_at).toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap">
+                                {new Date(context.record.updated_at).toLocaleTimeString(locale)}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 

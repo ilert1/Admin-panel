@@ -1,6 +1,6 @@
 import { useTranslate } from "react-admin";
 import { TextField } from "@/components/ui/text-field";
-import { Button } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { CascadeTerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
@@ -11,6 +11,17 @@ export const useGetCascadeShowColumns = () => {
     const { openSheet } = useSheets();
 
     const cascadeTerminalColumns: ColumnDef<CascadeTerminalRead>[] = [
+        {
+            id: "show",
+            header: "",
+            cell: ({ row }) => (
+                <ShowButton
+                    onClick={() => {
+                        openSheet("cascadeTerminal", { id: row.original.id });
+                    }}
+                />
+            )
+        },
         {
             accessorKey: "terminal",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.terminal"),

@@ -54,6 +54,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
         feesVariants.push(context.record.dst_currency);
     const isPrioritized = context.record.condition?.extra ?? false;
 
+    const controlsDisabled = !!context.record.cascade_id;
+
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
@@ -208,11 +210,15 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={handleEditClicked} disabled={!!context.record.cascade_id}>
+                    <Button className="" onClick={handleEditClicked} disabled={controlsDisabled}>
                         {translate("app.ui.actions.edit")}
                     </Button>
 
-                    <Button className="" onClick={handleDeleteClicked} variant={"outline_gray"}>
+                    <Button
+                        className=""
+                        onClick={handleDeleteClicked}
+                        variant={"outline_gray"}
+                        disabled={controlsDisabled}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
@@ -222,10 +228,16 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     fees={fees}
                     feesResource={FeesResource.DIRECTION}
                     feesVariants={feesVariants}
+                    disabled={controlsDisabled}
                     className="max-h-[45dvh]"
                 />
 
-                <LimitsList id={context.record.id} limits={context.record.limits} resource="direction" />
+                <LimitsList
+                    id={context.record.id}
+                    limits={context.record.limits}
+                    resource="direction"
+                    disabled={controlsDisabled}
+                />
             </div>
 
             <DeleteDirectionDialog

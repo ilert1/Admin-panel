@@ -28,6 +28,7 @@ interface FeeCardProps {
     isInner?: boolean;
     deleteFn?: (innerId: number) => void;
     direction: number;
+    disabled?: boolean;
 }
 export const FeeCard = memo((props: FeeCardProps) => {
     const {
@@ -41,7 +42,8 @@ export const FeeCard = memo((props: FeeCardProps) => {
         description = "",
         isInner = false,
         deleteFn,
-        direction
+        direction,
+        disabled = false
     } = props;
     const feeTypesMap = { 1: "FeeFromSender", 2: "FeeFromTransaction", 3: "FeeFixWithdraw" };
     const translate = useTranslate();
@@ -126,6 +128,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
                     </div>
                     {addFee && (
                         <Button
+                            disabled={disabled}
                             onClick={handleDeleteClicked}
                             variant="text_btn"
                             className="absolute right-3 top-5 h-6 w-6 bg-transparent p-0">

@@ -149,7 +149,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 </div>
 
                 <Fees fees={context.record?.fees} feesResource={FeesResource.TERMINAL} id={id} padding={false} />
-                <Limits limits={context.record?.limits ?? {}} id={id} resource="terminal" />
+                <Limits limits={context.record?.limits ?? {}} id={id} resource="terminal" padding={false} />
             </div>
 
             <AuthDataEditSheet
