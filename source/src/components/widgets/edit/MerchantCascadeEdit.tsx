@@ -86,7 +86,7 @@ export const MerchantCascadeEdit = ({ id, onOpenChange }: MerchantCascadeEditPro
         <EditContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                    <div className="grid grid-cols-1 gap-4 p-2">
+                    <div className="mb-1 grid grid-cols-1 gap-4 p-2">
                         <FormField
                             control={form.control}
                             name="state"
@@ -117,7 +117,7 @@ export const MerchantCascadeEdit = ({ id, onOpenChange }: MerchantCascadeEditPro
                         />
                     </div>
 
-                    <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
+                    <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0">
                         <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
