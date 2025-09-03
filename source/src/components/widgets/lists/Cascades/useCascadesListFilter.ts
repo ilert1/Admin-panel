@@ -1,10 +1,12 @@
+import { useCascadesListWithoutPagination } from "@/hooks/useCascadesListWithoutPagination";
 import { debounce } from "lodash";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 
 const useCascadesListFilter = () => {
     const translate = useTranslate();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const { cascadesData, isCascadesLoading } = useCascadesListWithoutPagination();
 
     const [name, setName] = useState(filterValues?.name || "");
     const [type, setType] = useState(filterValues?.type || "");
@@ -21,9 +23,9 @@ const useCascadesListFilter = () => {
         setPage(1);
     }, 300);
 
-    const onNameChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        setName(e.target.value);
-        onPropertySelected(e.target.value, "name");
+    const onNameChanged = (name: string) => {
+        setName(name);
+        onPropertySelected(name, "name");
     };
 
     const onTypeChanged = (type: string) => {
@@ -52,6 +54,8 @@ const useCascadesListFilter = () => {
 
     return {
         translate,
+        cascadesData,
+        isCascadesLoading,
         name,
         onNameChanged,
         type,
