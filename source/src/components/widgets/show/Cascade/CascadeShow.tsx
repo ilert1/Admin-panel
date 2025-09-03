@@ -14,6 +14,8 @@ import { SimpleTable } from "../../shared";
 import { TableTypes } from "../../shared/SimpleTable";
 import clsx from "clsx";
 import { useGetCascadeShowColumns } from "./Columns";
+import { CirclePlus } from "lucide-react";
+import { CreateCascadeTerminalsDialog } from "../../lists/CascadeTerminals/CreateCascadeTerminalsDialog";
 
 export interface CascadeShowProps {
     id: string;
@@ -27,6 +29,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [createCascadeTerminalDialogOpen, setCreateCascadeTerminalDialogOpen] = useState(false);
 
     const { cascadeTerminalColumns } = useGetCascadeShowColumns();
 
@@ -157,6 +160,17 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
+                    <Button
+                        onClick={() => setCreateCascadeTerminalDialogOpen(true)}
+                        variant="default"
+                        className="flex gap-[4px]">
+                        <CirclePlus className="h-[16px] w-[16px]" />
+
+                        <span className="text-title-1">
+                            {translate("resources.cascadeSettings.cascadeTerminals.createNew")}
+                        </span>
+                    </Button>
+
                     <Button className="" onClick={() => setEditDialogOpen(true)}>
                         {translate("app.ui.actions.edit")}
                     </Button>
@@ -192,6 +206,11 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
             />
 
             <EditCascadeDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />
+
+            <CreateCascadeTerminalsDialog
+                open={createCascadeTerminalDialogOpen}
+                onOpenChange={setCreateCascadeTerminalDialogOpen}
+            />
         </div>
     );
 };
