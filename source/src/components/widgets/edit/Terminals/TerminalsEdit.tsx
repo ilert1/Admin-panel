@@ -7,7 +7,7 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { usePreventFocus } from "@/hooks";
+import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { TerminalsDataProvider, TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +26,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { CurrencySelect } from "../../components/Selects/CurrencySelect";
 
 interface ProviderEditParams {
     provider: ProviderBase;
@@ -35,6 +36,8 @@ interface ProviderEditParams {
 
 export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) => {
     const dataProvider = useDataProvider();
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -334,6 +337,44 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                             onChange={e => handleChange("maxTTL", e.target.value)}
                                         />
                                     </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="src_currency_code"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label>{translate("resources.direction.sourceCurrency")}</Label>
+                                    <CurrencySelect
+                                        currencies={currenciesData || []}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        disabled={currenciesLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="dst_currency_code"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label>{translate("resources.direction.destinationCurrency")}</Label>
+                                    <CurrencySelect
+                                        currencies={currenciesData || []}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        disabled={currenciesLoadingProcess}
+                                        modal
+                                    />
                                 </FormItem>
                             )}
                         />
