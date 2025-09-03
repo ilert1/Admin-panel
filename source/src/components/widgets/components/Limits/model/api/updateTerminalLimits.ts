@@ -1,13 +1,13 @@
-import { directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatch } from "@/api/enigma/direction/direction";
 import { UpdateLimitsType } from "../types/limits";
+import { terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPut } from "@/api/enigma/terminal/terminal";
 
-export async function updateLimits(
-    directionId: string,
+export async function updateTerminalLimits(
+    terminalId: string,
     limits: UpdateLimitsType
 ): Promise<{ data?: any; success: boolean; errorMessage?: string }> {
     try {
-        const { data } = await directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatch(
-            directionId,
+        const { data } = await terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPut(
+            terminalId,
             {
                 limits: {
                     payin: {

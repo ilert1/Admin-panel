@@ -2,15 +2,16 @@ import { Button } from "@/components/ui/Button";
 import { useRefresh, useTranslate } from "react-admin";
 import { useState } from "react";
 import { ResourceType, UpdateLimitsType } from "../model/types/limits";
-import { updateLimits } from "../model/api/updateLimits";
-import { LimitInputGroup } from "./LimitInputGroup";
 import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { getMaxValue, getMinValue } from "../model/helpers/minmaxValue";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { z } from "zod";
+import { updateDirectionLimits } from "../model/api/updateDirectionLimits";
+import { updateTerminalLimits } from "../model/api/updateTerminalLimits";
+import { LimitInputGroup } from "./LimitInputGroup";
 
 interface EditLimitCardProps {
-    directionId: string;
+    id: string;
     limitsData: Limits;
     setEditClicked: (state: boolean) => void;
     resource: ResourceType;
@@ -18,7 +19,7 @@ interface EditLimitCardProps {
 
 export const EditLimitCard = (props: EditLimitCardProps) => {
     const translate = useTranslate();
-    const { directionId, limitsData, setEditClicked, resource } = props;
+    const { id, limitsData, setEditClicked, resource } = props;
     const refresh = useRefresh();
 
     const appToast = useAppToast();
@@ -141,6 +142,7 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
 
         if (!result.success) {
             const newErrors: Record<string, string> = {};
+
             result.error.issues.forEach(issue => {
                 appToast("error", issue.message);
                 newErrors[issue.path[0] as string] = issue.message;
@@ -149,8 +151,15 @@ export const EditLimitCard = (props: EditLimitCardProps) => {
             setErrors(newErrors);
             return;
         }
+        let success = false;
+        let errorMessage: string | undefined = "";
 
-        const { success, errorMessage } = await updateLimits(directionId, limits);
+        if (resource === "direction") {
+            ({ success, errorMessage } = await updateDirectionLimits(id, limits));
+        } else {
+            ({ success, errorMessage } = await updateTerminalLimits(id, limits));
+        }
+
         setErrors({});
 
         if (success) appToast("success", translate("app.widgets.limits.updatedSuccessfully"));

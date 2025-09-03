@@ -16,6 +16,7 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { Badge, BadgeProps } from "@/components/ui/badge";
+import { Limits } from "../../components/Limits";
 
 interface TerminalShowProps {
     id: string;
@@ -148,7 +149,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 </div>
 
                 <Fees fees={context.record?.fees} feesResource={FeesResource.TERMINAL} id={id} padding={false} />
-                {/* <Limits limits={context.record?.limits ?? {}} id={id} resource="terminal" /> */}
+                <Limits limits={context.record?.limits ?? {}} id={id} resource="terminal" />
             </div>
 
             <AuthDataEditSheet

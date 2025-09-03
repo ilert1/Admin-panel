@@ -301,7 +301,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                             control={form.control}
                             name="minTTL"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -321,7 +321,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                             control={form.control}
                             name="maxTTL"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             {...field}

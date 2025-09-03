@@ -28,7 +28,7 @@ export const LimitsList = (props: LimitsProps) => {
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {editClicked ? (
                         <EditLimitCard
-                            directionId={id}
+                            id={id}
                             setEditClicked={setEditClicked}
                             limitsData={limits}
                             resource={resource}
