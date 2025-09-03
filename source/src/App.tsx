@@ -33,7 +33,6 @@ import {
     WalletLinkedTransactionsList,
     TerminalsList,
     CascadesList,
-    CascadeTerminalsList,
     CascadeMerchantsList,
     CascadeConflictsList
 } from "@/components/widgets/lists";
@@ -211,7 +210,7 @@ export const App = () => {
 
                                             <Resource name="cascadeSettings" icon={Split}>
                                                 <Route path="cascades" element={<CascadesList />} />
-                                                <Route path="cascadeTerminals" element={<CascadeTerminalsList />} />
+                                                {/* <Route path="cascadeTerminals" element={<CascadeTerminalsList />} /> */}
                                                 <Route path="cascadeMerchants" element={<CascadeMerchantsList />} />
                                                 <Route path="cascadeConflicts" element={<CascadeConflictsList />} />
                                             </Resource>

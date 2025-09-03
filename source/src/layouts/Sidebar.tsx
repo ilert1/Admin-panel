@@ -95,7 +95,7 @@ export const Sidebar = (props: SidebarProps) => {
                         !resource.includes("cascadeSettings")
                     ) {
                         return (
-                            <>
+                            <div key={resource} className="w-full">
                                 {resource.includes("direction") && permissions === "admin" && (
                                     <AdminCascadeResources showCaptions={showCaptions && !isMobile} />
                                 )}
@@ -135,7 +135,7 @@ export const Sidebar = (props: SidebarProps) => {
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
-                            </>
+                            </div>
                         );
                     }
                 })}

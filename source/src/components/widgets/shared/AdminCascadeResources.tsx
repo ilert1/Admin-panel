@@ -4,7 +4,6 @@ import CascadeConflicts from "@/lib/icons/CascadeConflicts";
 import CascadeList from "@/lib/icons/CascadeList";
 import CascadeMerchants from "@/lib/icons/CascadeMerchants";
 import CascadeSettings from "@/lib/icons/CascadeSettings";
-import CascadeTerminals from "@/lib/icons/CascadeTerminals";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -43,11 +42,11 @@ export const AdminCascadeResources = ({ showCaptions }: { showCaptions: boolean 
                         path: "/cascadeSettings/cascades",
                         icon: <CascadeList />
                     },
-                    {
-                        name: "cascadeTerminals",
-                        path: "/cascadeSettings/cascadeTerminals",
-                        icon: <CascadeTerminals />
-                    },
+                    // {
+                    //     name: "cascadeTerminals",
+                    //     path: "/cascadeSettings/cascadeTerminals",
+                    //     icon: <CascadeTerminals />
+                    // },
                     {
                         name: "cascadeMerchants",
                         path: "/cascadeSettings/cascadeMerchants",
