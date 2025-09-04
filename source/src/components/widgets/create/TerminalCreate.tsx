@@ -352,27 +352,35 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
                                 <FormField
                                     control={form.control}
-                                    name="allocation_timeout_seconds"
+                                    name="state"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="w-full">
-                                            <FormControl>
-                                                <Input
-                                                    label={translate(
-                                                        "resources.terminals.fields.allocation_timeout_seconds"
-                                                    )}
-                                                    autoCorrect="off"
-                                                    autoCapitalize="none"
-                                                    spellCheck="false"
-                                                    error={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}
-                                                    variant={InputTypes.GRAY}
-                                                    {...field}
-                                                    onChange={e => {
-                                                        const value = e.target.value.replace(/\D/, "");
-                                                        field.onChange(value);
-                                                    }}
-                                                />
-                                            </FormControl>
+                                        <FormItem>
+                                            <Label>{translate("resources.direction.fields.active")}</Label>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        variant={SelectType.GRAY}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
+                                                        <SelectValue
+                                                            placeholder={translate("resources.direction.fields.active")}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectItem value="active" variant={SelectType.GRAY}>
+                                                            {translate("resources.direction.fields.stateActive")}
+                                                        </SelectItem>
+                                                        <SelectItem value="inactive" variant={SelectType.GRAY}>
+                                                            {translate("resources.direction.fields.stateInactive")}
+                                                        </SelectItem>
+                                                        <SelectItem value="archived" variant={SelectType.GRAY}>
+                                                            {translate("resources.direction.fields.stateArchived")}
+                                                        </SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
                                         </FormItem>
                                     )}
                                 />
@@ -438,35 +446,27 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
 
                                 <FormField
                                     control={form.control}
-                                    name="state"
+                                    name="allocation_timeout_seconds"
                                     render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <Label>{translate("resources.direction.fields.active")}</Label>
-                                            <Select value={field.value} onValueChange={field.onChange}>
-                                                <FormControl>
-                                                    <SelectTrigger
-                                                        variant={SelectType.GRAY}
-                                                        isError={fieldState.invalid}
-                                                        errorMessage={<FormMessage />}>
-                                                        <SelectValue
-                                                            placeholder={translate("resources.direction.fields.active")}
-                                                        />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        <SelectItem value="active" variant={SelectType.GRAY}>
-                                                            {translate("resources.direction.fields.stateActive")}
-                                                        </SelectItem>
-                                                        <SelectItem value="inactive" variant={SelectType.GRAY}>
-                                                            {translate("resources.direction.fields.stateInactive")}
-                                                        </SelectItem>
-                                                        <SelectItem value="archived" variant={SelectType.GRAY}>
-                                                            {translate("resources.direction.fields.stateArchived")}
-                                                        </SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <Input
+                                                    label={translate(
+                                                        "resources.terminals.fields.allocation_timeout_seconds"
+                                                    )}
+                                                    autoCorrect="off"
+                                                    autoCapitalize="none"
+                                                    spellCheck="false"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    {...field}
+                                                    onChange={e => {
+                                                        const value = e.target.value.replace(/\D/, "");
+                                                        field.onChange(value);
+                                                    }}
+                                                />
+                                            </FormControl>
                                         </FormItem>
                                     )}
                                 />
