@@ -46,7 +46,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                 const isPrioritized = row.original.condition?.extra ?? false;
 
                 return (
-                    <div>
+                    <div className="flex flex-col items-start justify-start">
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
