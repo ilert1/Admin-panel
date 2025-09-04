@@ -91,17 +91,23 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         )}
                     </div>
                 </div>
-                <div className="md:col-span-2">
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.description")}
-                        text={context.record.description ?? ""}
-                    />
-                </div>
+
+                {context.record.description && (
+                    <div className="md:col-span-2">
+                        <TextField
+                            label={translate("resources.cascadeSettings.cascades.fields.description")}
+                            text={context.record.description ?? ""}
+                        />
+                    </div>
+                )}
             </div>
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-2 gap-2">
-                    <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
+                    <TextField
+                        label={translate("resources.direction.types.type")}
+                        text={context.record.type ? translate(`resources.direction.types.${context.record.type}`) : "-"}
+                    />
                     <TextField
                         label={translate("resources.direction.merchant")}
                         text={context.record.merchant.name}
@@ -111,6 +117,12 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                                 merchantName: context.record.merchant.name ?? ""
                             });
                         }}
+                    />
+                    <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
+
+                    <TextField
+                        text={context.record?.dst_country_code ?? ""}
+                        label={translate("resources.direction.destinationCountry")}
                     />
 
                     <div className="flex flex-col">
@@ -142,10 +154,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         text={context.record.account_id || ""}
                         wrap
                         copyValue
-                    />
-                    <TextField
-                        label={translate("resources.direction.types.type")}
-                        text={context.record.type ? translate(`resources.direction.types.${context.record.type}`) : "-"}
                     />
 
                     <div className="col-span-2 mt-2 border-t-[1px] border-neutral-90 pt-2 dark:border-neutral-100 md:mt-5 md:pt-5" />
