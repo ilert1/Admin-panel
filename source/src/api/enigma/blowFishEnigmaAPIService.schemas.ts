@@ -1003,6 +1003,11 @@ export type CascadeCreateDescription = string | null;
  */
 export type CascadeCreateDetails = { [key: string]: unknown };
 
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeCreateDstCountryCode = string | null;
+
 export interface CascadeCreate {
     /**
      * Human-readable name of the cascade
@@ -1020,6 +1025,8 @@ export interface CascadeCreate {
     description?: CascadeCreateDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeCreateDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeCreateDstCountryCode;
     /**
      * Source currency code (ISO 4217 format)
      * @minLength 3
@@ -1048,6 +1055,11 @@ export type CascadeReadDescription = string | null;
  */
 export type CascadeReadDetails = { [key: string]: unknown };
 
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeReadDstCountryCode = string | null;
+
 export interface CascadeRead {
     /**
      * Human-readable name of the cascade
@@ -1065,6 +1077,8 @@ export interface CascadeRead {
     description?: CascadeReadDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeReadDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeReadDstCountryCode;
     /** Unique identifier of the cascade */
     id: string;
     /** Current operational state of the cascade */
@@ -1089,6 +1103,11 @@ export type CascadeSchemaDescription = string | null;
  */
 export type CascadeSchemaDetails = { [key: string]: unknown };
 
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeSchemaDstCountryCode = string | null;
+
 export interface CascadeSchema {
     /**
      * Human-readable name of the cascade
@@ -1106,6 +1125,8 @@ export interface CascadeSchema {
     description?: CascadeSchemaDescription;
     /** Additional configuration parameters and metadata */
     details?: CascadeSchemaDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeSchemaDstCountryCode;
     /** Unique identifier of the cascade */
     id: string;
     /** Current operational state of the cascade */
@@ -1237,6 +1258,11 @@ export type CascadeUpdatePriorityPolicy = PriorityPolicy | null;
  */
 export type CascadeUpdateDescription = string | null;
 
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeUpdateDstCountryCode = string | null;
+
 export type CascadeUpdateDetailsAnyOf = { [key: string]: unknown };
 
 /**
@@ -1260,6 +1286,8 @@ export interface CascadeUpdate {
     priority_policy?: CascadeUpdatePriorityPolicy;
     /** Updated detailed description of the cascade purpose */
     description?: CascadeUpdateDescription;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeUpdateDstCountryCode;
     /** Updated additional configuration parameters and metadata */
     details?: CascadeUpdateDetails;
     /** Updated payment types explicitly assigned to cascade */
@@ -1355,6 +1383,11 @@ export type DirectionFees = { [key: string]: Fee };
 export type DirectionAccountId = string | null;
 
 /**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionDstCountryCode = string | null;
+
+/**
  * Associated cascade ID
  */
 export type DirectionCascadeId = string | null;
@@ -1389,7 +1422,7 @@ export interface Direction {
     /** Account identifier associated with the direction */
     account_id?: DirectionAccountId;
     /** Merchant ID associated with the direction */
-    merchant: MerchantSchema;
+    merchant: MerchantTemporalRead;
     /** Provider name associated with the direction */
     provider: ProviderBase;
     /** Terminal ID associated with the direction */
@@ -1398,6 +1431,8 @@ export interface Direction {
     src_currency: Currency;
     /** Destination currency code */
     dst_currency: Currency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionDstCountryCode;
     /** List of payment types associated with this direction */
     payment_types?: PaymentTypeBase[];
     /** Associated cascade ID */
@@ -1412,6 +1447,11 @@ export interface Direction {
  * Description of the direction
  */
 export type DirectionCreateDescription = string | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionCreateDstCountryCode = string | null;
 
 /**
  * Account identifier associated with the direction
@@ -1453,6 +1493,8 @@ export interface DirectionCreate {
     src_currency: string;
     /** Destination currency code */
     dst_currency: string;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionCreateDstCountryCode;
     /**
      * Weight of the direction
      * @minimum 0
@@ -1529,6 +1571,11 @@ export type DirectionUpdateSrcCurrency = string | null;
 export type DirectionUpdateDstCurrency = string | null;
 
 /**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionUpdateDstCountryCode = string | null;
+
+/**
  * Weight of the direction
  */
 export type DirectionUpdateWeight = number | null;
@@ -1598,6 +1645,8 @@ export interface DirectionUpdate {
     src_currency?: DirectionUpdateSrcCurrency;
     /** Destination currency code */
     dst_currency?: DirectionUpdateDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionUpdateDstCountryCode;
     /** Weight of the direction */
     weight?: DirectionUpdateWeight;
     /** Account identifier associated with the direction */
@@ -1651,6 +1700,11 @@ export type DirectionUpdateBulkItemSrcCurrency = string | null;
  * Destination currency code
  */
 export type DirectionUpdateBulkItemDstCurrency = string | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionUpdateBulkItemDstCountryCode = string | null;
 
 /**
  * Weight of the direction
@@ -1722,6 +1776,8 @@ export interface DirectionUpdateBulkItem {
     src_currency?: DirectionUpdateBulkItemSrcCurrency;
     /** Destination currency code */
     dst_currency?: DirectionUpdateBulkItemDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionUpdateBulkItemDstCountryCode;
     /** Weight of the direction */
     weight?: DirectionUpdateBulkItemWeight;
     /** Account identifier associated with the direction */
@@ -2431,6 +2487,40 @@ export interface MerchantSettingsOutput {
 }
 
 /**
+ * Description of the merchant
+ */
+export type MerchantTemporalReadDescription = string | null;
+
+/**
+ * Keycloak identifier for the merchant
+ */
+export type MerchantTemporalReadKeycloakId = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantTemporalReadFees = { [key: string]: Fee };
+
+export interface MerchantTemporalRead {
+    /** Unique identifier of the merchant */
+    id: string;
+    /** Name of the merchant */
+    name: string;
+    /** Description of the merchant */
+    description?: MerchantTemporalReadDescription;
+    /** Keycloak identifier for the merchant */
+    keycloak_id?: MerchantTemporalReadKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantTemporalReadFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsOutput;
+    /** List of payment types associated with this merchant */
+    payment_types?: PaymentTypeBase[];
+    /** Currency codes for allowed source currencies */
+    allowed_src_currencies?: Currency[];
+}
+
+/**
  * Name of the merchant
  */
 export type MerchantUpdateName = string | null;
@@ -2485,6 +2575,11 @@ export type MergedCascadeDescription = string | null;
  */
 export type MergedCascadeDetails = { [key: string]: unknown };
 
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type MergedCascadeDstCountryCode = string | null;
+
 export interface MergedCascade {
     /**
      * Human-readable name of the cascade
@@ -2502,6 +2597,8 @@ export interface MergedCascade {
     description?: MergedCascadeDescription;
     /** Additional configuration parameters and metadata */
     details?: MergedCascadeDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: MergedCascadeDstCountryCode;
     /** Unique identifier of the merged cascade (virtual ID) */
     id: string;
     /** Source currency code */
@@ -3188,6 +3285,11 @@ export type TerminalCreateSrcCurrencyCode = string | null;
  */
 export type TerminalCreateDstCurrencyCode = string | null;
 
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalCreateDstCountryCode = string | null;
+
 export interface TerminalCreate {
     /** Name of the terminal */
     verbose_name: string;
@@ -3207,6 +3309,8 @@ export interface TerminalCreate {
     src_currency_code?: TerminalCreateSrcCurrencyCode;
     /** Destination currency code */
     dst_currency_code?: TerminalCreateDstCurrencyCode;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalCreateDstCountryCode;
     /** Terminal limits configuration */
     limits?: LimitsCreate;
     /** Terminal settings configuration */
@@ -3437,6 +3541,11 @@ export type TerminalReadSrcCurrency = Currency | null;
 export type TerminalReadDstCurrency = Currency | null;
 
 /**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalReadDstCountryCode = string | null;
+
+/**
  * Mapping of fee configurations with fee.id as key
  */
 export type TerminalReadFees = { [key: string]: Fee };
@@ -3469,6 +3578,8 @@ export interface TerminalRead {
     src_currency?: TerminalReadSrcCurrency;
     /** Destination currency code */
     dst_currency?: TerminalReadDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalReadDstCountryCode;
     /** Terminal limits configuration */
     limits?: Limits;
     /** Terminal settings configuration */
@@ -3539,6 +3650,11 @@ export type TerminalTemporalReadSrcCurrency = Currency | null;
  */
 export type TerminalTemporalReadDstCurrency = Currency | null;
 
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalTemporalReadDstCountryCode = string | null;
+
 export interface TerminalTemporalRead {
     /** Unique identifier of the terminal */
     terminal_id: string;
@@ -3564,6 +3680,8 @@ export interface TerminalTemporalRead {
     src_currency?: TerminalTemporalReadSrcCurrency;
     /** Destination currency code */
     dst_currency?: TerminalTemporalReadDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalTemporalReadDstCountryCode;
     /** Terminal limits configuration */
     limits?: Limits;
     /** Terminal settings configuration */
@@ -3607,6 +3725,11 @@ export type TerminalUpdateSrcCurrencyCode = string | null;
 export type TerminalUpdateDstCurrencyCode = string | null;
 
 /**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalUpdateDstCountryCode = string | null;
+
+/**
  * Terminal limits configuration
  */
 export type TerminalUpdateLimits = LimitsUpdate | null;
@@ -3639,6 +3762,8 @@ export interface TerminalUpdate {
     src_currency_code?: TerminalUpdateSrcCurrencyCode;
     /** Destination currency code */
     dst_currency_code?: TerminalUpdateDstCurrencyCode;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalUpdateDstCountryCode;
     /** Terminal limits configuration */
     limits?: TerminalUpdateLimits;
     /** Terminal settings configuration */

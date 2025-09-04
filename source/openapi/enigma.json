@@ -11577,6 +11577,24 @@
               }
             ]
           },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
+            ]
+          },
           "src_currency_code": {
             "type": "string",
             "maxLength": 3,
@@ -11681,6 +11699,24 @@
               {
                 "key": "value"
               }
+            ]
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
             ]
           },
           "id": {
@@ -11803,6 +11839,24 @@
               {
                 "key": "value"
               }
+            ]
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
             ]
           },
           "id": {
@@ -12195,6 +12249,24 @@
               "Backup cascade for AZN withdrawals"
             ]
           },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
+            ]
+          },
           "details": {
             "anyOf": [
               {
@@ -12544,7 +12616,7 @@
             ]
           },
           "merchant": {
-            "$ref": "#/components/schemas/MerchantSchema",
+            "$ref": "#/components/schemas/MerchantTemporalRead",
             "description": "Merchant ID associated with the direction"
           },
           "provider": {
@@ -12562,6 +12634,23 @@
           "dst_currency": {
             "$ref": "#/components/schemas/Currency",
             "description": "Destination currency code"
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
+            ]
           },
           "payment_types": {
             "items": {
@@ -12677,6 +12766,23 @@
             "description": "Destination currency code",
             "examples": [
               "AZN"
+            ]
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
             ]
           },
           "weight": {
@@ -12920,6 +13026,23 @@
             "description": "Destination currency code",
             "examples": [
               "AZN"
+            ]
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
             ]
           },
           "weight": {
@@ -13177,6 +13300,23 @@
             "description": "Destination currency code",
             "examples": [
               "AZN"
+            ]
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
             ]
           },
           "weight": {
@@ -15197,6 +15337,109 @@
         "type": "object",
         "title": "MerchantSettings"
       },
+      "MerchantTemporalRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier of the merchant",
+            "examples": [
+              "merchant_001"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the merchant",
+            "examples": [
+              "Merchant A"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the merchant",
+            "examples": [
+              "Leading merchant in the region"
+            ]
+          },
+          "keycloak_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Keycloak Id",
+            "description": "Keycloak identifier for the merchant",
+            "examples": [
+              "keycloak_123"
+            ]
+          },
+          "fees": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Fee"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "type": "object",
+            "title": "Fees",
+            "description": "Mapping of fee configurations with fee.id as key",
+            "examples": [
+              {
+                "123e4567-e89b-12d3-a456-426614174000": {
+                  "currency": "RUB",
+                  "description": "Fee for service",
+                  "direction": 1,
+                  "id": "123e4567-e89b-12d3-a456-426614174000",
+                  "recipient": "recipient@example.com",
+                  "type": 3,
+                  "value": {
+                    "accuracy": 100,
+                    "quantity": 1234
+                  }
+                }
+              }
+            ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/MerchantSettings-Output",
+            "description": "Settings for merchant availability"
+          },
+          "payment_types": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentTypeBase"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "List of payment types associated with this merchant"
+          },
+          "allowed_src_currencies": {
+            "items": {
+              "$ref": "#/components/schemas/Currency"
+            },
+            "type": "array",
+            "title": "Allowed Src Currencies",
+            "description": "Currency codes for allowed source currencies"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "MerchantTemporalRead"
+      },
       "MerchantUpdate": {
         "properties": {
           "name": {
@@ -15363,6 +15606,24 @@
               {
                 "key": "value"
               }
+            ]
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
             ]
           },
           "id": {
@@ -17804,6 +18065,23 @@
               "AZN"
             ]
           },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
+            ]
+          },
           "limits": {
             "$ref": "#/components/schemas/LimitsCreate",
             "description": "Terminal limits configuration"
@@ -18392,6 +18670,23 @@
             ],
             "description": "Destination currency code"
           },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
+            ]
+          },
           "limits": {
             "$ref": "#/components/schemas/Limits",
             "description": "Terminal limits configuration"
@@ -18662,6 +18957,23 @@
             ],
             "description": "Destination currency code"
           },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
+            ]
+          },
           "limits": {
             "$ref": "#/components/schemas/Limits",
             "description": "Terminal limits configuration"
@@ -18790,6 +19102,23 @@
             "description": "Destination currency code",
             "examples": [
               "AZN"
+            ]
+          },
+          "dst_country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dst Country Code",
+            "description": "Destination country code (ISO 3166-1 alpha-2)",
+            "examples": [
+              "US",
+              "RU",
+              "AZ"
             ]
           },
           "limits": {
