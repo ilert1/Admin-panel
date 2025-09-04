@@ -86,6 +86,14 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             )
         },
         {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.dst_country_code ?? ""} wrap />;
+            }
+        },
+        {
             id: "merchant",
             accessorKey: "merchant",
             header: translate("resources.direction.fields.merchant"),

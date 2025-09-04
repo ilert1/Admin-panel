@@ -30,6 +30,7 @@ import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import clsx from "clsx";
+import { countryCodes, CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface DirectionEditProps {
     id?: string;
@@ -58,6 +59,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
     const appToast = useAppToast();
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -100,6 +102,10 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
         description: z.string().trim().nullable(),
         src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        dst_country_code: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+            .trim(),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
         terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
@@ -123,6 +129,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             description: "",
             src_currency: "",
             dst_currency: "",
+            dst_country_code: "",
             merchant: "",
             provider: "",
             terminal: "",
@@ -141,6 +148,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 description: direction.description || "",
                 src_currency: direction.src_currency.code || "",
                 dst_currency: direction.dst_currency.code || "",
+                dst_country_code: direction.dst_country_code || "",
                 merchant: direction.merchant.id || "",
                 provider: direction.provider.name || "",
                 terminal: direction.terminal.terminal_id || "",
@@ -149,6 +157,10 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                 payment_types: direction?.payment_types?.map(pt => pt.code) || [],
                 kind: direction?.cascade_kind || "sequential"
             };
+
+            setCurrentCountryCodeName(
+                countryCodes.find(code => code.alpha2 === direction.dst_country_code)?.name || ""
+            );
 
             form.reset(updatedValues);
             setIsFinished(true);
@@ -359,6 +371,27 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
                                 />
                             </FormItem>
                         )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="dst_country_code"
+                        render={({ field, fieldState }) => {
+                            return (
+                                <FormItem>
+                                    <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                    <CountrySelect
+                                        value={currentCountryCodeName}
+                                        onChange={setCurrentCountryCodeName}
+                                        setIdValue={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        modal
+                                    />
+                                </FormItem>
+                            );
+                        }}
                     />
 
                     <FormField

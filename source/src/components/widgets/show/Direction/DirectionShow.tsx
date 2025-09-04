@@ -150,6 +150,11 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                         />
 
                         <TextField
+                            text={context.record?.dst_country_code ?? ""}
+                            label={translate("resources.direction.destinationCountry")}
+                        />
+
+                        <TextField
                             label={translate("resources.direction.fields.cascade")}
                             text={context.record.cascade_id ?? ""}
                             onClick={

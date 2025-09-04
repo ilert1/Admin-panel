@@ -42,6 +42,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import clsx from "clsx";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 const kindArray: string[] = ["sequential", "fanout"];
 
@@ -60,6 +61,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
     const [terminalValueName, setTerminalValueName] = useState("");
     const [providerName, setProviderName] = useState("");
     const [merchantName, setMerchantName] = useState("");
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useMerchantsListWithoutPagination();
     const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
@@ -148,6 +150,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         description: z.string().trim().nullable(),
         src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        dst_country_code: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+            .trim(),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
         terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
@@ -172,6 +178,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             description: "",
             src_currency: "",
             dst_currency: "",
+            dst_country_code: "",
             merchant: "",
             provider: "",
             terminal: "",
@@ -412,6 +419,27 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                     />
                                 </FormItem>
                             )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="dst_country_code"
+                            render={({ field, fieldState }) => {
+                                return (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                        <CountrySelect
+                                            value={currentCountryCodeName}
+                                            onChange={setCurrentCountryCodeName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            modal
+                                        />
+                                    </FormItem>
+                                );
+                            }}
                         />
 
                         <FormField
