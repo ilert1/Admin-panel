@@ -523,7 +523,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                                     value={field.value}
                                                     onChange={field.onChange}
                                                     options={availablePaymentTypes || []}
-                                                    disabled={submitButtonDisabled}
+                                                    disabled={submitButtonDisabled || !form.getValues("provider")}
                                                 />
                                             </FormControl>
                                         </FormItem>

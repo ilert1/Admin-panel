@@ -3,7 +3,6 @@ import { type VariantProps } from "class-variance-authority";
 import { XIcon, ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/Button";
 import { LoadingBlock } from "@/components/ui/loading";
 
@@ -121,7 +120,7 @@ export const MultiSelectButton = forwardRef<HTMLButtonElement, MultiSelectButton
                 variant={"outline_sec"}
                 className={cn(
                     "flex h-auto min-h-[38px] w-full items-center justify-between rounded-4 border border-neutral-40 bg-white p-1 hover:bg-muted dark:border-neutral-60 dark:bg-muted hover:dark:bg-muted dark:active:border-neutral-60 dark:active:bg-muted [&_svg]:pointer-events-auto",
-                    "dark:disabled:border-neutral-40 dark:disabled:bg-neutral-90",
+                    "disabled:border-neutral-40 dark:disabled:bg-neutral-90",
                     "[&:is([data-state='open'])_#multiSelectToggleIcon]:rotate-180",
                     className
                 )}>
