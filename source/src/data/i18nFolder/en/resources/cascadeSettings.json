@@ -99,6 +99,7 @@
         "createNew": "Create link between merchant and cascade",
         "editingCascade": "Editing link between merchant and cascade",
         "deleteCascadeMerchant": "Delete link between merchant and cascade?",
+        "link": "Link cascade",
         "fields": {
             "merchant": "Merchant",
             "cascade": "Cascade",

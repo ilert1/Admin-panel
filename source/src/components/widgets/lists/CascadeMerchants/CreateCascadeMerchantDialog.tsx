@@ -10,10 +10,15 @@ import { useTranslate } from "react-admin";
 import { MerchantCascadeCreate } from "../../create/MerchantCascadeCreate ";
 
 interface CreateCascadeMerchantsDialogProps {
+    merchantId?: string;
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
-export const CreateCascadeMerchantsDialog = ({ open, onOpenChange = () => {} }: CreateCascadeMerchantsDialogProps) => {
+export const CreateCascadeMerchantsDialog = ({
+    open,
+    onOpenChange = () => {},
+    merchantId
+}: CreateCascadeMerchantsDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -23,10 +28,10 @@ export const CreateCascadeMerchantsDialog = ({ open, onOpenChange = () => {} }: 
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
                     <DialogTitle className="mb-4 text-center">
-                        {translate("resources.cascadeSettings.cascades.creatingCascade")}
+                        {translate("resources.cascadeSettings.cascadeMerchants.createNew")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <MerchantCascadeCreate onOpenChange={onOpenChange} />
+                    <MerchantCascadeCreate merchantId={merchantId} onOpenChange={onOpenChange} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

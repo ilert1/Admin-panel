@@ -18,4 +18,5 @@ export { feesDataProvider, FeesResource };
 export { PayoutDataProvider } from "./payout";
 export { AccountsDataProvider } from "./accounts";
 export { CascadesDataProvider } from "./cascades";
+export { CascadeMerchantsDataProvider } from "./merchant_cascade";
 export { CascadeTerminalDataProvider } from "./cascade_terminal";

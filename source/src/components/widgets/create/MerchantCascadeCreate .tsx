@@ -1,7 +1,7 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,10 +27,10 @@ import { CascadeSelect } from "../components/Selects/CascadeSelect";
 
 interface MerchantCascadeCreateProps {
     onOpenChange: (state: boolean) => void;
+    merchantId?: string;
 }
 
-export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
-    const { onOpenChange } = props;
+export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCascadeCreateProps) => {
     const dataProvider = useDataProvider();
     const merchantsDataProvider = new MerchantsDataProvider();
     const cascadesDataProvider = new CascadesDataProvider();
@@ -44,13 +44,12 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
 
     const { data: merchants, isLoading: isLoadingMerchants } = useQuery({
         queryKey: ["merchants_list"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("", signal)
+        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchants", signal)
     });
 
     const { data: cascades, isLoading: isCascadesLoading } = useQuery({
         queryKey: ["cascades_list"],
-        queryFn: async ({ signal }) =>
-            await cascadesDataProvider.getList("", { pagination: { page: 1, perPage: 100000 }, signal })
+        queryFn: async ({ signal }) => await cascadesDataProvider.getListWithoutPagination("cascades", signal)
     });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -69,6 +68,18 @@ export const MerchantCascadeCreate = (props: MerchantCascadeCreateProps) => {
             merchant: ""
         }
     });
+
+    useEffect(() => {
+        if (merchantId && merchants && merchants.data.length > 0) {
+            const preFoundMerchant = merchants.data.find(item => item.id === merchantId);
+
+            if (preFoundMerchant) {
+                setMerchantName(preFoundMerchant.name);
+                form.setValue("merchant", preFoundMerchant.id);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchants, merchantId]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;

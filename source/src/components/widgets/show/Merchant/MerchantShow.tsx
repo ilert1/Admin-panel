@@ -1,4 +1,4 @@
-import { FeesResource, MerchantsDataProvider } from "@/data";
+import { FeesResource, MerchantsDataProvider, CascadesDataProvider } from "@/data";
 import { useTranslate } from "react-admin";
 import { Loading, LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
@@ -19,6 +19,7 @@ import { useFetchDictionaries } from "@/hooks";
 import { MerchantSettingsDialog } from "./MerchantSettingsDialog";
 import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Badge } from "@/components/ui/badge";
+import { CreateCascadeMerchantsDialog } from "../../lists/CascadeMerchants/CreateCascadeMerchantDialog";
 
 interface MerchantShowProps {
     id: string;
@@ -31,11 +32,13 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const translate = useTranslate();
     const data = useFetchDictionaries();
     const dataProvider = new MerchantsDataProvider();
+    const cascadesDataProvider = new CascadesDataProvider();
 
     const appToast = useAppToast();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [uniqeunessOpen, setuniqeunessOpen] = useState(false);
+    const [createCascadeLinkDialogOpen, setCreateCascadeLinkDialogOpen] = useState(false);
 
     if (!id) {
         appToast("error", translate("resources.merchant.errors.notFound", { name: merchantName }));
@@ -66,7 +69,23 @@ export const MerchantShow = (props: MerchantShowProps) => {
         enabled: !!context.record?.id
     });
 
-    const { columns } = useGetMerchantShowColumns({ isFetching: isMerchantDirectionsFetching });
+    const { data: cascadeMerchants, isLoading: isCascadeMerchantsLoading } = useQuery({
+        queryKey: ["cascadeMerchants", context.record?.id],
+        queryFn: async ({ signal }) => {
+            if (context.record?.id)
+                return await cascadesDataProvider.getList("cascades", {
+                    pagination: { page: 1, perPage: 10000 },
+                    filter: { merchant: context.record?.id },
+                    signal
+                });
+        },
+        select: data => data?.data,
+        enabled: !!context.record?.id
+    });
+
+    const { directionColumns, cascadeMerchantsColumns } = useGetMerchantShowColumns({
+        isFetching: isMerchantDirectionsFetching
+    });
 
     const handleEditClicked = () => {
         setEditDialogOpen(true);
@@ -155,6 +174,32 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
                     <div className="mt-1 flex w-full flex-col gap-[8px] md:mt-5">
                         <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                            {translate("resources.cascadeSettings.cascadeMerchants.name")}
+                        </span>
+
+                        {isCascadeMerchantsLoading ? (
+                            <LoadingBlock />
+                        ) : (
+                            <SimpleTable
+                                columns={cascadeMerchantsColumns}
+                                tableType={TableTypes.COLORED}
+                                data={cascadeMerchants || []}
+                                className={clsx(
+                                    "min-h-20",
+                                    cascadeMerchants && cascadeMerchants.length > 1 && "min-h-44"
+                                )}
+                            />
+                        )}
+
+                        <div className="self-end">
+                            <Button className="" onClick={() => setCreateCascadeLinkDialogOpen(true)}>
+                                {translate("resources.cascadeSettings.cascadeMerchants.link")}
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className="mt-1 flex w-full flex-col gap-[8px] md:mt-5">
+                        <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
                             {translate("resources.merchant.fields.directions")}
                         </span>
 
@@ -162,7 +207,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             <LoadingBlock />
                         ) : (
                             <SimpleTable
-                                columns={columns}
+                                columns={directionColumns}
                                 tableType={TableTypes.COLORED}
                                 data={merchantDirections || []}
                                 className={clsx(
@@ -181,6 +226,11 @@ export const MerchantShow = (props: MerchantShowProps) => {
                 open={deleteDialogOpen}
                 onOpenChange={setDeleteDialogOpen}
                 onCloseSheet={onOpenChange}
+            />
+            <CreateCascadeMerchantsDialog
+                merchantId={id}
+                open={createCascadeLinkDialogOpen}
+                onOpenChange={setCreateCascadeLinkDialogOpen}
             />
         </>
     );
