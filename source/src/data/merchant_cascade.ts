@@ -162,7 +162,7 @@ export class CascadeMerchantsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getMerchantCascades(merchantId: string): Promise<CascadeSchema[]> {
+    async getMerchantCascades(resource: string, merchantId: string, signal?: AbortSignal): Promise<CascadeSchema[]> {
         const res = await cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGet(
             merchantId,
             {
@@ -172,7 +172,8 @@ export class CascadeMerchantsDataProvider extends IBaseDataProvider {
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 

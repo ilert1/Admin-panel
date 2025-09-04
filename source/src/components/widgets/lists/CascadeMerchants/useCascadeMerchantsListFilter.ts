@@ -20,7 +20,7 @@ export const useCascadeMerchantsListFilter = () => {
 
     const { data: cascadeData, isLoading: cascadesLoadingProcess } = useQuery({
         queryKey: ["Cascades list"],
-        queryFn: async () => dataProvider.getMerchantCascades(merchantId),
+        queryFn: async ({ signal }) => dataProvider.getMerchantCascades("cascadeMerchants", merchantId, signal),
         enabled: !!merchantId
     });
 
