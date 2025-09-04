@@ -92,6 +92,7 @@
     "resources.direction.btnGenerateTooltip": "To auto-generate the direction name, fill in the fields: Merchant, Provider, Terminal and Type.",
     "resources.direction.sourceCurrency": "Source currency",
     "resources.direction.destinationCurrency": "Destination currency",
+    "resources.direction.destinationCountry": "Destination country",
     "resources.direction.selectSourceCurrency": "Choose source currency",
     "resources.direction.selectDestCurrency": "Choose destination currency",
     "resources.direction.merchant": "Merchant",

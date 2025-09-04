@@ -193,6 +193,14 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.dst_country_code ?? ""} wrap />;
+            }
+        },
+        {
             id: "state",
             accessorKey: "state",
             header: translate("resources.direction.fields.active"),

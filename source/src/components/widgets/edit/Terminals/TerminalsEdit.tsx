@@ -27,6 +27,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { CurrencySelect } from "../../components/Selects/CurrencySelect";
+import { countryCodes, CountrySelect } from "../../components/Selects/CountrySelect";
 
 interface ProviderEditParams {
     provider: ProviderBase;
@@ -47,6 +48,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const [hasValid, setHasValid] = useState(true);
     const queryClient = useQueryClient();
     const [isFinished, setIsFinished] = useState(false);
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const {
         data: terminal,
@@ -83,6 +85,10 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         payment_types: z.array(z.string()).optional().default([]),
         src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        dst_country_code: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+            .trim(),
         callback_url: z.string().optional().nullable().default(null),
         state: z.enum(["active", "inactive"]),
         minTTL: z.coerce
@@ -105,6 +111,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             payment_types: [],
             src_currency_code: "",
             dst_currency_code: "",
+            dst_country_code: "",
             callback_url: null,
             state: "inactive",
             minTTL: 0,
@@ -118,15 +125,18 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 verbose_name: terminal.verbose_name || "",
                 description: terminal.description || "",
                 details: JSON.stringify(terminal.details, null, 2) || "{}",
-                allocation_timeout_seconds: terminal?.allocation_timeout_seconds ?? 2,
-                payment_types: terminal?.payment_types?.map(pt => pt.code) || [],
-                src_currency_code: terminal?.src_currency?.code || "",
-                dst_currency_code: terminal?.dst_currency?.code || "",
-                callback_url: terminal?.callback_url || null,
-                state: terminal?.state || "inactive",
-                minTTL: terminal?.settings?.ttl?.min || 0,
-                maxTTL: terminal?.settings?.ttl?.max || 0
+                allocation_timeout_seconds: terminal.allocation_timeout_seconds ?? 2,
+                payment_types: terminal.payment_types?.map(pt => pt.code) || [],
+                src_currency_code: terminal.src_currency?.code || "",
+                dst_currency_code: terminal.dst_currency?.code || "",
+                dst_country_code: terminal.dst_country_code || "",
+                callback_url: terminal.callback_url || null,
+                state: terminal.state || "inactive",
+                minTTL: terminal.settings?.ttl?.min || 0,
+                maxTTL: terminal.settings?.ttl?.max || 0
             };
+
+            setCurrentCountryCodeName(countryCodes.find(code => code.alpha2 === terminal.dst_country_code)?.name || "");
 
             form.reset(updatedValues);
             setIsFinished(true);
@@ -378,6 +388,28 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="dst_country_code"
+                            render={({ field, fieldState }) => {
+                                return (
+                                    <FormItem className="w-full p-2">
+                                        <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                        <CountrySelect
+                                            value={currentCountryCodeName}
+                                            onChange={setCurrentCountryCodeName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            modal
+                                        />
+                                    </FormItem>
+                                );
+                            }}
+                        />
+
                         <FormField
                             control={form.control}
                             name="state"

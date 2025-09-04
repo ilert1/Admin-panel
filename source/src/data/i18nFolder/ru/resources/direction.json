@@ -92,6 +92,7 @@
     "resources.direction.btnGenerateTooltip": "Для автогенерации названия направления заполните поля: Мерчант, Провайдер, Терминал и Тип.",
     "resources.direction.sourceCurrency": "Валюта отправителя",
     "resources.direction.destinationCurrency": "Валюта получателя",
+    "resources.direction.destinationCountry": "Страна назначения",
     "resources.direction.selectSourceCurrency": "Выбрать исходящую валюту",
     "resources.direction.selectDestCurrency": "Выбрать конечную валюту",
     "resources.direction.merchant": "Мерчант",

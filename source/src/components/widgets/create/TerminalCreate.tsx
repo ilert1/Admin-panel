@@ -35,6 +35,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface TerminalCreateProps {
     onClose: () => void;
@@ -59,6 +60,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [availablePaymentTypes, setAvailablePaymentTypes] = useState<PaymentTypeModel[]>([]);
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const formSchema = z
         .object({
@@ -92,6 +94,10 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             payment_types: z.array(z.string()).optional().default([]),
             src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
             dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+            dst_country_code: z
+                .string()
+                .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+                .trim(),
             callback_url: z.string().optional().nullable().default(null),
             state: z.enum(["active", "inactive"]),
             minTTL: z.coerce
@@ -125,6 +131,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             payment_types: [],
             src_currency_code: "",
             dst_currency_code: "",
+            dst_country_code: "",
             state: "inactive",
             maxTTL: 0,
             minTTL: 0,
@@ -407,6 +414,28 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                         </FormItem>
                                     )}
                                 />
+
+                                <FormField
+                                    control={form.control}
+                                    name="dst_country_code"
+                                    render={({ field, fieldState }) => {
+                                        return (
+                                            <FormItem>
+                                                <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                                <CountrySelect
+                                                    value={currentCountryCodeName}
+                                                    onChange={setCurrentCountryCodeName}
+                                                    setIdValue={field.onChange}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={fieldState.error?.message}
+                                                    modal
+                                                />
+                                            </FormItem>
+                                        );
+                                    }}
+                                />
+
                                 <FormField
                                     control={form.control}
                                     name="state"
@@ -566,7 +595,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                 />
                             </div>
 
-                            {/* <TTL 
+                            {/* <TTL
                                 ttl={}
                                 editClicked={editClicked}
                                 setEditClicked={setEditClicked}
