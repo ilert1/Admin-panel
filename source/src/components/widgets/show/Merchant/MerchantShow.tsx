@@ -173,9 +173,15 @@ export const MerchantShow = (props: MerchantShowProps) => {
                     />
 
                     <div className="mt-1 flex w-full flex-col gap-[8px] md:mt-5">
-                        <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
-                            {translate("resources.cascadeSettings.cascadeMerchants.name")}
-                        </span>
+                        <div className="flex items-center justify-between gap-4">
+                            <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                                {translate("resources.cascadeSettings.cascadeMerchants.name")}
+                            </span>
+
+                            <Button className="" onClick={() => setCreateCascadeLinkDialogOpen(true)}>
+                                {translate("resources.cascadeSettings.cascadeMerchants.link")}
+                            </Button>
+                        </div>
 
                         {isCascadeMerchantsLoading ? (
                             <LoadingBlock />
@@ -190,12 +196,6 @@ export const MerchantShow = (props: MerchantShowProps) => {
                                 )}
                             />
                         )}
-
-                        <div className="self-end">
-                            <Button className="" onClick={() => setCreateCascadeLinkDialogOpen(true)}>
-                                {translate("resources.cascadeSettings.cascadeMerchants.link")}
-                            </Button>
-                        </div>
                     </div>
 
                     <div className="mt-1 flex w-full flex-col gap-[8px] md:mt-5">
