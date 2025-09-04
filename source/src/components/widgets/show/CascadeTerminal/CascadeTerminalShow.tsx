@@ -175,6 +175,11 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                     </div>
 
                     <TextField
+                        text={context.record?.terminal.dst_country_code ?? ""}
+                        label={translate("resources.direction.destinationCountry")}
+                    />
+
+                    <TextField
                         label={translate("resources.cascadeSettings.cascadeTerminals.fields.weight")}
                         text={context.record.condition?.weight?.toString() ?? ""}
                     />

@@ -84,6 +84,14 @@ export const useGetCascadeShowColumns = () => {
             )
         },
         {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.terminal.dst_country_code ?? ""} wrap />;
+            }
+        },
+        {
             accessorKey: "weight",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.weight"),
             cell: ({ row }) => <TextField text={row.original.condition?.weight?.toString() || ""} />
@@ -98,7 +106,7 @@ export const useGetCascadeShowColumns = () => {
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_minmax"),
             cell: ({ row }) => (
                 <TextField
-                    text={`${row.original.condition?.ttl?.min?.toString() || ""} / ${row.original.condition?.ttl?.max?.toString() || ""}`}
+                    text={`${row.original.condition?.ttl?.min?.toString() || "-"} / ${row.original.condition?.ttl?.max?.toString() || "-"}`}
                 />
             )
         },
