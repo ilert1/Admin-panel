@@ -69,6 +69,14 @@ export const useGetCascadeColumns = () => {
             )
         },
         {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.dst_country_code ?? ""} wrap />;
+            }
+        },
+        {
             accessorKey: "cascade_kind",
             header: translate("resources.cascadeSettings.cascades.fields.cascade_kind"),
             cell: ({ row }) => (

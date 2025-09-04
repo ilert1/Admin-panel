@@ -26,6 +26,7 @@ import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 import { CascadeUpdateParams } from "@/data/cascades";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { countryCodes, CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface CascadeEditProps {
     id: string;
@@ -41,6 +42,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [isFinished, setIsFinished] = useState(false);
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const {
         data: cascadeData,
@@ -61,6 +63,10 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.cascadeSettings.cascades.errors.name")).trim(),
+        dst_country_code: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+            .trim(),
         type: z.enum([CASCADE_TYPE[0], ...CASCADE_TYPE.slice(0)]).default(CASCADE_TYPE[0]),
         priority_policy: z.object({
             rank: z.coerce
@@ -80,6 +86,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         defaultValues: {
             name: "",
             type: CASCADE_TYPE[0],
+            dst_country_code: "",
             priority_policy: {
                 rank: undefined
             },
@@ -96,16 +103,21 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
             const updatedValues = {
                 name: cascadeData.name || "",
                 type: cascadeData.type || CASCADE_TYPE[0],
+                dst_country_code: cascadeData.dst_country_code || "",
                 priority_policy: {
                     rank: cascadeData.priority_policy.rank || undefined
                 },
                 src_currency: cascadeData.src_currency.code || "",
                 cascade_kind: cascadeData.cascade_kind || CASCADE_KIND[0],
                 state: cascadeData.state || CASCADE_STATE[0],
-                payment_types: cascadeData?.payment_types?.map(pt => pt.code) || [],
+                payment_types: cascadeData.payment_types?.map(pt => pt.code) || [],
                 description: cascadeData.description || "",
                 details: JSON.stringify(cascadeData.details, null, 2) || "{}"
             };
+
+            setCurrentCountryCodeName(
+                countryCodes.find(code => code.alpha2 === cascadeData.dst_country_code)?.name || ""
+            );
 
             form.reset(updatedValues);
             setIsFinished(true);
@@ -239,6 +251,29 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                             </FormItem>
                         )}
                     />
+
+                    {!cascadeData.dst_country_code && (
+                        <FormField
+                            control={form.control}
+                            name="dst_country_code"
+                            render={({ field, fieldState }) => {
+                                return (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                        <CountrySelect
+                                            value={currentCountryCodeName}
+                                            onChange={setCurrentCountryCodeName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            modal
+                                        />
+                                    </FormItem>
+                                );
+                            }}
+                        />
+                    )}
 
                     <FormField
                         control={form.control}

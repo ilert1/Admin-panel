@@ -91,6 +91,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                             <Badge variant="currency">{context.record.src_currency?.code}</Badge>
                         </div>
                     </div>
+
                     <TextField
                         label={translate("resources.cascadeSettings.cascades.fields.type")}
                         text={
@@ -98,6 +99,11 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                                 ? translate(`resources.cascadeSettings.cascades.types.${context.record.type}`)
                                 : ""
                         }
+                    />
+
+                    <TextField
+                        text={context.record?.dst_country_code ?? ""}
+                        label={translate("resources.direction.destinationCountry")}
                     />
 
                     <div className="flex flex-col">
@@ -121,35 +127,33 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         text={context.record.priority_policy.rank.toString()}
                     />
 
-                    <div className="flex gap-5">
-                        <div className="flex flex-col">
-                            <small className="mb-0.5 text-sm text-neutral-60">
-                                {translate("resources.cascadeSettings.cascades.fields.created_at")}
-                            </small>
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.created_at")}
+                        </small>
 
-                            <div>
-                                <p className="text-nowrap">
-                                    {new Date(context.record.created_at).toLocaleDateString(locale)}
-                                </p>
-                                <p className="text-nowrap">
-                                    {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                                </p>
-                            </div>
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(context.record.created_at).toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap">
+                                {new Date(context.record.created_at).toLocaleTimeString(locale)}
+                            </p>
                         </div>
+                    </div>
 
-                        <div className="flex flex-col">
-                            <small className="mb-0.5 text-sm text-neutral-60">
-                                {translate("resources.cascadeSettings.cascades.fields.updated_at")}
-                            </small>
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.updated_at")}
+                        </small>
 
-                            <div>
-                                <p className="text-nowrap">
-                                    {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                                </p>
-                                <p className="text-nowrap">
-                                    {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                                </p>
-                            </div>
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(context.record.updated_at).toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap">
+                                {new Date(context.record.updated_at).toLocaleTimeString(locale)}
+                            </p>
                         </div>
                     </div>
 
