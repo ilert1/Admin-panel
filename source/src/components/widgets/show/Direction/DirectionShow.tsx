@@ -182,23 +182,22 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     <div className="col-span-2 mt-2 border-t-[1px] border-neutral-90 pt-2 dark:border-neutral-100 md:mt-5 md:pt-5" />
 
                     <TextField
-                        label={translate("resources.direction.fields.terminal")}
-                        className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                        text={context.record.terminal.verbose_name}
-                        onClick={() => {
-                            openSheet("terminal", {
-                                id: context.record.terminal.terminal_id
-                            });
-                        }}
-                    />
-
-                    <TextField
                         label={translate("resources.direction.provider")}
                         className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                         text={context.record.provider.name}
                         onClick={() => {
                             openSheet("provider", {
                                 id: context.record.provider.id as string
+                            });
+                        }}
+                    />
+                    <TextField
+                        label={translate("resources.direction.fields.terminal")}
+                        className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                        text={context.record.terminal.verbose_name}
+                        onClick={() => {
+                            openSheet("terminal", {
+                                id: context.record.terminal.terminal_id
                             });
                         }}
                     />
