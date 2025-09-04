@@ -113,6 +113,14 @@ export const useGetCascadeMerchantColumns = () => {
             }
         },
         {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.cascade.dst_country_code ?? ""} wrap />;
+            }
+        },
+        {
             id: "cascade_kind",
             accessorKey: "cascade_kind",
             header: translate("resources.cascadeSettings.cascadeMerchants.fields.kind"),

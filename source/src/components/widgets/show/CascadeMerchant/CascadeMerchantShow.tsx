@@ -131,6 +131,10 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                             </Badge>
                         </div>
                     </div>
+                    <TextField
+                        text={context.record?.cascade.dst_country_code ?? ""}
+                        label={translate("resources.direction.destinationCountry")}
+                    />
                     <div>
                         <Label className="text-sm dark:!text-neutral-60">
                             {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_state")}
