@@ -27,9 +27,7 @@ import {
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { FinancialInstitutionType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
-import { all as AllCountryCodes } from "iso-3166-1";
-import { Country } from "iso-3166-1/dist/iso-3166";
-import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { countryCodes, CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface FinancialInstitutionProps {
     id: string;
@@ -66,16 +64,6 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
         useFetchFinancialInstitutionTypes();
 
     const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
-    const countryCodes: (Country & { name: string })[] = [
-        {
-            name: "AB - Abhazia",
-            country: "Abhazia",
-            alpha2: "AB",
-            alpha3: "ABH",
-            numeric: "895"
-        },
-        ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
-    ];
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.paymentSettings.financialInstitution.errors.name")).trim(),
@@ -357,20 +345,10 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
                                             )}
                                         </Label>
 
-                                        <PopoverSelect
-                                            variants={countryCodes}
+                                        <CountrySelect
                                             value={currentCountryCodeName}
-                                            idField="alpha2"
-                                            setIdValue={field.onChange}
-                                            placeholder={translate(
-                                                "resources.paymentSettings.financialInstitution.fields.countryCodePlaceholder"
-                                            )}
                                             onChange={setCurrentCountryCodeName}
-                                            variantKey="name"
-                                            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                            notFoundMessage={translate(
-                                                "resources.paymentSettings.countryCodeNotFoundMessage"
-                                            )}
+                                            setIdValue={field.onChange}
                                             isError={fieldState.invalid}
                                             errorMessage={fieldState.error?.message}
                                             modal

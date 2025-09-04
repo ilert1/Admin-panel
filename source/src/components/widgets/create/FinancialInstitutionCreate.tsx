@@ -29,10 +29,8 @@ import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/Paym
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
-import { all as AllCountryCodes } from "iso-3166-1";
-import { Country } from "iso-3166-1/dist/iso-3166";
-import { PopoverSelect } from "../components/Selects/PopoverSelect";
 import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface FinancialInstitutionCreateProps {
     onClose?: () => void;
@@ -52,18 +50,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
     const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
     const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
-    const countryCodes: (Country & { name: string })[] = [
-        {
-            name: "AB - Abhazia",
-            country: "Abhazia",
-            alpha2: "AB",
-            alpha3: "ABH",
-            numeric: "895"
-        },
-        ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
-    ];
 
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
@@ -317,22 +304,10 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 )}
                                             </Label>
 
-                                            <PopoverSelect
-                                                variants={countryCodes}
+                                            <CountrySelect
                                                 value={currentCountryCodeName}
-                                                idField="alpha2"
-                                                setIdValue={field.onChange}
-                                                placeholder={translate(
-                                                    "resources.paymentSettings.financialInstitution.fields.countryCodePlaceholder"
-                                                )}
                                                 onChange={setCurrentCountryCodeName}
-                                                variantKey="name"
-                                                commandPlaceholder={translate(
-                                                    "app.widgets.multiSelect.searchPlaceholder"
-                                                )}
-                                                notFoundMessage={translate(
-                                                    "resources.paymentSettings.countryCodeNotFoundMessage"
-                                                )}
+                                                setIdValue={field.onChange}
                                                 isError={fieldState.invalid}
                                                 errorMessage={fieldState.error?.message}
                                                 modal
