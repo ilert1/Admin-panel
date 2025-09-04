@@ -91,35 +91,14 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             className="text-neutral-70 dark:text-neutral-30"
                         />
                     </div>
-                    <div className="grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
+                    <div className="grid grid-cols-1 gap-y-2 px-4 md:grid-cols-2 md:px-[42px]">
                         <TextField
                             label={translate("resources.merchant.fields.descr")}
                             text={context.record.description || ""}
                         />
                         <TextField label="Keycloak ID" copyValue text={context.record.keycloak_id || ""} />
 
-                        <TextField
-                            label={translate("app.widgets.ttl.minTTLDep")}
-                            copyValue
-                            text={String(context.record.settings?.deposit?.ttl?.min)}
-                        />
-                        <TextField
-                            label={translate("app.widgets.ttl.maxTTLDep")}
-                            copyValue
-                            text={String(context.record.settings?.deposit?.ttl?.max)}
-                        />
-                        <TextField
-                            label={translate("app.widgets.ttl.minTTLWith")}
-                            copyValue
-                            text={String(context.record.settings?.withdraw?.ttl?.min)}
-                        />
-                        <TextField
-                            label={translate("app.widgets.ttl.maxTTLWith")}
-                            copyValue
-                            text={String(context.record.settings?.withdraw?.ttl?.max)}
-                        />
-
-                        <div className="flex flex-col">
+                        <div className="mr-2 flex flex-col pr-2">
                             <small className="mb-0.5 text-sm text-neutral-60">
                                 {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                             </small>
@@ -139,6 +118,16 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         </div>
 
                         <PaymentsTypesShowComponent payment_types={payment_types} />
+
+                        <TextField
+                            label={translate("app.widgets.ttl.TTLDep")}
+                            text={`${String(context.record.settings?.deposit?.ttl?.min ?? "-")} / ${String(context.record.settings?.deposit?.ttl?.max ?? "-")}`}
+                        />
+
+                        <TextField
+                            label={translate("app.widgets.ttl.TTLWith")}
+                            text={`${String(context.record.settings?.withdraw?.ttl?.min ?? "-")} / ${String(context.record.settings?.withdraw?.ttl?.max ?? "-")}`}
+                        />
                     </div>
                     <div className="self-end px-[42px]">
                         <div className="flex gap-2">
