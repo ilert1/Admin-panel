@@ -566,7 +566,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                                     {...field}
                                                     value={field.value ?? ""}
                                                     placeholder={translate("resources.wallet.manage.fields.descr")}
-                                                    className="!mt-0 h-24 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
+                                                    className="!mt-0 h-48 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
                                                 />
                                             </FormControl>
                                         </FormItem>
