@@ -70,7 +70,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                 <div className="mb-6">
                     <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
                         <div className="flex w-full flex-wrap gap-2">
-                            <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]">
+                            <div className="flex-grow-100 flex min-w-56 flex-1 flex-col gap-1">
                                 <Label className="mb-0" variant="title-2">
                                     {translate("resources.cascadeSettings.cascades.cascade")}
                                 </Label>
@@ -89,7 +89,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col">
+                            <div className="flex-grow-100 flex min-w-56 flex-1 flex-col md:min-w-[400px]">
                                 <Label variant="title-2">
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
@@ -105,7 +105,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                 />
                             </div>
 
-                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                            <div className="flex min-w-48 flex-1 flex-col gap-1 md:max-w-48">
                                 <Label variant="title-2" className="mb-0">
                                     {translate("resources.cascadeSettings.cascades.fields.type")}
                                 </Label>
@@ -139,7 +139,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                 </Select>
                             </div>
 
-                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                            <div className="flex min-w-48 flex-1 flex-col gap-1 md:max-w-48">
                                 <Label variant="title-2" className="mb-0">
                                     {translate("resources.cascadeSettings.cascades.fields.cascade_kind")}
                                 </Label>
@@ -173,7 +173,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                 </Select>
                             </div>
 
-                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                            <div className="flex min-w-48 flex-1 flex-col gap-1 md:max-w-48">
                                 <Label variant="title-2" className="mb-0">
                                     {translate("resources.cascadeSettings.cascades.fields.state")}
                                 </Label>
@@ -207,7 +207,7 @@ export const CascadesListFilter = ({ handleCreateClicked }: { handleCreateClicke
                                 </Select>
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col">
+                            <div className="flex-shrink-1 flex min-w-36 flex-1 flex-col md:max-w-48">
                                 <Label variant={"title-2"}>
                                     {translate(
                                         "resources.paymentSettings.systemPaymentInstruments.fields.currency_code"
