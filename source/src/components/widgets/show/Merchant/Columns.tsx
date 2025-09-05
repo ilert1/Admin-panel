@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useState } from "react";
 import { DeleteCascadeDialog } from "../Cascade/DeleteCascadeDialog";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
@@ -184,7 +185,12 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return <TextField text={row.original.dst_country_code ?? ""} wrap />;
+                return (
+                    <TextField
+                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        wrap
+                    />
+                );
             }
         },
         {
