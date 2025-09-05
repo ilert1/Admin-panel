@@ -6,6 +6,7 @@ import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export const cascadeTerminalStatesMap = {
     active: ["success", "resources.direction.fields.stateActive"],
@@ -167,7 +168,15 @@ export const useGetCascadeTerminalsColumns = () => {
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return <TextField text={row.original.terminal.dst_country_code ?? ""} wrap />;
+                return (
+                    <TextField
+                        text={
+                            countryCodes.find(item => item.alpha2 === row.original.terminal.dst_country_code)?.name ||
+                            ""
+                        }
+                        wrap
+                    />
+                );
             }
         },
         {

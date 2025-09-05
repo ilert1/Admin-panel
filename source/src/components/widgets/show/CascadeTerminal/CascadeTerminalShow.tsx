@@ -9,6 +9,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { DeleteCascadeTerminalDialog } from "./DeleteCascadeTerminalDialog";
 import { useState } from "react";
 import { EditCascadeTerminalDialog } from "./EditCascadeTerminalDialog";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export interface CascadeTerminalShowProps {
     id: string;
@@ -175,7 +176,10 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                     </div>
 
                     <TextField
-                        text={context.record?.terminal.dst_country_code ?? ""}
+                        text={
+                            countryCodes.find(item => item.alpha2 === context.record?.terminal.dst_country_code)
+                                ?.name || ""
+                        }
                         label={translate("resources.direction.destinationCountry")}
                     />
 
