@@ -56,8 +56,8 @@
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Терминалы каскадов",
         "cascadeTerminal": "Терминал каскадов",
-        "createNew": "Добавить связь терминала и каскада",
-        "creatingCascadeTerminal": "Добавление связь терминала и каскада",
+        "createNew": "Привязать терминал",
+        "creatingCascadeTerminal": "Привязка терминала",
         "editingCascadeTerminal": "Изменение терминала каскадов",
         "deleteCascadeTerminal": "Удалить терминал каскадов?",
         "fields": {

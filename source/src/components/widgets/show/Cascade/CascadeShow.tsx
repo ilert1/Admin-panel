@@ -64,12 +64,14 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         )}
                     </div>
                 </div>
-                <div className="md:col-span-2">
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.description")}
-                        text={context.record.description ?? ""}
-                    />
-                </div>
+                {context.record.description && (
+                    <div className="md:col-span-2">
+                        <TextField
+                            label={translate("resources.cascadeSettings.cascades.fields.description")}
+                            text={context.record.description ?? ""}
+                        />
+                    </div>
+                )}
             </div>
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
