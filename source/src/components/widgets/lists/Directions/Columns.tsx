@@ -10,6 +10,7 @@ import { DirectionActivityBtn } from "./DirectionActivityBtn";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { Badge } from "@/components/ui/badge";
 import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
@@ -90,7 +91,12 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return <TextField text={row.original.dst_country_code ?? ""} wrap />;
+                return (
+                    <TextField
+                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        wrap
+                    />
+                );
             }
         },
         {

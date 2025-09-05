@@ -14,6 +14,7 @@ import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { Badge } from "@/components/ui/badge";
 import { useFetchDictionaries } from "@/hooks";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export interface DirectionsShowProps {
     id: string;
@@ -121,7 +122,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
 
                     <TextField
-                        text={context.record?.dst_country_code ?? ""}
+                        text={countryCodes.find(item => item.alpha2 === context.record?.dst_country_code)?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
                     />
 
