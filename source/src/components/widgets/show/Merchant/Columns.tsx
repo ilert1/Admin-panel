@@ -5,7 +5,7 @@ import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { IProvider } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
-import { useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "../../lists/Directions/DirectionActivityBtn";
 import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
 import { Badge } from "@/components/ui/badge";
@@ -13,13 +13,62 @@ import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useState } from "react";
 import { DeleteCascadeDialog } from "../Cascade/DeleteCascadeDialog";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
+import { CASCADE_STATE } from "@/data/cascades";
+import { CurrentCell } from "../../shared";
+import { QueryObserverResult } from "@tanstack/react-query";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
-export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
+export const useGetMerchantShowColumns = ({
+    isFetchingMerchantData = false,
+    isFetchingCascadeMerchantData,
+    refetchCascadeMerchants
+}: {
+    isFetchingMerchantData: boolean;
+    isFetchingCascadeMerchantData: boolean;
+    refetchCascadeMerchants: () => Promise<QueryObserverResult<CascadeSchema[] | undefined, Error>>;
+}) => {
+    const dataProvider = useDataProvider();
     const translate = useTranslate();
+    const appToast = useAppToast();
     const refresh = useRefresh();
     const { openSheet } = useSheets();
 
     const [deleteCascadeDialogOpen, setDeleteCascadeDialogOpen] = useState(false);
+    const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
+        row: undefined,
+        column: undefined
+    });
+
+    const onSubmit = async (id: string, data: Pick<CascadeSchema, "state">) => {
+        try {
+            setIsDataUpdating(true);
+
+            await dataProvider.update("cascades", {
+                id,
+                data,
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
+
+            await refetchCascadeMerchants();
+
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
+            setIsDataUpdating(false);
+        }
+    };
 
     const directionColumns: ColumnDef<Direction>[] = [
         {
@@ -122,7 +171,7 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
                         id={row.original.id}
                         directionName={row.original.name}
                         activityState={row.original.state === "active"}
-                        isFetching={isFetching}
+                        isFetching={isFetchingMerchantData}
                     />
                 );
             }
@@ -237,20 +286,26 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
         {
             accessorKey: "state",
             header: translate("resources.cascadeSettings.cascades.fields.state"),
-            cell: ({ row }) => (
-                <div className="flex items-center justify-center text-white">
-                    {row.original.state === "active" && (
-                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                            {translate("resources.cascadeSettings.cascades.state.active")}
-                        </span>
-                    )}
-                    {row.original.state === "inactive" && (
-                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                            {translate("resources.cascadeSettings.cascades.state.inactive")}
-                        </span>
-                    )}
-                </div>
-            )
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <StatesTableEditableCell
+                        cell={cell}
+                        initValue={row.original.state}
+                        selectVariants={CASCADE_STATE}
+                        showEdit={currentCellBoolean}
+                        setShowEdit={setCurrentCellEdit}
+                        onSubmit={value => onSubmit(row.original.id, { state: value })}
+                        isFetching={
+                            (currentCellBoolean && isFetchingCascadeMerchantData) ||
+                            (currentCellBoolean && isDataUpdating)
+                        }
+                        editDisabled={isFetchingCascadeMerchantData || isDataUpdating}
+                    />
+                );
+            }
         },
         {
             id: "delete_field",
