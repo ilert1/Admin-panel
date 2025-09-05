@@ -16,6 +16,7 @@ import clsx from "clsx";
 import { useGetCascadeShowColumns } from "./Columns";
 import { CirclePlus } from "lucide-react";
 import { CreateCascadeTerminalsDialog } from "../../lists/CascadeTerminals/CreateCascadeTerminalsDialog";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export interface CascadeShowProps {
     id: string;
@@ -104,7 +105,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                     />
 
                     <TextField
-                        text={context.record?.dst_country_code ?? ""}
+                        text={countryCodes.find(item => item.alpha2 === context.record?.dst_country_code)?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
                     />
 

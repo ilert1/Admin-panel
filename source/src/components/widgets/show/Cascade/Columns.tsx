@@ -10,6 +10,7 @@ import { useState } from "react";
 import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowControllerResult<CascadeSchema> }) => {
     const dataProvider = useDataProvider();
@@ -130,7 +131,15 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return <TextField text={row.original.terminal.dst_country_code ?? ""} wrap />;
+                return (
+                    <TextField
+                        text={
+                            countryCodes.find(item => item.alpha2 === row.original.terminal.dst_country_code)?.name ||
+                            ""
+                        }
+                        wrap
+                    />
+                );
             }
         },
         {

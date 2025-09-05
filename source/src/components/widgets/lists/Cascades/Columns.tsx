@@ -11,6 +11,7 @@ import { CurrentCell } from "../../shared";
 import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export const useGetCascadeColumns = ({ listContext }: { listContext: ListControllerResult<CascadeSchema> }) => {
     const dataProvider = useDataProvider();
@@ -113,7 +114,12 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return <TextField text={row.original.dst_country_code ?? ""} wrap />;
+                return (
+                    <TextField
+                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        wrap
+                    />
+                );
             }
         },
         {
