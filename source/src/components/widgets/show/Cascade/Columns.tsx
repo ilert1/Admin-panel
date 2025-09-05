@@ -1,14 +1,56 @@
-import { useTranslate } from "react-admin";
+import { ShowControllerResult, useDataProvider, useTranslate } from "react-admin";
 import { TextField } from "@/components/ui/text-field";
 import { Button, ShowButton } from "@/components/ui/Button";
-import { CascadeTerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CascadeSchema, CascadeTerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
+import { useState } from "react";
+import { CurrentCell } from "../../shared";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { CASCADE_STATE } from "@/data/cascades";
 
-export const useGetCascadeShowColumns = () => {
+export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowControllerResult<CascadeSchema> }) => {
+    const dataProvider = useDataProvider();
     const translate = useTranslate();
+    const appToast = useAppToast();
     const { openSheet } = useSheets();
+
+    const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
+        row: undefined,
+        column: undefined
+    });
+
+    const onSubmit = async (id: string, data: Pick<CascadeTerminalRead, "state">) => {
+        try {
+            setIsDataUpdating(true);
+
+            await dataProvider.update("cascade_terminals", {
+                id,
+                data,
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
+
+            await listContext.refetch();
+
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
+            setIsDataUpdating(false);
+        }
+    };
 
     const cascadeTerminalColumns: ColumnDef<CascadeTerminalRead>[] = [
         {
@@ -113,20 +155,25 @@ export const useGetCascadeShowColumns = () => {
         {
             accessorKey: "state",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.state"),
-            cell: ({ row }) => (
-                <div className="flex items-center justify-center">
-                    {row.original.state === "active" && (
-                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal text-white">
-                            {translate("resources.cascadeSettings.cascades.state.active")}
-                        </span>
-                    )}
-                    {row.original.state === "inactive" && (
-                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal text-white">
-                            {translate("resources.cascadeSettings.cascades.state.inactive")}
-                        </span>
-                    )}
-                </div>
-            )
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <StatesTableEditableCell
+                        cell={cell}
+                        initValue={row.original.state}
+                        selectVariants={CASCADE_STATE}
+                        showEdit={currentCellBoolean}
+                        setShowEdit={setCurrentCellEdit}
+                        onSubmit={value => onSubmit(row.original.id, { state: value })}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        editDisabled={listContext.isFetching || isDataUpdating}
+                    />
+                );
+            }
         }
     ];
 

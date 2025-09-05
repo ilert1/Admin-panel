@@ -75,7 +75,7 @@ export function SimpleTable<TData, TValue>({
                                     key={j}
                                     className={
                                         tableType === TableTypes.COLORED
-                                            ? "border border-neutral-40 text-neutral-90 dark:border-muted dark:text-neutral-0"
+                                            ? "relative border border-neutral-40 text-neutral-90 dark:border-muted dark:text-neutral-0"
                                             : ""
                                     }>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
