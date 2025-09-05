@@ -159,13 +159,15 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-1 md:col-span-2">
-                        <small className="text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.details")}
-                        </small>
+                    {context.record.details && JSON.stringify(context.record.details || "{}") !== "{}" && (
+                        <div className="flex flex-col gap-1 md:col-span-2">
+                            <small className="text-sm text-neutral-60">
+                                {translate("resources.cascadeSettings.cascades.fields.details")}
+                            </small>
 
-                        <MonacoEditor disabled code={JSON.stringify(context.record.details || "{}", null, 2)} />
-                    </div>
+                            <MonacoEditor disabled code={JSON.stringify(context.record.details || "{}", null, 2)} />
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
