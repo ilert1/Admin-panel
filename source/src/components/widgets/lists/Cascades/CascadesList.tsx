@@ -13,7 +13,7 @@ export const CascadesList = () => {
         sort: { field: "created_at", order: "DESC" }
     });
 
-    const { columns, createDialogOpen, setCreateDialogOpen } = useGetCascadeColumns();
+    const { columns, createDialogOpen, setCreateDialogOpen } = useGetCascadeColumns({ listContext });
 
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);

@@ -5,11 +5,17 @@ import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useDataProvider, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { CurrentCell } from "../../shared";
+import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { CASCADE_STATE } from "@/data/cascades";
 
-export const useGetCascadeColumns = () => {
+export const useGetCascadeColumns = ({ listContext }: { listContext: ListControllerResult<CascadeSchema> }) => {
+    const dataProvider = useDataProvider();
     const translate = useTranslate();
+    const appToast = useAppToast();
     const { openSheet } = useSheets();
 
     const handleCascadeShowOpen = (id: string) => {
@@ -17,6 +23,40 @@ export const useGetCascadeColumns = () => {
     };
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
+        row: undefined,
+        column: undefined
+    });
+
+    const onSubmit = async (id: string, data: Pick<CascadeSchema, "state">) => {
+        try {
+            setIsDataUpdating(true);
+
+            await dataProvider.update("cascades", {
+                id,
+                data,
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
+
+            await listContext.refetch();
+
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
+            setIsDataUpdating(false);
+        }
+    };
 
     const columns: ColumnDef<CascadeSchema>[] = [
         {
@@ -120,20 +160,25 @@ export const useGetCascadeColumns = () => {
         {
             accessorKey: "state",
             header: translate("resources.cascadeSettings.cascades.fields.state"),
-            cell: ({ row }) => (
-                <div className="flex items-center justify-center text-white">
-                    {row.original.state === "active" && (
-                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                            {translate("resources.cascadeSettings.cascades.state.active")}
-                        </span>
-                    )}
-                    {row.original.state === "inactive" && (
-                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                            {translate("resources.cascadeSettings.cascades.state.inactive")}
-                        </span>
-                    )}
-                </div>
-            )
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <StatesTableEditableCell
+                        cell={cell}
+                        initValue={row.original.state}
+                        selectVariants={CASCADE_STATE}
+                        showEdit={currentCellBoolean}
+                        setShowEdit={setCurrentCellEdit}
+                        onSubmit={value => onSubmit(row.original.id, { state: value })}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        editDisabled={listContext.isFetching || isDataUpdating}
+                    />
+                );
+            }
         },
         {
             id: "actions",
