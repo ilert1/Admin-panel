@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { EditCascadeMerchantDialog } from "./EditCascadeMerchantDialog";
 import { DeleteCascadeMerchantDialog } from "./DeleteCascadeMerchantDialog";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export interface CascadeMerchantShowProps {
     id: string;
@@ -132,7 +133,10 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                         </div>
                     </div>
                     <TextField
-                        text={context.record?.cascade.dst_country_code ?? ""}
+                        text={
+                            countryCodes.find(item => item.alpha2 === context.record?.cascade.dst_country_code)?.name ||
+                            ""
+                        }
                         label={translate("resources.direction.destinationCountry")}
                     />
                     <div>
