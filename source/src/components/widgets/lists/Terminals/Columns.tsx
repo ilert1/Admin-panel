@@ -10,6 +10,7 @@ import { useRefresh, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
 import { Badge, BadgeProps } from "@/components/ui/badge";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -197,7 +198,12 @@ export const useGetTerminalColumns = () => {
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return <TextField text={row.original.dst_country_code ?? ""} wrap />;
+                return (
+                    <TextField
+                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        wrap
+                    />
+                );
             }
         },
         {

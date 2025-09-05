@@ -17,6 +17,7 @@ import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { Badge, BadgeProps } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 interface TerminalShowProps {
     id: string;
@@ -102,7 +103,10 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                             </div>
 
                             <TextField
-                                text={context.record?.dst_country_code ?? ""}
+                                text={
+                                    countryCodes.find(item => item.alpha2 === context.record?.dst_country_code)?.name ||
+                                    ""
+                                }
                                 label={translate("resources.direction.destinationCountry")}
                             />
 
