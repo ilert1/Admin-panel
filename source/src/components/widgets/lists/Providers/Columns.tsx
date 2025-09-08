@@ -3,19 +3,23 @@ import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useTranslate } from "react-admin";
 import ReloadRoundSvg from "@/lib/icons/reload_round.svg?react";
 import { IProvider } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { ColumnSortingButton, SortingState } from "../../shared";
 
-export const useGetProvidersColumns = () => {
+export const useGetProvidersColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
 
     const [chosenId, setChosenId] = useState("");
     const [chosenProviderName, setChosenProviderName] = useState("");
-
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
     const [dialogOpen, setDialogOpen] = useState(false);
     const [confirmKeysCreatingOpen, setConfirmKeysCreatingOpen] = useState(false);
 
@@ -29,7 +33,16 @@ export const useGetProvidersColumns = () => {
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.provider.fields.name"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.provider.fields.name")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <div>

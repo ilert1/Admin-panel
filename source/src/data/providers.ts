@@ -20,7 +20,12 @@ import {
     providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDelete,
     providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut
 } from "@/api/enigma/provider/provider";
-import { PaymentTypesLink, Provider, ProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    PaymentTypesLink,
+    Provider,
+    ProviderCreate,
+    ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface IProvider extends Provider {
     id: string;
@@ -36,8 +41,11 @@ export class ProvidersDataProvider extends IBaseDataProvider {
                 pageSize: params?.pagination?.perPage,
                 ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
                 ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
-                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
-                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
+                ...(params.sort?.order && {
+                    sortOrder:
+                        params.sort.order.toLowerCase() as ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder
+                }),
+                ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {
