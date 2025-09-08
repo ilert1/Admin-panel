@@ -220,6 +220,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
             <EditCascadeDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />
 
             <CreateCascadeTerminalsDialog
+                cascadeId={id}
                 open={createCascadeTerminalDialogOpen}
                 onOpenChange={setCreateCascadeTerminalDialogOpen}
             />

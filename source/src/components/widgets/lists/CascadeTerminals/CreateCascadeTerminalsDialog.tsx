@@ -10,10 +10,15 @@ import { useTranslate } from "react-admin";
 import { CascadeTerminalCreate } from "../../create/CascadeTerminalCreate";
 
 interface CreateCascadeTerminalsDialogProps {
+    cascadeId?: string;
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
-export const CreateCascadeTerminalsDialog = ({ open, onOpenChange = () => {} }: CreateCascadeTerminalsDialogProps) => {
+export const CreateCascadeTerminalsDialog = ({
+    cascadeId,
+    open,
+    onOpenChange = () => {}
+}: CreateCascadeTerminalsDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -28,7 +33,7 @@ export const CreateCascadeTerminalsDialog = ({ open, onOpenChange = () => {} }: 
                 </DialogHeader>
                 <DialogDescription />
 
-                <CascadeTerminalCreate onClose={() => onOpenChange(false)} />
+                <CascadeTerminalCreate cascadeId={cascadeId} onClose={() => onOpenChange(false)} />
 
                 <DialogFooter />
             </DialogContent>

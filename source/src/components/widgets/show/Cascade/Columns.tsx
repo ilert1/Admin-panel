@@ -1,6 +1,6 @@
 import { ShowControllerResult, useDataProvider, useTranslate } from "react-admin";
 import { TextField } from "@/components/ui/text-field";
-import { Button, ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { CascadeSchema, CascadeTerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
@@ -11,6 +11,7 @@ import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 
 export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowControllerResult<CascadeSchema> }) => {
     const dataProvider = useDataProvider();
@@ -18,6 +19,7 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
     const appToast = useAppToast();
     const { openSheet } = useSheets();
 
+    const [showCascadeTerminalDeleteDialog, setShowCascadeTerminalDeleteDialog] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
@@ -183,8 +185,31 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
                     />
                 );
             }
+        },
+        {
+            id: "actionDelete",
+            header: () => <div className="flex justify-center">{translate("resources.currency.fields.delete")}</div>,
+            cell: ({ row }) => {
+                return (
+                    <>
+                        <TrashButton onClick={() => setShowCascadeTerminalDeleteDialog(true)} />
+
+                        <DeleteCascadeTerminalDialog
+                            open={showCascadeTerminalDeleteDialog}
+                            onOpenChange={state => {
+                                listContext.refetch();
+                                setShowCascadeTerminalDeleteDialog(state);
+                            }}
+                            onQuickShowOpenChange={() => {}}
+                            id={row.original.id}
+                        />
+                    </>
+                );
+            }
         }
     ];
 
-    return { cascadeTerminalColumns };
+    return {
+        cascadeTerminalColumns
+    };
 };
