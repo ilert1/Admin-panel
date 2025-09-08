@@ -11,7 +11,12 @@ import {
     UpdateResult
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
-import { PaymentTypesLink, TerminalCreate, TerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    PaymentTypesLink,
+    TerminalCreate,
+    TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder,
+    TerminalRead
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatch,
     terminalEndpointsAllTerminalsEnigmaV1TerminalGet,
@@ -39,8 +44,11 @@ export class TerminalsDataProvider extends IBaseDataProvider {
                 pageSize: params?.pagination?.perPage,
                 ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
                 ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
-                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
-                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
+                ...(params.sort?.order && {
+                    sortOrder:
+                        params.sort.order.toLowerCase() as TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder
+                }),
+                ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {

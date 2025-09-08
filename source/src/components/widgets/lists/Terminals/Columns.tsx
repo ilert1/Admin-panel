@@ -6,11 +6,12 @@ import { TerminalWithId } from "@/data/terminals";
 import { ColumnDef } from "@tanstack/react-table";
 import { Copy, PlusCircle } from "lucide-react";
 import { useState } from "react";
-import { useRefresh, useTranslate } from "react-admin";
+import { ListControllerResult, useRefresh, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
 import { Badge, BadgeProps } from "@/components/ui/badge";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { ColumnSortingButton, SortingState } from "../../shared";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -20,12 +21,16 @@ const statesMap = {
     archived: ["warning", "resources.direction.fields.stateArchived"]
 };
 
-export const useGetTerminalColumns = () => {
+export const useGetTerminalColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
 
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -90,7 +95,16 @@ export const useGetTerminalColumns = () => {
         {
             id: "verbose_name",
             accessorKey: "verbose_name",
-            header: translate("resources.terminals.fields.verbose_name"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.terminals.fields.verbose_name")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <Button
