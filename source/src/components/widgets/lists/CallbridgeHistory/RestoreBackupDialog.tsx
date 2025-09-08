@@ -31,6 +31,7 @@ export const RestoreBackupDialog = (props: RestoreBackupDialogProps) => {
     const [inputVal, setInputVal] = useState("");
     const [importMode, setImportMode] = useState<RestoreStrategy>("merge");
     const { checkAuth } = authProvider;
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const { openFilePicker, filesContent, loading, plainFiles, clear } = useFilePicker({
         accept: ".jsonl.gz",
@@ -103,10 +104,12 @@ export const RestoreBackupDialog = (props: RestoreBackupDialogProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full"
-                                disabled={!plainFiles?.[0]}
+                                disabled={!plainFiles?.[0] || buttonDisabled}
                                 onClick={async () => {
+                                    setButtonDisabled(true);
                                     await checkAuth({});
-                                    handleUpload(plainFiles?.[0] ?? null, importMode);
+                                    await handleUpload(plainFiles?.[0] ?? null, importMode);
+                                    setButtonDisabled(false);
                                     onOpenChange(false);
                                 }}>
                                 {translate("resources.paymentSettings.reports.upload")}

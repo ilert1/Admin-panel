@@ -10,10 +10,11 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 export const useGetCallbackBackupColumns = () => {
     const translate = useTranslate();
     const callbackBackupDataProvider = new CallbackBackupsDataProvider();
-
+    const [buttonDisabled, setButtonDisabled] = useState(false);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const appToast = useAppToast();
     const handleDownloadReport = async (id: string) => {
+        setButtonDisabled(true);
         try {
             const response = await callbackBackupDataProvider.downloadFile({
                 id
@@ -41,6 +42,8 @@ export const useGetCallbackBackupColumns = () => {
             if (error instanceof Error) {
                 appToast("error", error.message);
             }
+        } finally {
+            setButtonDisabled(false);
         }
     };
 
@@ -82,7 +85,7 @@ export const useGetCallbackBackupColumns = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex justify-center">
-                        <Button onClick={() => handleDownloadReport(row.original.file_name)}>
+                        <Button disabled={buttonDisabled} onClick={() => handleDownloadReport(row.original.file_name)}>
                             {translate("resources.callbridge.history_backup.fields.download")}
                         </Button>
                     </div>
