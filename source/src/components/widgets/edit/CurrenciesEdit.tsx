@@ -26,7 +26,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
     const dataProvider = useDataProvider();
 
     const controllerProps = useEditController<CurrencyWithId>({
-        resource: "paymentSettings/currency",
+        resource: "currency",
         id,
         mutationMode: "pessimistic"
     });
@@ -87,7 +87,7 @@ export const CurrencyEdit = ({ id, closeDialog }: { id: string; closeDialog: () 
         }
 
         try {
-            await dataProvider.update("paymentSettings/currency", {
+            await dataProvider.update("currency", {
                 id,
                 data: data,
                 previousData: undefined

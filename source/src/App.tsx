@@ -109,7 +109,7 @@ const dataProvider = combineDataProviders(resource => {
         return PayoutDataProvider;
     } else if (resource.includes("account")) {
         return AccountsDataProvider;
-    } else if (resource === "paymentSettings/currency") {
+    } else if (resource === "currency") {
         return new CurrenciesDataProvider();
     } else if (resource === "payment_type") {
         return new PaymentTypesProvider();

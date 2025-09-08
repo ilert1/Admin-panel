@@ -10,7 +10,7 @@ import { CurrenciesListFilter } from "./CurrenciesListFilter";
 
 export const CurrenciesList = () => {
     const listContext = useAbortableListController<CurrencyWithId>({
-        resource: "paymentSettings/currency",
+        resource: "currency",
         sort: {
             field: "code",
             order: "ASC"
