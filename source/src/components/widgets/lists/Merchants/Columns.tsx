@@ -5,16 +5,20 @@ import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { Badge } from "@/components/ui/badge";
+import { ColumnSortingButton, SortingState } from "../../shared";
 
-export const useGetMerchantColumns = () => {
+export const useGetMerchantColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
 
     const [chosenId, setChosenId] = useState("");
     const { openSheet } = useSheets();
-
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const handleDeleteClicked = (id: string) => {
@@ -28,9 +32,18 @@ export const useGetMerchantColumns = () => {
 
     const columns: ColumnDef<MerchantSchema>[] = [
         {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.merchant.merchant"),
+            id: "name",
+            accessorKey: "name",
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.merchant.merchant")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <div>

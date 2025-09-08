@@ -21,7 +21,11 @@ import {
     merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDelete,
     merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut
 } from "@/api/enigma/merchant/merchant";
-import { MerchantSchema, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    MerchantSchema,
+    MerchantCreate,
+    MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 
 const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
@@ -36,8 +40,11 @@ export class MerchantsDataProvider extends IBaseDataProvider {
                 pageSize: params?.pagination?.perPage,
                 ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
                 ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
-                ...(params.filter?.asc && { sortOrder: params.filter?.asc?.toLowerCase() }),
-                ...(params.filter?.sort && { orderBy: params.filter?.sort?.toLowerCase() })
+                ...(params.sort?.order && {
+                    sortOrder:
+                        params.sort.order.toLowerCase() as MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder
+                }),
+                ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {

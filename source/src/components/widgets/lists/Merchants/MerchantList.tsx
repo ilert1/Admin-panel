@@ -9,9 +9,15 @@ import { MerchantListFilter } from "./MerchantListFilter";
 import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 
 export const MerchantList = () => {
-    const listContext = useAbortableListController<MerchantSchema>();
+    const listContext = useAbortableListController<MerchantSchema>({
+        resource: "merchant",
+        sort: {
+            field: "name",
+            order: "ASC"
+        }
+    });
 
-    const { columns, chosenId, deleteDialogOpen, setDeleteDialogOpen } = useGetMerchantColumns();
+    const { columns, chosenId, deleteDialogOpen, setDeleteDialogOpen } = useGetMerchantColumns({ listContext });
 
     return (
         <>
