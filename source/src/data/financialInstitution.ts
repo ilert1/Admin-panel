@@ -15,6 +15,7 @@ import {
     FinancialInstitution,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
+    FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder,
     ImportStrategy,
     PaymentTypesLink
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -54,7 +55,12 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
                 ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.sort?.order && {
+                    sortOrder:
+                        params.sort.order.toLowerCase() as FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder
+                }),
+                ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {

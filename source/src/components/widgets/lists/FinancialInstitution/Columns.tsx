@@ -8,7 +8,7 @@ import { EyeIcon } from "lucide-react";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
-import { CurrentCell, TableEditableCell } from "../../shared";
+import { ColumnSortingButton, CurrentCell, SortingState, TableEditableCell } from "../../shared";
 import { FinancialInstitutionProvider, FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,11 @@ export const useGetFinancialInstitutionColumns = ({
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [deleteClicked, setDeleteClicked] = useState(false);
     const [chosenId, setChosenId] = useState("");
+
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
 
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
@@ -98,7 +103,16 @@ export const useGetFinancialInstitutionColumns = ({
         {
             id: "institution_type",
             accessorKey: "institution_type",
-            header: translate("resources.paymentSettings.financialInstitution.fields.institution_type"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.financialInstitution.fields.institution_type")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -115,7 +129,16 @@ export const useGetFinancialInstitutionColumns = ({
         {
             id: "name",
             accessorKey: "name",
-            header: translate("resources.paymentSettings.financialInstitution.fields.name"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.financialInstitution.fields.name")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-between gap-2">
@@ -138,7 +161,16 @@ export const useGetFinancialInstitutionColumns = ({
         {
             id: "code",
             accessorKey: "code",
-            header: translate("resources.paymentSettings.financialInstitution.fields.code"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.financialInstitution.fields.code")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return <TextField text={row.original.code || ""} />;
             }
@@ -231,7 +263,16 @@ export const useGetFinancialInstitutionColumns = ({
         {
             id: "country_code",
             accessorKey: "country_code",
-            header: translate("resources.paymentSettings.financialInstitution.fields.country_code")
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            )
         },
         {
             id: "delete_field",
