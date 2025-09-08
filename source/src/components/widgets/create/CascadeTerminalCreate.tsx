@@ -159,7 +159,11 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
                                     value={cascadeValueName}
                                     idField="id"
                                     setIdValue={field.onChange}
-                                    onChange={setCascadeValueName}
+                                    onChange={value => {
+                                        form.setValue("terminal_id", "");
+                                        setTerminalValueName("");
+                                        setCascadeValueName(value);
+                                    }}
                                     variantKey="name"
                                     placeholder={translate("resources.cascadeSettings.cascades.selectPlaceholder")}
                                     commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
