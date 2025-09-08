@@ -12,7 +12,9 @@ interface ISortingButton {
 
 export const ColumnSortingButton = ({ title, order, onChangeOrder }: ISortingButton) => {
     return (
-        <button onClick={() => onChangeOrder(order === "ASC" ? "DESC" : "ASC")} className="flex items-center gap-0.5">
+        <button
+            onClick={() => onChangeOrder(order === "ASC" ? "DESC" : "ASC")}
+            className="flex w-full items-center gap-0.5">
             {title}
 
             <div className="relative h-6 w-6 cursor-pointer">
