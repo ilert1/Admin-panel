@@ -24,7 +24,7 @@ export const DeleteCurrencyDialog = ({ open, id, onOpenChange }: DeleteCurrencyD
         setDeleteClicked(true);
 
         await deleteOne(
-            "currency",
+            "paymentSettings/currency",
             { id },
             {
                 onSuccess: () => {

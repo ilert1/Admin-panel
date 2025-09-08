@@ -37,7 +37,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
         data.code = data.code.toUpperCase();
 
         try {
-            await dataProvider.create("currency", { data: data });
+            await dataProvider.create("paymentSettings/currency", { data: data });
 
             appToast("success", translate("app.ui.create.createSuccess"));
 

@@ -11,7 +11,8 @@ export const useCurrenciesListWithoutPagination = (disabled?: boolean, staleTime
         isFetching: isCurrenciesFetching
     } = useQuery({
         queryKey: ["currencies", "getListWithoutPagination"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
+        queryFn: async ({ signal }) =>
+            await currenciesDataProvider.getListWithoutPagination("paymentSettings/currency", signal),
         enabled: !disabled,
         select: data => data?.data,
         staleTime: staleTime ? staleTime : 0
