@@ -1,39 +1,101 @@
-import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Button } from "@/components/ui/Button";
+import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
-import { useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "../../lists/Directions/DirectionActivityBtn";
+import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
+import { Badge } from "@/components/ui/badge";
+import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { useState } from "react";
+import { DeleteCascadeDialog } from "../Cascade/DeleteCascadeDialog";
+import { countryCodes } from "../../components/Selects/CountrySelect";
+import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
+import { CASCADE_STATE } from "@/data/cascades";
+import { CurrentCell } from "../../shared";
+import { QueryObserverResult } from "@tanstack/react-query";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 
-export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
+export const useGetMerchantShowColumns = ({
+    isFetchingMerchantData = false,
+    isFetchingCascadeMerchantData,
+    refetchCascadeMerchants
+}: {
+    isFetchingMerchantData: boolean;
+    isFetchingCascadeMerchantData: boolean;
+    refetchCascadeMerchants: () => Promise<QueryObserverResult<CascadeSchema[] | undefined, Error>>;
+}) => {
+    const dataProvider = useDataProvider();
     const translate = useTranslate();
+    const appToast = useAppToast();
+    const refresh = useRefresh();
     const { openSheet } = useSheets();
 
-    const columns: ColumnDef<Direction>[] = [
+    const [deleteCascadeDialogOpen, setDeleteCascadeDialogOpen] = useState(false);
+    const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
+        row: undefined,
+        column: undefined
+    });
+
+    const onSubmit = async (id: string, data: Pick<CascadeSchema, "state">) => {
+        try {
+            setIsDataUpdating(true);
+
+            await dataProvider.update("cascades", {
+                id,
+                data,
+                previousData: undefined
+            });
+
+            appToast("success", translate("app.ui.edit.editSuccess"));
+
+            await refetchCascadeMerchants();
+
+            setCurrentCellEdit({
+                row: undefined,
+                column: undefined
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                appToast("error", error.message);
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
+            setIsDataUpdating(false);
+        }
+    };
+
+    const directionColumns: ColumnDef<Direction>[] = [
         {
             id: "name",
             header: translate("resources.direction.fields.name"),
             cell: ({ row }) => {
                 return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            openSheet("direction", { id: row.original.id });
-                        }}>
-                        {row.original.name ?? ""}
-                    </Button>
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("direction", { id: row.original.id });
+                            }}
+                            className="whitespace-break-spaces text-left">
+                            {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
+                        </Button>
+                        <TextField
+                            text={row.original.id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                            className="text-neutral-70"
+                        />
+                    </div>
                 );
-            }
-        },
-        {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.direction.fields.id"),
-            cell: ({ row }) => {
-                return <TextField text={row.original.id} wrap copyValue />;
             }
         },
         {
@@ -50,7 +112,11 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => {
                 const obj: CurrencyWithId = row.getValue("src_currency");
-                return <TextField text={obj.code} />;
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        <Badge variant="currency">{obj.code}</Badge>
+                    </div>
+                );
             }
         },
         {
@@ -59,7 +125,21 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => {
                 const obj: CurrencyWithId = row.getValue("dst_currency");
-                return <TextField text={obj.code} />;
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        <Badge variant="currency">{obj.code}</Badge>
+                    </div>
+                );
+            }
+        },
+        {
+            id: "type",
+            header: () => (
+                <div className="flex items-center justify-center">{translate("resources.direction.types.type")}</div>
+            ),
+            cell: ({ row }) => {
+                const type = row.original.type;
+                return type ? translate(`resources.direction.types.${row.original.type}`) : "-";
             }
         },
         {
@@ -67,7 +147,7 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
             cell: ({ row }) => {
-                const obj: ProviderWithId = row.getValue("provider");
+                const obj: IProvider = row.getValue("provider");
                 return <TextField text={obj.name} wrap />;
             }
         },
@@ -91,11 +171,177 @@ export const useGetMerchantShowColumns = ({ isFetching = false }: { isFetching?:
                         id={row.original.id}
                         directionName={row.original.name}
                         activityState={row.original.state === "active"}
-                        isFetching={isFetching}
+                        isFetching={isFetchingMerchantData}
                     />
                 );
             }
         }
     ];
-    return { columns };
+
+    const cascadeMerchantsColumns: ColumnDef<CascadeSchema>[] = [
+        {
+            id: "cascade",
+            accessorKey: "cascade",
+            header: translate("resources.cascadeSettings.cascadeMerchants.fields.cascade"),
+            cell: ({ row }) => (
+                <div>
+                    <Button
+                        variant={"resourceLink"}
+                        onClick={() => {
+                            openSheet("cascade", {
+                                id: row.original.id
+                            });
+                        }}>
+                        {row.original.name}
+                    </Button>
+                    <TextField
+                        className="text-neutral-70"
+                        text={row.original.id}
+                        wrap
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                        minWidth="50px"
+                    />
+                </div>
+            )
+        },
+        {
+            accessorKey: "type",
+            header: translate("resources.cascadeSettings.cascades.fields.type"),
+            cell: ({ row }) => (
+                <TextField
+                    text={
+                        row.original.type
+                            ? translate(`resources.cascadeSettings.cascades.types.${row.original.type}`)
+                            : ""
+                    }
+                    minWidth="50px"
+                />
+            )
+        },
+        {
+            accessorKey: "src_currency_code",
+            header: translate("resources.cascadeSettings.cascades.fields.src_currency_code"),
+            cell: ({ row }) => (
+                <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                    <Badge variant="currency">{row.original.src_currency.code}</Badge>
+                </div>
+            )
+        },
+        {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        wrap
+                    />
+                );
+            }
+        },
+        {
+            accessorKey: "cascade_kind",
+            header: translate("resources.cascadeSettings.cascades.fields.cascade_kind"),
+            cell: ({ row }) => (
+                <TextField
+                    text={
+                        row.original.cascade_kind
+                            ? translate(`resources.cascadeSettings.cascades.kinds.${row.original.cascade_kind}`)
+                            : ""
+                    }
+                    minWidth="50px"
+                />
+            )
+        },
+        {
+            accessorKey: "priority_policy.rank",
+            header: translate("resources.cascadeSettings.cascades.fields.rank"),
+            cell: ({ row }) => <TextField text={row.original.priority_policy.rank.toString()} minWidth="50px" />
+        },
+        {
+            id: "payment_types",
+            header: translate("resources.cascadeSettings.cascades.fields.payment_types"),
+            cell: ({ row }) => {
+                return (
+                    <div className="max-w-auto flex min-w-32 flex-wrap gap-2">
+                        {row.original.payment_types && row.original.payment_types.length > 0
+                            ? row.original.payment_types?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"]}
+                                      />
+                                  );
+                              })
+                            : "-"}
+                    </div>
+                );
+            }
+        },
+        {
+            accessorKey: "state",
+            header: translate("resources.cascadeSettings.cascades.fields.state"),
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <StatesTableEditableCell
+                        cell={cell}
+                        initValue={row.original.state}
+                        selectVariants={CASCADE_STATE}
+                        showEdit={currentCellBoolean}
+                        setShowEdit={setCurrentCellEdit}
+                        onSubmit={value => onSubmit(row.original.id, { state: value })}
+                        isFetching={
+                            (currentCellBoolean && isFetchingCascadeMerchantData) ||
+                            (currentCellBoolean && isDataUpdating)
+                        }
+                        editDisabled={isFetchingCascadeMerchantData || isDataUpdating}
+                    />
+                );
+            }
+        },
+        {
+            id: "delete_field",
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
+            },
+            cell: ({ row }) => {
+                return (
+                    <>
+                        <TrashButton onClick={() => setDeleteCascadeDialogOpen(true)} />
+
+                        <DeleteCascadeDialog
+                            open={deleteCascadeDialogOpen}
+                            onOpenChange={state => {
+                                refresh();
+                                setDeleteCascadeDialogOpen(state);
+                            }}
+                            onQuickShowOpenChange={() => {}}
+                            id={row.original.id}
+                        />
+                    </>
+                );
+            }
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                return (
+                    <ShowButton
+                        onClick={() => {
+                            openSheet("cascade", { id: row.original.id });
+                        }}
+                    />
+                );
+            }
+        }
+    ];
+    return { directionColumns, cascadeMerchantsColumns };
 };

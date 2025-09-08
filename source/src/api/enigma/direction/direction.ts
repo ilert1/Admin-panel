@@ -82,6 +82,7 @@ export const directionEndpointsListDirectionsEnigmaV1DirectionGet = async (
 
 /**
  * Registers a new direction in the system
+ * @deprecated
  * @summary Create a new direction
  */
 export type directionEndpointsCreateDirectionEnigmaV1DirectionPostResponse200 = {
@@ -303,6 +304,7 @@ export const directionEndpointsDeleteDirectionEnigmaV1DirectionDirectionIdDelete
 
 /**
  * Updates multiple directions in one request using bulk update
+ * @deprecated
  * @summary Bulk update directions
  */
 export type directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatchResponse200 = {
@@ -345,6 +347,7 @@ export const directionEndpointsBulkUpdateDirectionsEnigmaV1DirectionBatchPatch =
 
 /**
  * Updates the state (active/inactive) for the specified direction
+ * @deprecated
  * @summary Update state for a direction
  */
 export type directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatchResponse200 = {
@@ -388,6 +391,7 @@ export const directionEndpointsUpdateStateEnigmaV1DirectionDirectionIdStatePatch
 
 /**
  * Updates the type ('universal', 'deposit', 'withdraw') for the specified direction
+ * @deprecated
  * @summary Update type for a direction
  */
 export type directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatchResponse200 = {
@@ -431,6 +435,7 @@ export const directionEndpointsUpdateTypeEnigmaV1DirectionDirectionIdTypePatch =
 
 /**
  * Associates a new fee with a specified direction
+ * @deprecated
  * @summary Add a new fee to a direction
  */
 export type directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatchResponse200 = {
@@ -474,6 +479,7 @@ export const directionEndpointsAddFeeEnigmaV1DirectionDirectionIdFeePatch = asyn
 
 /**
  * Modifies an existing fee associated with a specified direction
+ * @deprecated
  * @summary Update an existing fee for a direction
  */
 export type directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatchResponse200 = {
@@ -521,6 +527,7 @@ export const directionEndpointsUpdateFeeEnigmaV1DirectionDirectionIdFeeFeeIdPatc
 
 /**
  * Deletes a specific fee associated with a given direction
+ * @deprecated
  * @summary Remove a fee from a direction
  */
 export type directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDeleteResponse200 = {
@@ -565,6 +572,7 @@ export const directionEndpointsDeleteFeeEnigmaV1DirectionDirectionIdFeeFeeIdDele
 
 /**
  * Updates all limits (payin, payout, reward) for the specified direction
+ * @deprecated
  * @summary Update limits for a direction
  */
 export type directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPatchResponse200 = {
@@ -608,6 +616,7 @@ export const directionEndpointsUpdateLimitsEnigmaV1DirectionDirectionIdLimitsPat
 
 /**
  * Resets all limits (payin, payout, reward) by setting quantity to 0 for both min and max
+ * @deprecated
  * @summary Delete (reset) limits for a direction
  */
 export type directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDeleteResponse200 = {
@@ -648,6 +657,7 @@ export const directionEndpointsDeleteLimitsEnigmaV1DirectionDirectionIdLimitsDel
 
 /**
  * Returns a list of payment types that are common across the specified merchant, provider, and terminal. If no parameters are provided, all payment types are returned.
+ * @deprecated
  * @summary Get available payment types based on merchant, provider, and terminal
  */
 export type directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailablePaymentTypesGetResponse200 = {
@@ -702,6 +712,7 @@ export const directionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailabl
 
 /**
  * Associates existing payment types with a direction. Skips already linked types.
+ * @deprecated
  * @summary Add payment types to direction
  */
 export type directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAddPaymentTypesPatchResponse200 = {
@@ -748,6 +759,7 @@ export const directionEndpointsAddPaymentTypesToDirectionEnigmaV1DirectionDirect
 
 /**
  * Automatically associates all available payment types with a direction based on merchant and terminal intersection.
+ * @deprecated
  * @summary Automatically add available payment types to direction
  */
 export type directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDirectionIdAutoAddPaymentTypesPatchResponse200 =
@@ -795,6 +807,7 @@ export const directionEndpointsAutoAddPaymentTypesToDirectionEnigmaV1DirectionDi
 
 /**
  * Disassociates a payment type from a direction by its code.
+ * @deprecated
  * @summary Remove payment type from direction
  */
 export type directionEndpointsRemovePaymentTypeFromDirectionEnigmaV1DirectionDirectionIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =

@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { AdminCryptoStoreResources } from "@/components/widgets/shared";
 import { useTheme } from "@/components/providers";
 import { usePermissions, useResourceDefinitions, useTranslate } from "react-admin";
-import { createElement, useEffect, useState } from "react";
+import React, { createElement, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useGetResLabel } from "@/hooks/useGetResLabel";
 import { Button } from "@/components/ui/Button";
@@ -11,8 +11,7 @@ import { useMediaQuery } from "react-responsive";
 import clsx from "clsx";
 import { AdminCallbridgeResources } from "@/components/widgets/shared/AdminCallbridgeResources";
 import { AdminPaymentToolResources } from "@/components/widgets/shared/AdminPaymentToolResources";
-
-const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
+import { AdminCascadeResources } from "@/components/widgets/shared/AdminCascadeResources";
 
 export interface SidebarProps {
     resourceName: string[];
@@ -92,52 +91,60 @@ export const Sidebar = (props: SidebarProps) => {
                     if (
                         !resource.includes("wallet") &&
                         !resource.includes("callbridge") &&
-                        !resource.includes("paymentSettings")
+                        !resource.includes("paymentSettings") &&
+                        !resource.includes("cascadeSettings")
                     ) {
                         return (
-                            <TooltipProvider key={resource} delayDuration={100}>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <NavLink
-                                            to={`/${resource}`}
-                                            className={
-                                                resourceName[0] === resource
-                                                    ? "flex w-full items-center gap-3 bg-neutral-20 py-2 pl-6 leading-normal text-controlElements animate-in fade-in-0 dark:bg-black"
-                                                    : "flex w-full items-center gap-3 py-2 pl-6 leading-normal animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black"
-                                            }>
-                                            {createElement(resources[resource].icon, {})}
-                                            {showCaptions && !isMobile && (
-                                                <span className="transition-opacity animate-in fade-in-0">
-                                                    {getResLabel(resources[resource].name, permissions)}
-                                                </span>
-                                            )}
-                                        </NavLink>
-                                    </TooltipTrigger>
+                            <React.Fragment key={resource}>
+                                {resource.includes("direction") && permissions === "admin" && (
+                                    <AdminCascadeResources showCaptions={showCaptions && !isMobile} />
+                                )}
+                                <div className="w-full">
+                                    <TooltipProvider delayDuration={100}>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <NavLink
+                                                    to={`/${resource}`}
+                                                    className={
+                                                        resourceName[0] === resource
+                                                            ? "flex w-full items-center gap-3 bg-neutral-20 py-2 pl-6 leading-normal text-controlElements animate-in fade-in-0 dark:bg-black"
+                                                            : "flex w-full items-center gap-3 py-2 pl-6 leading-normal animate-in fade-in-0 hover:bg-neutral-20 hover:text-controlElements dark:hover:bg-black"
+                                                    }>
+                                                    {createElement(resources[resource].icon, {})}
+                                                    {showCaptions && !isMobile && (
+                                                        <span className="transition-opacity animate-in fade-in-0">
+                                                            {getResLabel(resources[resource].name, permissions)}
+                                                        </span>
+                                                    )}
+                                                </NavLink>
+                                            </TooltipTrigger>
 
-                                    <TooltipContent
-                                        className={
-                                            showCaptions && !isMobile
-                                                ? "hidden"
-                                                : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:h-2 after:w-2 after:rotate-45 after:bg-neutral-0 dark:after:bg-neutral-100"
-                                        }
-                                        sideOffset={12}
-                                        side="right">
-                                        {getResLabel(resources[resource].name, permissions)}
-                                        <ChevronLeft
-                                            className="absolute -left-[13px] top-1.5 text-green-40"
-                                            width={20}
-                                            height={20}
-                                        />
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                                            <TooltipContent
+                                                className={
+                                                    showCaptions && !isMobile
+                                                        ? "hidden"
+                                                        : "after:absolute after:-left-[3.5px] after:top-[12.5px] after:h-2 after:w-2 after:rotate-45 after:bg-neutral-0 dark:after:bg-neutral-100"
+                                                }
+                                                sideOffset={12}
+                                                side="right">
+                                                {getResLabel(resources[resource].name, permissions)}
+                                                <ChevronLeft
+                                                    className="absolute -left-[13px] top-1.5 text-green-40"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                            </React.Fragment>
                         );
                     }
                 })}
                 {permissions === "admin" && (
                     <>
                         <AdminPaymentToolResources showCaptions={showCaptions && !isMobile} />
-                        {CALLBRIDGE_ENABLED && <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />}
+                        <AdminCallbridgeResources showCaptions={showCaptions && !isMobile} />
                     </>
                 )}
                 <AdminCryptoStoreResources showCaptions={showCaptions && !isMobile} />

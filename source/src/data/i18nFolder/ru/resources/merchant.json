@@ -7,7 +7,10 @@
         "descr": "Описание",
         "directions": "Направления",
         "fees": "Комиссии",
-        "pays": "PayIn/PayOut"
+        "pays": "PayIn/PayOut",
+        "currencies": "Разрешенные валюты отправителя",
+        "minTTL": "Минимальное TTL в секундах",
+        "maxTTL": "Максимальное TTL в секундах"
     },
     "resources.merchant.errors": {
         "id": "ID обязательно должен быть заполнен",
@@ -21,7 +24,38 @@
     "resources.merchant.success": {
         "create": "Мерчант %{name} успешно создан."
     },
+    "resources.merchant.settings": {
+        "title": "Настройки мерчанта",
+        "uniquenessTitle": "Настройки уникализации",
+        "uniqueness": "Уникализация",
+        "disabled": "Функционал недоступен",
+        "antifraud": "Антифрод",
+        "antifraoud_attempts": "Число попыток срабатывания антифрода",
+        "public_key": "Публичный ключ",
+        "deposit": "Пополнение",
+        "withdraw": "Вывод",
+        "add": "Добавить уникализацию",
+        "columns": {
+            "mode": "Режим уникализации",
+            "minmax": "Порог разброса от - до",
+            "chance": "Шанс срабатывания, %",
+            "min": "Минимальное значение, %",
+            "max": "Максимальное значение, %",
+            "modes": {
+                "percent": "В процентах",
+                "absolute": "В абсолютных значениях"
+            }
+        },
+        "errors": {
+            "minCantBeLess": "Минимальное значение не может быть больше максимального",
+            "antifraoudAttemptsNan": "Введите число",
+            "antifraoudAttemptsMin": "Число попыток срабатывания должно быть больше или равно 0",
+            "antifraoudAttemptsMax": "Число попыток срабатывания не должно превышать 100000"
+        },
+        "successMessage": "Уникализация сохранена успешно"
+    },
     "resources.merchant.notFoundMessage": "Мерчанты не найдены.",
+    "resources.merchant.selectPlaceholder": "Выберите мерчанта",
     "resources.merchant.showTitle": "Детальная инфорация о мерчанте",
     "resources.merchant.createNew": "Создать нового мерчанта",
     "resources.merchant.creatingMerchant": "Создание нового мерчанта",

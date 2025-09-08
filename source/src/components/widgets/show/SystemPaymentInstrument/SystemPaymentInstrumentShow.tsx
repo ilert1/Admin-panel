@@ -82,16 +82,7 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                                 {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                             </Label>
                             <div className="flex flex-wrap gap-2">
-                                {context.record.payment_type?.meta?.icon &&
-                                typeof context.record.payment_type?.meta?.icon === "string" ? (
-                                    <img
-                                        src={context.record.payment_type?.meta["icon"]}
-                                        alt="icon"
-                                        className="h-6 w-6 fill-white object-contain"
-                                    />
-                                ) : (
-                                    <PaymentTypeIcon type={context.record.payment_type_code} tooltip />
-                                )}
+                                <PaymentTypeIcon type={context.record.payment_type_code} />
                             </div>
                         </div>
 
@@ -113,10 +104,8 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             </small>
 
                             <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                                <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                    <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                        {context.record.currency_code}
-                                    </span>
+                                <Badge key={context.record.currency.code} variant="currency">
+                                    {context.record.currency.code}
                                 </Badge>
                             </div>
                         </div>

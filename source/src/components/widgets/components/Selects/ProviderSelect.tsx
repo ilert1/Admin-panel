@@ -1,10 +1,10 @@
 import { Provider } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { IPopoverSelect, PopoverSelect } from "./PopoverSelect";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { useTranslate } from "react-admin";
 
 interface ProviderSelectProps extends IPopoverSelect {
-    providers: ProviderWithId[] | Provider[];
+    providers: IProvider[] | Provider[];
 }
 
 export const ProviderSelect = ({
@@ -13,10 +13,8 @@ export const ProviderSelect = ({
     providers,
     isError,
     style = "Grey",
-    errorMessage,
-    disabled,
     placeholder,
-    modal
+    ...rest
 }: ProviderSelectProps) => {
     const translate = useTranslate();
     return (
@@ -29,10 +27,8 @@ export const ProviderSelect = ({
             notFoundMessage={translate("resources.provider.notFoundMessage")}
             isError={isError}
             style={style}
-            errorMessage={errorMessage}
-            disabled={disabled}
             placeholder={placeholder || translate("resources.provider.selectPlaceholder")}
-            modal={modal}
+            {...rest}
         />
     );
 };

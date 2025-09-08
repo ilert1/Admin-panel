@@ -31,6 +31,81 @@ export const AccountType = {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseCascadeReadError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseCascadeReadMeta = unknown | null;
+
+export interface ApiResponseCascadeRead {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: CascadeRead;
+    /** The error details if the request was not successful */
+    error?: ApiResponseCascadeReadError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseCascadeReadMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseCascadeSchemaError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseCascadeSchemaMeta = unknown | null;
+
+export interface ApiResponseCascadeSchema {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: CascadeSchema;
+    /** The error details if the request was not successful */
+    error?: ApiResponseCascadeSchemaError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseCascadeSchemaMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseCascadeTerminalSchemaError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseCascadeTerminalSchemaMeta = unknown | null;
+
+export interface ApiResponseCascadeTerminalSchema {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: CascadeTerminalSchema;
+    /** The error details if the request was not successful */
+    error?: ApiResponseCascadeTerminalSchemaError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseCascadeTerminalSchemaMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseCurrencyError = ErrorBody | null;
 
 /**
@@ -156,26 +231,76 @@ export interface ApiResponseKeyPair {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseMerchantError = ErrorBody | null;
+export type ApiResponseMerchantCascadeSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseMerchantMeta = unknown | null;
+export type ApiResponseMerchantCascadeSchemaMeta = unknown | null;
 
-export interface ApiResponseMerchant {
+export interface ApiResponseMerchantCascadeSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: Merchant;
+    data: MerchantCascadeSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseMerchantError;
+    error?: ApiResponseMerchantCascadeSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseMerchantMeta;
+    meta?: ApiResponseMerchantCascadeSchemaMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseMerchantSchemaError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseMerchantSchemaMeta = unknown | null;
+
+export interface ApiResponseMerchantSchema {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: MerchantSchema;
+    /** The error details if the request was not successful */
+    error?: ApiResponseMerchantSchemaError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseMerchantSchemaMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseMergedCascadeViewError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseMergedCascadeViewMeta = unknown | null;
+
+export interface ApiResponseMergedCascadeView {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: MergedCascadeView;
+    /** The error details if the request was not successful */
+    error?: ApiResponseMergedCascadeViewError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseMergedCascadeViewMeta;
 }
 
 /**
@@ -201,6 +326,56 @@ export interface ApiResponseNoneType {
      * @deprecated
      */
     meta?: ApiResponseNoneTypeMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationCascadeSchemaError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationCascadeSchemaMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationCascadeSchema {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationCascadeSchema;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationCascadeSchemaError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationCascadeSchemaMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationCascadeTerminalSchemaError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationCascadeTerminalSchemaMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationCascadeTerminalSchema {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationCascadeTerminalSchema;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationCascadeTerminalSchemaError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationCascadeTerminalSchemaMeta;
 }
 
 /**
@@ -281,26 +456,51 @@ export interface ApiResponseOffsetPaginationFinancialInstitution {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationMerchantError = ErrorBody | null;
+export type ApiResponseOffsetPaginationMerchantCascadeSchemaError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationMerchantMeta = unknown | null;
+export type ApiResponseOffsetPaginationMerchantCascadeSchemaMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationMerchant {
+export interface ApiResponseOffsetPaginationMerchantCascadeSchema {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationMerchant;
+    data: OffsetPaginationMerchantCascadeSchema;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationMerchantError;
+    error?: ApiResponseOffsetPaginationMerchantCascadeSchemaError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationMerchantMeta;
+    meta?: ApiResponseOffsetPaginationMerchantCascadeSchemaMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationMerchantSchemaError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationMerchantSchemaMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationMerchantSchema {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationMerchantSchema;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationMerchantSchemaError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationMerchantSchemaMeta;
 }
 
 /**
@@ -406,26 +606,26 @@ export interface ApiResponseOffsetPaginationTerminalPaymentInstrument {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseOffsetPaginationTerminalError = ErrorBody | null;
+export type ApiResponseOffsetPaginationTerminalReadError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseOffsetPaginationTerminalMeta = unknown | null;
+export type ApiResponseOffsetPaginationTerminalReadMeta = unknown | null;
 
-export interface ApiResponseOffsetPaginationTerminal {
+export interface ApiResponseOffsetPaginationTerminalRead {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: OffsetPaginationTerminal;
+    data: OffsetPaginationTerminalRead;
     /** The error details if the request was not successful */
-    error?: ApiResponseOffsetPaginationTerminalError;
+    error?: ApiResponseOffsetPaginationTerminalReadError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseOffsetPaginationTerminalMeta;
+    meta?: ApiResponseOffsetPaginationTerminalReadMeta;
 }
 
 /**
@@ -556,26 +756,56 @@ export interface ApiResponseTerminalPaymentInstrument {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseTerminalError = ErrorBody | null;
+export type ApiResponseTerminalReadError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseTerminalMeta = unknown | null;
+export type ApiResponseTerminalReadMeta = unknown | null;
 
-export interface ApiResponseTerminal {
+export interface ApiResponseTerminalRead {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: Terminal;
+    data: TerminalRead;
     /** The error details if the request was not successful */
-    error?: ApiResponseTerminalError;
+    error?: ApiResponseTerminalReadError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseTerminalMeta;
+    meta?: ApiResponseTerminalReadMeta;
+}
+
+/**
+ * The actual response data if the request was successful
+ */
+export type ApiResponseDictStrStrData = { [key: string]: string };
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseDictStrStrError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseDictStrStrMeta = unknown | null;
+
+export interface ApiResponseDictStrStr {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: ApiResponseDictStrStrData;
+    /** The error details if the request was not successful */
+    error?: ApiResponseDictStrStrError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseDictStrStrMeta;
 }
 
 /**
@@ -681,26 +911,26 @@ export interface ApiResponseListPaymentCategoryItem {
 /**
  * The error details if the request was not successful
  */
-export type ApiResponseListTerminalError = ErrorBody | null;
+export type ApiResponseListRequiredFieldItemError = ErrorBody | null;
 
 /**
  * The meta details if the request. DEPRECATED
  * @deprecated
  */
-export type ApiResponseListTerminalMeta = unknown | null;
+export type ApiResponseListRequiredFieldItemMeta = unknown | null;
 
-export interface ApiResponseListTerminal {
+export interface ApiResponseListRequiredFieldItem {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: Terminal[];
+    data: RequiredFieldItem[];
     /** The error details if the request was not successful */
-    error?: ApiResponseListTerminalError;
+    error?: ApiResponseListRequiredFieldItemError;
     /**
      * The meta details if the request. DEPRECATED
      * @deprecated
      */
-    meta?: ApiResponseListTerminalMeta;
+    meta?: ApiResponseListRequiredFieldItemMeta;
 }
 
 export interface BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost {
@@ -716,6 +946,352 @@ export interface BodyPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeIm
 export interface BodySystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost {
     /** Upload CSV file with data for import */
     csv_file: Blob;
+}
+
+export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPost {
+    /** JSON string containing terminal_ids array */
+    data: string;
+    /** Upload CSV file with data for import */
+    csv_file: Blob;
+}
+
+export type BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv =
+    Blob | null;
+
+export type BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv =
+    Blob | null;
+
+export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost {
+    payment_types_csv: Blob;
+    /** JSON string containing terminal_ids array or provider_id */
+    data: string;
+    financial_institutions_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv;
+    currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
+}
+
+/**
+ * Priority rank of the terminal(1 = highest priority)
+ */
+export type CascadeConditionRank = number | null;
+
+/**
+ * Time-to-live configuration for terminal availability
+ */
+export type CascadeConditionTtl = TTLConfig | null;
+
+export interface CascadeCondition {
+    /**
+     * Terminal weight for load balancing (0 for extra terminals)
+     * @minimum 0
+     */
+    weight?: number;
+    /** Whether this is an extra/backup terminal (must have weight=0) */
+    extra?: boolean;
+    /** Priority rank of the terminal(1 = highest priority) */
+    rank?: CascadeConditionRank;
+    /** Time-to-live configuration for terminal availability */
+    ttl?: CascadeConditionTtl;
+}
+
+/**
+ * Optional detailed description of the cascade purpose
+ */
+export type CascadeCreateDescription = string | null;
+
+/**
+ * Additional configuration parameters and metadata
+ */
+export type CascadeCreateDetails = { [key: string]: unknown };
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeCreateDstCountryCode = string | null;
+
+export interface CascadeCreate {
+    /**
+     * Human-readable name of the cascade
+     * @minLength 1
+     * @maxLength 255
+     */
+    name: string;
+    /** Type of cascade defining operation direction */
+    type?: CascadeType;
+    /** Execution strategy: sequential (one by one) or fanout (parallel) */
+    cascade_kind?: CascadeKind;
+    /** Priority configuration for cascade ordering */
+    priority_policy: PriorityPolicy;
+    /** Optional detailed description of the cascade purpose */
+    description?: CascadeCreateDescription;
+    /** Additional configuration parameters and metadata */
+    details?: CascadeCreateDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeCreateDstCountryCode;
+    /**
+     * Source currency code (ISO 4217 format)
+     * @minLength 3
+     * @maxLength 3
+     */
+    src_currency_code: string;
+    /** Payment types explicitly assigned to cascade. If empty, calculated from terminal intersections */
+    payment_types?: string[];
+}
+
+export type CascadeKind = (typeof CascadeKind)[keyof typeof CascadeKind];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeKind = {
+    sequential: "sequential",
+    fanout: "fanout"
+} as const;
+
+/**
+ * Optional detailed description of the cascade purpose
+ */
+export type CascadeReadDescription = string | null;
+
+/**
+ * Additional configuration parameters and metadata
+ */
+export type CascadeReadDetails = { [key: string]: unknown };
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeReadDstCountryCode = string | null;
+
+export interface CascadeRead {
+    /**
+     * Human-readable name of the cascade
+     * @minLength 1
+     * @maxLength 255
+     */
+    name: string;
+    /** Type of cascade defining operation direction */
+    type?: CascadeType;
+    /** Execution strategy: sequential (one by one) or fanout (parallel) */
+    cascade_kind?: CascadeKind;
+    /** Priority configuration for cascade ordering */
+    priority_policy: PriorityPolicy;
+    /** Optional detailed description of the cascade purpose */
+    description?: CascadeReadDescription;
+    /** Additional configuration parameters and metadata */
+    details?: CascadeReadDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeReadDstCountryCode;
+    /** Unique identifier of the cascade */
+    id: string;
+    /** Current operational state of the cascade */
+    state: CascadeState;
+    /** Source currency code */
+    src_currency: Currency;
+    /** List of payment types associated with this cascade */
+    payment_types?: PaymentTypeBase[];
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was last updated */
+    updated_at: string;
+}
+
+/**
+ * Optional detailed description of the cascade purpose
+ */
+export type CascadeSchemaDescription = string | null;
+
+/**
+ * Additional configuration parameters and metadata
+ */
+export type CascadeSchemaDetails = { [key: string]: unknown };
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeSchemaDstCountryCode = string | null;
+
+export interface CascadeSchema {
+    /**
+     * Human-readable name of the cascade
+     * @minLength 1
+     * @maxLength 255
+     */
+    name: string;
+    /** Type of cascade defining operation direction */
+    type?: CascadeType;
+    /** Execution strategy: sequential (one by one) or fanout (parallel) */
+    cascade_kind?: CascadeKind;
+    /** Priority configuration for cascade ordering */
+    priority_policy: PriorityPolicy;
+    /** Optional detailed description of the cascade purpose */
+    description?: CascadeSchemaDescription;
+    /** Additional configuration parameters and metadata */
+    details?: CascadeSchemaDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeSchemaDstCountryCode;
+    /** Unique identifier of the cascade */
+    id: string;
+    /** Current operational state of the cascade */
+    state: CascadeState;
+    /** Source currency code */
+    src_currency: Currency;
+    /** List of payment types associated with this cascade */
+    payment_types?: PaymentTypeBase[];
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was last updated */
+    updated_at: string;
+    /** List of cascade terminals */
+    cascade_terminals?: CascadeTerminalRead[];
+}
+
+export type CascadeState = (typeof CascadeState)[keyof typeof CascadeState];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeState = {
+    active: "active",
+    inactive: "inactive"
+} as const;
+
+export interface CascadeTerminalCreate {
+    /** Unique identifier of the cascade this terminal belongs to */
+    cascade_id: string;
+    /** Unique identifier of the terminal in this cascade */
+    terminal_id: string;
+    /** Configuration for terminal behavior within the cascade */
+    condition?: CascadeCondition;
+}
+
+export interface CascadeTerminalRead {
+    /** Unique identifier of the cascade this terminal belongs to */
+    cascade_id: string;
+    /** Unique identifier of the terminal in this cascade */
+    terminal_id: string;
+    /** Configuration for terminal behavior within the cascade */
+    condition?: CascadeCondition;
+    /** Unique identifier of the cascade terminal record */
+    id: string;
+    /** Current operational state of the cascade terminal */
+    state: CascadeTerminalState;
+    /** Terminal this terminal belongs to */
+    terminal: TerminalRead;
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was last updated */
+    updated_at: string;
+}
+
+export interface CascadeTerminalSchema {
+    /** Unique identifier of the cascade this terminal belongs to */
+    cascade_id: string;
+    /** Unique identifier of the terminal in this cascade */
+    terminal_id: string;
+    /** Configuration for terminal behavior within the cascade */
+    condition?: CascadeCondition;
+    /** Unique identifier of the cascade terminal record */
+    id: string;
+    /** Current operational state of the cascade terminal */
+    state: CascadeTerminalState;
+    /** Terminal this terminal belongs to */
+    terminal: TerminalRead;
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was last updated */
+    updated_at: string;
+    /** Cascade this terminal belongs to */
+    cascade: CascadeRead;
+}
+
+export type CascadeTerminalState = (typeof CascadeTerminalState)[keyof typeof CascadeTerminalState];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeTerminalState = {
+    active: "active",
+    inactive: "inactive"
+} as const;
+
+/**
+ * Updated operational state of the cascade terminal
+ */
+export type CascadeTerminalUpdateState = CascadeTerminalState | null;
+
+/**
+ * Updated configuration for terminal behavior within the cascade
+ */
+export type CascadeTerminalUpdateCondition = CascadeCondition | null;
+
+export interface CascadeTerminalUpdate {
+    /** Updated operational state of the cascade terminal */
+    state?: CascadeTerminalUpdateState;
+    /** Updated configuration for terminal behavior within the cascade */
+    condition?: CascadeTerminalUpdateCondition;
+}
+
+export type CascadeType = (typeof CascadeType)[keyof typeof CascadeType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeType = {
+    deposit: "deposit",
+    withdraw: "withdraw"
+} as const;
+
+/**
+ * Updated human-readable name of the cascade
+ */
+export type CascadeUpdateName = string | null;
+
+/**
+ * Updated execution strategy: sequential or fanout
+ */
+export type CascadeUpdateCascadeKind = CascadeKind | null;
+
+/**
+ * Updated operational state of the cascade
+ */
+export type CascadeUpdateState = CascadeState | null;
+
+/**
+ * Updated priority configuration for cascade ordering
+ */
+export type CascadeUpdatePriorityPolicy = PriorityPolicy | null;
+
+/**
+ * Updated detailed description of the cascade purpose
+ */
+export type CascadeUpdateDescription = string | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type CascadeUpdateDstCountryCode = string | null;
+
+export type CascadeUpdateDetailsAnyOf = { [key: string]: unknown };
+
+/**
+ * Updated additional configuration parameters and metadata
+ */
+export type CascadeUpdateDetails = CascadeUpdateDetailsAnyOf | null;
+
+/**
+ * Updated payment types explicitly assigned to cascade
+ */
+export type CascadeUpdatePaymentTypes = string[] | null;
+
+export interface CascadeUpdate {
+    /** Updated human-readable name of the cascade */
+    name?: CascadeUpdateName;
+    /** Updated execution strategy: sequential or fanout */
+    cascade_kind?: CascadeUpdateCascadeKind;
+    /** Updated operational state of the cascade */
+    state?: CascadeUpdateState;
+    /** Updated priority configuration for cascade ordering */
+    priority_policy?: CascadeUpdatePriorityPolicy;
+    /** Updated detailed description of the cascade purpose */
+    description?: CascadeUpdateDescription;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: CascadeUpdateDstCountryCode;
+    /** Updated additional configuration parameters and metadata */
+    details?: CascadeUpdateDetails;
+    /** Updated payment types explicitly assigned to cascade */
+    payment_types?: CascadeUpdatePaymentTypes;
 }
 
 export interface CurrenciesLink {
@@ -776,30 +1352,19 @@ export const CurrencyPosition = {
  */
 export type CurrencyUpdateSymbol = string | null;
 
-/**
- * Position of the currency symbol
- */
-export type CurrencyUpdatePosition = string | null;
-
-/**
- * Indicates if the currency is a coin
- */
-export type CurrencyUpdateIsCoin = boolean | null;
-
-/**
- * Accuracy of the currency (number of decimal places)
- */
-export type CurrencyUpdateAccuracy = number | null;
-
 export interface CurrencyUpdate {
     /** Currency symbol */
     symbol?: CurrencyUpdateSymbol;
     /** Position of the currency symbol */
-    position?: CurrencyUpdatePosition;
+    position?: string;
     /** Indicates if the currency is a coin */
-    is_coin?: CurrencyUpdateIsCoin;
-    /** Accuracy of the currency (number of decimal places) */
-    accuracy?: CurrencyUpdateAccuracy;
+    is_coin?: boolean;
+    /**
+     * Accuracy of the currency (number of decimal places)
+     * @minimum 1
+     * @maximum 16
+     */
+    accuracy?: number;
 }
 
 /**
@@ -816,6 +1381,26 @@ export type DirectionFees = { [key: string]: Fee };
  * Account identifier associated with the direction
  */
 export type DirectionAccountId = string | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionDstCountryCode = string | null;
+
+/**
+ * Associated cascade ID
+ */
+export type DirectionCascadeId = string | null;
+
+/**
+ * Cascade kind (sequential/fanout)
+ */
+export type DirectionCascadeKind = string | null;
+
+/**
+ * Condition DSL configuration
+ */
+export type DirectionCondition = CascadeCondition | null;
 
 export interface Direction {
     /** Unique identifier for the direction */
@@ -837,17 +1422,25 @@ export interface Direction {
     /** Account identifier associated with the direction */
     account_id?: DirectionAccountId;
     /** Merchant ID associated with the direction */
-    merchant: MerchantBase;
+    merchant: MerchantTemporalRead;
     /** Provider name associated with the direction */
     provider: ProviderBase;
     /** Terminal ID associated with the direction */
-    terminal: TerminalBase;
+    terminal: TerminalTemporalRead;
     /** Source currency code */
     src_currency: Currency;
     /** Destination currency code */
     dst_currency: Currency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionDstCountryCode;
     /** List of payment types associated with this direction */
     payment_types?: PaymentTypeBase[];
+    /** Associated cascade ID */
+    cascade_id?: DirectionCascadeId;
+    /** Cascade kind (sequential/fanout) */
+    cascade_kind?: DirectionCascadeKind;
+    /** Condition DSL configuration */
+    condition?: DirectionCondition;
 }
 
 /**
@@ -856,9 +1449,36 @@ export interface Direction {
 export type DirectionCreateDescription = string | null;
 
 /**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionCreateDstCountryCode = string | null;
+
+/**
  * Account identifier associated with the direction
  */
 export type DirectionCreateAccountId = string | null;
+
+export type DirectionCreateFeesAnyOf = { [key: string]: Fee };
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type DirectionCreateFees = DirectionCreateFeesAnyOf | null;
+
+/**
+ * Associated cascade ID
+ */
+export type DirectionCreateCascadeId = string | null;
+
+/**
+ * Cascade kind (sequential/fanout)
+ */
+export type DirectionCreateCascadeKind = string | null;
+
+/**
+ * Condition DSL configuration
+ */
+export type DirectionCreateCondition = CascadeCondition | null;
 
 export interface DirectionCreate {
     /** Name of the direction */
@@ -873,6 +1493,8 @@ export interface DirectionCreate {
     src_currency: string;
     /** Destination currency code */
     dst_currency: string;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionCreateDstCountryCode;
     /**
      * Weight of the direction
      * @minimum 0
@@ -887,6 +1509,18 @@ export interface DirectionCreate {
     provider: string;
     /** Terminal ID associated with the direction */
     terminal: string;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: DirectionCreateFees;
+    /** Limits configuration */
+    limits?: LimitsCreate;
+    /** Associated cascade ID */
+    cascade_id?: DirectionCreateCascadeId;
+    /** Cascade kind (sequential/fanout) */
+    cascade_kind?: DirectionCreateCascadeKind;
+    /** Condition DSL configuration */
+    condition?: DirectionCreateCondition;
 }
 
 export type DirectionState = (typeof DirectionState)[keyof typeof DirectionState];
@@ -937,6 +1571,11 @@ export type DirectionUpdateSrcCurrency = string | null;
 export type DirectionUpdateDstCurrency = string | null;
 
 /**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionUpdateDstCountryCode = string | null;
+
+/**
  * Weight of the direction
  */
 export type DirectionUpdateWeight = number | null;
@@ -961,6 +1600,38 @@ export type DirectionUpdateProvider = string | null;
  */
 export type DirectionUpdateTerminal = string | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type DirectionUpdatePaymentTypes = string[] | null;
+
+export type DirectionUpdateFeesAnyOf = { [key: string]: Fee };
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type DirectionUpdateFees = DirectionUpdateFeesAnyOf | null;
+
+/**
+ * Limits for direction
+ */
+export type DirectionUpdateLimitsProperty = LimitsUpdate | null;
+
+/**
+ * Associated cascade ID
+ */
+export type DirectionUpdateCascadeId = string | null;
+
+/**
+ * Cascade kind (sequential/fanout)
+ */
+export type DirectionUpdateCascadeKind = string | null;
+
+/**
+ * Condition DSL configuration
+ */
+export type DirectionUpdateCondition = CascadeCondition | null;
+
 export interface DirectionUpdate {
     /** Name of the direction */
     name?: DirectionUpdateName;
@@ -974,6 +1645,8 @@ export interface DirectionUpdate {
     src_currency?: DirectionUpdateSrcCurrency;
     /** Destination currency code */
     dst_currency?: DirectionUpdateDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionUpdateDstCountryCode;
     /** Weight of the direction */
     weight?: DirectionUpdateWeight;
     /** Account identifier associated with the direction */
@@ -984,6 +1657,18 @@ export interface DirectionUpdate {
     provider?: DirectionUpdateProvider;
     /** Terminal ID associated with the direction */
     terminal?: DirectionUpdateTerminal;
+    /** Unique codes of the payment types to link */
+    payment_types?: DirectionUpdatePaymentTypes;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: DirectionUpdateFees;
+    /** Limits for direction */
+    limits?: DirectionUpdateLimitsProperty;
+    /** Associated cascade ID */
+    cascade_id?: DirectionUpdateCascadeId;
+    /** Cascade kind (sequential/fanout) */
+    cascade_kind?: DirectionUpdateCascadeKind;
+    /** Condition DSL configuration */
+    condition?: DirectionUpdateCondition;
 }
 
 /**
@@ -1017,6 +1702,11 @@ export type DirectionUpdateBulkItemSrcCurrency = string | null;
 export type DirectionUpdateBulkItemDstCurrency = string | null;
 
 /**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type DirectionUpdateBulkItemDstCountryCode = string | null;
+
+/**
  * Weight of the direction
  */
 export type DirectionUpdateBulkItemWeight = number | null;
@@ -1041,6 +1731,38 @@ export type DirectionUpdateBulkItemProvider = string | null;
  */
 export type DirectionUpdateBulkItemTerminal = string | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type DirectionUpdateBulkItemPaymentTypes = string[] | null;
+
+export type DirectionUpdateBulkItemFeesAnyOf = { [key: string]: Fee };
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type DirectionUpdateBulkItemFees = DirectionUpdateBulkItemFeesAnyOf | null;
+
+/**
+ * Limits for direction
+ */
+export type DirectionUpdateBulkItemLimits = LimitsUpdate | null;
+
+/**
+ * Associated cascade ID
+ */
+export type DirectionUpdateBulkItemCascadeId = string | null;
+
+/**
+ * Cascade kind (sequential/fanout)
+ */
+export type DirectionUpdateBulkItemCascadeKind = string | null;
+
+/**
+ * Condition DSL configuration
+ */
+export type DirectionUpdateBulkItemCondition = CascadeCondition | null;
+
 export interface DirectionUpdateBulkItem {
     /** Name of the direction */
     name?: DirectionUpdateBulkItemName;
@@ -1054,6 +1776,8 @@ export interface DirectionUpdateBulkItem {
     src_currency?: DirectionUpdateBulkItemSrcCurrency;
     /** Destination currency code */
     dst_currency?: DirectionUpdateBulkItemDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: DirectionUpdateBulkItemDstCountryCode;
     /** Weight of the direction */
     weight?: DirectionUpdateBulkItemWeight;
     /** Account identifier associated with the direction */
@@ -1064,6 +1788,18 @@ export interface DirectionUpdateBulkItem {
     provider?: DirectionUpdateBulkItemProvider;
     /** Terminal ID associated with the direction */
     terminal?: DirectionUpdateBulkItemTerminal;
+    /** Unique codes of the payment types to link */
+    payment_types?: DirectionUpdateBulkItemPaymentTypes;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: DirectionUpdateBulkItemFees;
+    /** Limits for direction */
+    limits?: DirectionUpdateBulkItemLimits;
+    /** Associated cascade ID */
+    cascade_id?: DirectionUpdateBulkItemCascadeId;
+    /** Cascade kind (sequential/fanout) */
+    cascade_kind?: DirectionUpdateBulkItemCascadeKind;
+    /** Condition DSL configuration */
+    condition?: DirectionUpdateBulkItemCondition;
     /** Unique identifier of the direction to update */
     id: string;
 }
@@ -1259,6 +1995,11 @@ export type FinancialInstitutionLegalName = string | null;
 export type FinancialInstitutionNspkMemberId = string | null;
 
 /**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionBin = string | null;
+
+/**
  * Additional metadata
  */
 export type FinancialInstitutionMeta = { [key: string]: unknown };
@@ -1282,6 +2023,8 @@ export interface FinancialInstitution {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionBin;
     /** Additional metadata */
     meta?: FinancialInstitutionMeta;
     /** Associated payment types */
@@ -1303,6 +2046,11 @@ export type FinancialInstitutionBaseLegalName = string | null;
  * NSPK member ID (for Russia)
  */
 export type FinancialInstitutionBaseNspkMemberId = string | null;
+
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionBaseBin = string | null;
 
 /**
  * Additional metadata
@@ -1328,6 +2076,8 @@ export interface FinancialInstitutionBase {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionBaseNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionBaseBin;
     /** Additional metadata */
     meta?: FinancialInstitutionBaseMeta;
 }
@@ -1341,6 +2091,11 @@ export type FinancialInstitutionCreateLegalName = string | null;
  * NSPK member ID (for Russia)
  */
 export type FinancialInstitutionCreateNspkMemberId = string | null;
+
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionCreateBin = string | null;
 
 /**
  * Additional metadata
@@ -1366,6 +2121,8 @@ export interface FinancialInstitutionCreate {
     country_code: string;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionCreateNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionCreateBin;
     /** Additional metadata */
     meta?: FinancialInstitutionCreateMeta;
 }
@@ -1433,6 +2190,11 @@ export type FinancialInstitutionUpdateCountryCode = string | null;
  */
 export type FinancialInstitutionUpdateNspkMemberId = string | null;
 
+/**
+ * BIN (Bank Identification Number)
+ */
+export type FinancialInstitutionUpdateBin = string | null;
+
 export type FinancialInstitutionUpdateMetaAnyOf = { [key: string]: unknown };
 
 /**
@@ -1453,6 +2215,8 @@ export interface FinancialInstitutionUpdate {
     country_code?: FinancialInstitutionUpdateCountryCode;
     /** NSPK member ID (for Russia) */
     nspk_member_id?: FinancialInstitutionUpdateNspkMemberId;
+    /** BIN (Bank Identification Number) */
+    bin?: FinancialInstitutionUpdateBin;
     /** Additional metadata */
     meta?: FinancialInstitutionUpdateMeta;
 }
@@ -1461,14 +2225,6 @@ export interface HTTPValidationError {
     detail?: ValidationError[];
 }
 
-export type ImportMode = (typeof ImportMode)[keyof typeof ImportMode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ImportMode = {
-    strict: "strict",
-    ignore: "ignore"
-} as const;
-
 export interface ImportResponse {
     /** Number strings in file */
     total: number;
@@ -1476,7 +2232,18 @@ export interface ImportResponse {
     inserted?: number;
     /** Number of skipped strings */
     skipped?: number;
+    /** Number of updated strings */
+    updated?: number;
 }
+
+export type ImportStrategy = (typeof ImportStrategy)[keyof typeof ImportStrategy];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ImportStrategy = {
+    strict: "strict",
+    ignore: "ignore",
+    merge: "merge"
+} as const;
 
 export interface KeyPair {
     /** The private key encoded in base58, used for secure communication. */
@@ -1488,88 +2255,60 @@ export interface KeyPair {
 /**
  * Minimum limit value
  */
-export type LimitValuesInputMin = number | number | string | RateValue | null;
+export type LimitValuesMin = number | number | string | RateValue | null;
 
 /**
  * Maximum limit value
  */
-export type LimitValuesInputMax = number | number | string | RateValue | null;
+export type LimitValuesMax = number | number | string | RateValue | null;
 
-export interface LimitValuesInput {
+export interface LimitValues {
     /** Minimum limit value */
-    min?: LimitValuesInputMin;
+    min?: LimitValuesMin;
     /** Maximum limit value */
-    max?: LimitValuesInputMax;
-}
-
-export interface LimitValuesOutput {
-    /** Minimum limit value */
-    min?: RateValue;
-    /** Maximum limit value */
-    max?: RateValue;
+    max?: LimitValuesMax;
 }
 
 export interface Limits {
     /** Limits for payin */
-    payin: LimitValuesOutput;
+    payin?: LimitValues;
     /** Limits for payout */
-    payout: LimitValuesOutput;
+    payout?: LimitValues;
     /** Limits for reward */
-    reward: LimitValuesOutput;
+    reward?: LimitValues;
+}
+
+export interface LimitsCreate {
+    /** Limits for payin operations (deposit transactions) */
+    payin?: LimitValues;
+    /** Limits for payout operations (withdrawal transactions) */
+    payout?: LimitValues;
+    /** Limits for reward operations (bonus/cashback transactions) */
+    reward?: LimitValues;
 }
 
 /**
- * Limits for payin
+ * Updated limits for payin operations
  */
-export type LimitsUpdatePayin = LimitValuesInput | null;
+export type LimitsUpdatePayin = LimitValues | null;
 
 /**
- * Limits for payout
+ * Updated limits for payout operations
  */
-export type LimitsUpdatePayout = LimitValuesInput | null;
+export type LimitsUpdatePayout = LimitValues | null;
 
 /**
- * Limits for reward
+ * Updated limits for reward operations
  */
-export type LimitsUpdateReward = LimitValuesInput | null;
+export type LimitsUpdateReward = LimitValues | null;
 
 export interface LimitsUpdate {
-    /** Limits for payin */
+    /** Updated limits for payin operations */
     payin?: LimitsUpdatePayin;
-    /** Limits for payout */
+    /** Updated limits for payout operations */
     payout?: LimitsUpdatePayout;
-    /** Limits for reward */
+    /** Updated limits for reward operations */
     reward?: LimitsUpdateReward;
-}
-
-/**
- * Description of the merchant
- */
-export type MerchantDescription = string | null;
-
-/**
- * Keycloak identifier for the merchant
- */
-export type MerchantKeycloakId = string | null;
-
-/**
- * Mapping of fee configurations with fee.id as key
- */
-export type MerchantFees = { [key: string]: Fee };
-
-export interface Merchant {
-    /** Unique identifier of the merchant */
-    id: string;
-    /** Name of the merchant */
-    name: string;
-    /** Description of the merchant */
-    description?: MerchantDescription;
-    /** Keycloak identifier for the merchant */
-    keycloak_id?: MerchantKeycloakId;
-    /** Mapping of fee configurations with fee.id as key */
-    fees?: MerchantFees;
-    /** List of payment types associated with this merchant */
-    payment_types?: PaymentTypeBase[];
 }
 
 /**
@@ -1598,6 +2337,69 @@ export interface MerchantBase {
     keycloak_id?: MerchantBaseKeycloakId;
     /** Mapping of fee configurations with fee.id as key */
     fees?: MerchantBaseFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsOutput;
+}
+
+export interface MerchantCascadeCreate {
+    /** Unique identifier of the merchant */
+    merchant_id: string;
+    /** Unique identifier of the cascade assigned to merchant */
+    cascade_id: string;
+}
+
+export interface MerchantCascadeRead {
+    /** Unique identifier of the merchant */
+    merchant_id: string;
+    /** Unique identifier of the cascade assigned to merchant */
+    cascade_id: string;
+    /** Unique identifier of the merchant-cascade assignment record */
+    id: string;
+    /** Current state of the merchant-cascade assignment */
+    state: MerchantCascadeState;
+    /** Cascade this merchant cascade belongs to */
+    cascade: CascadeRead;
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was last updated */
+    updated_at: string;
+}
+
+export interface MerchantCascadeSchema {
+    /** Unique identifier of the merchant */
+    merchant_id: string;
+    /** Unique identifier of the cascade assigned to merchant */
+    cascade_id: string;
+    /** Unique identifier of the merchant-cascade assignment record */
+    id: string;
+    /** Current state of the merchant-cascade assignment */
+    state: MerchantCascadeState;
+    /** Cascade this merchant cascade belongs to */
+    cascade: CascadeRead;
+    /** Timestamp when the record was created */
+    created_at: string;
+    /** Timestamp when the record was last updated */
+    updated_at: string;
+    /** Merchant this merchant cascade belongs to */
+    merchant: MerchantBase;
+}
+
+export type MerchantCascadeState = (typeof MerchantCascadeState)[keyof typeof MerchantCascadeState];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MerchantCascadeState = {
+    active: "active",
+    inactive: "inactive"
+} as const;
+
+/**
+ * Updated state of the merchant-cascade assignment
+ */
+export type MerchantCascadeUpdateState = MerchantCascadeState | null;
+
+export interface MerchantCascadeUpdate {
+    /** Updated state of the merchant-cascade assignment */
+    state?: MerchantCascadeUpdateState;
 }
 
 /**
@@ -1610,6 +2412,11 @@ export type MerchantCreateDescription = string | null;
  */
 export type MerchantCreateKeycloakId = string | null;
 
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantCreateFees = { [key: string]: Fee };
+
 export interface MerchantCreate {
     /** Unique identifier of the merchant */
     id: string;
@@ -1619,6 +2426,98 @@ export interface MerchantCreate {
     description?: MerchantCreateDescription;
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantCreateKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantCreateFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsInput;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
+    /** Currency codes for allowed source currencies */
+    allowed_src_currencies?: string[];
+}
+
+/**
+ * Description of the merchant
+ */
+export type MerchantSchemaDescription = string | null;
+
+/**
+ * Keycloak identifier for the merchant
+ */
+export type MerchantSchemaKeycloakId = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantSchemaFees = { [key: string]: Fee };
+
+export interface MerchantSchema {
+    /** Unique identifier of the merchant */
+    id: string;
+    /** Name of the merchant */
+    name: string;
+    /** Description of the merchant */
+    description?: MerchantSchemaDescription;
+    /** Keycloak identifier for the merchant */
+    keycloak_id?: MerchantSchemaKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantSchemaFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsOutput;
+    /** List of payment types associated with this merchant */
+    payment_types?: PaymentTypeBase[];
+    /** Currency codes for allowed source currencies */
+    allowed_src_currencies?: Currency[];
+    /** List of merchant cascades */
+    merchant_cascades?: MerchantCascadeRead[];
+}
+
+export interface MerchantSettingsInput {
+    /** Timeout settings for deposit */
+    deposit?: TimeoutSettings;
+    /** Timeout settings for withdraw */
+    withdraw?: TimeoutSettings;
+}
+
+export interface MerchantSettingsOutput {
+    /** Timeout settings for deposit */
+    deposit?: TimeoutSettings;
+    /** Timeout settings for withdraw */
+    withdraw?: TimeoutSettings;
+}
+
+/**
+ * Description of the merchant
+ */
+export type MerchantTemporalReadDescription = string | null;
+
+/**
+ * Keycloak identifier for the merchant
+ */
+export type MerchantTemporalReadKeycloakId = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type MerchantTemporalReadFees = { [key: string]: Fee };
+
+export interface MerchantTemporalRead {
+    /** Unique identifier of the merchant */
+    id: string;
+    /** Name of the merchant */
+    name: string;
+    /** Description of the merchant */
+    description?: MerchantTemporalReadDescription;
+    /** Keycloak identifier for the merchant */
+    keycloak_id?: MerchantTemporalReadKeycloakId;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: MerchantTemporalReadFees;
+    /** Settings for merchant availability */
+    settings?: MerchantSettingsOutput;
+    /** List of payment types associated with this merchant */
+    payment_types?: PaymentTypeBase[];
+    /** Currency codes for allowed source currencies */
+    allowed_src_currencies?: Currency[];
 }
 
 /**
@@ -1636,6 +2535,21 @@ export type MerchantUpdateDescription = string | null;
  */
 export type MerchantUpdateKeycloakId = string | null;
 
+/**
+ * Settings for merchant availability
+ */
+export type MerchantUpdateSettings = MerchantSettingsInput | null;
+
+/**
+ * Unique codes of the payment types to link
+ */
+export type MerchantUpdatePaymentTypes = string[] | null;
+
+/**
+ * Currency codes for allowed source currencies
+ */
+export type MerchantUpdateAllowedSrcCurrencies = string[] | null;
+
 export interface MerchantUpdate {
     /** Name of the merchant */
     name?: MerchantUpdateName;
@@ -1643,6 +2557,130 @@ export interface MerchantUpdate {
     description?: MerchantUpdateDescription;
     /** Keycloak identifier for the merchant */
     keycloak_id?: MerchantUpdateKeycloakId;
+    /** Settings for merchant availability */
+    settings?: MerchantUpdateSettings;
+    /** Unique codes of the payment types to link */
+    payment_types?: MerchantUpdatePaymentTypes;
+    /** Currency codes for allowed source currencies */
+    allowed_src_currencies?: MerchantUpdateAllowedSrcCurrencies;
+}
+
+/**
+ * Optional detailed description of the cascade purpose
+ */
+export type MergedCascadeDescription = string | null;
+
+/**
+ * Additional configuration parameters and metadata
+ */
+export type MergedCascadeDetails = { [key: string]: unknown };
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type MergedCascadeDstCountryCode = string | null;
+
+export interface MergedCascade {
+    /**
+     * Human-readable name of the cascade
+     * @minLength 1
+     * @maxLength 255
+     */
+    name: string;
+    /** Type of cascade defining operation direction */
+    type?: CascadeType;
+    /** Execution strategy: sequential (one by one) or fanout (parallel) */
+    cascade_kind?: CascadeKind;
+    /** Priority configuration for cascade ordering */
+    priority_policy: PriorityPolicy;
+    /** Optional detailed description of the cascade purpose */
+    description?: MergedCascadeDescription;
+    /** Additional configuration parameters and metadata */
+    details?: MergedCascadeDetails;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: MergedCascadeDstCountryCode;
+    /** Unique identifier of the merged cascade (virtual ID) */
+    id: string;
+    /** Source currency code */
+    src_currency: Currency;
+    /** Current operational state of the merged cascade */
+    state?: CascadeState;
+    /** List of original cascade IDs that were merged to create this view */
+    original_cascade_ids?: string[];
+    /** List of terminals in the merged cascade with resolved conflicts */
+    terminals?: MergedCascadeTerminal[];
+    /** Groups of terminals that have conflicts between cascades */
+    conflict_groups?: TerminalConflictGroup[];
+}
+
+/**
+ * Maximum TTL setting for this terminal
+ */
+export type MergedCascadeTerminalTtlMax = number | null;
+
+export interface MergedCascadeTerminal {
+    /** Unique identifier of the cascade this terminal belongs to */
+    cascade_id: string;
+    /** Unique identifier of the terminal in this cascade */
+    terminal_id: string;
+    /** Configuration for terminal behavior within the cascade */
+    condition?: CascadeCondition;
+    /** Current operational state of the merged cascade terminal */
+    state?: CascadeTerminalState;
+    /** Human-readable name of the cascade this terminal belongs to */
+    cascade_name: string;
+    /** Priority rank of the cascade this terminal belongs to */
+    priority_rank: number;
+    /** Weight of this terminal in the cascade */
+    weight: number;
+    /** Maximum TTL setting for this terminal */
+    ttl_max: MergedCascadeTerminalTtlMax;
+    /** Whether this terminal has conflicts with other cascades */
+    is_conflicted?: boolean;
+    /** UI state of this terminal (active/shadowed/inactive) */
+    ui_state: MergedCascadeTerminalState;
+}
+
+export type MergedCascadeTerminalState = (typeof MergedCascadeTerminalState)[keyof typeof MergedCascadeTerminalState];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MergedCascadeTerminalState = {
+    active: "active",
+    shadowed: "shadowed",
+    inactive: "inactive"
+} as const;
+
+export interface MergedCascadeView {
+    /** Unique identifier of the merchant */
+    merchant_id: string;
+    /** Type of cascade being viewed */
+    cascade_type: CascadeType;
+    /** Source currency code for the cascade view */
+    src_currency: string;
+    /** The merged cascade with all conflicts resolved */
+    merged_cascade: MergedCascade;
+}
+
+export interface OffsetPaginationCascadeSchema {
+    /** A list of items in the current page */
+    items: CascadeSchema[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationCascadeTerminalSchema {
+    /** A list of items in the current page */
+    items: CascadeTerminalSchema[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
 }
 
 export interface OffsetPaginationCurrency {
@@ -1678,9 +2716,20 @@ export interface OffsetPaginationFinancialInstitution {
     total: number;
 }
 
-export interface OffsetPaginationMerchant {
+export interface OffsetPaginationMerchantCascadeSchema {
     /** A list of items in the current page */
-    items: Merchant[];
+    items: MerchantCascadeSchema[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationMerchantSchema {
+    /** A list of items in the current page */
+    items: MerchantSchema[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -1733,9 +2782,9 @@ export interface OffsetPaginationTerminalPaymentInstrument {
     total: number;
 }
 
-export interface OffsetPaginationTerminal {
+export interface OffsetPaginationTerminalRead {
     /** A list of items in the current page */
-    items: Terminal[];
+    items: TerminalRead[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -1760,11 +2809,6 @@ export interface PaymentCategoryItem {
 }
 
 /**
- * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
- */
-export type PaymentTypeBaseRequiredFieldsForPayment = string[] | null;
-
-/**
  * Arbitrary metadata for the payment type (JSON object)
  */
 export type PaymentTypeBaseMeta = { [key: string]: unknown };
@@ -1780,15 +2824,10 @@ export interface PaymentTypeBase {
     /** Category of the payment type (H2H or ECOM) */
     category: PaymentCategory;
     /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
-    required_fields_for_payment?: PaymentTypeBaseRequiredFieldsForPayment;
+    required_fields_for_payment?: RequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeBaseMeta;
 }
-
-/**
- * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
- */
-export type PaymentTypeCreateRequiredFieldsForPayment = string[] | null;
 
 /**
  * Arbitrary metadata for the payment type (JSON object)
@@ -1805,16 +2844,11 @@ export interface PaymentTypeCreate {
     title: string;
     /** Category of the payment type (H2H or ECOM) */
     category: PaymentCategory;
-    /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
-    required_fields_for_payment?: PaymentTypeCreateRequiredFieldsForPayment;
+    /** Structure of required fields for payment operations with this type. These fields must exist in the Requisites model. */
+    required_fields_for_payment?: RequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeCreateMeta;
 }
-
-/**
- * List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.
- */
-export type PaymentTypeModelRequiredFieldsForPayment = string[] | null;
 
 /**
  * Arbitrary metadata for the payment type (JSON object)
@@ -1832,7 +2866,7 @@ export interface PaymentTypeModel {
     /** Category of the payment type (H2H or ECOM) */
     category: PaymentCategory;
     /** List of field names required to initiate a payment with this type. These fields must exist in the Requisites model. */
-    required_fields_for_payment?: PaymentTypeModelRequiredFieldsForPayment;
+    required_fields_for_payment?: RequiredFieldsForPayment;
     /** Arbitrary metadata for the payment type (JSON object) */
     meta?: PaymentTypeModelMeta;
     /** List of supported currency codes (ISO, e.g. RUB, USD, USDT) */
@@ -1850,9 +2884,9 @@ export type PaymentTypeUpdateTitle = string | null;
 export type PaymentTypeUpdateCategory = PaymentCategory | null;
 
 /**
- * New list of required field names (will fully replace previous value if provided). Provide an empty list to clear.
+ * New structure of required fields (will fully replace previous value if provided). Provide None to clear.
  */
-export type PaymentTypeUpdateRequiredFieldsForPayment = string[] | null;
+export type PaymentTypeUpdateRequiredFieldsForPayment = RequiredFieldsForPayment | null;
 
 export type PaymentTypeUpdateMetaAnyOf = { [key: string]: unknown };
 
@@ -1866,7 +2900,7 @@ export interface PaymentTypeUpdate {
     title?: PaymentTypeUpdateTitle;
     /** New category for the payment type. If not provided, current value remains. */
     category?: PaymentTypeUpdateCategory;
-    /** New list of required field names (will fully replace previous value if provided). Provide an empty list to clear. */
+    /** New structure of required fields (will fully replace previous value if provided). Provide None to clear. */
     required_fields_for_payment?: PaymentTypeUpdateRequiredFieldsForPayment;
     /** New metadata (will fully replace previous value) */
     meta?: PaymentTypeUpdateMeta;
@@ -1876,6 +2910,19 @@ export interface PaymentTypesLink {
     /** Unique codes of the payment types to link */
     codes: string[];
 }
+
+export interface PriorityPolicy {
+    /**
+     * Priority rank of the cascade (1 = highest priority)
+     * @minimum 1
+     */
+    rank: number;
+}
+
+/**
+ * Provider ID
+ */
+export type ProviderId = string | null;
 
 /**
  * The public key encoded in base58, corresponding to the private key.
@@ -1888,6 +2935,8 @@ export type ProviderPublicKey = string | null;
 export type ProviderMethods = { [key: string]: ExecutionMethodOutput };
 
 export interface Provider {
+    /** Provider ID */
+    id?: ProviderId;
     /**
      * Provider name
      * @minLength 1
@@ -1911,6 +2960,11 @@ export interface ProviderAddKeypair {
 }
 
 /**
+ * Provider ID
+ */
+export type ProviderBaseId = string | null;
+
+/**
  * The public key encoded in base58, corresponding to the private key.
  */
 export type ProviderBasePublicKey = string | null;
@@ -1921,6 +2975,8 @@ export type ProviderBasePublicKey = string | null;
 export type ProviderBaseMethods = { [key: string]: ExecutionMethodOutput };
 
 export interface ProviderBase {
+    /** Provider ID */
+    id?: ProviderBaseId;
     /**
      * Provider name
      * @minLength 1
@@ -1935,6 +2991,11 @@ export interface ProviderBase {
 }
 
 /**
+ * JSON schema for provider fields
+ */
+export type ProviderCreateFieldsJsonSchema = string | null;
+
+/**
  * Provider methods configuration
  */
 export type ProviderCreateMethods = { [key: string]: ExecutionMethodInput };
@@ -1943,9 +3004,11 @@ export interface ProviderCreate {
     /** Provider name */
     name: string;
     /** JSON schema for provider fields */
-    fields_json_schema: string;
+    fields_json_schema?: ProviderCreateFieldsJsonSchema;
     /** Provider methods configuration */
     methods?: ProviderCreateMethods;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
 }
 
 /**
@@ -1960,11 +3023,18 @@ export type ProviderUpdateMethodsAnyOf = { [key: string]: ExecutionMethodInput }
  */
 export type ProviderUpdateMethods = ProviderUpdateMethodsAnyOf | null;
 
+/**
+ * Unique codes of the payment types to link
+ */
+export type ProviderUpdatePaymentTypes = string[] | null;
+
 export interface ProviderUpdate {
     /** JSON schema for provider fields */
     fields_json_schema?: ProviderUpdateFieldsJsonSchema;
     /** Provider methods configuration */
     methods?: ProviderUpdateMethods;
+    /** Unique codes of the payment types to link */
+    payment_types?: ProviderUpdatePaymentTypes;
 }
 
 export interface RateValue {
@@ -1978,6 +3048,20 @@ export interface RateValue {
      * @minimum 0
      */
     accuracy?: number;
+}
+
+export interface RequiredFieldItem {
+    /** Human-readable field name for UI */
+    label: string;
+    /** Field name used by API / DB */
+    value: string;
+}
+
+export interface RequiredFieldsForPayment {
+    /** List of required fields for deposit operation */
+    deposit?: string[];
+    /** List of required fields for withdrawal operation */
+    withdrawal?: string[];
 }
 
 /**
@@ -2090,53 +3174,20 @@ export interface SystemPaymentInstrumentUpdate {
 }
 
 /**
- * Description of the terminal
+ * Minimum time-to-live in seconds before terminal can be used
  */
-export type TerminalDescription = string | null;
+export type TTLConfigMin = number | null;
 
 /**
- * Mapping of fee configurations with fee.id as key
+ * Maximum time-to-live in seconds after which terminal is unavailable
  */
-export type TerminalFees = { [key: string]: Fee };
+export type TTLConfigMax = number | null;
 
-/**
- * Authentication data for the terminal
- */
-export type TerminalAuth = { [key: string]: unknown };
-
-/**
- * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
- */
-export type TerminalCallbackUrl = string | null;
-
-/**
- * Additional details about the terminal
- */
-export type TerminalDetails = { [key: string]: unknown };
-
-export interface Terminal {
-    /** Unique identifier of the terminal */
-    terminal_id: string;
-    /** Name of the terminal */
-    verbose_name: string;
-    /** Description of the terminal */
-    description?: TerminalDescription;
-    /** Timeout for allocation in seconds */
-    allocation_timeout_seconds?: number;
-    /** Mapping of fee configurations with fee.id as key */
-    fees?: TerminalFees;
-    /** Provider name associated with the terminal */
-    provider: string;
-    /** Authentication data for the terminal */
-    auth?: TerminalAuth;
-    /** Indicates if the account is created */
-    account_created?: boolean;
-    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
-    callback_url?: TerminalCallbackUrl;
-    /** Additional details about the terminal */
-    details?: TerminalDetails;
-    /** List of payment types associated with this terminal */
-    payment_types?: PaymentTypeBase[];
+export interface TTLConfig {
+    /** Minimum time-to-live in seconds before terminal can be used */
+    min?: TTLConfigMin;
+    /** Maximum time-to-live in seconds after which terminal is unavailable */
+    max?: TTLConfigMax;
 }
 
 /**
@@ -2187,6 +3238,33 @@ export interface TerminalBase {
     details?: TerminalBaseDetails;
 }
 
+export interface TerminalConflictGroup {
+    /** Unique identifier of the terminal that has conflicts */
+    terminal_id: string;
+    /** List of conflicting cascades for this terminal */
+    conflicts: TerminalConflictInfo[];
+}
+
+/**
+ * Maximum TTL setting for the terminal in this cascade
+ */
+export type TerminalConflictInfoTtlMax = number | null;
+
+export interface TerminalConflictInfo {
+    /** Unique identifier of the cascade in conflict */
+    cascade_id: string;
+    /** Human-readable name of the conflicting cascade */
+    cascade_name: string;
+    /** Priority rank of the conflicting cascade */
+    priority_rank: number;
+    /** Terminal weight in the conflicting cascade */
+    weight: number;
+    /** Maximum TTL setting for the terminal in this cascade */
+    ttl_max: TerminalConflictInfoTtlMax;
+    /** UI state showing if this conflict is active or shadowed */
+    ui_state: MergedCascadeTerminalState;
+}
+
 /**
  * Description of the terminal
  */
@@ -2196,6 +3274,21 @@ export type TerminalCreateDescription = string | null;
  * Additional details about the terminal
  */
 export type TerminalCreateDetails = { [key: string]: unknown };
+
+/**
+ * Source currency code
+ */
+export type TerminalCreateSrcCurrencyCode = string | null;
+
+/**
+ * Destination currency code
+ */
+export type TerminalCreateDstCurrencyCode = string | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalCreateDstCountryCode = string | null;
 
 export interface TerminalCreate {
     /** Name of the terminal */
@@ -2210,8 +3303,20 @@ export interface TerminalCreate {
      * @maximum 120
      */
     allocation_timeout_seconds?: number;
-    /** Indicates if the account is created */
-    account_created?: boolean;
+    /** Provider name of the terminal */
+    provider: string;
+    /** Source currency code */
+    src_currency_code?: TerminalCreateSrcCurrencyCode;
+    /** Destination currency code */
+    dst_currency_code?: TerminalCreateDstCurrencyCode;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalCreateDstCountryCode;
+    /** Terminal limits configuration */
+    limits?: LimitsCreate;
+    /** Terminal settings configuration */
+    settings?: TerminalSettings;
+    /** Unique codes of the payment types to link */
+    payment_types?: string[];
 }
 
 export interface TerminalDeleteAuth {
@@ -2421,6 +3526,173 @@ export interface TerminalPaymentInstrumentUpdate {
 }
 
 /**
+ * Description of the terminal
+ */
+export type TerminalReadDescription = string | null;
+
+/**
+ * Source currency code
+ */
+export type TerminalReadSrcCurrency = Currency | null;
+
+/**
+ * Destination currency code
+ */
+export type TerminalReadDstCurrency = Currency | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalReadDstCountryCode = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type TerminalReadFees = { [key: string]: Fee };
+
+/**
+ * Authentication data for the terminal
+ */
+export type TerminalReadAuth = { [key: string]: unknown };
+
+/**
+ * Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration.
+ */
+export type TerminalReadCallbackUrl = string | null;
+
+/**
+ * Additional details about the terminal
+ */
+export type TerminalReadDetails = { [key: string]: unknown };
+
+export interface TerminalRead {
+    /** Unique identifier of the terminal */
+    terminal_id: string;
+    /** Name of the terminal */
+    verbose_name: string;
+    /** Description of the terminal */
+    description?: TerminalReadDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
+    /** Source currency code */
+    src_currency?: TerminalReadSrcCurrency;
+    /** Destination currency code */
+    dst_currency?: TerminalReadDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalReadDstCountryCode;
+    /** Terminal limits configuration */
+    limits?: Limits;
+    /** Terminal settings configuration */
+    settings?: TerminalSettings;
+    /** Terminal state */
+    state?: TerminalState;
+    /** Provider name associated with the terminal */
+    provider: ProviderBase;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: TerminalReadFees;
+    /** Authentication data for the terminal */
+    auth?: TerminalReadAuth;
+    /** Indicates if the account is created */
+    account_created?: boolean;
+    /** Callback URL template or final callback URL. If the value contains '{api_key}', it will be replaced with auth['api_key'] during registration. */
+    callback_url?: TerminalReadCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalReadDetails;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
+}
+
+export interface TerminalSettings {
+    /** Time-to-live configuration for terminal availability */
+    ttl?: TTLConfig;
+}
+
+export type TerminalState = (typeof TerminalState)[keyof typeof TerminalState];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalState = {
+    active: "active",
+    inactive: "inactive"
+} as const;
+
+/**
+ * Description of the terminal
+ */
+export type TerminalTemporalReadDescription = string | null;
+
+/**
+ * Mapping of fee configurations with fee.id as key
+ */
+export type TerminalTemporalReadFees = { [key: string]: Fee };
+
+/**
+ * Authentication data for the terminal
+ */
+export type TerminalTemporalReadAuth = { [key: string]: unknown };
+
+/**
+ * Callback URL template or final callback URL
+ */
+export type TerminalTemporalReadCallbackUrl = string | null;
+
+/**
+ * Additional details about the terminal
+ */
+export type TerminalTemporalReadDetails = { [key: string]: unknown };
+
+/**
+ * Source currency code
+ */
+export type TerminalTemporalReadSrcCurrency = Currency | null;
+
+/**
+ * Destination currency code
+ */
+export type TerminalTemporalReadDstCurrency = Currency | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalTemporalReadDstCountryCode = string | null;
+
+export interface TerminalTemporalRead {
+    /** Unique identifier of the terminal */
+    terminal_id: string;
+    /** Name of the terminal */
+    verbose_name: string;
+    /** Description of the terminal */
+    description?: TerminalTemporalReadDescription;
+    /** Timeout for allocation in seconds */
+    allocation_timeout_seconds?: number;
+    /** Mapping of fee configurations with fee.id as key */
+    fees?: TerminalTemporalReadFees;
+    /** Provider name associated with the terminal */
+    provider: string;
+    /** Authentication data for the terminal */
+    auth?: TerminalTemporalReadAuth;
+    /** Indicates if the account is created */
+    account_created?: boolean;
+    /** Callback URL template or final callback URL */
+    callback_url?: TerminalTemporalReadCallbackUrl;
+    /** Additional details about the terminal */
+    details?: TerminalTemporalReadDetails;
+    /** Source currency code */
+    src_currency?: TerminalTemporalReadSrcCurrency;
+    /** Destination currency code */
+    dst_currency?: TerminalTemporalReadDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalTemporalReadDstCountryCode;
+    /** Terminal limits configuration */
+    limits?: Limits;
+    /** Terminal settings configuration */
+    settings?: TerminalSettings;
+    /** Terminal state */
+    state?: TerminalState;
+    /** List of payment types associated with this terminal */
+    payment_types?: PaymentTypeBase[];
+}
+
+/**
  * Name of the terminal
  */
 export type TerminalUpdateVerboseName = string | null;
@@ -2442,6 +3714,41 @@ export type TerminalUpdateDetails = TerminalUpdateDetailsAnyOf | null;
  */
 export type TerminalUpdateAllocationTimeoutSeconds = number | null;
 
+/**
+ * Source currency code
+ */
+export type TerminalUpdateSrcCurrencyCode = string | null;
+
+/**
+ * Destination currency code
+ */
+export type TerminalUpdateDstCurrencyCode = string | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalUpdateDstCountryCode = string | null;
+
+/**
+ * Terminal limits configuration
+ */
+export type TerminalUpdateLimits = LimitsUpdate | null;
+
+/**
+ * Terminal settings configuration
+ */
+export type TerminalUpdateSettings = TerminalSettings | null;
+
+/**
+ * Terminal state
+ */
+export type TerminalUpdateState = TerminalState | null;
+
+/**
+ * Unique codes of the payment types to link
+ */
+export type TerminalUpdatePaymentTypes = string[] | null;
+
 export interface TerminalUpdate {
     /** Name of the terminal */
     verbose_name?: TerminalUpdateVerboseName;
@@ -2451,6 +3758,20 @@ export interface TerminalUpdate {
     details?: TerminalUpdateDetails;
     /** Timeout for allocation in seconds (0 to 120) */
     allocation_timeout_seconds?: TerminalUpdateAllocationTimeoutSeconds;
+    /** Source currency code */
+    src_currency_code?: TerminalUpdateSrcCurrencyCode;
+    /** Destination currency code */
+    dst_currency_code?: TerminalUpdateDstCurrencyCode;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalUpdateDstCountryCode;
+    /** Terminal limits configuration */
+    limits?: TerminalUpdateLimits;
+    /** Terminal settings configuration */
+    settings?: TerminalUpdateSettings;
+    /** Terminal state */
+    state?: TerminalUpdateState;
+    /** Unique codes of the payment types to link */
+    payment_types?: TerminalUpdatePaymentTypes;
 }
 
 /**
@@ -2463,28 +3784,16 @@ export interface TerminalUpdateAuth {
     auth: TerminalUpdateAuthAuth;
 }
 
-/**
- * New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth
- */
-export type TerminalUpdateCallbackUrlCallbackUrl = string | null;
-
-/**
- * NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject
- */
-export type TerminalUpdateCallbackUrlAdapterNatsSubject = string | null;
-
-export interface TerminalUpdateCallbackUrl {
-    /** New callback URL template or final URL. Placeholders in the form {key} will be replaced with values from terminal.auth */
-    callback_url: TerminalUpdateCallbackUrlCallbackUrl;
-    /** NATS subject for publishing terminal update intended for adapter consumption. If set, the updated terminal information will be sent to this NATS subject */
-    adapter_nats_subject?: TerminalUpdateCallbackUrlAdapterNatsSubject;
-}
-
 export interface TimeoutConfig {
     /** Maximum execution time for the activity. */
     start_to_close_timeout?: string;
     /** Maximum wait time for an external condition, if applicable. */
     wait_condition_timeout?: string;
+}
+
+export interface TimeoutSettings {
+    /** Time-to-live configuration for terminal availability */
+    ttl?: TTLConfig;
 }
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];
@@ -2523,13 +3832,17 @@ export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2539,6 +3852,17 @@ export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
      */
     sortOrder?: CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder;
 };
+
+export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode =
+    (typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode)[keyof typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder =
     (typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder)[keyof typeof CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder];
@@ -2567,13 +3891,17 @@ export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2583,6 +3911,17 @@ export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetParams = {
      */
     sortOrder?: MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder;
 };
+
+export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode =
+    (typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode)[keyof typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MerchantEndpointsListMerchantsEnigmaV1MerchantGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder =
     (typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder)[keyof typeof MerchantEndpointsListMerchantsEnigmaV1MerchantGetSortOrder];
@@ -2611,13 +3950,17 @@ export type ProviderEndpointsListProvidersEnigmaV1ProviderGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2628,6 +3971,17 @@ export type ProviderEndpointsListProvidersEnigmaV1ProviderGetParams = {
     sortOrder?: ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder;
 };
 
+export type ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode =
+    (typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode)[keyof typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProviderEndpointsListProvidersEnigmaV1ProviderGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
+
 export type ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder =
     (typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder)[keyof typeof ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder];
 
@@ -2637,7 +3991,7 @@ export const ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder = {
     desc: "desc"
 } as const;
 
-export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams = {
+export type ProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchParams = {
     /**
      * RSA key size (must be between 1024 and 8192)
      */
@@ -2648,7 +4002,7 @@ export type ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPat
     public_exponent?: number;
 };
 
-export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
     /**
      * List of identifiers for filtering
      */
@@ -2666,7 +4020,7 @@ export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
@@ -2674,64 +4028,35 @@ export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams = {
      */
     searchIgnoreCase?: boolean;
     /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode;
+    /**
      * Field to sort the results by
      */
     orderBy?: string | null;
     /**
      * Sort order: 'asc' or 'desc'
      */
-    sortOrder?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
+    sortOrder?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder;
 };
 
-export type PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
-    (typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode =
+    (typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode)[keyof typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder = {
-    asc: "asc",
-    desc: "desc"
+export const TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
 } as const;
 
-export type TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetParams = {
-    /**
-     * List of identifiers for filtering
-     */
-    ids?: string[] | null;
-    /**
-     * Current page number (starting from 1)
-     */
-    currentPage?: number;
-    /**
-     * Number of records per page
-     */
-    pageSize?: number;
-    /**
-     * Names of the fields to search (comma-separated or repeated).
-     */
-    searchField?: string[] | null;
-    /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
-     */
-    searchString?: string[] | null;
-    /**
-     * If true, the search will be case-insensitive.
-     */
-    searchIgnoreCase?: boolean;
-    /**
-     * Field to sort the results by
-     */
-    orderBy?: string | null;
-    /**
-     * Sort order: 'asc' or 'desc'
-     */
-    sortOrder?: TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetSortOrder;
-};
-
-export type TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetSortOrder =
-    (typeof TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetSortOrder)[keyof typeof TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetSortOrder];
+export type TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder =
+    (typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder)[keyof typeof TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetSortOrder = {
+export const TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder = {
     asc: "asc",
     desc: "desc"
 } as const;
@@ -2754,13 +4079,17 @@ export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2770,6 +4099,17 @@ export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetParams = {
      */
     sortOrder?: DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder;
 };
+
+export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode =
+    (typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode)[keyof typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DirectionEndpointsListDirectionsEnigmaV1DirectionGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder =
     (typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder)[keyof typeof DirectionEndpointsListDirectionsEnigmaV1DirectionGetSortOrder];
@@ -2798,13 +4138,17 @@ export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchan
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2814,6 +4158,17 @@ export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchan
      */
     sortOrder?: DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder;
 };
+
+export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode =
+    (typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode)[keyof typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder =
     (typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder)[keyof typeof DirectionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGetSortOrder];
@@ -2829,6 +4184,311 @@ export type DirectionEndpointsGetAvailablePaymentTypesEnigmaV1DirectionAvailable
     provider_name?: string | null;
     terminal_id?: string | null;
 };
+
+export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder;
+};
+
+export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode =
+    (typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode)[keyof typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
+
+export type CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder =
+    (typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder)[keyof typeof CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type CascadeEndpointsListCascadesEnigmaV1CascadeGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder;
+};
+
+export type CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode =
+    (typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode)[keyof typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesEnigmaV1CascadeGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
+
+export type CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder =
+    (typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder)[keyof typeof CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder;
+};
+
+export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode =
+    (typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode)[keyof typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
+
+export type CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder =
+    (typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder)[keyof typeof CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type MerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGetParams = {
+    cascade_type: string;
+    src_currency: string;
+};
+
+export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Upper bound for creation date filter
+     */
+    createdBefore?: string | null;
+    /**
+     * Lower bound for creation date filter
+     */
+    createdAfter?: string | null;
+    /**
+     * Upper bound for update date filter
+     */
+    updatedBefore?: string | null;
+    /**
+     * Lower bound for update date filter
+     */
+    updatedAfter?: string | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder;
+};
+
+export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode =
+    (typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode)[keyof typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
+
+export type MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder =
+    (typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder)[keyof typeof MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
 
 export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
     /**
@@ -2848,13 +4508,17 @@ export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2864,6 +4528,17 @@ export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetParams = {
      */
     sortOrder?: PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder;
 };
+
+export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode =
+    (typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode)[keyof typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder =
     (typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder)[keyof typeof PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder];
@@ -2884,13 +4559,17 @@ export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetPa
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2900,6 +4579,17 @@ export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetPa
      */
     sortOrder?: PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder;
 };
+
+export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode =
+    (typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode)[keyof typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder =
     (typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder)[keyof typeof PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetSortOrder];
@@ -2912,9 +4602,9 @@ export const PaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetS
 
 export type PaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPostParams = {
     /**
-     * Import strategy: 'strict' or 'ignore'
+     * Import strategy: 'strict', 'ignore' or 'merge'
      */
-    mode?: ImportMode;
+    mode?: ImportStrategy;
 };
 
 export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetParams = {
@@ -2951,13 +4641,17 @@ export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1Financ
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -2967,6 +4661,17 @@ export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1Financ
      */
     sortOrder?: FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder;
 };
+
+export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode =
+    (typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode)[keyof typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder =
     (typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder)[keyof typeof FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder];
@@ -3003,13 +4708,17 @@ export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fina
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3019,6 +4728,17 @@ export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fina
      */
     sortOrder?: FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder;
 };
+
+export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode =
+    (typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode)[keyof typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
 
 export type FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder =
     (typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder)[keyof typeof FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGetSortOrder];
@@ -3031,9 +4751,9 @@ export const FinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1Fin
 
 export type FinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPostParams = {
     /**
-     * Import strategy: 'strict' or 'ignore'
+     * Import strategy: 'strict', 'ignore' or 'merge'
      */
-    mode?: ImportMode;
+    mode?: ImportStrategy;
 };
 
 export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetParams = {
@@ -3070,13 +4790,17 @@ export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1
      */
     searchField?: string[] | null;
     /**
-     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
      */
     searchString?: string[] | null;
     /**
      * If true, the search will be case-insensitive.
      */
     searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode;
     /**
      * Field to sort the results by
      */
@@ -3086,6 +4810,18 @@ export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1
      */
     sortOrder?: SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder;
 };
+
+export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode =
+    (typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode)[keyof typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder =
     (typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder)[keyof typeof SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder];
@@ -3124,13 +4860,17 @@ export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigma
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -3140,6 +4880,18 @@ export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigma
          */
         sortOrder?: SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder;
     };
+
+export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode =
+    (typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode)[keyof typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder =
     (typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder)[keyof typeof SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetSortOrder];
@@ -3154,9 +4906,9 @@ export const SystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigm
 export type SystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPostParams =
     {
         /**
-         * Import strategy: 'strict' or 'ignore'
+         * Import strategy: 'strict', 'ignore' or 'merge'
          */
-        mode?: ImportMode;
+        mode?: ImportStrategy;
     };
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetParams =
@@ -3194,13 +4946,17 @@ export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnig
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -3210,6 +4966,18 @@ export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnig
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder;
     };
+
+export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder =
     (typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder];
@@ -3256,13 +5024,17 @@ export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnig
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -3272,6 +5044,18 @@ export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnig
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder;
     };
+
+export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
 
 export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder =
     (typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder];
@@ -3318,13 +5102,17 @@ export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTer
          */
         searchField?: string[] | null;
         /**
-         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by “|”.
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
          */
         searchString?: string[] | null;
         /**
          * If true, the search will be case-insensitive.
          */
         searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode;
         /**
          * Field to sort the results by
          */
@@ -3335,6 +5123,18 @@ export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTer
         sortOrder?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder;
     };
 
+export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
+
 export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder =
     (typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder];
 
@@ -3344,6 +5144,92 @@ export const TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTe
         asc: "asc",
         desc: "desc"
     } as const;
+
+export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetParams =
+    {
+        /**
+         * List of identifiers for filtering
+         */
+        ids?: string[] | null;
+        /**
+         * Upper bound for creation date filter
+         */
+        createdBefore?: string | null;
+        /**
+         * Lower bound for creation date filter
+         */
+        createdAfter?: string | null;
+        /**
+         * Upper bound for update date filter
+         */
+        updatedBefore?: string | null;
+        /**
+         * Lower bound for update date filter
+         */
+        updatedAfter?: string | null;
+        /**
+         * Current page number (starting from 1)
+         */
+        currentPage?: number;
+        /**
+         * Number of records per page
+         */
+        pageSize?: number;
+        /**
+         * Names of the fields to search (comma-separated or repeated).
+         */
+        searchField?: string[] | null;
+        /**
+         * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
+         */
+        searchString?: string[] | null;
+        /**
+         * If true, the search will be case-insensitive.
+         */
+        searchIgnoreCase?: boolean;
+        /**
+         * Search mode: partial (default), exact, starts_with, or ends_with
+         */
+        searchMode?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode;
+        /**
+         * Field to sort the results by
+         */
+        orderBy?: string | null;
+        /**
+         * Sort order: 'asc' or 'desc'
+         */
+        sortOrder?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder;
+    };
+
+export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode =
+    (typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode)[keyof typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode =
+    {
+        partial: "partial",
+        exact: "exact",
+        starts_with: "starts_with",
+        ends_with: "ends_with"
+    } as const;
+
+export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder =
+    (typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder)[keyof typeof TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder =
+    {
+        asc: "asc",
+        desc: "desc"
+    } as const;
+
+export type TerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsImportPostParams =
+    {
+        /**
+         * Import strategy: 'strict', 'ignore' or 'merge'
+         */
+        mode?: ImportStrategy;
+    };
 
 export type KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams = {
     /**

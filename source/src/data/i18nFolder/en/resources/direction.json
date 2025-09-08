@@ -19,11 +19,25 @@
         "pleaseGen": "Please create keys in providers",
         "stateActive": "Active",
         "stateInactive": "Inactive",
+        "stateArchived": "Archived",
         "description": "Description",
         "api_key": "Auth data",
         "merchantsDirections": "Directions of merchant ",
         "isActive": "Activity",
-        "terminal": "Terminal"
+        "terminal": "Terminal",
+        "cascade": "Cascade",
+        "kinds": {
+            "kind": "Direction kind",
+            "cascadeKind": "Cascade kind",
+            "sequential": "Sequential",
+            "fanout": "Fanout"
+        },
+        "condition": {
+            "condition": "Condition",
+            "rank": "Requisite weight",
+            "extra": "Priority",
+            "prioritized": "Prioritized"
+        }
     },
     "resources.direction.fees": {
         "fees": "Fees",
@@ -38,7 +52,6 @@
         "error": "Error",
         "errorWhenCreating": "An error occurred while creating the fee",
         "successDelete": "Fee successfully deleted",
-
         "directionFieldError": "The direction must be selected",
         "currencyFieldError": "The currency must be selected",
         "valueFieldError": "The commission must be a positive number.",
@@ -47,7 +60,6 @@
         "valueMustBeFinite": "Value must be a finite number",
         "valueMaxPrecisionError": "Up to 2 decimal places allowed",
         "errorAlreadyExist": "Fee with this type already exists",
-
         "smallFeeDialog": {
             "title": "Fee amount",
             "lessThenOne": " is less than 1%",
@@ -75,8 +87,12 @@
         "editActivity": "Direction %{name} has been successfully %{state}."
     },
     "resources.direction.create": "Add direction",
+    "resources.direction.btnGenerate": "Generate",
+    "resources.direction.btnGeneratePlaceholder": "Leave it empty for auto-completion",
+    "resources.direction.btnGenerateTooltip": "To auto-generate the direction name, fill in the fields: Merchant, Provider, Terminal and Type.",
     "resources.direction.sourceCurrency": "Source currency",
     "resources.direction.destinationCurrency": "Destination currency",
+    "resources.direction.destinationCountry": "Destination country",
     "resources.direction.selectSourceCurrency": "Choose source currency",
     "resources.direction.selectDestCurrency": "Choose destination currency",
     "resources.direction.merchant": "Merchant",

@@ -10,15 +10,25 @@
         "accountBalance": "Account balance",
         "amount_value": "Amount",
         "currency": "Currency",
-
         "meta": {
+            "payment_type": "Payment type",
+            "provider": "Provider",
             "external_status": "External status",
             "parentId": "Parent transaction ID",
             "customer_payment_id": "Customer payment ID",
-            "customer_id": "Customer ID"
+            "customer_id": "Customer ID",
+            "phone_number": "Phone number",
+            "email": "Email",
+            "first_name": "First name",
+            "last_name": "Last name",
+            "country": "Country",
+            "user_agent": "User agent",
+            "ip": "IP",
+            "fingerprint": "Fingerprint"
         },
         "state": {
-            "title": "State",
+            "title": "Status",
+            "merchant_state": "Merchant status",
             "final": "Is final",
             "state_int": "Code",
             "state_description": "Status",
@@ -73,7 +83,22 @@
         "commitTransaction": "Commit the transaction?",
         "sendWebhook": "Send a webhook",
         "sendWebhookSuccessMsg": "The webhook for the order %{id} has been successfully sent",
-        "notFound": "Transaction not found"
+        "notFound": "Transaction not found",
+        "transactionData": "Requisites",
+        "customerData": "Customer data"
+    },
+    "resources.transactions.stateUpdate": {
+        "title": "State update ",
+        "fields": {
+            "id": "ID",
+            "state": "State",
+            "merchant_state": "Merchant state",
+            "amount": "Amount",
+            "provider": "Provider",
+            "external_id": "External ID",
+            "external_status": "External status",
+            "callback_id": "Callback ID"
+        }
     },
     "resources.transactions.list": {
         "filter": {
@@ -108,8 +133,10 @@
         "filterById": "Search by operation ID",
         "filterByIdPlaceholder": "ID",
         "filterByAccount": "Merchant",
+        "filterByProvider": "Provider",
         "filterAllPlaceholder": "All",
         "filterByOrderStatus": "Order status",
+        "filterByIngressOrderStatus": "Order status (Merchant)",
         "filterByDate": "Select period",
         "clearFilters": "Clear filters",
         "filterCustomerPaymentId": "Search by customer payment ID"
@@ -131,25 +158,35 @@
         "paid": "Paid",
         "fromoutside": "From outside",
         "waitpayout": "Wait payout",
-        "paidout": "Paid out",
-        "toreturnfrominside": "To return from inside",
-        "toreturnfromoutside": "To return from outside",
-        "reversed": "Reversed",
-        "changedfromcreated": "Changed from created",
-        "changedfrompaid": "Changed from paid",
-        "returned": "Returned",
         "todeny": "To deny",
         "processing": "Processing",
         "expired": "Expired",
-        "deleted": "Deleted",
         "success": "Success",
         "succes": "Success",
         "fail": "Fail",
-        "correction": "Correction",
+        "correction": "Dispute",
         "emptyrequisites": "Empty requisites",
         "limitfail": "Limit fail",
         "waitingforadminapproval": "Waiting for admin approval",
         "cancelledbypayer": "Cancelled by payer",
-        "cascadefail": "Cascade fail"
+        "cascadefail": "Cascade fail",
+        "enteredcascade": "Entered cascade",
+        "exitedcascade": "Exited cascade",
+        "canceledprovider": "Canceled provider",
+        "expiredtime": "Expired time cascade",
+        "unknown": "Unknown status"
+    },
+    "resources.transactions.merchantStates": {
+        "1": "Registered",
+        "2": "Pending",
+        "3": "Processing",
+        "4": "Success",
+        "5": "Other errors",
+        "6": "Empty requisites",
+        "7": "Amount limits error",
+        "8": "Cancelled by customer",
+        "9": "Payment expired",
+        "10": "Dispute",
+        "unknown": "Unknown status"
     }
 }

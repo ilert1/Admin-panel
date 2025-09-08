@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useState } from "react";
 import { CurrencyPosition, CurrencyCreate as ICurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Label } from "@/components/ui/label";
 
 export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => {
     const dataProvider = useDataProvider();
@@ -135,7 +136,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             name="is_coin"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.type")}</FormLabel>
+                                    <Label>{translate("resources.currency.fields.type")}</Label>
                                     <Select
                                         onValueChange={value => field.onChange(value === "true")}
                                         value={field.value ? "true" : "false"}>
@@ -171,7 +172,7 @@ export const CurrencyCreate = ({ closeDialog }: { closeDialog: () => void }) => 
                             name="position"
                             render={({ field, fieldState }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>{translate("resources.currency.fields.symbPos")}</FormLabel>
+                                    <Label>{translate("resources.currency.fields.symbPos")}</Label>
                                     <FormControl>
                                         <Select
                                             onValueChange={value => field.onChange(value as CurrencyPosition)}

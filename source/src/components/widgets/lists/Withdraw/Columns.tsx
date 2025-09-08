@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import { useFetchMerchants, useGetTransactionState } from "@/hooks";
+import { useMerchantsListWithoutPagination, useGetTransactionState } from "@/hooks";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
@@ -18,11 +17,7 @@ export const useGetWithdrawColumns = () => {
     const [cryptoTransferState, setCryptoTransferState] = useState<"process" | "success" | "error">("process");
     const [repeatData, setRepeatData] = useState<{ address: string; amount: number } | undefined>(undefined);
 
-    let isLoading,
-        merchantsList: Merchant[] = [];
-    if (permissions === "admin") {
-        ({ isLoading, merchantsList } = useFetchMerchants());
-    }
+    const { merchantData, isMerchantsLoading } = useMerchantsListWithoutPagination();
 
     const merchantOnly = useMemo(() => permissions === "merchant", [permissions]);
 
@@ -90,7 +85,7 @@ export const useGetWithdrawColumns = () => {
                   {
                       header: translate("resources.withdraw.fields.merchant"),
                       cell: ({ row }: { row: Row<Transaction.Transaction> }) => {
-                          const merch = merchantsList.find(el => el.id === row.original.source.id);
+                          const merch = merchantData?.find(el => el.id === row.original.source.id);
 
                           return (
                               <div>
@@ -209,7 +204,7 @@ export const useGetWithdrawColumns = () => {
         columns,
         repeatData,
         cryptoTransferState,
-        isLoading,
+        isMerchantsLoading,
         merchantOnly,
         setCryptoTransferState
     };

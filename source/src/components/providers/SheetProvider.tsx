@@ -11,7 +11,7 @@ interface SheetDataMap {
     user: { id: string | undefined };
     transaction: { id: string | undefined };
     provider: { id: string | undefined };
-    terminal: { id: string | undefined; provider: string | undefined };
+    terminal: { id: string | undefined };
     wallet: { id: string | undefined };
     walletLinked: { id: string | undefined };
     walletTransactions: { id: string | undefined };
@@ -20,6 +20,9 @@ interface SheetDataMap {
     financialInstitution: { id: string | undefined };
     terminalPaymentInstruments: { id: string | undefined };
     systemPaymentInstrument: { id: string | undefined };
+    cascade: { id: string | undefined };
+    cascadeMerchant: { id: string | undefined };
+    cascadeTerminal: { id: string | undefined };
 }
 
 type SheetState<K extends SheetKey> = {
@@ -74,6 +77,7 @@ export const SheetProvider = ({ children }: { children: ReactNode }) => {
         </SheetContext.Provider>
     );
 };
+
 export const useSheets = () => {
     const context = useContext(SheetContext);
     if (!context) {

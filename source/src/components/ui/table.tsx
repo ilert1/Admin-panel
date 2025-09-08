@@ -3,70 +3,70 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement> & { page?: number }>(
-    ({ className, page, ...props }, ref) => {
-        const [isScrollableLeft, setIsScrollableLeft] = React.useState(false);
-        const [isScrollableRight, setIsScrollableRight] = React.useState(false);
-        const tableRef = React.useRef<HTMLDivElement | null>(null);
+const Table = React.forwardRef<
+    HTMLTableElement,
+    React.HTMLAttributes<HTMLTableElement> & { page?: number; simple?: boolean }
+>(({ className, page, simple = false, ...props }, ref) => {
+    const [isScrollableLeft, setIsScrollableLeft] = React.useState(false);
+    const [isScrollableRight, setIsScrollableRight] = React.useState(false);
+    const tableRef = React.useRef<HTMLDivElement | null>(null);
 
-        const checkScrollState = () => {
-            if (!tableRef.current) return;
+    const checkScrollState = () => {
+        if (!tableRef.current) return;
 
-            const { scrollWidth, clientWidth, scrollLeft } = tableRef.current;
-            const hasHorizontalScroll = scrollWidth > clientWidth;
+        const { scrollWidth, clientWidth, scrollLeft } = tableRef.current;
+        const hasHorizontalScroll = scrollWidth > clientWidth;
 
-            setIsScrollableLeft(hasHorizontalScroll && scrollLeft > 10);
-            setIsScrollableRight(hasHorizontalScroll && scrollLeft + 10 < scrollWidth - clientWidth);
-        };
+        setIsScrollableLeft(hasHorizontalScroll && scrollLeft > 10);
+        setIsScrollableRight(hasHorizontalScroll && scrollLeft + 10 < scrollWidth - clientWidth);
+    };
 
-        useEffect(() => {
-            tableRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-        }, [page]);
+    useEffect(() => {
+        tableRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }, [page]);
 
-        React.useEffect(() => {
-            checkScrollState();
-            const currentTableRef = tableRef.current;
+    React.useEffect(() => {
+        checkScrollState();
+        const currentTableRef = tableRef.current;
 
-            if (currentTableRef) {
-                const resizeObserver = new ResizeObserver(checkScrollState);
-                resizeObserver.observe(currentTableRef);
+        if (currentTableRef) {
+            const resizeObserver = new ResizeObserver(checkScrollState);
+            resizeObserver.observe(currentTableRef);
 
-                const scrollHandler = () => checkScrollState();
-                currentTableRef.addEventListener("scroll", scrollHandler);
+            const scrollHandler = () => checkScrollState();
+            currentTableRef.addEventListener("scroll", scrollHandler);
 
-                return () => {
-                    resizeObserver.unobserve(currentTableRef);
-                    currentTableRef.removeEventListener("scroll", scrollHandler);
-                };
-            }
-        }, [isScrollableLeft, isScrollableRight]);
+            return () => {
+                resizeObserver.unobserve(currentTableRef);
+                currentTableRef.removeEventListener("scroll", scrollHandler);
+            };
+        }
+    }, [isScrollableLeft, isScrollableRight]);
 
-        return (
-            <div className={cn("flex-shrink-1 relative mb-2", className)}>
-                <div ref={tableRef} className="relative h-full w-full overflow-auto">
-                    <table
-                        ref={ref}
-                        className={cn("h-full w-full caption-bottom border-collapse text-sm")}
-                        {...props}
-                    />
-                </div>
-                {/* Right shadow */}
-                <div
-                    className={`pointer-events-none absolute -right-[1px] top-0 z-20 h-full w-6 bg-gradient-to-l from-white to-transparent transition-opacity duration-300 dark:from-black sm:w-12 ${
-                        isScrollableRight ? "opacity-50" : "opacity-0"
-                    }`}
-                />
-
-                {/* Left shadow */}
-                <div
-                    className={`pointer-events-none absolute -left-[1px] top-0 z-20 h-full w-6 bg-gradient-to-r from-white to-transparent transition-opacity duration-300 dark:from-black sm:w-12 ${
-                        isScrollableLeft ? "opacity-50" : "opacity-0"
-                    }`}
-                />
+    return (
+        <div className={cn("flex-shrink-1 relative mb-2", className)}>
+            <div
+                data-testid="table-container"
+                ref={tableRef}
+                className={cn("relative h-full w-full overflow-auto", simple && "max-h-96")}>
+                <table ref={ref} className={cn("h-full w-full caption-bottom border-collapse text-sm")} {...props} />
             </div>
-        );
-    }
-);
+            {/* Right shadow */}
+            <div
+                className={`pointer-events-none absolute -right-[1px] top-0 z-20 h-full w-6 bg-gradient-to-l from-white to-transparent transition-opacity duration-300 dark:from-black sm:w-12 ${
+                    isScrollableRight ? "opacity-50" : "opacity-0"
+                }`}
+            />
+
+            {/* Left shadow */}
+            <div
+                className={`pointer-events-none absolute -left-[1px] top-0 z-20 h-full w-6 bg-gradient-to-r from-white to-transparent transition-opacity duration-300 dark:from-black sm:w-12 ${
+                    isScrollableLeft ? "opacity-50" : "opacity-0"
+                }`}
+            />
+        </div>
+    );
+});
 Table.displayName = "Table";
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(

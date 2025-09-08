@@ -4,28 +4,44 @@ import { useTranslate } from "react-admin";
 import { LimitCard } from "./LimitCard";
 import { EditLimitCard } from "./EditLimitCard";
 import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ResourceType } from "../model/types/limits";
 
 interface LimitsProps {
     id: string;
     limits: Limits;
     className?: string;
+    resource: ResourceType;
+    padding?: boolean;
+    disabled?: boolean;
 }
 
 export const LimitsList = (props: LimitsProps) => {
-    const { id, limits, className } = props;
+    const { id, limits, className, resource, padding = true, disabled = false } = props;
     const translate = useTranslate();
 
     const [editClicked, setEditClicked] = useState(false);
 
     return (
-        <div className={cn("mt-[10px] w-full px-2")}>
-            <div className="flex flex-col bg-neutral-0 dark:bg-neutral-100 px-[32px] rounded-[8px] w-full p">
-                <h3 className="mt-[16px] mb-[16px] text-display-3">{translate("app.widgets.limits.limits")}</h3>
+        <div className={cn("mt-[10px] w-full", padding ? "px-2" : "")}>
+            <div className="p flex w-full flex-col rounded-[8px] bg-neutral-0 px-[32px] dark:bg-neutral-100">
+                <h3 className="mb-[16px] mt-[16px] text-display-3 text-neutral-90 dark:text-neutral-0">
+                    {translate("app.widgets.limits.limits")}
+                </h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {editClicked ? (
-                        <EditLimitCard directionId={id} setEditClicked={setEditClicked} limitsData={limits} />
+                        <EditLimitCard
+                            id={id}
+                            setEditClicked={setEditClicked}
+                            limitsData={limits}
+                            resource={resource}
+                        />
                     ) : (
-                        <LimitCard limits={limits} setEditClicked={setEditClicked} directionId={id} />
+                        <LimitCard
+                            limits={limits}
+                            setEditClicked={setEditClicked}
+                            directionId={id}
+                            disabled={disabled}
+                        />
                     )}
                 </div>
             </div>

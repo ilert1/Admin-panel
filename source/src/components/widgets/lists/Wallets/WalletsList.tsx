@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const WalletsList = () => {
     const { permissions } = usePermissions();
+
     const listContext = useAbortableListController<Wallets.Wallet>(
         permissions === "admin" ? { resource: "wallet" } : { resource: "merchant/wallet" }
     );
@@ -20,7 +21,7 @@ export const WalletsList = () => {
     const [balances, setBalances] = useState<Map<string, Wallets.WalletBalance>>();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const dataProvider = useDataProvider<VaultDataProvider & typeof WalletsDataProvider>();
+    const dataProvider = useDataProvider<typeof VaultDataProvider & typeof WalletsDataProvider>();
     const { data: storageState } = useQuery({
         queryKey: ["walletStorage"],
         queryFn: ({ signal }) => dataProvider.getVaultState("vault", signal),

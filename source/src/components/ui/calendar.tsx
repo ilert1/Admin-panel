@@ -10,6 +10,7 @@ function Calendar({ className, classNames, ...props }: DayPickerProps) {
 
     return (
         <DayPicker
+            data-testid="calendar"
             weekStartsOn={1}
             locale={{
                 localize: {

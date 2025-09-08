@@ -1,45 +1,29 @@
 import { Button } from "@/components/ui/Button";
-import { debounce } from "lodash";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
-import { useListContext, useTranslate } from "react-admin";
-import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { CreateMerchantDialog } from "./CreateMerchantDialog";
+import useMerchantFilter from "@/components/widgets/lists/Merchants/useMerchantFilter";
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 
 export const MerchantListFilter = () => {
-    const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const {
+        translate,
+        merchantData,
+        merchantsLoadingProcess,
+        merchantId,
+        onMerchantChanged,
+        merchantValue,
+        setMerchantValue,
+        clearFilters
+    } = useMerchantFilter();
 
-    const translate = useTranslate();
-
-    const [merchantId, setMerchantId] = useState(filterValues?.id || "");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
-
-    const onPropertySelected = debounce((value: string, type: "id") => {
-        if (value) {
-            setFilters({ ...filterValues, [type]: value, sort: "name", asc: "ASC" }, displayedFilters, true);
-        } else {
-            Reflect.deleteProperty(filterValues, type);
-            setFilters(filterValues, displayedFilters, true);
-        }
-        setPage(1);
-    }, 300);
-
-    const onMerchantChanged = (merchant: string) => {
-        setMerchantId(merchant);
-        onPropertySelected(merchant, "id");
-    };
-
-    const clearFilters = () => {
-        setMerchantId("");
-        setFilters({}, displayedFilters, true);
-        setPage(1);
-    };
-
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+
     const clearDisabled = !merchantId;
 
     return (
@@ -73,11 +57,14 @@ export const MerchantListFilter = () => {
                             {translate("resources.transactions.filter.filterByAccount")}
                         </Label>
 
-                        <MerchantSelectFilter
-                            merchant={merchantId}
-                            onMerchantChanged={onMerchantChanged}
-                            resource="merchant"
-                            modal={false}
+                        <MerchantSelect
+                            merchants={merchantData || []}
+                            value={merchantValue}
+                            onChange={setMerchantValue}
+                            setIdValue={onMerchantChanged}
+                            disabled={merchantsLoadingProcess}
+                            isLoading={merchantsLoadingProcess}
+                            style="Black"
                         />
                     </div>
                 </AnimatedContainer>

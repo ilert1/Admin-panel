@@ -23,10 +23,20 @@ import EcomTigoMobileMoneyIcon from "@/lib/icons/payment_types/ecom_tigo_mobile_
 import EcomVodacomMobileMoneyIcon from "@/lib/icons/payment_types/ecom_vodacom_mobile_money.svg?react";
 import EcomVodafoneMobileMoneyIcon from "@/lib/icons/payment_types/ecom_vodafone_mobile_money.svg?react";
 import EcomWaveMobileMoneyIcon from "@/lib/icons/payment_types/ecom_wave_mobile_money.svg?react";
+import IBANAccountIcon from "@/lib/icons/payment_types/iban_account.svg?react";
+import EcomLocalAllIcon from "@/lib/icons/payment_types/ecom_local_all.svg?react";
+import EcomLocalCardIcon from "@/lib/icons/payment_types/ecom_local_card.svg?react";
+import EcomPlatformAllIcon from "@/lib/icons/payment_types/ecom_platform_all.svg?react";
+import EcomPlatformCardIcon from "@/lib/icons/payment_types/ecom_platform_card.svg?react";
+import EcomExternalAllIcon from "@/lib/icons/payment_types/ecom_external_all.svg?react";
+import PhoneNumberPaymentIcon from "@/lib/icons/payment_types/phone_number_payment.svg?react";
+import EcomNonameIcon from "@/lib/icons/payment_types/ecom_noname.svg?react";
+import WalletPaymentIcon from "@/lib/icons/payment_types/wallet_payment.svg?react";
+
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/Button";
+import { TextField } from "@/components/ui/text-field";
 
 const iconsRecord: Record<
     string,
@@ -63,52 +73,76 @@ const iconsRecord: Record<
     tigo_mobile_money: EcomTigoMobileMoneyIcon,
     vodacom_mobile_money: EcomVodacomMobileMoneyIcon,
     vodafone_mobile_money: EcomVodafoneMobileMoneyIcon,
-    wave_mobile_money: EcomWaveMobileMoneyIcon
+    wave_mobile_money: EcomWaveMobileMoneyIcon,
+    ecom_local_all: EcomLocalAllIcon,
+    ecom_local_card: EcomLocalCardIcon,
+    ecom_platform_all: EcomPlatformAllIcon,
+    ecom_platform_card: EcomPlatformCardIcon,
+    ecom_external_all: EcomExternalAllIcon,
+    iban_account: IBANAccountIcon,
+    phone_number_payment: PhoneNumberPaymentIcon,
+    ecom_noname: EcomNonameIcon,
+    wallet_payment: WalletPaymentIcon
 };
 
 export const PaymentTypeIcon = memo(
     ({
         type,
         className,
-        tooltip = false,
+        small = false,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         metaIcon,
         metaIconMargin = false
     }: {
         type: string;
         className?: string;
-        tooltip?: boolean;
-        metaIcon?: string;
+        small?: boolean;
+        metaIcon?: string | unknown;
         metaIconMargin?: boolean;
     }) => {
-        if (metaIcon) {
-            return (
-                <img
-                    src={metaIcon}
-                    alt="icon"
-                    className={cn("h-6 w-6 fill-white object-contain", metaIconMargin ? "mr-2" : "")}
-                />
-            );
-        }
+        // TODO: на данный момент не используется, когда появится идти сюда
+        // if (metaIcon && typeof metaIcon === "string") {
+        //     return (
+        //         <img
+        //             src={metaIcon}
+        //             alt="icon"
+        //             className={cn("h-6 w-6 fill-white object-contain", metaIconMargin ? "mr-2" : "")}
+        //         />
+        //     );
+        // }
         const Icon = iconsRecord[type];
 
         if (!Icon) {
             return (
                 <TooltipProvider>
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button variant="text_btn" className="cursor-default p-0">
+                    <Tooltip delayDuration={100}>
+                        <TooltipTrigger role="tooltip" asChild className="h-auto">
+                            <div className="cursor-default p-0">
                                 <div
                                     className={cn(
                                         className,
-                                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white"
+                                        "h-auto w-auto rounded-full bg-neutral-80 px-2 py-1 text-note-1 text-white",
+                                        small ? "relative flex h-4 w-4 items-center justify-start text-left" : ""
                                     )}>
-                                    {type
-                                        .toUpperCase()
-                                        .split("_")
-                                        .map(el => el[0])
-                                        .join("")}
+                                    {small ? (
+                                        <span
+                                            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                                            style={{ fontSize: "8px" }}>
+                                            {type
+                                                .toUpperCase()
+                                                .split("_")
+                                                .map(el => el[0])
+                                                .join("")}
+                                        </span>
+                                    ) : (
+                                        type
+                                            .toUpperCase()
+                                            .split("_")
+                                            .map(el => el[0])
+                                            .join("")
+                                    )}
                                 </div>
-                            </Button>
+                            </div>
                         </TooltipTrigger>
                         <TooltipContent tabIndex={-1} sideOffset={5} align="center">
                             <p>{type}</p>
@@ -117,13 +151,18 @@ export const PaymentTypeIcon = memo(
                 </TooltipProvider>
             );
         }
+
         return (
             <TooltipProvider>
-                <Tooltip delayDuration={300}>
-                    <TooltipTrigger asChild>
-                        <Button variant="text_btn" className="h-auto w-auto cursor-default p-0">
+                <Tooltip delayDuration={100}>
+                    <TooltipTrigger role="tooltip" asChild>
+                        <div
+                            onClick={e => {
+                                e.stopPropagation();
+                            }}
+                            className={cn("h-auto w-auto cursor-default p-0", metaIconMargin ? "mr-2" : "")}>
                             <Icon className={cn(className)} />
-                        </Button>
+                        </div>
                     </TooltipTrigger>
                     <TooltipContent tabIndex={-1} sideOffset={5} align="center">
                         <p>{type}</p>

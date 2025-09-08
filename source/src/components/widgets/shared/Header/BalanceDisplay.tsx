@@ -1,6 +1,4 @@
-import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { formatValue } from "@/helpers/formatNumber";
-import { useGetCurrencies } from "@/hooks/useGetCurrencies";
 import { useEffect, useState } from "react";
 import { CurrencyIcon } from "./CurrencyIcon";
 import { UserIdentity, useTranslate } from "react-admin";
@@ -20,8 +18,6 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
     const translate = useTranslate();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [combinedAmounts, setCombinedAmounts] = useState<ICombinedBalances[]>();
-
-    const { isLoadingCurrencies } = useGetCurrencies();
 
     useEffect(() => {
         function combine() {
@@ -65,13 +61,14 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                 <span>{translate("app.ui.header.totalLoading")}</span>
             ) : (
                 <div className="relative h-full w-full overflow-hidden">
-                    <DropdownMenuTrigger className="block !h-[24px] w-full">
+                    {/* <DropdownMenuTrigger className="block !h-[24px] w-full"> */}
+                    <div className="block !h-[24px] w-full">
                         <h1 className="text-display-5 relative h-full w-full overflow-hidden text-center">
                             <AnimatePresence mode="popLayout">
                                 {combinedAmounts && combinedAmounts.length > 0 && (
                                     <motion.div
                                         key={`${combinedAmounts[currentIndex].currency}-${combinedAmounts[currentIndex].type}-${currentIndex}`}
-                                        className="absolute inset-0 flex items-center gap-2"
+                                        className="absolute inset-0 flex select-none items-center gap-2"
                                         initial={{ y: 100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         exit={{ y: -100, opacity: 0 }}
@@ -83,7 +80,8 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                         {combinedAmounts[currentIndex].type === "hold" && (
                                             <SnowFlakeIcon className="h-4 w-4" />
                                         )}
-                                        {!isLoadingCurrencies && (
+
+                                        {!totalLoading && (
                                             <span
                                                 className={cn(
                                                     "block max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap text-neutral-90 dark:text-white",
@@ -97,6 +95,7 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                                 )}
                                             </span>
                                         )}
+
                                         <div className="flex justify-center">
                                             <CurrencyIcon
                                                 className={
@@ -112,7 +111,7 @@ export const BalanceDisplay = ({ totalAmount, isMerchant, identity, totalLoading
                                 )}
                             </AnimatePresence>
                         </h1>
-                    </DropdownMenuTrigger>
+                    </div>
                 </div>
             )}
         </div>

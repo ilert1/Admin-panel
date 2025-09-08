@@ -1,6 +1,6 @@
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AccountsDataProvider, WalletsDataProvider } from "@/data";
-import { useGetCurrencies } from "@/hooks/useGetCurrencies";
+import { useCurrenciesListWithoutPagination, useMerchantsListWithoutPagination } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
@@ -11,20 +11,21 @@ function isValidTxIDFormat(txID: string) {
 }
 
 export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
+    const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination();
+    const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
+
     const translate = useTranslate();
     const refresh = useRefresh();
+    const appToast = useAppToast();
 
     const [transactionId, setTransactionId] = useState("");
     const [fiatShow, setFiatShow] = useState(false);
     const [merchantId, setMerchantId] = useState("");
+    const [merchantValue, setMerchantValue] = useState("");
     const [merchantBalanceId, setMerchantBalanceId] = useState("");
     const [merchantAmount, setMerchantAmount] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-
-    const appToast = useAppToast();
-
-    const { currencies, isLoadingCurrencies } = useGetCurrencies();
 
     const { isFetching: balanceFetching, data: merchantBalanceData } = useQuery({
         queryKey: ["accounts", "reconciliation", merchantId],
@@ -40,7 +41,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
 
             return amounts
                 .map(amount => {
-                    const currency = currencies?.find(currency => amount?.currency === currency?.code);
+                    const currency = currenciesData?.find(currency => amount?.currency === currency?.code);
 
                     if (currency && !currency?.is_coin) {
                         return {
@@ -54,7 +55,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
                 })
                 .filter(notUndefined => notUndefined !== undefined);
         },
-        enabled: fiatShow && !!merchantId && !!currencies
+        enabled: fiatShow && !!merchantId && !!currenciesData
     });
 
     const handleCheckClicked = async () => {
@@ -79,7 +80,7 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
                 });
             } else {
                 await WalletsDataProvider.manualReconciliation(transactionId, {
-                    fiat: false,
+                    fiat: false
                 });
             }
             appToast("success", translate("resources.wallet.linkedTransactions.successFound"));
@@ -96,16 +97,30 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
     const onOpenChangeHandler = (open: boolean) => {
         setTransactionId("");
         setMerchantId("");
+        setMerchantValue("");
         setMerchantBalanceId("");
         setMerchantAmount("");
+        setFiatShow(false);
+        setIsError(false);
         onOpenChange(open);
+    };
+
+    const onFiatShowChanged = (state: boolean) => {
+        if (!state) {
+            setMerchantId("");
+            setMerchantValue("");
+            setMerchantBalanceId("");
+            setMerchantAmount("");
+        }
+
+        setFiatShow(state);
     };
 
     const handleTransactionIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setTransactionId(value);
 
-        if (!isValidTxIDFormat(value)) {
+        if (!isValidTxIDFormat(value) && value.length > 0) {
             setIsError(true);
         } else {
             setIsError(false);
@@ -125,7 +140,11 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
     return {
         translate,
         fiatShow,
-        setFiatShow,
+        onFiatShowChanged,
+        merchantData,
+        merchantsLoadingProcess,
+        merchantValue,
+        setMerchantValue,
         merchantId,
         onMerchantChanged,
         merchantBalanceId,
@@ -140,6 +159,6 @@ export const useWalletManualReconciliation = ({ onOpenChange }: { onOpenChange: 
         isLoading,
         onOpenChangeHandler,
         balanceFetching,
-        isLoadingCurrencies
+        isCurrenciesLoading
     };
 };

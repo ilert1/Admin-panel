@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,63 +21,104 @@ import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { TerminalCreate as ITerminalCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { TerminalCreate as ITerminalCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { useQuery } from "@tanstack/react-query";
-import { ProvidersDataProvider } from "@/data";
+import { useCurrenciesListWithoutPagination, useProvidersListWithoutPagination } from "@/hooks";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { CurrencySelect } from "../components/Selects/CurrencySelect";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface TerminalCreateProps {
     onClose: () => void;
 }
 
 export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
-    const dataProvider = useDataProvider();
-    const controllerProps = useCreateController<TerminalWithId>();
+
     const { theme } = useTheme();
     const { filterValues } = useListContext();
+    const dataProvider = useDataProvider();
+    const controllerProps = useCreateController<TerminalWithId>();
 
-    const providersDataProvider = new ProvidersDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [availablePaymentTypes, setAvailablePaymentTypes] = useState<PaymentTypeModel[]>([]);
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
-    const {
-        data: providersData,
-        isLoading: isProvidersLoading,
-        isFetching: isProvidersFetching
-    } = useQuery({
-        queryKey: ["providers", "filter"],
-        queryFn: () => providersDataProvider.getListWithoutPagination(),
-        select: data => data.data
-    });
+    const formSchema = z
+        .object({
+            provider: z
+                .string()
+                .min(1, translate("resources.terminals.errors.provider"))
+                .refine(val => {
+                    if (val) {
+                        const foundProvider = providersData?.find(item => item.name === val);
+                        if (foundProvider?.payment_types?.length === 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+                    return true;
+                }, translate("resources.terminals.errors.providerHasNoPaymentTypes")),
+            verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
+            description: z.union([z.string().trim(), z.literal("")]),
+            details: z.string().trim().optional(),
+            allocation_timeout_seconds: z
+                .literal("")
+                .transform(() => undefined)
+                .or(
+                    z.coerce
+                        .number({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                        .int({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                        .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
+                        .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
+                )
+                .optional(),
+            payment_types: z.array(z.string()).optional().default([]),
+            src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
+            dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+            dst_country_code: z
+                .string()
+                .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+                .trim(),
+            callback_url: z.string().optional().nullable().default(null),
+            state: z.enum(["active", "inactive"]),
+            minTTL: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(999999999.99),
+            maxTTL: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(999999999.99)
+        })
+        .refine(
+            data => {
+                if (data.maxTTL === 0) {
+                    return true;
+                }
 
-    const providersLoadingProcess = useMemo(
-        () => isProvidersLoading || isProvidersFetching,
-        [isProvidersFetching, isProvidersLoading]
-    );
-
-    const formSchema = z.object({
-        provider: z.string().min(1, translate("resources.terminals.errors.provider")),
-        verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.union([z.string().trim(), z.literal("")]),
-        details: z.string().trim().optional(),
-        allocation_timeout_seconds: z
-            .literal("")
-            .transform(() => undefined)
-            .or(
-                z.coerce
-                    .number({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
-                    .int({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
-                    .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
-                    .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
-            )
-            .optional()
-    });
+                return data.minTTL <= data.maxTTL;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["maxTTL"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -86,16 +127,34 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             verbose_name: "",
             description: "",
             details: "{}",
-            allocation_timeout_seconds: 2
+            allocation_timeout_seconds: 2,
+            payment_types: [],
+            src_currency_code: "",
+            dst_currency_code: "",
+            dst_country_code: "",
+            state: "inactive",
+            maxTTL: 0,
+            minTTL: 0,
+            callback_url: ""
         }
     });
 
     useEffect(() => {
         if (filterValues?.provider && providersData && providersData?.length > 0) {
-            const providerFromFilter = providersData.find(item => item.id === filterValues.provider);
+            const providerFromFilter = providersData.find(item => item.name === filterValues.provider);
 
             if (providerFromFilter) {
                 form.setValue("provider", filterValues.provider);
+                if (providerFromFilter?.payment_types?.length === 0) {
+                    form.setError("provider", {
+                        type: "",
+                        message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
+                    });
+                    return;
+                } else if (providerFromFilter) {
+                    form.clearErrors("provider");
+                    setAvailablePaymentTypes(providerFromFilter?.payment_types || []);
+                }
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,10 +166,10 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
         setSubmitButtonDisabled(true);
 
         try {
-            const res = await dataProvider.create<TerminalWithId>(`${data.provider}/terminal`, {
+            const res = await dataProvider.create<TerminalWithId>("terminals", {
                 data: {
-                    verbose_name: data.verbose_name,
-                    description: data.description,
+                    ...data,
+                    settings: { ttl: { min: data.minTTL, max: data.maxTTL } },
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     ...(data.allocation_timeout_seconds !== undefined && {
                         allocation_timeout_seconds: data.allocation_timeout_seconds
@@ -125,7 +184,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     <Button
                         className="!pl-1"
                         variant="resourceLink"
-                        onClick={() => openSheet("terminal", { id: res.data.id, provider: data.provider })}>
+                        onClick={() => openSheet("terminal", { id: res.data.id })}>
                         {translate("app.ui.actions.details")}
                     </Button>
                 </span>,
@@ -137,7 +196,16 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             form.reset();
             onClose();
         } catch (error) {
-            appToast("error", translate("resources.provider.errors.alreadyInUse"));
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
         } finally {
             setSubmitButtonDisabled(false);
         }
@@ -146,11 +214,91 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     useEffect(() => {
         if (controllerProps.record) {
             form.reset({
+                provider: "",
+                verbose_name: "",
                 description: "",
-                verbose_name: ""
+                details: "{}",
+                allocation_timeout_seconds: 2,
+                payment_types: [],
+                src_currency_code: "",
+                dst_currency_code: "",
+                state: "inactive",
+                maxTTL: 0,
+                minTTL: 0,
+                callback_url: ""
             });
         }
     }, [form, controllerProps.record]);
+
+    const val = form.watch("provider");
+
+    useEffect(() => {
+        if (val) {
+            const foundProvider = providersData?.find(item => item.name === val);
+
+            if (foundProvider?.payment_types?.length === 0) {
+                form.setError("provider", {
+                    type: "",
+                    message: translate("resources.terminals.errors.providerHasNoPaymentTypes")
+                });
+                setAvailablePaymentTypes([]);
+                form.resetField("payment_types");
+                return;
+            } else if (val) {
+                form.clearErrors("provider");
+                setAvailablePaymentTypes(foundProvider?.payment_types || []);
+            }
+        } else {
+            form.clearErrors("provider");
+            setAvailablePaymentTypes([]);
+            form.resetField("payment_types");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData, val]);
+
+    const handleChange = useCallback(
+        (key: "minTTL" | "maxTTL", value: string) => {
+            value = value.replace(/[^0-9.]/g, "");
+
+            const parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts[1];
+            }
+
+            if (parts.length === 2 && parts[1].length > 2) {
+                parts[1] = parts[1].slice(0, 2);
+                value = parts.join(".");
+            }
+
+            if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+                value = value.replace(/^0+/, "") || "0";
+            }
+
+            if (value === "") {
+                form.resetField(key);
+                return;
+            }
+
+            if (value.endsWith(".") || value === "0.") {
+                return;
+            }
+
+            const numericValue = parseFloat(value);
+            if (!isNaN(numericValue)) {
+                let finalValue = numericValue;
+
+                if (numericValue > 100000) {
+                    finalValue = 100000;
+                }
+                if (numericValue < 0) {
+                    finalValue = 0;
+                }
+
+                form.setValue(key, finalValue);
+            }
+        },
+        [form]
+    );
 
     if (controllerProps.isLoading || theme.length === 0) return <LoadingBlock />;
 
@@ -159,112 +307,301 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="flex flex-wrap">
-                        <div className="grid w-full gap-2 md:grid-cols-2">
-                            <FormField
-                                control={form.control}
-                                name="provider"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2 md:col-span-2">
-                                        <Label>{translate("resources.direction.provider")}</Label>
-                                        <ProviderSelect
-                                            providers={providersData || []}
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                            isError={fieldState.invalid}
-                                            errorMessage={fieldState.error?.message}
-                                            disabled={providersLoadingProcess}
-                                            modal
-                                        />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="verbose_name"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                label={translate("resources.terminals.fields.verbose_name")}
-                                                autoCorrect="off"
-                                                autoCapitalize="none"
-                                                spellCheck="false"
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                variant={InputTypes.GRAY}
-                                                {...field}
+                        <div className="flex w-full flex-col gap-2">
+                            <div className="grid w-full gap-x-4 gap-y-2 sm:grid-cols-2 md:grid-cols-3">
+                                <FormField
+                                    control={form.control}
+                                    name="provider"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="w-full">
+                                            <Label>{translate("resources.direction.provider")}</Label>
+                                            <ProviderSelect
+                                                providers={providersData || []}
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
+                                                disabled={providersLoadingProcess}
+                                                modal
+                                                isLoading={providersLoadingProcess}
                                             />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                                        </FormItem>
+                                    )}
+                                />
 
-                            <FormField
-                                control={form.control}
-                                name="allocation_timeout_seconds"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                label={translate(
-                                                    "resources.terminals.fields.allocation_timeout_seconds"
-                                                )}
-                                                autoCorrect="off"
-                                                autoCapitalize="none"
-                                                spellCheck="false"
-                                                error={fieldState.invalid}
+                                <FormField
+                                    control={form.control}
+                                    name="verbose_name"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <Input
+                                                    label={translate("resources.terminals.fields.verbose_name")}
+                                                    autoCorrect="off"
+                                                    autoCapitalize="none"
+                                                    spellCheck="false"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="state"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <Label>{translate("resources.direction.fields.active")}</Label>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        variant={SelectType.GRAY}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
+                                                        <SelectValue
+                                                            placeholder={translate("resources.direction.fields.active")}
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectItem value="active" variant={SelectType.GRAY}>
+                                                            {translate("resources.direction.fields.stateActive")}
+                                                        </SelectItem>
+                                                        <SelectItem value="inactive" variant={SelectType.GRAY}>
+                                                            {translate("resources.direction.fields.stateInactive")}
+                                                        </SelectItem>
+                                                        <SelectItem value="archived" variant={SelectType.GRAY}>
+                                                            {translate("resources.direction.fields.stateArchived")}
+                                                        </SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="src_currency_code"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <Label>{translate("resources.direction.sourceCurrency")}</Label>
+                                            <CurrencySelect
+                                                currencies={currenciesData || []}
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                isError={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                variant={InputTypes.GRAY}
-                                                {...field}
-                                                onChange={e => {
-                                                    const value = e.target.value.replace(/\D/, "");
-                                                    field.onChange(value);
-                                                }}
+                                                disabled={currenciesLoadingProcess}
+                                                modal
                                             />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="dst_currency_code"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <Label>{translate("resources.direction.destinationCurrency")}</Label>
+                                            <CurrencySelect
+                                                currencies={currenciesData || []}
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                disabled={currenciesLoadingProcess}
+                                                modal
+                                            />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="dst_country_code"
+                                    render={({ field, fieldState }) => {
+                                        return (
+                                            <FormItem>
+                                                <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                                <CountrySelect
+                                                    value={currentCountryCodeName}
+                                                    onChange={setCurrentCountryCodeName}
+                                                    setIdValue={field.onChange}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={fieldState.error?.message}
+                                                    modal
+                                                />
+                                            </FormItem>
+                                        );
+                                    }}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="allocation_timeout_seconds"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <Input
+                                                    label={translate(
+                                                        "resources.terminals.fields.allocation_timeout_seconds"
+                                                    )}
+                                                    autoCorrect="off"
+                                                    autoCapitalize="none"
+                                                    spellCheck="false"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    {...field}
+                                                    onChange={e => {
+                                                        const value = e.target.value.replace(/\D/, "");
+                                                        field.onChange(value);
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="minTTL"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    label={translate("app.widgets.ttl.minTTL")}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    className=""
+                                                    value={field.value ?? ""}
+                                                    variant={InputTypes.GRAY}
+                                                    onChange={e => handleChange("minTTL", e.target.value)}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="maxTTL"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="w-full">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    label={translate("app.widgets.ttl.maxTTL")}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    className=""
+                                                    value={field.value ?? ""}
+                                                    variant={InputTypes.GRAY}
+                                                    onChange={e => handleChange("maxTTL", e.target.value)}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                                <FormField
+                                    control={form.control}
+                                    name="payment_types"
+                                    render={({ field }) => (
+                                        <FormItem className="col-span-2 w-full sm:col-span-1">
+                                            <FormControl>
+                                                <PaymentTypeMultiSelect
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                    options={availablePaymentTypes || []}
+                                                    disabled={submitButtonDisabled || !form.getValues("provider")}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="callback_url"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="col-span-2 w-full sm:col-span-1">
+                                            <FormControl>
+                                                <Input
+                                                    label={translate(
+                                                        "resources.callbridge.mapping.fields.callback_url"
+                                                    )}
+                                                    autoCorrect="off"
+                                                    autoCapitalize="none"
+                                                    spellCheck="false"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    {...field}
+                                                    value={field.value || ""}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="description"
+                                    render={({ field }) => (
+                                        <FormItem className="col-span-2 w-full sm:col-span-1">
+                                            <Label className="">
+                                                {translate("resources.terminals.fields.description")}
+                                            </Label>
+                                            <FormControl>
+                                                <Textarea
+                                                    {...field}
+                                                    value={field.value ?? ""}
+                                                    placeholder={translate("resources.wallet.manage.fields.descr")}
+                                                    className="!mt-0 h-48 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="details"
+                                    render={({ field }) => (
+                                        <FormItem className="col-span-2 w-full sm:col-span-1">
+                                            <Label>{translate("resources.terminals.fields.details")}</Label>
+                                            <FormControl>
+                                                <MonacoEditor
+                                                    width="100%"
+                                                    onMountEditor={() => setMonacoEditorMounted(true)}
+                                                    onErrorsChange={setHasErrors}
+                                                    onValidChange={setHasValid}
+                                                    code={field.value ?? "{}"}
+                                                    setCode={field.onChange}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {/* <TTL
+                                ttl={}
+                                editClicked={editClicked}
+                                setEditClicked={setEditClicked}
+                            /> */}
                         </div>
 
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2 sm:w-full">
-                                    <Label className="">{translate("resources.terminals.fields.description")}</Label>
-                                    <FormControl>
-                                        <Textarea
-                                            {...field}
-                                            value={field.value ?? ""}
-                                            placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="!mt-0 h-24 w-full resize-none overflow-auto rounded p-2 text-title-1 outline-none dark:bg-muted"
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="details"
-                            render={({ field }) => (
-                                <FormItem className="w-full p-2">
-                                    <Label className="!mb-0">{translate("resources.terminals.fields.details")}</Label>
-                                    <FormControl>
-                                        <MonacoEditor
-                                            width="100%"
-                                            onMountEditor={() => setMonacoEditorMounted(true)}
-                                            onErrorsChange={setHasErrors}
-                                            onValidChange={setHasValid}
-                                            code={field.value ?? "{}"}
-                                            setCode={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"

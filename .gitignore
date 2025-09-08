@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+__snapshots__
 
 node_modules
 dist
@@ -26,3 +27,4 @@ dist-ssr
 .env
 /source/.env
 source/.vscode/settings.json
+source/bundle-analysis.html

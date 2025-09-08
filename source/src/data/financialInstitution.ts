@@ -15,7 +15,7 @@ import {
     FinancialInstitution,
     FinancialInstitutionCreate,
     FinancialInstitutionCurrenciesLink,
-    ImportMode,
+    ImportStrategy,
     PaymentTypesLink
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
@@ -44,7 +44,8 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
                       item === "code" ||
                       item === "institution_type" ||
                       item === "country_code" ||
-                      item === "nspk_member_id"
+                      item === "nspk_member_id" ||
+                      item === "currencies"
               )
             : [];
 
@@ -80,16 +81,20 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<FinancialInstitutionWithId>> {
+    async getListWithoutPagination(
+        resource: string,
+        signal?: AbortSignal
+    ): Promise<GetListResult<FinancialInstitutionWithId>> {
         const res = await financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
@@ -347,7 +352,8 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
                       item === "name" ||
                       item === "institution_type" ||
                       item === "country_code" ||
-                      item === "nspk_member_id"
+                      item === "nspk_member_id" ||
+                      item === "currencies"
               )
             : [];
 
@@ -367,7 +373,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
         });
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict") {
+    async uploadReport(file: File, mode: ImportStrategy = "strict") {
         const res =
             await financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost(
                 {

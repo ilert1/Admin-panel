@@ -10,8 +10,8 @@
     "resources.direction.fields": {
         "name": "Название направления",
         "active": "Состояние",
-        "srcCurr": "Исходная валюта",
-        "destCurr": "Конечная валюта",
+        "srcCurr": "Валюта отправителя",
+        "destCurr": "Валюта получателя",
         "merchant": "Мерчант",
         "accountNumber": "Номер счета",
         "id": "Идентификатор направления",
@@ -19,11 +19,25 @@
         "pleaseGen": "Пожалуйста, создайте ключи в провайдерах",
         "stateActive": "Активно",
         "stateInactive": "Не активно",
+        "stateArchived": "Архивированно",
         "description": "Описание",
         "api_key": "Информация об аутентификации",
         "merchantsDirections": "Направления мерчанта ",
         "isActive": "Активность",
-        "terminal": "Терминал"
+        "terminal": "Терминал",
+        "cascade": "Каскад",
+        "kinds": {
+            "kind": "Вид направления",
+            "cascadeKind": "Вид каскада",
+            "sequential": "Последовательное",
+            "fanout": "Разветвленное"
+        },
+        "condition": {
+            "condition": "Условия",
+            "rank": "Вес реквизита",
+            "extra": "Приоритет",
+            "prioritized": "В приоритете"
+        }
     },
     "resources.direction.fees": {
         "fees": "Комиссии",
@@ -38,7 +52,6 @@
         "error": "Ошибка",
         "errorWhenCreating": "Произошла ошибка при создании комиссии",
         "successDelete": "Коммисия успешно удалена",
-
         "directionFieldError": "Направление обязательно должно быть выбрано",
         "currencyFieldError": "Валюта обязательно должна быть выбрана",
         "valueFieldError": "Коммиссия должна быть положительным числом.",
@@ -47,7 +60,6 @@
         "valueMustBeFinite": "Значение должно быть конечным числом",
         "valueMaxPrecisionError": "Допускается максимум 2 знака после запятой",
         "errorAlreadyExist": "Комиссия с таким типом уже существует",
-
         "smallFeeDialog": {
             "title": "Размер комиссии",
             "lessThenOne": " меньше 1%",
@@ -56,8 +68,8 @@
     },
     "resources.direction.errors": {
         "name": "У направления обязательно должно быть имя",
-        "src_curr": "Исходная валюта обязательно должна быть выбрана",
-        "dst_curr": "Конечная валюта обязательно должна быть выбрана",
+        "src_curr": "Валюта отправителя обязательно должна быть выбрана",
+        "dst_curr": "Валюта получателя обязательно должна быть выбрана",
         "merchant": "Мерчант обязательно должен быть выбран",
         "provider": "Провайдер обязательно должен быть выбран",
         "authError": "Ошибка при добавлении информации об аутентификации",
@@ -75,8 +87,12 @@
         "editActivity": "Направление %{name} успешно %{state}."
     },
     "resources.direction.create": "Добавить направление",
+    "resources.direction.btnGenerate": "Сгенерировать",
+    "resources.direction.btnGeneratePlaceholder": "Оставьте пустым для автозаполнения",
+    "resources.direction.btnGenerateTooltip": "Для автогенерации названия направления заполните поля: Мерчант, Провайдер, Терминал и Тип.",
     "resources.direction.sourceCurrency": "Валюта отправителя",
     "resources.direction.destinationCurrency": "Валюта получателя",
+    "resources.direction.destinationCountry": "Страна назначения",
     "resources.direction.selectSourceCurrency": "Выбрать исходящую валюту",
     "resources.direction.selectDestCurrency": "Выбрать конечную валюту",
     "resources.direction.merchant": "Мерчант",

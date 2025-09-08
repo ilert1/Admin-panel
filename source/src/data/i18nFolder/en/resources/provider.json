@@ -8,14 +8,15 @@
         "keyMiss": "The key is missing",
         "regenKey": "Regenerate keys",
         "json_schema": "Json schema",
-        "code": "Methods",
         "enterMethods": "Enter your methods",
         "methods": "Methods"
     },
     "resources.provider.errors": {
         "name": "Name must contain at least 1 symbol",
-        "alreadyInUse": "This name is already in use. Choose another one."
+        "alreadyInUse": "This name is already in use. Choose another one.",
+        "methodAlreadyExist": "This method already exists"
     },
+    "resources.provider.successCreate": "Provider %{name} has been successfully created.",
     "resources.provider.recreateConfirm": "Recreate keys?",
     "resources.provider.recreateConfirmDescription": "Old keys will become invalid.",
     "resources.provider.recreate": "Recreate",
@@ -37,5 +38,14 @@
     "resources.provider.notFoundMessage": "Providers not found.",
     "resources.provider.selectPlaceholder": "Select provider",
     "resources.provider.editingProvider": "Editing provider",
-    "resources.provider.creatingProvider": "Creating provider"
+    "resources.provider.creatingProvider": "Creating provider",
+    "resources.provider.methodNotFound": "Provider methods is empty",
+    "resources.provider.methodName": "Method name",
+    "resources.provider.methodParameters": "Method parameters",
+    "resources.provider.methodAddSuccess": "Provider method successfully added",
+    "resources.provider.methodEditSuccess": "Provider method successfully edited",
+    "resources.provider.methodDeleteSuccess": "Provider method successfully deleted",
+    "resources.provider.methodTimeoutRegexError": "This field must match the hh:mm:ss format",
+    "resources.provider.addMethod": "Add method",
+    "resources.provider.removeMethodDialog": "Delete the method?"
 }

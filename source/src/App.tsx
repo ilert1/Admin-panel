@@ -15,7 +15,9 @@ import {
     CallbridgeDataProvider,
     BaseDataProvider,
     PayoutDataProvider,
-    AccountsDataProvider
+    AccountsDataProvider,
+    CascadeTerminalDataProvider,
+    CascadesDataProvider
 } from "@/data";
 import {
     AccountList,
@@ -29,7 +31,10 @@ import {
     WalletsList,
     WalletTransactionsList,
     WalletLinkedTransactionsList,
-    TerminalsList
+    TerminalsList,
+    CascadesList
+    // CascadeMerchantsList,
+    // CascadeConflictsList
 } from "@/components/widgets/lists";
 import { MerchantCreate } from "@/components/widgets/create";
 import { Route } from "react-router-dom";
@@ -71,8 +76,8 @@ import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstru
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 import { CallbackBackupsList } from "./components/widgets/lists/CallbackBackup/CallbackBackupsList";
 import { CallbackBackupsDataProvider } from "./data/callback_backup";
-
-const CALLBRIDGE_ENABLED = import.meta.env.VITE_CALLBRIDGE_ENABLED === "true" ? true : false;
+import { initializeStore } from "./helpers/persistentStore";
+import { CascadeMerchantsDataProvider } from "./data/merchant_cascade";
 
 const dataProvider = combineDataProviders(resource => {
     if (resource?.startsWith("transactions")) {
@@ -85,7 +90,7 @@ const dataProvider = combineDataProviders(resource => {
         return new MerchantsDataProvider();
     } else if (resource === "provider") {
         return new ProvidersDataProvider();
-    } else if (resource === "terminals" || resource?.endsWith("/terminal")) {
+    } else if (resource === "terminals") {
         return new TerminalsDataProvider();
     } else if (resource === "direction") {
         return new DirectionsDataProvider();
@@ -99,7 +104,7 @@ const dataProvider = combineDataProviders(resource => {
     ) {
         return WalletsDataProvider;
     } else if (resource === "vault") {
-        return new VaultDataProvider();
+        return VaultDataProvider;
     } else if (resource === "operations") {
         return new OperationsDataProvider();
     } else if (resource === "callback_backup") {
@@ -118,11 +123,19 @@ const dataProvider = combineDataProviders(resource => {
         return new TerminalPaymentInstrumentsProvider();
     } else if (resource === "systemPaymentInstruments") {
         return new SystemPaymentInstrumentsProvider();
+    } else if (resource === "cascades") {
+        return new CascadesDataProvider();
+    } else if (resource === "cascade_terminals") {
+        return new CascadeTerminalDataProvider();
+    } else if (resource.includes("cascadeMerchants")) {
+        return new CascadeMerchantsDataProvider();
     } else {
         return BaseDataProvider;
     }
 });
 dataProvider.supportAbortSignal = true;
+
+const persistentStore = initializeStore();
 
 export const App = () => {
     return (
@@ -132,7 +145,11 @@ export const App = () => {
                     v7_startTransition: true,
                     v7_relativeSplatPath: true
                 }}>
-                <CoreAdminContext i18nProvider={i18nProvider} dataProvider={dataProvider} authProvider={authProvider}>
+                <CoreAdminContext
+                    i18nProvider={i18nProvider}
+                    dataProvider={dataProvider}
+                    authProvider={authProvider}
+                    store={persistentStore}>
                     <SheetProvider>
                         <CoreAdminUI
                             disableTelemetry
@@ -188,16 +205,19 @@ export const App = () => {
                                                     element={<SystemPaymentInstrumentsList />}
                                                 />
                                                 <Route path="currency" element={<CurrenciesList />} />
-                                                {/* <Resource name="currency" list={CurrenciesList} icon={BanknoteIcon} /> */}
                                             </Resource>
 
-                                            {CALLBRIDGE_ENABLED && (
-                                                <Resource name="callbridge" icon={Split}>
-                                                    <Route path="mapping" element={<MappingsList />} />
-                                                    <Route path="history" element={<CallbackHistoryList />} />
-                                                    <Route path="history/backup" element={<CallbackBackupsList />} />
-                                                </Resource>
-                                            )}
+                                            <Resource name="callbridge" icon={Split}>
+                                                <Route path="mapping" element={<MappingsList />} />
+                                                <Route path="history" element={<CallbackHistoryList />} />
+                                                <Route path="history/backup" element={<CallbackBackupsList />} />
+                                            </Resource>
+
+                                            <Resource name="cascadeSettings" icon={Split}>
+                                                <Route path="cascades" element={<CascadesList />} />
+                                                {/* <Route path="cascadeMerchants" element={<CascadeMerchantsList />} />
+                                                <Route path="cascadeConflicts" element={<CascadeConflictsList />} /> */}
+                                            </Resource>
                                         </>
                                     )}
 

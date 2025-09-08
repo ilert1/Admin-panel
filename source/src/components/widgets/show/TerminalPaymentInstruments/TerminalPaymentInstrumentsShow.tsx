@@ -1,16 +1,16 @@
 import { useLocaleState, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { Button } from "@/components/ui/Button";
 import { useCallback, useState } from "react";
-import { DeleteTerminalPaymentInstrumentsDialog } from "./DeleteTerminalPaymentInstrumentsDialog";
+import { DeleteTerminalPaymentInstrumentsDialog } from "../../lists/TerminalPaymentInstruments/DeleteTerminalPaymentInstrumentsDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsActivityBtn } from "../../lists/TerminalPaymentInstruments/TerminalPaymentInstrumentsActivityBtn";
 import { EditTerminalPaymentInstrumentsDialog } from "./EditTerminalPaymentInstrumentsDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { useFetchDictionaries } from "@/hooks";
 
 export interface TerminalPaymentInstrumentsShowProps {
     id: string;
@@ -23,7 +23,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
         id
     });
 
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { openSheet } = useSheets();
@@ -60,32 +60,28 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
-                        </small>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.created_at).toLocaleDateString(locale)}
-                        </p>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                        </p>
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
+                            text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
+                        />
                     </div>
 
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
-                        </small>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                        </p>
-
-                        <p className="text-nowrap text-base leading-[18px]">
-                            {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                        </p>
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
+                            text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
+                        />
                     </div>
 
                     <TextField
@@ -94,8 +90,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                         text={context.record.terminal.verbose_name}
                         onClick={() => {
                             openSheet("terminal", {
-                                id: context.record.terminal_id,
-                                provider: context.record.terminal.provider
+                                id: context.record.terminal_id
                             });
                         }}
                     />

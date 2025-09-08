@@ -14,16 +14,18 @@
         "name": "Payment Types",
         "fields": {
             "code": "Code",
-            "title": "Description",
+            "title": "Title",
             "payment_types": "Payment types",
             "category": "Category",
             "required_fields_for_payment": "Required fields for payment",
+            "required_fields_for_payment_deposit": "Required fields for deposit",
+            "required_fields_for_payment_withdrawal": "Required fields for withdrawal",
             "icon": "Icon",
             "currencies": "Currencies"
         },
         "placeholders": {
             "code": "Payment type code",
-            "title": "Payment type description"
+            "title": "Payment type title"
         },
         "notFoundMessage": "Payment types not found.",
         "deletePaymentTypeQuestion": "Delete payment type?",
@@ -50,6 +52,7 @@
             "tax_id_number": "Tax identification number",
             "registration_number": "Registration number",
             "nspk_member_id": "NSPK member ID",
+            "bin": "BIN",
             "status": "Status",
             "payment_types": "Payment types",
             "currencies": "Currencies",
@@ -64,6 +67,8 @@
         },
         "errors": {
             "name": "The name of the financial institution is required",
+            "nspk_member_id_max": "The length of the NSPK member ID must not exceed 20 characters",
+            "bin_max": "BIN must not exceed 9 characters",
             "code": "The code of the financial institution is required",
             "code_regex": "The financial institution's code can contain only numbers (0-9), letters (a-z), and symbols (_-.)",
             "country_code": "The country code is entered incorrectly",
@@ -82,11 +87,12 @@
         "createFinancialInstitutionBtn": "Create institution",
         "createFinancialInstitutionTitle": "Create a financial institution",
         "editingFinancialInstitution": "Editing a financial institution",
-        "deleteFinancialInstitution": "Delete financial institution?"
+        "deleteFinancialInstitution": "Delete financial institution?",
+        "deletedFinancialInstitution": "Financial institution deleted successfully"
     },
     "resources.paymentSettings.systemPaymentInstruments": {
         "name": "System Payment Instruments",
-        "show": "System Payment instrument",
+        "show": "System Payment Instrument",
         "fields": {
             "name": "Name",
             "payment_type_code": "Payment type",
@@ -95,7 +101,7 @@
             "direction": "Direction",
             "status": "Status",
             "description": "Description",
-            "meta": "Meta"
+            "meta": "Metadata"
         },
         "list": {
             "createdAt": "Created at",
@@ -134,7 +140,8 @@
         "deletePaymentInstrumentQuestion": "Delete system payment instrument?",
         "chooseFinInstitution": "Choose financial institution",
         "selectPaymentType": "Select payment type",
-        "noAvailablePaymentTypes": "No available payment types"
+        "noAvailablePaymentTypes": "No available payment types",
+        "noAvailableCurrencies": "No available currencies"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Terminal Payment Instruments",
@@ -147,11 +154,17 @@
             "terminal_payment_type_code": "Terminal payment type code",
             "terminal_currency_code": "Terminal currency code",
             "terminal_financial_institution_code": "Terminal financial institution code",
+            "system_payment_instrument_code_filter": "System payment instrument code",
             "terminal_specific_parameters": "Parameters",
             "status": "Status",
             "id": "ID",
             "terminalToChoose": "Select terminal",
             "systemPaymentInstrumentsToChoose": "Select system payment instrument"
+        },
+        "createMode": {
+            "name": "Create with",
+            "spi": "System Payment Instrument",
+            "fi": "Financial Institution"
         },
         "success": {
             "ACTIVE": "active",
@@ -160,6 +173,13 @@
         },
         "errors": {
             "alreadyExist": "The terminal payment instrument already exists"
+        },
+        "fileDownloadUpload": {
+            "singleFile": "Ready",
+            "multipleFiles": "Generative",
+            "payment_types_csv": "Select payment types file",
+            "financial_institutions_csv": "Select financial institutions file",
+            "currency_csv": "Select currency file"
         },
         "providerNotSelect": "Select the provider to receive the data",
         "createTerminalPaymentInstrument": "Create instrument",
@@ -195,13 +215,15 @@
         "upload": "Upload",
         "selectFile": "Select file",
         "selectOtherFile": "Select other file",
-        "uploadSuccess": "File successfully uploaded. Inserted: %{inserted}, skipped: %{skipped}, total: %{total}",
+        "uploadSuccess": "File successfully uploaded. Inserted: %{inserted}, skipped: %{skipped}, total: %{total}, updated: %{updated}",
         "inputMode": "Input mode",
         "strict": "Stop import on first error",
         "ignore": "Ignore errors",
+        "merge": "Update existing record on error",
         "wrongFileFormat": "Wrong file format. Select a CSV file",
         "csvValidationError": "CSV validation error",
         "csvValidationErrorDescription": "Field \"%{field}\": value \"%{input}\" must contain only lowercase Latin letters, digits, and underscores.",
-        "noData": "No data found for the specified parameters"
+        "noData": "No data found for the specified parameters",
+        "terminals": "Terminals"
     }
 }

@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { Loading } from "@/components/ui/loading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { debounce } from "lodash";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
@@ -12,9 +11,10 @@ import { DateRange } from "react-day-picker";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
+import { useFetchDictionaries } from "@/hooks";
 
 export const WalletTransactionsFilter = () => {
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const translate = useTranslate();
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 

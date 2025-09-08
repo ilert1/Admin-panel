@@ -1,4 +1,11 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import {
+    useCreateController,
+    CreateContextProvider,
+    useTranslate,
+    useDataProvider,
+    useRefresh,
+    useListContext
+} from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -16,53 +23,50 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { useFetchDataForDirections } from "@/hooks";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { DirectionCreate as IDirectionCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetDirectionTypes } from "@/hooks/useGetDirectionTypes";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
-import { TerminalsDataProvider } from "@/data";
-import { useQuery } from "@tanstack/react-query";
 import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { MerchantSelect } from "../components/Selects/MerchantSelect";
+import {
+    useCurrenciesListWithoutPagination,
+    useMerchantsListWithoutPagination,
+    useProvidersListWithoutPagination,
+    useTerminalsListWithoutPagination
+} from "@/hooks";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipPortal } from "@radix-ui/react-tooltip";
+import clsx from "clsx";
+import { CountrySelect } from "../components/Selects/CountrySelect";
+
+const kindArray: string[] = ["sequential", "fanout"];
 
 export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
-    const dataProvider = useDataProvider();
-    const terminalsDataProvider = new TerminalsDataProvider();
-    const { currencies, merchants, providers, isLoading: loadingData } = useFetchDataForDirections();
-
     const controllerProps = useCreateController<IDirectionCreate>();
+    const dataProvider = useDataProvider();
+    const { directionTypes } = useGetDirectionTypes();
     const translate = useTranslate();
     const refresh = useRefresh();
-
+    const { filterValues } = useListContext();
     const { openSheet } = useSheets();
     const appToast = useAppToast();
 
-    const { directionTypes } = useGetDirectionTypes();
-
+    const [touchSelectTypeField, setTouchSelectTypeField] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [terminalValueName, setTerminalValueName] = useState("");
     const [providerName, setProviderName] = useState("");
+    const [merchantName, setMerchantName] = useState("");
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
-    const {
-        data: terminalsData,
-        isLoading: isTerminalsLoading,
-        isFetching: isTerminalsFetching
-    } = useQuery({
-        queryKey: ["terminals", "filter", providerName],
-        queryFn: () => terminalsDataProvider.getListWithoutPagination(["provider"], [providerName]),
-        enabled: !!providerName,
-        select: data => data.data
-    });
-
-    const terminalsLoadingProcess = useMemo(
-        () => isTerminalsLoading || isTerminalsFetching,
-        [isTerminalsFetching, isTerminalsLoading]
-    );
+    const { merchantData, merchantsLoadingProcess, isMerchantsLoading } = useMerchantsListWithoutPagination();
+    const { providersData, isProvidersLoading, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+    const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -125,7 +129,16 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             refresh();
             onOpenChange(false);
         } catch (error) {
-            appToast("error", translate("resources.provider.errors.alreadyInUse"));
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
         } finally {
             setSubmitButtonDisabled(false);
         }
@@ -137,6 +150,10 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         description: z.string().trim().nullable(),
         src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        dst_country_code: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+            .trim(),
         merchant: z.string().min(1, translate("resources.direction.errors.merchant")),
         provider: z.string().min(1, translate("resources.direction.errors.provider")),
         terminal: z.string().min(1, translate("resources.direction.errors.terminal")),
@@ -145,53 +162,334 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
             .int(translate("resources.direction.errors.weightError"))
             .min(0, translate("resources.direction.errors.weightError"))
             .max(1000, translate("resources.direction.errors.weightError")),
-        type: z.enum(["withdraw", "deposit"], {
-            message: translate("resources.direction.errors.typeError")
-        })
+        type: z
+            .enum(directionTypes.map(type => type.value) as [string, ...string[]], {
+                message: translate("resources.direction.errors.typeError")
+            })
+            .default("withdraw"),
+        kind: z.enum(kindArray as [string, ...string[]])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            state: "active",
+            state: "inactive",
             description: "",
             src_currency: "",
             dst_currency: "",
+            dst_country_code: "",
             merchant: "",
             provider: "",
             terminal: "",
             weight: 0,
-            type: "withdraw"
+            type: "withdraw",
+            kind: "sequential"
         }
     });
 
-    if (controllerProps.isLoading || loadingData)
+    useEffect(() => {
+        if (filterValues?.provider && providersData && providersData?.length > 0) {
+            const provider = providersData.find(provider => provider.name === filterValues.provider);
+
+            if (provider) {
+                setProviderName(provider.name);
+                form.setValue("provider", provider.name);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
+
+    useEffect(() => {
+        if (filterValues?.merchant && merchantData && merchantData?.length > 0) {
+            const merchant = merchantData.find(merchant => merchant.id === filterValues.merchant);
+
+            if (merchant) {
+                setMerchantName(merchant.name);
+                form.setValue("merchant", merchant.id);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchantData]);
+
+    const typeWatchValue = form.watch("type");
+
+    const generateDirectionName = () => {
+        form.setValue(
+            "name",
+            `[${merchantName}] [${providerName}/${terminalValueName}] [${typeWatchValue.charAt(0).toUpperCase()}]`
+        );
+        form.trigger("name");
+    };
+
+    const onChangeProviderName = (val: string) => {
+        setProviderName(val);
+        setTerminalValueName("");
+        form.setValue("terminal", "");
+    };
+
+    const generateDirectionNamePlaceholder = useMemo(() => {
+        if (providerName || terminalValueName || merchantName || touchSelectTypeField) {
+            let placeholder = `[${typeWatchValue.charAt(0).toUpperCase()}]`;
+
+            if (providerName) {
+                if (terminalValueName) {
+                    placeholder = `[${providerName}/${terminalValueName}] ${placeholder}`;
+                } else {
+                    placeholder = `[${providerName}/-] ${placeholder}`;
+                }
+            }
+
+            if (merchantName) {
+                placeholder = `[${merchantName}] ${placeholder}`;
+            }
+
+            return placeholder;
+        } else {
+            return translate("resources.direction.btnGeneratePlaceholder");
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [merchantName, providerName, terminalValueName, typeWatchValue]);
+
+    if (controllerProps.isLoading || isCurrenciesLoading || isMerchantsLoading || isProvidersLoading)
         return (
             <div className="h-[140px]">
                 <Loading />
             </div>
         );
 
-    const currenciesDisabled = !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0);
-    const merchantsDisabled = !(merchants && Array.isArray(merchants.data) && merchants?.data?.length > 0);
-    const providersDisabled = !(providers && Array.isArray(providers.data) && providers?.data?.length > 0);
-
     return (
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="flex flex-wrap">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+                    <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
+                        <div className="flex items-end gap-2 md:col-span-2">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field, fieldState }) => (
+                                    <>
+                                        <FormItem className="flex-1">
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    placeholder={generateDirectionNamePlaceholder}
+                                                    label={translate("resources.direction.fields.name")}
+                                                    variant={InputTypes.GRAY}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <Button
+                                                        type="button"
+                                                        disabled={!merchantName || !providerName || !terminalValueName}
+                                                        onClick={generateDirectionName}
+                                                        className={clsx(
+                                                            "!pointer-events-auto h-[38px]",
+                                                            fieldState.invalid && "self-center"
+                                                        )}>
+                                                        {translate("resources.direction.btnGenerate")}
+                                                    </Button>
+                                                </TooltipTrigger>
+
+                                                <TooltipPortal>
+                                                    <TooltipContent>
+                                                        {translate("resources.direction.btnGenerateTooltip")}
+                                                    </TooltipContent>
+                                                </TooltipPortal>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </>
+                                )}
+                            />
+                        </div>
+
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="merchant"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem className="md:col-span-2">
+                                    <Label>{translate("resources.direction.merchant")}</Label>
+
+                                    <MerchantSelect
+                                        merchants={merchantData || []}
+                                        value={merchantName}
+                                        onChange={setMerchantName}
+                                        setIdValue={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={merchantsLoadingProcess}
+                                        isLoading={merchantsLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="provider"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>{translate("resources.direction.provider")}</Label>
+                                    <ProviderSelect
+                                        providers={providersData || []}
+                                        value={field.value}
+                                        onChange={val => {
+                                            onChangeProviderName(val);
+                                            field.onChange(val);
+                                        }}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={providersLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="terminal"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>{translate("resources.direction.fields.terminal")}</Label>
+                                    <PopoverSelect
+                                        variants={terminalsData || []}
+                                        value={terminalValueName}
+                                        idField="terminal_id"
+                                        setIdValue={field.onChange}
+                                        onChange={setTerminalValueName}
+                                        variantKey="verbose_name"
+                                        placeholder={
+                                            providerName
+                                                ? translate("resources.terminals.selectPlaceholder")
+                                                : translate("resources.direction.noTerminals")
+                                        }
+                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                        notFoundMessage={translate("resources.terminals.notFoundMessage")}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={terminalsLoadingProcess || !providerName}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="src_currency"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>{translate("resources.direction.sourceCurrency")}</Label>
+                                    <CurrencySelect
+                                        currencies={currenciesData || []}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={currenciesLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="dst_currency"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>{translate("resources.direction.destinationCurrency")}</Label>
+                                    <CurrencySelect
+                                        currencies={currenciesData || []}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={fieldState.error?.message}
+                                        disabled={currenciesLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="dst_country_code"
+                            render={({ field, fieldState }) => {
+                                return (
+                                    <FormItem>
+                                        <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                        <CountrySelect
+                                            value={currentCountryCodeName}
+                                            onChange={setCurrentCountryCodeName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            modal
+                                        />
+                                    </FormItem>
+                                );
+                            }}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
+                                    <Label>{translate("resources.direction.types.type")}</Label>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={val => {
+                                            setTouchSelectTypeField(true);
+                                            field.onChange(val);
+                                        }}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {directionTypes.map(type => (
+                                                    <SelectItem
+                                                        value={type.value}
+                                                        variant={SelectType.GRAY}
+                                                        key={type.value}>
+                                                        {type.translation}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="weight"
+                            render={({ field, fieldState }) => (
+                                <FormItem>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            label={translate("resources.direction.fields.name")}
+                                            value={field.value ?? "0"}
                                             variant={InputTypes.GRAY}
+                                            label={translate("resources.direction.weight")}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                         />
@@ -199,11 +497,12 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="state"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem>
                                     <Label>{translate("resources.direction.fields.active")}</Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
@@ -230,167 +529,45 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="src_currency"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.sourceCurrency")}</Label>
-                                    <CurrencySelect
-                                        currencies={currencies.data}
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={currenciesDisabled}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="dst_currency"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.destinationCurrency")}</Label>
-                                    <CurrencySelect
-                                        currencies={currencies.data}
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={currenciesDisabled}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="merchant"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.merchant")}</Label>
-                                    <MerchantSelectFilter
-                                        variant="outline"
-                                        error={fieldState.error?.message}
-                                        merchant={field.value}
-                                        onMerchantChanged={field.onChange}
-                                        resource="merchant"
-                                        disabled={merchantsDisabled}
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="provider"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.provider")}</Label>
-                                    <ProviderSelect
-                                        providers={providers.data}
-                                        value={field.value}
-                                        onChange={e => {
-                                            setProviderName(e);
-                                            field.onChange(e);
 
-                                            if (!e) {
-                                                setTerminalValueName("");
-                                                form.setValue("terminal", "");
-                                            }
-                                        }}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={providersDisabled}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
                         <FormField
                             control={form.control}
-                            name="terminal"
+                            name="kind"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.fields.terminal")}</Label>
-                                    <PopoverSelect
-                                        variants={terminalsData || []}
-                                        value={terminalValueName}
-                                        idField="terminal_id"
-                                        setIdValue={field.onChange}
-                                        onChange={setTerminalValueName}
-                                        variantKey="verbose_name"
-                                        placeholder={
-                                            providerName
-                                                ? translate("resources.terminals.selectPlaceholder")
-                                                : translate("resources.direction.noTerminals")
-                                        }
-                                        commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
-                                        notFoundMessage={translate("resources.terminals.notFoundMessage")}
-                                        isError={fieldState.invalid}
-                                        errorMessage={fieldState.error?.message}
-                                        disabled={terminalsLoadingProcess || !providerName}
-                                        modal
-                                    />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="weight"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            value={field.value ?? "0"}
-                                            variant={InputTypes.GRAY}
-                                            label={translate("resources.direction.weight")}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <Label>{translate("resources.direction.types.type")}</Label>
+                                <FormItem>
+                                    <Label>{translate("resources.direction.fields.kinds.kind")}</Label>
                                     <Select value={field.value} onValueChange={field.onChange}>
                                         <FormControl>
                                             <SelectTrigger
                                                 variant={SelectType.GRAY}
                                                 isError={fieldState.invalid}
                                                 errorMessage={<FormMessage />}>
-                                                <SelectValue />
+                                                <SelectValue
+                                                    placeholder={translate("resources.direction.fields.kinds.kind")}
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup>
-                                                {directionTypes.map(type => (
-                                                    <SelectItem
-                                                        value={type.value}
-                                                        variant={SelectType.GRAY}
-                                                        key={type.value}>
-                                                        {type.translation}
-                                                    </SelectItem>
-                                                ))}
+                                                {kindArray.map(kind => {
+                                                    return (
+                                                        <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
+                                                            {translate(`resources.direction.fields.kinds.${kind}`)}
+                                                        </SelectItem>
+                                                    );
+                                                })}
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -404,20 +581,22 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                                 </FormItem>
                             )}
                         />
-                        <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
-                            <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
-                                {translate("app.ui.actions.save")}
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="outline_gray"
-                                className="flex-1"
-                                onClick={() => {
-                                    onOpenChange(false);
-                                }}>
-                                {translate("app.ui.actions.cancel")}
-                            </Button>
-                        </div>
+                    </div>
+
+                    <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
+                        <Button type="submit" variant="default" className="flex-1" disabled={submitButtonDisabled}>
+                            {translate("app.ui.actions.save")}
+                        </Button>
+
+                        <Button
+                            type="button"
+                            variant="outline_gray"
+                            className="flex-1"
+                            onClick={() => {
+                                onOpenChange(false);
+                            }}>
+                            {translate("app.ui.actions.cancel")}
+                        </Button>
                     </div>
                 </form>
             </Form>

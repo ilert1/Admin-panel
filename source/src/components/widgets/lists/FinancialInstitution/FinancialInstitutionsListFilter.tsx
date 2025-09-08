@@ -6,12 +6,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
-import useFinancialInstitutionsListFilter from "../../../../hooks/useFinancialInstitutionsListFilter";
+import useFinancialInstitutionsListFilter from "./useFinancialInstitutionsListFilter";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
 import { UploadCsvFileDialog } from "../PaymentTypes/UploadCsvFileDialog";
 import { ExportPSReportDialog } from "../PaymentTypes/ExportPSReportDialog";
 import { useListContext } from "react-admin";
+import { LoadingBlock } from "@/components/ui/loading";
+import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
 
 interface FinancialInstitutionsListFilterProps {
     handleCreateClicked: () => void;
@@ -27,17 +29,20 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         institutionType,
         countryCode,
         nspkMemberId,
+        currencyCodes,
+        currenciesData,
+        currenciesLoadingProcess,
         reportLoading,
         onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,
         onNspkMemberIdChanged,
+        onCurrencyCodesChanged,
         onClearFilters,
         onNameChanged,
         handleDownloadReport,
         handleUploadReport
     } = useFinancialInstitutionsListFilter();
-
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
     const { total } = useListContext();
@@ -45,7 +50,8 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
-    const clearDisabled = !name && !code && !institutionType && !countryCode && !nspkMemberId;
+    const clearDisabled =
+        !name && !code && !institutionType && !countryCode && !nspkMemberId && currencyCodes.length === 0;
 
     return (
         <div className="mb-4">
@@ -53,7 +59,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
-                        filterList={[name, code, institutionType, countryCode, nspkMemberId]}
+                        filterList={[name, code, institutionType, countryCode, nspkMemberId, currencyCodes.length > 0]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
@@ -130,7 +136,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                         />
                     </div>
 
-                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                    <div className="flex min-w-36 flex-1 flex-col">
                         <Label variant={"title-2"}>
                             {translate("resources.paymentSettings.financialInstitution.fields.institution_type")}
                         </Label>
@@ -142,9 +148,15 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                             <SelectTrigger
                                 disabled={financialInstitutionTypesLoading}
                                 className="h-[38px] !w-full text-ellipsis">
-                                <SelectValue
-                                    placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
-                                />
+                                {financialInstitutionTypesLoading ? (
+                                    <div className="flex w-full items-center justify-center">
+                                        <LoadingBlock className="!h-4 !w-4" />
+                                    </div>
+                                ) : (
+                                    <SelectValue
+                                        placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
+                                    />
+                                )}
                             </SelectTrigger>
 
                             <SelectContent>
@@ -161,6 +173,22 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
+                    </div>
+
+                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                        <CurrenciesMultiSelect
+                            labelSize="title-2"
+                            variant="secondary"
+                            options={currenciesData}
+                            onChange={onCurrencyCodesChanged}
+                            value={currencyCodes}
+                            className="bg-neutral-0 hover:bg-neutral-0 active:bg-neutral-0 dark:bg-neutral-100 dark:hover:bg-neutral-100 dark:active:bg-neutral-100"
+                            placeholder={translate(
+                                "resources.paymentSettings.financialInstitution.fields.currenciesToChoose"
+                            )}
+                            modal={false}
+                            isLoading={currenciesLoadingProcess}
+                        />
                     </div>
                 </div>
             </AnimatedContainer>

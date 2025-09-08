@@ -27,7 +27,7 @@ export const useGetPaymentTypes = (props: useGetPaymentTypesProps) => {
         queryKey: ["terminal_payment_types", terminal],
         enabled: Boolean(terminal) && !disabled,
         queryFn: async ({ signal }) => {
-            const res = await dataProvider.getOne(`${provider}/terminal`, { id: terminal, signal });
+            const res = await dataProvider.getOne("terminals", { id: terminal, signal });
             return res.data.payment_types ? (res.data.payment_types as PaymentTypeModel[]) : [];
         }
     });
@@ -39,28 +39,20 @@ export const useGetPaymentTypes = (props: useGetPaymentTypesProps) => {
             const data = await dataProvider.getOne("provider", { id: provider, signal });
             const types = data.data.payment_types as PaymentTypeModel[];
 
-            if (!types || types.length === 0) {
-                const result = await dataProvider.getList("payment_type", {
-                    pagination: { perPage: 10000, page: 1 },
-                    filter: { sort: "code", asc: "ASC" },
-                    signal
-                });
-                return result.data as PaymentTypeModel[];
-            }
+            // if (!types || types.length === 0) {
+            //     const result = await dataProvider.getListWithoutPagination("payment_type", signal);
+            //     return result.data as PaymentTypeModel[];
+            // }
 
-            return types;
+            return types ?? [];
         }
     });
 
     const { data: allPaymentTypes, isLoading: isLoadingAllPaymentTypes } = useQuery<PaymentTypeModel[]>({
-        queryKey: ["payment_types", "useGetPaymentTypes"],
+        queryKey: ["payment_types", "getListWithoutPagination"],
         enabled: !provider && !merchant && !terminal && !disabled,
         queryFn: async ({ signal }) => {
-            const result = await dataProvider.getList("payment_type", {
-                pagination: { perPage: 10000, page: 1 },
-                filter: { sort: "code", asc: "ASC" },
-                signal
-            });
+            const result = await dataProvider.getListWithoutPagination("payment_type", signal);
             return result.data as PaymentTypeModel[];
         }
     });

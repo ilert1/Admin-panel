@@ -13,9 +13,10 @@ import {
 import { IBaseDataProvider } from "./base";
 import {
     CurrenciesLink,
-    ImportMode,
+    ImportStrategy,
     PaymentTypeCreate,
-    PaymentTypeModel
+    PaymentTypeModel,
+    RequiredFieldItem
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGetUrl,
@@ -23,11 +24,13 @@ import {
     paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost,
     paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete,
     paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet,
+    paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGet,
     paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost,
     paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet,
     paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete,
     paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut
 } from "@/api/enigma/payment-type/payment-type";
+import { isArray } from "lodash";
 
 export type PaymentTypeWithId = PaymentTypeModel & { id: string };
 
@@ -74,16 +77,17 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<PaymentTypeWithId>> {
+    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<PaymentTypeWithId>> {
         const res = await paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
@@ -279,7 +283,7 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         });
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict") {
+    async uploadReport(file: File, mode: ImportStrategy = "strict") {
         const res = await paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost(
             {
                 csv_file: file
@@ -302,6 +306,23 @@ export class PaymentTypesProvider extends IBaseDataProvider {
         } else if ("data" in res.data && !res.data.success) {
             throw new Error(res.data.error?.error_message);
         } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    async getRequiredFields(): Promise<Record<number, RequiredFieldItem> | undefined> {
+        const res = await paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGet({
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }
+        });
+        if ("data" in res.data && res.data.success) {
+            return {
+                ...res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data && isArray(res.data.detail)) {
             throw new Error(res.data.detail?.[0].msg);
         }
     }

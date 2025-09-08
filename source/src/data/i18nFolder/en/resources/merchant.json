@@ -7,7 +7,10 @@
         "descr": "Description",
         "directions": "Directions",
         "fees": "Fees",
-        "pays": "PayIn/PayOut"
+        "pays": "PayIn/PayOut",
+        "currencies": "Allowed sender currencies",
+        "minTTL": "Minimum TTL in seconds",
+        "maxTTL": "Maximum TTL in seconds"
     },
     "resources.merchant.errors": {
         "id": "ID is required",
@@ -21,7 +24,38 @@
     "resources.merchant.success": {
         "create": "Merchant %{name} has been successfully created."
     },
+    "resources.merchant.settings": {
+        "title": "Merchant settings",
+        "uniquenessTitle": "Uniqueness settings",
+        "uniqueness": "Uniqueness",
+        "disabled": "Functionality is not available",
+        "antifraud": "Antifraud",
+        "antifraoud_attempts": "Antifraud attempts",
+        "public_key": "Public key",
+        "deposit": "Deposit",
+        "withdraw": "Withdraw",
+        "add": "Add uniqueness",
+        "columns": {
+            "mode": "Uniqueness mode",
+            "minmax": "Scatter threshold from - to",
+            "chance": "Success chance, %",
+            "min": "Minimum value, %",
+            "max": "Maximum value, %",
+            "modes": {
+                "percent": "In percent",
+                "absolute": "In absolute values"
+            }
+        },
+        "errors": {
+            "minCantBeLess": "Minimum value cant be greater then maximum",
+            "antifraoudAttemptsNan": "Enter a number",
+            "antifraoudAttemptsMin": "The number of trigger attempts must be greater than or equal to 0",
+            "antifraoudAttemptsMax": "The number of trigger attempts should not exceed 100000"
+        },
+        "successMessage": "Uniqueness saved successfully"
+    },
     "resources.merchant.notFoundMessage": "Merchants not found.",
+    "resources.merchant.selectPlaceholder": "Select merchant",
     "resources.merchant.showTitle": "Detailed information about merchant",
     "resources.merchant.createNew": "Create new merchant",
     "resources.merchant.editingMerchant": "Editing merchant",

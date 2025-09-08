@@ -226,6 +226,11 @@ export interface CallbackHistoryBackup {
 export type CallbackHistoryReadRequestUrl = string | null;
 
 /**
+ * Full callback URL
+ */
+export type CallbackHistoryReadRequestUrl = string | null;
+
+/**
  * Incoming headers
  */
 export type CallbackHistoryReadRequestHeaders = { [key: string]: unknown };
@@ -355,7 +360,12 @@ export interface CallbackHistoryRestoreResult {
 export type CallbackMappingBaseDescription = string | null;
 
 /**
- * Terminal to which the callback is associated
+ * NATS subject for the adapter to publish messages to
+ */
+export type CallbackMappingBaseTerminal = TerminalOutput | null;
+
+/**
+ * Full internal URL path to route the request to
  */
 export type CallbackMappingBaseTerminal = TerminalOutput | null;
 
@@ -399,7 +409,12 @@ export interface CallbackMappingBase {
 export type CallbackMappingCreateDescription = string | null;
 
 /**
- * Terminal to which the callback is associated
+ * NATS subject for the adapter to publish messages to
+ */
+export type CallbackMappingCreateTerminal = TerminalInput | null;
+
+/**
+ * Full internal URL path to route the request to
  */
 export type CallbackMappingCreateTerminal = TerminalInput | null;
 
@@ -443,7 +458,12 @@ export interface CallbackMappingCreate {
 export type CallbackMappingReadDescription = string | null;
 
 /**
- * Terminal to which the callback is associated
+ * NATS subject for the adapter to publish messages to
+ */
+export type CallbackMappingReadTerminal = TerminalOutput | null;
+
+/**
+ * Full internal URL path to route the request to
  */
 export type CallbackMappingReadTerminal = TerminalOutput | null;
 
@@ -563,9 +583,10 @@ export type CallbackStatusEnum = (typeof CallbackStatusEnum)[keyof typeof Callba
 export const CallbackStatusEnum = {
     queued: "queued",
     processing: "processing",
+    quick_processing: "quick_processing",
     success: "success",
     error: "error",
-    sync: "sync"
+    retrying: "retrying"
 } as const;
 
 export type CallbackTriggerType = (typeof CallbackTriggerType)[keyof typeof CallbackTriggerType];

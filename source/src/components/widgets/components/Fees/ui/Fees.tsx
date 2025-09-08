@@ -4,22 +4,22 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { PlusCircle } from "lucide-react";
 import { useTranslate } from "react-admin";
-import fetchDictionaries from "@/helpers/get-dictionaries";
-import { Currency, DirectionFees, FeeCreate, MerchantFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Currency, DirectionFees, FeeCreate, MerchantBaseFees } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { FeeCard } from "./FeeCard";
+import { useFetchDictionaries } from "@/hooks";
 
 interface FeesProps {
     className?: string;
     id: string;
     addFee?: boolean;
-    fees?: FeeCreate[] | MerchantFees | DirectionFees;
+    fees?: FeeCreate[] | MerchantBaseFees | DirectionFees;
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     feesResource?: FeesResource;
     feesVariants?: Currency[];
     padding?: boolean;
     feeType?: FeeType;
-    providerName?: string;
+    disabled?: boolean;
 }
 
 export const Fees = (props: FeesProps) => {
@@ -32,11 +32,11 @@ export const Fees = (props: FeesProps) => {
         feesVariants = [],
         padding = true,
         feeType = "default",
-        providerName,
-        setFees
+        setFees,
+        disabled = false
     } = props;
 
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const feeTypes = data?.feeTypes;
     const containerEndRef = useRef<HTMLDivElement>(null);
     const translate = useTranslate();
@@ -59,7 +59,7 @@ export const Fees = (props: FeesProps) => {
 
     const deleteFee = (innerId: number) => {
         if (setFees) {
-            setFees(prev => prev.filter(el => el.innerId === innerId));
+            setFees(prev => prev.filter(el => el.innerId !== innerId));
         }
     };
 
@@ -67,10 +67,14 @@ export const Fees = (props: FeesProps) => {
         return null;
     }
 
+    const isFeeCreateArray = Array.isArray(fees) && fees.every(fee => "type" in fee);
+
     return (
         <div className={cn("mt-[10px] w-full", padding ? "px-2" : "px-0")}>
             <div className="flex w-full flex-col rounded-[8px] bg-neutral-0 px-[32px] dark:bg-neutral-100">
-                <h3 className="mb-[16px] mt-[16px] text-display-3">{translate("resources.direction.fees.fees")}</h3>
+                <h3 className="mb-[16px] mt-[16px] text-display-3 text-neutral-90 dark:text-neutral-0">
+                    {translate("resources.direction.fees.fees")}
+                </h3>
                 <div className={cn("max-h-[40vh] overflow-auto pr-[10px]", className)}>
                     {fees && Object.keys(fees).length !== 0
                         ? Object.keys(fees).map(key => {
@@ -80,20 +84,20 @@ export const Fees = (props: FeesProps) => {
                               return (
                                   <FeeCard
                                       key={fee.innerId ?? fee.id}
-                                      isInner={fee.innerId ?? false}
+                                      isInner={fee.innerId ? true : false}
                                       deleteFn={deleteFee}
                                       account={fee.id ?? ""}
                                       feeAmount={
                                           feeType === "inner" ? fee.value : fee.value.quantity / fee.value.accuracy
                                       }
                                       feeType={fee.type}
-                                      id={id}
+                                      id={fee.innerId ? fee.innerId : id}
                                       resource={feesResource}
                                       description={fee.description}
                                       addFee={addFee}
-                                      providerName={providerName}
                                       currency={fee.currency}
                                       direction={fee.direction}
+                                      disabled={disabled}
                                   />
                               );
                           })
@@ -106,7 +110,10 @@ export const Fees = (props: FeesProps) => {
                             variants={id ? feesVariants : undefined}
                             setFees={setFees ?? undefined}
                             feeType={feeType}
-                            providerName={providerName}
+                            // eslint-disable-next-line
+                            // @ts-ignore
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                            fees={isFeeCreateArray ? fees : Object.values(fees ?? {}).map(({ id, ...rest }) => rest)}
                         />
                     )}
                     <div ref={containerEndRef} />
@@ -114,7 +121,12 @@ export const Fees = (props: FeesProps) => {
             </div>
             {addFee && (
                 <div className="flex justify-end">
-                    <Button onClick={() => setAddNewOpen(true)} className="my-6 flex w-full gap-[4px] sm:w-2/5">
+                    <Button
+                        onClick={() => setAddNewOpen(true)}
+                        className="my-6 flex w-full gap-[4px] sm:w-2/5"
+                        disabled={
+                            disabled || (isFeeCreateArray ? fees?.length > 2 : Object.values(fees ?? {}).length > 2)
+                        }>
                         <PlusCircle className="h-[16px] w-[16px]" />
                         {translate("resources.direction.fees.addFee")}
                     </Button>

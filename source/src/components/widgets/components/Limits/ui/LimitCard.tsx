@@ -10,13 +10,15 @@ interface LimitCardProps {
     directionId: string;
     limits: Limits;
     setEditClicked: (state: boolean) => void;
+    disabled?: boolean;
 }
 
 export const LimitCard = (props: LimitCardProps) => {
     const {
         limits,
         // directionId,
-        setEditClicked
+        setEditClicked,
+        disabled = false
     } = props;
     // const [deleteClicked, setDeleteClicked] = useState(false);
 
@@ -53,7 +55,7 @@ export const LimitCard = (props: LimitCardProps) => {
                     </div>
                 </div>
                 <div className="flex flex-col justify-end gap-[10px] sm:flex-row">
-                    <Button variant="outline" onClick={() => setEditClicked(true)}>
+                    <Button variant="outline" onClick={() => setEditClicked(true)} disabled={disabled}>
                         {translate("app.ui.actions.edit")}
                     </Button>
                     {/* <Button variant="outline_gray" onClick={handleDelete}>

@@ -4,24 +4,35 @@
         "id": "ID операции",
         "created_at": "Дата создания",
         "updated_at": "Обновлена",
-        "committed": "Зафиксированная",
+        "committed": "Зафиксировано",
         "account_id": "ID счёта",
         "dispute": "Диспут",
         "accountBalance": "Баланс счёта",
         "amount_value": "Сумма",
         "currency": "Валюта",
         "meta": {
+            "payment_type": "Платёжный тип",
+            "provider": "Провайдер",
             "external_status": "Внешний статус",
             "parentId": "ID родительской транзакции",
             "customer_payment_id": "ID платежа клиента",
-            "customer_id": "ID клиента"
+            "customer_id": "ID клиента",
+            "phone_number": "Номер телефона",
+            "email": "Email",
+            "first_name": "Имя",
+            "last_name": "Фамилия",
+            "country": "Страна",
+            "user_agent": "User agent",
+            "ip": "IP",
+            "fingerprint": "Fingerprint"
         },
         "state": {
-            "title": "Состояние",
+            "title": "Статус",
+            "merchant_state": "Статус (мерчант)",
             "final": "Финальная",
             "state_int": "Код",
             "state_description": "Статус",
-            "state_changed": "Статус измене на:"
+            "state_changed": "Статус изменен на:"
         },
         "rateInfo": "Курс",
         "createdAt": "Дата и время",
@@ -72,7 +83,22 @@
         "commitTransaction": "Зафиксировать операцию?",
         "sendWebhook": "Отправить вебхук",
         "sendWebhookSuccessMsg": "Вебхук для ордера %{id} успешно отправлен",
-        "notFound": "Транзакция не найдена"
+        "notFound": "Транзакция не найдена",
+        "transactionData": "Реквизиты",
+        "customerData": "Данные клиента"
+    },
+    "resources.transactions.stateUpdate": {
+        "title": "Обновление состояний",
+        "fields": {
+            "id": "ID",
+            "state": "Состояние",
+            "merchant_state": "Состояние (мерчант)",
+            "amount": "Сумма",
+            "provider": "Провайдер",
+            "external_id": "Внешний ID",
+            "external_status": "Внешний статус",
+            "callback_id": "Callback ID"
+        }
     },
     "resources.transactions.list": {
         "filter": {
@@ -107,8 +133,10 @@
         "filterById": "Поиск по ID операции",
         "filterByIdPlaceholder": "ID",
         "filterByAccount": "Мерчант",
+        "filterByProvider": "Провайдер",
         "filterAllPlaceholder": "Все",
         "filterByOrderStatus": "Статус ордера",
+        "filterByIngressOrderStatus": "Статус ордера (Мерчант)",
         "filterByDate": "Выберите период",
         "clearFilters": "Сбросить фильтры",
         "filterCustomerPaymentId": "Поиск по ID платежа клиента"
@@ -128,27 +156,37 @@
         "all": "Показать все",
         "created": "Создано",
         "paid": "Оплачено",
-        "fromoutside": "Извне",
+        "fromoutside": "Принято провайдером",
         "waitpayout": "Ожидание выплаты",
-        "paidout": "Выплачено",
-        "toreturnfrominside": "К возврату изнутри",
-        "toreturnfromoutside": "К возврату извне",
-        "reversed": "Отменено",
-        "changedfromcreated": "Изменено с состояния 'Создано'",
-        "changedfrompaid": "Изменено с состояния 'Оплачено'",
-        "returned": "Возвращено",
-        "todeny": "Отклонено системой провайдера",
-        "processing": "Обработка",
+        "todeny": "Ошибка провайдера",
+        "processing": "Обработка платежа",
         "expired": "Истекло",
-        "deleted": "Удалено",
         "success": "Успех",
         "succes": "Успех",
-        "fail": "Неудача",
-        "correction": "Коррекция",
-        "emptyrequisites": "Реквизиты отсутвуют",
-        "limitfail": "Вне допустимого лимита ордера",
+        "fail": "Внутренняя ошибка",
+        "correction": "Открыт спор",
+        "emptyrequisites": "Реквизиты отсутствуют",
+        "limitfail": "Вне лимита суммы",
         "waitingforadminapproval": "Ожидание подтверждения",
         "cancelledbypayer": "Отменено плательщиком",
-        "cascadefail": "Ошибка каскада"
+        "cascadefail": "Ошибка каскада",
+        "enteredcascade": "Вход в каскад",
+        "exitedcascade": "Выход из каскада",
+        "canceledprovider": "Отклонено провайдером",
+        "expiredtime": "Таймаут каскада",
+        "unknown": "Неизвестный статус"
+    },
+    "resources.transactions.merchantStates": {
+        "1": "Зарегистрирован",
+        "2": "В ожидании",
+        "3": "Обработка платежа",
+        "4": "Успех",
+        "5": "Ошибка",
+        "6": "Реквизиты отсутствуют",
+        "7": "Вне лимита суммы",
+        "8": "Отменено плательщиком",
+        "9": "Истекло время платежа",
+        "10": "Открыт спор",
+        "unknown": "Неизвестный статус"
     }
 }

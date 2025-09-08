@@ -13,7 +13,7 @@
         "example": "Example",
         "edit": "Edit",
         "delete": "Delete",
-        "accuracy": "Accuracy",
+        "accuracy": "Balance display accuracy",
         "defaultAccuracyPlaceholder": "By default 2"
     },
     "resources.currency.errors": {

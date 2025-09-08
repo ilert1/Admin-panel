@@ -2,12 +2,14 @@ import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTranslate } from "react-admin";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface SimpleTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     tableType?: TableTypes;
     className?: string;
+    notFoundMessage?: ReactNode | string;
 }
 
 export enum TableTypes {
@@ -19,7 +21,8 @@ export function SimpleTable<TData, TValue>({
     columns,
     data,
     tableType = TableTypes.DEFAULT,
-    className = ""
+    className = "",
+    notFoundMessage
 }: SimpleTableProps<TData, TValue>) {
     const translate = useTranslate();
     const table = useReactTable({
@@ -29,8 +32,8 @@ export function SimpleTable<TData, TValue>({
     });
 
     return (
-        <Table className={className}>
-            <TableHeader>
+        <Table className={className} simple>
+            <TableHeader className="border border-neutral-40 px-4 py-[9px] text-left text-base leading-4 text-white dark:border-muted">
                 {table.getHeaderGroups().map((headerGroup, i) => (
                     <TableRow className="relative" key={i}>
                         {headerGroup.headers.map((header, j) => {
@@ -72,7 +75,7 @@ export function SimpleTable<TData, TValue>({
                                     key={j}
                                     className={
                                         tableType === TableTypes.COLORED
-                                            ? "border border-neutral-40 text-neutral-90 dark:border-muted dark:text-neutral-0"
+                                            ? "relative border border-neutral-40 text-neutral-90 dark:border-muted dark:text-neutral-0"
                                             : ""
                                     }>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -82,8 +85,10 @@ export function SimpleTable<TData, TValue>({
                     ))
                 ) : (
                     <TableRow>
-                        <TableCell colSpan={columns.length} className="h-24 text-center">
-                            {translate("resources.transactions.undefined")}
+                        <TableCell
+                            colSpan={columns.length}
+                            className="h-24 bg-white text-center text-neutral-90 dark:bg-black dark:text-neutral-30">
+                            {notFoundMessage ? notFoundMessage : translate("resources.transactions.undefined")}
                         </TableCell>
                     </TableRow>
                 )}

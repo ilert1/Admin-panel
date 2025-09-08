@@ -31,7 +31,7 @@
             "walletType": "Wallet type",
             "walletAddress": "Wallet address",
             "accountNumber": "Account ID",
-            "merchantName": "Merchant",
+            "merchantName": "Account",
             "merchantId": "Merchant ID",
             "currency": "Currency",
             "descr": "Description",

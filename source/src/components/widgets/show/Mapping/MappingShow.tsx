@@ -1,4 +1,3 @@
-import fetchDictionaries from "@/helpers/get-dictionaries";
 import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
@@ -15,22 +14,25 @@ import {
     SecurityPolicyConfigAllowedIpsItem,
     SecurityPolicyConfigBlockedIpsItem,
     CallbackMappingRead,
-    CallbackMappingUpdate
+    CallbackMappingUpdate,
+    CallbackHistoryReadMapping
 } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { EditRetryStatusDialog } from "./EditRetryStatusDialog";
 import { EditIPsDialog } from "./EditIPsDialog";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
+import { useFetchDictionaries } from "@/hooks";
 
 interface MappingShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
+    externalData?: CallbackMappingRead | CallbackHistoryReadMapping;
 }
 
 export const MappingShow = (props: MappingShowProps) => {
-    const { id, onOpenChange } = props;
+    const { id, onOpenChange, externalData } = props;
     const translate = useTranslate();
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
     const refresh = useRefresh();
@@ -77,17 +79,26 @@ export const MappingShow = (props: MappingShowProps) => {
         id,
         queryOptions: {
             onError: () => {
-                appToast("error", translate("Mapping not found"));
-                onOpenChange(false);
+                if (!externalData) {
+                    appToast("error", translate("Mapping not found"));
+                    onOpenChange(false);
+                }
             }
         }
     });
 
-    if (context.isLoading || !context.record || !data) {
+    // Use externalData if provided, otherwise fall back to context.record
+    const record: CallbackMappingRead | CallbackHistoryReadMapping | undefined = externalData || context.record;
+
+    if (((context.isLoading || !context.record) && !externalData) || !data) {
         return <Loading />;
     }
 
-    const currentStateReversed = !context.record.security_policy?.blocked;
+    if (!record) {
+        return <Loading />;
+    }
+
+    const currentStateReversed = !record.security_policy?.blocked;
 
     const handleConfirmClicked = async () => {
         if (buttonsDisabled) return;
@@ -102,18 +113,18 @@ export const MappingShow = (props: MappingShowProps) => {
                 previousData: undefined
             });
             refresh();
-            if (context.record.security_policy?.blocked) {
+            if (record.security_policy?.blocked) {
                 appToast(
                     "success",
                     translate("resources.callbridge.mapping.statusActivatedSuccessfully", {
-                        mappingName: context.record.name
+                        mappingName: record.name
                     })
                 );
             } else {
                 appToast(
                     "success",
                     translate("resources.callbridge.mapping.statusDeactivatedSuccessfully", {
-                        mappingName: context.record.name
+                        mappingName: record.name
                     })
                 );
             }
@@ -123,10 +134,11 @@ export const MappingShow = (props: MappingShowProps) => {
             setButtonsDisabled(false);
         }
     };
-    const burst_limit = context.record.security_policy?.burst_limit;
 
-    const base_delay = context.record.retry_policy?.base_delay;
-    const max_attempts = context.record.retry_policy?.max_attempts;
+    const burst_limit = record.security_policy?.burst_limit;
+    const base_delay = record.retry_policy?.base_delay;
+    const max_attempts = record.retry_policy?.max_attempts;
+    const controlsDisabled = !context.record && !!externalData;
 
     return (
         <>
@@ -135,66 +147,63 @@ export const MappingShow = (props: MappingShowProps) => {
                     <div className="flex flex-col gap-1 md:gap-4">
                         <div className="flex flex-col justify-between sm:flex-row">
                             <div className="mb-2 md:mb-4">
-                                <TextField text={context.record.name} className="!text-display-2" />
-                                <TextField
-                                    text={context.record.id}
-                                    copyValue
-                                    className="text-neutral-70 dark:text-neutral-30"
-                                />
+                                <TextField text={record.name} className="!text-display-2" />
+                                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                                {/* @ts-ignore */}
+                                <TextField text={record.id} copyValue />
                             </div>
-                            <Button onClick={() => setEditMappingClicked(true)}>
+                            <Button disabled={controlsDisabled} onClick={() => setEditMappingClicked(true)}>
                                 {translate("app.ui.actions.edit")}
                             </Button>
                         </div>
                         <div className="grid grid-cols-1 gap-y-2 sm:grid-cols-2">
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.ext_path")}
-                                text={context.record.external_path}
+                                text={record.external_path}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.callback_url")}
-                                text={context.record.callback_url}
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                //@ts-ignore
+                                text={record.callback_url ?? ""}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
-
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.int_path")}
-                                text={context.record.internal_path ?? ""}
+                                text={record.internal_path ?? ""}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.nats_subject")}
-                                text={context.record.adapter_nats_subject ?? ""}
+                                text={record.adapter_nats_subject ?? ""}
                                 copyValue
-                                className="text-neutral-70 dark:text-neutral-30"
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.created_at")}
-                                text={new Date(context.record.created_at).toLocaleDateString()}
-                                className="text-neutral-70 dark:text-neutral-30"
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                //@ts-ignore
+                                text={new Date(record.created_at).toLocaleDateString()}
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.description")}
-                                text={context.record.description ?? ""}
-                                className="text-neutral-70 dark:text-neutral-30"
+                                text={record.description ?? ""}
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.updated_at")}
-                                text={new Date(context.record.updated_at).toLocaleDateString()}
-                                className="text-neutral-70 dark:text-neutral-30"
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                //@ts-ignore
+                                text={new Date(record.updated_at).toLocaleDateString()}
                             />
                         </div>
-                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 md:mt-10 md:pt-10">
+                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-col justify-between sm:flex-row">
-                                    <h3 className="mb-2 text-display-3 md:mb-4">
+                                    <h3 className="mb-2 text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
                                         {translate("resources.callbridge.mapping.fields.retry_policy")}
                                     </h3>
                                     <Button
+                                        disabled={controlsDisabled}
                                         onClick={() => {
                                             setEditRetryStatusClicked(true);
                                         }}>
@@ -205,45 +214,47 @@ export const MappingShow = (props: MappingShowProps) => {
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.state")}
                                         text={
-                                            context.record.retry_policy?.enabled
+                                            record.retry_policy?.enabled
                                                 ? translate("resources.callbridge.mapping.fields.active")
                                                 : translate("resources.callbridge.mapping.fields.disabled")
                                         }
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.base_delay")}
-                                        text={base_delay ? String(context.record.retry_policy?.base_delay) : ""}
+                                        text={base_delay ? String(record.retry_policy?.base_delay) : ""}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.max_attempts")}
-                                        text={max_attempts ? String(context.record.retry_policy?.max_attempts) : ""}
+                                        text={max_attempts ? String(record.retry_policy?.max_attempts) : ""}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.strategy")}
-                                        text={context.record.retry_policy?.strategy ?? ""}
+                                        text={record.retry_policy?.strategy ?? ""}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.retryOn")}
-                                        text={context.record.retry_policy?.retry_on_status?.join(", ") ?? ""}
+                                        text={record.retry_policy?.retry_on_status?.join(", ") ?? ""}
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 md:mt-10 md:pt-10">
+                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                             <div className="flex flex-col gap-2">
                                 <div className="flex flex-col justify-between sm:flex-row">
-                                    <h3 className="flex-2 mb-2 !min-w-72 flex-grow text-display-3 md:mb-4">
+                                    <h3 className="flex-2 mb-2 !min-w-72 flex-grow text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
                                         {translate("resources.callbridge.mapping.fields.security_policy")}
                                     </h3>
 
                                     <div className="flex flex-col flex-wrap gap-2 md:flex-row">
                                         <Button
+                                            disabled={controlsDisabled}
                                             onClick={() => {
                                                 setEditBlockedIPsClicked(true);
                                             }}>
                                             {translate("resources.callbridge.mapping.fields.blackListEdit")}
                                         </Button>
                                         <Button
+                                            disabled={controlsDisabled}
                                             onClick={() => {
                                                 setEditAllowedIPsClicked(true);
                                             }}>
@@ -259,7 +270,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                         />
                                         <div className="flex items-center gap-2">
                                             <button
-                                                disabled={buttonsDisabled}
+                                                disabled={buttonsDisabled || controlsDisabled}
                                                 onClick={handleConfirmClicked}
                                                 className={clsx(
                                                     "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
@@ -268,7 +279,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                                 <span
                                                     className={clsx(
                                                         "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
-                                                        currentStateReversed ? "translate-x-0" : "translate-x-full"
+                                                        currentStateReversed ? "translate-x-full" : "translate-x-0"
                                                     )}>
                                                     {currentStateReversed ? (
                                                         <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
@@ -279,7 +290,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                             </button>
                                             <TextField
                                                 text={
-                                                    context.record.security_policy?.blocked
+                                                    record.security_policy?.blocked
                                                         ? translate("resources.callbridge.mapping.fields.blocked")
                                                         : translate("resources.callbridge.mapping.fields.permitted")
                                                 }
@@ -289,7 +300,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.auth")}
                                         text={
-                                            context.record.security_policy?.auth_required
+                                            record.security_policy?.auth_required
                                                 ? translate("resources.callbridge.mapping.fields.auth_required")
                                                 : translate("resources.callbridge.mapping.fields.auth_not_required")
                                         }
@@ -300,13 +311,13 @@ export const MappingShow = (props: MappingShowProps) => {
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.strategy")}
-                                        text={context.record.security_policy?.enforcement_mode ?? ""}
+                                        text={record.security_policy?.enforcement_mode ?? ""}
                                     />
                                 </div>
                                 <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
                                     <div className="w-full">
                                         <SimpleTable
-                                            data={context.record.security_policy?.blocked_ips ?? []}
+                                            data={record.security_policy?.blocked_ips ?? []}
                                             columns={blockedIPColumn}
                                             tableType={TableTypes.COLORED}
                                             className="max-h-96 overflow-auto overflow-x-hidden"
@@ -315,7 +326,7 @@ export const MappingShow = (props: MappingShowProps) => {
 
                                     <div className="w-full">
                                         <SimpleTable
-                                            data={context.record.security_policy?.allowed_ips ?? []}
+                                            data={record.security_policy?.allowed_ips ?? []}
                                             columns={allowedIPColumn}
                                             tableType={TableTypes.COLORED}
                                             className="max-h-96 overflow-auto overflow-x-hidden"
@@ -332,22 +343,26 @@ export const MappingShow = (props: MappingShowProps) => {
                 id={id}
                 open={editRetryStatusClicked}
                 onOpenChange={setEditRetryStatusClicked}
-                oldStatuses={context.record.retry_policy?.retry_on_status}
+                oldStatuses={record.retry_policy?.retry_on_status}
             />
 
             <EditIPsDialog
-                IpList={context.record.security_policy?.blocked_ips}
-                secondaryList={context.record.security_policy?.allowed_ips}
-                id={context.record.id}
+                IpList={record.security_policy?.blocked_ips}
+                secondaryList={record.security_policy?.allowed_ips}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                id={record.id}
                 onOpenChange={setEditBlockedIPsClicked}
                 open={editBlockedIPsClicked}
                 variant="Blocked"
             />
 
             <EditIPsDialog
-                IpList={context.record.security_policy?.allowed_ips}
-                secondaryList={context.record.security_policy?.blocked_ips}
-                id={context.record.id}
+                IpList={record.security_policy?.allowed_ips}
+                secondaryList={record.security_policy?.blocked_ips}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                id={record.id}
                 onOpenChange={setEditAllowedIPsClicked}
                 open={editAllowedIPsClicked}
                 variant="Allowed"

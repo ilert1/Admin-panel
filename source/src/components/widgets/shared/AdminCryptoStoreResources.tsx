@@ -37,7 +37,7 @@ interface ICustomViewRoute {
 
 export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: boolean }) => {
     const translate = useTranslate();
-    const dataProvider = useDataProvider<VaultDataProvider>();
+    const dataProvider = useDataProvider<typeof VaultDataProvider>();
     const location = useLocation();
     const { permissions } = usePermissions();
 
@@ -171,16 +171,7 @@ export const AdminCryptoStoreResources = ({ showCaptions }: { showCaptions: bool
                                     {translate(`resources.${customViewRoutes?.name}.name`)}
                                 </span>
                             )}
-                            {showCaptions &&
-                                // <Circle
-                                //     className={cn("stroke-transparent", {
-                                //         "fill-neutral-50": !storageState?.initiated,
-                                //         "fill-yellow-40": storageState?.state === "waiting" && storageState?.initiated,
-                                //         "fill-green-50": storageState?.state === "sealed" && storageState?.initiated,
-                                //         "fill-red-40": storageState?.state === "unsealed" && storageState?.initiated
-                                //     })}
-                                // />
-                                CurrentStateIcon("w-5 h-5 mr-0")}
+                            {showCaptions && permissions === "admin" && CurrentStateIcon("w-5 h-5 mr-0")}
                             <ChevronDown
                                 className={`transition-transform ${openAccordion ? "rotate-180" : ""} ${
                                     showCaptions ? "mr-6 w-full max-w-6" : ""

@@ -49,6 +49,8 @@
         "name": "Name is required",
         "uuid": "Invalid UUID"
     },
+    "resources.accounts.notFoundMessage": "Accounts not found.",
+    "resources.accounts.selectPlaceholder": "Select account",
     "resources.accounts.showHeader": "Account info",
     "resources.accounts.showDescription": "Detailed information about account with ID %{id}",
     "resources.accounts.balance": "Balance",

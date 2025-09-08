@@ -234,7 +234,7 @@
                             ],
                             "title": "Sorting field",
                             "description": "Field to sort the results by",
-                            "default": "created_at"
+                            "default": "name"
                         },
                         "description": "Field to sort the results by"
                     },
@@ -247,7 +247,7 @@
                             "type": "string",
                             "title": "Sorting order",
                             "description": "Sort order: 'asc' or 'desc'",
-                            "default": "desc"
+                            "default": "asc"
                         },
                         "description": "Sort order: 'asc' or 'desc'"
                     }
@@ -279,6 +279,7 @@
                 "tags": ["Callback mapping"],
                 "summary": "Create callback mapping",
                 "operationId": "CallbackMappingEndpoints_create_mapping_callbridge_v1_mapping_post",
+                "deprecated": true,
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -399,6 +400,7 @@
                 "tags": ["Callback mapping"],
                 "summary": "Update callback mapping",
                 "operationId": "CallbackMappingEndpoints_update_mapping_callbridge_v1_mapping__mapping_id__put",
+                "deprecated": true,
                 "parameters": [
                     {
                         "name": "mapping_id",
@@ -2313,7 +2315,7 @@
             },
             "CallbackStatusEnum": {
                 "type": "string",
-                "enum": ["queued", "processing", "success", "error", "sync"],
+                "enum": ["queued", "processing", "quick_processing", "success", "error", "retrying"],
                 "title": "CallbackStatusEnum"
             },
             "CallbackTriggerType": {

@@ -6,21 +6,18 @@
  */
 import type {
     ApiResponseListAccountInfo,
-    ApiResponseListTerminal,
     ApiResponseNoneType,
-    ApiResponseOffsetPaginationTerminal,
-    ApiResponseTerminal,
+    ApiResponseOffsetPaginationTerminalRead,
+    ApiResponseTerminalRead,
     FeeCreate,
     FeeUpdate,
     HTTPValidationError,
     PaymentTypesLink,
-    PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
     TerminalCreate,
     TerminalDeleteAuth,
-    TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetParams,
+    TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
     TerminalUpdate,
-    TerminalUpdateAuth,
-    TerminalUpdateCallbackUrl
+    TerminalUpdateAuth
 } from "../blowFishEnigmaAPIService.schemas";
 
 import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
@@ -29,27 +26,27 @@ import { authFetch } from "../../../helpers/orvalAuthFetchMiddleware";
  * Returns a paginated list of terminals
  * @summary Get a paginated list of terminals
  */
-export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200 = {
-    data: ApiResponseOffsetPaginationTerminal;
+export type terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200 = {
+    data: ApiResponseOffsetPaginationTerminalRead;
     status: 200;
 };
 
-export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse422 = {
+export type terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponseComposite =
-    | poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200
-    | poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse422;
+export type terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponseComposite =
+    | terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse200
+    | terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse422;
 
-export type poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse =
-    poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponseComposite & {
+export type terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse =
+    terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponseComposite & {
         headers: Headers;
     };
 
-export const getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl = (
-    params?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams
+export const getTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl = (
+    params?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams
 ) => {
     const normalizedParams = new URLSearchParams();
 
@@ -66,12 +63,12 @@ export const getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl = (
         : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal`;
 };
 
-export const poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
-    params?: PoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
+export const terminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
+    params?: TerminalEndpointsAllTerminalsEnigmaV1TerminalGetParams,
     options?: RequestInit
-): Promise<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse> => {
-    return authFetch<poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse>(
-        getPoolTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl(params),
+): Promise<terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse> => {
+    return authFetch<terminalEndpointsAllTerminalsEnigmaV1TerminalGetResponse>(
+        getTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl(params),
         {
             ...options,
             method: "GET"
@@ -80,137 +77,38 @@ export const poolTerminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
 };
 
 /**
- * Retrieves a list of unique Terminal entities associated with a specific Merchant ID.
- * @summary Retrieve Terminals by Merchant ID
- */
-export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200 = {
-    data: ApiResponseListTerminal;
-    status: 200;
-};
-
-export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite =
-    | poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse200
-    | poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse422;
-
-export type poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse =
-    poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getPoolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl = (
-    merchantId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/by_merchant/${merchantId}`;
-};
-
-export const poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGet = async (
-    merchantId: string,
-    options?: RequestInit
-): Promise<poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse> => {
-    return authFetch<poolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetResponse>(
-        getPoolTerminalEndpointsGetTerminalsByMerchantEnigmaV1TerminalByMerchantMerchantIdGetUrl(merchantId),
-        {
-            ...options,
-            method: "GET"
-        }
-    );
-};
-
-/**
- * Returns a paginated list of terminals associated with a provider
- * @summary Get a paginated list of terminals via provider
- */
-export type terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse200 = {
-    data: ApiResponseOffsetPaginationTerminal;
-    status: 200;
-};
-
-export type terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponseComposite =
-    | terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse200
-    | terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse422;
-
-export type terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse =
-    terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponseComposite & {
-        headers: Headers;
-    };
-
-export const getTerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetUrl = (
-    providerName: string,
-    params?: TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetParams
-) => {
-    const normalizedParams = new URLSearchParams();
-
-    Object.entries(params || {}).forEach(([key, value]) => {
-        if (value !== undefined) {
-            normalizedParams.append(key, value === null ? "null" : value.toString());
-        }
-    });
-
-    const stringifiedParams = normalizedParams.toString();
-
-    return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal`;
-};
-
-export const terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGet = async (
-    providerName: string,
-    params?: TerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetParams,
-    options?: RequestInit
-): Promise<terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse> => {
-    return authFetch<terminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetResponse>(
-        getTerminalEndpointsListTerminalsEnigmaV1ProviderProviderNameTerminalGetUrl(providerName, params),
-        {
-            ...options,
-            method: "GET"
-        }
-    );
-};
-
-/**
- * Registers a new terminal under the specified provider
+ * Registers a new terminal
  * @summary Create a new terminal
  */
-export type terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse422 = {
+export type terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponseComposite =
-    | terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse200
-    | terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse422;
+export type terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponseComposite =
+    | terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse200
+    | terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse422;
 
-export type terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse =
-    terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponseComposite & {
+export type terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse =
+    terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostUrl = (providerName: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal`;
+export const getTerminalEndpointsCreateTerminalEnigmaV1TerminalPostUrl = () => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal`;
 };
 
-export const terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPost = async (
-    providerName: string,
+export const terminalEndpointsCreateTerminalEnigmaV1TerminalPost = async (
     terminalCreate: TerminalCreate,
     options?: RequestInit
-): Promise<terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse> => {
-    return authFetch<terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostResponse>(
-        getTerminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminalPostUrl(providerName),
+): Promise<terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse> => {
+    return authFetch<terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse>(
+        getTerminalEndpointsCreateTerminalEnigmaV1TerminalPostUrl(),
         {
             ...options,
             method: "POST",
@@ -221,42 +119,38 @@ export const terminalEndpointsCreateTerminalEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
- * Fetches the details of a terminal associated with the specified provider
+ * Fetches the details of a terminal
  * @summary Retrieve terminal details
  */
-export type terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse422 = {
+export type terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponseComposite =
-    | terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse200
-    | terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse422;
+export type terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponseComposite =
+    | terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse200
+    | terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse422;
 
-export type terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse =
-    terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponseComposite & {
+export type terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse =
+    terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}`;
+export const getTerminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
 };
 
-export const terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGet = async (
-    providerName: string,
+export const terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGet = async (
     terminalId: string,
     options?: RequestInit
-): Promise<terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse> => {
-    return authFetch<terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetResponse>(
-        getTerminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdGetUrl(providerName, terminalId),
+): Promise<terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse> => {
+    return authFetch<terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse>(
+        getTerminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetUrl(terminalId),
         {
             ...options,
             method: "GET"
@@ -265,46 +159,39 @@ export const terminalEndpointsGetTerminalEnigmaV1ProviderProviderNameTerminalTer
 };
 
 /**
- * Modifies the attributes of an existing terminal under a specific provider
+ * Modifies the attributes of an existing terminal
  * @summary Update terminal information
  */
-export type terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse422 = {
+export type terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponseComposite =
-    | terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse200
-    | terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse422;
+export type terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponseComposite =
+    | terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse200
+    | terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse422;
 
-export type terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse =
-    terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponseComposite & {
+export type terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse =
+    terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}`;
+export const getTerminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
 };
 
-export const terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPut = async (
-    providerName: string,
+export const terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPut = async (
     terminalId: string,
     terminalUpdate: TerminalUpdate,
     options?: RequestInit
-): Promise<terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse> => {
-    return authFetch<terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutResponse>(
-        getTerminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdPutUrl(
-            providerName,
-            terminalId
-        ),
+): Promise<terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse> => {
+    return authFetch<terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse>(
+        getTerminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutUrl(terminalId),
         {
             ...options,
             method: "PUT",
@@ -315,45 +202,38 @@ export const terminalEndpointsUpdateTerminalEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
- * Deletes a terminal associated with the given provider
+ * Deletes a terminal
  * @summary Remove a terminal
  */
-export type terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse200 = {
+export type terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponse200 = {
     data: ApiResponseNoneType;
     status: 200;
 };
 
-export type terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse422 = {
+export type terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponseComposite =
-    | terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse200
-    | terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse422;
+export type terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponseComposite =
+    | terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponse200
+    | terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponse422;
 
-export type terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse =
-    terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponseComposite & {
+export type terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponse =
+    terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}`;
+export const getTerminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
 };
 
-export const terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDelete = async (
-    providerName: string,
+export const terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDelete = async (
     terminalId: string,
     options?: RequestInit
-): Promise<terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse> => {
-    return authFetch<terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteResponse>(
-        getTerminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdDeleteUrl(
-            providerName,
-            terminalId
-        ),
+): Promise<terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponse> => {
+    return authFetch<terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteResponse>(
+        getTerminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteUrl(terminalId),
         {
             ...options,
             method: "DELETE"
@@ -362,150 +242,39 @@ export const terminalEndpointsDeleteTerminalEnigmaV1ProviderProviderNameTerminal
 };
 
 /**
- * Overwrites terminal authentication settings with new data
- * @deprecated
- * @summary Set terminal authentication data
- */
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse200 = {
-    data: ApiResponseTerminal;
-    status: 200;
-};
-
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponseComposite =
-    | terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse200
-    | terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse422;
-
-export type terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse =
-    terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponseComposite & {
-        headers: Headers;
-    };
-
-export const getTerminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/set_auth`;
-};
-
-export const terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPut = async (
-    providerName: string,
-    terminalId: string,
-    terminalUpdateAuth: TerminalUpdateAuth,
-    options?: RequestInit
-): Promise<terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse> => {
-    return authFetch<terminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutResponse>(
-        getTerminalEndpointsSetTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdSetAuthPutUrl(
-            providerName,
-            terminalId
-        ),
-        {
-            ...options,
-            method: "PUT",
-            headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(terminalUpdateAuth)
-        }
-    );
-};
-
-/**
- * Adds additional authentication settings by merging new data with existing settings
- * @deprecated
- * @summary Add terminal authentication data
- */
-export type terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse200 = {
-    data: ApiResponseTerminal;
-    status: 200;
-};
-
-export type terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse422 = {
-    data: HTTPValidationError;
-    status: 422;
-};
-
-export type terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponseComposite =
-
-        | terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse200
-        | terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse422;
-
-export type terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse =
-    terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponseComposite & {
-        headers: Headers;
-    };
-
-export const getTerminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/add_auth`;
-};
-
-export const terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatch = async (
-    providerName: string,
-    terminalId: string,
-    terminalUpdateAuth: TerminalUpdateAuth,
-    options?: RequestInit
-): Promise<terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse> => {
-    return authFetch<terminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchResponse>(
-        getTerminalEndpointsAddTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAddAuthPatchUrl(
-            providerName,
-            terminalId
-        ),
-        {
-            ...options,
-            method: "PATCH",
-            headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(terminalUpdateAuth)
-        }
-    );
-};
-
-/**
  * Replaces the authentication data of the terminal with the new set. Encrypts values as needed
  * @summary Replace terminal authentication data
  */
-export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse422 = {
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponseComposite =
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponseComposite =
+    | terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse200
+    | terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse422;
 
-        | terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse200
-        | terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse422;
-
-export type terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse =
-    terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponseComposite & {
+export type terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse =
+    terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auth`;
+export const getTerminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth`;
 };
 
-export const terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPut = async (
-    providerName: string,
+export const terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPut = async (
     terminalId: string,
     terminalUpdateAuth: TerminalUpdateAuth,
     options?: RequestInit
-): Promise<terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse> => {
-    return authFetch<terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutResponse>(
-        getTerminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPutUrl(
-            providerName,
-            terminalId
-        ),
+): Promise<terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse> => {
+    return authFetch<terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutResponse>(
+        getTerminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutUrl(terminalId),
         {
             ...options,
             method: "PUT",
@@ -519,44 +288,36 @@ export const terminalEndpointsReplaceTerminalAuthEnigmaV1ProviderProviderNameTer
  * Updates part of the authentication data. New or changed values are encrypted
  * @summary Patch terminal authentication data
  */
-export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse422 = {
+export type terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponseComposite =
+export type terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponseComposite =
+    | terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse200
+    | terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse422;
 
-        | terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse200
-        | terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse422;
-
-export type terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse =
-    terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponseComposite & {
+export type terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse =
+    terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auth`;
+export const getTerminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth`;
 };
 
-export const terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatch = async (
-    providerName: string,
+export const terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatch = async (
     terminalId: string,
     terminalUpdateAuth: TerminalUpdateAuth,
     options?: RequestInit
-): Promise<terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse> => {
-    return authFetch<terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchResponse>(
-        getTerminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTerminalTerminalIdAuthPatchUrl(
-            providerName,
-            terminalId
-        ),
+): Promise<terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse> => {
+    return authFetch<terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchResponse>(
+        getTerminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchUrl(terminalId),
         {
             ...options,
             method: "PATCH",
@@ -570,44 +331,36 @@ export const terminalEndpointsPatchTerminalAuthEnigmaV1ProviderProviderNameTermi
  * Deletes specific authentication keys from the terminal
  * @summary Delete specific auth keys
  */
-export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse422 = {
+export type terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponseComposite =
+export type terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponseComposite =
+    | terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse200
+    | terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse422;
 
-        | terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse200
-        | terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse422;
-
-export type terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse =
-    terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponseComposite & {
+export type terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse =
+    terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auth/keys`;
+export const getTerminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth/keys`;
 };
 
-export const terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDelete = async (
-    providerName: string,
+export const terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDelete = async (
     terminalId: string,
     terminalDeleteAuth: TerminalDeleteAuth,
     options?: RequestInit
-): Promise<terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse> => {
-    return authFetch<terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteResponse>(
-        getTerminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminalTerminalIdAuthKeysDeleteUrl(
-            providerName,
-            terminalId
-        ),
+): Promise<terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse> => {
+    return authFetch<terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteResponse>(
+        getTerminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteUrl(terminalId),
         {
             ...options,
             method: "DELETE",
@@ -621,89 +374,78 @@ export const terminalEndpointsDeleteAuthKeysEnigmaV1ProviderProviderNameTerminal
  * Initializes the provider account for a terminal by setting its authentication token. Returns the updated terminal data
  * @summary Initialize provider account
  */
-export type terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse200 =
-    {
-        data: ApiResponseListAccountInfo;
-        status: 200;
-    };
+export type terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponse200 = {
+    data: ApiResponseListAccountInfo;
+    status: 200;
+};
 
-export type terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse422 =
-    {
-        data: HTTPValidationError;
-        status: 422;
-    };
+export type terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
 
-export type terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponseComposite =
+export type terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponseComposite =
+    | terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponse200
+    | terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponse422;
 
-        | terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse200
-        | terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse422;
-
-export type terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse =
-    terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponseComposite & {
+export type terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponse =
+    terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostUrl =
-    (providerName: string, terminalId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/init_accounts`;
-    };
+export const getTerminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostUrl = (
+    terminalId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/init_accounts`;
+};
 
-export const terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost =
-    async (
-        providerName: string,
-        terminalId: string,
-        options?: RequestInit
-    ): Promise<terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse> => {
-        return authFetch<terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostResponse>(
-            getTerminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPostUrl(
-                providerName,
-                terminalId
-            ),
-            {
-                ...options,
-                method: "POST"
-            }
-        );
-    };
+export const terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost = async (
+    terminalId: string,
+    options?: RequestInit
+): Promise<terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponse> => {
+    return authFetch<terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostResponse>(
+        getTerminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostUrl(terminalId),
+        {
+            ...options,
+            method: "POST"
+        }
+    );
+};
 
 /**
  * Adds a new fee to the terminal
  * @summary Add fee to terminal
  */
-export type terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse422 = {
+export type terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponseComposite =
-    | terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse200
-    | terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse422;
+export type terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponseComposite =
+    | terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse200
+    | terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse422;
 
-export type terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse =
-    terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponseComposite & {
+export type terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse =
+    terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchUrl = (
-    providerName: string,
-    terminalId: string
-) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/fee`;
+export const getTerminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee`;
 };
 
-export const terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatch = async (
-    providerName: string,
+export const terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatch = async (
     terminalId: string,
     feeCreate: FeeCreate,
     options?: RequestInit
-): Promise<terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse> => {
-    return authFetch<terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchResponse>(
-        getTerminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeePatchUrl(providerName, terminalId),
+): Promise<terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse> => {
+    return authFetch<terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse>(
+        getTerminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchUrl(terminalId),
         {
             ...options,
             method: "PATCH",
@@ -717,46 +459,40 @@ export const terminalEndpointsAddFeeEnigmaV1ProviderProviderNameTerminalTerminal
  * Updates an existing fee for the terminal
  * @summary Update fee
  */
-export type terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse422 = {
+export type terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponseComposite =
-    | terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse200
-    | terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse422;
+export type terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponseComposite =
+    | terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse200
+    | terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse422;
 
-export type terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse =
-    terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponseComposite & {
+export type terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse =
+    terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchUrl = (
-    providerName: string,
+export const getTerminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchUrl = (
     terminalId: string,
     feeId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/fee/${feeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee/${feeId}`;
 };
 
-export const terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatch = async (
-    providerName: string,
+export const terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatch = async (
     terminalId: string,
     feeId: string,
     feeUpdate: FeeUpdate,
     options?: RequestInit
-): Promise<terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse> => {
-    return authFetch<terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchResponse>(
-        getTerminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdPatchUrl(
-            providerName,
-            terminalId,
-            feeId
-        ),
+): Promise<terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse> => {
+    return authFetch<terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchResponse>(
+        getTerminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatchUrl(terminalId, feeId),
         {
             ...options,
             method: "PATCH",
@@ -770,45 +506,39 @@ export const terminalEndpointsUpdateFeeEnigmaV1ProviderProviderNameTerminalTermi
  * Deletes a fee from the terminal
  * @summary Delete fee
  */
-export type terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse422 = {
+export type terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponseComposite =
-    | terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse200
-    | terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse422;
+export type terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponseComposite =
+    | terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse200
+    | terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse422;
 
-export type terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse =
-    terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponseComposite & {
+export type terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse =
+    terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteUrl = (
-    providerName: string,
+export const getTerminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteUrl = (
     terminalId: string,
     feeId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/fee/${feeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee/${feeId}`;
 };
 
-export const terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDelete = async (
-    providerName: string,
+export const terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDelete = async (
     terminalId: string,
     feeId: string,
     options?: RequestInit
-): Promise<terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse> => {
-    return authFetch<terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteResponse>(
-        getTerminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTerminalIdFeeFeeIdDeleteUrl(
-            providerName,
-            terminalId,
-            feeId
-        ),
+): Promise<terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse> => {
+    return authFetch<terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteResponse>(
+        getTerminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDeleteUrl(terminalId, feeId),
         {
             ...options,
             method: "DELETE"
@@ -817,198 +547,139 @@ export const terminalEndpointsDeleteFeeEnigmaV1ProviderProviderNameTerminalTermi
 };
 
 /**
- * Generates mapping in external service and stores external callback URL inside terminal
- * @summary Register callback for terminal
+ * Associates existing payment types with a terminal. Skips already linked types.
+ * @deprecated
+ * @summary Add payment types to terminal
  */
-export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse200 = {
-    data: ApiResponseTerminal;
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse200 = {
+    data: ApiResponseTerminalRead;
     status: 200;
 };
 
-export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse422 = {
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponseComposite =
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponseComposite =
+    | terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse200
+    | terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse422;
 
-        | terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse200
-        | terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse422;
-
-export type terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse =
-    terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponseComposite & {
+export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse =
+    terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostUrl = (
-    providerName: string,
+export const getTerminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchUrl = (
     terminalId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/callback`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/add_payment_types`;
 };
 
-export const terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPost = async (
-    providerName: string,
+export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatch = async (
     terminalId: string,
-    terminalUpdateCallbackUrl: TerminalUpdateCallbackUrl,
+    paymentTypesLink: PaymentTypesLink,
     options?: RequestInit
-): Promise<terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse> => {
-    return authFetch<terminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostResponse>(
-        getTerminalEndpointsCreateCallbackEnigmaV1ProviderProviderNameTerminalTerminalIdCallbackPostUrl(
-            providerName,
-            terminalId
-        ),
+): Promise<terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse> => {
+    return authFetch<terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchResponse>(
+        getTerminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchUrl(terminalId),
         {
             ...options,
-            method: "POST",
+            method: "PATCH",
             headers: { "Content-Type": "application/json", ...options?.headers },
-            body: JSON.stringify(terminalUpdateCallbackUrl)
+            body: JSON.stringify(paymentTypesLink)
         }
     );
 };
 
 /**
- * Associates existing payment types with a terminal. Skips already linked types.
- * @summary Add payment types to terminal
- */
-export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse200 =
-    {
-        data: ApiResponseTerminal;
-        status: 200;
-    };
-
-export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse422 =
-    {
-        data: HTTPValidationError;
-        status: 422;
-    };
-
-export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponseComposite =
-
-        | terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse200
-        | terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse422;
-
-export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse =
-    terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponseComposite & {
-        headers: Headers;
-    };
-
-export const getTerminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchUrl =
-    (providerName: string, terminalId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/add_payment_types`;
-    };
-
-export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatch =
-    async (
-        providerName: string,
-        terminalId: string,
-        paymentTypesLink: PaymentTypesLink,
-        options?: RequestInit
-    ): Promise<terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse> => {
-        return authFetch<terminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchResponse>(
-            getTerminalEndpointsAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAddPaymentTypesPatchUrl(
-                providerName,
-                terminalId
-            ),
-            {
-                ...options,
-                method: "PATCH",
-                headers: { "Content-Type": "application/json", ...options?.headers },
-                body: JSON.stringify(paymentTypesLink)
-            }
-        );
-    };
-
-/**
  * Automatically associates all available payment types with a terminal based on its provider's payment types.
+ * @deprecated
  * @summary Automatically add available payment types to terminal
  */
-export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse200 =
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse200 =
     {
-        data: ApiResponseTerminal;
+        data: ApiResponseTerminalRead;
         status: 200;
     };
 
-export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse422 =
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite =
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite =
 
-        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse200
-        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse422;
+        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse200
+        | terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse422;
 
-export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse =
-    terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite & {
+export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse =
+    terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchUrl =
-    (providerName: string, terminalId: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/auto_add_payment_types`;
-    };
+export const getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchUrl = (
+    terminalId: string
+) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auto_add_payment_types`;
+};
 
-export const terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatch =
-    async (
-        providerName: string,
-        terminalId: string,
-        options?: RequestInit
-    ): Promise<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse> => {
-        return authFetch<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchResponse>(
-            getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdAutoAddPaymentTypesPatchUrl(
-                providerName,
-                terminalId
-            ),
-            {
-                ...options,
-                method: "PATCH"
-            }
-        );
-    };
+export const terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatch = async (
+    terminalId: string,
+    options?: RequestInit
+): Promise<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse> => {
+    return authFetch<terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchResponse>(
+        getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchUrl(
+            terminalId
+        ),
+        {
+            ...options,
+            method: "PATCH"
+        }
+    );
+};
 
 /**
  * Disassociates a payment type from a terminal by its code.
+ * @deprecated
  * @summary Remove payment type from terminal
  */
-export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
     {
-        data: ApiResponseTerminal;
+        data: ApiResponseTerminalRead;
         status: 200;
     };
 
-export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
 
-        | terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200
-        | terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse422;
+        | terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse200
+        | terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse422;
 
-export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse =
-    terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
+export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse =
+    terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getTerminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
-    (providerName: string, terminalId: string, paymentTypeCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/terminal/${terminalId}/remove_payment_type/${paymentTypeCode}`;
+export const getTerminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
+    (terminalId: string, paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/remove_payment_type/${paymentTypeCode}`;
     };
 
-export const terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete =
+export const terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete =
     async (
-        providerName: string,
         terminalId: string,
         paymentTypeCode: string,
         options?: RequestInit
-    ): Promise<terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
-        return authFetch<terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse>(
-            getTerminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProviderNameTerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteUrl(
-                providerName,
+    ): Promise<terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
+        return authFetch<terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteResponse>(
+            getTerminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteUrl(
                 terminalId,
                 paymentTypeCode
             ),
@@ -1018,3 +689,44 @@ export const terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1ProviderProvi
             }
         );
     };
+
+/**
+ * Creates a callback URL for a terminal
+ * @deprecated
+ * @summary Create callback URL for terminal
+ */
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse200 = {
+    data: ApiResponseTerminalRead;
+    status: 200;
+};
+
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse422 = {
+    data: HTTPValidationError;
+    status: 422;
+};
+
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponseComposite =
+    | terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse200
+    | terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse422;
+
+export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse =
+    terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostUrl = (terminalId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/callback`;
+};
+
+export const terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPost = async (
+    terminalId: string,
+    options?: RequestInit
+): Promise<terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse> => {
+    return authFetch<terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostResponse>(
+        getTerminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostUrl(terminalId),
+        {
+            ...options,
+            method: "POST"
+        }
+    );
+};

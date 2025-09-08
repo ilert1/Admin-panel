@@ -1,10 +1,11 @@
-import { fetchUtils } from "react-admin";
+import { addRefreshAuthToDataProvider, fetchUtils } from "react-admin";
 
 import { IBaseDataProvider } from "./base";
+import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_WALLET_URL;
 
-export class VaultDataProvider extends IBaseDataProvider {
+export class IVaultDataProvider extends IBaseDataProvider {
     async getVaultState(resource: "vault", signal?: AbortSignal): Promise<Wallets.WalletStorage> {
         const { json } = await fetchUtils.fetchJson(`${API_URL}/${resource}/state`, {
             method: "GET",
@@ -52,3 +53,5 @@ export class VaultDataProvider extends IBaseDataProvider {
         return json;
     }
 }
+
+export const VaultDataProvider = addRefreshAuthToDataProvider(new IVaultDataProvider(), updateTokenHelper);

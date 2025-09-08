@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
+import { useEffect, useState } from "react";
 
 interface PaymentTypeMultiSelectProps {
     value: string[] | undefined;
@@ -10,43 +11,49 @@ interface PaymentTypeMultiSelectProps {
     options?: PaymentTypeModel[];
     label?: boolean;
     modal?: boolean;
+    isLoading?: boolean;
+    disabled?: boolean;
 }
 
 export const PaymentTypeMultiSelect = (props: PaymentTypeMultiSelectProps) => {
-    const { value, onChange, options, label = true, modal = true } = props;
+    const { value, onChange, options, label = true, modal = true, isLoading, disabled } = props;
     const translate = useTranslate();
 
+    const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
     const modifiedOptions =
         options?.map(option => ({
             label: option.code,
             value: option.code,
-            icon: (props: object) => (
-                <PaymentTypeIcon
-                    type={option.code}
-                    metaIcon={option.meta?.["icon"] as string}
-                    metaIconMargin
-                    tooltip
-                    {...props}
-                />
-            )
+            icon: (props: object) => {
+                const icon = option.meta?.["icon"];
+
+                return <PaymentTypeIcon type={option.code} metaIcon={icon} small={false} {...props} />;
+            }
         })) || [];
 
     const onValueChange = (values: string[]) => {
+        setSelectedValues(values);
         onChange(values);
     };
+
+    useEffect(() => {
+        setSelectedValues(value || []);
+    }, [value]);
 
     return (
         <div>
             {label && <Label>{translate("resources.paymentSettings.paymentType.name")}</Label>}
             <MultiSelect
+                selectedValues={selectedValues}
                 options={modifiedOptions}
                 onValueChange={onValueChange}
-                defaultValue={value}
                 placeholder={translate("app.widgets.multiSelect.selectPaymentTypes")}
                 notFoundMessage={translate("resources.paymentSettings.paymentType.notFoundMessage")}
                 animation={0}
-                maxCount={10}
+                // maxCount={10}
                 modalPopover={modal}
+                isLoading={isLoading}
+                disabled={disabled}
             />
         </div>
     );

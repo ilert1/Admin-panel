@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/Input/input";
 import { LoadingBalance } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { Cell } from "@tanstack/react-table";
-import { Check, X } from "lucide-react";
+import { Check, Pencil, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export type CurrentCell = { row: number | undefined; column: number | undefined };
@@ -35,7 +35,7 @@ export function TableEditableCell<T>({
 
     const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
-            onSubmit(value);
+            onSubmit(value.trim());
         } else if (e.key === "Escape") {
             onExit();
         }
@@ -61,19 +61,24 @@ export function TableEditableCell<T>({
 
                     <div className="flex flex-col items-center">
                         {isFetching ? (
-                            <div className="flex items-center justify-center">
+                            <div data-testid="loading-spinner" className="flex items-center justify-center">
                                 <LoadingBalance className="h-6 w-6 overflow-hidden" />
                             </div>
                         ) : (
                             <>
                                 <Button
+                                    data-testid="x-icon"
                                     disabled={isFetching}
                                     onClick={onExit}
                                     variant="secondary"
                                     className="h-auto p-0 text-red-50 hover:text-red-40 disabled:bg-transparent">
                                     <X className="h-5" />
                                 </Button>
-                                <Button onClick={() => onSubmit(value)} variant="secondary" className="h-auto p-0">
+                                <Button
+                                    data-testid="check-icon"
+                                    onClick={() => onSubmit(value.trim())}
+                                    variant="secondary"
+                                    className="h-auto p-0">
                                     <Check className="h-5" />
                                 </Button>
                             </>
@@ -81,13 +86,23 @@ export function TableEditableCell<T>({
                     </div>
                 </>
             ) : (
-                <TextField
-                    className="min-h-10"
-                    type="text"
-                    onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
-                    lineClamp
-                    text={initValue}
-                />
+                <>
+                    <TextField
+                        className="mr-7 min-h-10"
+                        type="text"
+                        onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
+                        lineClamp
+                        text={initValue}
+                    />
+
+                    <Button
+                        data-testid="pencil-icon"
+                        onClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
+                        variant="secondary"
+                        className="absolute right-2 top-2 flex h-auto items-center p-0">
+                        <Pencil className="h-4 w-4" />
+                    </Button>
+                </>
             )}
         </div>
     );

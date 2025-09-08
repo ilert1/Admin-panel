@@ -2,13 +2,15 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { MappingShow } from "../../show/Mapping/MappingShow";
+import { CallbackHistoryReadMapping, CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 interface ShowMappingSheetProps {
     id: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
+    externalData?: CallbackMappingRead | CallbackHistoryReadMapping | undefined;
 }
-export const ShowMappingSheet = ({ id, open, onOpenChange }: ShowMappingSheetProps) => {
+export const ShowMappingSheet = ({ id, open, onOpenChange, externalData }: ShowMappingSheetProps) => {
     const translate = useTranslate();
 
     return (
@@ -31,7 +33,7 @@ export const ShowMappingSheet = ({ id, open, onOpenChange }: ShowMappingSheetPro
                             </button>
                         </div>
                     </div>
-                    <MappingShow id={id} onOpenChange={onOpenChange} />
+                    <MappingShow id={id} onOpenChange={onOpenChange} externalData={externalData} />
                     <SheetDescription></SheetDescription>
                 </SheetContent>
             </Sheet>

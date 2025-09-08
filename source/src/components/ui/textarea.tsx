@@ -11,7 +11,7 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     ({ className, readOnly, error, errorMessage, ...props }, ref) => {
         return (
-            <div className="relative flex h-full w-full flex-col gap-[4px]">
+            <div className="relative !mt-0 flex h-full w-full flex-col gap-[4px]">
                 <textarea
                     className={cn(
                         `!mt-0 flex min-h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus:outline-none`,

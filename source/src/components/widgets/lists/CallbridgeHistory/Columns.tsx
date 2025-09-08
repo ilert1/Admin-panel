@@ -5,6 +5,7 @@ import { LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CallbridgeDataProvider } from "@/data";
+import { formatDateTime } from "@/helpers/formatDateTime";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
@@ -34,26 +35,6 @@ export const useGetCallbridgeHistory = () => {
         }
     };
 
-    const formatDateTime = (date: Date) => {
-        const pad = (num: number, size = 2) => String(num).padStart(size, "0");
-        if (!date) return "-";
-        return (
-            pad(date.getDate()) +
-            "." +
-            pad(date.getMonth() + 1) +
-            "." +
-            date.getFullYear() +
-            " " +
-            pad(date.getHours()) +
-            ":" +
-            pad(date.getMinutes()) +
-            ":" +
-            pad(date.getSeconds()) +
-            "." +
-            pad(date.getMilliseconds(), 3)
-        );
-    };
-
     const columns: ColumnDef<CallbackHistoryRead>[] = [
         {
             id: "dates",
@@ -81,16 +62,21 @@ export const useGetCallbridgeHistory = () => {
             accessorKey: "external_path",
             header: translate("resources.callbridge.history.fields.mapping_name"),
             cell: ({ row }) => {
+                const mapping_name = row.original.mapping?.name ?? "";
                 return (
                     <TextField
-                        text={row.original.mapping?.name ?? ""}
+                        text={mapping_name}
                         maxWidth="100%"
                         lineClamp
                         linesCount={1}
                         copyValue
-                        onClick={() => {
-                            openSheet("callbridgeMappings", { id: row.original.mapping_id });
-                        }}
+                        onClick={
+                            mapping_name
+                                ? () => {
+                                      openSheet("callbridgeMappings", { id: row.original.mapping_id });
+                                  }
+                                : undefined
+                        }
                     />
                 );
             }

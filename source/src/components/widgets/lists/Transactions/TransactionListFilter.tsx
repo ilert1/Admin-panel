@@ -7,9 +7,7 @@ import {
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/Input/input";
-import useTransactionFilter from "@/hooks/useTransactionFilter";
 import { Button } from "@/components/ui/Button";
-import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
@@ -18,6 +16,8 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { RefreshCw } from "lucide-react";
 import { useLoading, useRefresh } from "react-admin";
 import clsx from "clsx";
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
+import useTransactionFilter from "./useTransactionFilter";
 
 export const TransactionListFilter = () => {
     const {
@@ -30,30 +30,40 @@ export const TransactionListFilter = () => {
         onCustomerPaymentIdChanged,
         orderStatusFilter,
         onOrderStatusChanged,
-        account,
-        onAccountChanged,
+        orderIngressStatusFilter,
+        onOrderIngressStatusChanged,
+        merchantData,
+        merchantsLoadingProcess,
+        merchantId,
+        onMerchantChanged,
+        merchantValue,
+        setMerchantValue,
         startDate,
         endDate,
         changeDate,
+        typeTabActive,
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
-        clearFilters,
-        typeTabActive
+        clearFilters
     } = useTransactionFilter();
-    // const debounced = debounce(setChartOpen, 200);
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
     const refresh = useRefresh();
     const loading = useLoading();
 
-    const clearDiasbled =
-        !operationId && !account && !customerPaymentId && !startDate && !typeTabActive && !orderStatusFilter;
+    const clearDisabled =
+        !operationId &&
+        !merchantId &&
+        !customerPaymentId &&
+        !startDate &&
+        !typeTabActive &&
+        (adminOnly ? !orderStatusFilter && !orderIngressStatusFilter : !orderIngressStatusFilter);
 
     return (
         <>
-            <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full flex-col">
                 <div className="mb-4 flex flex-wrap justify-between gap-4 md:mb-6">
                     <ResourceHeaderTitle />
 
@@ -62,13 +72,14 @@ export const TransactionListFilter = () => {
                         onOpenChange={setOpenFiltersClicked}
                         filterList={[
                             operationId,
-                            account,
+                            merchantId,
                             customerPaymentId,
                             startDate,
                             typeTabActive,
-                            orderStatusFilter
+                            orderIngressStatusFilter,
+                            ...(adminOnly ? [orderStatusFilter] : [])
                         ]}
-                        clearButtonDisabled={clearDiasbled}
+                        clearButtonDisabled={clearDisabled}
                         onClearFilters={clearFilters}
                     />
                 </div>
@@ -96,16 +107,62 @@ export const TransactionListFilter = () => {
                             />
                         </div>
 
-                        <div className="flex min-w-36 flex-1 flex-col gap-1">
+                        {adminOnly && (
+                            <div className="flex min-w-48 flex-1 flex-col gap-1">
+                                <Label variant="title-2" className="mb-0">
+                                    {translate("resources.transactions.filter.filterByOrderStatus")}
+                                </Label>
+
+                                <Select
+                                    onValueChange={val => {
+                                        return val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("");
+                                    }}
+                                    value={orderStatusFilter}>
+                                    <SelectTrigger className="h-[38px] text-ellipsis">
+                                        <SelectValue
+                                            placeholder={translate(
+                                                "resources.transactions.filter.filterAllPlaceholder"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        <SelectItem value="null">
+                                            {translate("resources.transactions.filter.showAll")}
+                                        </SelectItem>
+
+                                        {dictionaries &&
+                                            dictionaries.states &&
+                                            Object.keys(dictionaries.states).map(index => (
+                                                <SelectItem
+                                                    key={dictionaries.states[index]?.state_int}
+                                                    value={dictionaries.states[index]?.state_int?.toString() || ""}>
+                                                    {translate(
+                                                        `resources.transactions.states.${dictionaries?.states?.[
+                                                            index
+                                                        ]?.state_description?.toLowerCase()}`
+                                                    )}
+                                                </SelectItem>
+                                            ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        )}
+
+                        <div className="flex min-w-48 flex-1 flex-col gap-1">
                             <Label variant="title-2" className="mb-0">
-                                {translate("resources.transactions.filter.filterByOrderStatus")}
+                                {adminOnly
+                                    ? translate("resources.transactions.filter.filterByIngressOrderStatus")
+                                    : translate("resources.transactions.filter.filterByOrderStatus")}
                             </Label>
 
                             <Select
-                                onValueChange={val =>
-                                    val !== "null" ? onOrderStatusChanged(val) : onOrderStatusChanged("")
-                                }
-                                value={orderStatusFilter}>
+                                onValueChange={val => {
+                                    return val !== "null"
+                                        ? onOrderIngressStatusChanged(val)
+                                        : onOrderIngressStatusChanged("");
+                                }}
+                                value={orderIngressStatusFilter}>
                                 <SelectTrigger className="h-[38px] text-ellipsis">
                                     <SelectValue
                                         placeholder={translate("resources.transactions.filter.filterAllPlaceholder")}
@@ -118,14 +175,11 @@ export const TransactionListFilter = () => {
                                     </SelectItem>
 
                                     {dictionaries &&
-                                        Object.keys(dictionaries.states).map(index => (
-                                            <SelectItem
-                                                key={dictionaries.states[index].state_int}
-                                                value={dictionaries.states[index].state_int.toString()}>
+                                        dictionaries.ingressStates &&
+                                        Object.keys(dictionaries.ingressStates).map(index => (
+                                            <SelectItem key={index} value={index?.toString() || ""}>
                                                 {translate(
-                                                    `resources.transactions.states.${dictionaries?.states?.[
-                                                        index
-                                                    ]?.state_description?.toLowerCase()}`
+                                                    `resources.transactions.merchantStates.${index?.toString()}`
                                                 )}
                                             </SelectItem>
                                         ))}
@@ -146,11 +200,14 @@ export const TransactionListFilter = () => {
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
 
-                                <MerchantSelectFilter
-                                    merchant={account}
-                                    onMerchantChanged={onAccountChanged}
-                                    resource="accounts"
-                                    modal={false}
+                                <MerchantSelect
+                                    merchants={merchantData || []}
+                                    value={merchantValue}
+                                    onChange={setMerchantValue}
+                                    setIdValue={onMerchantChanged}
+                                    disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
+                                    style="Black"
                                 />
                             </div>
                         )}
@@ -167,12 +224,12 @@ export const TransactionListFilter = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="border-green-50 p-0" align="end">
                                 <DropdownMenuItem
-                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-white focus:dark:text-white"
                                     onClick={() => handleDownloadReport("csv")}>
                                     CSV
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-80 focus:dark:text-white"
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-white focus:dark:text-white"
                                     onClick={() => handleDownloadReport("pdf")}>
                                     PDF
                                 </DropdownMenuItem>

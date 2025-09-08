@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
 import { TerminalsEdit } from "../../edit/Terminals";
+import { ProviderBase } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface EditProviderDialogProps {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
-    provider: string;
+    provider: ProviderBase;
     id: string;
 }
 
@@ -23,7 +24,7 @@ export const EditTerminalDialog = ({ open, id, provider, onOpenChange = () => {}
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 disableOutsideClick
-                className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
+                className="max-h-full w-full max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         {translate("resources.terminals.editingTerminal")}

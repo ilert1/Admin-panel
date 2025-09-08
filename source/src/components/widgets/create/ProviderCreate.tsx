@@ -1,17 +1,21 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { ProviderWithId } from "@/data/providers";
+import { IProvider } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { Label } from "@/components/ui/label";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
+import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
@@ -25,15 +29,20 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const appToast = useAppToast();
 
     const translate = useTranslate();
+    const refresh = useRefresh();
+    const { openSheet } = useSheets();
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
+    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         fields_json_schema: z.string().optional().default(""),
-        methods: z.string().trim().optional()
+        methods: z.string().trim().optional(),
+        payment_types: z.array(z.string()).optional().default([])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -41,7 +50,8 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         defaultValues: {
             name: "",
             fields_json_schema: "",
-            methods: "{}"
+            methods: "{}",
+            payment_types: []
         }
     });
 
@@ -50,17 +60,43 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
         setSubmitButtonDisabled(true);
 
-        const parseData: IProviderCreate = {
-            name: data.name,
-            methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {},
-            fields_json_schema: data.fields_json_schema || ""
+        const parsedData: IProviderCreate = {
+            ...data,
+            methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
         };
 
         try {
-            await dataProvider.create<ProviderWithId>("provider", { data: parseData });
+            const res = await dataProvider.create<IProvider>("provider", { data: parsedData });
+
+            appToast(
+                "success",
+                <span>
+                    {translate("resources.provider.successCreate", { name: data.name })}
+                    <Button
+                        className="!pl-1"
+                        variant="resourceLink"
+                        onClick={() => openSheet("provider", { id: res.data.id })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </span>,
+                translate("app.ui.toast.success"),
+                10000
+            );
+
+            refresh();
             onClose();
         } catch (error) {
-            appToast("error", translate("resources.provider.errors.alreadyInUse"));
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.create.createError"));
+            }
+        } finally {
             setSubmitButtonDisabled(false);
         }
     };
@@ -106,17 +142,32 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="payment_types"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <PaymentTypeMultiSelect
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            options={allPaymentTypes || []}
+                                            isLoading={isLoadingAllPaymentTypes}
+                                            disabled={submitButtonDisabled}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={form.control}
                             name="methods"
                             render={({ field }) => {
                                 return (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>
-                                            <span className="!text-note-1 !text-neutral-30">
-                                                {translate("resources.provider.fields.code")}
-                                            </span>
-                                        </FormLabel>
+                                        <Label>{translate("resources.provider.fields.methods")}</Label>
                                         <FormControl>
                                             <MonacoEditor
                                                 onErrorsChange={setHasErrors}
@@ -131,6 +182,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                 );
                             }}
                         />
+
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"

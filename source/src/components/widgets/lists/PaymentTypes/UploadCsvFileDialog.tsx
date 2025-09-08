@@ -1,4 +1,4 @@
-import { ImportMode } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { authProvider } from "@/components/providers";
 import { Button } from "@/components/ui/Button";
 import {
@@ -10,7 +10,15 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useState } from "react";
@@ -20,16 +28,16 @@ import { useFilePicker } from "use-file-picker";
 interface UploadCsvFileDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
-    handleUplaod: (file: File, mode: ImportMode) => void;
+    handleUplaod: (file: File, mode: ImportStrategy) => void;
 }
 export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
     const { open, onOpenChange = () => {}, handleUplaod } = props;
 
     const appToast = useAppToast();
     const translate = useTranslate();
-    const importModes = Object.values(ImportMode);
+    const importModes = Object.values(ImportStrategy);
     const [inputVal, setInputVal] = useState("");
-    const [importMode, setImportMode] = useState<ImportMode>("strict");
+    const [importMode, setImportMode] = useState<ImportStrategy>("strict");
     const { checkAuth } = authProvider;
 
     const { openFilePicker, filesContent, loading, plainFiles, clear } = useFilePicker({
@@ -76,15 +84,15 @@ export const UploadCsvFileDialog = (props: UploadCsvFileDialogProps) => {
                         </Button>
                         <div>
                             <Label>{translate("resources.paymentSettings.reports.inputMode")}</Label>
-                            <Select value={importMode} onValueChange={val => setImportMode(val as ImportMode)}>
-                                <SelectTrigger className="h-[38px] text-ellipsis">
+                            <Select value={importMode} onValueChange={val => setImportMode(val as ImportStrategy)}>
+                                <SelectTrigger className="h-[38px] text-ellipsis" variant={SelectType.GRAY}>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         {importModes.map(el => {
                                             return (
-                                                <SelectItem key={el} value={el}>
+                                                <SelectItem key={el} value={el} variant={SelectType.GRAY}>
                                                     {translate(`resources.paymentSettings.reports.${el}`)}
                                                 </SelectItem>
                                             );

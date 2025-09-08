@@ -12,16 +12,10 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 
 interface DeleteProviderDialogProps {
     deleteId: string;
-    provider: string;
     open: boolean;
     onOpenChange: (state: boolean) => void;
 }
-export const DeleteTerminalDialog = ({
-    open,
-    deleteId,
-    provider,
-    onOpenChange = () => {}
-}: DeleteProviderDialogProps) => {
+export const DeleteTerminalDialog = ({ open, deleteId, onOpenChange = () => {} }: DeleteProviderDialogProps) => {
     const translate = useTranslate();
     const [deleteOne] = useDelete();
     const refresh = useRefresh();
@@ -30,7 +24,7 @@ export const DeleteTerminalDialog = ({
 
     const handleDelete = async () => {
         await deleteOne(
-            `${provider}/terminal`,
+            "terminals",
             { id: deleteId },
             {
                 onSuccess: async () => {

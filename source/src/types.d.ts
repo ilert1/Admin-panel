@@ -108,6 +108,8 @@ declare namespace Transaction {
     };
 
     type Meta = {
+        payment_type: string;
+        provider: string;
         external_status: string;
         external_status_details: string;
         fail_url: string;
@@ -117,8 +119,10 @@ declare namespace Transaction {
 
     type State = {
         final: boolean;
-        state_description: string;
-        state_int: number;
+        state_description?: string;
+        state_int?: number;
+        state_ingress_description?: string;
+        state_int_ingress: number;
     };
 
     type Result = {
@@ -155,6 +159,40 @@ declare namespace Transaction {
         success_url?: string;
     };
 
+    type TransactionAccountRequisites = {
+        requisites: [
+            {
+                financial_institution_code: string | null;
+                financial_institution_type: string | null;
+                financial_institution_reference: string | null;
+                financial_institution_bic: string | null;
+                financial_institution_bin: string | null;
+                financial_institution_country: string | null;
+                financial_institution_name: string | null;
+                otp_code: string | null;
+                bank_name: string | null;
+                card_number: string | null;
+                card_first_digits?: string | null;
+                card_last_digits?: string | null;
+                card_cvc?: string | null;
+                card_holder?: string | null;
+                card_lifetime?: string | null;
+                card_lifetime_month?: string | null;
+                card_lifetime_year?: string | null;
+                iban_number?: string | null;
+                iban_name?: string | null;
+                phone_number?: string | null;
+                phone_last_digits?: string | null;
+                account_number?: string | null;
+                account_name?: string | null;
+                blockchain_network?: string | null;
+                blockchain_address?: string | null;
+                hash?: string | null;
+                hash_link?: string | null;
+            }
+        ];
+    };
+
     type Transaction = {
         id: string;
         committed: boolean;
@@ -162,23 +200,14 @@ declare namespace Transaction {
         destination: {
             id: string;
             amount: Omit<Amount, "type", "shop_currency">;
-
-            requisites: [
-                {
-                    hash: string;
-                    hash_link: string;
-                    blockchain_network: string;
-                    blockchain_address: string;
-                }
-            ];
-        };
+        } & TransactionAccountRequisites;
         dispute: boolean;
         fees: import("./api/enigma/blowFishEnigmaAPIService.schemas").Fee[];
         meta: Meta;
         payload?: Payload;
         rate_info: RateInfo;
         result: Result;
-        source: Account;
+        source: Account & TransactionAccountRequisites;
         state: State;
         type: number;
     };
@@ -189,7 +218,8 @@ declare namespace Transaction {
         updated_at: string;
         type_id: number;
         type_text: string;
-        state_id: number;
+        state_id?: number;
+        state_id_merchant: number;
         state_text: string;
         state_final: boolean;
         participant_id: string;
@@ -203,6 +233,29 @@ declare namespace Transaction {
         rate: string;
         rate_source_currency: string;
         rate_destination_currency: string;
+    };
+
+    type TransactionStateUpdate = {
+        id: string;
+        state: {
+            state_int?: number;
+            state_int_ingress: number;
+            state_description?: string;
+            state_ingress_description?: string;
+            final: boolean;
+        };
+        amount: {
+            currency: string;
+            value: {
+                quantity: number;
+                accuracy: number;
+            };
+        };
+        provider: string;
+        external_id: string;
+        external_status: string;
+        external_status_details: string;
+        callback_id: string;
     };
 }
 
@@ -277,8 +330,10 @@ declare namespace Users {
 
 declare namespace Dictionaries {
     interface State {
-        state_int: number;
-        state_description: string;
+        state_int?: number;
+        state_description?: string;
+        state_ingress_description?: string;
+        state_int_ingress: number;
         final: boolean;
     }
 
@@ -307,6 +362,10 @@ declare namespace Dictionaries {
         [key: string]: State;
     }
 
+    interface IngressStates {
+        [key: string]: State;
+    }
+
     interface TransactionTypes {
         [key: string]: TypeDescriptor;
     }
@@ -317,6 +376,7 @@ declare namespace Dictionaries {
         feeTypes: FeeTypes;
         participantType: ParticipantTypes;
         states: States;
+        ingressStates: States;
         transactionTypes: TransactionTypes;
     }
 
@@ -423,4 +483,38 @@ interface KecloakRoles {
     description: string;
     id: string;
     name: string;
+}
+
+declare namespace Merchant {
+    interface Uniqueness {
+        deposit: {
+            max: number;
+            min: number;
+            mode: string;
+            chance: number;
+            enable: boolean;
+        };
+    }
+
+    interface SettingsResponse {
+        id: string;
+        name: string;
+
+        antifraoud_attempts: number;
+        antifraud: boolean;
+        meta: object;
+
+        public_key: string;
+        created_at: string;
+        updated_at: string;
+
+        uniqueness: Uniqueness;
+    }
+
+    interface SettingsUpdate {
+        antifraoud_attempts?: number;
+        antifraud?: boolean;
+        public_key: string;
+        uniqueness: Uniqueness;
+    }
 }

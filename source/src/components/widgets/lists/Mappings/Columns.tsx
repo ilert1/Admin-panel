@@ -7,11 +7,12 @@ import { Link } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import NatsIcon from "@/lib/icons/nat-nat-gateway.svg?react";
+import { useTerminalsListWithoutPagination } from "@/hooks";
 
 export const useGetMappingsColumns = () => {
+    const { terminalsData, isTerminalsLoading } = useTerminalsListWithoutPagination();
     const translate = useTranslate();
     const { openSheet } = useSheets();
-
     const [createMappingClicked, setCreateMappingClicked] = useState(false);
 
     const [chosenId, setChosenId] = useState("");
@@ -58,16 +59,20 @@ export const useGetMappingsColumns = () => {
             header: translate("resources.callbridge.mapping.fields.terminal"),
             cell: ({ row }) => {
                 const term = row.original.terminal?.verbose_name;
+                const terminalId = row.original.terminal?.terminal_id;
 
                 return (
                     <TextField
                         text={term ?? ""}
                         onClick={
-                            term
+                            term &&
+                            !isTerminalsLoading &&
+                            terminalId &&
+                            terminalsData &&
+                            terminalsData.find(el => el.terminal_id === terminalId)
                                 ? () => {
                                       openSheet("terminal", {
-                                          id: row.original.terminal?.terminal_id,
-                                          provider: row.original.terminal?.provider
+                                          id: terminalId
                                       });
                                   }
                                 : undefined

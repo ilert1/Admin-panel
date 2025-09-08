@@ -26,6 +26,7 @@ export const DeleteProviderDialog = ({ open, id, onOpenChange, onQuickShowOpenCh
         try {
             await deleteOne("provider", { id });
 
+            appToast("success", translate("app.ui.delete.deletedSuccessfully"));
             refresh();
             onQuickShowOpenChange(false);
         } catch (error) {
@@ -48,10 +49,7 @@ export const DeleteProviderDialog = ({ open, id, onOpenChange, onQuickShowOpenCh
                         <Button
                             variant={"outline"}
                             className="bg-neutral-0 dark:bg-neutral-100"
-                            onClick={() => {
-                                onOpenChange(false);
-                                refresh();
-                            }}>
+                            onClick={() => onOpenChange(false)}>
                             {translate("app.ui.actions.cancel")}
                         </Button>
                     </div>

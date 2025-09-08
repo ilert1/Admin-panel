@@ -1,12 +1,12 @@
 import { Fee } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchDictionaries } from "@/hooks";
 import { ColumnDef } from "@tanstack/react-table";
 import { useLocaleState, useTranslate } from "react-admin";
 
 export const useGetTransactionShowColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
-    const dataDictionaries = fetchDictionaries();
+    const dataDictionaries = useFetchDictionaries();
 
     function computeValue(quantity: number | undefined, accuracy: number | undefined) {
         if (quantity && accuracy) {

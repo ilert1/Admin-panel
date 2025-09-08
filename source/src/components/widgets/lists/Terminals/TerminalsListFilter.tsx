@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import useTerminalFilter from "@/hooks/useTerminalFilter";
+import useTerminalFilter from "@/components/widgets/lists/Terminals/useTerminalFilter";
 import { ProviderSelect } from "@/components/widgets/components/Selects/ProviderSelect";
 import { useState } from "react";
 import { SyncDisplayedFilters } from "@/components/widgets/shared/SyncDisplayedFilters";
@@ -30,16 +30,11 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
     } = useTerminalFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+
     const clearDisabled = !providerName && !terminalFilterName;
 
     return (
         <>
-            <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-center sm:gap-x-4 sm:gap-y-3 md:flex-row md:items-end">
-                <div className="md: flex min-w-36 flex-1 flex-col gap-1 sm:max-w-96 md:max-w-60"></div>
-
-                <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]"></div>
-            </div>
-
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <SyncDisplayedFilters />
 
@@ -54,10 +49,9 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                         clearButtonDisabled={clearDisabled}
                     />
 
-                    <div className="flex justify-end">
+                    <div className="flex flex-col justify-end gap-4 sm:flex-row">
                         <Button onClick={onCreateDialogOpen} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
-
                             <span className="text-title-1">{translate("resources.terminals.create")}</span>
                         </Button>
                     </div>
@@ -78,6 +72,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                                 value={providerName}
                                 onChange={onProviderChanged}
                                 disabled={providersLoadingProcess}
+                                isLoading={providersLoadingProcess}
                             />
                         </div>
 
@@ -98,6 +93,7 @@ export const TerminalsListFilter = ({ onCreateDialogOpen }: ITerminalsListFilter
                                 placeholder={translate("resources.terminals.selectPlaceholder")}
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.terminals.notFoundMessage")}
+                                isLoading={terminalsLoadingProcess}
                             />
                         </div>
                     </div>

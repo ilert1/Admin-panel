@@ -21,11 +21,13 @@ import {
     merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDelete,
     merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut
 } from "@/api/enigma/merchant/merchant";
-import { Merchant, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSchema, MerchantCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet } from "@/api/enigma/direction/direction";
 
+const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
+
 export class MerchantsDataProvider extends IBaseDataProvider {
-    async getList(resource: string, params: GetListParams): Promise<GetListResult<Merchant>> {
+    async getList(resource: string, params: GetListParams): Promise<GetListResult<MerchantSchema>> {
         const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
 
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
@@ -62,16 +64,17 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<Merchant>> {
+    async getListWithoutPagination(resource: string, signal?: AbortSignal): Promise<GetListResult<MerchantSchema>> {
         const res = await merchantEndpointsListMerchantsEnigmaV1MerchantGet(
             {
                 currentPage: 1,
-                pageSize: 1000
+                pageSize: 10000
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
@@ -92,7 +95,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<Merchant>> {
+    async getOne(resource: string, params: GetOneParams): Promise<GetOneResult<MerchantSchema>> {
         const res = await merchantEndpointsGetMerchantEnigmaV1MerchantMerchantIdGet(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -113,7 +116,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams): Promise<CreateResult<Merchant>> {
+    async create(resource: string, params: CreateParams): Promise<CreateResult<MerchantSchema>> {
         const res = await merchantEndpointsCreateMerchantEnigmaV1MerchantPost(params.data as MerchantCreate, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -147,7 +150,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         return json;
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<Merchant>> {
+    async update(resource: string, params: UpdateParams): Promise<UpdateResult<MerchantSchema>> {
         const res = await merchantEndpointsUpdateMerchantEnigmaV1MerchantMerchantIdPut(params.id, params.data, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -167,7 +170,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async addPaymentTypes(params: UpdateParams & { data: { codes: string[] } }): Promise<UpdateResult<Merchant>> {
+    async addPaymentTypes(params: UpdateParams & { data: { codes: string[] } }): Promise<UpdateResult<MerchantSchema>> {
         const res = await merchantEndpointsAddPaymentTypesToMerchantEnigmaV1MerchantMerchantIdAddPaymentTypesPatch(
             params.id,
             params.data,
@@ -191,7 +194,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult<Merchant>> {
+    async removePaymentType(params: UpdateParams & { data: { code: string } }): Promise<UpdateResult<MerchantSchema>> {
         const res =
             await merchantEndpointsRemovePaymentTypeFromMerchantEnigmaV1MerchantMerchantIdRemovePaymentTypePaymentTypeCodeDelete(
                 params.id,
@@ -216,7 +219,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<Merchant, "id">>> {
+    async delete(resource: string, params: DeleteParams): Promise<DeleteResult<Pick<MerchantSchema, "id">>> {
         const res = await merchantEndpointsDeleteMerchantEnigmaV1MerchantMerchantIdDelete(params.id, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -236,19 +239,20 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getMerchantDirections(id: string) {
+    async getMerchantDirections(resource: string, id: string, signal?: AbortSignal) {
         const res = await directionEndpointsListDirectionsByMerchantIdEnigmaV1DirectionMerchantMerchantIdGet(
             id,
             {
                 currentPage: 1,
-                pageSize: 1000,
+                pageSize: 10000,
                 orderBy: "weight",
                 sortOrder: "desc"
             },
             {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("access-token")}`
-                }
+                },
+                signal
             }
         );
 
@@ -258,6 +262,54 @@ export class MerchantsDataProvider extends IBaseDataProvider {
             throw new Error(res.data.error?.error_message);
         } else if ("detail" in res.data) {
             throw new Error(res.data.detail?.[0].msg);
+        }
+    }
+
+    async getMerchantSettings(id: string, signal?: AbortSignal): Promise<Merchant.SettingsResponse[] | undefined> {
+        const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
+            method: "GET",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            signal
+        });
+
+        const data = await res.json();
+
+        if ("data" in data && data.success) {
+            return data.data;
+        } else if ("error" in data) {
+            throw new Error(
+                data.error_description ? data.error_description : data.error ? data.error : "Unexpected error"
+            );
+        }
+
+        Promise.reject();
+    }
+
+    async updateMerchantSettings(
+        id: string,
+        body: Merchant.SettingsUpdate,
+        signal?: AbortSignal
+    ): Promise<Merchant.SettingsResponse[] | undefined> {
+        const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${localStorage.getItem("access-token")}`
+            },
+            body: JSON.stringify({ ...body }),
+            signal
+        });
+
+        const data = await res.json();
+
+        if ("data" in data && data.success) {
+            return data.data;
+        } else if ("data" in data && !data.success) {
+            throw new Error(data.error?.error_message);
+        } else if ("detail" in data) {
+            throw new Error(data.detail?.[0].msg);
         }
     }
 }

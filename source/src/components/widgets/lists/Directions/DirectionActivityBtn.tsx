@@ -10,9 +10,16 @@ interface IDirectionActivityBtn {
     directionName: string;
     activityState: boolean;
     isFetching?: boolean;
+    disabled?: boolean;
 }
 
-export const DirectionActivityBtn = ({ id, directionName, activityState, isFetching }: IDirectionActivityBtn) => {
+export const DirectionActivityBtn = ({
+    id,
+    directionName,
+    activityState,
+    isFetching,
+    disabled = false
+}: IDirectionActivityBtn) => {
     const appToast = useAppToast();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -59,7 +66,7 @@ export const DirectionActivityBtn = ({ id, directionName, activityState, isFetch
     return (
         <div className="flex items-center justify-center">
             <button
-                disabled={btnDisabled || isFetching}
+                disabled={btnDisabled || isFetching || disabled}
                 onClick={changeActivity}
                 className={clsx(
                     "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",

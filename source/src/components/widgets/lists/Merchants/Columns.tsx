@@ -1,4 +1,4 @@
-import { Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
@@ -7,6 +7,7 @@ import { EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { Badge } from "@/components/ui/badge";
 
 export const useGetMerchantColumns = () => {
     const translate = useTranslate();
@@ -25,7 +26,7 @@ export const useGetMerchantColumns = () => {
         openSheet("merchant", { id, merchantName });
     };
 
-    const columns: ColumnDef<Merchant>[] = [
+    const columns: ColumnDef<MerchantSchema>[] = [
         {
             id: "id",
             accessorKey: "id",
@@ -111,7 +112,7 @@ export const useGetMerchantColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
-                    <div className="max-w-auto flex flex-wrap gap-2">
+                    <div className="max-w-auto flex min-w-32 flex-wrap gap-2">
                         {row.original.payment_types && row.original.payment_types.length > 0
                             ? row.original.payment_types?.map(pt => {
                                   return (
@@ -119,9 +120,30 @@ export const useGetMerchantColumns = () => {
                                           className="h-7 w-7"
                                           key={pt.code}
                                           type={pt.code}
-                                          metaIcon={pt.meta?.["icon"] as string}
-                                          tooltip
+                                          metaIcon={pt.meta?.["icon"]}
                                       />
+                                  );
+                              })
+                            : "-"}
+                    </div>
+                );
+            }
+        },
+        {
+            id: "currencies",
+            accessorKey: "currencies",
+            header: translate("resources.merchant.fields.currencies"),
+            cell: ({ row }) => {
+                const currencies = row.original.allowed_src_currencies;
+
+                return (
+                    <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {currencies && currencies?.length > 0
+                            ? currencies?.map(el => {
+                                  return (
+                                      <Badge key={el.code} variant="currency">
+                                          {el.code}
+                                      </Badge>
                                   );
                               })
                             : "-"}

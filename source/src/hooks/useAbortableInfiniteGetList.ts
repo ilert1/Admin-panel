@@ -3,7 +3,8 @@ import { RaRecord, useInfiniteGetList, GetListParams, UseInfiniteGetListHookValu
 
 export const useAbortableInfiniteGetList = <RecordType extends RaRecord>(
     resource: string,
-    params: Partial<GetListParams>
+    params: Partial<GetListParams>,
+    refetchOnWindowFocus: boolean = false
 ): UseInfiniteGetListHookValue<RecordType> => {
     const abortControllerRef = useRef(new AbortController());
 
@@ -12,13 +13,17 @@ export const useAbortableInfiniteGetList = <RecordType extends RaRecord>(
         return () => abortController.abort();
     }, []);
 
-    const infiniteListController = useInfiniteGetList<RecordType>(resource, {
-        ...params,
-        filter: {
-            ...params.filter,
-            signal: abortControllerRef.current.signal // Передаем signal в filter
-        }
-    });
+    const infiniteListController = useInfiniteGetList<RecordType>(
+        resource,
+        {
+            ...params,
+            filter: {
+                ...params.filter,
+                signal: abortControllerRef.current.signal // Передаем signal в filter
+            }
+        },
+        { refetchOnWindowFocus: refetchOnWindowFocus, refetchOnMount: refetchOnWindowFocus }
+    );
 
     return useMemo(() => infiniteListController, [infiniteListController]);
 };

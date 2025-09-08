@@ -6,6 +6,7 @@ import { DataTable } from "../../shared";
 import { CreateTerminalPaymentInstrumentsDialog } from "./CreateTerminalPaymentInstrumentsDialog";
 import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilter";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { DeleteTerminalPaymentInstrumentsDialog } from "./DeleteTerminalPaymentInstrumentsDialog";
 
 export const TerminalPaymentInstrumentsList = () => {
     const translate = useTranslate();
@@ -14,7 +15,15 @@ export const TerminalPaymentInstrumentsList = () => {
         resource: "terminalPaymentInstruments"
     });
 
-    const { columns, createDialogOpen, setCreateDialogOpen } = useGetTerminalPaymentInstrumentsListColumns({
+    const {
+        columns,
+        createDialogOpen,
+        setCreateDialogOpen,
+        showDeleteDialogOpen,
+        setShowDeleteDialogOpen,
+        chosenId,
+        setChosenId
+    } = useGetTerminalPaymentInstrumentsListColumns({
         listContext
     });
 
@@ -42,6 +51,19 @@ export const TerminalPaymentInstrumentsList = () => {
             )}
 
             <CreateTerminalPaymentInstrumentsDialog open={createDialogOpen} onOpenChange={setCreateDialogOpen} />
+
+            <DeleteTerminalPaymentInstrumentsDialog
+                open={showDeleteDialogOpen}
+                onOpenChange={setShowDeleteDialogOpen}
+                onQuickShowOpenChange={state => {
+                    if (!state) {
+                        setChosenId("");
+                    }
+
+                    setShowDeleteDialogOpen(state);
+                }}
+                id={chosenId}
+            />
         </ListContextProvider>
     );
 };

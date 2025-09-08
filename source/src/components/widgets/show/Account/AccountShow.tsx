@@ -6,7 +6,7 @@ import { useGetAccountShowColumns } from "./Columns";
 import { uniqueId } from "lodash";
 import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { useBalances } from "@/hooks/useBalances";
+import { useBalances } from "@/components/widgets/show/Account/useBalances";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { useGetMerchantData } from "@/hooks/useGetMerchantData";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
@@ -22,7 +22,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
     const translate = useTranslate();
     const { openSheet } = useSheets();
     const { permissions } = usePermissions();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
+    const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
 
     const context = useAbortableShowController<Account>({ resource: "accounts", id });
 
@@ -35,7 +35,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
         disableSyncWithLocation: true
     });
 
-    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isLoadingMerchants) {
+    if (context.isLoading || !context.record || listContext.isLoading || !listContext.data || isMerchantsLoading) {
         return <LoadingBlock />;
     }
 
@@ -80,7 +80,7 @@ export const AccountShow = ({ id }: AccountShowProps) => {
 
                             return (
                                 <div className="flex flex-col items-start" key={uniqueId()}>
-                                    <div className="inline-flex w-auto w-full rounded-20 bg-green-50 px-3 py-0.5">
+                                    <div className="inline-flex w-full rounded-20 bg-green-50 px-3 py-0.5">
                                         <span className="text-title-2 text-neutral-0">
                                             {translate("resources.accounts.balance")}: {balance}
                                         </span>

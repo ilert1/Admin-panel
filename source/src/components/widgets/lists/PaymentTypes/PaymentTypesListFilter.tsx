@@ -5,7 +5,7 @@ import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
-import usePaymentTypesListFilter from "../../../../hooks/usePaymentTypesListFilter";
+import usePaymentTypesListFilter from "./usePaymentTypesListFilter";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";

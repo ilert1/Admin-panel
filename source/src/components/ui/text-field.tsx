@@ -73,12 +73,13 @@ export const TextField = ({
 
     return (
         <div className="text-neutral-90 dark:text-neutral-0">
-            {label && <small className={cn("text-neutral-60", labelSize)}>{label}</small>}
+            {label && <p className={`${cn("text-neutral-60", labelSize)}`}>{label}</p>}
             {(type === "text" || type === "link" || type === "secret") && (
                 <p className={cn("flex flex-row items-center gap-2 leading-5", className)}>
                     {copyValue && text?.length > 0 && (
                         <span>
                             <Copy
+                                data-testid="copy-icon"
                                 className={cn(
                                     "h-4 w-4 cursor-pointer",
                                     (type === "link" || onClick) &&

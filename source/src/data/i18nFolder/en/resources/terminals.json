@@ -30,13 +30,14 @@
         "value_error": "The value field is required",
         "allocation_timeout_seconds": "Integer values only",
         "allocation_timeout_seconds_min": "The minimum value is 1",
-        "allocation_timeout_seconds_max": "The maximum value is 120"
+        "allocation_timeout_seconds_max": "The maximum value is 120",
+        "providerHasNoPaymentTypes": "Provider has no payment types, select another provider or add payment types to provider"
     },
     "resources.terminals.success": {
         "create": "Terminal %{name} has been successfully created."
     },
     "resources.terminals.notFoundMessage": "Terminals not found.",
-    "resources.terminals.callbackCreating": "Creating callback",
+    "resources.terminals.callbackCreating": "Create callback?",
     "resources.terminals.callbackCreatedSuccessfully": "Callback created successfully",
     "resources.terminals.urlTemplate": "URL template",
     "resources.terminals.create": "Create terminal",

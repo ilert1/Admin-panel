@@ -1,4 +1,3 @@
-import { terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
@@ -9,8 +8,17 @@ import { Copy, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useRefresh, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
+import { terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
+import { Badge, BadgeProps } from "@/components/ui/badge";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
+
+const statesMap = {
+    active: ["success", "resources.direction.fields.stateActive"],
+    inactive: ["destructive", "resources.direction.fields.stateInactive"],
+    archived: ["warning", "resources.direction.fields.stateArchived"]
+};
 
 export const useGetTerminalColumns = () => {
     const translate = useTranslate();
@@ -20,36 +28,31 @@ export const useGetTerminalColumns = () => {
 
     const [showAuthKeyOpen, setShowAuthKeyOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
-    const [chosenTerminalProvider, setChosenTerminalProvider] = useState("");
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createButtonClicked, setCreateButtonClicked] = useState(false);
 
-    const handleDeleteClicked = async (id: string, provider: string) => {
+    const handleDeleteClicked = async (id: string) => {
         setChosenId(id);
-        setChosenTerminalProvider(provider);
         setDeleteDialogOpen(true);
     };
 
-    const handleOpenShowClicked = (id: string, provider: string) => {
+    const handleOpenShowClicked = (id: string) => {
         openSheet("terminal", {
-            id,
-            provider
+            id
         });
     };
 
-    const handleCreateAccountClicked = async (provider: string, terminal_id: string) => {
+    const handleCreateAccountClicked = async (terminal_id: string) => {
         setCreateButtonClicked(true);
         try {
-            const { data } =
-                await terminalEndpointsInitProviderAccountsEnigmaV1ProviderProviderNameTerminalTerminalIdInitAccountsPost(
-                    provider,
-                    terminal_id,
-                    {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem("access-token")}`
-                        }
+            const { data } = await terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost(
+                terminal_id,
+                {
+                    headers: {
+                        authorization: `Bearer ${localStorage.getItem("access-token")}`
                     }
-                );
+                }
+            );
             if (!("data" in data)) {
                 throw new Error("Http error");
             }
@@ -93,7 +96,7 @@ export const useGetTerminalColumns = () => {
                     <Button
                         variant={"resourceLink"}
                         onClick={() => {
-                            handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
+                            handleOpenShowClicked(row.original.terminal_id);
                         }}>
                         {row.original.verbose_name ?? ""}
                     </Button>
@@ -111,10 +114,10 @@ export const useGetTerminalColumns = () => {
                         variant={"resourceLink"}
                         onClick={() => {
                             openSheet("provider", {
-                                id: row.original.provider
+                                id: row.original.provider.id as string
                             });
                         }}>
-                        {row.original.provider}
+                        {row.original.provider.name}
                     </Button>
                 );
             }
@@ -173,6 +176,53 @@ export const useGetTerminalColumns = () => {
             }
         },
         {
+            id: "source currency",
+            accessorKey: "source_currency",
+            header: translate("resources.direction.sourceCurrency"),
+            cell: ({ row }) => {
+                const src_cur = row.original.src_currency?.code;
+                return src_cur ? <Badge variant="currency">{src_cur}</Badge> : "-";
+            }
+        },
+        {
+            id: "destination currency",
+            accessorKey: "destination_currency",
+            header: translate("resources.direction.destinationCurrency"),
+            cell: ({ row }) => {
+                const dst_cur = row.original.dst_currency?.code;
+                return dst_cur ? <Badge variant="currency">{dst_cur}</Badge> : "-";
+            }
+        },
+        {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        wrap
+                    />
+                );
+            }
+        },
+        {
+            id: "state",
+            accessorKey: "state",
+            header: translate("resources.direction.fields.active"),
+            cell: ({ row }) => {
+                const state = row.original.state;
+                if (!state) return <TextField text="" />;
+
+                const mp = statesMap[state];
+                return (
+                    <div className="min-w-24">
+                        <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>
+                    </div>
+                );
+            }
+        },
+        {
             id: "copy_field",
             header: () => {
                 return <div className="text-center">{"Callback"}</div>;
@@ -213,9 +263,7 @@ export const useGetTerminalColumns = () => {
                             <Button
                                 className="flex gap-1"
                                 disabled={createButtonClicked}
-                                onClick={() =>
-                                    handleCreateAccountClicked(row.original.provider, row.original.terminal_id)
-                                }>
+                                onClick={() => handleCreateAccountClicked(row.original.terminal_id)}>
                                 <PlusCircle className="h-4 w-4" />
                                 <TextField
                                     className="text-neutral-0"
@@ -232,7 +280,7 @@ export const useGetTerminalColumns = () => {
             header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
-                    <div className="max-w-auto flex flex-wrap gap-2">
+                    <div className="max-w-auto flex min-w-[150px] flex-wrap gap-2">
                         {row.original.payment_types && row.original.payment_types.length > 0
                             ? row.original.payment_types?.map(pt => {
                                   return (
@@ -240,8 +288,7 @@ export const useGetTerminalColumns = () => {
                                           className="h-7 w-7"
                                           key={pt.code}
                                           type={pt.code}
-                                          metaIcon={pt.meta?.["icon"] as string}
-                                          tooltip
+                                          metaIcon={pt.meta?.["icon"]}
                                       />
                                   );
                               })
@@ -256,9 +303,7 @@ export const useGetTerminalColumns = () => {
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return (
-                    <TrashButton onClick={() => handleDeleteClicked(row.original.terminal_id, row.original.provider)} />
-                );
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.terminal_id)} />;
             }
         },
         {
@@ -266,7 +311,7 @@ export const useGetTerminalColumns = () => {
             cell: ({ row }) => (
                 <ShowButton
                     onClick={() => {
-                        handleOpenShowClicked(row.original.terminal_id ?? "", row.original.provider);
+                        handleOpenShowClicked(row.original.terminal_id);
                     }}
                 />
             )
@@ -277,7 +322,6 @@ export const useGetTerminalColumns = () => {
         columns,
         showAuthKeyOpen,
         chosenId,
-        chosenTerminalProvider,
         deleteDialogOpen,
         setShowAuthKeyOpen,
         setDeleteDialogOpen

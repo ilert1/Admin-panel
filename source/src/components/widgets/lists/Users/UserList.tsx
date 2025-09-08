@@ -9,7 +9,7 @@ import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 export const UserList = () => {
     const listContext = useAbortableListController<Users.User>();
 
-    const { columns, isLoadingMerchants } = useGetUserColumns();
+    const { columns, isMerchantsLoading } = useGetUserColumns();
 
     return (
         <>
@@ -18,7 +18,7 @@ export const UserList = () => {
 
                 <UserListFilter />
 
-                {listContext.isLoading || isLoadingMerchants ? <LoadingBlock /> : <DataTable columns={columns} />}
+                {listContext.isLoading || isMerchantsLoading ? <LoadingBlock /> : <DataTable columns={columns} />}
             </ListContextProvider>
         </>
     );

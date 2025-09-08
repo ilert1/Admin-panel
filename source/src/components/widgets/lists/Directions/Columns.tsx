@@ -1,4 +1,4 @@
-import { Direction, Merchant } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
@@ -9,11 +9,13 @@ import { useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "./DirectionActivityBtn";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { Badge } from "@/components/ui/badge";
+import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
+import { countryCodes } from "../../components/Selects/CountrySelect";
 
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
-    const { getMerchantId, isLoadingMerchants } = useGetMerchantData();
+    const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
@@ -31,10 +33,9 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
         openSheet("direction", { id });
     };
 
-    const handleTerminalShowOpen = (id: string, providerName: string) => {
+    const handleTerminalShowOpen = (id: string) => {
         openSheet("terminal", {
-            id,
-            provider: providerName
+            id
         });
     };
 
@@ -43,29 +44,35 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             id: "name",
             header: translate("resources.direction.fields.name"),
             cell: ({ row }) => {
+                const isPrioritized = row.original.condition?.extra ?? false;
+
                 return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            handleDirectionShowOpen(row.original.id);
-                        }}>
-                        {row.original.name ?? ""}
-                    </Button>
+                    <div className="flex flex-col items-start justify-start">
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                handleDirectionShowOpen(row.original.id);
+                            }}
+                            className="whitespace-break-spaces text-left">
+                            {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
+                        </Button>
+                        {!isPrioritized && (
+                            <Badge variant={"destructive"} className="!rounded-16 bg-red-50 py-0">
+                                {translate("resources.direction.fields.condition.prioritized")}
+                            </Badge>
+                        )}
+                        {/* {isPrioritized && <Badge variant={"destructive"}>Prioritized</Badge>} */}
+                    </div>
                 );
             }
         },
-
         {
             id: "src_currency",
             accessorKey: "src_currency",
             header: translate("resources.direction.fields.srcCurr"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                            {row.original.src_currency.code}
-                        </span>
-                    </Badge>
+                    <Badge variant="currency">{row.original.src_currency.code}</Badge>
                 </div>
             )
         },
@@ -75,20 +82,29 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             header: translate("resources.direction.fields.destCurr"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                        <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                            {row.original.dst_currency.code}
-                        </span>
-                    </Badge>
+                    <Badge variant="currency">{row.original.dst_currency.code}</Badge>
                 </div>
             )
+        },
+        {
+            id: "dst_country_code",
+            accessorKey: "dst_country_code",
+            header: translate("resources.direction.destinationCountry"),
+            cell: ({ row }) => {
+                return (
+                    <TextField
+                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        wrap
+                    />
+                );
+            }
         },
         {
             id: "merchant",
             accessorKey: "merchant",
             header: translate("resources.direction.fields.merchant"),
             cell: ({ row }) => {
-                const merchant: Merchant = row.getValue("merchant");
+                const merchant: MerchantSchema = row.getValue("merchant");
 
                 const merchId = getMerchantId(merchant.id);
 
@@ -120,6 +136,56 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             }
         },
         {
+            id: "cascade",
+            accessorKey: "cascade_id",
+            header: translate("resources.direction.fields.cascade"),
+            cell: ({ row }) => {
+                const cascadeId = row.original.cascade_id;
+
+                return (
+                    <div>
+                        {/* <TextField
+                            text={merchant.name ?? ""}
+                            onClick={
+                                merchId
+                                    ? () =>
+                                          openSheet("merchant", {
+                                              id: merchant.id ?? "",
+                                              merchantName: merchant.name
+                                          })
+                                    : undefined
+                            }
+                        /> */}
+                        <TextField
+                            className="text-neutral-70"
+                            text={cascadeId ?? ""}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
+                );
+            }
+        },
+        {
+            id: "cascade kind",
+            header: translate("resources.direction.fields.kinds.cascadeKind"),
+            cell: ({ row }) => {
+                const cascadeKind = row.original.cascade_kind;
+                return <TextField text={cascadeKind ?? ""} />;
+            }
+        },
+        {
+            id: "weight",
+            header: translate("resources.direction.fields.condition.rank"),
+            cell: ({ row }) => {
+                const weight = row.original.condition?.rank;
+                return <TextField text={weight?.toString() ?? ""} />;
+            }
+        },
+        {
             id: "provider",
             accessorKey: "provider",
             header: translate("resources.direction.provider"),
@@ -129,7 +195,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         variant={"resourceLink"}
                         onClick={() => {
                             openSheet("provider", {
-                                id: row.original.provider.name
+                                id: row.original.provider.id as string
                             });
                         }}>
                         {row.original.provider.name}
@@ -141,13 +207,12 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             id: "terminal",
             header: translate("resources.direction.fields.terminal"),
             cell: ({ row }) => {
-                const providerName = row.original.provider.name;
                 return (
                     <Button
                         variant={"resourceLink"}
                         onClick={() => {
                             const id = row.original.terminal?.terminal_id ?? "";
-                            handleTerminalShowOpen(id, providerName);
+                            handleTerminalShowOpen(id);
                         }}>
                         {row.original.terminal?.verbose_name ?? ""}
                     </Button>
@@ -174,7 +239,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
                 return (
-                    <div className="max-w-auto flex flex-wrap gap-2">
+                    <div className="max-w-auto flex min-w-[100px] flex-wrap gap-2">
                         {row.original.payment_types && row.original.payment_types.length > 0
                             ? row.original.payment_types?.map(pt => {
                                   return (
@@ -182,8 +247,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                                           className="h-7 w-7"
                                           key={pt.code}
                                           type={pt.code}
-                                          metaIcon={pt.meta?.["icon"] as string}
-                                          tooltip
+                                          metaIcon={pt.meta?.["icon"]}
                                       />
                                   );
                               })
@@ -205,6 +269,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                         directionName={row.original.name}
                         activityState={row.original.state === "active"}
                         isFetching={isFetching}
+                        disabled={!!row.original.cascade_id}
                     />
                 );
             }
@@ -215,7 +280,12 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                 return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
             },
             cell: ({ row }) => {
-                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+                return (
+                    <TrashButton
+                        disabled={!!row.original.cascade_id}
+                        onClick={() => handleDeleteClicked(row.original.id)}
+                    />
+                );
             }
         },
         {
@@ -234,7 +304,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
     return {
         columns,
         deleteDialogOpen,
-        isLoadingMerchants,
+        isMerchantsLoading,
         chosenId,
         setDeleteDialogOpen,
         onCloseSheet

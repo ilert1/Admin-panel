@@ -63,7 +63,8 @@ export const ConfirmDialog = (props: ConfirmDialogProps) => {
                             {translate("app.ui.actions.confirm")}
                         </Button>
                         <Button
-                            variant={"outline_gray"}
+                            variant={"outline"}
+                            className="bg-neutral-0 dark:bg-neutral-100"
                             onClick={() => {
                                 onOpenChange(false);
                             }}>

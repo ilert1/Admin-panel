@@ -86,18 +86,47 @@
         "accountHistory": "Account history"
     },
     "app.errors": {
-        "401": { "text": "Unauthorized" },
-        "403": { "text": "Access is denied" },
-        "404": { "text": "Page not found" },
-        "408": { "text": "Request timeout" },
-        "409": { "text": "Conflict" },
-        "413": { "text": "Payload too large" },
-        "415": { "text": "Unsupported media type", "hint": "Try uploading the media in a different format" },
-        "429": { "text": "Too many requests", "hint": "Please try again later" },
-        "500": { "text": "Internal server error", "hint": "Please try again later" },
-        "502": { "text": "Bad gateway", "hint": "Please modify your request" },
-        "503": { "text": "Service unavailable", "hint": "Please try again later" },
-        "504": { "text": "Timeout" }
+        "401": {
+            "text": "Unauthorized"
+        },
+        "403": {
+            "text": "Access is denied"
+        },
+        "404": {
+            "text": "Page not found"
+        },
+        "408": {
+            "text": "Request timeout"
+        },
+        "409": {
+            "text": "Conflict"
+        },
+        "413": {
+            "text": "Payload too large"
+        },
+        "415": {
+            "text": "Unsupported media type",
+            "hint": "Try uploading the media in a different format"
+        },
+        "429": {
+            "text": "Too many requests",
+            "hint": "Please try again later"
+        },
+        "500": {
+            "text": "Internal server error",
+            "hint": "Please try again later"
+        },
+        "502": {
+            "text": "Bad gateway",
+            "hint": "Please modify your request"
+        },
+        "503": {
+            "text": "Service unavailable",
+            "hint": "Please try again later"
+        },
+        "504": {
+            "text": "Timeout"
+        }
     },
     "app.theme": {
         "light": "Light theme",
@@ -202,10 +231,8 @@
             "payment": "Withdraw",
             "deposit": "Deposit",
             "limits": "Limits",
-
             "deleteLimits": "Reset limits?",
             "reset": "Reset",
-
             "updatedSuccessfully": "Limits updated successfully",
             "resetedSuccessfully": "Limits reset successfully",
             "errors": {
@@ -219,12 +246,44 @@
                 "ofReward": "reward"
             }
         },
+        "ttl": {
+            "ttl": "TTL settings",
+            "minTTL": "Minimum TTL in seconds",
+            "maxTTL": "Maximum TTL in seconds",
+            "TTLDep": "Deposit TTL min/max in seconds",
+            "minTTLDep": "Minimum deposit TTL in seconds",
+            "maxTTLDep": "Maximum deposit TTL in seconds",
+            "TTLWith": "Withdraw TTL min/max in seconds",
+            "minTTLWith": "Minimum withdraw TTL in seconds",
+            "maxTTLWith": "Maximum withdraw TTL in seconds",
+            "errors": {
+                "minGreaterThanMax": "The maximum value of TTL limit cannot be less than the minimum value"
+            }
+        },
         "multiSelect": {
             "selectAll": "Select all",
-            "noResultFound": "No results found.",
-            "selectPaymentTypes": "Select payment types",
             "selectCurrencies": "Select currencies",
-            "searchPlaceholder": "Search..."
+            "selectPaymentTypes": "Select payment types",
+            "selectRequiredFields": "Select required fields",
+            "selectTerminals": "Select terminals",
+            "noResultFound": "No results found.",
+            "selectProviderAtFirst": "Select provider first",
+            "searchPlaceholder": "Search...",
+            "searchOrAddPlaceholder": "Search or add...",
+            "addNew": "Add field",
+            "optionAlreadyExists": "Option already added",
+            "reqFieldRegex": "It is allowed to enter lowercase Latin letters, numbers, points and underscores",
+            "confirmDialog": {
+                "areYouSure": "Are you sure you want to add a required field with code",
+                "add": "Add",
+                "alreadyExists": "The entered field code '%{code}' already exists in the list as '%{name}'. Do you want to select it?",
+                "optionAdded": "Field added successfully"
+            }
+        },
+        "report": {
+            "preDownload": "The report generation request has been sent, please do not leave the page until you receive a response",
+            "download": "Your report has been generated, and the file is being uploaded: %{filename}",
+            "downloadError": "An error occurred when uploading the %{filename} report file, please try again. If the error persists, contact the administrator"
         }
     },
     "app.login": {

@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
-import useCallbridgeHistoryFilter from "@/hooks/useCallbridgeHistoryFilter";
+import useCallbridgeHistoryFilter from "@/components/widgets/lists/CallbridgeHistory/useCallbridgeHistoryFilter";
 import { MappingSelect } from "../../components/Selects/MappingSelect";
 import { Button } from "@/components/ui/Button";
 import { RestoreBackupDialog } from "./RestoreBackupDialog";
@@ -70,6 +70,7 @@ export const CallbridgeHistoryListFilter = () => {
                                 idField="id"
                                 setIdValue={onMappingIdChanged}
                                 placeholder={translate("resources.callbridge.mapping.placeholders.name")}
+                                isLoading={isLoadingMappings}
                             />
                         </div>
                         <Input

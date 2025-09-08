@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { LoadingBlock } from "@/components/ui/loading";
 
 export interface IPopoverSelect {
     value: string;
@@ -20,12 +21,15 @@ export interface IPopoverSelect {
     style?: "Grey" | "Black";
     placeholder?: string;
     modal?: boolean;
+    isLoading?: boolean;
+    idFieldValue?: string;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     variants: any[];
-    variantKey: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    variantKey: string | ((variant: any) => string);
     variantTitleKey?: string;
 
     notFoundMessage: string;
@@ -49,12 +53,15 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         style = "Grey",
         iconForPaymentTypes = false,
         modal = false,
+        isLoading = false,
         onChange,
-        setIdValue
+        setIdValue,
+        idFieldValue
     } = props;
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
 
+    const commandList = useRef<HTMLDivElement>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const handleMouseEnter = () => {
@@ -66,11 +73,25 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
         hoverTimeoutRef.current = setTimeout(() => setTtpOpen(false), 200);
     };
+
     const onSelectChange = (currentValue: string) => {
-        onChange(currentValue === value ? "" : currentValue);
+        if (currentValue === value) {
+            onChange("");
+            if (setIdValue) setIdValue("");
+            setOpen(false);
+            return;
+        }
+
+        onChange(currentValue);
 
         if (setIdValue && idField) {
-            const variantId = variants.find(el => el[variantKey] === currentValue)[idField];
+            const variantId = variants.find(el => {
+                if (typeof variantKey === "string") {
+                    return el[variantKey] === currentValue;
+                } else {
+                    return variantKey(el) === currentValue;
+                }
+            })[idField];
             setIdValue(variantId);
         }
 
@@ -89,6 +110,20 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         setOpen(prev => !prev);
     };
 
+    const handleInputChange = (val: string) => {
+        if (val.length === 0 && commandList.current) {
+            setTimeout(() => {
+                commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+            }, 50);
+        }
+    };
+
+    useEffect(() => {
+        if (idFieldValue && setIdValue) {
+            setIdValue(idFieldValue);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     if (disabled)
         return (
             <TooltipProvider>
@@ -100,15 +135,22 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                 variant="outline_gray"
                                 className={cn(
                                     style === "Black"
-                                        ? "bg-black hover:!bg-white hover:dark:!bg-black"
-                                        : "!bg-white hover:!bg-white dark:!bg-muted hover:dark:!bg-muted",
-                                    `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
+                                        ? "bg-black hover:bg-white hover:dark:bg-black"
+                                        : "bg-white hover:bg-white dark:bg-muted hover:dark:bg-muted",
+                                    "disabled:border-neutral-40 disabled:bg-neutral-20",
+                                    `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                                     "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
-                                    "border-neutral-40 bg-neutral-0 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
+                                    "border-neutral-40 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:text-neutral-40",
                                     "hover:!border-green-20 dark:hover:text-neutral-40",
                                     isError ? "!border-red-40 dark:!border-red-40" : ""
                                 )}>
-                                <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                                {isLoading ? (
+                                    <div className="flex w-full items-center justify-center">
+                                        <LoadingBlock className="!h-4 !w-4" />
+                                    </div>
+                                ) : (
+                                    <span className="truncate text-neutral-60 dark:text-neutral-70">{placeholder}</span>
+                                )}
                             </Button>
                         </div>
                     </TooltipTrigger>
@@ -121,19 +163,21 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
     return (
         <Popover open={open} onOpenChange={setOpen} modal={modal}>
-            <PopoverTrigger asChild className="mt-0" disabled={disabled}>
+            <PopoverTrigger asChild className="mt-0">
+                {/* disabled={disabled} */}
                 <Button
                     variant={"outline_gray"}
                     role="combobox"
                     onClick={handleTogglePopover}
+                    disabled={disabled}
                     // aria-expanded={open}
                     className={cn(
                         style === "Black"
-                            ? "bg-black hover:!bg-white hover:dark:!bg-black"
-                            : "!bg-white hover:!bg-white dark:!bg-muted hover:dark:!bg-muted",
-                        `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-neutral-20 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
+                            ? "bg-white hover:bg-white dark:bg-black hover:dark:bg-black"
+                            : "bg-white hover:bg-white dark:bg-muted hover:dark:bg-muted",
+                        `!mt-[0px] flex h-[38px] w-full items-center justify-between rounded-4 border px-3 py-2 text-start text-sm ring-offset-background focus:outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-red-40 disabled:!text-neutral-80 disabled:dark:!bg-neutral-90 disabled:dark:!text-neutral-60 [&>span]:line-clamp-1`,
                         "[&:is([data-state='open'])]:border-green-50 [&:is([data-state='open'])]:text-neutral-80 [&:is([data-state='open'])]:dark:text-neutral-0 [&:is([data-state='open'])_#selectToggleIcon]:rotate-180 [&[data-placeholder]]:text-neutral-60 [&[data-placeholder]]:dark:text-neutral-70",
-                        "border-neutral-40 bg-neutral-0 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:bg-neutral-100 dark:text-neutral-40",
+                        "border-neutral-40 text-neutral-80 active:border-green-50 dark:border-neutral-60 dark:text-neutral-40",
                         "hover:!border-green-20 dark:hover:text-neutral-40",
                         isError ? "!border-red-40 dark:!border-red-40" : ""
                     )}>
@@ -184,35 +228,50 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0" onEscapeKeyDown={() => setOpen(false)}>
                 <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
-                    <CommandInput placeholder={commandPlaceholder} />
-                    <CommandList>
+                    <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
+                    <CommandList ref={commandList}>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
-                            {variants.map(variant => (
-                                <CommandItem
-                                    className="flex items-center gap-2 bg-muted"
-                                    key={variant[variantKey]}
-                                    value={variant[variantKey]}
-                                    onSelect={onSelectChange}>
-                                    <CheckIcon
+                            {variants.map(variant => {
+                                const newVariant = () => {
+                                    if (typeof variantKey === "string") {
+                                        return variant[variantKey];
+                                    } else {
+                                        return variantKey(variant);
+                                    }
+                                };
+                                return (
+                                    <CommandItem
                                         className={cn(
-                                            "h-4 w-full max-w-4",
-                                            value === variant[variantKey] ? "opacity-100" : "opacity-0"
+                                            "cursor-pointer data-[selected=true]:bg-green-50 dark:data-[selected=true]:bg-green-50",
+                                            "bg-white hover:bg-green-50 dark:hover:bg-green-50",
+                                            "text-neutral-90 hover:text-white dark:text-neutral-0",
+                                            style === "Black" ? "dark:bg-black" : "dark:bg-muted"
                                         )}
-                                    />
-                                    <>
-                                        {iconForPaymentTypes ? (
-                                            <PaymentTypeIcon
-                                                type={variant[variantKey]}
-                                                metaIcon={variant.meta?.["icon"] as string}
-                                                metaIconMargin
-                                                className="min-w-[24px]"
-                                            />
-                                        ) : undefined}
-                                        <p>{variantTitleKey ? variant[variantTitleKey] : variant[variantKey]}</p>
-                                    </>
-                                </CommandItem>
-                            ))}
+                                        key={idField ? variant[idField] : newVariant()}
+                                        value={newVariant()}
+                                        onSelect={onSelectChange}>
+                                        <>
+                                            {iconForPaymentTypes ? (
+                                                <PaymentTypeIcon
+                                                    type={newVariant()}
+                                                    metaIcon={variant.meta?.["icon"]}
+                                                    className="mr-2 min-w-[24px]"
+                                                />
+                                            ) : undefined}
+                                            <p className="truncate">
+                                                {variantTitleKey ? variant[variantTitleKey] : newVariant()}
+                                            </p>
+                                        </>
+                                        <CheckIcon
+                                            className={cn(
+                                                "ml-auto h-4 w-full max-w-4",
+                                                value === newVariant() ? "opacity-100" : "opacity-0"
+                                            )}
+                                        />
+                                    </CommandItem>
+                                );
+                            })}
                         </CommandGroup>
                     </CommandList>
                 </Command>

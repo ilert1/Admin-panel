@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
@@ -27,21 +27,18 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
-import { CurrenciesDataProvider } from "@/data";
-import { useQuery } from "@tanstack/react-query";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
-import { all as AllCountryCodes } from "iso-3166-1";
-import { Country } from "iso-3166-1/dist/iso-3166";
-import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface FinancialInstitutionCreateProps {
     onClose?: () => void;
 }
 
 export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInstitutionCreateProps) => {
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const financialInstitutionProvider = new FinancialInstitutionProvider();
-    const currenciesDataProvider = new CurrenciesDataProvider();
     const controllerProps = useCreateController<IFinancialInstitutionCreate>();
     const { theme } = useTheme();
     const appToast = useAppToast();
@@ -53,23 +50,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
     const [hasValid, setHasValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
     const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
-    const countryCodes: (Country & { name: string })[] = [
-        {
-            name: "AB - Abhazia",
-            country: "Abhazia",
-            alpha2: "AB",
-            alpha3: "ABH",
-            numeric: "895"
-        },
-        ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
-    ];
-
-    const { isLoading: currenciesLoading, data: currencies } = useQuery({
-        queryKey: ["currencies"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal)
-    });
 
     const { isLoading: financialInstitutionTypesLoading, data: financialInstitutionTypes } =
         useFetchFinancialInstitutionTypes();
@@ -82,7 +63,16 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             .regex(/^[a-z0-9_.-]+$/, translate("resources.paymentSettings.financialInstitution.errors.code_regex"))
             .trim(),
         legal_name: z.string().trim().optional(),
-        nspk_member_id: z.string().trim().optional(),
+        nspk_member_id: z
+            .string()
+            .max(20, translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max"))
+            .trim()
+            .optional(),
+        bin: z
+            .string()
+            .max(9, translate("resources.paymentSettings.financialInstitution.errors.bin_max"))
+            .trim()
+            .optional(),
         currencies: z.array(z.string()).optional(),
         institution_type: z.nativeEnum(FinancialInstitutionType).optional(),
         country_code: z
@@ -101,6 +91,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
             code: "",
             legal_name: "",
             nspk_member_id: "",
+            bin: "",
             currencies: [],
             institution_type: undefined,
             payment_types: [],
@@ -184,7 +175,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
         }
     };
 
-    if (controllerProps.isLoading || isLoadingAllPaymentTypes || theme.length === 0 || currenciesLoading)
+    if (controllerProps.isLoading || isLoadingAllPaymentTypes || theme.length === 0 || isCurrenciesLoading)
         return (
             <div className="h-[400px]">
                 <Loading />
@@ -238,25 +229,47 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                             />
                         </div>
 
-                        <FormField
-                            control={form.control}
-                            name="legal_name"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate(
-                                                "resources.paymentSettings.financialInstitution.fields.legal_name"
-                                            )}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                        <div className="grid grid-cols-1 sm:grid-cols-3">
+                            <FormField
+                                control={form.control}
+                                name="legal_name"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentSettings.financialInstitution.fields.legal_name"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="bin"
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.paymentSettings.financialInstitution.fields.bin"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3">
                             <FormField
@@ -291,22 +304,10 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 )}
                                             </Label>
 
-                                            <PopoverSelect
-                                                variants={countryCodes}
+                                            <CountrySelect
                                                 value={currentCountryCodeName}
-                                                idField="alpha2"
-                                                setIdValue={field.onChange}
-                                                placeholder={translate(
-                                                    "resources.paymentSettings.financialInstitution.fields.countryCodePlaceholder"
-                                                )}
                                                 onChange={setCurrentCountryCodeName}
-                                                variantKey="name"
-                                                commandPlaceholder={translate(
-                                                    "app.widgets.multiSelect.searchPlaceholder"
-                                                )}
-                                                notFoundMessage={translate(
-                                                    "resources.paymentSettings.countryCodeNotFoundMessage"
-                                                )}
+                                                setIdValue={field.onChange}
                                                 isError={fieldState.invalid}
                                                 errorMessage={fieldState.error?.message}
                                                 modal
@@ -365,7 +366,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                         <CurrenciesMultiSelect
                                             value={field.value}
                                             onChange={field.onChange}
-                                            options={currencies?.data || []}
+                                            options={currenciesData || []}
+                                            isLoading={currenciesLoadingProcess}
+                                            draggable
                                         />
                                     </FormItem>
                                 )}
@@ -394,13 +397,9 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                             render={({ field }) => {
                                 return (
                                     <FormItem className="w-full p-2">
-                                        <FormLabel>
-                                            <span className="!text-note-1 !text-neutral-30">
-                                                {translate(
-                                                    "resources.paymentSettings.financialInstitution.fields.meta"
-                                                )}
-                                            </span>
-                                        </FormLabel>
+                                        <Label>
+                                            {translate("resources.paymentSettings.financialInstitution.fields.meta")}
+                                        </Label>
 
                                         <FormControl>
                                             <MonacoEditor
@@ -409,6 +408,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                                 onMountEditor={() => setMonacoEditorMounted(true)}
                                                 code={field.value ?? "{}"}
                                                 setCode={field.onChange}
+                                                allowEmptyValues
                                             />
                                         </FormControl>
                                         <FormMessage />

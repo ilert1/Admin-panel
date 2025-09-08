@@ -12,7 +12,7 @@ import type {
     HTTPValidationError,
     PaymentTypesLink,
     ProviderCreate,
-    ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams,
+    ProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchParams,
     ProviderEndpointsListProvidersEnigmaV1ProviderGetParams,
     ProviderUpdate
 } from "../blowFishEnigmaAPIService.schemas";
@@ -116,38 +116,38 @@ export const providerEndpointsCreateProviderEnigmaV1ProviderPost = async (
 };
 
 /**
- * Retrieves details of a specific provider using its unique name
- * @summary Get provider details by name
+ * Retrieves details of a specific provider using its unique UUID identifier
+ * @summary Get provider details by ID
  */
-export type providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse200 = {
+export type providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponse200 = {
     data: ApiResponseProvider;
     status: 200;
 };
 
-export type providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse422 = {
+export type providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponseComposite =
-    | providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse200
-    | providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse422;
+export type providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponseComposite =
+    | providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponse200
+    | providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponse422;
 
-export type providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse =
-    providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponseComposite & {
+export type providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponse =
+    providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponseComposite & {
         headers: Headers;
     };
 
-export const getProviderEndpointsGetProviderEnigmaV1ProviderProviderNameGetUrl = (providerName: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}`;
+export const getProviderEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetUrl = (providerId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
 };
 
-export const providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet = async (
-    providerName: string,
+export const providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGet = async (
+    providerId: string,
     options?: RequestInit
-): Promise<providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse> => {
-    return authFetch<providerEndpointsGetProviderEnigmaV1ProviderProviderNameGetResponse>(
-        getProviderEndpointsGetProviderEnigmaV1ProviderProviderNameGetUrl(providerName),
+): Promise<providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponse> => {
+    return authFetch<providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetResponse>(
+        getProviderEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetUrl(providerId),
         {
             ...options,
             method: "GET"
@@ -156,39 +156,39 @@ export const providerEndpointsGetProviderEnigmaV1ProviderProviderNameGet = async
 };
 
 /**
- * Updates the details of an existing provider identified by its name
- * @summary Update provider details
+ * Updates the details of an existing provider identified by its UUID
+ * @summary Update provider details by ID
  */
-export type providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse200 = {
+export type providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponse200 = {
     data: ApiResponseProvider;
     status: 200;
 };
 
-export type providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse422 = {
+export type providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponseComposite =
-    | providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse200
-    | providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse422;
+export type providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponseComposite =
+    | providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponse200
+    | providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponse422;
 
-export type providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse =
-    providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponseComposite & {
+export type providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponse =
+    providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponseComposite & {
         headers: Headers;
     };
 
-export const getProviderEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutUrl = (providerName: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}`;
+export const getProviderEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutUrl = (providerId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
 };
 
-export const providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut = async (
-    providerName: string,
+export const providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut = async (
+    providerId: string,
     providerUpdate: ProviderUpdate,
     options?: RequestInit
-): Promise<providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse> => {
-    return authFetch<providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutResponse>(
-        getProviderEndpointsUpdateProviderEnigmaV1ProviderProviderNamePutUrl(providerName),
+): Promise<providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponse> => {
+    return authFetch<providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResponse>(
+        getProviderEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutUrl(providerId),
         {
             ...options,
             method: "PUT",
@@ -199,38 +199,38 @@ export const providerEndpointsUpdateProviderEnigmaV1ProviderProviderNamePut = as
 };
 
 /**
- * Removes a provider from the system using its unique name
- * @summary Delete a provider
+ * Removes a provider from the system using its unique UUID identifier
+ * @summary Delete a provider by ID
  */
-export type providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse200 = {
+export type providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponse200 = {
     data: ApiResponseNoneType;
     status: 200;
 };
 
-export type providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse422 = {
+export type providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponseComposite =
-    | providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse200
-    | providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse422;
+export type providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponseComposite =
+    | providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponse200
+    | providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponse422;
 
-export type providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse =
-    providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponseComposite & {
+export type providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponse =
+    providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getProviderEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteUrl = (providerName: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}`;
+export const getProviderEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteUrl = (providerId: string) => {
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
 };
 
-export const providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete = async (
-    providerName: string,
+export const providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDelete = async (
+    providerId: string,
     options?: RequestInit
-): Promise<providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse> => {
-    return authFetch<providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteResponse>(
-        getProviderEndpointsDeleteProviderEnigmaV1ProviderProviderNameDeleteUrl(providerName),
+): Promise<providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponse> => {
+    return authFetch<providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteResponse>(
+        getProviderEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteUrl(providerId),
         {
             ...options,
             method: "DELETE"
@@ -239,31 +239,31 @@ export const providerEndpointsDeleteProviderEnigmaV1ProviderProviderNameDelete =
 };
 
 /**
- * Generates an RSA key pair with specified parameters and associates its public key with the provider
- * @summary Add RSA key pair to provider
+ * Generates an RSA key pair with specified parameters
+ * @summary Add RSA key pair to provider by ID
  */
-export type providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse200 = {
+export type providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponse200 = {
     data: ApiResponseProviderAddKeypair;
     status: 200;
 };
 
-export type providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse422 = {
+export type providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponseComposite =
-    | providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse200
-    | providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse422;
+export type providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponseComposite =
+    | providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponse200
+    | providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponse422;
 
-export type providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse =
-    providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponseComposite & {
+export type providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponse =
+    providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchUrl = (
-    providerName: string,
-    params?: ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams
+export const getProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchUrl = (
+    providerId: string,
+    params?: ProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchParams
 ) => {
     const normalizedParams = new URLSearchParams();
 
@@ -276,17 +276,17 @@ export const getProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypai
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_keypair?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_keypair`;
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_keypair?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_keypair`;
 };
 
-export const providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatch = async (
-    providerName: string,
-    params?: ProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchParams,
+export const providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatch = async (
+    providerId: string,
+    params?: ProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchParams,
     options?: RequestInit
-): Promise<providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse> => {
-    return authFetch<providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchResponse>(
-        getProviderEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPatchUrl(providerName, params),
+): Promise<providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponse> => {
+    return authFetch<providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchResponse>(
+        getProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatchUrl(providerId, params),
         {
             ...options,
             method: "PATCH"
@@ -295,42 +295,43 @@ export const providerEndpointsAddKeypairEnigmaV1ProviderProviderNameAddKeypairPa
 };
 
 /**
- * Associates existing payment types with a provider. Skips already linked types.
- * @summary Add payment types to provider
+ * Associates existing payment types with a provider using UUID. Skips already linked types.
+ * @deprecated
+ * @summary Add payment types to provider by ID
  */
-export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse200 = {
+export type providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse200 = {
     data: ApiResponseProvider;
     status: 200;
 };
 
-export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse422 = {
+export type providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse422 = {
     data: HTTPValidationError;
     status: 422;
 };
 
-export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponseComposite =
+export type providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponseComposite =
 
-        | providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse200
-        | providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse422;
+        | providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse200
+        | providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse422;
 
-export type providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse =
-    providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponseComposite & {
+export type providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse =
+    providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponseComposite & {
         headers: Headers;
     };
 
-export const getProviderEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchUrl = (
-    providerName: string
+export const getProviderEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchUrl = (
+    providerId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/add_payment_types`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_payment_types`;
 };
 
-export const providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatch = async (
-    providerName: string,
+export const providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatch = async (
+    providerId: string,
     paymentTypesLink: PaymentTypesLink,
     options?: RequestInit
-): Promise<providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse> => {
-    return authFetch<providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchResponse>(
-        getProviderEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderNameAddPaymentTypesPatchUrl(providerName),
+): Promise<providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse> => {
+    return authFetch<providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchResponse>(
+        getProviderEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchUrl(providerId),
         {
             ...options,
             method: "PATCH",
@@ -341,45 +342,46 @@ export const providerEndpointsAddPaymentTypesToProviderEnigmaV1ProviderProviderN
 };
 
 /**
- * Disassociates a payment type from a provider by its code.
- * @summary Remove payment type from provider
+ * Disassociates a payment type from a provider using UUID.
+ * @deprecated
+ * @summary Remove payment type from provider by ID
  */
-export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
+export type providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse200 =
     {
         data: ApiResponseProvider;
         status: 200;
     };
 
-export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
+export type providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse422 =
     {
         data: HTTPValidationError;
         status: 422;
     };
 
-export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
+export type providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite =
 
-        | providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse200
-        | providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse422;
+        | providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse200
+        | providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse422;
 
-export type providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse =
-    providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
+export type providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse =
+    providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponseComposite & {
         headers: Headers;
     };
 
-export const getProviderEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteUrl =
-    (providerName: string, paymentTypeCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerName}/remove_payment_type/${paymentTypeCode}`;
+export const getProviderEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
+    (providerId: string, paymentTypeCode: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/remove_payment_type/${paymentTypeCode}`;
     };
 
-export const providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDelete =
+export const providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDelete =
     async (
-        providerName: string,
+        providerId: string,
         paymentTypeCode: string,
         options?: RequestInit
-    ): Promise<providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
-        return authFetch<providerEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteResponse>(
-            getProviderEndpointsRemovePaymentTypeFromProviderEnigmaV1ProviderProviderNameRemovePaymentTypePaymentTypeCodeDeleteUrl(
-                providerName,
+    ): Promise<providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse> => {
+        return authFetch<providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteResponse>(
+            getProviderEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteUrl(
+                providerId,
                 paymentTypeCode
             ),
             {

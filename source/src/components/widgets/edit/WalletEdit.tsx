@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Label } from "@/components/ui/label";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -16,12 +16,13 @@ import { WalletTypes } from "@/helpers/wallet-types";
 import { Textarea } from "@/components/ui/textarea";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDataProvider, useEditController, usePermissions, useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { MerchantSelectFilter } from "../shared/MerchantSelectFilter";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { PopoverSelect } from "../components/Selects/PopoverSelect";
+import { useQuery } from "@tanstack/react-query";
 
 interface EditWalletProps {
     id: string;
@@ -37,8 +38,31 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
     const appToast = useAppToast();
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [accountsValueName, setAccountsValueName] = useState("");
 
     const isMerchant = permissions === "merchant";
+
+    const {
+        data: accountsData,
+        isFetching: isAccountsFetching,
+        isLoading: isAccountsLoading
+    } = useQuery({
+        queryKey: ["accounts", "getListWithoutPagination"],
+        queryFn: async ({ signal }) =>
+            await dataProvider.getList("accounts", {
+                pagination: { perPage: 10000, page: 1 },
+                filter: { sort: "name", asc: "ASC" },
+                signal
+            }),
+        select: data => data?.data,
+        enabled: !isMerchant
+    });
+
+    const accountsLoadingProcess = useMemo(
+        () => isAccountsLoading || isAccountsFetching,
+        [isAccountsLoading, isAccountsFetching]
+    );
+
     const { record, isLoading } = useEditController({
         resource: !isMerchant ? "wallet" : "merchant/wallet",
         id,
@@ -47,6 +71,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
 
     const onSubmit: SubmitHandler<Wallets.WalletCreate> = async data => {
         if (buttonDisabled) return;
+
         setButtonDisabled(true);
         try {
             await dataProvider.update(!isMerchant ? "wallet" : "merchant/wallet", {
@@ -66,7 +91,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
-            await dataProvider.update("merchant/wallet", {
+            await dataProvider.update(isMerchant ? "merchant/wallet" : "wallet", {
                 id,
                 data: data,
                 previousData: undefined
@@ -102,7 +127,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
         defaultValues: {
             type: WalletTypes.INTERNAL,
             currency: "USDT",
-            description: "",
+            description: record?.description ?? "",
             blockchain: "TRON",
             minimal_ballance_limit: 0,
             network: "TRC20",
@@ -118,39 +143,46 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
 
     useEffect(() => {
         if (record) {
-            form.reset({
-                currency: record?.currency || "",
-                description: record?.description || "",
-                blockchain: record?.blockchain || "",
-                minimal_ballance_limit: record?.minimal_ballance_limit || 0,
-                network: record?.network || "",
-                type: record?.type || WalletTypes.INTERNAL,
-                account_id: record?.account_id || ""
-            });
-            formMerchant.reset({
-                description: record?.description || ""
-            });
+            if (!isMerchant && accountsData && record?.type !== WalletTypes.EXTERNAL) {
+                form.reset({
+                    currency: record?.currency || "",
+                    description: record?.description || "",
+                    blockchain: record?.blockchain || "",
+                    minimal_ballance_limit: record?.minimal_ballance_limit || 0,
+                    network: record?.network || "",
+                    type: record?.type || WalletTypes.INTERNAL,
+                    account_id: record?.account_id || ""
+                });
+
+                const findAccount = accountsData?.find(account => account.id === record.account_id);
+                setAccountsValueName(findAccount?.meta?.caption || findAccount?.owner_id || "");
+            } else {
+                formMerchant.reset({
+                    description: record?.description || ""
+                });
+            }
         }
-    }, [form, record, formMerchant]);
+    }, [form, record, formMerchant, isMerchant, accountsData]);
 
     usePreventFocus({ dependencies: [record] });
 
     if (isLoading || isFetchingPermissions) return <LoadingBlock />;
+
     return (
         <FormProvider {...form}>
             {!isMerchant && record?.type !== WalletTypes.EXTERNAL ? (
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-6">
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="type"
                             render={({ field }) => {
                                 return (
                                     <FormItem>
-                                        <FormLabel>{translate("resources.wallet.manage.fields.walletType")}</FormLabel>
+                                        <Label>{translate("resources.wallet.manage.fields.walletType")}</Label>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <FormControl>
-                                                <SelectTrigger variant={SelectType.GRAY} className="">
+                                                <SelectTrigger variant={SelectType.GRAY}>
                                                     <SelectValue
                                                         placeholder={translate("resources.direction.fields.active")}
                                                         defaultValue={WalletTypes.INTERNAL}
@@ -176,14 +208,27 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                         <FormField
                             control={form.control}
                             name="account_id"
-                            render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                            render={({ field, fieldState }) => (
+                                <FormItem>
                                     <Label>{translate("resources.wallet.manage.fields.merchantName")}</Label>
                                     <FormControl>
-                                        <MerchantSelectFilter
-                                            merchant={field.value}
-                                            onMerchantChanged={field.onChange}
-                                            resource="accounts"
+                                        <PopoverSelect
+                                            variants={accountsData || []}
+                                            value={accountsValueName}
+                                            idField="id"
+                                            setIdValue={field.onChange}
+                                            onChange={setAccountsValueName}
+                                            variantKey={variant =>
+                                                variant?.["meta"]?.["caption"] || variant?.["owner_id"]
+                                            }
+                                            placeholder={translate("resources.accounts.selectPlaceholder")}
+                                            commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
+                                            notFoundMessage={translate("resources.accounts.notFoundMessage")}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            disabled={accountsLoadingProcess}
+                                            isLoading={accountsLoadingProcess}
+                                            modal
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -194,14 +239,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={form.control}
                             name="currency"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
+                                            label={translate("resources.wallet.manage.fields.currency")}
                                             disabled
-                                            title={translate("resources.wallet.manage.fields.currency")}
+                                            errorMessage={<FormMessage />}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -211,14 +256,13 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={form.control}
                             name="blockchain"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem>
                                     <FormControl>
                                         <Input
-                                            disabled
                                             {...field}
-                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.wallet.manage.fields.blockchain")}
+                                            disabled
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -229,12 +273,11 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={form.control}
                             name="network"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem>
                                     <FormControl>
                                         <Input
                                             disabled
                                             {...field}
-                                            className="bg-muted"
                                             variant={InputTypes.GRAY}
                                             label={translate("resources.wallet.manage.fields.contactType")}
                                         />
@@ -246,7 +289,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={form.control}
                             name="minimal_ballance_limit"
                             render={({ field }) => (
-                                <FormItem className="w-1/2 p-2">
+                                <FormItem>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -262,14 +305,14 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             control={form.control}
                             name="description"
                             render={({ field }) => (
-                                <FormItem className="w-full p-2">
+                                <FormItem className="col-span-1 w-full md:col-span-2">
                                     <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                     <FormControl>
                                         <Textarea
                                             {...field}
                                             value={field.value ?? ""}
                                             placeholder={translate("resources.wallet.manage.fields.descr")}
-                                            className="h-24 w-full resize-none overflow-auto"
+                                            className="h-24 w-full resize-none overflow-auto rounded border border-neutral-60 p-2 text-title-1 text-neutral-80 outline-none dark:bg-muted dark:text-white"
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -278,11 +321,12 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                     </div>
 
                     <div className="flex items-center gap-4 self-end">
-                        <Button type="submit" variant="default">
+                        <Button type="submit" variant="default" onClick={() => onSubmit(form.getValues())}>
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button
                             onClick={() => onOpenChange(false)}
+                            type="reset"
                             variant="outline_gray"
                             className="rounded-4 border border-neutral-50 hover:border-neutral-100">
                             {translate("app.ui.actions.cancel")}
@@ -297,10 +341,9 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem className="w-full">
-                                    <FormLabel>{translate("resources.wallet.manage.fields.descr")}</FormLabel>
+                                    <Label>{translate("resources.wallet.manage.fields.descr")}</Label>
                                     <FormControl>
-                                        <div>
-                                            <Label />
+                                        <div className="!mt-0">
                                             <Textarea
                                                 {...field}
                                                 value={field.value ?? ""}
@@ -315,7 +358,7 @@ export const EditWallet = ({ id, onOpenChange }: EditWalletProps) => {
                     </div>
 
                     <div className="flex flex-col items-center gap-4 sm:flex-row sm:self-end">
-                        <Button type="submit" variant="default" className="w-full sm:w-auto">
+                        <Button type="submit" variant="default" className="w-full sm:w-auto" disabled={buttonDisabled}>
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button

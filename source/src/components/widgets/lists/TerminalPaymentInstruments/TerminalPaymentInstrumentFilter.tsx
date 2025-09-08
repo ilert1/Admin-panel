@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import useTerminalPaymentInstrumentFilter from "../../../../hooks/useTerminalPaymentInstrumentFilter";
+import useTerminalPaymentInstrumentFilter from "./useTerminalPaymentInstrumentFilter";
 import { Button } from "@/components/ui/Button";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { useState } from "react";
@@ -11,6 +11,16 @@ import { Input } from "@/components/ui/Input/input";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
 import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { ImportSingleFileDialog } from "./ImportSingleFileDialog";
+import { ImportMultipleFilesDialog } from "./ImportMultipleFilesDialog";
+import { ExportReportDialog } from "./ExportReportDialog";
+
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
 }
@@ -34,24 +44,32 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         terminalsData,
         terminalFilterId,
         onTerminalNameChanged,
-        onTerminalIdFieldChanged
+        onTerminalIdFieldChanged,
+        handleUploadReport,
+        handleUploadMultipleFiles,
+        handleDownloadReport,
+        onSystemPaymentInstrumentCodeChanged,
+        selectSpiCode
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
     const [showInitializeDialog, setShowInitializeDialog] = useState(false);
+    const [exportDialogOpen, setExportDialogOpen] = useState(false);
+    const [uploadSingleDialogOpen, setUploadSingleDialogOpen] = useState(false);
+    const [uploadMultipleDialogOpen, setUploadMultipleDialogOpen] = useState(false);
 
     const clearDisabled =
         !providerName &&
         !terminalFilterId &&
         !terminalPaymentTypeCode &&
         !terminalCurrencyCode &&
-        !terminalFinancialInstitutionCode;
+        !terminalFinancialInstitutionCode &&
+        !selectSpiCode;
 
     return (
         <>
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <SyncDisplayedFilters />
-
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <FilterButtonGroup
@@ -60,7 +78,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             terminalFilterId,
                             terminalPaymentTypeCode,
                             terminalCurrencyCode,
-                            terminalFinancialInstitutionCode
+                            terminalFinancialInstitutionCode,
+                            selectSpiCode
                         ]}
                         onClearFilters={onClearFilters}
                         open={openFiltersClicked}
@@ -68,7 +87,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                         clearButtonDisabled={clearDisabled}
                     />
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-end gap-2">
                         <Button onClick={createFn} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
 
@@ -78,6 +97,36 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 )}
                             </span>
                         </Button>
+                        <Button
+                            onClick={() => setExportDialogOpen(true)}
+                            disabled={!terminalFilterName}
+                            className="flex flex-1 items-center justify-center gap-1 font-normal sm:flex-none sm:self-end">
+                            <span>{translate("resources.paymentSettings.reports.export")}</span>
+                        </Button>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className="mt-1 sm:mt-0 md:ml-auto" variant="default" size="sm">
+                                    {translate("resources.paymentSettings.reports.import")}
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="border-green-50 p-0" align="end">
+                                <DropdownMenuItem
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-40 focus:dark:text-white"
+                                    onClick={() => setUploadSingleDialogOpen(true)}>
+                                    {translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.singleFile"
+                                    )}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    className="cursor-pointer rounded-none px-4 py-1.5 text-sm text-neutral-80 focus:bg-green-50 focus:text-white dark:text-neutral-40 focus:dark:text-white"
+                                    onClick={() => setUploadMultipleDialogOpen(true)}>
+                                    {translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fileDownloadUpload.multipleFiles"
+                                    )}
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
             </div>
@@ -95,6 +144,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 value={providerName}
                                 onChange={onProviderChanged}
                                 disabled={providersLoadingProcess}
+                                isLoading={providersLoadingProcess}
                             />
                         </div>
 
@@ -112,9 +162,14 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 idField="terminal_id"
                                 setIdValue={onTerminalIdFieldChanged}
                                 disabled={terminalsLoadingProcess || !providerName}
-                                placeholder={translate("resources.terminals.selectPlaceholder")}
+                                placeholder={
+                                    providerName
+                                        ? translate("resources.terminals.selectPlaceholder")
+                                        : translate("resources.direction.noTerminals")
+                                }
                                 commandPlaceholder={translate("app.widgets.multiSelect.searchPlaceholder")}
                                 notFoundMessage={translate("resources.terminals.notFoundMessage")}
+                                isLoading={terminalsLoadingProcess}
                             />
                         </div>
 
@@ -126,22 +181,22 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                     </div>
                     <div>
                         <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
                                 <Input
                                     labelSize="title-2"
-                                    value={terminalFinancialInstitutionCode}
-                                    onChange={onTerminalFinancialInstitutionCodeChanged}
+                                    value={selectSpiCode}
+                                    onChange={onSystemPaymentInstrumentCodeChanged}
                                     label={translate(
-                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
                                     )}
                                     placeholder={translate(
-                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
                                     )}
                                     disabled={!providerName}
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalCurrencyCode}
@@ -151,6 +206,21 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     )}
                                     placeholder={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
+                                    )}
+                                    disabled={!providerName}
+                                />
+                            </div>
+
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                                <Input
+                                    labelSize="title-2"
+                                    value={terminalFinancialInstitutionCode}
+                                    onChange={onTerminalFinancialInstitutionCodeChanged}
+                                    label={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                    )}
+                                    placeholder={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                                     )}
                                     disabled={!providerName}
                                 />
@@ -170,6 +240,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     disabled={!providerName}
                                 />
                             </div>
+
                             {/* <div className="flex flex-col gap-4 sm:flex-row sm:gap-2">
                                 <Button
                                     onClick={() => setExportDialogOpen(true)}
@@ -192,6 +263,24 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                 terminal={terminalsData?.find(item => item.terminal_id === terminalFilterId)}
                 open={showInitializeDialog}
                 onOpenChange={setShowInitializeDialog}
+            />
+            <ImportSingleFileDialog
+                open={uploadSingleDialogOpen}
+                onOpenChange={setUploadSingleDialogOpen}
+                handleImport={handleUploadReport}
+                providersList={providersData}
+            />
+            <ImportMultipleFilesDialog
+                open={uploadMultipleDialogOpen}
+                onOpenChange={setUploadMultipleDialogOpen}
+                handleImport={handleUploadMultipleFiles}
+                providersList={providersData}
+            />
+            <ExportReportDialog
+                open={exportDialogOpen}
+                onOpenChange={setExportDialogOpen}
+                handleExport={handleDownloadReport}
+                terminalId={terminalFilterId}
             />
         </>
     );

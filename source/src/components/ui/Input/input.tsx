@@ -29,6 +29,7 @@ interface InputProps extends BasicInputProps {
     borderColor?: BorderColor;
     disableErrorMessage?: boolean;
     percentage?: boolean;
+    disableControls?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -50,6 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             borderColor = "border-neutral-40",
             disableErrorMessage = false,
             percentage = false,
+            disableControls = false,
             ...props
         },
         ref
@@ -110,14 +112,56 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         const copy = React.useCallback(() => {
             navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue));
-
             appToast("success", "", translate("app.ui.textField.copied"));
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [inputValue, propValue]);
 
+        const handleCut = (e: React.ClipboardEvent<HTMLInputElement>) => {
+            e.preventDefault();
+            const input = inputRef.current;
+            if (!input) return;
+
+            const start = input.selectionStart || 0;
+            const end = input.selectionEnd || 0;
+            const text = String(propValue !== undefined ? propValue : inputValue);
+
+            const selectedText = text.substring(start, end);
+            const newValue = text.substring(0, start) + text.substring(end);
+
+            if (onChange) {
+                const event = {
+                    target: { value: newValue }
+                } as React.ChangeEvent<HTMLInputElement>;
+                onChange(event);
+            }
+
+            if (propValue === undefined) {
+                setInputValue(newValue);
+            }
+
+            navigator.clipboard.writeText(selectedText).catch(err => console.error("Clipboard error:", err));
+
+            setTimeout(() => {
+                input.setSelectionRange(start, start);
+            }, 0);
+        };
+
+        const handleCopy = (e: React.ClipboardEvent<HTMLInputElement>) => {
+            e.preventDefault();
+            const input = inputRef.current;
+            if (!input) return;
+
+            const start = input.selectionStart || 0;
+            const end = input.selectionEnd || 0;
+            const text = String(propValue !== undefined ? propValue : inputValue);
+            const selectedText = text.substring(start, end);
+
+            navigator.clipboard.writeText(selectedText).catch(err => console.error("Clipboard error:", err));
+        };
+
         const showClearButton = React.useMemo(
-            () => inputValue?.toString() && isFocused && !disabled,
-            [disabled, inputValue, isFocused]
+            () => inputValue?.toString() && isFocused && !disabled && !disableControls,
+            [disableControls, disabled, inputValue, isFocused]
         );
 
         React.useEffect(() => {
@@ -129,7 +173,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     lastChild.classList.add("!pr-[13.3px]", "rounded-r-4");
                 }
             }
-        }, [showClearButton, error, type]);
+        }, [showClearButton, error, type, percentage]);
 
         React.useEffect(() => {
             const handleDocumentClick = (e: MouseEvent) => {
@@ -140,6 +184,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 ) {
                     setIsFocused(false);
                     inputRef.current?.blur();
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     props.onBlur?.(e as any);
                 }
             };
@@ -180,7 +225,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         ((propValue && propValue.toString().length > 0) ||
                             (inputValue && inputValue.toString().length > 0)) && (
                             <span className="select-none pl-2">
-                                <Copy className="h-4 w-4 cursor-pointer dark:text-neutral-60" onClick={copy} />
+                                <Copy
+                                    data-testid="copy-btn"
+                                    className="h-4 w-4 cursor-pointer dark:text-neutral-60"
+                                    onClick={copy}
+                                />
                             </span>
                         )}
                     <input
@@ -198,16 +247,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             className
                         )}
                         {...props}
-                        onCopy={() =>
-                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
-                        }
-                        onCut={() =>
-                            navigator.clipboard.writeText(String(propValue !== undefined ? propValue : inputValue))
-                        }
+                        onCopy={handleCopy}
+                        onCut={handleCut}
                         onContextMenu={type === "password_masked" ? e => e.preventDefault() : onContextMenu}
                         ref={inputRef}
                     />
-                    <span className="flex items-center" ref={iconsBoxRef}>
+                    <span role="button" className="flex items-center" ref={iconsBoxRef}>
                         {showClearButton && <ClearButton handleClear={handleClear} inputVariant={variant} />}
                         {error && <ErrorBadge errorMessage={errorMessage} disableErrorMessage={disableErrorMessage} />}
                         {(type === "password" || type === "password_masked") && (

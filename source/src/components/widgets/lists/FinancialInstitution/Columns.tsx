@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ListControllerResult, useTranslate } from "react-admin";
 import { FinancialInstitution } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { Button } from "@/components/ui/Button";
+import { Button, TrashButton } from "@/components/ui/Button";
 import { useEffect, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { EyeIcon } from "lucide-react";
@@ -12,6 +12,7 @@ import { CurrentCell, TableEditableCell } from "../../shared";
 import { FinancialInstitutionProvider, FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Badge } from "@/components/ui/badge";
+import { BankIcon } from "@/components/ui/BankIcon";
 
 export const useGetFinancialInstitutionColumns = ({
     listContext
@@ -26,6 +27,9 @@ export const useGetFinancialInstitutionColumns = ({
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
+    const [deleteClicked, setDeleteClicked] = useState(false);
+    const [chosenId, setChosenId] = useState("");
+
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
@@ -43,9 +47,27 @@ export const useGetFinancialInstitutionColumns = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listContext.filterValues]);
 
-    const onSubmit = async (id: string, data: Pick<FinancialInstitutionWithId, "nspk_member_id">) => {
+    const handleDeleteClicked = (id: string) => {
+        setDeleteClicked(true);
+        setChosenId(id);
+    };
+
+    const onSubmit = async (id: string, data: Pick<FinancialInstitutionWithId, "nspk_member_id" | "bin">) => {
         try {
             setIsDataUpdating(true);
+
+            if (data.nspk_member_id && data.nspk_member_id.length > 20) {
+                appToast(
+                    "error",
+                    translate("resources.paymentSettings.financialInstitution.errors.nspk_member_id_max")
+                );
+                return;
+            }
+
+            if (data.bin && data.bin.length > 9) {
+                appToast("error", translate("resources.paymentSettings.financialInstitution.errors.bin_max"));
+                return;
+            }
 
             await financialInstitutionProvider.update("financialInstitution", {
                 id,
@@ -96,7 +118,7 @@ export const useGetFinancialInstitutionColumns = ({
             header: translate("resources.paymentSettings.financialInstitution.fields.name"),
             cell: ({ row }) => {
                 return (
-                    <div>
+                    <div className="flex items-center justify-between gap-2">
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
@@ -106,6 +128,9 @@ export const useGetFinancialInstitutionColumns = ({
                             }}>
                             {row.original.name}
                         </Button>
+                        {typeof row.original.meta?.logoURL === "string" && (
+                            <BankIcon logoURL={row.original.meta?.logoURL} />
+                        )}
                     </div>
                 );
             }
@@ -127,12 +152,8 @@ export const useGetFinancialInstitutionColumns = ({
                     <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
                         {row.original.currencies && row.original.currencies.length > 0
                             ? row.original.currencies.map(value => (
-                                  <Badge
-                                      key={value.code}
-                                      className="cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent">
-                                      <span className="max-w-28 overflow-hidden text-ellipsis break-words">
-                                          {value.code}
-                                      </span>
+                                  <Badge key={value.code} variant="currency">
+                                      {value.code}
                                   </Badge>
                               ))
                             : "-"}
@@ -154,8 +175,7 @@ export const useGetFinancialInstitutionColumns = ({
                                           className="h-7 w-7"
                                           key={pt.code}
                                           type={pt.code}
-                                          metaIcon={pt.meta?.["icon"] as string}
-                                          tooltip
+                                          metaIcon={pt.meta?.["icon"]}
                                       />
                                   );
                               })
@@ -187,9 +207,40 @@ export const useGetFinancialInstitutionColumns = ({
             }
         },
         {
+            id: "bin",
+            header: translate("resources.paymentSettings.financialInstitution.fields.bin"),
+            accessorKey: "bin",
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.bin || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.code, { bin: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
+            }
+        },
+        {
             id: "country_code",
             accessorKey: "country_code",
             header: translate("resources.paymentSettings.financialInstitution.fields.country_code")
+        },
+        {
+            id: "delete_field",
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
+            },
+            cell: ({ row }) => {
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.code)} />;
+            }
         },
         {
             id: "show",
@@ -210,6 +261,9 @@ export const useGetFinancialInstitutionColumns = ({
         translate,
         createDialogOpen,
         columns,
-        setCreateDialogOpen
+        setCreateDialogOpen,
+        deleteClicked,
+        chosenId,
+        setDeleteClicked
     };
 };

@@ -8,14 +8,15 @@
         "keyMiss": "Ключ отсутсвует",
         "regenKey": "Пересоздать ключи",
         "json_schema": "Схема Json",
-        "code": "Методы",
         "enterMethods": "Введите свои методы",
         "methods": "Методы"
     },
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",
-        "alreadyInUse": "Данное имя уже используется․ Выберите другой."
+        "alreadyInUse": "Данное имя уже используется․ Выберите другое.",
+        "methodAlreadyExist": "Данный метод уже существует"
     },
+    "resources.provider.successCreate": "Провайдер %{name} успешно создан.",
     "resources.provider.recreateConfirm": "Пересоздать ключи?",
     "resources.provider.recreateConfirmDescription": "Старые ключи станут недействительными",
     "resources.provider.recreate": "Пересоздать",
@@ -37,5 +38,14 @@
     "resources.provider.notFoundMessage": "Провайдеры не найдены.",
     "resources.provider.selectPlaceholder": "Выберите провайдера",
     "resources.provider.editingProvider": "Изменить провайдера",
-    "resources.provider.creatingProvider": "Создание провайдера"
+    "resources.provider.creatingProvider": "Создание провайдера",
+    "resources.provider.methodNotFound": "Методы провайдера отсутствуют",
+    "resources.provider.methodName": "Название метода",
+    "resources.provider.methodParameters": "Параметры метода",
+    "resources.provider.methodAddSuccess": "Метод провайдера успешно добавлен",
+    "resources.provider.methodEditSuccess": "Метод провайдера успешно изменен",
+    "resources.provider.methodDeleteSuccess": "Метод провайдера успешно удален",
+    "resources.provider.methodTimeoutRegexError": "Данное поле должно соответствовать формату hh:mm:ss",
+    "resources.provider.addMethod": "Добавить метод",
+    "resources.provider.removeMethodDialog": "Удалить метод?"
 }

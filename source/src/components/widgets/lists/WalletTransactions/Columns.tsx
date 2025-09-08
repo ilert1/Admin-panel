@@ -2,7 +2,7 @@
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchDictionaries } from "@/hooks";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, usePermissions, useTranslate } from "react-admin";
@@ -10,7 +10,7 @@ import { useLocaleState, usePermissions, useTranslate } from "react-admin";
 export const useGetWalletTransactionsColumns = () => {
     const translate = useTranslate();
     const [locale] = useLocaleState();
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const { openSheet } = useSheets();
 
     const [chosenId, setChosenId] = useState("");

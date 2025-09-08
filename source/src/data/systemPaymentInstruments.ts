@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 import { IBaseDataProvider } from "./base";
 import {
-    ImportMode,
+    ImportStrategy,
     SystemPaymentInstrument,
     SystemPaymentInstrumentCreate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -77,17 +77,21 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         };
     }
 
-    async getListWithoutPagination(): Promise<GetListResult<SystemPaymentInstrumentWithId>> {
+    async getListWithoutPagination(
+        resource: string,
+        signal?: AbortSignal
+    ): Promise<GetListResult<SystemPaymentInstrumentWithId>> {
         const res =
             await systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet(
                 {
                     currentPage: 1,
-                    pageSize: 1000
+                    pageSize: 10000
                 },
                 {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("access-token")}`
-                    }
+                    },
+                    signal
                 }
             );
 
@@ -246,7 +250,7 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
         });
     }
 
-    async uploadReport(file: File, mode: ImportMode = "strict") {
+    async uploadReport(file: File, mode: ImportStrategy = "strict") {
         const res =
             await systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost(
                 {

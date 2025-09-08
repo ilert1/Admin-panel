@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { ProvidersDataProvider, ProviderWithId } from "@/data/providers";
+import { ProvidersDataProvider, IProvider } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
@@ -32,7 +32,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["provider", id],
-        queryFn: () => dataProvider.getOne<ProviderWithId>("provider", { id: id ?? "" }),
+        queryFn: ({ signal }) => dataProvider.getOne<IProvider>("provider", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
     });
@@ -49,8 +49,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const formSchema = z.object({
-        name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        public_key: z.string().nullable(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string().trim().optional(),
         payment_types: z.array(z.string()).optional()
@@ -59,8 +57,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            public_key: "",
             fields_json_schema: "",
             methods: "{}",
             payment_types: []
@@ -70,8 +66,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     useEffect(() => {
         if (!isLoadingProvider && provider && isFetchedAfterMount) {
             const updatedValues = {
-                name: provider.name || "",
-                public_key: provider.public_key || "",
                 fields_json_schema: provider.fields_json_schema || "",
                 methods: JSON.stringify(provider.methods, null, 2) || "{}",
                 payment_types: provider?.payment_types?.map(pt => pt.code) || []
@@ -96,13 +90,12 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
         if (data.payment_types) {
             payment_types = [...data.payment_types];
-            delete data.payment_types;
         }
 
         const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
         try {
-            await dataProvider.update<ProviderWithId>("provider", {
+            await dataProvider.update<IProvider>("provider", {
                 id,
                 data: { ...data, methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {} },
                 previousData: undefined
@@ -118,23 +111,23 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                 )
             );
 
-            await providersDataProvider.addPaymentTypes({
-                id,
-                data: {
-                    codes: payment_types
-                },
-                previousData: undefined
-            });
-
             appToast("success", translate("app.ui.edit.editSuccess"));
             refresh();
             onClose();
         } catch (error) {
-            appToast("error", translate("resources.currency.errors.alreadyInUse"));
-
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.edit.editError"));
+            }
+        } finally {
             setSubmitButtonDisabled(false);
         }
-        onClose();
     };
 
     usePreventFocus({ dependencies: [provider] });
@@ -149,24 +142,15 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="flex flex-wrap">
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        disabled
-                                        variant={InputTypes.GRAY}
-                                        label={translate("resources.provider.fields._name")}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
+                    <div className="w-full p-2 sm:w-1/2">
+                        <Input
+                            value={provider.name}
+                            variant={InputTypes.GRAY}
+                            label={translate("resources.provider.fields._name")}
+                            disabled
+                        />
+                    </div>
+
                     <FormField
                         control={form.control}
                         name="fields_json_schema"
@@ -184,26 +168,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="methods"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <Label className="!mb-0">{translate("resources.provider.fields.code")}</Label>
-                                <FormControl>
-                                    <MonacoEditor
-                                        width="100%"
-                                        onMountEditor={() => setMonacoEditorMounted(true)}
-                                        onValidChange={setHasValid}
-                                        onErrorsChange={setHasErrors}
-                                        code={field.value ?? "{}"}
-                                        setCode={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+
                     <FormField
                         control={form.control}
                         name="payment_types"
@@ -216,6 +181,27 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                         options={allPaymentTypes || []}
                                     />
                                 </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="methods"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <Label>{translate("resources.provider.fields.methods")}</Label>
+                                <FormControl>
+                                    <MonacoEditor
+                                        width="100%"
+                                        onMountEditor={() => setMonacoEditorMounted(true)}
+                                        onValidChange={setHasValid}
+                                        onErrorsChange={setHasErrors}
+                                        code={field.value ?? "{}"}
+                                        setCode={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -233,6 +219,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             className="flex-1">
                             {translate("app.ui.actions.save")}
                         </Button>
+
                         <Button
                             type="button"
                             variant="outline_gray"

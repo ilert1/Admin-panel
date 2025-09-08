@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { usePreventFocus } from "@/hooks";
+import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { useRefresh } from "react-admin";
 import {
     SelectContent,
@@ -23,9 +23,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { PaymentCategory } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
-import { useQuery } from "@tanstack/react-query";
 import { PaymentTypesProvider } from "@/data/payment_types";
-import { CurrenciesDataProvider } from "@/data";
+import { RequiredFieldsMultiSelect } from "../components/MultiSelectComponents/RequiredFieldsMultiSelect";
+import { useQuery } from "@tanstack/react-query";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 export interface PaymentTypeEditProps {
     id: string;
@@ -33,8 +34,9 @@ export interface PaymentTypeEditProps {
 }
 
 export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps) => {
-    const currenciesDataProvider = new CurrenciesDataProvider();
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const paymentTypesDataProvider = new PaymentTypesProvider();
+
     const controllerProps = useEditController({ resource: "payment_type", id });
     const { theme } = useTheme();
     const refresh = useRefresh();
@@ -42,24 +44,28 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     const translate = useTranslate();
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const [hasErrors, setHasErrors] = useState(false);
+    const [isValid, setIsValid] = useState(true);
+    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const paymentTypeCategories = Object.keys(PaymentCategory);
 
-    const { data: currenciesList, isLoading: isLoadingCurrencies } = useQuery({
-        queryKey: ["currencies"],
-        queryFn: async ({ signal }) => await currenciesDataProvider.getListWithoutPagination("currency", signal),
-        select: data => data.data
+    const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
+        queryKey: ["paymentTypeRequiredFields"],
+        queryFn: () => {
+            return paymentTypesDataProvider.getRequiredFields();
+        }
     });
 
     const formSchema = z.object({
         code: z.string().min(1, translate("resources.paymentSettings.paymentType.errors.code")).trim(),
-        title: z.string().optional().default(""),
+        title: z
+            .string()
+            .min(1, translate("resources.paymentSettings.systemPaymentInstruments.errors.cantBeEmpty"))
+            .default(""),
         category: z.enum(paymentTypeCategories as [string, ...string[]]),
-        required_fields_for_payment: z.string().optional(),
-        meta: z
-            .object({
-                icon: z.string().optional()
-            })
-            .optional(),
+        required_fields_for_payment_deposit: z.array(z.string()).optional(),
+        required_fields_for_payment_withdrawal: z.array(z.string()).optional(),
+        meta: z.string().trim().optional(),
         currencies: z.array(z.string()).optional()
     });
 
@@ -69,10 +75,10 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
             code: id,
             title: controllerProps.record?.title ?? "",
             category: controllerProps.record?.category ?? "",
-            required_fields_for_payment: controllerProps.record?.required_fields_for_payment?.join(", ") ?? "",
-            meta: {
-                icon: controllerProps.record?.meta?.icon ?? ""
-            },
+            required_fields_for_payment_deposit: controllerProps.record?.required_fields_for_payment?.deposit ?? [],
+            required_fields_for_payment_withdrawal:
+                controllerProps.record?.required_fields_for_payment?.withdrawal ?? [],
+            meta: JSON.stringify(controllerProps.record?.meta, null, 2) || "{}",
             currencies: controllerProps.record?.currencies?.map((c: { code: string }) => c.code) ?? []
         }
     });
@@ -81,10 +87,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);
-
-        const required_fields_for_payment = data.required_fields_for_payment?.trim()
-            ? data.required_fields_for_payment?.split(",").map(item => item.trim())
-            : [];
 
         let currencies: string[] = [];
         let oldCurrencies: Set<string> = new Set();
@@ -101,15 +103,16 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
         const currenciesToDelete = oldCurrencies.difference(new Set(currencies));
 
         try {
-            required_fields_for_payment.forEach(item => {
-                if (!item.match(/^[a-z0-9_]+$/)) {
-                    throw new Error("paymentFieldsRegex");
-                }
-            });
-
             await paymentTypesDataProvider.update("payment_type", {
                 id,
-                data: { ...data, required_fields_for_payment },
+                data: {
+                    ...data,
+                    required_fields_for_payment: {
+                        deposit: data.required_fields_for_payment_deposit,
+                        withdrawal: data.required_fields_for_payment_withdrawal
+                    },
+                    meta: data.meta && data.meta.length !== 0 ? JSON.parse(data.meta) : {}
+                },
                 previousData: undefined
             });
 
@@ -158,7 +161,7 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
 
     usePreventFocus({});
 
-    if (controllerProps.isLoading || theme.length === 0 || isLoadingCurrencies)
+    if (controllerProps.isLoading || theme.length === 0 || isCurrenciesLoading)
         return (
             <div className="h-[300px]">
                 <Loading />
@@ -184,23 +187,6 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                                 errorMessage={<FormMessage />}
                                                 label={translate("resources.paymentSettings.paymentType.fields.code")}
                                                 disabled
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="title"
-                                render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -241,18 +227,16 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                             />
                             <FormField
                                 control={form.control}
-                                name="required_fields_for_payment"
+                                name="title"
                                 render={({ field, fieldState }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
                                             <Input
                                                 {...field}
                                                 variant={InputTypes.GRAY}
                                                 error={fieldState.invalid}
                                                 errorMessage={<FormMessage />}
-                                                label={translate(
-                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment"
-                                                )}
+                                                label={translate("resources.paymentSettings.paymentType.fields.title")}
                                             />
                                         </FormControl>
                                     </FormItem>
@@ -262,18 +246,83 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 control={form.control}
                                 name="currencies"
                                 render={({ field }) => (
-                                    <FormItem className="w-full p-2">
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
                                         <FormControl>
                                             <CurrenciesMultiSelect
                                                 value={field.value}
                                                 onChange={field.onChange}
-                                                options={currenciesList || []}
+                                                options={currenciesData || []}
+                                                isLoading={currenciesLoadingProcess}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="required_fields_for_payment_deposit"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <RequiredFieldsMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={isLoadRequiredFields ? {} : requiredFields}
+                                                isLoading={isLoadRequiredFields}
+                                                label={translate(
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment_deposit"
+                                                )}
                                             />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
 
+                            <FormField
+                                control={form.control}
+                                name="required_fields_for_payment_withdrawal"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                        <FormControl>
+                                            <RequiredFieldsMultiSelect
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                options={isLoadRequiredFields ? {} : requiredFields}
+                                                isLoading={isLoadRequiredFields}
+                                                label={translate(
+                                                    "resources.paymentSettings.paymentType.fields.required_fields_for_payment_withdrawal"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="meta"
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem className="col-span-1 w-full p-2 sm:col-span-2">
+                                            <Label>
+                                                {translate(
+                                                    "resources.paymentSettings.systemPaymentInstruments.fields.meta"
+                                                )}
+                                            </Label>
+                                            <FormControl>
+                                                <MonacoEditor
+                                                    onErrorsChange={setHasErrors}
+                                                    onValidChange={setIsValid}
+                                                    onMountEditor={() => setMonacoEditorMounted(true)}
+                                                    code={field.value ?? "{}"}
+                                                    setCode={field.onChange}
+                                                    allowEmptyValues
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
+                            />
                             {/* <FormField
                                 control={form.control}
                                 name="meta.icon"
@@ -358,7 +407,12 @@ export const PaymentTypeEdit = ({ id, onClose = () => {} }: PaymentTypeEditProps
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={submitButtonDisabled}>
+                                disabled={
+                                    submitButtonDisabled ||
+                                    hasErrors ||
+                                    (!isValid && form.watch("meta")?.length !== 0) ||
+                                    !monacoEditorMounted
+                                }>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

@@ -1,0 +1,1 @@
+export { ProviderMethodsTable } from "./ProviderMethodsTable";

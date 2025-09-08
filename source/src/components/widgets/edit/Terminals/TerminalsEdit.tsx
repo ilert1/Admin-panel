@@ -1,31 +1,44 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { usePreventFocus } from "@/hooks";
+import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { TerminalsDataProvider, TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { ProviderBase, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
+import { CurrencySelect } from "../../components/Selects/CurrencySelect";
+import { countryCodes, CountrySelect } from "../../components/Selects/CountrySelect";
 
 interface ProviderEditParams {
-    provider: string;
+    provider: ProviderBase;
     id: string;
     onClose: () => void;
 }
 
 export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose }) => {
     const dataProvider = useDataProvider();
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -35,6 +48,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const [hasValid, setHasValid] = useState(true);
     const queryClient = useQueryClient();
     const [isFinished, setIsFinished] = useState(false);
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const {
         data: terminal,
@@ -42,12 +56,14 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["terminal", id],
-        queryFn: () => dataProvider.getOne<TerminalWithId>(`${provider}/terminal`, { id }),
+        queryFn: ({ signal }) => dataProvider.getOne<TerminalWithId>("terminals", { id, signal }),
         enabled: true,
         select: data => data.data
     });
 
-    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({ provider });
+    const { providerPaymentTypes, isLoadingProviderPaymentTypes } = useGetPaymentTypes({
+        provider: provider.id as string
+    });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -66,7 +82,23 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                     .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
             )
             .optional(),
-        payment_types: z.array(z.string()).optional()
+        payment_types: z.array(z.string()).optional().default([]),
+        src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
+        dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+        dst_country_code: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+            .trim(),
+        callback_url: z.string().optional().nullable().default(null),
+        state: z.enum(["active", "inactive"]),
+        minTTL: z.coerce
+            .number()
+            .min(0, translate("resources.terminals.errors.minTTL"))
+            .max(100000, translate("resources.terminals.errors.maxTTL")),
+        maxTTL: z.coerce
+            .number()
+            .min(0, translate("resources.terminals.errors.minTTL"))
+            .max(100000, translate("resources.terminals.errors.maxTTL"))
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -76,7 +108,14 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             description: "",
             details: "{}",
             allocation_timeout_seconds: 2,
-            payment_types: []
+            payment_types: [],
+            src_currency_code: "",
+            dst_currency_code: "",
+            dst_country_code: "",
+            callback_url: null,
+            state: "inactive",
+            minTTL: 0,
+            maxTTL: 0
         }
     });
 
@@ -86,9 +125,18 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 verbose_name: terminal.verbose_name || "",
                 description: terminal.description || "",
                 details: JSON.stringify(terminal.details, null, 2) || "{}",
-                allocation_timeout_seconds: terminal?.allocation_timeout_seconds ?? 2,
-                payment_types: terminal?.payment_types?.map(pt => pt.code) || []
+                allocation_timeout_seconds: terminal.allocation_timeout_seconds ?? 2,
+                payment_types: terminal.payment_types?.map(pt => pt.code) || [],
+                src_currency_code: terminal.src_currency?.code || "",
+                dst_currency_code: terminal.dst_currency?.code || "",
+                dst_country_code: terminal.dst_country_code || "",
+                callback_url: terminal.callback_url || null,
+                state: terminal.state || "inactive",
+                minTTL: terminal.settings?.ttl?.min || 0,
+                maxTTL: terminal.settings?.ttl?.max || 0
             };
+
+            setCurrentCountryCodeName(countryCodes.find(code => code.alpha2 === terminal.dst_country_code)?.name || "");
 
             form.reset(updatedValues);
             setIsFinished(true);
@@ -111,16 +159,15 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
             if (data.payment_types) {
                 payment_types = [...data.payment_types];
-                delete data.payment_types;
             }
 
             const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
-            await dataProvider.update<TerminalWithId>(`${provider}/terminal`, {
+            await dataProvider.update<TerminalWithId>("terminals", {
                 id,
                 data: {
-                    verbose_name: data.verbose_name,
-                    description: data.description,
+                    ...data,
+                    settings: { ttl: { min: data.minTTL, max: data.maxTTL } },
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     allocation_timeout_seconds:
                         data.allocation_timeout_seconds !== undefined ? data.allocation_timeout_seconds : null
@@ -132,25 +179,24 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 [...paymentsToDelete].map(payment =>
                     terminalsDataProvider.removePaymentType({
                         id,
-                        providerName: provider,
                         data: { code: payment },
                         previousData: undefined
                     })
                 )
             );
 
-            await terminalsDataProvider.addPaymentTypes({
-                id,
-                providerName: provider,
-                data: {
-                    codes: payment_types
-                },
-                previousData: undefined
-            });
-
             appToast("success", translate("app.ui.edit.editSuccess"));
         } catch (error) {
-            if (error instanceof Error) appToast("error", error.message);
+            if (error instanceof Error) {
+                appToast(
+                    "error",
+                    error.message.includes("already exist")
+                        ? translate("resources.provider.errors.alreadyInUse")
+                        : error.message
+                );
+            } else {
+                appToast("error", translate("app.ui.edit.editError"));
+            }
         } finally {
             refresh();
             form.reset({});
@@ -160,6 +206,50 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             onClose();
         }
     };
+
+    const handleChange = useCallback(
+        (key: "minTTL" | "maxTTL", value: string) => {
+            value = value.replace(/[^0-9.]/g, "");
+
+            const parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts[1];
+            }
+
+            if (parts.length === 2 && parts[1].length > 2) {
+                parts[1] = parts[1].slice(0, 2);
+                value = parts.join(".");
+            }
+
+            if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+                value = value.replace(/^0+/, "") || "0";
+            }
+
+            if (value === "") {
+                form.resetField(key);
+                return;
+            }
+
+            if (value.endsWith(".") || value === "0.") {
+                return;
+            }
+
+            const numericValue = parseFloat(value);
+            if (!isNaN(numericValue)) {
+                let finalValue = numericValue;
+
+                if (numericValue > 100000) {
+                    finalValue = 100000;
+                }
+                if (numericValue < 0) {
+                    finalValue = 0;
+                }
+
+                form.setValue(key, finalValue);
+            }
+        },
+        [form]
+    );
 
     usePreventFocus({ dependencies: [terminal] });
 
@@ -174,7 +264,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="flex flex-wrap">
-                    <div className="grid w-full gap-2 md:grid-cols-2">
+                    <div className="grid w-full md:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="verbose_name"
@@ -220,7 +310,157 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="minTTL"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.minTTL")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("minTTL", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxTTL"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.maxTTL")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("maxTTL", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="src_currency_code"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label>{translate("resources.direction.sourceCurrency")}</Label>
+                                    <CurrencySelect
+                                        currencies={currenciesData || []}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        disabled={currenciesLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="dst_currency_code"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label>{translate("resources.direction.destinationCurrency")}</Label>
+                                    <CurrencySelect
+                                        currencies={currenciesData || []}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        isError={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        disabled={currenciesLoadingProcess}
+                                        modal
+                                    />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="dst_country_code"
+                            render={({ field, fieldState }) => {
+                                return (
+                                    <FormItem className="w-full p-2">
+                                        <Label>{translate("resources.direction.destinationCountry")}</Label>
+
+                                        <CountrySelect
+                                            value={currentCountryCodeName}
+                                            onChange={setCurrentCountryCodeName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            modal
+                                        />
+                                    </FormItem>
+                                );
+                            }}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <Label>{translate("resources.direction.fields.active")}</Label>
+                                    <Select value={field.value} onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger
+                                                variant={SelectType.GRAY}
+                                                isError={fieldState.invalid}
+                                                errorMessage={<FormMessage />}>
+                                                <SelectValue
+                                                    placeholder={translate("resources.direction.fields.active")}
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectItem value="active" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateActive")}
+                                                </SelectItem>
+                                                <SelectItem value="inactive" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateInactive")}
+                                                </SelectItem>
+                                                <SelectItem value="archived" variant={SelectType.GRAY}>
+                                                    {translate("resources.direction.fields.stateArchived")}
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
                     </div>
+
+                    <FormField
+                        control={form.control}
+                        name="payment_types"
+                        render={({ field }) => (
+                            <FormItem className="w-full p-2">
+                                <FormControl>
+                                    <PaymentTypeMultiSelect
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        options={providerPaymentTypes || []}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
                     <FormField
                         control={form.control}
@@ -245,7 +485,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                         name="details"
                         render={({ field }) => (
                             <FormItem className="w-full p-2">
-                                <Label className="!mb-0">{translate("resources.terminals.fields.details")}</Label>
+                                <Label>{translate("resources.terminals.fields.details")}</Label>
                                 <FormControl>
                                     <MonacoEditor
                                         width="100%"
@@ -257,21 +497,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                     />
                                 </FormControl>
                                 <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="payment_types"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <FormControl>
-                                    <PaymentTypeMultiSelect
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        options={providerPaymentTypes || []}
-                                    />
-                                </FormControl>
                             </FormItem>
                         )}
                     />

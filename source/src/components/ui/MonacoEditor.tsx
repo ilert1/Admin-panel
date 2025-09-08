@@ -15,6 +15,8 @@ interface MonacoEditorProps {
     onErrorsChange?: (hasErrors: boolean) => void;
     onValidChange?: (isValid: boolean) => void;
     onMountEditor?: OnMount;
+
+    allowEmptyValues?: boolean;
 }
 
 export const MonacoEditor = (props: MonacoEditorProps) => {
@@ -30,7 +32,9 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
 
         onValidChange,
 
-        onMountEditor = () => {}
+        onMountEditor = () => {},
+
+        allowEmptyValues = false
     } = props;
     const { theme } = useTheme();
 
@@ -47,7 +51,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                         parsed === null ||
                         Array.isArray(parsed) ||
                         Object.keys(parsed).includes("") ||
-                        Object.values(parsed).includes("")
+                        (!allowEmptyValues && Object.values(parsed).includes(""))
                     ) {
                         onValidChange(false);
                     } else {
@@ -58,6 +62,7 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                 }
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [onValidChange]
     );
 
@@ -120,9 +125,10 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
     return (
         <div
             className={cn(
-                "w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted",
+                "!mt-0 w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted",
                 height
             )}>
+            <style>{`.monaco-editor {outline: none !important;}`}</style>
             <Editor
                 width={"99%"}
                 defaultLanguage="json"
@@ -159,9 +165,11 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
                     readOnly: disabled,
                     domReadOnly: disabled,
                     readOnlyMessage: { value: "" },
-                    automaticLayout: true
+                    automaticLayout: true,
+                    hover: { enabled: false }
                 }}
                 beforeMount={handleEditorDidMount}
+                className="outline-none"
             />
         </div>
     );

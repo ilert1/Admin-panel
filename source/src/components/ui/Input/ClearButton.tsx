@@ -12,8 +12,8 @@ export const ClearButton = (props: ClearButtonProps) => {
     return (
         <span
             className={cn(
-                "flex h-[36px] cursor-pointer items-center justify-center pr-[4px] dark:bg-neutral-100",
-                "bg-neutral-0 text-neutral-60",
+                "flex h-[36px] cursor-pointer items-center justify-center bg-neutral-0 pr-[4px]",
+                "text-neutral-60",
                 "dark:text-neutral-40",
                 inputVariant === InputTypes.GRAY ? "dark:bg-muted" : "bg-neutral-0 dark:bg-neutral-100"
             )}

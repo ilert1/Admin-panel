@@ -13,7 +13,7 @@ import { memo, useEffect, useState } from "react";
 import { HttpError, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Trash2 } from "lucide-react";
-import fetchDictionaries from "@/helpers/get-dictionaries";
+import { useFetchDictionaries } from "@/hooks";
 import Big from "big.js";
 
 interface FeeCardProps {
@@ -22,13 +22,13 @@ interface FeeCardProps {
     feeType: 1 | 2 | 3;
     currency: string;
     resource: FeesResource;
-    id: string;
+    id: string | number;
     description?: string;
     addFee?: boolean;
-    providerName?: string;
     isInner?: boolean;
     deleteFn?: (innerId: number) => void;
     direction: number;
+    disabled?: boolean;
 }
 export const FeeCard = memo((props: FeeCardProps) => {
     const {
@@ -42,17 +42,17 @@ export const FeeCard = memo((props: FeeCardProps) => {
         description = "",
         isInner = false,
         deleteFn,
-        providerName,
-        direction
+        direction,
+        disabled = false
     } = props;
     const feeTypesMap = { 1: "FeeFromSender", 2: "FeeFromTransaction", 3: "FeeFixWithdraw" };
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
     const [directionText, setDirectionText] = useState("");
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
 
-    const feeDataProvider = feesDataProvider({ resource, id, providerName: providerName });
+    const feeDataProvider = feesDataProvider({ resource, id: String(id) });
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -128,6 +128,7 @@ export const FeeCard = memo((props: FeeCardProps) => {
                     </div>
                     {addFee && (
                         <Button
+                            disabled={disabled}
                             onClick={handleDeleteClicked}
                             variant="text_btn"
                             className="absolute right-3 top-5 h-6 w-6 bg-transparent p-0">
@@ -156,10 +157,11 @@ export const FeeCard = memo((props: FeeCardProps) => {
                                     {translate("app.ui.actions.delete")}
                                 </Button>
                                 <Button
+                                    className="bg-neutral-0 dark:bg-neutral-100"
+                                    variant={"outline"}
                                     onClick={() => {
                                         setDeleteDialogOpen(false);
-                                    }}
-                                    variant="outline_gray">
+                                    }}>
                                     {translate("app.ui.actions.cancel")}
                                 </Button>
                             </div>

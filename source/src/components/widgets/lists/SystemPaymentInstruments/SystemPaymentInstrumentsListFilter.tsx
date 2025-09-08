@@ -4,7 +4,7 @@ import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
-import useSystemPaymentInstrumentsListFilter from "../../../../hooks/useSystemPaymentInstrumentsListFilter";
+import useSystemPaymentInstrumentsListFilter from "./useSystemPaymentInstrumentsListFilter";
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { CurrencySelect } from "../../components/Selects/CurrencySelect";
@@ -25,8 +25,8 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
         code,
         currencyCode,
         paymentTypeCode,
-        currencies,
-        isLoadingCurrencies,
+        currenciesData,
+        currenciesLoadingProcess,
         paymentTypes,
         isLoadingPaymentTypes,
         onPaymentTypeCodeChanged,
@@ -93,22 +93,23 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             onChange={onCodeChanged}
                         />
                     </div>
-                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                    <div className="flex min-w-36 flex-1 flex-col">
                         <Label variant={"title-2"}>
                             {translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
                         </Label>
                         <CurrencySelect
-                            currencies={currencies ?? []}
+                            currencies={currenciesData ?? []}
                             value={currencyCode}
                             onChange={onCurrencyCodeChanged}
-                            disabled={isLoadingCurrencies}
+                            disabled={currenciesLoadingProcess}
                             style="Black"
                             placeholder={translate(
                                 "resources.paymentSettings.systemPaymentInstruments.placeholders.currencyCode"
                             )}
+                            isLoading={currenciesLoadingProcess}
                         />
                     </div>
-                    <div className="flex min-w-36 flex-1 flex-col gap-1">
+                    <div className="flex min-w-36 flex-1 flex-col">
                         <Label variant={"title-2"}>
                             {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
                         </Label>
@@ -124,6 +125,7 @@ export const SystemPaymentInstrumentsListFilter = (props: SystemPaymentInstrumen
                             style="Black"
                             placeholder={translate("resources.paymentSettings.paymentType.placeholders.code")}
                             iconForPaymentTypes
+                            isLoading={isLoadingPaymentTypes}
                         />
                     </div>
                 </div>

@@ -16,7 +16,6 @@ interface ChangePasswordFormProps {
 export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
     const translate = useTranslate();
     const { onOpenChange } = props;
-    const usersDataProvider = new UsersDataProvider();
     const authProvider = useAuthProvider();
     const [userId, setUserId] = useState("");
 
@@ -31,7 +30,7 @@ export const ChangePasswordForm = (props: ChangePasswordFormProps) => {
         try {
             const { currentPassword, newPassword } = formData;
 
-            await usersDataProvider.updatePassword("users", {
+            await UsersDataProvider.updatePassword("users", {
                 id: userId,
                 previousData: undefined,
                 data: {

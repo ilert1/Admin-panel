@@ -31,7 +31,7 @@
             "walletType": "Тип кошелька",
             "walletAddress": "Адрес кошелька",
             "accountNumber": "Номер счёта",
-            "merchantName": "Мерчант",
+            "merchantName": "Счёт",
             "merchantId": "ID мерчанта",
             "currency": "Валюта",
             "descr": "Описание",
@@ -85,12 +85,12 @@
             "tx_link": "",
             "total_fee": "Общая комиссия",
             "bandwidth_fee": "Комиссия сети",
-            "confirm": "Потвердить",
-            "confirmQuestion": "Потвердить операцию?",
+            "confirm": "Подтвердить",
+            "confirmQuestion": "Подтвердить операцию?",
             "pre_calculated_fee": "Предварительно рассчитанная комиссия"
         },
         "errors": {
-            "failedToConfirm": "Не удалось потвердить транзакцию"
+            "failedToConfirm": "Не удалось подтвердить транзакцию"
         },
         "filterBar": {
             "searchById": "Поиск по ID операции",

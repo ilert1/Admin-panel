@@ -4,7 +4,7 @@ import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService
 import { TextField } from "@/components/ui/text-field";
 import { TerminalPaymentInstrumentsActivityBtn } from "./TerminalPaymentInstrumentsActivityBtn";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, TrashButton } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { EyeIcon } from "lucide-react";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
@@ -22,12 +22,19 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
     const appToast = useAppToast();
     const { openSheet } = useSheets();
 
+    const [chosenId, setChosenId] = useState("");
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [showDeleteDialogOpen, setShowDeleteDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
     });
+
+    const handleDeleteClicked = (id: string) => {
+        setChosenId(id);
+        setShowDeleteDialogOpen(true);
+    };
 
     useEffect(() => {
         if (currentCellEdit.row || currentCellEdit.column) {
@@ -85,8 +92,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
                         variant={"resourceLink"}
                         onClick={() => {
                             openSheet("terminal", {
-                                id: row.original.terminal_id,
-                                provider: row.original.terminal.provider
+                                id: row.original.terminal_id
                             });
                         }}>
                         {row.original.terminal.verbose_name}
@@ -215,6 +221,15 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             )
         },
         {
+            id: "delete_field",
+            header: () => {
+                return <div className="text-center">{translate("app.ui.actions.delete")}</div>;
+            },
+            cell: ({ row }) => {
+                return <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />;
+            }
+        },
+        {
             id: "show",
             cell: ({ row }) => (
                 <div className="flex items-center justify-center">
@@ -232,6 +247,10 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         translate,
         columns,
         createDialogOpen,
-        setCreateDialogOpen
+        setCreateDialogOpen,
+        showDeleteDialogOpen,
+        setShowDeleteDialogOpen,
+        chosenId,
+        setChosenId
     };
 };

@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useDataProvider, usePermissions, useTranslate } from "react-admin";
 import { DeleteWalletDialog } from "./DeleteWalletDialog";
 import { EditWalletDialog } from "./EditWalletDialog";
-import { Loading, LoadingBalance } from "@/components/ui/loading";
+import { Loading, LoadingBalance, LoadingBlock } from "@/components/ui/loading";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { useQuery } from "@tanstack/react-query";
 
@@ -22,27 +22,22 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
 
-    const { data: accountsData, isLoading: isAccountsLoading } = useQuery({
-        queryKey: ["accounts", "getList", "WalletShow", id],
+    const { data: currentAccountData, isLoading: currentAccountDataLoading } = useQuery({
+        queryKey: ["accounts", "WalletShow", context.record?.account_id],
         queryFn: async ({ signal }) =>
-            await dataProvider.getList<Account>("accounts", {
-                pagination: { perPage: 1000, page: 1 },
-                filter: { sort: "name", asc: "ASC" },
+            await dataProvider.getOne<Account>("accounts", {
+                id: context.record?.account_id ?? "",
                 signal
             }),
-        select: data => data?.data
+        select: data => (data ? data?.data : ""),
+        enabled: !!context.record?.account_id
     });
-
-    const currentAccount = useMemo(
-        () => accountsData?.find(item => item.id === context.record?.account_id),
-        [accountsData, context.record?.account_id]
-    );
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     const { data: walletBalance, isFetching: walletBalanceFetching } = useQuery<Wallets.WalletBalance>({
-        queryKey: ["walletBalance"],
+        queryKey: ["walletBalance", id],
         queryFn: ({ signal }) =>
             dataProvider.getWalletBalance(permissions === "admin" ? "wallet" : "merchant/wallet", id, signal),
         enabled: !!id
@@ -56,7 +51,7 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
         setEditDialogOpen(true);
     };
 
-    if (context.isLoading || !context.record || isAccountsLoading) {
+    if (context.isLoading || !context.record) {
         return <Loading />;
     }
 
@@ -99,11 +94,21 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
                     label={translate("resources.wallet.manage.fields.currency")}
                     text={context.record.currency}
                 />
-                {currentAccount && (
+                {!currentAccountDataLoading ? (
                     <TextField
                         label={translate("resources.wallet.manage.fields.merchantName")}
-                        text={currentAccount.meta?.caption ? currentAccount.meta?.caption : currentAccount.owner_id}
+                        text={
+                            currentAccountData
+                                ? currentAccountData?.meta?.caption
+                                    ? currentAccountData?.meta?.caption
+                                    : currentAccountData?.owner_id
+                                : ""
+                        }
                     />
+                ) : (
+                    <div>
+                        <LoadingBlock className="!h-4 !w-4" />
+                    </div>
                 )}
                 <TextField label={translate("resources.wallet.manage.fields.internalId")} text={context.record.id} />
                 <TextField
@@ -130,12 +135,11 @@ export const WalletShow = ({ id, onOpenChange }: WalletShowProps) => {
             </div>
 
             <div className="mb-4 flex flex-col justify-end gap-2 px-0 sm:flex-row sm:px-[42px] md:gap-4">
-                <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
-                    {translate("resources.users.delete")}
-                </Button>
-
                 <Button onClick={handleEditClicked} className="text-title-1 text-white">
                     {translate("resources.users.edit")}
+                </Button>
+                <Button variant={"outline_gray"} onClick={() => handleDeleteClicked()}>
+                    {translate("resources.users.delete")}
                 </Button>
             </div>
             <DeleteWalletDialog

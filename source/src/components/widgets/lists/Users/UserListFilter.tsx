@@ -91,7 +91,6 @@ export const UserListFilter = () => {
                             <div className="flex flex-col flex-wrap gap-2 sm:flex-row sm:items-end sm:gap-4">
                                 <div className="flex min-w-36 flex-1 flex-col gap-2 lg:min-w-52">
                                     <Input
-                                        className="flex-1 text-sm placeholder:text-neutral-70"
                                         label={translate("resources.users.filter.filterByUsername")}
                                         labelSize="title-2"
                                         placeholder={translate("resources.users.filter.filterByUsernamePlaceholder")}
@@ -104,7 +103,6 @@ export const UserListFilter = () => {
                                     <Input
                                         label={translate("resources.users.filter.filterByUserId")}
                                         labelSize="title-2"
-                                        className="flex-1 text-sm placeholder:text-neutral-70"
                                         placeholder={translate("resources.users.fields.id")}
                                         value={userInputId}
                                         onChange={onUserInputIdChanged}

@@ -4,7 +4,7 @@ import { NumericFormat } from "react-number-format";
 import SnowFlakeIcon from "@/lib/icons/snowflake.svg?react";
 import { cn } from "@/lib/utils";
 import { LoadingBlock } from "@/components/ui/loading";
-import { useGetCurrencies } from "@/hooks/useGetCurrencies";
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 
 interface IBalanceList {
     totalAmount: AccountBalance[] | undefined;
@@ -13,12 +13,11 @@ interface IBalanceList {
 }
 
 export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceList) => {
+    const { currenciesData, isCurrenciesLoading } = useCurrenciesListWithoutPagination(undefined, 1000 * 60 * 10);
     const translate = useTranslate();
 
-    const { currencies, isLoadingCurrencies } = useGetCurrencies();
-
     const getFixedValue = (value: number, currencyStr: string) => {
-        const currency = currencies?.find(el => currencyStr === el.code);
+        const currency = currenciesData?.find(el => currencyStr === el.code);
 
         if (!currency?.is_coin) {
             return value.toFixed(2);
@@ -27,7 +26,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
         return value;
     };
 
-    if (isLoadingCurrencies) {
+    if (isCurrenciesLoading) {
         return <LoadingBlock />;
     }
 
@@ -51,7 +50,7 @@ export const BalanceList = ({ totalAmount, isMerchant, totalLoading }: IBalanceL
                             <div className="flex w-full items-center gap-2">
                                 <h4 className="overflow-y-hidden text-neutral-90 dark:text-white">
                                     <NumericFormat
-                                        className="whitespace-nowrap !text-display-4"
+                                        className="select-all whitespace-nowrap !text-display-4"
                                         value={getFixedValue(el.value.quantity / el.value.accuracy, el.currency)}
                                         displayType={"text"}
                                         thousandSeparator=" "

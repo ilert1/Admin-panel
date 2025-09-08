@@ -12,8 +12,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { feesDataProvider, FeesResource } from "@/data";
-import fetchDictionaries from "@/helpers/get-dictionaries";
-import { useFetchDataForDirections } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateController, useRefresh, useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
@@ -21,10 +19,11 @@ import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { Currency, FeeCreate, FeeType as IFeeType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SmallFeeDialog } from "./SmallFeeDialog";
 import Big from "big.js";
 import { CurrencySelect } from "../../Selects/CurrencySelect";
+import { useCurrenciesListWithoutPagination, useFetchDictionaries } from "@/hooks";
 
 enum FeeEnum {
     FEE_FROM_SENDER = "FeeFromSender",
@@ -41,20 +40,37 @@ export interface AddFeeCardProps {
     setFees?: React.Dispatch<React.SetStateAction<(FeeCreate & { innerId?: number })[]>>;
     variants?: Currency[];
     feeType?: FeeType;
-    providerName?: string;
+    fees?: FeeCreate[];
 }
 
-export const AddFeeCard = (props: AddFeeCardProps) => {
-    const { id, resource, onOpenChange, setFees, variants, providerName, feeType = "default" } = props;
+export const AddFeeCard = ({
+    id,
+    resource,
+    onOpenChange,
+    setFees,
+    variants,
+    feeType = "default",
+    fees = []
+}: AddFeeCardProps) => {
+    const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const feeDataProvider = feesDataProvider({ id, resource, providerName });
-    const data = fetchDictionaries();
+    const data = useFetchDictionaries();
     const { isLoading } = useCreateController({ resource });
-    const { currencies, isLoading: loadingData } = useFetchDataForDirections();
+
+    const feeDataProvider = feesDataProvider({ id, resource });
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [smallDialogOpen, setSmallDialogOpen] = useState(false);
+
+    const feeOptions = [
+        { value: IFeeType.NUMBER_1, label: FeeEnum.FEE_FROM_SENDER },
+        { value: IFeeType.NUMBER_2, label: FeeEnum.FEE_FROM_TRANSACTION },
+        { value: IFeeType.NUMBER_3, label: FeeEnum.FEE_FIX_WITHDRAW }
+    ];
+
+    const availableOptions = feeOptions.filter(option => !fees.some(el => el.type === option.value));
 
     const formSchema = z
         .object({
@@ -108,7 +124,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                         value: accurateFeeAmount,
                         type: tempData.type,
                         direction: Number(tempData.direction),
-                        recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee",
+                        recipient: resource === FeesResource.MERCHANT ? "merchant_fee" : "provider_fee",
                         innerId: new Date().getTime()
                     }
                 ]);
@@ -121,7 +137,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
             value: accurateFeeAmount,
             type: tempData.type,
             direction: Number(tempData.direction),
-            recipient: resource === FeesResource.DIRECTION ? "provider_fee" : "merchant_fee"
+            recipient: resource === FeesResource.MERCHANT ? "merchant_fee" : "provider_fee"
         };
 
         if (setFees) {
@@ -161,7 +177,7 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             value: 0,
-            type: 1,
+            type: availableOptions[0].value,
             description: "",
             direction: "",
             currency: ""
@@ -169,16 +185,19 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
     });
 
     const typeValue = form.watch("type");
+    const currenciesDisabled = useMemo(
+        () =>
+            !(currenciesData && Array.isArray(currenciesData) && currenciesData?.length > 0) ||
+            typeValue !== IFeeType.NUMBER_3,
+        [currenciesData, typeValue]
+    );
 
-    if (isLoading || loadingData)
+    if (isLoading || isCurrenciesLoading)
         return (
             <div className="h-[320px]">
                 <LoadingBlock />
             </div>
         );
-    const currenciesDisabled =
-        !(currencies && Array.isArray(currencies.data) && currencies?.data?.length > 0) ||
-        typeValue !== IFeeType.NUMBER_3;
 
     return (
         <>
@@ -223,31 +242,6 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                         </FormItem>
                                     )}
                                 />
-                                {/* <FormField
-                                    control={form.control}
-                                    name="value"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className="col-span-2 p-2">
-                                            <FormControl>
-                                                <div className="relative">
-                                                    <Input
-                                                        {...field}
-                                                        onChange={() => {}}
-                                                        label={translate("resources.direction.fees.feeAmount")}
-                                                        labelSize="note-1"
-                                                        error={fieldState.invalid}
-                                                        errorMessage={<FormMessage />}
-                                                        variant={InputTypes.GRAY}
-                                                        borderColor="border-neutral-60"
-                                                        className="max-w-[85%]"
-                                                        inputMode="numeric"
-                                                    />
-                                                    <span className="absolute right-[15px] top-[50%]">%</span>
-                                                </div>
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                /> */}
                                 <FormField
                                     control={form.control}
                                     name="value"
@@ -313,21 +307,14 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     </FormControl>
                                                     <SelectContent>
                                                         <SelectGroup>
-                                                            <SelectItem
-                                                                value={IFeeType.NUMBER_1.toString()}
-                                                                variant={SelectType.GRAY}>
-                                                                {FeeEnum.FEE_FROM_SENDER}
-                                                            </SelectItem>
-                                                            <SelectItem
-                                                                value={IFeeType.NUMBER_2.toString()}
-                                                                variant={SelectType.GRAY}>
-                                                                {FeeEnum.FEE_FROM_TRANSACTION}
-                                                            </SelectItem>
-                                                            <SelectItem
-                                                                value={IFeeType.NUMBER_3.toString()}
-                                                                variant={SelectType.GRAY}>
-                                                                {FeeEnum.FEE_FIX_WITHDRAW}
-                                                            </SelectItem>
+                                                            {availableOptions.map(option => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    value={option.value.toString()}
+                                                                    variant={SelectType.GRAY}>
+                                                                    {option.label}
+                                                                </SelectItem>
+                                                            ))}
                                                         </SelectGroup>
                                                     </SelectContent>
                                                 </Select>
@@ -347,10 +334,10 @@ export const AddFeeCard = (props: AddFeeCardProps) => {
                                                     onChange={field.onChange}
                                                     currencies={
                                                         !currenciesDisabled && !variants?.length
-                                                            ? currencies.data
+                                                            ? currenciesData || []
                                                             : (variants ?? [])
                                                     }
-                                                    disabled={currenciesDisabled}
+                                                    disabled={currenciesDisabled || currenciesLoadingProcess}
                                                     isError={fieldState.invalid}
                                                     errorMessage={<FormMessage />}
                                                     placeholder={

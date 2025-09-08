@@ -4,7 +4,9 @@
     "resources.withdraw.cryptoTransferTitle": "Crypto transfer",
     "resources.withdraw.resendQuestion": "Repeat transaction?",
     "resources.withdraw.errors": {
-        "lowAmountError": "The amount must be more than 2 USDT",
+        "low_amount": "The amount must be more than 2 USDT",
+        "low_balance": "The transfer amount must not exceed the balance",
+        "trnService_error": "An error has occurred, please contact the administrator with the withdrawal amount",
         "serverError": "An error occured on server"
     },
     "resources.withdraw.fields": {

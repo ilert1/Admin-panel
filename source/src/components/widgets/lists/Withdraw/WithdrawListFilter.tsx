@@ -7,25 +7,29 @@ import {
 import { Button } from "@/components/ui/Button";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/Input/input";
-import useWithdrawFilter from "@/hooks/useWithdrawFilter";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { useState } from "react";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
 import { Label } from "@/components/ui/label";
-import { MerchantSelectFilter } from "../../shared/MerchantSelectFilter";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MerchantSelect } from "../../components/Selects/MerchantSelect";
+import useWithdrawFilter from "./useWithdrawFilter";
 
 export const WithdrawListFilter = () => {
     const {
         dictionaries,
         operationId,
         operationTrc20,
-        startDate,
         endDate,
+        startDate,
+        merchantData,
+        merchantsLoadingProcess,
         merchantId,
-        statusFilter,
+        merchantValue,
+        setMerchantValue,
         onMerchantChanged,
+        statusFilter,
         typeTabActive,
         translate,
         onOperationIdChanged,
@@ -61,7 +65,6 @@ export const WithdrawListFilter = () => {
                     <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
                         <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                             <Input
-                                className="flex-1 text-sm placeholder:text-neutral-70"
                                 placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
                                 value={operationId}
                                 label={translate("resources.withdraw.filter.filterById")}
@@ -72,7 +75,6 @@ export const WithdrawListFilter = () => {
 
                         <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
                             <Input
-                                className="flex-1 text-sm placeholder:text-neutral-70"
                                 placeholder={translate("resources.withdraw.filter.filterByIdPlaceholder")}
                                 value={operationTrc20}
                                 label={translate("resources.withdraw.filter.filterByTrc20")}
@@ -131,11 +133,14 @@ export const WithdrawListFilter = () => {
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
 
-                                <MerchantSelectFilter
-                                    merchant={merchantId}
-                                    onMerchantChanged={onMerchantChanged}
-                                    resource="accounts"
-                                    modal={false}
+                                <MerchantSelect
+                                    merchants={merchantData || []}
+                                    value={merchantValue}
+                                    onChange={setMerchantValue}
+                                    setIdValue={onMerchantChanged}
+                                    disabled={merchantsLoadingProcess}
+                                    isLoading={merchantsLoadingProcess}
+                                    style="Black"
                                 />
                             </div>
                         )}
@@ -169,7 +174,7 @@ export const WithdrawListFilter = () => {
 
             <div>
                 <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex flex-wrap items-center gap-3 text-neutral-60 dark:text-neutral-30">
+                    <div className="mt-2 flex flex-wrap items-center gap-3 text-neutral-60 dark:text-neutral-30">
                         <button
                             className={chooseClassTabActive(0)}
                             onClick={() => onTabChanged(0)}

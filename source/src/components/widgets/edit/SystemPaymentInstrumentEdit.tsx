@@ -33,7 +33,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
 
     const { data: record, isLoading: isLoadingPaymentInstrument } = useQuery({
         queryKey: ["paymentInstrument", id],
-        queryFn: () => dataProvider.getOne("systemPaymentInstruments", { id }),
+        queryFn: ({ signal }) => dataProvider.getOne("systemPaymentInstruments", { id, signal }),
         select: data => data.data
     });
 
@@ -119,7 +119,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                             name="meta"
                             render={({ field }) => (
                                 <FormItem className="col-span-1 sm:col-span-2">
-                                    <Label className="!mb-0">
+                                    <Label>
                                         {translate("resources.paymentSettings.systemPaymentInstruments.fields.meta")}
                                     </Label>
                                     <FormControl>
@@ -130,6 +130,7 @@ export const SystemPaymentInstrumentEdit = (props: SystemPaymentInstrumentEditPr
                                             onValidChange={setHasValid}
                                             code={field.value ?? "{}"}
                                             setCode={field.onChange}
+                                            allowEmptyValues
                                         />
                                     </FormControl>
                                     <FormMessage />

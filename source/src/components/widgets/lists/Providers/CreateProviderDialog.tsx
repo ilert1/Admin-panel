@@ -6,17 +6,16 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { useRefresh, useTranslate } from "react-admin";
+import { useTranslate } from "react-admin";
 import { ProviderCreate } from "../../create";
 
 interface CreateProviderDialogProps {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
 }
-export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
-    const { open, onOpenChange = () => {} } = props;
-    const refresh = useRefresh();
+export const CreateProviderDialog = ({ open, onOpenChange = () => {} }: CreateProviderDialogProps) => {
     const translate = useTranslate();
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -27,12 +26,7 @@ export const CreateProviderDialog = (props: CreateProviderDialogProps) => {
                         {translate("resources.provider.creatingProvider")}
                     </DialogTitle>
                     <DialogDescription></DialogDescription>
-                    <ProviderCreate
-                        onClose={() => {
-                            refresh();
-                            onOpenChange(false);
-                        }}
-                    />
+                    <ProviderCreate onClose={() => onOpenChange(false)} />
                 </DialogHeader>
                 <DialogFooter></DialogFooter>
             </DialogContent>

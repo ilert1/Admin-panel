@@ -1,4 +1,4 @@
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,7 @@ import { TextField } from "@/components/ui/text-field";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
 import { useQuery } from "@tanstack/react-query";
+import { Label } from "@/components/ui/label";
 
 export const CryptoTransferForm = (props: {
     loading: boolean;
@@ -43,10 +44,14 @@ export const CryptoTransferForm = (props: {
         isFetched: walletsDataFetched,
         isFetching: walletsDataLoading,
         fetchNextPage: walletsNextPage
-    } = useAbortableInfiniteGetList("merchant/wallet", {
-        pagination: { perPage: 25, page: 1 },
-        filter: { sort: "name", asc: "ASC" }
-    });
+    } = useAbortableInfiniteGetList(
+        "merchant/wallet",
+        {
+            pagination: { perPage: 25, page: 1 },
+            filter: { sort: "name", asc: "ASC" }
+        },
+        true
+    );
 
     const walletScrollHandler = async (e: React.FormEvent) => {
         const target = e.target as HTMLElement;
@@ -75,9 +80,9 @@ export const CryptoTransferForm = (props: {
     });
 
     useEffect(() => {
-        const isFound = checkAddress(chosenAddress);
+        const foundWallet = checkAddress(chosenAddress);
 
-        if (chosenAddress && isFound && isFound[0]) {
+        if (chosenAddress && foundWallet) {
             form.reset({
                 address: chosenAddress,
                 amount: undefined
@@ -131,20 +136,22 @@ export const CryptoTransferForm = (props: {
 
     const checkAddress = useCallback(
         (address: string) => {
-            return walletsData?.pages.map(page => {
-                return page.data.find(wallet => {
-                    return wallet.address === address;
-                });
-            });
+            if (!walletsData?.pages) return undefined;
+
+            for (const page of walletsData.pages) {
+                const foundWallet = page.data.find(wallet => wallet.address === address);
+                if (foundWallet) return foundWallet;
+            }
+            return undefined;
         },
         [walletsData?.pages]
     );
 
     useEffect(() => {
         if (props.repeatData) {
-            const isFound = checkAddress(props.repeatData?.address);
+            const foundWallet = checkAddress(props.repeatData.address); // Теперь получаем объект или undefined
 
-            if (isFound && isFound[0]) {
+            if (foundWallet) {
                 form.setValue("address", props.repeatData.address, { shouldDirty: true });
                 form.setValue("amount", props.repeatData.amount, { shouldDirty: true });
 
@@ -188,15 +195,16 @@ export const CryptoTransferForm = (props: {
     });
 
     useEffect(() => {
-        if (withdrawList && withdrawList.length > 0 && withdrawList[0]?.destination?.requisites) {
-            const isFound = checkAddress(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+        if (withdrawList?.[0]?.destination?.requisites?.[0]?.blockchain_address) {
+            const address = withdrawList[0].destination.requisites[0].blockchain_address;
+            const foundWallet = checkAddress(address);
 
-            if (isFound) {
-                setLastUsedWallet(withdrawList[0]?.destination?.requisites[0]?.blockchain_address);
+            if (foundWallet) {
+                setLastUsedWallet(address);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [withdrawList]);
+    }, [withdrawList, walletsDataLoading]);
 
     if (props.loading || !props.balance) {
         return (
@@ -228,9 +236,9 @@ export const CryptoTransferForm = (props: {
                                 name="address"
                                 render={({ field, fieldState }) => (
                                     <FormItem>
-                                        <FormLabel className="text-note-1 text-neutral-80 dark:text-neutral-30">
+                                        <Label className="text-note-1 text-neutral-80 dark:text-neutral-30">
                                             {translate("app.widgets.forms.cryptoTransfer.address")}
-                                        </FormLabel>
+                                        </Label>
                                         <FormControl>
                                             <Select
                                                 open={walletSelectOpen}
@@ -412,7 +420,7 @@ export const CryptoTransferForm = (props: {
                         {props.transferState === "success" && <Icon name="BlowFishCheck" />}
                         {props.transferState === "error" && <Icon name="BlowFishCross" />}
                     </div>
-                    <span className="text-title-2">
+                    <span className="text-center text-title-2">
                         {props.showMessage && <div className="error-message">{props.showMessage}</div>}
                     </span>
                 </div>

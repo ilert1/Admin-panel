@@ -14,16 +14,18 @@
         },
         "fields": {
             "code": "Код",
-            "title": "Описание",
+            "title": "Название",
             "payment_types": "Платёжные типы",
             "category": "Категория",
             "required_fields_for_payment": "Обязательные поля для платежа",
+            "required_fields_for_payment_deposit": "Обязательные поля для пополнения",
+            "required_fields_for_payment_withdrawal": "Обязательные поля для вывода",
             "icon": "Иконка",
             "currencies": "Валюты"
         },
         "placeholders": {
             "code": "Код платёжного типа",
-            "title": "Описание платёжного типа"
+            "title": "Название платёжного типа"
         },
         "notFoundMessage": "Платёжные типы не найдены.",
         "deletePaymentTypeQuestion": "Удалить платёжные тип?",
@@ -50,12 +52,13 @@
             "tax_id_number": "ИНН",
             "registration_number": "ОГРН / регистрационный номер",
             "nspk_member_id": "Код участника НСПК",
+            "bin": "БИН",
             "status": "Статус",
             "payment_types": "Платёжные типы",
             "currencies": "Валюты",
             "currenciesToChoose": "Выберите валюты",
             "id": "ID",
-            "meta": "Метадата",
+            "meta": "Метаданные",
             "types": {
                 "BANK": "Банк",
                 "OTHER": "Другое"
@@ -64,6 +67,8 @@
         },
         "errors": {
             "name": "Наименование финансового института обязательно",
+            "nspk_member_id_max": "Код участника НСПК не должен превышать 20 символов",
+            "bin_max": "БИН не должен превышать 9 символов",
             "code": "Код финансового института обязателен",
             "code_regex": "Код финансового института может содержать только цифры (0-9), буквы (a-z) и символы (_-.)",
             "country_code": "Код страны введен не правильно",
@@ -82,7 +87,8 @@
         "createFinancialInstitutionBtn": "Добавить фин. институт",
         "createFinancialInstitutionTitle": "Добавление финансового института",
         "editingFinancialInstitution": "Изменение финансового института",
-        "deleteFinancialInstitution": "Удалить фин. институт?"
+        "deleteFinancialInstitution": "Удалить фин. институт?",
+        "deletedFinancialInstitution": "Финансовый институт успешно удален"
     },
     "resources.paymentSettings.systemPaymentInstruments": {
         "name": "Системные платёжные инструменты",
@@ -132,7 +138,8 @@
         "deletePaymentInstrumentQuestion": "Удалить системный платёжный инструмент?",
         "chooseFinInstitution": "Выберите финансовый институт",
         "selectPaymentType": "Выберите платёжный тип",
-        "noAvailablePaymentTypes": "Нет доступных платёжных типов"
+        "noAvailablePaymentTypes": "Нет доступных платёжных типов",
+        "noAvailableCurrencies": "Нет доступных валют"
     },
     "resources.paymentSettings.terminalPaymentInstruments": {
         "name": "Терминальные платёжные инструменты",
@@ -145,11 +152,17 @@
             "terminal_payment_type_code": "Код платёжного типа терминала",
             "terminal_currency_code": "Код валюты терминала",
             "terminal_financial_institution_code": "Код фин. института терминала",
+            "system_payment_instrument_code_filter": "Код сист. платёжного инструмента",
             "terminal_specific_parameters": "Параметры",
             "status": "Статус",
             "id": "ID",
             "terminalToChoose": "Выберите терминал",
             "systemPaymentInstrumentsToChoose": "Выберите системный платёжный инструмент"
+        },
+        "createMode": {
+            "name": "Создать с использованием",
+            "spi": "Системного платёжного инструмента",
+            "fi": "Финансового института"
         },
         "success": {
             "ACTIVE": "активна",
@@ -158,6 +171,13 @@
         },
         "errors": {
             "alreadyExist": "Терминальный платёжный инструмент уже существует"
+        },
+        "fileDownloadUpload": {
+            "singleFile": "Готовый",
+            "multipleFiles": "Генеративный",
+            "payment_types_csv": "Выберите файл с платёжными типами",
+            "financial_institutions_csv": "Выберите файл с финансовыми институтами",
+            "currency_csv": "Выберите файл с валютами"
         },
         "providerNotSelect": "Выберите провайдера для получения данных",
         "createTerminalPaymentInstrument": "Добавить инструмент",
@@ -194,13 +214,15 @@
         "selectFileFirst": "Выберите файл",
         "selectFile": "Выбрать файл",
         "selectOtherFile": "Выбрать другой файл",
-        "uploadSuccess": "Файл успешно загружен. Вставлено %{inserted}, пропущено %{skipped}, всего %{total}",
+        "uploadSuccess": "Файл успешно загружен. Вставлено %{inserted}, пропущено %{skipped}, всего %{total}, обновлено %{updated}",
         "inputMode": "Режим ввода",
         "strict": "Прекратить импорт при первой ошибке",
         "ignore": "Игнорировать ошибки",
+        "merge": "Обновить существующую запись при ошибке",
         "wrongFileFormat": "Неправильный формат файла. Выберите файл формата CSV",
         "csvValidationError": "Ошибка валидации CSV",
         "csvValidationErrorDescription": "Поле \"%{field}\": значение \"%{input}\" должно содержать только строчные латинские буквы, цифры и подчёркивания.",
-        "noData": "По заданным параметрам не найдено данных"
+        "noData": "По заданным параметрам не найдено данных",
+        "terminals": "Терминалы"
     }
 }
