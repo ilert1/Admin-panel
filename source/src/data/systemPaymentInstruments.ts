@@ -51,7 +51,8 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
                         sortOrder:
                             params.sort.order.toLowerCase() as SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder
                     }),
-                    ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
+                    ...(params.sort?.field &&
+                        params.sort?.field !== "id" && { orderBy: params.sort.field.toLowerCase() })
                 },
                 {
                     headers: {

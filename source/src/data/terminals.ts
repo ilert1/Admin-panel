@@ -48,7 +48,7 @@ export class TerminalsDataProvider extends IBaseDataProvider {
                     sortOrder:
                         params.sort.order.toLowerCase() as TerminalEndpointsAllTerminalsEnigmaV1TerminalGetSortOrder
                 }),
-                ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
+                ...(params.sort?.field && params.sort?.field !== "id" && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {

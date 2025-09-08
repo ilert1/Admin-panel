@@ -60,7 +60,7 @@ export class FinancialInstitutionProvider extends IBaseDataProvider {
                     sortOrder:
                         params.sort.order.toLowerCase() as FinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGetSortOrder
                 }),
-                ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
+                ...(params.sort?.field && params.sort?.field !== "id" && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {
