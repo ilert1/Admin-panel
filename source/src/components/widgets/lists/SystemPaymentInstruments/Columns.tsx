@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useTranslate } from "react-admin";
 import { useState } from "react";
 import { SystemPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TextField } from "@/components/ui/text-field";
@@ -7,18 +7,19 @@ import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { Badge } from "@/components/ui/badge";
+import { ColumnSortingButton, SortingState } from "../../shared";
 
-export const useGetSystemPaymentInstrumentsColumns = () => {
+export const useGetSystemPaymentInstrumentsColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState<string>("");
     const [showEditDialogOpen, setShowEditDialogOpen] = useState(false);
     const [showDeleteDialogOpen, setShowDeleteDialogOpen] = useState(false);
     const { openSheet } = useSheets();
-    // const handleDirectionShowOpen = (id: string) => {
-    //     setShowDirectionId(id);
-    //     setShowDirectionDialog(true);
-    // };
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
 
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
@@ -43,8 +44,18 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             }
         },
         {
-            id: "paymentType",
-            header: translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType"),
+            id: "payment_type_code",
+            accessorKey: "payment_type_code",
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center justify-center">
@@ -56,7 +67,16 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
         {
             id: "financial_institution_code",
             accessorKey: "financial_institution_code",
-            header: translate("resources.paymentSettings.systemPaymentInstruments.list.financialInstitution"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.systemPaymentInstruments.list.financialInstitution")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -74,8 +94,18 @@ export const useGetSystemPaymentInstrumentsColumns = () => {
             }
         },
         {
-            id: "Currency",
-            header: translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code"),
+            id: "currency_code",
+            accessorKey: "currency_code",
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
