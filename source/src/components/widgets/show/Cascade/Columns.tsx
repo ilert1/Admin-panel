@@ -11,6 +11,7 @@ import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 
 export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowControllerResult<CascadeSchema> }) => {
     const dataProvider = useDataProvider();
@@ -18,7 +19,6 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
     const appToast = useAppToast();
     const { openSheet } = useSheets();
 
-    const [cascadeTerminalId, setCascadeTerminalId] = useState("");
     const [showCascadeTerminalDeleteDialog, setShowCascadeTerminalDeleteDialog] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
@@ -191,21 +191,25 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
             header: () => <div className="flex justify-center">{translate("resources.currency.fields.delete")}</div>,
             cell: ({ row }) => {
                 return (
-                    <TrashButton
-                        onClick={() => {
-                            setCascadeTerminalId(row.original.id);
-                            setShowCascadeTerminalDeleteDialog(true);
-                        }}
-                    />
+                    <>
+                        <TrashButton onClick={() => setShowCascadeTerminalDeleteDialog(true)} />
+
+                        <DeleteCascadeTerminalDialog
+                            open={showCascadeTerminalDeleteDialog}
+                            onOpenChange={state => {
+                                listContext.refetch();
+                                setShowCascadeTerminalDeleteDialog(state);
+                            }}
+                            onQuickShowOpenChange={() => {}}
+                            id={row.original.id}
+                        />
+                    </>
                 );
             }
         }
     ];
 
     return {
-        cascadeTerminalId,
-        setShowCascadeTerminalDeleteDialog,
-        showCascadeTerminalDeleteDialog,
         cascadeTerminalColumns
     };
 };

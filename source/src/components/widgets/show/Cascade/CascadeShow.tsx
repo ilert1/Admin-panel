@@ -17,7 +17,6 @@ import { useGetCascadeShowColumns } from "./Columns";
 import { CirclePlus } from "lucide-react";
 import { CreateCascadeTerminalsDialog } from "../../lists/CascadeTerminals/CreateCascadeTerminalsDialog";
 import { countryCodes } from "../../components/Selects/CountrySelect";
-import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 
 export interface CascadeShowProps {
     id: string;
@@ -33,12 +32,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [createCascadeTerminalDialogOpen, setCreateCascadeTerminalDialogOpen] = useState(false);
 
-    const {
-        cascadeTerminalId,
-        setShowCascadeTerminalDeleteDialog,
-        showCascadeTerminalDeleteDialog,
-        cascadeTerminalColumns
-    } = useGetCascadeShowColumns({ listContext: context });
+    const { cascadeTerminalColumns } = useGetCascadeShowColumns({ listContext: context });
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -228,13 +222,6 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
             <CreateCascadeTerminalsDialog
                 open={createCascadeTerminalDialogOpen}
                 onOpenChange={setCreateCascadeTerminalDialogOpen}
-            />
-
-            <DeleteCascadeTerminalDialog
-                open={showCascadeTerminalDeleteDialog}
-                onOpenChange={setShowCascadeTerminalDeleteDialog}
-                onQuickShowOpenChange={setShowCascadeTerminalDeleteDialog}
-                id={cascadeTerminalId}
             />
         </div>
     );
