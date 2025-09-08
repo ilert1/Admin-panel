@@ -12,7 +12,11 @@ export const TerminalPaymentInstrumentsList = () => {
     const translate = useTranslate();
 
     const listContext = useAbortableListController<TerminalPaymentInstrument>({
-        resource: "terminalPaymentInstruments"
+        resource: "terminalPaymentInstruments",
+        sort: {
+            field: "created_at",
+            order: "ASC"
+        }
     });
 
     const {

@@ -9,7 +9,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { EyeIcon } from "lucide-react";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
-import { TableEditableCell, CurrentCell } from "../../shared";
+import { TableEditableCell, CurrentCell, SortingState, ColumnSortingButton } from "../../shared";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({
     listContext
@@ -26,6 +26,12 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [showDeleteDialogOpen, setShowDeleteDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
+
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
+
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
@@ -113,8 +119,17 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         {
             id: "system_payment_instrument_code",
             accessorKey: "system_payment_instrument_code",
-            header: translate(
-                "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate(
+                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code"
+                    )}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
             ),
             cell: ({ row }) => (
                 <Button
@@ -131,7 +146,18 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         {
             id: "terminal_currency_code",
             accessorKey: "terminal_currency_code",
-            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate(
+                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_currency_code"
+                    )}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row, cell }) => {
                 const currentCellBoolean =
                     currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
@@ -153,8 +179,17 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         {
             id: "terminal_financial_institution_code",
             accessorKey: "terminal_financial_institution_code",
-            header: translate(
-                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate(
+                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                    )}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
             ),
             cell: ({ row, cell }) => {
                 const currentCellBoolean =
@@ -177,7 +212,18 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         {
             id: "terminal_payment_type_code",
             accessorKey: "terminal_payment_type_code",
-            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate(
+                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
+                    )}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row, cell }) => {
                 const currentCellBoolean =
                     currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
@@ -198,7 +244,16 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         },
         {
             id: "direction",
-            header: translate("resources.paymentSettings.systemPaymentInstruments.list.direction"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.systemPaymentInstruments.list.direction")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => (
                 <TextField
                     text={
@@ -210,7 +265,16 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         {
             id: "status",
             accessorKey: "status",
-            header: translate("resources.paymentSettings.terminalPaymentInstruments.fields.status"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.terminalPaymentInstruments.fields.status")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => (
                 <TerminalPaymentInstrumentsActivityBtn
                     id={row.original.id}

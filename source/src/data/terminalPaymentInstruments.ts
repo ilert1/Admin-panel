@@ -15,6 +15,7 @@ import {
     ImportStrategy,
     TerminalPaymentInstrument,
     TerminalPaymentInstrumentCreate,
+    TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder,
     TerminalPaymentInstrumentFIData
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
@@ -55,7 +56,12 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                         ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
                         ...(fieldsForSearch.length > 0 && {
                             searchString: fieldsForSearch.map(item => params.filter?.[item])
-                        })
+                        }),
+                        ...(params.sort?.order && {
+                            sortOrder:
+                                params.sort.order.toLowerCase() as TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder
+                        }),
+                        ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
                     },
                     {
                         headers: {
@@ -74,7 +80,12 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                         ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
                         ...(fieldsForSearch.length > 0 && {
                             searchString: fieldsForSearch.map(item => params.filter?.[item])
-                        })
+                        }),
+                        ...(params.sort?.order && {
+                            sortOrder:
+                                params.sort.order.toLowerCase() as TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder
+                        }),
+                        ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
                     },
                     {
                         headers: {
