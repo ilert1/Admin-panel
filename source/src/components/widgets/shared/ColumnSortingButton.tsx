@@ -14,7 +14,7 @@ export const ColumnSortingButton = ({ title, order, onChangeOrder }: ISortingBut
     return (
         <button
             onClick={() => onChangeOrder(order === "ASC" ? "DESC" : "ASC")}
-            className="flex w-full items-center gap-0.5">
+            className="flex w-full items-center gap-1">
             {title}
 
             <div className="relative h-6 w-6 cursor-pointer">
