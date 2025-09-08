@@ -13,6 +13,7 @@ import {
 import { IBaseDataProvider } from "./base";
 import {
     CascadeCreate,
+    CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder,
     CascadeKind,
     CascadeRead,
     CascadeSchema,
@@ -61,7 +62,12 @@ export class CascadesDataProvider extends IBaseDataProvider {
                         searchMode: "starts_with",
                         searchField: fieldsForSearch,
                         searchString: fieldsForSearch.map(item => params.filter?.[item])
-                    })
+                    }),
+                    ...(params.sort?.order && {
+                        sortOrder:
+                            params.sort.order.toLowerCase() as CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder
+                    }),
+                    ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
                 },
                 {
                     headers: {
@@ -79,7 +85,12 @@ export class CascadesDataProvider extends IBaseDataProvider {
                         searchMode: "starts_with",
                         searchField: fieldsForSearch,
                         searchString: fieldsForSearch.map(item => params.filter?.[item])
-                    })
+                    }),
+                    ...(params.sort?.order && {
+                        sortOrder:
+                            params.sort.order.toLowerCase() as CascadeEndpointsListCascadesEnigmaV1CascadeGetSortOrder
+                    }),
+                    ...(params.sort?.field && { orderBy: params.sort.field.toLowerCase() })
                 },
                 {
                     headers: {
