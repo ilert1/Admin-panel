@@ -1,7 +1,7 @@
 import { useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +25,13 @@ import { CascadeTerminalDataProvider, TerminalsDataProvider } from "@/data";
 import { CASCADE_TERMINAL_STATE } from "@/data/cascade_terminal";
 import { useQuery } from "@tanstack/react-query";
 
-export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
+export const CascadeTerminalCreate = ({
+    cascadeId,
+    onClose = () => {}
+}: {
+    cascadeId?: string;
+    onClose?: () => void;
+}) => {
     const cascadeTerminalDataProvider = new CascadeTerminalDataProvider();
     const terminalsDataProvider = new TerminalsDataProvider();
     const { theme } = useTheme();
@@ -88,6 +94,18 @@ export const CascadeTerminalCreate = ({ onClose = () => {} }: { onClose?: () => 
             }
         }
     });
+
+    useEffect(() => {
+        if (cascadeId && cascadesData) {
+            const preSelectCascade = cascadesData.find(item => item.id === cascadeId);
+
+            if (preSelectCascade) {
+                setCascadeValueName(preSelectCascade.name);
+                form.setValue("cascade_id", preSelectCascade.id);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cascadeId, cascadesData]);
 
     const currentCascadeStructure = useMemo(() => {
         if (cascadeValueName) {
