@@ -46,7 +46,7 @@ export function StatesTableEditableCell<States extends string, Data>({
     };
 
     return (
-        <div className="flex w-full min-w-32 items-center gap-2">
+        <div className="flex w-full min-w-36 items-center gap-2">
             {showEdit ? (
                 <>
                     <Select value={value} onValueChange={val => setValue(val as States)}>
