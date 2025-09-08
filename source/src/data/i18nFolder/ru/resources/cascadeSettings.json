@@ -96,7 +96,7 @@
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Каскады мерчантов",
         "nameSingular": "Каскад мерчанта",
-        "createNew": "Добавить связь мерчанта и каскада",
+        "createNew": "Добавление связи мерчанта и каскада",
         "editingCascade": "Изменение связи мерчанта и каскада",
         "deleteCascadeMerchant": "Удалить связь мерчанта и каскада?",
         "link": "Привязать каскад",

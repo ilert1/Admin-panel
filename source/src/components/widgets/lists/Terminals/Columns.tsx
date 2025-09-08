@@ -215,7 +215,11 @@ export const useGetTerminalColumns = () => {
                 if (!state) return <TextField text="" />;
 
                 const mp = statesMap[state];
-                return <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>;
+                return (
+                    <div className="min-w-24">
+                        <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>
+                    </div>
+                );
             }
         },
         {
