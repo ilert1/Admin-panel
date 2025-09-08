@@ -1,6 +1,6 @@
 import { ShowControllerResult, useDataProvider, useTranslate } from "react-admin";
 import { TextField } from "@/components/ui/text-field";
-import { Button, ShowButton } from "@/components/ui/Button";
+import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { CascadeSchema, CascadeTerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
@@ -18,6 +18,8 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
     const appToast = useAppToast();
     const { openSheet } = useSheets();
 
+    const [cascadeTerminalId, setCascadeTerminalId] = useState("");
+    const [showCascadeTerminalDeleteDialog, setShowCascadeTerminalDeleteDialog] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
@@ -183,8 +185,27 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
                     />
                 );
             }
+        },
+        {
+            id: "actionDelete",
+            header: () => <div className="flex justify-center">{translate("resources.currency.fields.delete")}</div>,
+            cell: ({ row }) => {
+                return (
+                    <TrashButton
+                        onClick={() => {
+                            setCascadeTerminalId(row.original.id);
+                            setShowCascadeTerminalDeleteDialog(true);
+                        }}
+                    />
+                );
+            }
         }
     ];
 
-    return { cascadeTerminalColumns };
+    return {
+        cascadeTerminalId,
+        setShowCascadeTerminalDeleteDialog,
+        showCascadeTerminalDeleteDialog,
+        cascadeTerminalColumns
+    };
 };
