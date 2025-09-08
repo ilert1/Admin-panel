@@ -2,15 +2,16 @@ import { EditButton, TrashButton } from "@/components/ui/Button";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useTranslate } from "react-admin";
 import { PaymentTypesProvider, PaymentTypeWithId } from "@/data/payment_types";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { TextField } from "@/components/ui/text-field";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
+import { ColumnSortingButton, SortingState } from "../../shared";
 
-export const useGetPaymentTypesColumns = () => {
+export const useGetPaymentTypesColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
     const paymentTypeDataProvider = new PaymentTypesProvider();
 
@@ -18,6 +19,10 @@ export const useGetPaymentTypesColumns = () => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
 
     const { data: requiredFields, isLoading: isLoadRequiredFields } = useQuery({
         queryKey: ["paymentTypeRequiredFields"],
@@ -58,7 +63,16 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "code",
             accessorKey: "code",
-            header: translate("resources.paymentSettings.paymentType.fields.code")
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.paymentType.fields.code")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            )
         },
         {
             id: "title",
@@ -71,7 +85,16 @@ export const useGetPaymentTypesColumns = () => {
         {
             id: "category",
             accessorKey: "category",
-            header: translate("resources.paymentSettings.paymentType.fields.category")
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.paymentType.fields.category")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            )
         },
         {
             id: "required_fields_for_payment_deposit",
