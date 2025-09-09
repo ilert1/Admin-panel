@@ -5,7 +5,10 @@ import {
     callbackHistoryBackupEndpointsRestoreBackupCallbridgeV1HistoryBackupRestorePost,
     getCallbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryBackupDownloadGetUrl
 } from "@/api/callbridge/callback-backup/callback-backup";
-import { RestoreStrategy } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import {
+    CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetSortOrder,
+    RestoreStrategy
+} from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 
 /**
  * Data provider for CallbackBackups resource
@@ -20,8 +23,6 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
         const createdAfter = params.filter?.["createdAfter"];
         const createdBefore = params.filter?.["createdBefore"];
         const sortOrder = params.sort?.order.toLowerCase() ?? "ASC".toLowerCase();
-        // filter?.["sortOrder"];
-        console.log(sortOrder);
 
         const res = await callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet(
             {
@@ -37,11 +38,8 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
                           createdBefore: createdBefore
                       }
                     : {}),
-                ...(sortOrder
-                    ? {
-                          sortOrder: sortOrder.toLowerCase()
-                      }
-                    : {})
+                sortOrder:
+                    sortOrder.toLowerCase() as CallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGetSortOrder
             },
             {
                 headers: {
