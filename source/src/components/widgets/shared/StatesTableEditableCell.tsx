@@ -102,7 +102,8 @@ export function StatesTableEditableCell<States extends string, Data>({
                             className={clsx(
                                 "w-full whitespace-nowrap rounded-20 px-3 py-0.5 text-center text-title-2 font-normal",
                                 initValue === "active" && "bg-green-50",
-                                initValue === "inactive" && "bg-red-50"
+                                initValue === "inactive" && "bg-red-50",
+                                initValue === "archived" && "bg-extra-2"
                             )}>
                             {translate(`resources.cascadeSettings.cascades.state.${initValue}`)}
                         </span>
