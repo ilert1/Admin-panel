@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input/input";
 import useCallbridgeHistoryFilter from "@/components/widgets/lists/CallbridgeHistory/useCallbridgeHistoryFilter";
 import { MappingSelect } from "../../components/Selects/MappingSelect";
+import { Button } from "@/components/ui/Button";
+import { RestoreBackupDialog } from "./RestoreBackupDialog";
 
 export const CallbridgeHistoryListFilter = () => {
     const {
@@ -26,10 +28,13 @@ export const CallbridgeHistoryListFilter = () => {
         onTxIdChanged,
         onExtOrderIdChanged,
         mappingName,
-        onMappingNameChanged
+        onMappingNameChanged,
+        handleUploadReport,
+        reportLoading
     } = useCallbridgeHistoryFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
+    const [restoreBackupClicked, setRestoreBackupClicked] = useState(false);
 
     const clearDisabled = !status && !mappingId && !callbackId && !txId && !extOrderId;
 
@@ -38,6 +43,9 @@ export const CallbridgeHistoryListFilter = () => {
             <div className="mb-6 flex flex-wrap justify-between gap-2">
                 <ResourceHeaderTitle />
                 <div className="flex flex-col gap-4 sm:flex-row">
+                    <Button onClick={() => setRestoreBackupClicked(true)} disabled={reportLoading}>
+                        {translate("resources.callbridge.history.backupRestoring.restoreBackup")}
+                    </Button>
                     <FilterButtonGroup
                         filterList={[status, mappingId, callbackId, txId, extOrderId]}
                         onClearFilters={onClearFilters}
@@ -130,6 +138,11 @@ export const CallbridgeHistoryListFilter = () => {
                     </div>
                 </div>
             </AnimatedContainer>
+            <RestoreBackupDialog
+                open={restoreBackupClicked}
+                onOpenChange={setRestoreBackupClicked}
+                handleUpload={handleUploadReport}
+            />
         </div>
     );
 };

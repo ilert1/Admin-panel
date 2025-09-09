@@ -1,7 +1,7 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ADMIN_CALLBRIDGE_OPEN } from "@/helpers/localStorage";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronLeft, Split, SquareStack, TableProperties } from "lucide-react";
+import { ChevronDown, ChevronLeft, DatabaseBackup, Split, SquareStack, TableProperties } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePermissions, useTranslate } from "react-admin";
 import { NavLink, useLocation } from "react-router-dom";
@@ -44,6 +44,12 @@ export const AdminCallbridgeResources = ({ showCaptions }: { showCaptions: boole
                         name: "history",
                         path: "/callbridge/history",
                         icon: <SquareStack />,
+                        showLock: false
+                    },
+                    {
+                        name: "history_backup",
+                        path: "/callbridge/history/backup",
+                        icon: <DatabaseBackup />,
                         showLock: false
                     }
                 ]

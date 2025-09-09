@@ -1,12 +1,19 @@
-import { CallbackMappingRead, CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import {
+    CallbackMappingRead,
+    CallbackStatusEnum,
+    RestoreStrategy
+} from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useDataProvider, useListContext, useTranslate } from "react-admin";
+import { useDataProvider, useListContext, useRefresh, useTranslate } from "react-admin";
+import { CallbackBackupsDataProvider } from "@/data/callback_backup";
 
 const useCallbridgeHistoryFilter = () => {
     const translate = useTranslate();
     const dataProvider = useDataProvider();
+    const callbridgeHistoryProvider = new CallbackBackupsDataProvider();
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
 
@@ -26,6 +33,9 @@ const useCallbridgeHistoryFilter = () => {
     const [txId, settxId] = useState(filterValues?.transaction_id || "");
     const [extOrderId, setExtOrderId] = useState(filterValues?.external_order_id || "");
     const [mappingName, setMappingName] = useState("");
+    const [reportLoading, setReportLoading] = useState(false);
+    const refresh = useRefresh();
+    const appToast = useAppToast();
 
     useEffect(() => {
         if (filterValues?.mapping_id) {
@@ -87,6 +97,41 @@ const useCallbridgeHistoryFilter = () => {
         setMappingName("");
     };
 
+    const handleUploadReport = async (file: File, mode: RestoreStrategy) => {
+        setReportLoading(true);
+
+        try {
+            const data = await callbridgeHistoryProvider.uploadReport(file, mode);
+            appToast(
+                "success",
+                translate("resources.paymentSettings.reports.uploadSuccess", {
+                    inserted: data?.data?.inserted,
+                    skipped: data?.data?.skipped,
+                    total: data?.data?.total
+                })
+            );
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+            // if (error instanceof Error) {
+            //     const parsed = extractFieldsFromErrorMessage(error.message);
+            //     if (parsed.type === "string_pattern_mismatch") {
+            //         appToast(
+            //             "error",
+            //             translate("resources.paymentSettings.reports.csvValidationErrorDescription", {
+            //                 field: parsed.loc.join(" > "),
+            //                 input: parsed.input
+            //             })
+            //         );
+            //     } else {
+            //         appToast("error", error.message);
+            //     }
+            // }
+        } finally {
+            setReportLoading(false);
+            refresh();
+        }
+    };
+
     return {
         translate,
         status,
@@ -104,7 +149,9 @@ const useCallbridgeHistoryFilter = () => {
         onStatusChanged,
         onClearFilters,
         onTxIdChanged,
-        onExtOrderIdChanged
+        onExtOrderIdChanged,
+        handleUploadReport,
+        reportLoading
     };
 };
 

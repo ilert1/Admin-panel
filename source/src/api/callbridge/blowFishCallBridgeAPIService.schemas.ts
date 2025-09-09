@@ -226,6 +226,11 @@ export interface CallbackHistoryBackup {
 export type CallbackHistoryReadRequestUrl = string | null;
 
 /**
+ * Full callback URL
+ */
+export type CallbackHistoryReadRequestUrl = string | null;
+
+/**
  * Incoming headers
  */
 export type CallbackHistoryReadRequestHeaders = { [key: string]: unknown };
@@ -357,10 +362,10 @@ export type CallbackMappingBaseDescription = string | null;
 /**
  * NATS subject for the adapter to publish messages to
  */
-export type CallbackMappingBaseAdapterNatsSubject = string | null;
+export type CallbackMappingBaseTerminal = TerminalOutput | null;
 
 /**
- * Terminal to which the callback is associated
+ * Full internal URL path to route the request to
  */
 export type CallbackMappingBaseTerminal = TerminalOutput | null;
 
@@ -387,7 +392,7 @@ export interface CallbackMappingBase {
     /** Full external path exposed to clients */
     external_path: string;
     /** NATS subject for the adapter to publish messages to */
-    adapter_nats_subject?: CallbackMappingBaseAdapterNatsSubject;
+    adapter_nats_subject?: string;
     /** Terminal to which the callback is associated */
     terminal?: CallbackMappingBaseTerminal;
     /** Full internal URL path to route the request to */
@@ -406,10 +411,10 @@ export type CallbackMappingCreateDescription = string | null;
 /**
  * NATS subject for the adapter to publish messages to
  */
-export type CallbackMappingCreateAdapterNatsSubject = string | null;
+export type CallbackMappingCreateTerminal = TerminalInput | null;
 
 /**
- * Terminal to which the callback is associated
+ * Full internal URL path to route the request to
  */
 export type CallbackMappingCreateTerminal = TerminalInput | null;
 
@@ -436,7 +441,7 @@ export interface CallbackMappingCreate {
     /** Full external path exposed to clients */
     external_path: string;
     /** NATS subject for the adapter to publish messages to */
-    adapter_nats_subject?: CallbackMappingCreateAdapterNatsSubject;
+    adapter_nats_subject?: string;
     /** Terminal to which the callback is associated */
     terminal?: CallbackMappingCreateTerminal;
     /** Full internal URL path to route the request to */
@@ -455,10 +460,10 @@ export type CallbackMappingReadDescription = string | null;
 /**
  * NATS subject for the adapter to publish messages to
  */
-export type CallbackMappingReadAdapterNatsSubject = string | null;
+export type CallbackMappingReadTerminal = TerminalOutput | null;
 
 /**
- * Terminal to which the callback is associated
+ * Full internal URL path to route the request to
  */
 export type CallbackMappingReadTerminal = TerminalOutput | null;
 
@@ -485,7 +490,7 @@ export interface CallbackMappingRead {
     /** Full external path exposed to clients */
     external_path: string;
     /** NATS subject for the adapter to publish messages to */
-    adapter_nats_subject?: CallbackMappingReadAdapterNatsSubject;
+    adapter_nats_subject?: string;
     /** Terminal to which the callback is associated */
     terminal?: CallbackMappingReadTerminal;
     /** Full internal URL path to route the request to */

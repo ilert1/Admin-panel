@@ -41,6 +41,8 @@ export const useGetResourceHeaderData = () => {
                 } else {
                     return getResLabel(`${resourceName[0]}.manage`, permissions);
                 }
+            } else if (resourceName[2] === "backup") {
+                return getResLabel(`${resourceName[0]}.history_backup`);
             } else if (resourceName[0] === "callbridge") {
                 return getResLabel(`${resourceName[0]}.${resourceName[1]}`);
             } else if (resourceName[0] === "paymentSettings") {
@@ -52,6 +54,5 @@ export const useGetResourceHeaderData = () => {
             return getResLabel(resourceName[0], permissions);
         }
     }, [getResLabel, permissions, resourceName]);
-
     return { pageTitle, resourceName };
 };

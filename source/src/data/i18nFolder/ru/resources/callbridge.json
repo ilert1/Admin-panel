@@ -117,7 +117,6 @@
                 "next_retry_at": "Следующая попытка",
                 "updated_at": "Обновлено",
                 "phone_number": "Номер телефона",
-
                 "financial_institution_code": "Код финансового института",
                 "financial_institution_type": "Тип финансового института",
                 "financial_institution_reference": "Ссылка на финансовый институт",
@@ -154,6 +153,37 @@
             "technicalInfo": "Техническая информация",
             "technicalInfoNotFound": "Техническая информация отсутствует"
         },
+        "backupRestoring": {
+            "restoreBackup": "Восстановить из бэкапа",
+            "restoringFromBackup": "Восстановление из бэкапа",
+            "strategy": "Стратегия Восстановления",
+            "file": "Выберите файл бэкапа формата jsonl.gz",
+            "strategies": {
+                "merge": "Объединить",
+                "skip": "Пропустить",
+                "overwrite": "Перезаписать"
+            },
+            "errors": {
+                "wrongFileFormat": "Неправильный формат файла. Выберите файл формата jsonl.gz"
+            }
+        },
         "notFoundMessage": "Маппинги не найдены."
+    },
+    "resources.callbridge.history_backup": {
+        "name": "История бэкапов",
+        "fields": {
+            "file_name": "Название файла",
+            "file_size": "Размер файла",
+            "created": "Дата создания",
+            "records_count": "Количество записей",
+            "download": "Скачать"
+        },
+        "filter": {
+            "sortBy": "Сортировать по"
+        },
+        "sortDirections": {
+            "asc": "По возрастанию",
+            "desc": "По убыванию"
+        }
     }
 }

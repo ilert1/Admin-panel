@@ -116,7 +116,6 @@
                 "updated_at": "Updated at",
                 "id": "ID",
                 "phone_number": "Phone number",
-
                 "financial_institution_code": "Financial institution code",
                 "financial_institution_type": "Financial institution type",
                 "financial_institution_reference": "Financial institution reference",
@@ -153,6 +152,37 @@
             "technicalInfo": "Technical info",
             "technicalInfoNotFound": "Technical info not found"
         },
+        "backupRestoring": {
+            "restoreBackup": "Restore from backup",
+            "restoringFromBackup": "Restoring from backup",
+            "strategy": "Restoring strategy",
+            "file": "Select jsonl.gz backup file",
+            "strategies": {
+                "merge": "Merge",
+                "skip": "Skip",
+                "overwrite": "Overwrite"
+            },
+            "errors": {
+                "wrongFileFormat": "Wrong file format. Select a jsonl.gz file"
+            }
+        },
         "notFoundMessage": "Mappings not found."
+    },
+    "resources.callbridge.history_backup": {
+        "name": "Backup history",
+        "fields": {
+            "file_name": "File name",
+            "file_size": "File size",
+            "created": "Created",
+            "records_count": "Records count",
+            "download": "Download"
+        },
+        "filter": {
+            "sortBy": "Sort by"
+        },
+        "sortDirections": {
+            "asc": "By ascending",
+            "desc": "By descending"
+        }
     }
 }

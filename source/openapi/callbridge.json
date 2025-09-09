@@ -1917,16 +1917,10 @@
                         "examples": ["/api/health"]
                     },
                     "adapter_nats_subject": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
+                        "default": "MISSING ADAPTER NATS SUBJECT",
                         "examples": ["adapters.pay4u.callback.status.update"]
                     },
                     "terminal": {
@@ -2008,16 +2002,10 @@
                         "examples": ["/api/health"]
                     },
                     "adapter_nats_subject": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
+                        "default": "MISSING ADAPTER NATS SUBJECT",
                         "examples": ["adapters.pay4u.callback.status.update"]
                     },
                     "terminal": {
@@ -2099,16 +2087,10 @@
                         "examples": ["/api/health"]
                     },
                     "adapter_nats_subject": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "type": "string",
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
+                        "default": "MISSING ADAPTER NATS SUBJECT",
                         "examples": ["adapters.pay4u.callback.status.update"]
                     },
                     "terminal": {

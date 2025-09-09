@@ -117,7 +117,6 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
                 );
             }
         },
-
         {
             id: "provider",
             accessorKey: "provider",
