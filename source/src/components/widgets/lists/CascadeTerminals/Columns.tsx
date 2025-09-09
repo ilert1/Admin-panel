@@ -1,18 +1,13 @@
 import { CascadeTerminalSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { Badge, BadgeProps } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Button, ShowButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 import { countryCodes } from "../../components/Selects/CountrySelect";
-
-export const cascadeTerminalStatesMap = {
-    active: ["success", "resources.direction.fields.stateActive"],
-    inactive: ["destructive", "resources.direction.fields.stateInactive"],
-    archived: ["warning", "resources.direction.fields.stateArchived"]
-};
+import { StateViewer } from "@/components/ui/stateViewer";
 
 export const useGetCascadeTerminalsColumns = () => {
     const [locale] = useLocaleState();
@@ -120,13 +115,12 @@ export const useGetCascadeTerminalsColumns = () => {
         {
             accessorKey: "terminal_state",
             header: translate("resources.cascadeSettings.cascadeTerminals.fields.terminal_state"),
-            cell: ({ row }) => {
-                const state = row.original.terminal.state;
-                if (!state) return <TextField text="" />;
-
-                const mp = cascadeTerminalStatesMap[state];
-                return <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>;
-            }
+            cell: ({ row }) =>
+                row.original.terminal.state ? (
+                    <StateViewer value={row.original.terminal.state} className="flex w-full justify-center" />
+                ) : (
+                    <TextField text="" />
+                )
         },
         {
             accessorKey: "provider",

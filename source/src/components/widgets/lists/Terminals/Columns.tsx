@@ -9,17 +9,12 @@ import { useState } from "react";
 import { ListControllerResult, useRefresh, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
-import { Badge, BadgeProps } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { countryCodes } from "../../components/Selects/CountrySelect";
 import { ColumnSortingButton, SortingState } from "../../shared";
+import { StateViewer } from "@/components/ui/stateViewer";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
-
-const statesMap = {
-    active: ["success", "resources.direction.fields.stateActive"],
-    inactive: ["destructive", "resources.direction.fields.stateInactive"],
-    archived: ["warning", "resources.direction.fields.stateArchived"]
-};
 
 export const useGetTerminalColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
@@ -224,17 +219,12 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
             id: "state",
             accessorKey: "state",
             header: translate("resources.direction.fields.active"),
-            cell: ({ row }) => {
-                const state = row.original.state;
-                if (!state) return <TextField text="" />;
-
-                const mp = statesMap[state];
-                return (
-                    <div className="min-w-24">
-                        <Badge variant={mp[0] as BadgeProps["variant"]}>{translate(mp[1])}</Badge>
-                    </div>
-                );
-            }
+            cell: ({ row }) =>
+                row.original.state ? (
+                    <StateViewer value={row.original.state} className="flex w-full justify-center" />
+                ) : (
+                    <TextField text="" />
+                )
         },
         {
             id: "copy_field",

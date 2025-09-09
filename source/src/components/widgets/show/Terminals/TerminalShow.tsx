@@ -15,20 +15,16 @@ import { Label } from "@/components/ui/label";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
-import { Badge, BadgeProps } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { StateViewer } from "@/components/ui/stateViewer";
 
 interface TerminalShowProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-const statesMap = {
-    active: ["success", "resources.direction.fields.stateActive"],
-    inactive: ["destructive", "resources.direction.fields.stateInactive"],
-    archived: ["warning", "resources.direction.fields.stateArchived"]
-};
 export const TerminalShow = ({ id }: TerminalShowProps) => {
     const context = useAbortableShowController<TerminalWithId>({ resource: "terminals", id });
     const { openSheet } = useSheets();
@@ -52,11 +48,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                     <div className="flex flex-col">
                         <div className="mb-2 flex flex-wrap justify-between gap-2">
                             <TextField text={id} copyValue className="text-display-4" />
-                            {context.record.state && (
-                                <Badge variant={statesMap[context.record.state][0] as BadgeProps["variant"]}>
-                                    {translate(statesMap[context.record.state][1])}
-                                </Badge>
-                            )}
+                            {context.record.state && <StateViewer value={context.record.state} />}
                         </div>
 
                         <div className="grid gap-4 md:grid-cols-2 md:gap-6">
