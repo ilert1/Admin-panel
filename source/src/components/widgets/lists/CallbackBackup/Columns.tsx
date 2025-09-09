@@ -1,18 +1,27 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { useTranslate } from "react-admin";
+import { useLocaleState, useTranslate } from "react-admin";
 import { useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { CallbackHistoryBackup } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { CallbackBackupsDataProvider } from "@/data/callback_backup";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { ColumnSortingButton } from "../../shared";
+import { ListControllerResult } from "react-admin";
 
-export const useGetCallbackBackupColumns = () => {
+export const useGetCallbackBackupColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
     const callbackBackupDataProvider = new CallbackBackupsDataProvider();
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const appToast = useAppToast();
+    const [locale] = useLocaleState();
+
+    const [sort, setSort] = useState({
+        field: listContext.sort.field || "",
+        sortOrder: listContext.filterValues.sortOrder.toUpperCase() || "ASC"
+    });
+
     const handleDownloadReport = async (id: string) => {
         setButtonDisabled(true);
         try {
@@ -67,9 +76,18 @@ export const useGetCallbackBackupColumns = () => {
         {
             id: "created",
             accessorKey: "created",
-            header: translate("resources.callbridge.history_backup.fields.created"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.callbridge.history_backup.fields.created")}
+                    order={sort.field === column.id ? sort.sortOrder : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, sortOrder: order });
+                        listContext.setSort({ field: column.id, order: sort.sortOrder.toLowerCase() });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
-                return <TextField text={row.original.created || ""} />;
+                return <TextField text={new Date(row.original.created).toLocaleString(locale)} />;
             }
         },
         {

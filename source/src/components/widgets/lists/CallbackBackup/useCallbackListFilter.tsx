@@ -17,8 +17,6 @@ const useCallbackListFilter = () => {
         filterValues?.createdBefore ? new Date(filterValues?.createdBefore) : undefined
     );
 
-    const [sortDirection, setSortDirection] = useState<"asc" | "desc">(filterValues?.sortOrder || "asc");
-
     const onPropertySelected = debounce(
         (value: string | { from: string; to: string } | number, type: "date" | "sortOrder") => {
             if (value) {
@@ -54,25 +52,18 @@ const useCallbackListFilter = () => {
         }
     };
 
-    const onSortDirectionChanged = (val: "asc" | "desc") => {
-        setSortDirection(val);
-        onPropertySelected(val, "sortOrder");
-    };
-
     const onClearFilters = () => {
         setFilters({}, displayedFilters, true);
         setPage(1);
         setStartDate(undefined);
         setEndDate(undefined);
-        setSortDirection("asc");
     };
 
     return {
         translate,
         startDate,
         endDate,
-        sortDirection,
-        onSortDirectionChanged,
+
         changeDate,
         onClearFilters
     };

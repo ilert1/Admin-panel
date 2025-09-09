@@ -8,7 +8,7 @@ import { CallbackBackupListFilter } from "./CallbackBackupListFilter";
 
 export const CallbackBackupsList = () => {
     const listContext = useAbortableListController({ resource: "callback_backup" });
-    const { columns } = useGetCallbackBackupColumns();
+    const { columns } = useGetCallbackBackupColumns({ listContext });
 
     return (
         <>

@@ -19,7 +19,9 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
         const createdAfter = params.filter?.["createdAfter"];
         const createdBefore = params.filter?.["createdBefore"];
-        const sortOrder = params.filter?.["sortOrder"];
+        const sortOrder = params.sort?.order.toLowerCase() ?? "ASC".toLowerCase();
+        // filter?.["sortOrder"];
+        console.log(sortOrder);
 
         const res = await callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet(
             {
@@ -37,7 +39,7 @@ export class CallbackBackupsDataProvider extends IBaseDataProvider {
                     : {}),
                 ...(sortOrder
                     ? {
-                          sortOrder: sortOrder
+                          sortOrder: sortOrder.toLowerCase()
                       }
                     : {})
             },
