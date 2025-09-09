@@ -117,7 +117,7 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
         } catch (error) {
             if (error instanceof Error) {
                 if (error.message.includes("already exists")) {
-                    appToast("error", translate("resources.cascadeSettings.cascades.errors.alreadyExist"));
+                    appToast("error", translate("resources.cascadeSettings.cascadeMerchants.errors.alreadyExist"));
                 } else {
                     appToast("error", error.message);
                 }

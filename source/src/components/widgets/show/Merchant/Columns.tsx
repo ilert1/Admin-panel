@@ -1,23 +1,23 @@
-import { Direction, CascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Direction, MerchantCascadeSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { IProvider } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
-import { useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "../../lists/Directions/DirectionActivityBtn";
 import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
 import { Badge } from "@/components/ui/badge";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useState } from "react";
-import { DeleteCascadeDialog } from "../Cascade/DeleteCascadeDialog";
 import { countryCodes } from "../../components/Selects/CountrySelect";
 import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
 import { CASCADE_STATE } from "@/data/cascades";
 import { CurrentCell } from "../../shared";
 import { QueryObserverResult } from "@tanstack/react-query";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { DeleteCascadeMerchantDialog } from "../CascadeMerchant/DeleteCascadeMerchantDialog";
 
 export const useGetMerchantShowColumns = ({
     isFetchingMerchantData = false,
@@ -26,22 +26,21 @@ export const useGetMerchantShowColumns = ({
 }: {
     isFetchingMerchantData: boolean;
     isFetchingCascadeMerchantData: boolean;
-    refetchCascadeMerchants: () => Promise<QueryObserverResult<CascadeSchema[] | undefined, Error>>;
+    refetchCascadeMerchants: () => Promise<QueryObserverResult<MerchantCascadeSchema[] | undefined, Error>>;
 }) => {
     const dataProvider = useDataProvider();
     const translate = useTranslate();
     const appToast = useAppToast();
-    const refresh = useRefresh();
     const { openSheet } = useSheets();
 
-    const [deleteCascadeDialogOpen, setDeleteCascadeDialogOpen] = useState(false);
+    const [deleteCascadeMerchantDialogOpen, setDeleteCascadeMerchantDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
     });
 
-    const onSubmit = async (id: string, data: Pick<CascadeSchema, "state">) => {
+    const onSubmit = async (id: string, data: Pick<MerchantCascadeSchema, "state">) => {
         try {
             setIsDataUpdating(true);
 
@@ -178,7 +177,7 @@ export const useGetMerchantShowColumns = ({
         }
     ];
 
-    const cascadeMerchantsColumns: ColumnDef<CascadeSchema>[] = [
+    const cascadeMerchantsColumns: ColumnDef<MerchantCascadeSchema>[] = [
         {
             id: "cascade",
             accessorKey: "cascade",
@@ -192,7 +191,7 @@ export const useGetMerchantShowColumns = ({
                                 id: row.original.id
                             });
                         }}>
-                        {row.original.name}
+                        {row.original.cascade.name}
                     </Button>
                     <TextField
                         className="text-neutral-70"
@@ -212,8 +211,8 @@ export const useGetMerchantShowColumns = ({
             cell: ({ row }) => (
                 <TextField
                     text={
-                        row.original.type
-                            ? translate(`resources.cascadeSettings.cascades.types.${row.original.type}`)
+                        row.original.cascade.type
+                            ? translate(`resources.cascadeSettings.cascades.types.${row.original.cascade.type}`)
                             : ""
                     }
                     minWidth="50px"
@@ -225,7 +224,7 @@ export const useGetMerchantShowColumns = ({
             header: translate("resources.cascadeSettings.cascades.fields.src_currency_code"),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
-                    <Badge variant="currency">{row.original.src_currency.code}</Badge>
+                    <Badge variant="currency">{row.original.cascade.src_currency.code}</Badge>
                 </div>
             )
         },
@@ -236,7 +235,9 @@ export const useGetMerchantShowColumns = ({
             cell: ({ row }) => {
                 return (
                     <TextField
-                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
+                        text={
+                            countryCodes.find(item => item.alpha2 === row.original.cascade.dst_country_code)?.name || ""
+                        }
                         wrap
                     />
                 );
@@ -248,8 +249,8 @@ export const useGetMerchantShowColumns = ({
             cell: ({ row }) => (
                 <TextField
                     text={
-                        row.original.cascade_kind
-                            ? translate(`resources.cascadeSettings.cascades.kinds.${row.original.cascade_kind}`)
+                        row.original.cascade.cascade_kind
+                            ? translate(`resources.cascadeSettings.cascades.kinds.${row.original.cascade.cascade_kind}`)
                             : ""
                     }
                     minWidth="50px"
@@ -259,7 +260,7 @@ export const useGetMerchantShowColumns = ({
         {
             accessorKey: "priority_policy.rank",
             header: translate("resources.cascadeSettings.cascades.fields.rank"),
-            cell: ({ row }) => <TextField text={row.original.priority_policy.rank.toString()} minWidth="50px" />
+            cell: ({ row }) => <TextField text={row.original.cascade.priority_policy.rank.toString()} minWidth="50px" />
         },
         {
             id: "payment_types",
@@ -267,8 +268,8 @@ export const useGetMerchantShowColumns = ({
             cell: ({ row }) => {
                 return (
                     <div className="max-w-auto flex min-w-32 flex-wrap gap-2">
-                        {row.original.payment_types && row.original.payment_types.length > 0
-                            ? row.original.payment_types?.map(pt => {
+                        {row.original.cascade.payment_types && row.original.cascade.payment_types.length > 0
+                            ? row.original.cascade.payment_types?.map(pt => {
                                   return (
                                       <PaymentTypeIcon
                                           className="h-7 w-7"
@@ -315,13 +316,13 @@ export const useGetMerchantShowColumns = ({
             cell: ({ row }) => {
                 return (
                     <>
-                        <TrashButton onClick={() => setDeleteCascadeDialogOpen(true)} />
+                        <TrashButton onClick={() => setDeleteCascadeMerchantDialogOpen(true)} />
 
-                        <DeleteCascadeDialog
-                            open={deleteCascadeDialogOpen}
-                            onOpenChange={state => {
-                                refresh();
-                                setDeleteCascadeDialogOpen(state);
+                        <DeleteCascadeMerchantDialog
+                            open={deleteCascadeMerchantDialogOpen}
+                            onOpenChange={async state => {
+                                setDeleteCascadeMerchantDialogOpen(state);
+                                await refetchCascadeMerchants();
                             }}
                             onQuickShowOpenChange={() => {}}
                             id={row.original.id}

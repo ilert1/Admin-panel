@@ -1,4 +1,4 @@
-import { FeesResource, MerchantsDataProvider, CascadesDataProvider } from "@/data";
+import { FeesResource, MerchantsDataProvider, CascadeMerchantsDataProvider } from "@/data";
 import { useTranslate } from "react-admin";
 import { Loading, LoadingBlock } from "@/components/ui/loading";
 import { TextField } from "@/components/ui/text-field";
@@ -32,7 +32,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const translate = useTranslate();
     const data = useFetchDictionaries();
     const dataProvider = new MerchantsDataProvider();
-    const cascadesDataProvider = new CascadesDataProvider();
+    const cascadeMerchantsDataProvider = new CascadeMerchantsDataProvider();
 
     const appToast = useAppToast();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -78,9 +78,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
         queryKey: ["cascadeMerchants", context.record?.id],
         queryFn: async ({ signal }) => {
             if (context.record?.id)
-                return await cascadesDataProvider.getList("cascades", {
+                return await cascadeMerchantsDataProvider.getList("cascadeSettings/cascadeMerchants", {
                     pagination: { page: 1, perPage: 10000 },
-                    filter: { merchant: context.record?.id },
+                    filter: { merchant_id: context.record?.id },
                     signal
                 });
         },

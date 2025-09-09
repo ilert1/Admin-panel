@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { MerchantCascadeCreate } from "../../create/MerchantCascadeCreate ";
+import { MerchantCascadeCreate } from "../../create/MerchantCascadeCreate";
 
 interface CreateCascadeMerchantsDialogProps {
     merchantId?: string;

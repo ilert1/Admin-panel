@@ -114,8 +114,12 @@
             "rank": "Политика приоритета",
             "payment_types": "Платёжные типы",
             "cascade_id": "ID каскада"
+        },
+        "errors": {
+            "alreadyExist": "Каскад мерчанта уже существует"
         }
     },
+
     "resources.cascadeSettings.cascadeConflicts": {
         "name": "Конфликты каскадов"
     },

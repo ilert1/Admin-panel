@@ -114,6 +114,9 @@
             "rank": "Priority policy",
             "payment_types": "Payment types",
             "cascade_id": "Cascade ID"
+        },
+        "errors": {
+            "alreadyExist": "The cascade merchant already exists"
         }
     },
     "resources.cascadeSettings.cascadeConflicts": {
