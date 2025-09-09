@@ -83,7 +83,7 @@
             "state": "State"
         },
         "errors": {
-            "alreadyExist": "The cascade already exists",
+            "alreadyExist": "The cascade terminal already exists",
             "cascade_id": "Select cascade",
             "terminal_id": "Select terminal",
             "weight": "Enter the correct weight value",
