@@ -7,7 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { ListControllerResult, useDataProvider, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
-import { CurrentCell } from "../../shared";
+import { ColumnSortingButton, CurrentCell, SortingState } from "../../shared";
 import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
@@ -25,6 +25,12 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
+
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
+
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
@@ -62,7 +68,16 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
     const columns: ColumnDef<CascadeSchema>[] = [
         {
             accessorKey: "name",
-            header: translate("resources.cascadeSettings.cascades.fields.cascade"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.cascadeSettings.cascades.fields.cascade")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => (
                 <div>
                     <Button
@@ -88,7 +103,16 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
         },
         {
             accessorKey: "type",
-            header: translate("resources.cascadeSettings.cascades.fields.type"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.cascadeSettings.cascades.fields.type")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => (
                 <TextField
                     text={
@@ -102,7 +126,16 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
         },
         {
             accessorKey: "src_currency_code",
-            header: translate("resources.cascadeSettings.cascades.fields.src_currency_code"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.cascadeSettings.cascades.fields.src_currency_code")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
                     <Badge variant="currency">{row.original.src_currency.code}</Badge>
@@ -112,7 +145,16 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
         {
             id: "dst_country_code",
             accessorKey: "dst_country_code",
-            header: translate("resources.direction.destinationCountry"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.direction.destinationCountry")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => {
                 return (
                     <TextField
@@ -124,7 +166,16 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
         },
         {
             accessorKey: "cascade_kind",
-            header: translate("resources.cascadeSettings.cascades.fields.cascade_kind"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.cascadeSettings.cascades.fields.cascade_kind")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => (
                 <TextField
                     text={
@@ -165,7 +216,16 @@ export const useGetCascadeColumns = ({ listContext }: { listContext: ListControl
         },
         {
             accessorKey: "state",
-            header: translate("resources.cascadeSettings.cascades.fields.state"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.cascadeSettings.cascades.fields.state")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row, cell }) => {
                 const currentCellBoolean =
                     currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();

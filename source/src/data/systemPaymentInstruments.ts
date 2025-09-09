@@ -14,7 +14,8 @@ import { IBaseDataProvider } from "./base";
 import {
     ImportStrategy,
     SystemPaymentInstrument,
-    SystemPaymentInstrumentCreate
+    SystemPaymentInstrumentCreate,
+    SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGetUrl,
@@ -45,7 +46,13 @@ export class SystemPaymentInstrumentsProvider extends IBaseDataProvider {
                     ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
                     ...(fieldsForSearch.length > 0 && {
                         searchString: fieldsForSearch.map(item => params.filter?.[item])
-                    })
+                    }),
+                    ...(params.sort?.order && {
+                        sortOrder:
+                            params.sort.order.toLowerCase() as SystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGetSortOrder
+                    }),
+                    ...(params.sort?.field &&
+                        params.sort?.field !== "id" && { orderBy: params.sort.field.toLowerCase() })
                 },
                 {
                     headers: {

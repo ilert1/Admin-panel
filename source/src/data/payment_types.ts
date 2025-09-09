@@ -15,6 +15,7 @@ import {
     CurrenciesLink,
     ImportStrategy,
     PaymentTypeCreate,
+    PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder,
     PaymentTypeModel,
     RequiredFieldItem
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
@@ -45,7 +46,12 @@ export class PaymentTypesProvider extends IBaseDataProvider {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
                 ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.sort?.order && {
+                    sortOrder:
+                        params.sort.order.toLowerCase() as PaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetSortOrder
+                }),
+                ...(params.sort?.field && params.sort?.field !== "id" && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {

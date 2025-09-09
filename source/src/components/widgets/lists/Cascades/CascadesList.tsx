@@ -10,7 +10,10 @@ import { CreateCascadeDialog } from "./CreateCascadeDialog";
 export const CascadesList = () => {
     const listContext = useAbortableListController<CascadeSchema>({
         resource: "cascades",
-        sort: { field: "created_at", order: "DESC" }
+        sort: {
+            field: "name",
+            order: "ASC"
+        }
     });
 
     const { columns, createDialogOpen, setCreateDialogOpen } = useGetCascadeColumns({ listContext });

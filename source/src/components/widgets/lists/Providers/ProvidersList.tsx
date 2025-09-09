@@ -10,7 +10,13 @@ import { SyncDisplayedFilters } from "../../shared/SyncDisplayedFilters";
 import { ProvidersListFilter } from "./ProvidersListFilter";
 
 export const ProvidersList = () => {
-    const listContext = useAbortableListController<IProvider>();
+    const listContext = useAbortableListController<IProvider>({
+        resource: "provider",
+        sort: {
+            field: "name",
+            order: "ASC"
+        }
+    });
     const refresh = useRefresh();
 
     const handleRefresh = () => {
@@ -25,7 +31,7 @@ export const ProvidersList = () => {
         chosenProviderName,
         setDialogOpen,
         setConfirmKeysCreatingOpen
-    } = useGetProvidersColumns();
+    } = useGetProvidersColumns({ listContext });
 
     return (
         <>

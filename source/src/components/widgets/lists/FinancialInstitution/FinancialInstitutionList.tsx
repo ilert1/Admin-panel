@@ -9,7 +9,13 @@ import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { DeleteFinancialInstitutionDialog } from "../../show/FinancialInstitution/DeleteFinancialInstitutionDialog";
 
 export const FinancialInstitutionList = () => {
-    const listContext = useAbortableListController<FinancialInstitutionWithId>({ resource: "financialInstitution" });
+    const listContext = useAbortableListController<FinancialInstitutionWithId>({
+        resource: "financialInstitution",
+        sort: {
+            field: "code",
+            order: "ASC"
+        }
+    });
 
     const { columns, createDialogOpen, setCreateDialogOpen, deleteClicked, chosenId, setDeleteClicked } =
         useGetFinancialInstitutionColumns({ listContext });

@@ -9,7 +9,13 @@ import { EditPaymentDialog } from "./EditPaymentDialog";
 import { PaymentTypesListFilter } from "./PaymentTypesListFilter";
 
 export const PaymentTypesList = () => {
-    const listContext = useAbortableListController({ resource: "payment_type" });
+    const listContext = useAbortableListController({
+        resource: "payment_type",
+        sort: {
+            field: "code",
+            order: "ASC"
+        }
+    });
 
     const {
         columns,
@@ -20,7 +26,7 @@ export const PaymentTypesList = () => {
         setDeleteDialogOpen,
         setCreateDialogOpen,
         setEditDialogOpen
-    } = useGetPaymentTypesColumns();
+    } = useGetPaymentTypesColumns({ listContext });
 
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);

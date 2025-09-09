@@ -19,7 +19,11 @@ import {
     currencyEndpointsListCurrenciesEnigmaV1CurrencyGet,
     currencyEndpointsUpdateCurrencyEnigmaV1CurrencyCurrencyCodePut
 } from "@/api/enigma/currency/currency";
-import { Currency, CurrencyCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    Currency,
+    CurrencyCreate,
+    CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export type CurrencyWithId = Currency & { id: string };
 
@@ -32,7 +36,12 @@ export class CurrenciesDataProvider extends IBaseDataProvider {
                 currentPage: params?.pagination?.page,
                 pageSize: params?.pagination?.perPage,
                 ...(fieldsForSearch.length > 0 && { searchField: fieldsForSearch }),
-                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) })
+                ...(fieldsForSearch.length > 0 && { searchString: fieldsForSearch.map(item => params.filter?.[item]) }),
+                ...(params.sort?.order && {
+                    sortOrder:
+                        params.sort.order.toLowerCase() as CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetSortOrder
+                }),
+                ...(params.sort?.field && params.sort?.field !== "id" && { orderBy: params.sort.field.toLowerCase() })
             },
             {
                 headers: {

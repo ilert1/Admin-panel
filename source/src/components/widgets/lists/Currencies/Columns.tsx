@@ -4,21 +4,34 @@ import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { useTranslate } from "react-admin";
+import { ListControllerResult, useTranslate } from "react-admin";
+import { ColumnSortingButton, SortingState } from "../../shared";
 
-export const useGetCurrencyColumns = () => {
+export const useGetCurrencyColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
 
     const [currencyId, setCurrencyId] = useState("");
-
+    const [sort, setSort] = useState<SortingState>({
+        field: listContext.sort.field || "",
+        order: listContext.sort.order || "ASC"
+    });
     const [showEditDialog, setShowEditDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     const columns: ColumnDef<CurrencyWithId>[] = [
         {
-            id: "id",
+            id: "code",
             accessorKey: "code",
-            header: translate("resources.currency.fields.currency"),
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.currency.fields.currency")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
             cell: ({ row }) => (
                 <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
                     <Badge variant="currency">{row.original.code}</Badge>

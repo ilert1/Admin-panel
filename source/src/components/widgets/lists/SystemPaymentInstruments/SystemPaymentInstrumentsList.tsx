@@ -8,9 +8,15 @@ import { DeleteSystemPaymentInstrumentDialog } from "./DeleteSystemPaymentInstru
 import { SystemPaymentInstrumentsListFilter } from "./SystemPaymentInstrumentsListFilter";
 
 export const SystemPaymentInstrumentsList = () => {
-    const listContext = useAbortableListController({ resource: "systemPaymentInstruments" });
+    const listContext = useAbortableListController({
+        resource: "systemPaymentInstruments",
+        sort: {
+            field: "code",
+            order: "ASC"
+        }
+    });
     const { columns, createDialogOpen, setCreateDialogOpen, showDeleteDialogOpen, setShowDeleteDialogOpen, chosenId } =
-        useGetSystemPaymentInstrumentsColumns();
+        useGetSystemPaymentInstrumentsColumns({ listContext });
 
     const handleCreateClicked = () => {
         setCreateDialogOpen(true);

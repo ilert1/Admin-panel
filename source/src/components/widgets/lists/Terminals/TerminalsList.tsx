@@ -10,11 +10,15 @@ import { DataTable } from "../../shared";
 
 export const TerminalsList = () => {
     const listContext = useAbortableListController({
-        resource: "terminals"
+        resource: "terminals",
+        sort: {
+            field: "verbose_name",
+            order: "ASC"
+        }
     });
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
-    const { columns, chosenId, deleteDialogOpen, setDeleteDialogOpen } = useGetTerminalColumns();
+    const { columns, chosenId, deleteDialogOpen, setDeleteDialogOpen } = useGetTerminalColumns({ listContext });
 
     return (
         <ListContextProvider value={listContext}>

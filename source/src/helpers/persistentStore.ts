@@ -12,10 +12,8 @@ export const createPersistentStore = (keyword: string, resources: string[]): Sto
                 if (!baseStore.getItem(`${key}.listParams`)) {
                     baseStore.setItem(`${key}.listParams`, {
                         filter: {},
-                        order: "ASC",
                         page: 1,
-                        perPage: 25,
-                        sort: "id"
+                        perPage: 25
                     });
                 }
             });
@@ -41,10 +39,8 @@ export const createPersistentStore = (keyword: string, resources: string[]): Sto
 export const setListsParams = (store: Store, resources: string[]) => {
     const defaultListParams = {
         filter: {},
-        order: "ASC",
         page: 1,
-        perPage: 25,
-        sort: "id"
+        perPage: 25
     };
 
     resources.forEach(resource => {
@@ -66,7 +62,7 @@ export const resources = [
     "terminals",
     "direction",
     "currency",
-    "payment_type",
+    "paymentType",
     "financialInstitution",
     "systemPaymentInstruments",
     "terminalPaymentInstruments",

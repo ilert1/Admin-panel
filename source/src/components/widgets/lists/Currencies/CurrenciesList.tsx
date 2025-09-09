@@ -9,10 +9,16 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 import { CurrenciesListFilter } from "./CurrenciesListFilter";
 
 export const CurrenciesList = () => {
-    const listContext = useAbortableListController<CurrencyWithId>({ resource: "currency" });
+    const listContext = useAbortableListController<CurrencyWithId>({
+        resource: "currency",
+        sort: {
+            field: "code",
+            order: "ASC"
+        }
+    });
 
     const { columns, currencyId, showEditDialog, setShowEditDialog, showDeleteDialog, setShowDeleteDialog } =
-        useGetCurrencyColumns();
+        useGetCurrencyColumns({ listContext });
 
     if (listContext.isLoading || !listContext.data) {
         return <Loading />;
