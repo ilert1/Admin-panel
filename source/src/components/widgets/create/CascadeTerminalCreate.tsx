@@ -296,78 +296,41 @@ export const CascadeTerminalCreate = ({
                         />
                     </div>
 
-                    <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
-                        <FormField
-                            control={form.control}
-                            name="condition.ttl.min"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate(
-                                                "resources.cascadeSettings.cascadeTerminals.fields.ttl_min"
-                                            )}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                    <FormField
+                        control={form.control}
+                        name="condition.ttl.min"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_min")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
-                        <FormField
-                            control={form.control}
-                            name="condition.ttl.max"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate(
-                                                "resources.cascadeSettings.cascadeTerminals.fields.ttl_max"
-                                            )}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>
-                                        {translate("resources.cascadeSettings.cascadeTerminals.fields.state")}
-                                    </Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_TERMINAL_STATE.map(state => (
-                                                    <SelectItem value={state} variant={SelectType.GRAY} key={state}>
-                                                        {translate(`resources.cascadeSettings.cascades.state.${state}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="condition.ttl.max"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_max")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
                 </div>
 
                 <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
