@@ -1,7 +1,7 @@
 import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -81,6 +81,24 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchants, merchantId]);
 
+    const formMerchantId = form.watch("merchant");
+
+    const cascadesFilteredData = useMemo(() => {
+        if (cascades) {
+            if (merchants && formMerchantId) {
+                const preFoundMerchant = merchants.data.find(item => item.id === formMerchantId);
+
+                return cascades.data.filter(cascade =>
+                    preFoundMerchant?.allowed_src_currencies?.map(item => item.code).includes(cascade.src_currency.code)
+                );
+            } else {
+                return cascades.data;
+            }
+        } else {
+            return [];
+        }
+    }, [cascades, merchants, formMerchantId]);
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
 
@@ -140,7 +158,14 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
                                             <MerchantSelect
                                                 merchants={merchants?.data || []}
                                                 value={merchantName}
-                                                onChange={setMerchantName}
+                                                onChange={val => {
+                                                    if (cascadeName || form.getValues("cascade")) {
+                                                        setCascadeName("");
+                                                        form.setValue("cascade", "");
+                                                    }
+
+                                                    setMerchantName(val);
+                                                }}
                                                 setIdValue={field.onChange}
                                                 isError={fieldState.invalid}
                                                 errorMessage={fieldState.error?.message}
@@ -164,7 +189,7 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
                                                 {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade")}
                                             </Label>
                                             <CascadeSelect
-                                                cascades={cascades?.data || []}
+                                                cascades={cascadesFilteredData}
                                                 value={cascadeName}
                                                 onChange={setCascadeName}
                                                 setIdValue={field.onChange}
