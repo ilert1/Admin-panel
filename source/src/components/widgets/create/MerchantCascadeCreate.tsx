@@ -9,21 +9,10 @@ import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
-// import {
-//     Select,
-//     SelectContent,
-//     SelectGroup,
-//     SelectItem,
-//     SelectTrigger,
-//     SelectType,
-//     SelectValue
-// } from "@/components/ui/select";
 import { useQuery } from "@tanstack/react-query";
 import { CascadesDataProvider, MerchantsDataProvider } from "@/data";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
 import { CascadeSelect } from "../components/Selects/CascadeSelect";
-
-// const CASCADE_STATE = ["active", "inactive", "archived"];
 
 interface MerchantCascadeCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -204,34 +193,6 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
                                 </FormItem>
                             )}
                         />
-                        {/* <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.cascadeSettings.cascades.fields.state")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_STATE.map(state => (
-                                                    <SelectItem value={state} variant={SelectType.GRAY} key={state}>
-                                                        {translate(`resources.cascadeSettings.cascades.state.${state}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        /> */}
                     </div>
 
                     <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
