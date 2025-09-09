@@ -19,7 +19,7 @@ export const useGetCallbackBackupColumns = ({ listContext }: { listContext: List
 
     const [sort, setSort] = useState({
         field: listContext.sort.field || "",
-        sortOrder: listContext.filterValues.sortOrder.toUpperCase() || "ASC"
+        sortOrder: listContext.filterValues.sortOrder?.toUpperCase() || "ASC"
     });
 
     const handleDownloadReport = async (id: string) => {
