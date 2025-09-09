@@ -95,6 +95,7 @@
     },
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Каскады мерчантов",
+        "nameMerchantShow": "Каскады мерчанта",
         "nameSingular": "Каскад мерчанта",
         "createNew": "Добавление связи мерчанта и каскада",
         "editingCascade": "Изменение связи мерчанта и каскада",
@@ -119,7 +120,6 @@
             "alreadyExist": "Каскад мерчанта уже существует"
         }
     },
-
     "resources.cascadeSettings.cascadeConflicts": {
         "name": "Конфликты каскадов"
     },

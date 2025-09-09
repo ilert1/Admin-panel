@@ -95,6 +95,7 @@
     },
     "resources.cascadeSettings.cascadeMerchants": {
         "name": "Cascade merchants",
+        "nameMerchantShow": "Merchant cascades",
         "nameSingular": "Cascade merchant",
         "createNew": "Create link between merchant and cascade",
         "editingCascade": "Editing link between merchant and cascade",
