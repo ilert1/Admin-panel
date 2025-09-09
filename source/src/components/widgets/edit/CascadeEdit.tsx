@@ -284,6 +284,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                                 <Select value={field.value} onValueChange={field.onChange}>
                                     <FormControl>
                                         <SelectTrigger
+                                            disabled
                                             variant={SelectType.GRAY}
                                             isError={fieldState.invalid}
                                             errorMessage={<FormMessage />}>
