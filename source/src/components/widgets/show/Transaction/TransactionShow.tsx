@@ -195,7 +195,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         </div>
                     )}
 
-                    <div className="flex flex-wrap gap-3 md:gap-6">
+                    <div className="flex flex-wrap gap-3">
                         {/* {showDispute && (
                             <Button disabled={!context.record?.state.final} onClick={switchDispute}>
                                 {disputeCaption}
