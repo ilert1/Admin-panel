@@ -72,8 +72,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     const {
         data: cascadeMerchants,
         isLoading: isCascadeMerchantsLoading,
-        isFetching: isFetchingCascadeMerchantData,
-        refetch: refetchCascadeMerchants
+        isFetching: isFetchingCascadeMerchantData
     } = useQuery({
         queryKey: ["cascadeMerchants", context.record?.id],
         queryFn: async ({ signal }) => {
@@ -90,8 +89,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
     const { directionColumns, cascadeMerchantsColumns } = useGetMerchantShowColumns({
         isFetchingMerchantData: isMerchantDirectionsFetching,
-        isFetchingCascadeMerchantData,
-        refetchCascadeMerchants
+        isFetchingCascadeMerchantData
     });
 
     const handleEditClicked = () => {

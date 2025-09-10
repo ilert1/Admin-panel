@@ -5,7 +5,7 @@ import { TextField } from "@/components/ui/text-field";
 import { CurrencyWithId } from "@/data/currencies";
 import { IProvider } from "@/data/providers";
 import { ColumnDef } from "@tanstack/react-table";
-import { useDataProvider, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { DirectionActivityBtn } from "../../lists/Directions/DirectionActivityBtn";
 import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
 import { Badge } from "@/components/ui/badge";
@@ -15,20 +15,18 @@ import { countryCodes } from "../../components/Selects/CountrySelect";
 import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
 import { CASCADE_STATE } from "@/data/cascades";
 import { CurrentCell } from "../../shared";
-import { QueryObserverResult } from "@tanstack/react-query";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { DeleteCascadeMerchantDialog } from "../CascadeMerchant/DeleteCascadeMerchantDialog";
 
 export const useGetMerchantShowColumns = ({
     isFetchingMerchantData = false,
-    isFetchingCascadeMerchantData,
-    refetchCascadeMerchants
+    isFetchingCascadeMerchantData
 }: {
     isFetchingMerchantData: boolean;
     isFetchingCascadeMerchantData: boolean;
-    refetchCascadeMerchants: () => Promise<QueryObserverResult<MerchantCascadeSchema[] | undefined, Error>>;
 }) => {
     const dataProvider = useDataProvider();
+    const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
@@ -52,7 +50,7 @@ export const useGetMerchantShowColumns = ({
 
             appToast("success", translate("app.ui.edit.editSuccess"));
 
-            await refetchCascadeMerchants();
+            refresh();
 
             setCurrentCellEdit({
                 row: undefined,
