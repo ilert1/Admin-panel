@@ -92,7 +92,7 @@ export class ITransactionDataProvider extends IBaseDataProvider {
     }
 
     async syncronize(txId: string) {
-        const { json } = await fetchUtils.fetchJson(`${API_URL}/restore`, {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/transactions/restore`, {
             headers: new Headers({
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
