@@ -34,7 +34,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <button>Hover me</button>
+                            <span>Hover me</span>
                         </TooltipTrigger>
                         <TooltipContent>Tooltip content</TooltipContent>
                     </Tooltip>
@@ -51,7 +51,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true} onOpenChange={onOpenChange}>
                         <TooltipTrigger asChild>
-                            <button>Trigger</button>
+                            <span>Trigger</span>
                         </TooltipTrigger>
                         <TooltipContent>Content</TooltipContent>
                     </Tooltip>
@@ -68,7 +68,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <button data-testid="trigger-button">Hover me</button>
+                            <div data-testid="trigger-button">Hover me</div>
                         </TooltipTrigger>
                         <TooltipContent>Tooltip content</TooltipContent>
                     </Tooltip>
@@ -83,7 +83,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip>
                         <TooltipTrigger>
-                            <button>Click me</button>
+                            <div>Click me</div>
                         </TooltipTrigger>
                         <TooltipContent>Content</TooltipContent>
                     </Tooltip>
@@ -102,7 +102,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent className={testClassName}>Tooltip content</TooltipContent>
                     </Tooltip>
@@ -117,7 +117,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent>Tooltip content</TooltipContent>
                     </Tooltip>
@@ -134,7 +134,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent sideOffset={customSideOffset}>Tooltip content</TooltipContent>
                     </Tooltip>
@@ -149,7 +149,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent>
                             <div data-testid="custom-content">Custom tooltip content</div>
@@ -168,7 +168,7 @@ describe("Tooltip Components", () => {
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <button>Hover me</button>
+                            <div>Hover me</div>
                         </TooltipTrigger>
                         <TooltipContent>This is a tooltip</TooltipContent>
                     </Tooltip>
@@ -185,7 +185,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent ref={ref}>Content</TooltipContent>
                     </Tooltip>
@@ -202,7 +202,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <button aria-describedby="tooltip-id">Trigger</button>
+                            <div aria-describedby="tooltip-id">Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent id="tooltip-id">Accessible tooltip</TooltipContent>
                     </Tooltip>
@@ -220,7 +220,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent>Content</TooltipContent>
                     </Tooltip>
@@ -237,7 +237,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent className={customClass}>Content</TooltipContent>
                     </Tooltip>
@@ -260,7 +260,7 @@ describe("Tooltip Components", () => {
                 <TooltipTestWrapper>
                     <Tooltip open={true}>
                         <TooltipTrigger>
-                            <button>Trigger</button>
+                            <div>Trigger</div>
                         </TooltipTrigger>
                         <TooltipContent>Content</TooltipContent>
                     </Tooltip>

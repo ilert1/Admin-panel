@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { CryptoTransferForm } from "./CryptoTransferForm";
 import { useTranslate, useDataProvider } from "react-admin";
 import { useAbortableInfiniteGetList } from "@/hooks/useAbortableInfiniteGetList";
@@ -94,11 +95,6 @@ describe("CryptoTransferForm", () => {
     });
 
     it("submits form with valid values", async () => {
-        render(<CryptoTransferForm {...defaultProps} />);
-
-        const amountInput = screen.getByRole("textbox");
-        const submitBtn = screen.getByRole("button", { name: "Create transfer" });
-
         (useAbortableInfiniteGetList as jest.Mock).mockReturnValue({
             data: {
                 pages: [
@@ -118,18 +114,16 @@ describe("CryptoTransferForm", () => {
             fetchNextPage: jest.fn()
         });
 
-        fireEvent.keyDown(screen.getByRole("combobox"), {
-            key: " "
+        await act(async () => {
+            render(<CryptoTransferForm {...defaultProps} />);
         });
-        const option = screen.getByText("T123456789012345678901234567890123").parentElement;
-        fireEvent.keyDown(option!, {
-            key: " "
-        });
-        fireEvent.change(amountInput, { target: { value: "10" } });
 
-        await waitFor(() => expect(submitBtn).toBeEnabled());
+        await userEvent.click(screen.getByRole("combobox"));
+        await userEvent.click(screen.getByText("T123456789012345678901234567890123"));
+        await userEvent.type(screen.getByRole("textbox"), "10");
 
-        fireEvent.click(submitBtn);
+        const submitBtn = await screen.findByRole("button", { name: "Create transfer" });
+        await userEvent.click(submitBtn);
 
         await waitFor(() =>
             expect(defaultProps.create).toHaveBeenCalledWith({
@@ -141,23 +135,30 @@ describe("CryptoTransferForm", () => {
     });
 
     it("sets all amount when checkbox clicked", async () => {
-        render(<CryptoTransferForm {...defaultProps} />);
+        await act(async () => {
+            render(<CryptoTransferForm {...defaultProps} />);
+        });
 
-        const checkboxLabel = screen.getByText(/All amount/);
-        fireEvent.click(checkboxLabel);
+        await userEvent.click(screen.getByText(/All amount/));
 
         expect((screen.getByRole("textbox") as HTMLInputElement).value).toBe("100");
     });
 
-    it("renders success state", () => {
-        render(<CryptoTransferForm {...defaultProps} transferState="success" showMessage="Success!" />);
-        expect(screen.getByText("Success!")).toBeInTheDocument();
+    it("renders success state", async () => {
+        await act(async () => {
+            render(<CryptoTransferForm {...defaultProps} transferState="success" showMessage="Success!" />);
+        });
+
+        expect(await screen.findByText("Success!")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Success" })).toBeInTheDocument();
     });
 
-    it("renders error state", () => {
-        render(<CryptoTransferForm {...defaultProps} transferState="error" showMessage="Error!" />);
-        expect(screen.getByText("Error!")).toBeInTheDocument();
+    it("renders error state", async () => {
+        await act(async () => {
+            render(<CryptoTransferForm {...defaultProps} transferState="error" showMessage="Error!" />);
+        });
+
+        expect(await screen.findByText("Error!")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Error" })).toBeInTheDocument();
     });
 
@@ -175,19 +176,21 @@ describe("CryptoTransferForm", () => {
             fetchNextPage: jest.fn()
         });
 
-        render(
-            <CryptoTransferForm
-                {...defaultProps}
-                repeatData={{ address: "T123456789012345678901234567890123", amount: 10 }}
-            />
-        );
+        await act(async () => {
+            render(
+                <CryptoTransferForm
+                    {...defaultProps}
+                    repeatData={{ address: "T123456789012345678901234567890123", amount: 10 }}
+                />
+            );
+        });
 
         await waitFor(() => {
             expect(mockAppToast).toHaveBeenCalledWith("success", "Repeat transfer", "Repeating");
         });
     });
 
-    it("renders lastUsedWallet in select", () => {
+    it("renders lastUsedWallet in select", async () => {
         (useAbortableInfiniteGetList as jest.Mock).mockReturnValue({
             data: {
                 pages: [
@@ -211,12 +214,12 @@ describe("CryptoTransferForm", () => {
             ]
         });
 
-        render(<CryptoTransferForm {...defaultProps} />);
-
-        fireEvent.keyDown(screen.getByRole("combobox"), {
-            key: " "
+        await act(async () => {
+            render(<CryptoTransferForm {...defaultProps} />);
         });
 
-        expect(screen.getByText("Last used wallet")).toBeInTheDocument();
+        await userEvent.click(screen.getByRole("combobox"));
+
+        expect(await screen.findByText("Last used wallet")).toBeInTheDocument();
     });
 });

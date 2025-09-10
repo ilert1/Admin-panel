@@ -49,7 +49,17 @@ describe("Textarea", () => {
         });
 
         it("applies all standard textarea attributes", () => {
-            render(<Textarea id="test-id" name="test-name" rows={5} cols={40} maxLength={100} value="test value" />);
+            render(
+                <Textarea
+                    id="test-id"
+                    name="test-name"
+                    rows={5}
+                    cols={40}
+                    maxLength={100}
+                    value="test value"
+                    onChange={() => {}}
+                />
+            );
 
             const textarea = screen.getByRole("textbox");
             expect(textarea).toHaveAttribute("id", "test-id");

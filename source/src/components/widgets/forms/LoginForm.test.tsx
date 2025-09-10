@@ -18,17 +18,6 @@ jest.mock("@/components/providers", () => ({
     useTheme: () => ({ theme: "light" })
 }));
 
-const ORIGINAL_LOCATION = window.location;
-
-beforeAll(() => {
-    delete (window as any).location;
-    (window as any).location = new URL("http://localhost/login") as any;
-});
-
-afterAll(() => {
-    (window as any).location = ORIGINAL_LOCATION;
-});
-
 const setup = (props?: Partial<React.ComponentProps<typeof LoginForm>>) => {
     const setError = jest.fn();
     const setDialogOpen = jest.fn();
