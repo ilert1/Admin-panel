@@ -196,10 +196,7 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
 
                         <DeleteCascadeTerminalDialog
                             open={showCascadeTerminalDeleteDialog}
-                            onOpenChange={state => {
-                                listContext.refetch();
-                                setShowCascadeTerminalDeleteDialog(state);
-                            }}
+                            onOpenChange={setShowCascadeTerminalDeleteDialog}
                             onQuickShowOpenChange={() => {}}
                             id={row.original.id}
                         />

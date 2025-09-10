@@ -320,10 +320,7 @@ export const useGetMerchantShowColumns = ({
 
                         <DeleteCascadeMerchantDialog
                             open={deleteCascadeMerchantDialogOpen}
-                            onOpenChange={async state => {
-                                setDeleteCascadeMerchantDialogOpen(state);
-                                await refetchCascadeMerchants();
-                            }}
+                            onOpenChange={setDeleteCascadeMerchantDialogOpen}
                             onQuickShowOpenChange={() => {}}
                             id={row.original.id}
                         />
