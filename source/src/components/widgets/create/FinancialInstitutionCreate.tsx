@@ -368,7 +368,7 @@ export const FinancialInstitutionCreate = ({ onClose = () => {} }: FinancialInst
                                             onChange={field.onChange}
                                             options={currenciesData || []}
                                             isLoading={currenciesLoadingProcess}
-                                            draggable
+                                            // draggable
                                         />
                                     </FormItem>
                                 )}

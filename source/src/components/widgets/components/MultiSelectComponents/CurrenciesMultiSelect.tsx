@@ -85,7 +85,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
                 isLoading={isLoading}
                 variant={variant ?? "default"}
                 className={className}
-                draggable={draggable}
+                // draggable={draggable}
             />
         </div>
     );
