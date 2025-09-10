@@ -211,6 +211,31 @@ export const CascadeTerminalCreate = ({
                         )}
                     />
 
+                    <FormField
+                        control={form.control}
+                        name="condition.extra"
+                        render={({ field }) => (
+                            <FormItem>
+                                <label
+                                    onClick={() => {
+                                        const newState = !field.value;
+                                        form.setValue("condition.weight", newState ? 0 : undefined);
+                                        field.onChange(newState);
+                                    }}
+                                    className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
+                                    <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
+                                        {field.value && (
+                                            <div id="checked" className="h-2.5 w-2.5 rounded-full bg-green-50" />
+                                        )}
+                                    </div>
+                                    <span className="text-sm font-normal text-neutral-70 transition-all dark:text-neutral-40">
+                                        {translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
+                                    </span>
+                                </label>
+                            </FormItem>
+                        )}
+                    />
+
                     <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-4">
                         <FormField
                             control={form.control}
@@ -220,6 +245,8 @@ export const CascadeTerminalCreate = ({
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={field.value === undefined ? "" : field.value}
+                                            disabled={form.getValues("condition.extra")}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -290,27 +317,6 @@ export const CascadeTerminalCreate = ({
                             )}
                         />
                     </div>
-
-                    <FormField
-                        control={form.control}
-                        name="condition.extra"
-                        render={({ field }) => (
-                            <FormItem>
-                                <label
-                                    onClick={() => field.onChange(!field.value)}
-                                    className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
-                                    <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
-                                        {field.value && (
-                                            <div id="checked" className="h-2.5 w-2.5 rounded-full bg-green-50" />
-                                        )}
-                                    </div>
-                                    <span className="text-sm font-normal text-neutral-70 transition-all dark:text-neutral-40">
-                                        {translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
-                                    </span>
-                                </label>
-                            </FormItem>
-                        )}
-                    />
                 </div>
 
                 <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
