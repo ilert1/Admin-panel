@@ -85,7 +85,9 @@
         "sendWebhookSuccessMsg": "The webhook for the order %{id} has been successfully sent",
         "notFound": "Transaction not found",
         "transactionData": "Requisites",
-        "customerData": "Customer data"
+        "customerData": "Customer data",
+        "sync": "Synchronize",
+        "syncWithNats": "Sync transaction state with state from Nats?"
     },
     "resources.transactions.stateUpdate": {
         "title": "State update ",

@@ -90,6 +90,29 @@ export class ITransactionDataProvider extends IBaseDataProvider {
             }
         }).then(resp => resp.json());
     }
+
+    async syncronize(txId: string) {
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/transactions/restore`, {
+            headers: new Headers({
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }),
+            body: JSON.stringify({
+                id: txId
+            }),
+            method: "POST"
+        });
+
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return {
+            data: {
+                ...json.data
+            }
+        };
+    }
 }
 
 export const TransactionDataProvider = addRefreshAuthToDataProvider(new ITransactionDataProvider(), updateTokenHelper);

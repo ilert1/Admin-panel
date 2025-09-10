@@ -30,6 +30,7 @@ import { useGetJsonFormDataForTransactions } from "./useGetJsonFormDataForTransa
 import { EyeIcon } from "lucide-react";
 import { TransactionCustomerDataDialog } from "./TransactionCustomerDataDialog";
 import { TransactionRequisitesDialog } from "./TransactionRequisitesDialog";
+import { SyncDialog } from "./SyncDialog";
 
 interface TransactionShowProps {
     id: string;
@@ -43,6 +44,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const [requisitesOpen, setRequisitesOpen] = useState(false);
     const [customerDataOpen, setCustomerDataOpen] = useState(false);
+    const [syncDialogOpen, setSyncDialogOpen] = useState(false);
 
     const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
 
@@ -193,7 +195,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         </div>
                     )}
 
-                    <div className="flex gap-3 md:gap-6">
+                    <div className="flex flex-wrap gap-3 md:gap-6">
                         {/* {showDispute && (
                             <Button disabled={!context.record?.state.final} onClick={switchDispute}>
                                 {disputeCaption}
@@ -243,15 +245,20 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         )}
 
                         {adminOnly && (
-                            <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
-                                {sendWebhookLoading ? (
-                                    <div className="w-[20px]">
-                                        <LoadingBlock />
-                                    </div>
-                                ) : (
-                                    translate("resources.transactions.show.sendWebhook")
-                                )}
-                            </Button>
+                            <>
+                                <Button className="min-w-36" onClick={() => setSyncDialogOpen(true)}>
+                                    {translate("resources.transactions.show.sync")}
+                                </Button>
+                                <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
+                                    {sendWebhookLoading ? (
+                                        <div className="w-[20px]">
+                                            <LoadingBlock />
+                                        </div>
+                                    ) : (
+                                        translate("resources.transactions.show.sendWebhook")
+                                    )}
+                                </Button>
+                            </>
                         )}
                     </div>
                 </div>
@@ -454,6 +461,8 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                 uiSchema={adminUISchema}
                 data={adminData}
             />
+
+            <SyncDialog open={syncDialogOpen} onOpenChange={setSyncDialogOpen} txId={context.record.id} />
         </div>
     );
 };
