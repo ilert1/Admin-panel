@@ -8,7 +8,8 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { CascadeMerchantsDataProvider } from "@/data";
+import { useRefresh, useTranslate } from "react-admin";
 
 export interface DeleteCascadeMerchantDialogProps {
     open: boolean;
@@ -22,25 +23,23 @@ export const DeleteCascadeMerchantDialog = ({
     onOpenChange,
     onQuickShowOpenChange
 }: DeleteCascadeMerchantDialogProps) => {
+    const cascadeMerchantsDataProvider = new CascadeMerchantsDataProvider();
     const refresh = useRefresh();
     const translate = useTranslate();
-    const [deleteOne] = useDelete();
     const appToast = useAppToast();
 
-    const handleDelete = () => {
-        const deleteElem = async () => {
-            try {
-                await deleteOne("cascadeSettings/cascadeMerchants", {
-                    id
-                });
-                refresh();
-                onOpenChange(false);
-                onQuickShowOpenChange(false);
-            } catch (error) {
-                if (error instanceof Error) appToast("error", error.message);
-            }
-        };
-        deleteElem();
+    const handleDelete = async () => {
+        try {
+            await cascadeMerchantsDataProvider.delete("cascadeSettings/cascadeMerchants", {
+                id
+            });
+
+            refresh();
+            onOpenChange(false);
+            onQuickShowOpenChange(false);
+        } catch (error) {
+            if (error instanceof Error) appToast("error", error.message);
+        }
     };
 
     return (
