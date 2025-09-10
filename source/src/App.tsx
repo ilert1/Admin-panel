@@ -136,6 +136,7 @@ const dataProvider = combineDataProviders(resource => {
 dataProvider.supportAbortSignal = true;
 
 const persistentStore = initializeStore();
+const BANK_TRANSFER = import.meta.env.VITE_BANK_TRANSFER_ENABLED === "true" ? true : false;
 
 export const App = () => {
     return (
@@ -221,7 +222,7 @@ export const App = () => {
                                         </>
                                     )}
 
-                                    {permissions === "merchant" && (
+                                    {permissions === "merchant" && BANK_TRANSFER && (
                                         <Resource name="bankTransfer" icon={CreditCardIcon}>
                                             <Route path="/" element={<PayOutPage />} />
                                         </Resource>
