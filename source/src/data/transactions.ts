@@ -6,6 +6,7 @@ import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
+const SECRET = import.meta.env.VITE_INBOUND_SECRET_TOKEN;
 
 export class ITransactionDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
@@ -89,6 +90,31 @@ export class ITransactionDataProvider extends IBaseDataProvider {
                 "Content-Type": "application/json"
             }
         }).then(resp => resp.json());
+    }
+
+    async syncronize(txId: string) {
+        if (!SECRET) throw new Error("You dont have secret key in your environment");
+        const { json } = await fetchUtils.fetchJson(`${API_URL}/restore`, {
+            headers: new Headers({
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+                "X-Inbound-Secret-Token": SECRET
+            }),
+            body: JSON.stringify({
+                id: txId
+            }),
+            method: "POST"
+        });
+
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return {
+            data: {
+                ...json.data
+            }
+        };
     }
 }
 
