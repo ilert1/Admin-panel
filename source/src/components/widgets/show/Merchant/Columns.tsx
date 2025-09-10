@@ -188,14 +188,14 @@ export const useGetMerchantShowColumns = ({
                         variant={"resourceLink"}
                         onClick={() => {
                             openSheet("cascade", {
-                                id: row.original.id
+                                id: row.original.cascade_id
                             });
                         }}>
                         {row.original.cascade.name}
                     </Button>
                     <TextField
                         className="text-neutral-70"
-                        text={row.original.id}
+                        text={row.original.cascade_id}
                         wrap
                         copyValue
                         lineClamp
@@ -337,7 +337,7 @@ export const useGetMerchantShowColumns = ({
                 return (
                     <ShowButton
                         onClick={() => {
-                            openSheet("cascade", { id: row.original.id });
+                            openSheet("cascadeMerchant", { id: row.original.id });
                         }}
                     />
                 );
