@@ -1,7 +1,7 @@
-import { ShowControllerResult, useDataProvider, useTranslate } from "react-admin";
+import { useDataProvider, useRefresh, useTranslate } from "react-admin";
 import { TextField } from "@/components/ui/text-field";
 import { Button, ShowButton, TrashButton } from "@/components/ui/Button";
-import { CascadeSchema, CascadeTerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { CascadeTerminalRead } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import { useSheets } from "@/components/providers/SheetProvider";
@@ -13,8 +13,13 @@ import { CASCADE_STATE } from "@/data/cascades";
 import { countryCodes } from "../../components/Selects/CountrySelect";
 import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 
-export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowControllerResult<CascadeSchema> }) => {
+export const useGetCascadeShowColumns = ({
+    isFetchingCascadeTerminalsData
+}: {
+    isFetchingCascadeTerminalsData: boolean;
+}) => {
     const dataProvider = useDataProvider();
+    const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
@@ -38,7 +43,7 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
 
             appToast("success", translate("app.ui.edit.editSuccess"));
 
-            await listContext.refetch();
+            refresh();
 
             setCurrentCellEdit({
                 row: undefined,
@@ -179,9 +184,10 @@ export const useGetCascadeShowColumns = ({ listContext }: { listContext: ShowCon
                         setShowEdit={setCurrentCellEdit}
                         onSubmit={value => onSubmit(row.original.id, { state: value })}
                         isFetching={
-                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                            (currentCellBoolean && isFetchingCascadeTerminalsData) ||
+                            (currentCellBoolean && isDataUpdating)
                         }
-                        editDisabled={listContext.isFetching || isDataUpdating}
+                        editDisabled={isFetchingCascadeTerminalsData || isDataUpdating}
                     />
                 );
             }

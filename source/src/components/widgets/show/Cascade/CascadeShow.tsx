@@ -32,7 +32,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [createCascadeTerminalDialogOpen, setCreateCascadeTerminalDialogOpen] = useState(false);
 
-    const { cascadeTerminalColumns } = useGetCascadeShowColumns({ listContext: context });
+    const { cascadeTerminalColumns } = useGetCascadeShowColumns({ isFetchingCascadeTerminalsData: context.isFetching });
 
     if (context.isLoading || !context.record) {
         return <Loading />;
