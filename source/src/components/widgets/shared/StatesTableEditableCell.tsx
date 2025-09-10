@@ -7,8 +7,9 @@ import { useTranslate } from "react-admin";
 import { CurrentCell } from "./TableEditableCell";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { clsx } from "clsx";
+import { localStates, StateViewer } from "@/components/ui/stateViewer";
 
-interface IStatesEditableCell<States extends string, Data> {
+interface IStatesEditableCell<States extends localStates, Data> {
     initValue: States;
     selectVariants: States[];
     cell: Cell<Data, unknown>;
@@ -19,7 +20,7 @@ interface IStatesEditableCell<States extends string, Data> {
     editDisabled?: boolean;
 }
 
-export function StatesTableEditableCell<States extends string, Data>({
+export function StatesTableEditableCell<States extends localStates, Data>({
     initValue,
     selectVariants,
     cell,
@@ -93,19 +94,12 @@ export function StatesTableEditableCell<States extends string, Data>({
             ) : (
                 <>
                     <div
+                        onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
                         className={clsx(
                             "mr-4 flex w-full items-center justify-center text-white",
                             editDisabled && "grayscale"
                         )}>
-                        <span
-                            onDoubleClick={() => setShowEdit({ row: cell.row.index, column: cell.column.getIndex() })}
-                            className={clsx(
-                                "w-full whitespace-nowrap rounded-20 px-3 py-0.5 text-center text-title-2 font-normal",
-                                initValue === "active" && "bg-green-50",
-                                initValue === "inactive" && "bg-red-50"
-                            )}>
-                            {translate(`resources.cascadeSettings.cascades.state.${initValue}`)}
-                        </span>
+                        <StateViewer value={initValue} className="w-full" />
                     </div>
 
                     <Button
