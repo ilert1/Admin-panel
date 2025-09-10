@@ -7,7 +7,7 @@ import { useTranslate } from "react-admin";
 import { CurrentCell } from "./TableEditableCell";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { clsx } from "clsx";
-import { localStates, StateViewer } from "@/components/ui/stateViewer";
+import { localStates, StateViewer } from "@/components/ui/StateViewer";
 
 interface IStatesEditableCell<States extends localStates, Data> {
     initValue: States;

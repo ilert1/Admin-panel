@@ -18,7 +18,7 @@ import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { Badge } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
 import { countryCodes } from "../../components/Selects/CountrySelect";
-import { StateViewer } from "@/components/ui/stateViewer";
+import { StateViewer } from "@/components/ui/StateViewer";
 
 interface TerminalShowProps {
     id: string;

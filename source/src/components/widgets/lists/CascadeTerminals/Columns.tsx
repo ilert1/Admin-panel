@@ -7,7 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 import { countryCodes } from "../../components/Selects/CountrySelect";
-import { StateViewer } from "@/components/ui/stateViewer";
+import { StateViewer } from "@/components/ui/StateViewer";
 
 export const useGetCascadeTerminalsColumns = () => {
     const [locale] = useLocaleState();

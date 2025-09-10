@@ -12,7 +12,7 @@ import { terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAcco
 import { Badge } from "@/components/ui/badge";
 import { countryCodes } from "../../components/Selects/CountrySelect";
 import { ColumnSortingButton, SortingState } from "../../shared";
-import { StateViewer } from "@/components/ui/stateViewer";
+import { StateViewer } from "@/components/ui/StateViewer";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
