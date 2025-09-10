@@ -193,7 +193,9 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <span>{translate("resources.cascadeSettings.cascades.linkedTerminals")}</span>
+                    <span className="text-display-3 text-neutral-90 dark:text-neutral-30">
+                        {translate("resources.cascadeSettings.cascades.linkedTerminals")}
+                    </span>
 
                     <SimpleTable
                         columns={cascadeTerminalColumns}
