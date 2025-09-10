@@ -8,7 +8,8 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { useDelete, useRefresh, useTranslate } from "react-admin";
+import { CascadeTerminalDataProvider } from "@/data";
+import { useRefresh, useTranslate } from "react-admin";
 
 export interface DeleteCascadeTerminalDialogProps {
     open: boolean;
@@ -22,17 +23,18 @@ export const DeleteCascadeTerminalDialog = ({
     onOpenChange,
     onQuickShowOpenChange
 }: DeleteCascadeTerminalDialogProps) => {
+    const cascadeTerminalDataProvider = new CascadeTerminalDataProvider();
     const refresh = useRefresh();
     const translate = useTranslate();
-    const [deleteOne] = useDelete();
     const appToast = useAppToast();
 
     const handleDelete = () => {
         const deleteElem = async () => {
             try {
-                await deleteOne("cascade_terminals", {
+                await cascadeTerminalDataProvider.delete("cascade_terminals", {
                     id
                 });
+
                 refresh();
                 onOpenChange(false);
                 onQuickShowOpenChange(false);
