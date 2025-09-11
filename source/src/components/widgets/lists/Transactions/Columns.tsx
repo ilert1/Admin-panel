@@ -86,7 +86,8 @@ export const useGetTransactionColumns = () => {
         ...(adminOnly
             ? [
                   {
-                      header: translate("resources.withdraw.fields.merchant"),
+                      id: "merchant",
+                      header: translate("resources.transactions.fields.merchant"),
                       cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
                           const merchantName = row.original.participant_name ?? "";
                           const id = getMerchantId(row.original.participant_id);
@@ -100,6 +101,27 @@ export const useGetTransactionColumns = () => {
                                   <TextField
                                       className="text-neutral-70"
                                       text={row.original.participant_id}
+                                      wrap
+                                      copyValue
+                                      lineClamp
+                                      linesCount={1}
+                                      minWidth="50px"
+                                  />
+                              </div>
+                          );
+                      }
+                  },
+                  {
+                      id: "provider",
+                      header: translate("resources.transactions.fields.provider"),
+                      cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
+                          //   const merchantName = row.original.provider_name ?? "";
+                          const merchantName = "";
+
+                          return (
+                              <div>
+                                  <TextField
+                                      text={merchantName}
                                       wrap
                                       copyValue
                                       lineClamp

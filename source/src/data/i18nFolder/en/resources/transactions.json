@@ -10,6 +10,8 @@
         "accountBalance": "Account balance",
         "amount_value": "Amount",
         "currency": "Currency",
+        "merchant": "Merchant",
+        "provider": "Provider",
         "meta": {
             "payment_type": "Payment type",
             "provider": "Provider",

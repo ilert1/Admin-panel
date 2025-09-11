@@ -10,6 +10,8 @@
         "accountBalance": "Баланс счёта",
         "amount_value": "Сумма",
         "currency": "Валюта",
+        "merchant": "Мерчант",
+        "provider": "Провайдер",
         "meta": {
             "payment_type": "Платёжный тип",
             "provider": "Провайдер",
