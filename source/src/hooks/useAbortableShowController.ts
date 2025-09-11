@@ -1,9 +1,11 @@
+import { useSheets } from "@/components/providers/SheetProvider";
 import { useEffect, useMemo, useRef } from "react";
 import { useShowController, ShowControllerProps, ShowControllerResult, RaRecord } from "react-admin";
 
 export const useAbortableShowController = <RecordType extends RaRecord>(
     props: ShowControllerProps<RecordType>
 ): ShowControllerResult<RecordType> => {
+    const { closeSheet, sheets } = useSheets();
     const abortControllerRef = useRef(new AbortController());
 
     useEffect(() => {
@@ -15,6 +17,15 @@ export const useAbortableShowController = <RecordType extends RaRecord>(
         ...props,
         queryOptions: {
             ...props.queryOptions,
+            onError: error => {
+                const currentSheet = sheets.find(sheet => sheet.data.id === props.id);
+
+                if (currentSheet) {
+                    closeSheet(currentSheet.key);
+                } else {
+                    throw error;
+                }
+            },
             meta: {
                 ...(props.queryOptions?.meta || {}),
                 signal: abortControllerRef.current.signal
