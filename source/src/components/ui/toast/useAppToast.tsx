@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 type AppToastType = "success" | "error";
 
-const DescriptionWithCopyBtn = ({ description }: { description: string | ReactNode }) => {
+export const DescriptionWithCopyBtn = ({ description }: { description: string | ReactNode }) => {
     const [copySuccess, setCopySuccess] = useState(false);
 
     const onCopy = (text: string) => {
@@ -42,7 +42,7 @@ export const useAppToast = () => {
         toast[type](title ?? defaultTitle, {
             description: type === "error" ? <DescriptionWithCopyBtn description={description} /> : description,
             dismissible: true,
-            duration: duration ?? 1000000
+            duration: duration ?? 3000
         });
     };
 };

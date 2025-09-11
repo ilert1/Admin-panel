@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { useAppToast } from "./useAppToast";
+import { DescriptionWithCopyBtn, useAppToast } from "./useAppToast";
 import { toast } from "sonner";
 
 jest.mock("sonner", () => ({
@@ -37,7 +37,7 @@ describe("useAppToast", () => {
         const { result } = renderHook(() => useAppToast());
         result.current("error", "Ошибка");
         expect(toast.error).toHaveBeenCalledWith("app.ui.toast.error", {
-            description: "Ошибка",
+            description: <DescriptionWithCopyBtn description="Ошибка" />,
             dismissible: true,
             duration: 3000
         });
