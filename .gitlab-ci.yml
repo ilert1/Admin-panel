@@ -2,11 +2,8 @@ include:
   - project: gitlab/pipelines
     ref: master
     file:
-      - build.yml
-      - deploy.yml
-#  - project: gitlab/blowfish/includes/build
-#    ref: master
-#    file: build.yml
+      - frontend/build.yml
+      - frontend/deploy.yml
 
 variables:
   PROJECT_NAME: ${PROJECT_NAME}
