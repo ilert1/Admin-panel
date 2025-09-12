@@ -94,7 +94,6 @@ describe("Text", () => {
 
         const textElement = screen.getByText("Accessible text");
         expect(textElement).toBeInTheDocument();
-        // SPAN является валидным элементом для текста
         expect(textElement).toHaveAttribute("class");
     });
 
