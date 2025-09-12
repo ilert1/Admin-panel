@@ -10,6 +10,7 @@ interface CurrenciesMultiSelectProps {
     onChange: (values: string[]) => void;
     options?: CurrencyWithId[];
     label?: boolean;
+    labelValue?: string;
     modal?: boolean;
     isLoading?: boolean;
     variant?: "default" | "secondary" | "destructive" | "inverted" | null | undefined;
@@ -25,6 +26,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
         onChange,
         options,
         label = true,
+        labelValue,
         modal = true,
         isLoading = false,
         variant,
@@ -56,7 +58,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
             <div>
                 {label && (
                     <Label variant={labelSize}>
-                        {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                        {labelValue || translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                     </Label>
                 )}
 
@@ -70,7 +72,7 @@ export const CurrenciesMultiSelect = (props: CurrenciesMultiSelectProps) => {
         <div>
             {label && (
                 <Label variant={labelSize}>
-                    {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                    {labelValue || translate("resources.paymentSettings.financialInstitution.fields.currencies")}
                 </Label>
             )}
             <MultiSelect
