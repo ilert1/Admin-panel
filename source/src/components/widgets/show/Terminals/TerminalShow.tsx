@@ -79,7 +79,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                             />
 
                             <div>
-                                <Label className="dark:!text-neutral-60">
+                                <Label className="text-sm dark:!text-neutral-60">
                                     {translate("resources.direction.sourceCurrency")}
                                 </Label>
 
@@ -87,7 +87,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                             </div>
 
                             <div>
-                                <Label className="dark:!text-neutral-60">
+                                <Label className="text-sm dark:!text-neutral-60">
                                     {translate("resources.direction.destinationCurrency")}
                                 </Label>
 
