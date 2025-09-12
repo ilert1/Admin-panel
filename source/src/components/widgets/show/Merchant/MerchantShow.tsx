@@ -124,7 +124,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
 
                         <div className="mr-2 flex flex-col pr-2">
                             <small className="mb-0.5 text-sm text-neutral-60">
-                                {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                                {translate("resources.merchant.fields.currencies")}
                             </small>
 
                             <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">

@@ -402,6 +402,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             render={({ field }) => (
                                 <FormItem className="w-full p-2">
                                     <CurrenciesMultiSelect
+                                        labelValue={translate("resources.merchant.fields.currencies")}
                                         value={field.value}
                                         onChange={field.onChange}
                                         options={currenciesData || []}
