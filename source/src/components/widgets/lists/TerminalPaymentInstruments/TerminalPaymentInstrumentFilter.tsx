@@ -10,7 +10,7 @@ import { CirclePlus } from "lucide-react";
 import { Input } from "@/components/ui/Input/input";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
-import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
+// import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -53,7 +53,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
-    const [showInitializeDialog, setShowInitializeDialog] = useState(false);
+    // const [showInitializeDialog, setShowInitializeDialog] = useState(false);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
     const [uploadSingleDialogOpen, setUploadSingleDialogOpen] = useState(false);
     const [uploadMultipleDialogOpen, setUploadMultipleDialogOpen] = useState(false);
@@ -173,11 +173,11 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             />
                         </div>
 
-                        <Button
+                        {/* <Button
                             onClick={() => setShowInitializeDialog(true)}
                             disabled={!terminalFilterId || terminalsLoadingProcess || !providerName}>
                             {translate("resources.paymentSettings.terminalPaymentInstruments.initInstruments")}
-                        </Button>
+                        </Button> */}
                     </div>
                     <div>
                         <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
@@ -259,11 +259,11 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                     </div>
                 </div>
             </AnimatedContainer>
-            <InitializeTerminalPaymentInstrumentsDialog
+            {/* <InitializeTerminalPaymentInstrumentsDialog
                 terminal={terminalsData?.find(item => item.terminal_id === terminalFilterId)}
                 open={showInitializeDialog}
                 onOpenChange={setShowInitializeDialog}
-            />
+            /> */}
             <ImportSingleFileDialog
                 open={uploadSingleDialogOpen}
                 onOpenChange={setUploadSingleDialogOpen}
