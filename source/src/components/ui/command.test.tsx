@@ -11,6 +11,8 @@ import {
     CommandShortcut,
     CommandSeparator
 } from "@/components/ui/command";
+import {} from "@radix-ui/react-dialog";
+import { DialogTitle, DialogDescription } from "./dialog";
 
 jest.mock("react-responsive", () => ({
     useMediaQuery: jest.fn()
@@ -26,6 +28,9 @@ describe("Command components", () => {
     it("рендерит диалог с командой", () => {
         render(
             <CommandDialog open>
+                <DialogTitle />
+                <DialogDescription />
+
                 <CommandInput placeholder="Search..." />
                 <CommandList>
                     <CommandEmpty>Nothing found</CommandEmpty>
@@ -57,6 +62,9 @@ describe("Command components", () => {
     it("отображает Empty state при отсутствии элементов", () => {
         render(
             <CommandDialog open>
+                <DialogTitle />
+                <DialogDescription />
+
                 <CommandList>
                     <CommandEmpty>Nothing found</CommandEmpty>
                 </CommandList>
