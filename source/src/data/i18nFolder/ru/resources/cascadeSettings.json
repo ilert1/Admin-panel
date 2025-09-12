@@ -73,8 +73,7 @@
             "dst_currency": "Валюта зачисления",
             "currencies": "Валютная пара",
             "weight": "Вес",
-            "rank": "Конкурентный вес",
-            "rankSmall": "Ранг",
+            "rank": "Ранг",
             "extra": "Приоритет",
             "ttl_min": "TTL min",
             "ttl_max": "TTL max",
@@ -112,7 +111,7 @@
             "created_at": "Создан",
             "updated_at": "Изменён",
             "changed_by": "Кем изменён",
-            "rank": "Политика приоритета",
+            "rank": "Ранг",
             "payment_types": "Платёжные типы",
             "cascade_id": "ID каскада"
         },

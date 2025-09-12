@@ -156,7 +156,7 @@ export const useGetCascadeShowColumns = ({
         },
         {
             accessorKey: "rank",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.rankSmall"),
+            header: translate("resources.cascadeSettings.cascadeTerminals.fields.rank"),
             cell: ({ row }) => <TextField text={row.original.condition?.rank?.toString() || ""} />
         },
         {
