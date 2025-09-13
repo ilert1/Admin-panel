@@ -42,7 +42,7 @@ export const useGetMerchantShowColumns = ({
         try {
             setIsDataUpdating(true);
 
-            await dataProvider.update("cascades", {
+            await dataProvider.update("cascadeMerchants", {
                 id,
                 data,
                 previousData: undefined
