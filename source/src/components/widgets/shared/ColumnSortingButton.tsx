@@ -14,10 +14,10 @@ export const ColumnSortingButton = ({ title, order, onChangeOrder }: ISortingBut
     return (
         <button
             onClick={() => onChangeOrder(order === "ASC" ? "DESC" : "ASC")}
-            className="flex w-full items-center gap-1">
+            className="flex w-full items-center justify-between gap-1 text-left">
             {title}
 
-            <div className="relative h-6 w-6 cursor-pointer">
+            <div className="relative h-6 w-4 cursor-pointer">
                 <ChevronUp
                     size={18}
                     className={clsx("absolute -top-[3px] transition-colors", order === "DESC" && "text-green-40")}
