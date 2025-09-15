@@ -226,11 +226,6 @@ export interface CallbackHistoryBackup {
 export type CallbackHistoryReadRequestUrl = string | null;
 
 /**
- * Full callback URL
- */
-export type CallbackHistoryReadRequestUrl = string | null;
-
-/**
  * Incoming headers
  */
 export type CallbackHistoryReadRequestHeaders = { [key: string]: unknown };
@@ -360,12 +355,7 @@ export interface CallbackHistoryRestoreResult {
 export type CallbackMappingBaseDescription = string | null;
 
 /**
- * NATS subject for the adapter to publish messages to
- */
-export type CallbackMappingBaseTerminal = TerminalOutput | null;
-
-/**
- * Full internal URL path to route the request to
+ * Terminal to which the callback is associated
  */
 export type CallbackMappingBaseTerminal = TerminalOutput | null;
 
@@ -409,12 +399,7 @@ export interface CallbackMappingBase {
 export type CallbackMappingCreateDescription = string | null;
 
 /**
- * NATS subject for the adapter to publish messages to
- */
-export type CallbackMappingCreateTerminal = TerminalInput | null;
-
-/**
- * Full internal URL path to route the request to
+ * Terminal to which the callback is associated
  */
 export type CallbackMappingCreateTerminal = TerminalInput | null;
 
@@ -458,12 +443,7 @@ export interface CallbackMappingCreate {
 export type CallbackMappingReadDescription = string | null;
 
 /**
- * NATS subject for the adapter to publish messages to
- */
-export type CallbackMappingReadTerminal = TerminalOutput | null;
-
-/**
- * Full internal URL path to route the request to
+ * Terminal to which the callback is associated
  */
 export type CallbackMappingReadTerminal = TerminalOutput | null;
 

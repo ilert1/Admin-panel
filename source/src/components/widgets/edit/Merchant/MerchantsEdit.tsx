@@ -61,22 +61,10 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 }),
             payment_types: z.array(z.string()).optional(),
             allowed_src_currencies: z.array(z.string()).optional(),
-            minTTLDep: z.coerce
-                .number()
-                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
-                .max(999999999.99),
-            maxTTLDep: z.coerce
-                .number()
-                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
-                .max(999999999.99),
-            minTTLWith: z.coerce
-                .number()
-                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
-                .max(999999999.99),
-            maxTTLWith: z.coerce
-                .number()
-                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
-                .max(999999999.99),
+            minTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
+            maxTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
+            minTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
+            maxTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
             maxConnectionTTL: z.coerce
                 .number()
                 .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
