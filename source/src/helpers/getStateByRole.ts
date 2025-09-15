@@ -14,6 +14,10 @@ export const getStateByRole = (
                 ? `${st}.${data?.states[state_id]?.state_description?.toLocaleLowerCase()}`
                 : `${st}.unknown`;
         default:
-            return state_id_merchant ? `${mst}.${state_id_merchant?.toString()}` : `${mst}.unknown`;
+            return state_id_merchant
+                ? `${mst}.${state_id_merchant?.toString()}`
+                : state_id
+                  ? `${st}.${data?.states[state_id]?.state_description?.toLocaleLowerCase()}`
+                  : `${mst}.unknown`;
     }
 };
