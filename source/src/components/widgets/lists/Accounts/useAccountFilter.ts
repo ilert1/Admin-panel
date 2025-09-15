@@ -113,7 +113,16 @@ const useAccountFilter = () => {
             let filename = `report_${merchantId && `merchantId_${merchantId}_`}${formattedDate(startDate)}_to_${formattedDate(endDate)}.${type}`;
 
             AccountsDataProvider.downloadBalanceReport(url)
-                .then(response => {
+                .then(async response => {
+                    if (response.headers.get("content-type") === "application/json") {
+                        const data = await response.json();
+
+                        if (!data.success) {
+                            appToast("error", translate("app.widgets.report.notFoundData"));
+                            return;
+                        }
+                    }
+
                     const contentDisposition = response.headers.get("content-disposition");
                     if (contentDisposition) {
                         filename = getFilenameFromContentDisposition(contentDisposition, filename);
@@ -124,15 +133,17 @@ const useAccountFilter = () => {
                     return response.blob();
                 })
                 .then(blob => {
-                    const fileUrl = window.URL.createObjectURL(blob);
+                    if (blob) {
+                        const fileUrl = window.URL.createObjectURL(blob);
 
-                    const a = document.createElement("a");
-                    a.href = fileUrl;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(fileUrl);
+                        const a = document.createElement("a");
+                        a.href = fileUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(fileUrl);
+                    }
                 })
                 .catch(error => {
                     appToast("error", translate("app.widgets.report.downloadError", { filename }));

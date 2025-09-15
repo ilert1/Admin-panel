@@ -283,7 +283,8 @@
         "report": {
             "preDownload": "The report generation request has been sent, please do not leave the page until you receive a response",
             "download": "Your report has been generated, and the file is being uploaded: %{filename}",
-            "downloadError": "An error occurred when uploading the %{filename} report file, please try again. If the error persists, contact the administrator"
+            "downloadError": "An error occurred when uploading the %{filename} report file, please try again. If the error persists, contact the administrator",
+            "notFoundData": "There is no data for the report"
         }
     },
     "app.login": {
