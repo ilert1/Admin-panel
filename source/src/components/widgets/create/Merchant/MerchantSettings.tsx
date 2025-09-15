@@ -132,8 +132,8 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                 uniqueness: {
                     deposit: {
                         mode: data.mode,
-                        min: data.min,
-                        max: data.max,
+                        min: String(data.min),
+                        max: String(data.max),
                         chance: data.chance,
                         enable: data.uniqueness
                     }
@@ -191,7 +191,7 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
 
         const allowNegative = field.name === "max" || field.name === "min";
 
-        value = value.replace(/[^0-9-]/g, "");
+        value = value.replace(/[^0-9.-]/g, "");
 
         if (!allowNegative) {
             value = value.replace(/-/g, "");
@@ -207,9 +207,22 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
             }
         }
 
-        if (/^-?0[0-9]+/.test(value)) {
+        const parts = value.split(".");
+        if (parts.length > 2) {
+            value = parts[0] + "." + parts[1];
+        }
+
+        if (parts.length === 2 && parts[1].length > 2) {
+            parts[1] = parts[1].slice(0, 2);
+            value = parts.join(".");
+        }
+
+        if (/^-?0[0-9]+/.test(value) && !value.startsWith("0.") && !value.startsWith("-0.")) {
             value = value.replace(/^(-?)0+/, "$1") || "0";
         }
+
+        if (value === ".") value = "0.";
+        if (value === "-.") value = "-0.";
 
         e.target.value = value;
 
@@ -218,12 +231,12 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
             return;
         }
 
-        if (value === "-") {
+        if (value === "-" || value.endsWith(".")) {
             form.setValue(field.name, value);
             return;
         }
 
-        const numericValue = parseInt(value, 10);
+        const numericValue = parseFloat(value);
         if (!isNaN(numericValue)) {
             let finalValue = numericValue;
 
@@ -237,6 +250,8 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
                 if (numericValue < -100000) finalValue = -100000;
                 if (!allowNegative && numericValue < 0) finalValue = 0;
             }
+
+            finalValue = parseFloat(finalValue.toFixed(2));
 
             e.target.value = String(finalValue);
             form.setValue(field.name, finalValue);

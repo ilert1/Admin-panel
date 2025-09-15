@@ -515,6 +515,14 @@ declare namespace Merchant {
         antifraoud_attempts?: number;
         antifraud?: boolean;
         public_key: string;
-        uniqueness: Uniqueness;
+        uniqueness: {
+            deposit: {
+                max: string;
+                min: string;
+                mode: string;
+                chance: number;
+                enable: boolean;
+            };
+        };
     }
 }
