@@ -248,14 +248,15 @@
         },
         "ttl": {
             "ttl": "TTL settings",
-            "minTTL": "Minimum TTL in seconds",
-            "maxTTL": "Maximum TTL in seconds",
-            "TTLDep": "Deposit TTL min/max in seconds",
-            "minTTLDep": "Minimum deposit TTL in seconds",
-            "maxTTLDep": "Maximum deposit TTL in seconds",
-            "TTLWith": "Withdraw TTL min/max in seconds",
-            "minTTLWith": "Minimum withdraw TTL in seconds",
-            "maxTTLWith": "Maximum withdraw TTL in seconds",
+            "minTTL": "Minimum TTL in milliseconds",
+            "maxTTL": "Maximum TTL in milliseconds",
+            "TTLDep": "Deposit TTL min/max in milliseconds",
+            "minTTLDep": "Minimum deposit TTL in milliseconds",
+            "maxTTLDep": "Maximum deposit TTL in milliseconds",
+            "TTLWith": "Withdraw TTL min/max in milliseconds",
+            "minTTLWith": "Minimum withdraw TTL in milliseconds",
+            "maxTTLWith": "Maximum withdraw TTL in milliseconds",
+            "maxConnectionTTL": "Maximum connection TTL in milliseconds",
             "errors": {
                 "minGreaterThanMax": "The maximum value of TTL limit cannot be less than the minimum value"
             }

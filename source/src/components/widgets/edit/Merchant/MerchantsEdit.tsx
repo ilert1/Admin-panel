@@ -76,7 +76,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             maxTTLWith: z.coerce
                 .number()
                 .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
-                .max(999999999.99)
+                .max(999999999.99),
+            maxConnectionTTL: z.coerce
+                .number()
+                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+                .max(600001)
         })
         .refine(
             data => {
@@ -117,7 +121,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             minTTLDep: 0,
             maxTTLDep: 0,
             minTTLWith: 0,
-            maxTTLWith: 0
+            maxTTLWith: 0,
+            maxConnectionTTL: 0
         }
     });
 
@@ -137,7 +142,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 minTTLDep: merchant?.settings?.deposit?.ttl?.min || 0,
                 maxTTLDep: merchant?.settings?.deposit?.ttl?.max || 0,
                 minTTLWith: merchant?.settings?.withdraw?.ttl?.min || 0,
-                maxTTLWith: merchant?.settings?.withdraw?.ttl?.max || 0
+                maxTTLWith: merchant?.settings?.withdraw?.ttl?.max || 0,
+                maxConnectionTTL: merchant?.settings?.connection?.ttl?.max || 0
             };
 
             form.reset(updatedValues);
@@ -181,6 +187,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                 min: data.minTTLWith,
                                 max: data.maxTTLWith
                             }
+                        },
+                        connection: {
+                            ttl: {
+                                max: data.maxConnectionTTL
+                            }
                         }
                     }
                 },
@@ -215,7 +226,10 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         }
     };
 
-    const handleChange = (key: "minTTLDep" | "maxTTLDep" | "minTTLWith" | "maxTTLWith", value: string) => {
+    const handleChange = (
+        key: "minTTLDep" | "maxTTLDep" | "minTTLWith" | "maxTTLWith" | "maxConnectionTTL",
+        value: string
+    ) => {
         value = value.replace(/[^0-9.]/g, "");
 
         const parts = value.split(".");
@@ -245,8 +259,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         if (!isNaN(numericValue)) {
             let finalValue = numericValue;
 
-            if (numericValue > 100000) {
-                finalValue = 100000;
+            if (numericValue > 60000) {
+                finalValue = 60000;
             }
             if (numericValue < 0) {
                 finalValue = 0;
@@ -342,6 +356,28 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="maxConnectionTTL"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            label={translate("app.widgets.ttl.maxConnectionTTL")}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            className=""
+                                            value={field.value ?? ""}
+                                            variant={InputTypes.GRAY}
+                                            onChange={e => handleChange("maxConnectionTTL", e.target.value)}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={form.control}
                             name="minTTLDep"
