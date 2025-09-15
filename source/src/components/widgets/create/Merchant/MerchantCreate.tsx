@@ -310,6 +310,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                 </FormItem>
                             )}
                         />
+                        <div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100"></div>
                         <FormField
                             control={form.control}
                             name="maxConnectionTTL"
@@ -410,6 +411,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                 </FormItem>
                             )}
                         />
+                        <div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100"></div>
 
                         <FormField
                             control={form.control}

@@ -345,6 +345,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                             )}
                         />
 
+                        <div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100"></div>
+
                         <FormField
                             control={form.control}
                             name="maxConnectionTTL"
@@ -446,6 +448,9 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                 </FormItem>
                             )}
                         />
+
+                        <div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100"></div>
+
                         <FormField
                             control={form.control}
                             name="payment_types"
