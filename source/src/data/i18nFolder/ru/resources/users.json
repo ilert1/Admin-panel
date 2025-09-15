@@ -57,7 +57,7 @@
         "system_operator": "Оператор системы",
         "system_supervisor": "Аудитор системы",
         "system_accountant": "Бухгалтер системы",
-        "merchant": "Адмнистратор мерчанта",
+        "merchant": "Администратор мерчанта",
         "merchant_operator": "Оператор мерчанта"
     }
 }
