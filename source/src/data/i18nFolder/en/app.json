@@ -205,7 +205,7 @@
                 "emailMessage": "Email is incorrect",
                 "password": "Password",
                 "passwordMessage": "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
-                "publicKey": "Public key(copy or drag&drop)",
+                "publicKey": "Public key (copy or drag&drop)",
                 "publicKeyPlaceholder": "Drop file here or type text",
                 "publicKeyMessage": "Wrong public key format",
                 "shopCurrency": "Currency",
@@ -250,13 +250,14 @@
             "ttl": "TTL settings",
             "minTTL": "Minimum TTL in milliseconds",
             "maxTTL": "Maximum TTL in milliseconds",
-            "TTLDep": "Deposit TTL min/max (ms.)",
+            "TTLDep": "Deposit TTL min/max in milliseconds",
             "minTTLDep": "Deposit TTL - MIN (ms.)",
             "maxTTLDep": "Deposit TTL - MAX (ms.)",
             "TTLWith": "Withdraw TTL min/max in milliseconds",
             "minTTLWith": "Withdraw TTL - MIN (ms.)",
             "maxTTLWith": "Withdraw TTL - MAX (ms.)",
             "maxConnectionTTL": "Connection TTL - MAX (ms.)",
+            "maxConnectionTTLFull": "Connection TTL max in milliseconds",
             "errors": {
                 "minGreaterThanMax": "The maximum value of TTL limit cannot be less than the minimum value"
             }

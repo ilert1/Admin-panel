@@ -249,13 +249,14 @@
             "ttl": "Настройки TTL",
             "minTTL": "Минимальное значение TTL в миллисекундах",
             "maxTTL": "Максимальное значение TTL в миллисекундах",
-            "TTLDep": "Значения TTL min/max пополнения в миллисекундах",
+            "TTLDep": "TTL min/max пополнения в миллисекундах",
             "minTTLDep": "TTL - МИН. пополнения (ms.)",
             "maxTTLDep": "TTL - МАКС. депозита (ms.)",
-            "TTLWith": "Значения TTL min/max выплаты в миллисекундах",
+            "TTLWith": "TTL min/max выплаты в миллисекундах",
             "minTTLWith": "TTL - МИН. выплаты (ms.)",
             "maxTTLWith": "TTL - МАКС. выплаты (ms.)",
             "maxConnectionTTL": "TTL - МАКС. соединения (ms.)",
+            "maxConnectionTTLFull": "TTL max соединения в миллисекундах",
             "errors": {
                 "minGreaterThanMax": "Максимальное значение TTL не может быть меньше минимального"
             }
