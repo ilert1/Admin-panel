@@ -29,6 +29,7 @@ type SheetState<K extends SheetKey> = {
     key: K;
     open: boolean;
     data: SheetDataMap[K];
+    duplicateIndex: number;
 };
 
 interface SheetContextProps {
@@ -50,7 +51,9 @@ export const SheetProvider = ({ children }: { children: ReactNode }) => {
     const openSheet = async <K extends SheetKey>(key: K, data: SheetDataMap[K]) => {
         checkAuth()
             .then(() => {
-                setSheets(prev => [...prev, { key, open: true, data }]);
+                const duplicateIndex = sheets.filter(item => item.key === key).length;
+
+                setSheets(prev => [...prev, { key, open: true, data, duplicateIndex }]);
             })
             .catch(() => {});
     };

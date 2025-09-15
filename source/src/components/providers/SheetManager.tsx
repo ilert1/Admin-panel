@@ -44,11 +44,19 @@ export const SheetManager = () => {
 
     return (
         <>
-            {sheets.map(({ key, open, data }) => {
+            {sheets.map(({ key, open, data, duplicateIndex }) => {
                 const Component = SHEETS_COMPONENTS[key];
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                return <Component key={key} open={open} onOpenChange={() => closeSheet(key)} {...data} />;
+
+                return (
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    <Component
+                        key={duplicateIndex > 0 ? `${key} ${duplicateIndex}` : key}
+                        open={open}
+                        onOpenChange={() => closeSheet(key)}
+                        {...data}
+                    />
+                );
             })}
         </>
     );
