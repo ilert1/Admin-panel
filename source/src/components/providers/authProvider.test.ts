@@ -26,7 +26,14 @@ describe("authProvider.login", () => {
         mockFetchJson.mockResolvedValue({
             json: { access_token: "AT", refresh_token: "RT" }
         });
-        mockJwtDecode.mockReturnValue({ sub: "123", name: "User" });
+
+        const futureExp = Math.floor(Date.now() / 1000) + 3600;
+
+        mockJwtDecode.mockReturnValue({
+            sub: "123",
+            name: "User",
+            exp: futureExp
+        });
 
         await authProvider.login({
             username: "u",
