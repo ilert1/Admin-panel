@@ -1424,7 +1424,7 @@ export interface Direction {
     /** Merchant ID associated with the direction */
     merchant: MerchantTemporalRead;
     /** Provider name associated with the direction */
-    provider: ProviderBase;
+    provider: Provider;
     /** Terminal ID associated with the direction */
     terminal: TerminalTemporalRead;
     /** Source currency code */
@@ -2477,6 +2477,8 @@ export interface MerchantSettingsInput {
     deposit?: TimeoutSettings;
     /** Timeout settings for withdraw */
     withdraw?: TimeoutSettings;
+    /** Connection settings */
+    connection?: TimeoutSettings;
 }
 
 export interface MerchantSettingsOutput {
@@ -2484,6 +2486,8 @@ export interface MerchantSettingsOutput {
     deposit?: TimeoutSettings;
     /** Timeout settings for withdraw */
     withdraw?: TimeoutSettings;
+    /** Connection settings */
+    connection?: TimeoutSettings;
 }
 
 /**
@@ -3174,19 +3178,19 @@ export interface SystemPaymentInstrumentUpdate {
 }
 
 /**
- * Minimum time-to-live in seconds before terminal can be used
+ * Minimum time-to-live in milliseconds
  */
 export type TTLConfigMin = number | null;
 
 /**
- * Maximum time-to-live in seconds after which terminal is unavailable
+ * Maximum time-to-live in milliseconds
  */
 export type TTLConfigMax = number | null;
 
 export interface TTLConfig {
-    /** Minimum time-to-live in seconds before terminal can be used */
+    /** Minimum time-to-live in milliseconds */
     min?: TTLConfigMin;
-    /** Maximum time-to-live in seconds after which terminal is unavailable */
+    /** Maximum time-to-live in milliseconds */
     max?: TTLConfigMax;
 }
 

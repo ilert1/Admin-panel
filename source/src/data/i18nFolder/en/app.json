@@ -205,7 +205,7 @@
                 "emailMessage": "Email is incorrect",
                 "password": "Password",
                 "passwordMessage": "Password must be at least 8 symbols, including at least one lowercase and uppercase letter, also one special symbol !@#$%^&*()-_",
-                "publicKey": "Public key(copy or drag&drop)",
+                "publicKey": "Public key (copy or drag&drop)",
                 "publicKeyPlaceholder": "Drop file here or type text",
                 "publicKeyMessage": "Wrong public key format",
                 "shopCurrency": "Currency",
@@ -248,14 +248,16 @@
         },
         "ttl": {
             "ttl": "TTL settings",
-            "minTTL": "Minimum TTL in seconds",
-            "maxTTL": "Maximum TTL in seconds",
-            "TTLDep": "Deposit TTL min/max in seconds",
-            "minTTLDep": "Minimum deposit TTL in seconds",
-            "maxTTLDep": "Maximum deposit TTL in seconds",
-            "TTLWith": "Withdraw TTL min/max in seconds",
-            "minTTLWith": "Minimum withdraw TTL in seconds",
-            "maxTTLWith": "Maximum withdraw TTL in seconds",
+            "minTTL": "Minimum TTL in milliseconds",
+            "maxTTL": "Maximum TTL in milliseconds",
+            "TTLDep": "Deposit TTL min/max in milliseconds",
+            "minTTLDep": "Deposit TTL - MIN (ms.)",
+            "maxTTLDep": "Deposit TTL - MAX (ms.)",
+            "TTLWith": "Withdraw TTL min/max in milliseconds",
+            "minTTLWith": "Withdraw TTL - MIN (ms.)",
+            "maxTTLWith": "Withdraw TTL - MAX (ms.)",
+            "maxConnectionTTL": "Connection TTL - MAX (ms.)",
+            "maxConnectionTTLFull": "Connection TTL max in milliseconds",
             "errors": {
                 "minGreaterThanMax": "The maximum value of TTL limit cannot be less than the minimum value"
             }
@@ -283,7 +285,8 @@
         "report": {
             "preDownload": "The report generation request has been sent, please do not leave the page until you receive a response",
             "download": "Your report has been generated, and the file is being uploaded: %{filename}",
-            "downloadError": "An error occurred when uploading the %{filename} report file, please try again. If the error persists, contact the administrator"
+            "downloadError": "An error occurred when uploading the %{filename} report file, please try again. If the error persists, contact the administrator",
+            "notFoundData": "There is no data for the report"
         }
     },
     "app.login": {

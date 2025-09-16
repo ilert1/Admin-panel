@@ -12620,7 +12620,7 @@
             "description": "Merchant ID associated with the direction"
           },
           "provider": {
-            "$ref": "#/components/schemas/ProviderBase",
+            "$ref": "#/components/schemas/Provider",
             "description": "Provider name associated with the direction"
           },
           "terminal": {
@@ -15318,6 +15318,10 @@
           "withdraw": {
             "$ref": "#/components/schemas/TimeoutSettings",
             "description": "Timeout settings for withdraw"
+          },
+          "connection": {
+            "$ref": "#/components/schemas/TimeoutSettings",
+            "description": "Connection settings"
           }
         },
         "type": "object",
@@ -15332,6 +15336,10 @@
           "withdraw": {
             "$ref": "#/components/schemas/TimeoutSettings",
             "description": "Timeout settings for withdraw"
+          },
+          "connection": {
+            "$ref": "#/components/schemas/TimeoutSettings",
+            "description": "Connection settings"
           }
         },
         "type": "object",
@@ -17706,7 +17714,7 @@
               }
             ],
             "title": "Min",
-            "description": "Minimum time-to-live in seconds before terminal can be used",
+            "description": "Minimum time-to-live in milliseconds",
             "examples": [
               0,
               30,
@@ -17724,7 +17732,7 @@
               }
             ],
             "title": "Max",
-            "description": "Maximum time-to-live in seconds after which terminal is unavailable",
+            "description": "Maximum time-to-live in milliseconds",
             "examples": [
               300,
               3600,
