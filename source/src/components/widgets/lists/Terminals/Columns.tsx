@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { countryCodes } from "../../components/Selects/CountrySelect";
 import { ColumnSortingButton, SortingState } from "../../shared";
 import { StateViewer } from "@/components/ui/StateViewer";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -206,12 +207,9 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
-                        wrap
-                    />
-                );
+                const dst_country = countryCodes.find(item => item.alpha2 === row.original.dst_country_code);
+
+                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
             }
         },
         {

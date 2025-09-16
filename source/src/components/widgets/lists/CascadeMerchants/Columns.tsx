@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export const useGetCascadeMerchantColumns = () => {
     const [locale] = useLocaleState();
@@ -118,14 +119,9 @@ export const useGetCascadeMerchantColumns = () => {
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            countryCodes.find(item => item.alpha2 === row.original.cascade.dst_country_code)?.name || ""
-                        }
-                        wrap
-                    />
-                );
+                const dst_country = countryCodes.find(item => item.alpha2 === row.original.cascade.dst_country_code);
+
+                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
             }
         },
         {
