@@ -13,6 +13,8 @@ import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { Badge } from "@/components/ui/badge";
 import { BankIcon } from "@/components/ui/BankIcon";
 import { useFetchDictionaries } from "@/hooks";
+import { countryCodes } from "../../components/Selects/CountrySelect";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export interface FinancialInstitutionShowProps {
     id: string;
@@ -43,6 +45,8 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
         return <Loading />;
     }
     const logoUrl = context.record.meta?.logoURL;
+    const country_code = countryCodes.find(item => item.alpha2 === context.record.country_code);
+
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap">
@@ -91,9 +95,10 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                         }
                     />
 
-                    <TextField
+                    <CountryTextField
+                        text={country_code?.name || ""}
                         label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
-                        text={context.record.country_code}
+                        countryCode={country_code?.alpha2}
                     />
 
                     <div className="flex flex-col">
