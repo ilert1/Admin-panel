@@ -45,7 +45,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
+            <div className="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap">
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
@@ -60,30 +60,6 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
-                    <div>
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
-                            text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
-                        />
-                        <TextField
-                            fontSize="title-2"
-                            text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
-                        />
-                    </div>
-
-                    <div>
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
-                            text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
-                        />
-                        <TextField
-                            fontSize="title-2"
-                            text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
-                        />
-                    </div>
-
                     <TextField
                         label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_id")}
                         className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
@@ -109,6 +85,16 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                     />
 
                     <TextField
+                        fontSize="title-2"
+                        label={translate("resources.paymentSettings.systemPaymentInstruments.list.direction")}
+                        text={
+                            context.record.direction
+                                ? translate(`resources.direction.types.${context.record.direction}`)
+                                : ""
+                        }
+                    />
+
+                    <TextField
                         label={translate(
                             "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_payment_type_code"
                         )}
@@ -128,15 +114,30 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
                         )}
                         text={context.record.terminal_financial_institution_code || ""}
                     />
-                    <TextField
-                        fontSize="title-2"
-                        label={translate("resources.paymentSettings.systemPaymentInstruments.list.direction")}
-                        text={
-                            context.record.direction
-                                ? translate(`resources.direction.types.${context.record.direction}`)
-                                : ""
-                        }
-                    />
+
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.created_at")}
+                            text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
+                        />
+                    </div>
+
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.terminalPaymentInstruments.fields.updated_at")}
+                            text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
+                        />
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-1">
