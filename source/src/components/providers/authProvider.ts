@@ -1,6 +1,7 @@
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AuthProvider, fetchUtils } from "react-admin";
 import { updateTokenHelper } from "@/helpers/updateTokenHelper";
+import { isTokenStillFresh } from "@/helpers/jwt";
 
 interface KeycloakJwtPayload extends JwtPayload {
     realm_access: {
@@ -39,6 +40,11 @@ export const authProvider: AuthProvider = {
                     })
                 });
                 const { access_token, refresh_token } = response.json;
+
+                if (!isTokenStillFresh(access_token) || !isTokenStillFresh(access_token)) {
+                    return Promise.reject({ message: "Token expired", type: "token_expired" });
+                }
+
                 localStorage.setItem("access-token", access_token);
                 localStorage.setItem("refresh-token", refresh_token);
 
@@ -68,6 +74,11 @@ export const authProvider: AuthProvider = {
                 })
             });
             const { access_token, refresh_token } = response.json;
+
+            if (!isTokenStillFresh(access_token) || !isTokenStillFresh(access_token)) {
+                return Promise.reject({ message: "Token expired", type: "token_expired" });
+            }
+
             localStorage.setItem("access-token", access_token);
             localStorage.setItem("refresh-token", refresh_token);
 
