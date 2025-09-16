@@ -297,6 +297,7 @@
         "logPassError": "Invalid user data",
         "networkError": "Network Error",
         "accountError": "Complete the profile setup and try logging in again",
+        "tokenExpired": "Login error. It is possible that the time and time zone are set incorrectly on your device. If the error occurs again, contact the administrator",
         "accountConfigTitle": "Your account needs to be configured, please follow the required steps on the next page, then try logging in again",
         "accountConfigConfirm": "Configure",
         "totp": "Two-factor authentication code",

@@ -54,6 +54,8 @@ export const LoginForm = (props: LoginFormProps) => {
                 ) {
                     setError(translate("app.login.accountError"));
                     setDialogOpen(true);
+                } else if (error.type === "token_expired") {
+                    setError(translate("app.login.tokenExpired"));
                 } else {
                     setError(translate("app.login.networkError"));
                 }
