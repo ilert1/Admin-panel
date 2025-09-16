@@ -1,6 +1,7 @@
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AuthProvider, fetchUtils } from "react-admin";
 import { updateTokenHelper } from "@/helpers/updateTokenHelper";
+import { isTokenStillFresh } from "@/helpers/jwt";
 
 interface KeycloakJwtPayload extends JwtPayload {
     realm_access: {
@@ -17,21 +18,6 @@ const clearUserData = () => {
     localStorage.removeItem("access-token");
     sessionStorage.removeItem("testEnvShown");
 };
-
-function isTokenExpired(token: string): boolean {
-    try {
-        const decoded = jwtDecode<JwtPayload>(token);
-
-        if (!decoded.exp) {
-            return true;
-        }
-
-        const now = Math.floor(Date.now() / 1000);
-        return decoded.exp <= now;
-    } catch {
-        return true;
-    }
-}
 
 export const authProvider: AuthProvider = {
     login: async ({ username, password, totpCode, totpRequestCode }) => {
@@ -55,7 +41,7 @@ export const authProvider: AuthProvider = {
                 });
                 const { access_token, refresh_token } = response.json;
 
-                if (isTokenExpired(access_token) || isTokenExpired(access_token)) {
+                if (!isTokenStillFresh(access_token) || !isTokenStillFresh(access_token)) {
                     return Promise.reject({ message: "Token expired", type: "token_expired" });
                 }
 
@@ -89,7 +75,7 @@ export const authProvider: AuthProvider = {
             });
             const { access_token, refresh_token } = response.json;
 
-            if (isTokenExpired(access_token) || isTokenExpired(access_token)) {
+            if (!isTokenStillFresh(access_token) || !isTokenStillFresh(access_token)) {
                 return Promise.reject({ message: "Token expired", type: "token_expired" });
             }
 
