@@ -2,6 +2,9 @@ import { IPopoverSelect, PopoverSelect } from "./PopoverSelect";
 import { useTranslate } from "react-admin";
 import { all as AllCountryCodes } from "iso-3166-1";
 import { Country } from "iso-3166-1/dist/iso-3166";
+import { useMemo } from "react";
+import { hasFlag } from "country-flag-icons";
+import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
 export const countryCodes: (Country & { name: string })[] = [
     {
@@ -24,14 +27,28 @@ export const CountrySelect = ({
     disabled,
     modal,
     placeholder,
-    isLoading,
-    complexFiltering = true
+    isLoading
 }: IPopoverSelect) => {
     const translate = useTranslate();
 
+    const countryCodesWithFlags = useMemo(() => {
+        const renderName = (code: Country & { name: string }) => {
+            if (hasFlag(code.alpha2)) {
+                return `${getUnicodeFlagIcon(code.alpha2)} ${code.alpha2} - ${code.country}`;
+            }
+
+            return `${code.alpha2} - ${code.country}`;
+        };
+
+        return countryCodes.map(code => ({
+            ...code,
+            name: renderName(code)
+        }));
+    }, []);
+
     return (
         <PopoverSelect
-            variants={countryCodes}
+            variants={countryCodesWithFlags}
             value={value}
             onChange={onChange}
             variantKey="name"
