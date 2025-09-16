@@ -23,6 +23,7 @@ export interface IPopoverSelect {
     modal?: boolean;
     isLoading?: boolean;
     idFieldValue?: string;
+    complexFiltering?: boolean;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -56,7 +57,8 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         isLoading = false,
         onChange,
         setIdValue,
-        idFieldValue
+        idFieldValue,
+        complexFiltering = false
     } = props;
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
@@ -153,11 +155,11 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
     const handleInputChange = (val: string) => {
         setSearchValue(val);
-        if (val.length === 0 && commandList.current) {
-            setTimeout(() => {
-                commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "start" });
-            }, 50);
-        }
+        // if (val.length === 0 && commandList.current) {
+        //     setTimeout(() => {
+        //         commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+        //     }, 50);
+        // }
     };
 
     useEffect(() => {
@@ -173,7 +175,12 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         }
     }, [open]);
 
-    const filteredVariants = getFilteredVariants();
+    let filteredVariants = getFilteredVariants();
+
+    if (!complexFiltering) {
+        filteredVariants = variants;
+    }
+
     if (disabled)
         return (
             <TooltipProvider>
@@ -277,8 +284,12 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0" onEscapeKeyDown={() => setOpen(false)}>
-                {/* <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}> */}
-                <Command filter={customFilter}>
+                <Command
+                    filter={
+                        complexFiltering
+                            ? customFilter
+                            : (value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)
+                    }>
                     <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
                     <CommandList ref={commandList}>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>

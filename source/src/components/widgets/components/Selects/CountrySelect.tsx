@@ -24,7 +24,8 @@ export const CountrySelect = ({
     disabled,
     modal,
     placeholder,
-    isLoading
+    isLoading,
+    complexFiltering = true
 }: IPopoverSelect) => {
     const translate = useTranslate();
 
@@ -47,6 +48,7 @@ export const CountrySelect = ({
             }
             modal={modal}
             isLoading={isLoading}
+            complexFiltering={true}
         />
     );
 };
