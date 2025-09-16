@@ -235,7 +235,8 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         }
 
         if (value === "") {
-            form.resetField(key);
+            // form.resetField(key);
+            form.setValue(key, 0);
             return;
         }
 
