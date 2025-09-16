@@ -43,6 +43,7 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",
+        "country-flag-icons": "^1.5.20",
         "dayjs": "^1.11.10",
         "form-data": "^4.0.4",
         "framer-motion": "^12.4.11",
