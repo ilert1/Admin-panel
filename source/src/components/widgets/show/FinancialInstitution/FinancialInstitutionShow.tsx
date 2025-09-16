@@ -52,29 +52,6 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
-                    <div>
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentSettings.financialInstitution.fields.created_at")}
-                            text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
-                        />
-                        <TextField
-                            fontSize="title-2"
-                            text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentSettings.financialInstitution.fields.updated_at")}
-                            text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
-                        />
-                        <TextField
-                            fontSize="title-2"
-                            text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
-                        />
-                    </div>
-
                     <TextField
                         label={translate("resources.paymentSettings.financialInstitution.fields.code")}
                         text={context.record.code || ""}
@@ -156,6 +133,29 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                                 <span className="title-1">-</span>
                             )}
                         </div>
+                    </div>
+
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.financialInstitution.fields.created_at")}
+                            text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
+                        />
+                    </div>
+                    <div>
+                        <TextField
+                            fontSize="title-2"
+                            label={translate("resources.paymentSettings.financialInstitution.fields.updated_at")}
+                            text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
+                        />
+                        <TextField
+                            fontSize="title-2"
+                            text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
+                        />
                     </div>
                 </div>
 
