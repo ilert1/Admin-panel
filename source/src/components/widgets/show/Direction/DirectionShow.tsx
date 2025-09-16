@@ -15,6 +15,7 @@ import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowCo
 import { Badge } from "@/components/ui/badge";
 import { useFetchDictionaries } from "@/hooks";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export interface DirectionsShowProps {
     id: string;
@@ -56,6 +57,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const isPrioritized = context.record.condition?.extra ?? false;
 
     const controlsDisabled = !!context.record.cascade_id;
+    const dst_country = countryCodes.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -121,9 +123,10 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     />
                     <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
 
-                    <TextField
-                        text={countryCodes.find(item => item.alpha2 === context.record?.dst_country_code)?.name || ""}
+                    <CountryTextField
+                        text={dst_country?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
+                        countryCode={dst_country?.alpha2}
                     />
 
                     <div className="flex flex-col">

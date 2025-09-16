@@ -12,6 +12,7 @@ import { EditCascadeMerchantDialog } from "./EditCascadeMerchantDialog";
 import { DeleteCascadeMerchantDialog } from "./DeleteCascadeMerchantDialog";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { countryCodes } from "../../components/Selects/CountrySelect";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export interface CascadeMerchantShowProps {
     id: string;
@@ -36,6 +37,7 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
         return <Loading />;
     }
     const pt = cascadeMerchantData?.cascade.payment_types;
+    const cascade_dst_country = countryCodes.find(item => item.alpha2 === context.record?.cascade.dst_country_code);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -132,13 +134,13 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                             </Badge>
                         </div>
                     </div>
-                    <TextField
-                        text={
-                            countryCodes.find(item => item.alpha2 === context.record?.cascade.dst_country_code)?.name ||
-                            ""
-                        }
+
+                    <CountryTextField
+                        text={cascade_dst_country?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
+                        countryCode={cascade_dst_country?.alpha2}
                     />
+
                     <div>
                         <Label className="text-sm dark:!text-neutral-60">
                             {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_state")}

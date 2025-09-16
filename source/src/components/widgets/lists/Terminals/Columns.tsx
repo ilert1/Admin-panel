@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { countryCodes } from "../../components/Selects/CountrySelect";
 import { ColumnSortingButton, SortingState } from "../../shared";
 import { StateViewer } from "@/components/ui/StateViewer";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -71,28 +72,11 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
 
     const columns: ColumnDef<TerminalWithId>[] = [
         {
-            id: "id",
-            accessorKey: "id",
-            header: translate("resources.terminals.fields.id"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={row.original.terminal_id}
-                        wrap
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                        minWidth="50px"
-                    />
-                );
-            }
-        },
-        {
             id: "verbose_name",
             accessorKey: "verbose_name",
             header: ({ column }) => (
                 <ColumnSortingButton
-                    title={translate("resources.terminals.fields.verbose_name")}
+                    title={translate("resources.terminals.terminal")}
                     order={sort.field === column.id ? sort.order : undefined}
                     onChangeOrder={order => {
                         setSort({ field: column.id, order });
@@ -102,13 +86,27 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
             ),
             cell: ({ row }) => {
                 return (
-                    <Button
-                        variant={"resourceLink"}
-                        onClick={() => {
-                            handleOpenShowClicked(row.original.terminal_id);
-                        }}>
-                        {row.original.verbose_name ?? ""}
-                    </Button>
+                    <div>
+                        <Button
+                            variant={"resourceLink"}
+                            onClick={() => {
+                                openSheet("cascade", {
+                                    id: row.original.terminal_id
+                                });
+                            }}>
+                            {row.original.verbose_name ?? ""}
+                        </Button>
+
+                        <TextField
+                            className="text-neutral-70"
+                            text={row.original.terminal_id}
+                            wrap
+                            copyValue
+                            lineClamp
+                            linesCount={1}
+                            minWidth="50px"
+                        />
+                    </div>
                 );
             }
         },
@@ -206,12 +204,9 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
-                        wrap
-                    />
-                );
+                const dst_country = countryCodes.find(item => item.alpha2 === row.original.dst_country_code);
+
+                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
             }
         },
         {

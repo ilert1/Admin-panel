@@ -12,6 +12,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
 import { countryCodes } from "../../components/Selects/CountrySelect";
 import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export const useGetCascadeShowColumns = ({
     isFetchingCascadeTerminalsData
@@ -138,15 +139,9 @@ export const useGetCascadeShowColumns = ({
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            countryCodes.find(item => item.alpha2 === row.original.terminal.dst_country_code)?.name ||
-                            ""
-                        }
-                        wrap
-                    />
-                );
+                const dst_country = countryCodes.find(item => item.alpha2 === row.original.terminal.dst_country_code);
+
+                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
             }
         },
         {

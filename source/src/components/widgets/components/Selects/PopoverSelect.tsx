@@ -23,6 +23,7 @@ export interface IPopoverSelect {
     modal?: boolean;
     isLoading?: boolean;
     idFieldValue?: string;
+    complexFiltering?: boolean;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -56,10 +57,12 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         isLoading = false,
         onChange,
         setIdValue,
-        idFieldValue
+        idFieldValue,
+        complexFiltering = false
     } = props;
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
 
     const commandList = useRef<HTMLDivElement>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -98,6 +101,46 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         setOpen(false);
     };
 
+    const customFilter = (value: string, search: string) => {
+        if (!search) return 1;
+
+        const lowerValue = value.toLowerCase();
+        const lowerSearch = search.toLowerCase();
+        const index = lowerValue.indexOf(lowerSearch);
+
+        return index === -1 ? 0 : 1;
+    };
+
+    const getFilteredVariants = () => {
+        if (!searchValue) return variants;
+
+        const lowerSearch = searchValue.toLowerCase();
+
+        const filteredVariants = variants.filter(variant => {
+            const variantValue = typeof variantKey === "string" ? variant[variantKey] : variantKey(variant);
+            const searchText = variantTitleKey ? variant[variantTitleKey] : variantValue;
+            return searchText.toLowerCase().includes(lowerSearch);
+        });
+
+        return filteredVariants.sort((a, b) => {
+            const aValue = variantTitleKey
+                ? a[variantTitleKey]
+                : typeof variantKey === "string"
+                  ? a[variantKey]
+                  : variantKey(a);
+            const bValue = variantTitleKey
+                ? b[variantTitleKey]
+                : typeof variantKey === "string"
+                  ? b[variantKey]
+                  : variantKey(b);
+
+            const aIndex = aValue.toLowerCase().indexOf(lowerSearch);
+            const bIndex = bValue.toLowerCase().indexOf(lowerSearch);
+
+            return aIndex - bIndex;
+        });
+    };
+
     useEffect(() => {
         return () => {
             if (hoverTimeoutRef.current) {
@@ -111,11 +154,12 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     };
 
     const handleInputChange = (val: string) => {
-        if (val.length === 0 && commandList.current) {
-            setTimeout(() => {
-                commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
-            }, 50);
-        }
+        setSearchValue(val);
+        // if (val.length === 0 && commandList.current) {
+        //     setTimeout(() => {
+        //         commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+        //     }, 50);
+        // }
     };
 
     useEffect(() => {
@@ -124,6 +168,19 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (!open) {
+            setSearchValue("");
+        }
+    }, [open]);
+
+    let filteredVariants = getFilteredVariants();
+
+    if (!complexFiltering) {
+        filteredVariants = variants;
+    }
+
     if (disabled)
         return (
             <TooltipProvider>
@@ -227,12 +284,17 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0" onEscapeKeyDown={() => setOpen(false)}>
-                <Command filter={(value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)}>
+                <Command
+                    filter={
+                        complexFiltering
+                            ? customFilter
+                            : (value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)
+                    }>
                     <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
                     <CommandList ref={commandList}>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
-                            {variants.map(variant => {
+                            {filteredVariants.map(variant => {
                                 const newVariant = () => {
                                     if (typeof variantKey === "string") {
                                         return variant[variantKey];
