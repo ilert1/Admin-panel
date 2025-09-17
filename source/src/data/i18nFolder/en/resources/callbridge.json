@@ -20,7 +20,12 @@
             "disabled": "Active",
             "max_attempts": "Max attempts",
             "strategy": "Strategy",
+            "strategies": {
+                "exponential": "Exponential",
+                "fixed": "Fixed"
+            },
             "retryOn": "Retrying on status",
+            "backoff_multiplier": "Backoff multiplier",
             "retryStatusChange": "Edit retry status",
             "newStatus": "New status",
             "enterSepWithCommas": "Enter new statuses separated by commas",
@@ -37,6 +42,10 @@
             "blocked_ips": "Blocked IPs",
             "rate_limit": "Burst limit",
             "enforcement_mode": "Enforcement mode",
+            "enforcement_modes": {
+                "log": "Log",
+                "strict": "Strict"
+            },
             "updated_at": "Updated at",
             "delivery_policy": {
                 "name": "Delivery policy",

@@ -17,11 +17,16 @@
             "internal_path": "Внутренний путь",
             "retry_policy": "Политика повторов",
             "base_delay": "Базовая задержка",
+            "backoff_multiplier": "Множитель отката",
             "state": "Состояние",
             "active": "Активно",
             "disabled": "Выключено",
             "max_attempts": "Максимальное число попыток",
             "strategy": "Стратегия",
+            "strategies": {
+                "exponential": "Экспоненциальная",
+                "fixed": "Фиксированная"
+            },
             "retryOn": "Повторная попытка при статусах",
             "retryStatusChange": "Изменить статусы для повторов",
             "newStatus": "Новые статусы",
@@ -39,6 +44,10 @@
             "blocked_ips": "Запрещённые IP-адреса",
             "rate_limit": "Порог частоты запросов",
             "enforcement_mode": "Режим принудительного контроля",
+            "enforcement_modes": {
+                "log": "Лог",
+                "strict": "Строгий"
+            },
             "updated_at": "Дата обновления",
             "delivery_policy": {
                 "name": "Политика доставки",

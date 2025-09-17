@@ -136,19 +136,13 @@ export const MappingShow = (props: MappingShowProps) => {
         }
     };
 
-    console.log(record);
-
     const rate_limit = record.security_policy?.rate_limit;
 
     const base_delay = record.delivery_policy?.retry_policy?.base_delay;
     const max_attempts = record.delivery_policy?.retry_policy?.max_attempts;
 
     const controlsDisabled = !context.record && !!externalData;
-    // status_code?: number;
-    // /** HTTP headers */
-    // headers?: CallbackResponseHeaders;
-    // /** Response body */
-    // body?: CallbackResponseBody;
+
     return (
         <>
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
@@ -272,7 +266,10 @@ export const MappingShow = (props: MappingShowProps) => {
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.strategy")}
-                                        text={record.delivery_policy?.retry_policy?.strategy ?? ""}
+                                        text={translate(
+                                            "resources.callbridge.mapping.fields.strategies." +
+                                                record.delivery_policy?.retry_policy?.strategy
+                                        )}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.retryOn")}
@@ -339,7 +336,7 @@ export const MappingShow = (props: MappingShowProps) => {
                                         </Button>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-2">
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                                     <div>
                                         <TextField
                                             label={translate("resources.callbridge.mapping.fields.state")}
@@ -379,8 +376,15 @@ export const MappingShow = (props: MappingShowProps) => {
                                         text={rate_limit ? String(rate_limit) : ""}
                                     />
                                     <TextField
-                                        label={translate("resources.callbridge.mapping.fields.strategy")}
-                                        text={record.security_policy?.enforcement_mode ?? ""}
+                                        label={translate("resources.callbridge.mapping.fields.enforcement_mode")}
+                                        text={
+                                            record.security_policy?.enforcement_mode
+                                                ? translate(
+                                                      "resources.callbridge.mapping.fields.enforcement_modes." +
+                                                          record.security_policy?.enforcement_mode
+                                                  )
+                                                : ""
+                                        }
                                     />
                                 </div>
                                 <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
