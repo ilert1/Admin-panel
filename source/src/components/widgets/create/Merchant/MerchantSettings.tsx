@@ -17,7 +17,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import { MerchantsDataProvider } from "@/data";
 import { MerchantSettingsActivityButton } from "../../show/Merchant/MerchantSettingsActivityButton";
 import { LoadingBlock } from "@/components/ui/loading";
@@ -119,6 +119,20 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
             chance: uniquenessData?.uniqueness?.deposit?.chance ?? 0
         }
     });
+
+    const handleFileDrop = (e: DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (typeof reader.result === "string") {
+                    form.setValue("public_key", reader.result.replaceAll("\n", ""));
+                }
+            };
+            reader.readAsText(file);
+        }
+    };
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
         setSaveClicked(true);
@@ -373,27 +387,32 @@ export const MerchantSettings = (props: UniqunessCreateProps) => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div className="flex flex-col flex-wrap gap-4">
-                        <FormField
-                            control={form.control}
-                            name="public_key"
-                            render={({ field }) => {
-                                return (
-                                    <FormItem className="mb-4">
-                                        <Label>{translate("resources.merchant.settings.public_key")}</Label>
+                        <div className="mb-4 w-full" onDragOver={e => e.preventDefault()} onDrop={handleFileDrop}>
+                            <FormField
+                                control={form.control}
+                                name="public_key"
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem>
+                                            <Label>{translate("app.widgets.forms.userCreate.publicKey")}</Label>
 
-                                        <FormControl>
-                                            <Textarea
-                                                {...field}
-                                                value={field.value ?? ""}
-                                                spellCheck={false}
-                                                className="!mt-0 h-36 w-full resize-none overflow-auto rounded text-title-1 outline-none dark:bg-muted"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                );
-                            }}
-                        />
+                                            <FormControl>
+                                                <Textarea
+                                                    {...field}
+                                                    value={field.value ?? ""}
+                                                    placeholder={translate(
+                                                        "app.widgets.forms.userCreate.publicKeyPlaceholder"
+                                                    )}
+                                                    spellCheck={false}
+                                                    className="!mt-0 h-36 w-full resize-none overflow-auto rounded text-title-1 outline-none dark:bg-muted"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                        </div>
 
                         {/* <FormField
                             control={form.control}
