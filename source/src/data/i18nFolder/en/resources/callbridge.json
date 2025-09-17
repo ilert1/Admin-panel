@@ -124,7 +124,13 @@
             "retrying": "Retrying",
             "success": "Success",
             "error": "Error",
-            "sync": "Sync"
+            "sync": "Sync",
+            "security_rejected": "Security rejected",
+            "rpc_sent": "Rpc sent",
+            "rpc_completed": "Rpc completed",
+            "rpc_failed": "Rpc failed",
+            "rpc_timeout": "Rpc timeout",
+            "delivered": "Delivered"
         },
         "show": {
             "fields": {
