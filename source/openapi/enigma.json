@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "BlowFish - Enigma API Service",
-    "version": "develop"
+    "version": "local"
   },
   "paths": {
     "/health": {
@@ -10915,7 +10915,7 @@
             "default": true
           },
           "data": {
-            "$ref": "#/components/schemas/Provider",
+            "$ref": "#/components/schemas/source__schemas__provider__Provider",
             "description": "The actual response data if the request was successful"
           },
           "error": {
@@ -11457,11 +11457,101 @@
         ],
         "title": "Body_TerminalPaymentInstrumentEndpoints_import_terminal_payment_instruments_multi_csv_enigma_v1_terminal_payment_instruments_import_multi_csv_post"
       },
+      "CallbackConfig-Input": {
+        "properties": {
+          "adapter_nats_subject": {
+            "type": "string",
+            "title": "Adapter Nats Subject",
+            "description": "NATS subject for callback execution"
+          },
+          "callback_nats_queue": {
+            "type": "string",
+            "title": "Callback Nats Queue",
+            "description": "Task queue for callback processing"
+          },
+          "security_policy": {
+            "$ref": "#/components/schemas/SecurityPolicyConfig",
+            "description": "Security policy for callback endpoints"
+          },
+          "delivery_policy": {
+            "$ref": "#/components/schemas/DeliveryPolicy-Input",
+            "description": "Delivery policy for callback processing"
+          }
+        },
+        "type": "object",
+        "required": [
+          "adapter_nats_subject",
+          "callback_nats_queue"
+        ],
+        "title": "CallbackConfig"
+      },
+      "CallbackConfig-Output": {
+        "properties": {
+          "adapter_nats_subject": {
+            "type": "string",
+            "title": "Adapter Nats Subject",
+            "description": "NATS subject for callback execution"
+          },
+          "callback_nats_queue": {
+            "type": "string",
+            "title": "Callback Nats Queue",
+            "description": "Task queue for callback processing"
+          },
+          "security_policy": {
+            "$ref": "#/components/schemas/SecurityPolicyConfig",
+            "description": "Security policy for callback endpoints"
+          },
+          "delivery_policy": {
+            "$ref": "#/components/schemas/DeliveryPolicy-Output",
+            "description": "Delivery policy for callback processing"
+          }
+        },
+        "type": "object",
+        "required": [
+          "adapter_nats_subject",
+          "callback_nats_queue"
+        ],
+        "title": "CallbackConfig"
+      },
+      "CallbackResponse": {
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "maximum": 599.0,
+            "minimum": 100.0,
+            "title": "Status Code",
+            "description": "HTTP status code",
+            "default": 200
+          },
+          "headers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Headers",
+            "description": "HTTP headers"
+          },
+          "body": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body",
+            "description": "Response body"
+          }
+        },
+        "type": "object",
+        "title": "CallbackResponse"
+      },
       "CascadeCondition": {
         "properties": {
           "weight": {
             "type": "integer",
-            "minimum": 0,
+            "minimum": 0.0,
             "title": "Weight",
             "description": "Terminal weight for load balancing (0 for extra terminals)",
             "default": 1,
@@ -11486,7 +11576,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 1
+                "minimum": 1.0
               },
               {
                 "type": "null"
@@ -12437,8 +12527,8 @@
           },
           "accuracy": {
             "type": "integer",
-            "maximum": 16,
-            "minimum": 1,
+            "maximum": 16.0,
+            "minimum": 1.0,
             "title": "Accuracy",
             "description": "Accuracy of the currency (number of decimal places)",
             "default": 2,
@@ -12498,8 +12588,8 @@
           },
           "accuracy": {
             "type": "integer",
-            "maximum": 16,
-            "minimum": 1,
+            "maximum": 16.0,
+            "minimum": 1.0,
             "title": "Accuracy",
             "description": "Accuracy of the currency (number of decimal places)",
             "default": 2,
@@ -12510,6 +12600,61 @@
         },
         "type": "object",
         "title": "CurrencyUpdate"
+      },
+      "DeliveryPolicy-Input": {
+        "properties": {
+          "strategy": {
+            "$ref": "#/components/schemas/DeliveryStrategyEnum",
+            "description": "Delivery strategy",
+            "default": "ASYNC_ONLY"
+          },
+          "retry_policy": {
+            "$ref": "#/components/schemas/RetryPolicyConfig",
+            "description": "Retry policy"
+          },
+          "timeout_config": {
+            "$ref": "#/components/schemas/source__schemas__policies__TimeoutConfig",
+            "description": "Timeout configuration for different strategies"
+          },
+          "response_policy": {
+            "$ref": "#/components/schemas/ResponsePolicy",
+            "description": "Response policy from template or response"
+          }
+        },
+        "type": "object",
+        "title": "DeliveryPolicy"
+      },
+      "DeliveryPolicy-Output": {
+        "properties": {
+          "strategy": {
+            "$ref": "#/components/schemas/DeliveryStrategyEnum",
+            "description": "Delivery strategy",
+            "default": "ASYNC_ONLY"
+          },
+          "retry_policy": {
+            "$ref": "#/components/schemas/RetryPolicyConfig",
+            "description": "Retry policy"
+          },
+          "timeout_config": {
+            "$ref": "#/components/schemas/source__schemas__policies__TimeoutConfig",
+            "description": "Timeout configuration for different strategies"
+          },
+          "response_policy": {
+            "$ref": "#/components/schemas/ResponsePolicy",
+            "description": "Response policy from template or response"
+          }
+        },
+        "type": "object",
+        "title": "DeliveryPolicy"
+      },
+      "DeliveryStrategyEnum": {
+        "type": "string",
+        "enum": [
+          "ASYNC_ONLY",
+          "RPC_STRICT",
+          "RPC_WITH_FALLBACK"
+        ],
+        "title": "DeliveryStrategyEnum"
       },
       "Direction": {
         "properties": {
@@ -12620,7 +12765,7 @@
             "description": "Merchant ID associated with the direction"
           },
           "provider": {
-            "$ref": "#/components/schemas/Provider",
+            "$ref": "#/components/schemas/blowfish_protocol__schemas__provider__Provider",
             "description": "Provider name associated with the direction"
           },
           "terminal": {
@@ -12787,8 +12932,8 @@
           },
           "weight": {
             "type": "integer",
-            "maximum": 1000,
-            "minimum": 0,
+            "maximum": 1000.0,
+            "minimum": 0.0,
             "title": "Weight",
             "description": "Weight of the direction",
             "default": 0,
@@ -13589,7 +13734,7 @@
             ]
           },
           "timeouts": {
-            "$ref": "#/components/schemas/TimeoutConfig",
+            "$ref": "#/components/schemas/blowfish_protocol__schemas__provider__TimeoutConfig",
             "description": "Timeouts configuration, including execution and optional wait condition timeouts."
           },
           "retry_policy": {
@@ -13632,7 +13777,7 @@
             ]
           },
           "timeouts": {
-            "$ref": "#/components/schemas/TimeoutConfig",
+            "$ref": "#/components/schemas/blowfish_protocol__schemas__provider__TimeoutConfig",
             "description": "Timeouts configuration, including execution and optional wait condition timeouts."
           },
           "retry_policy": {
@@ -14638,7 +14783,7 @@
             "description": "Minimum limit value",
             "examples": [
               0,
-              10,
+              10.0,
               "100.50",
               {
                 "accuracy": 100,
@@ -14668,7 +14813,7 @@
             "description": "Maximum limit value",
             "examples": [
               10000,
-              50000,
+              50000.0,
               "100000.00",
               {
                 "accuracy": 100,
@@ -16215,7 +16360,7 @@
         "properties": {
           "items": {
             "items": {
-              "$ref": "#/components/schemas/Provider"
+              "$ref": "#/components/schemas/source__schemas__provider__Provider"
             },
             "type": "array",
             "title": "Items",
@@ -16729,7 +16874,7 @@
         "properties": {
           "rank": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 1.0,
             "title": "Rank",
             "description": "Priority rank of the cascade (1 = highest priority)",
             "examples": [
@@ -16745,165 +16890,10 @@
         ],
         "title": "PriorityPolicy"
       },
-      "Provider": {
-        "properties": {
-          "id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Id",
-            "description": "Provider ID",
-            "examples": [
-              "123e4567-e89b-12d3-a456-426614174000"
-            ]
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1,
-            "title": "Name",
-            "description": "Provider name",
-            "examples": [
-              "ProviderA"
-            ]
-          },
-          "fields_json_schema": {
-            "type": "string",
-            "title": "Fields Json Schema",
-            "description": "JSON schema for provider fields",
-            "examples": [
-              "string"
-            ]
-          },
-          "public_key": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Public Key",
-            "description": "The public key encoded in base58, corresponding to the private key.",
-            "examples": [
-              "GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"
-            ]
-          },
-          "methods": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/ExecutionMethod-Output"
-            },
-            "type": "object",
-            "title": "Methods",
-            "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
-            "examples": [
-              {
-                "get_trade_methods_payin": {
-                  "execution_name": "api_get_trade_methods",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s"
-                  },
-                  "type": "trade_methods_payin"
-                },
-                "get_trade_methods_payout": {
-                  "execution_name": "api_get_trade_methods_payout",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s"
-                  },
-                  "type": "trade_methods_payout"
-                },
-                "h2h_async": {
-                  "execution_name": "PayIn_h2h_async",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s"
-                  },
-                  "type": "withdraw"
-                },
-                "h2h_sync": {
-                  "execution_name": "PayIn_h2h_sync",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": [
-                      "ProviderError",
-                      "ValidationError"
-                    ]
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s",
-                    "wait_condition_timeout": "15s"
-                  },
-                  "type": "deposit"
-                },
-                "h2h_sync_out": {
-                  "execution_name": "PayOut_h2h",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": []
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s",
-                    "wait_condition_timeout": "15s"
-                  },
-                  "type": "transfer"
-                }
-              }
-            ]
-          },
-          "payment_types": {
-            "items": {
-              "$ref": "#/components/schemas/PaymentTypeBase"
-            },
-            "type": "array",
-            "title": "Payment Types",
-            "description": "List of payment types associated with this provider"
-          }
-        },
-        "type": "object",
-        "required": [
-          "name",
-          "fields_json_schema",
-          "methods"
-        ],
-        "title": "Provider"
-      },
       "ProviderAddKeypair": {
         "properties": {
           "provider": {
-            "$ref": "#/components/schemas/Provider",
+            "$ref": "#/components/schemas/source__schemas__provider__Provider",
             "description": "Detailed information about the provider"
           },
           "keypair": {
@@ -16980,10 +16970,10 @@
                 "get_trade_methods_payin": {
                   "execution_name": "api_get_trade_methods",
                   "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5
+                    "maximum_interval": 5.0
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16994,10 +16984,10 @@
                 "get_trade_methods_payout": {
                   "execution_name": "api_get_trade_methods_payout",
                   "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5
+                    "maximum_interval": 5.0
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -17008,8 +16998,8 @@
                 "h2h_async": {
                   "execution_name": "PayIn_h2h_async",
                   "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
                     "maximum_attempts": 1
                   },
                   "task_queue": "pay4u-workflows",
@@ -17021,10 +17011,10 @@
                 "h2h_sync": {
                   "execution_name": "PayIn_h2h_sync",
                   "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10,
+                    "maximum_interval": 10.0,
                     "non_retryable_error_types": [
                       "ProviderError",
                       "ValidationError"
@@ -17040,10 +17030,10 @@
                 "h2h_sync_out": {
                   "execution_name": "PayOut_h2h",
                   "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10,
+                    "maximum_interval": 10.0,
                     "non_retryable_error_types": []
                   },
                   "task_queue": "pay4u-workflows",
@@ -17096,87 +17086,7 @@
             },
             "type": "object",
             "title": "Methods",
-            "description": "Provider methods configuration",
-            "examples": [
-              {
-                "get_trade_methods_payin": {
-                  "execution_name": "api_get_trade_methods",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S"
-                  },
-                  "type": "trade_methods_payin"
-                },
-                "get_trade_methods_payout": {
-                  "execution_name": "api_get_trade_methods_payout",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S"
-                  },
-                  "type": "trade_methods_payout"
-                },
-                "h2h_async": {
-                  "execution_name": "PayIn_h2h_async",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S"
-                  },
-                  "type": "withdraw"
-                },
-                "h2h_sync": {
-                  "execution_name": "PayIn_h2h_sync",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": [
-                      "ProviderError",
-                      "ValidationError"
-                    ]
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S",
-                    "wait_condition_timeout": "PT15S"
-                  },
-                  "type": "deposit"
-                },
-                "h2h_sync_out": {
-                  "execution_name": "PayOut_h2h",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": []
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S",
-                    "wait_condition_timeout": "PT15S"
-                  },
-                  "type": "transfer"
-                }
-              }
-            ]
+            "description": "Provider methods configuration"
           },
           "payment_types": {
             "items": {
@@ -17192,6 +17102,10 @@
                 "sbp"
               ]
             ]
+          },
+          "settings": {
+            "$ref": "#/components/schemas/ProviderSettings-Input",
+            "description": "Provider configuration settings"
           }
         },
         "type": "object",
@@ -17199,6 +17113,40 @@
           "name"
         ],
         "title": "ProviderCreate"
+      },
+      "ProviderSettings-Input": {
+        "properties": {
+          "callback": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallbackConfig-Input"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Callback configuration for the provider"
+          }
+        },
+        "type": "object",
+        "title": "ProviderSettings"
+      },
+      "ProviderSettings-Output": {
+        "properties": {
+          "callback": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallbackConfig-Output"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Callback configuration for the provider"
+          }
+        },
+        "type": "object",
+        "title": "ProviderSettings"
       },
       "ProviderUpdate": {
         "properties": {
@@ -17230,87 +17178,7 @@
               }
             ],
             "title": "Methods",
-            "description": "Provider methods configuration",
-            "examples": [
-              {
-                "get_trade_methods_payin": {
-                  "execution_name": "api_get_trade_methods",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S"
-                  },
-                  "type": "trade_methods_payin"
-                },
-                "get_trade_methods_payout": {
-                  "execution_name": "api_get_trade_methods_payout",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S"
-                  },
-                  "type": "trade_methods_payout"
-                },
-                "h2h_async": {
-                  "execution_name": "PayIn_h2h_async",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S"
-                  },
-                  "type": "withdraw"
-                },
-                "h2h_sync": {
-                  "execution_name": "PayIn_h2h_sync",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": [
-                      "ProviderError",
-                      "ValidationError"
-                    ]
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S",
-                    "wait_condition_timeout": "PT15S"
-                  },
-                  "type": "deposit"
-                },
-                "h2h_sync_out": {
-                  "execution_name": "PayOut_h2h",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": []
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "PT15S",
-                    "wait_condition_timeout": "PT15S"
-                  },
-                  "type": "transfer"
-                }
-              }
-            ]
+            "description": "Provider methods configuration"
           },
           "payment_types": {
             "anyOf": [
@@ -17333,6 +17201,17 @@
                 "sbp"
               ]
             ]
+          },
+          "settings": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderSettings-Input"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Provider configuration settings"
           }
         },
         "type": "object",
@@ -17342,7 +17221,7 @@
         "properties": {
           "quantity": {
             "type": "integer",
-            "minimum": 0,
+            "minimum": 0.0,
             "title": "Quantity",
             "description": "The quantity part of the rate value. It represents the numeric value without the decimal separator. For example, '12.34' is stored as 1234.",
             "default": 0,
@@ -17352,7 +17231,7 @@
           },
           "accuracy": {
             "type": "integer",
-            "minimum": 0,
+            "minimum": 0.0,
             "title": "Accuracy",
             "description": "The accuracy factor for the rate value. It must be a power of 10 (e.g., 1, 10, 100, 1000) corresponding to the number of decimal places.",
             "default": 1,
@@ -17419,24 +17298,54 @@
         "type": "object",
         "title": "RequiredFieldsForPayment"
       },
+      "ResponsePolicy": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ResponsePolicyTypeEnum",
+            "description": "Response type",
+            "default": "FROM_RESPONSE"
+          },
+          "template": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CallbackResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Response template"
+          }
+        },
+        "type": "object",
+        "title": "ResponsePolicy"
+      },
+      "ResponsePolicyTypeEnum": {
+        "type": "string",
+        "enum": [
+          "FROM_TEMPLATE",
+          "FROM_RESPONSE"
+        ],
+        "title": "ResponsePolicyTypeEnum"
+      },
       "RetryPolicy": {
         "properties": {
           "initial_interval": {
             "type": "number",
             "title": "Initial Interval",
             "description": "Initial interval between attempts, in seconds.",
-            "default": 1,
+            "default": 1.0,
             "examples": [
-              1
+              1.0
             ]
           },
           "backoff_coefficient": {
             "type": "number",
             "title": "Backoff Coefficient",
             "description": "Exponential backoff coefficient for retry interval.",
-            "default": 2,
+            "default": 2.0,
             "examples": [
-              2
+              2.0
             ]
           },
           "maximum_interval": {
@@ -17451,12 +17360,12 @@
             "title": "Maximum Interval",
             "description": "Maximum interval between attempts, in seconds. If None, unlimited.",
             "examples": [
-              10
+              10.0
             ]
           },
           "maximum_attempts": {
             "type": "integer",
-            "exclusiveMinimum": 0,
+            "exclusiveMinimum": 0.0,
             "title": "Maximum Attempts",
             "description": "Maximum number of attempts. 1 means no retries (only one attempt).",
             "default": 1,
@@ -17487,6 +17396,157 @@
         },
         "type": "object",
         "title": "RetryPolicy"
+      },
+      "RetryPolicyConfig": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "description": "Enable retries for this mapping",
+            "default": true,
+            "examples": [
+              true
+            ]
+          },
+          "max_attempts": {
+            "type": "integer",
+            "title": "Max Attempts",
+            "description": "Maximum number of retry attempts",
+            "default": 5,
+            "examples": [
+              3
+            ]
+          },
+          "base_delay": {
+            "type": "integer",
+            "title": "Base Delay",
+            "description": "Base delay (in seconds) between retries",
+            "default": 10,
+            "examples": [
+              30
+            ]
+          },
+          "retry_on_status": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Retry On Status",
+            "description": "List of HTTP status codes that should trigger a retry. Empty list disables retry based on status code.",
+            "examples": [
+              [
+                400,
+                500
+              ]
+            ]
+          },
+          "strategy": {
+            "$ref": "#/components/schemas/RetryStrategy",
+            "description": "Backoff strategy to use",
+            "default": "exponential",
+            "examples": [
+              "fixed"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "RetryPolicyConfig"
+      },
+      "RetryStrategy": {
+        "type": "string",
+        "enum": [
+          "fixed",
+          "exponential"
+        ],
+        "title": "RetryStrategy"
+      },
+      "SecurityPolicyConfig": {
+        "properties": {
+          "allowed_ips": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "ipvanyaddress"
+                },
+                {
+                  "type": "string",
+                  "format": "ipvanynetwork"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Allowed Ips",
+            "description": "List of allowed IPs or networks (CIDR) that can access the route",
+            "examples": [
+              [
+                "192.168.1.10",
+                "10.0.0.0/24"
+              ]
+            ]
+          },
+          "blocked_ips": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "ipvanyaddress"
+                },
+                {
+                  "type": "string",
+                  "format": "ipvanynetwork"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Blocked Ips",
+            "description": "IPs or networks to explicitly deny (takes precedence over allowed)",
+            "examples": [
+              [
+                "0.0.0.0/0"
+              ]
+            ]
+          },
+          "rate_limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate Limit",
+            "description": "Maximum number of requests per minute per source IP",
+            "examples": [
+              100
+            ]
+          },
+          "blocked": {
+            "type": "boolean",
+            "title": "Blocked",
+            "description": "Entire route is blocked and should not process any callbacks",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "enforcement_mode": {
+            "type": "string",
+            "enum": [
+              "log",
+              "strict"
+            ],
+            "title": "Enforcement Mode",
+            "description": "Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them",
+            "default": "strict",
+            "examples": [
+              "strict"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "SecurityPolicyConfig"
       },
       "Status": {
         "type": "string",
@@ -17707,7 +17767,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 0
+                "minimum": 0.0
               },
               {
                 "type": "null"
@@ -17725,7 +17785,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 0
+                "minimum": 0.0
               },
               {
                 "type": "null"
@@ -18026,8 +18086,8 @@
           },
           "allocation_timeout_seconds": {
             "type": "integer",
-            "maximum": 120,
-            "minimum": 0,
+            "maximum": 120.0,
+            "minimum": 0.0,
             "title": "Allocation Timeout Seconds",
             "description": "Timeout for allocation in seconds (0 to 120)",
             "default": 2,
@@ -19069,8 +19129,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 120,
-                "minimum": 0
+                "maximum": 120.0,
+                "minimum": 0.0
               },
               {
                 "type": "null"
@@ -19212,32 +19272,6 @@
         ],
         "title": "TerminalUpdateAuth"
       },
-      "TimeoutConfig": {
-        "properties": {
-          "start_to_close_timeout": {
-            "type": "string",
-            "format": "duration",
-            "title": "Start To Close Timeout",
-            "description": "Maximum execution time for the activity.",
-            "default": "PT15S",
-            "examples": [
-              "PT15S"
-            ]
-          },
-          "wait_condition_timeout": {
-            "type": "string",
-            "format": "duration",
-            "title": "Wait Condition Timeout",
-            "description": "Maximum wait time for an external condition, if applicable.",
-            "default": "PT15S",
-            "examples": [
-              "PT15S"
-            ]
-          }
-        },
-        "type": "object",
-        "title": "TimeoutConfig"
-      },
       "TimeoutSettings": {
         "properties": {
           "ttl": {
@@ -19290,6 +19324,288 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "blowfish_protocol__schemas__provider__Provider": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "Provider ID",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Provider name",
+            "examples": [
+              "ProviderA"
+            ]
+          },
+          "fields_json_schema": {
+            "type": "string",
+            "title": "Fields Json Schema",
+            "description": "JSON schema for provider fields",
+            "examples": [
+              "string"
+            ]
+          },
+          "public_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Key",
+            "description": "The public key encoded in base58, corresponding to the private key.",
+            "examples": [
+              "GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"
+            ]
+          },
+          "methods": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ExecutionMethod-Output"
+            },
+            "type": "object",
+            "title": "Methods",
+            "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
+            "examples": [
+              {
+                "get_trade_methods_payin": {
+                  "execution_name": "api_get_trade_methods",
+                  "retry_policy": {
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 5.0
+                  },
+                  "task_queue": "pay4u-activities",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s"
+                  },
+                  "type": "trade_methods_payin"
+                },
+                "get_trade_methods_payout": {
+                  "execution_name": "api_get_trade_methods_payout",
+                  "retry_policy": {
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 5.0
+                  },
+                  "task_queue": "pay4u-activities",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s"
+                  },
+                  "type": "trade_methods_payout"
+                },
+                "h2h_async": {
+                  "execution_name": "PayIn_h2h_async",
+                  "retry_policy": {
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
+                    "maximum_attempts": 1
+                  },
+                  "task_queue": "pay4u-workflows",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s"
+                  },
+                  "type": "withdraw"
+                },
+                "h2h_sync": {
+                  "execution_name": "PayIn_h2h_sync",
+                  "retry_policy": {
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 10.0,
+                    "non_retryable_error_types": [
+                      "ProviderError",
+                      "ValidationError"
+                    ]
+                  },
+                  "task_queue": "pay4u-workflows",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s",
+                    "wait_condition_timeout": "15s"
+                  },
+                  "type": "deposit"
+                },
+                "h2h_sync_out": {
+                  "execution_name": "PayOut_h2h",
+                  "retry_policy": {
+                    "backoff_coefficient": 2.0,
+                    "initial_interval": 1.0,
+                    "maximum_attempts": 1,
+                    "maximum_interval": 10.0,
+                    "non_retryable_error_types": []
+                  },
+                  "task_queue": "pay4u-workflows",
+                  "timeouts": {
+                    "start_to_close_timeout": "15s",
+                    "wait_condition_timeout": "15s"
+                  },
+                  "type": "transfer"
+                }
+              }
+            ]
+          },
+          "payment_types": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentTypeBase"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "List of payment types associated with this provider"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "fields_json_schema",
+          "methods"
+        ],
+        "title": "Provider"
+      },
+      "blowfish_protocol__schemas__provider__TimeoutConfig": {
+        "properties": {
+          "start_to_close_timeout": {
+            "type": "string",
+            "format": "duration",
+            "title": "Start To Close Timeout",
+            "description": "Maximum execution time for the activity.",
+            "default": "PT15S",
+            "examples": [
+              "PT15S"
+            ]
+          },
+          "wait_condition_timeout": {
+            "type": "string",
+            "format": "duration",
+            "title": "Wait Condition Timeout",
+            "description": "Maximum wait time for an external condition, if applicable.",
+            "default": "PT15S",
+            "examples": [
+              "PT15S"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "TimeoutConfig"
+      },
+      "source__schemas__policies__TimeoutConfig": {
+        "properties": {
+          "rpc_timeout": {
+            "type": "number",
+            "maximum": 600.0,
+            "minimum": 1.0,
+            "title": "Rpc Timeout",
+            "description": "RPC timeout in seconds",
+            "default": 180.0
+          },
+          "async_timeout": {
+            "type": "number",
+            "maximum": 3600.0,
+            "minimum": 1.0,
+            "title": "Async Timeout",
+            "description": "Async timeout in seconds",
+            "default": 300.0
+          }
+        },
+        "type": "object",
+        "title": "TimeoutConfig"
+      },
+      "source__schemas__provider__Provider": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "Provider ID",
+            "examples": [
+              "123e4567-e89b-12d3-a456-426614174000"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name",
+            "description": "Provider name",
+            "examples": [
+              "ProviderA"
+            ]
+          },
+          "fields_json_schema": {
+            "type": "string",
+            "title": "Fields Json Schema",
+            "description": "JSON schema for provider fields",
+            "examples": [
+              "string"
+            ]
+          },
+          "public_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Key",
+            "description": "The public key encoded in base58, corresponding to the private key.",
+            "examples": [
+              "GfH2hQvQmHzo1Lj6j6Wnq3X6dFiD1kLQ6Jz37vZ5p9np"
+            ]
+          },
+          "methods": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ExecutionMethod-Output"
+            },
+            "type": "object",
+            "title": "Methods",
+            "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases."
+          },
+          "settings": {
+            "$ref": "#/components/schemas/ProviderSettings-Output",
+            "description": "Provider configuration settings"
+          },
+          "payment_types": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentTypeBase"
+            },
+            "type": "array",
+            "title": "Payment Types",
+            "description": "List of payment types associated with this provider"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "fields_json_schema",
+          "methods"
+        ],
+        "title": "Provider"
       }
     }
   }
