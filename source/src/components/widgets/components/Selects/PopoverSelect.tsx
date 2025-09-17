@@ -62,7 +62,7 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     } = props;
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
-    // const [searchValue, setSearchValue] = useState("");
+    const [searchValue, setSearchValue] = useState("");
 
     const commandList = useRef<HTMLDivElement>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
