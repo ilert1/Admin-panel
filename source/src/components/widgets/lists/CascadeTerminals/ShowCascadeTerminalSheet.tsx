@@ -2,6 +2,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 import { CascadeTerminalShow } from "../../show/CascadeTerminal";
+import CascadeTerminals from "@/lib/icons/CascadeTerminals";
 
 export interface ShowCascadeTerminalSheetProps {
     id?: string;
@@ -21,7 +22,8 @@ export const ShowCascadeTerminalSheet = ({ id = "", open, onOpenChange = () => {
                 <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div>
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">
+                            <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
+                                <CascadeTerminals />
                                 {translate("resources.cascadeSettings.cascadeTerminals.cascadeTerminal")}
                             </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
