@@ -7,3 +7,4 @@ export { useMerchantsListWithoutPagination } from "./useMerchantsListWithoutPagi
 export { useProvidersListWithoutPagination } from "./useProvidersListWithoutPagination";
 export { useTerminalsListWithoutPagination } from "./useTerminalsListWithoutPagination";
 export { useCurrenciesListWithoutPagination } from "./useCurrenciesListWithoutPagination";
+export { useCountryCodes } from "./useCountryCodes";

@@ -10,13 +10,14 @@ import { DirectionActivityBtn } from "./DirectionActivityBtn";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { Badge } from "@/components/ui/badge";
 import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
     const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
@@ -92,9 +93,9 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                const dst_country = countryCodes.find(item => item.alpha2 === row.original.dst_country_code);
+                const dst_country = countryCodesWithFlag.find(item => item.alpha2 === row.original.dst_country_code);
 
-                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
+                return <CountryTextField text={dst_country?.name || ""} />;
             }
         },
         {

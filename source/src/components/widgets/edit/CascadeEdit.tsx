@@ -16,7 +16,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { usePreventFocus } from "@/hooks";
+import { useCountryCodes, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +26,7 @@ import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 import { CascadeUpdateParams } from "@/data/cascades";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { countryCodes, CountrySelect } from "../components/Selects/CountrySelect";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface CascadeEditProps {
     id: string;
@@ -60,6 +60,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
 
     const translate = useTranslate();
     const refresh = useRefresh();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.cascadeSettings.cascades.errors.name")).trim(),
@@ -116,7 +117,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
             };
 
             setCurrentCountryCodeName(
-                countryCodes.find(code => code.alpha2 === cascadeData.dst_country_code)?.name || ""
+                countryCodesWithFlag.find(code => code.alpha2 === cascadeData.dst_country_code)?.name || ""
             );
 
             form.reset(updatedValues);

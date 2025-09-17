@@ -10,9 +10,9 @@ import { useState } from "react";
 import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetCascadeShowColumns = ({
     isFetchingCascadeTerminalsData
@@ -24,6 +24,7 @@ export const useGetCascadeShowColumns = ({
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [showCascadeTerminalDeleteDialog, setShowCascadeTerminalDeleteDialog] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
@@ -139,9 +140,11 @@ export const useGetCascadeShowColumns = ({
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                const dst_country = countryCodes.find(item => item.alpha2 === row.original.terminal.dst_country_code);
+                const dst_country = countryCodesWithFlag.find(
+                    item => item.alpha2 === row.original.terminal.dst_country_code
+                );
 
-                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
+                return <CountryTextField text={dst_country?.name || ""} />;
             }
         },
         {

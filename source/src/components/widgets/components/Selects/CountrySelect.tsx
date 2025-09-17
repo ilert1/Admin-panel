@@ -1,21 +1,6 @@
+import { useCountryCodes } from "@/hooks";
 import { IPopoverSelect, PopoverSelect } from "./PopoverSelect";
 import { useTranslate } from "react-admin";
-import { all as AllCountryCodes } from "iso-3166-1";
-import { Country } from "iso-3166-1/dist/iso-3166";
-import { useMemo } from "react";
-import { hasFlag } from "country-flag-icons";
-import getUnicodeFlagIcon from "country-flag-icons/unicode";
-
-export const countryCodes: (Country & { name: string })[] = [
-    {
-        name: "AB - Abhazia",
-        country: "Abhazia",
-        alpha2: "AB",
-        alpha3: "ABH",
-        numeric: "895"
-    },
-    ...AllCountryCodes().map(code => ({ ...code, name: `${code.alpha2} - ${code.country}` }))
-];
 
 export const CountrySelect = ({
     value,
@@ -30,25 +15,11 @@ export const CountrySelect = ({
     isLoading
 }: IPopoverSelect) => {
     const translate = useTranslate();
-
-    const countryCodesWithFlags = useMemo(() => {
-        const renderName = (code: Country & { name: string }) => {
-            if (hasFlag(code.alpha2)) {
-                return `${getUnicodeFlagIcon(code.alpha2)} ${code.alpha2} - ${code.country}`;
-            }
-
-            return `${code.alpha2} - ${code.country}`;
-        };
-
-        return countryCodes.map(code => ({
-            ...code,
-            name: renderName(code)
-        }));
-    }, []);
+    const { countryCodesWithFlag } = useCountryCodes();
 
     return (
         <PopoverSelect
-            variants={countryCodesWithFlags}
+            variants={countryCodesWithFlag}
             value={value}
             onChange={onChange}
             variantKey="name"
