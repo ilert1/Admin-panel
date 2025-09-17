@@ -90,7 +90,7 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
-                                openSheet("cascade", {
+                                openSheet("terminal", {
                                     id: row.original.terminal_id
                                 });
                             }}>
