@@ -13,8 +13,8 @@ import { FinancialInstitutionProvider, FinancialInstitutionWithId } from "@/data
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Badge } from "@/components/ui/badge";
 import { BankIcon } from "@/components/ui/BankIcon";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetFinancialInstitutionColumns = ({
     listContext
@@ -26,6 +26,7 @@ export const useGetFinancialInstitutionColumns = ({
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
@@ -276,9 +277,9 @@ export const useGetFinancialInstitutionColumns = ({
                 />
             ),
             cell: ({ row }) => {
-                const country_code = countryCodes.find(item => item.alpha2 === row.original.country_code);
+                const country_code = countryCodesWithFlag.find(item => item.alpha2 === row.original.country_code);
 
-                return <CountryTextField text={country_code?.name || ""} countryCode={country_code?.alpha2} />;
+                return <CountryTextField text={country_code?.name || ""} />;
             }
         },
         {

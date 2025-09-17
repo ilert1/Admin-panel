@@ -16,7 +16,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
+import { useCountryCodes, useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { Direction } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
@@ -30,7 +30,7 @@ import { CurrencySelect } from "../components/Selects/CurrencySelect";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { TooltipPortal } from "@radix-ui/react-tooltip";
 import clsx from "clsx";
-import { countryCodes, CountrySelect } from "../components/Selects/CountrySelect";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface DirectionEditProps {
     id?: string;
@@ -63,6 +63,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
 
     const translate = useTranslate();
     const refresh = useRefresh();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const { directionTypes } = useGetDirectionTypes();
 
@@ -159,7 +160,7 @@ export const DirectionEdit = ({ id, onOpenChange }: DirectionEditProps) => {
             };
 
             setCurrentCountryCodeName(
-                countryCodes.find(code => code.alpha2 === direction.dst_country_code)?.name || ""
+                countryCodesWithFlag.find(code => code.alpha2 === direction.dst_country_code)?.name || ""
             );
 
             form.reset(updatedValues);

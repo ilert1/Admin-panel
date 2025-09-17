@@ -2,20 +2,22 @@ import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
-import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { useCountryCodes, useCurrenciesListWithoutPagination } from "@/hooks";
 import { debounce } from "lodash";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useListContext, useRefresh, useTranslate } from "react-admin";
 
 const useFinancialInstitutionsListFilter = () => {
     const translate = useTranslate();
     const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
-
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const { countryCodesWithFlag } = useCountryCodes();
+
     const [name, setName] = useState(filterValues?.name || "");
     const [code, setCode] = useState(filterValues?.code || "");
     const [institutionType, setInstitutionType] = useState(filterValues?.institution_type || "");
     const [countryCode, setCountryCode] = useState(filterValues?.country_code || "");
+    const [countryCodeName, setCountryCodeName] = useState("");
     const [nspkMemberId, setNspkMemberId] = useState(filterValues?.nspk_member_id || "");
     const [currencyCodes, setCurrencyCodes] = useState<string[]>(filterValues?.currencies?.split("|") || []);
     const [reportLoading, setReportLoading] = useState(false);
@@ -23,6 +25,15 @@ const useFinancialInstitutionsListFilter = () => {
     const appToast = useAppToast();
     const refresh = useRefresh();
     const dataProvider = new FinancialInstitutionProvider();
+
+    useEffect(() => {
+        if (countryCodesWithFlag && filterValues?.country_code) {
+            setCountryCodeName(
+                countryCodesWithFlag?.find(code => code.alpha2 === filterValues.country_code)?.name || ""
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onPropertySelected = debounce(
         (
@@ -54,8 +65,7 @@ const useFinancialInstitutionsListFilter = () => {
         setInstitutionType(value);
         onPropertySelected(value, "institution_type");
     };
-    const onCountryCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
+    const onCountryCodeChanged = (value: string) => {
         setCountryCode(value);
         onPropertySelected(value, "country_code");
     };
@@ -77,6 +87,7 @@ const useFinancialInstitutionsListFilter = () => {
         setCode("");
         setInstitutionType("");
         setCountryCode("");
+        setCountryCodeName("");
         setNspkMemberId("");
         setCurrencyCodes([]);
     };
@@ -162,12 +173,14 @@ const useFinancialInstitutionsListFilter = () => {
         name,
         code,
         institutionType,
+        countryCodeName,
         countryCode,
         nspkMemberId,
         currencyCodes,
         currenciesData,
         currenciesLoadingProcess,
         reportLoading,
+        setCountryCodeName,
         onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,

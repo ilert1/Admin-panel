@@ -11,8 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { EditCascadeMerchantDialog } from "./EditCascadeMerchantDialog";
 import { DeleteCascadeMerchantDialog } from "./DeleteCascadeMerchantDialog";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export interface CascadeMerchantShowProps {
     id: string;
@@ -27,6 +27,7 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
     const { openSheet } = useSheets();
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -37,7 +38,9 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
         return <Loading />;
     }
     const pt = cascadeMerchantData?.cascade.payment_types;
-    const cascade_dst_country = countryCodes.find(item => item.alpha2 === context.record?.cascade.dst_country_code);
+    const cascade_dst_country = countryCodesWithFlag.find(
+        item => item.alpha2 === context.record?.cascade.dst_country_code
+    );
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -138,7 +141,6 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                     <CountryTextField
                         text={cascade_dst_country?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
-                        countryCode={cascade_dst_country?.alpha2}
                     />
 
                     <div>

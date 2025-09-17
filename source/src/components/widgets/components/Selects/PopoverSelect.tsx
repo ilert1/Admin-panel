@@ -23,7 +23,7 @@ export interface IPopoverSelect {
     modal?: boolean;
     isLoading?: boolean;
     idFieldValue?: string;
-    complexFiltering?: boolean;
+    // complexFiltering?: boolean;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -57,8 +57,8 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         isLoading = false,
         onChange,
         setIdValue,
-        idFieldValue,
-        complexFiltering = false
+        idFieldValue
+        // complexFiltering = false
     } = props;
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
@@ -101,45 +101,45 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         setOpen(false);
     };
 
-    const customFilter = (value: string, search: string) => {
-        if (!search) return 1;
+    // const customFilter = (value: string, search: string) => {
+    //     if (!search) return 1;
 
-        const lowerValue = value.toLowerCase();
-        const lowerSearch = search.toLowerCase();
-        const index = lowerValue.indexOf(lowerSearch);
+    //     const lowerValue = value.toLowerCase();
+    //     const lowerSearch = search.toLowerCase();
+    //     const index = lowerValue.indexOf(lowerSearch);
 
-        return index === -1 ? 0 : 1;
-    };
+    //     return index === -1 ? 0 : 1;
+    // };
 
-    const getFilteredVariants = () => {
-        if (!searchValue) return variants;
+    // const getFilteredVariants = () => {
+    //     if (!searchValue) return variants;
 
-        const lowerSearch = searchValue.toLowerCase();
+    //     const lowerSearch = searchValue.toLowerCase();
 
-        const filteredVariants = variants.filter(variant => {
-            const variantValue = typeof variantKey === "string" ? variant[variantKey] : variantKey(variant);
-            const searchText = variantTitleKey ? variant[variantTitleKey] : variantValue;
-            return searchText.toLowerCase().includes(lowerSearch);
-        });
+    //     const filteredVariants = variants.filter(variant => {
+    //         const variantValue = typeof variantKey === "string" ? variant[variantKey] : variantKey(variant);
+    //         const searchText = variantTitleKey ? variant[variantTitleKey] : variantValue;
+    //         return searchText.toLowerCase().includes(lowerSearch);
+    //     });
 
-        return filteredVariants.sort((a, b) => {
-            const aValue = variantTitleKey
-                ? a[variantTitleKey]
-                : typeof variantKey === "string"
-                  ? a[variantKey]
-                  : variantKey(a);
-            const bValue = variantTitleKey
-                ? b[variantTitleKey]
-                : typeof variantKey === "string"
-                  ? b[variantKey]
-                  : variantKey(b);
+    //     return filteredVariants.sort((a, b) => {
+    //         const aValue = variantTitleKey
+    //             ? a[variantTitleKey]
+    //             : typeof variantKey === "string"
+    //               ? a[variantKey]
+    //               : variantKey(a);
+    //         const bValue = variantTitleKey
+    //             ? b[variantTitleKey]
+    //             : typeof variantKey === "string"
+    //               ? b[variantKey]
+    //               : variantKey(b);
 
-            const aIndex = aValue.toLowerCase().indexOf(lowerSearch);
-            const bIndex = bValue.toLowerCase().indexOf(lowerSearch);
+    //         const aIndex = aValue.toLowerCase().indexOf(lowerSearch);
+    //         const bIndex = bValue.toLowerCase().indexOf(lowerSearch);
 
-            return aIndex - bIndex;
-        });
-    };
+    //         return aIndex - bIndex;
+    //     });
+    // };
 
     useEffect(() => {
         return () => {
@@ -155,11 +155,11 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
 
     const handleInputChange = (val: string) => {
         setSearchValue(val);
-        // if (val.length === 0 && commandList.current) {
-        //     setTimeout(() => {
-        //         commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
-        //     }, 50);
-        // }
+        if (val.length === 0 && commandList.current) {
+            setTimeout(() => {
+                commandList.current?.querySelector("[cmdk-item]")?.scrollIntoView({ block: "nearest" });
+            }, 50);
+        }
     };
 
     useEffect(() => {
@@ -175,11 +175,11 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         }
     }, [open]);
 
-    let filteredVariants = getFilteredVariants();
+    // let filteredVariants = getFilteredVariants();
 
-    if (!complexFiltering) {
-        filteredVariants = variants;
-    }
+    // if (!complexFiltering) {
+    //     filteredVariants = variants;
+    // }
 
     if (disabled)
         return (
@@ -286,15 +286,16 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
             <PopoverContent className="w-[--radix-popover-trigger-width] p-0" onEscapeKeyDown={() => setOpen(false)}>
                 <Command
                     filter={
-                        complexFiltering
-                            ? customFilter
-                            : (value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)
+                        (value, search) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : 0)
+                        // complexFiltering
+                        //     ? customFilter
+                        //     :
                     }>
                     <CommandInput onValueChange={handleInputChange} placeholder={commandPlaceholder} />
                     <CommandList ref={commandList}>
                         <CommandEmpty>{notFoundMessage}</CommandEmpty>
                         <CommandGroup>
-                            {filteredVariants.map(variant => {
+                            {variants.map(variant => {
                                 const newVariant = () => {
                                     if (typeof variantKey === "string") {
                                         return variant[variantKey];

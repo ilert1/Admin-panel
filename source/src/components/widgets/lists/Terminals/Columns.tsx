@@ -10,10 +10,10 @@ import { ListControllerResult, useRefresh, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost } from "@/api/enigma/terminal/terminal";
 import { Badge } from "@/components/ui/badge";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { ColumnSortingButton, SortingState } from "../../shared";
 import { StateViewer } from "@/components/ui/StateViewer";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export type MerchantTypeToShow = "fees" | "directions" | undefined;
 
@@ -22,6 +22,7 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
     const refresh = useRefresh();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [sort, setSort] = useState<SortingState>({
         field: listContext.sort.field || "",
@@ -90,7 +91,7 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
                         <Button
                             variant={"resourceLink"}
                             onClick={() => {
-                                openSheet("cascade", {
+                                openSheet("terminal", {
                                     id: row.original.terminal_id
                                 });
                             }}>
@@ -204,9 +205,9 @@ export const useGetTerminalColumns = ({ listContext }: { listContext: ListContro
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                const dst_country = countryCodes.find(item => item.alpha2 === row.original.dst_country_code);
+                const dst_country = countryCodesWithFlag.find(item => item.alpha2 === row.original.dst_country_code);
 
-                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
+                return <CountryTextField text={dst_country?.name || ""} />;
             }
         },
         {

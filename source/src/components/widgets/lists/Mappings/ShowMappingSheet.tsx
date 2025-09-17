@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { XIcon } from "lucide-react";
+import { TableProperties, XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { MappingShow } from "../../show/Mapping/MappingShow";
 import { CallbackHistoryReadMapping, CallbackMappingRead } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
@@ -22,7 +22,8 @@ export const ShowMappingSheet = ({ id, open, onOpenChange, externalData }: ShowM
                     close={false}>
                     <div className="flex-shrink-0 p-4 !pb-[0px] md:p-[42px]">
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">
+                            <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
+                                <TableProperties className="text-neutral-90 dark:text-neutral-30" />
                                 {translate("resources.callbridge.mapping.mapping")}
                             </SheetTitle>
 

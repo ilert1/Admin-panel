@@ -2,6 +2,7 @@ import { useTranslate } from "react-admin";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { WalletLinkedTransactionShow } from "../../show/WalletLinkedTransactions";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
+import { WalletLinkedTransactionsIcon } from "@/lib/icons/WalletStore";
 
 interface WalletLinkedTransactionShowProps {
     id: string;
@@ -21,7 +22,8 @@ export const ShowWalletLinkedTransactionsSheet = ({ id, open, onOpenChange }: Wa
                 <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div>
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">
+                            <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
+                                <WalletLinkedTransactionsIcon />
                                 {translate("resources.wallet.linkedTransactions.show")}
                             </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />

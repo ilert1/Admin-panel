@@ -14,6 +14,7 @@ import { ExportPSReportDialog } from "../PaymentTypes/ExportPSReportDialog";
 import { useListContext } from "react-admin";
 import { LoadingBlock } from "@/components/ui/loading";
 import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
+import { CountrySelect } from "../../components/Selects/CountrySelect";
 
 interface FinancialInstitutionsListFilterProps {
     handleCreateClicked: () => void;
@@ -27,12 +28,14 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
         name,
         code,
         institutionType,
+        countryCodeName,
         countryCode,
         nspkMemberId,
         currencyCodes,
         currenciesData,
         currenciesLoadingProcess,
         reportLoading,
+        setCountryCodeName,
         onCodeChanged,
         onInstitutionTypeChanged,
         onCountryCodeChanged,
@@ -112,15 +115,16 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                         />
                     </div>
 
-                    <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
-                        <Input
-                            label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
-                            labelSize="title-2"
-                            value={countryCode}
-                            onChange={onCountryCodeChanged}
-                            placeholder={translate(
-                                "resources.paymentSettings.financialInstitution.fields.country_code"
-                            )}
+                    <div className="flex min-w-36 flex-1 flex-col">
+                        <Label variant={"title-2"}>
+                            {translate("resources.paymentSettings.financialInstitution.fields.country_code")}
+                        </Label>
+
+                        <CountrySelect
+                            style="Black"
+                            value={countryCodeName}
+                            onChange={setCountryCodeName}
+                            setIdValue={onCountryCodeChanged}
                         />
                     </div>
 

@@ -17,9 +17,9 @@ import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { Badge } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { StateViewer } from "@/components/ui/StateViewer";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 interface TerminalShowProps {
     id: string;
@@ -33,6 +33,8 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const translate = useTranslate();
+    const { countryCodesWithFlag } = useCountryCodes();
+
     const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
     const [generateCallbackDialogOpen, setGenerateCallbackDialogOpen] = useState(false);
 
@@ -41,7 +43,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     }
     const src_cur = context.record.src_currency?.code;
     const dst_cur = context.record.dst_currency?.code;
-    const dst_country = countryCodes.find(item => item.alpha2 === context.record?.dst_country_code);
+    const dst_country = countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <>
@@ -87,7 +89,8 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
 
                         <TextField
                             text={
-                                countryCodes.find(item => item.alpha2 === context.record?.dst_country_code)?.name || ""
+                                countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code)
+                                    ?.name || ""
                             }
                             label={translate("resources.direction.destinationCountry")}
                         />
@@ -111,7 +114,6 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         <CountryTextField
                             text={dst_country?.name || ""}
                             label={translate("resources.direction.destinationCountry")}
-                            countryCode={dst_country?.alpha2}
                         />
 
                         <div className="md:col-span-2">

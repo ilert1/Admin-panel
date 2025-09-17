@@ -3,6 +3,7 @@ import { UserShow } from "../../show";
 import { useTranslate } from "react-admin";
 import React from "react";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
+import { UsersIcon } from "lucide-react";
 
 export interface ShowSheetProps {
     id?: string;
@@ -21,7 +22,10 @@ export const ShowUserSheet: React.FC<ShowSheetProps> = ({ id = "", open, onOpenC
                 close={false}>
                 <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div className="flex items-center justify-between md:pb-2">
-                        <SheetTitle className="!text-display-1">{translate("resources.users.user")}</SheetTitle>
+                        <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
+                            <UsersIcon className="text-neutral-90 dark:text-neutral-30" />
+                            {translate("resources.users.user")}
+                        </SheetTitle>
                         <CloseSheetXButton onOpenChange={onOpenChange} />
                     </div>
                 </div>
