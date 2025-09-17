@@ -3,6 +3,7 @@ import { AccountShow } from "../../show";
 import { useTranslate } from "react-admin";
 import React from "react";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
+import { WalletMinimalIcon } from "lucide-react";
 
 export interface ShowSheetProps {
     id: string;
@@ -22,7 +23,10 @@ export const ShowAccountSheet: React.FC<ShowSheetProps> = ({ id, open, onOpenCha
                 <SheetHeader className="flex-shrink-0 p-4 pb-0 md:p-[42px]">
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">{translate("app.ui.accountHistory")}</SheetTitle>
+                            <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
+                                <WalletMinimalIcon className="text-neutral-90 dark:text-neutral-30" />
+                                {translate("app.ui.accountHistory")}
+                            </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />
                         </div>
                     </div>

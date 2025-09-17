@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { XIcon } from "lucide-react";
+import { Landmark, XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { FinancialInstitutionShow } from "../../show/FinancialInstitution";
 
@@ -20,7 +20,8 @@ export const ShowFinancialInstitutionSheet = ({ id, open, onOpenChange }: IShowF
                     close={false}>
                     <div className="flex-shrink-0 p-4 pb-0 md:p-[42px] md:pb-0">
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">
+                            <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
+                                <Landmark className="text-neutral-90 dark:text-neutral-30" />
                                 {translate("resources.paymentSettings.financialInstitution.show")}
                             </SheetTitle>
 

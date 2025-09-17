@@ -2,6 +2,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../components/CloseSheetXButton";
 import { CascadeShow } from "../../show/Cascade";
+import CascadeList from "@/lib/icons/CascadeList";
 
 export interface ShowCascadeSheetProps {
     id?: string;
@@ -21,7 +22,8 @@ export const ShowCascadeSheet = ({ id = "", open, onOpenChange = () => {} }: Sho
                 <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div>
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">
+                            <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30">
+                                <CascadeList />
                                 {translate("resources.cascadeSettings.cascades.cascade")}
                             </SheetTitle>
                             <CloseSheetXButton onOpenChange={onOpenChange} />

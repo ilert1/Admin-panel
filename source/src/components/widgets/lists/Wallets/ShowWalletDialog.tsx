@@ -2,6 +2,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { XIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { WalletShow } from "../../show";
+import WalletsLogo from "@/lib/icons/Wallets";
 
 interface ShowWalletDialogProps {
     id: string;
@@ -22,7 +23,8 @@ export const ShowWalletDialog = (props: ShowWalletDialogProps) => {
                 <div className="flex-shrink-0 p-4 pb-[0px] md:p-[42px]">
                     <div>
                         <div className="flex items-center justify-between">
-                            <SheetTitle className="!text-display-1">
+                            <SheetTitle className="flex items-center gap-2 overflow-hidden break-words !text-display-1 text-neutral-90 dark:text-neutral-30 [&>svg>path]:stroke-neutral-90 dark:[&>svg>path]:stroke-neutral-30">
+                                <WalletsLogo />
                                 {translate("resources.wallet.manage.wallet")}
                             </SheetTitle>
                             <button
