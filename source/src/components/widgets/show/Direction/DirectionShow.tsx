@@ -13,8 +13,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { Badge } from "@/components/ui/badge";
-import { useFetchDictionaries } from "@/hooks";
-import { countryCodes } from "../../components/Selects/CountrySelect";
+import { useCountryCodes, useFetchDictionaries } from "@/hooks";
 import { CountryTextField } from "../../components/CountryTextField";
 
 export interface DirectionsShowProps {
@@ -27,6 +26,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const data = useFetchDictionaries();
     const translate = useTranslate();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -57,7 +57,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const isPrioritized = context.record.condition?.extra ?? false;
 
     const controlsDisabled = !!context.record.cascade_id;
-    const dst_country = countryCodes.find(item => item.alpha2 === context.record?.dst_country_code);
+    const dst_country = countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -126,7 +126,6 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     <CountryTextField
                         text={dst_country?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
-                        countryCode={dst_country?.alpha2}
                     />
 
                     <div className="flex flex-col">

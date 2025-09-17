@@ -12,8 +12,7 @@ import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInst
 import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { Badge } from "@/components/ui/badge";
 import { BankIcon } from "@/components/ui/BankIcon";
-import { useFetchDictionaries } from "@/hooks";
-import { countryCodes } from "../../components/Selects/CountrySelect";
+import { useCountryCodes, useFetchDictionaries } from "@/hooks";
 import { CountryTextField } from "../../components/CountryTextField";
 
 export interface FinancialInstitutionShowProps {
@@ -26,6 +25,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
     const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -45,7 +45,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
         return <Loading />;
     }
     const logoUrl = context.record.meta?.logoURL;
-    const country_code = countryCodes.find(item => item.alpha2 === context.record.country_code);
+    const country_code = countryCodesWithFlag.find(item => item.alpha2 === context.record.country_code);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -98,7 +98,6 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
                     <CountryTextField
                         text={country_code?.name || ""}
                         label={translate("resources.paymentSettings.financialInstitution.fields.country_code")}
-                        countryCode={country_code?.alpha2}
                     />
 
                     <div className="flex flex-col">

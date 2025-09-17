@@ -8,13 +8,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useLocaleState, useTranslate } from "react-admin";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetCascadeMerchantColumns = () => {
     const [locale] = useLocaleState();
     const translate = useTranslate();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
     const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -119,9 +120,11 @@ export const useGetCascadeMerchantColumns = () => {
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                const dst_country = countryCodes.find(item => item.alpha2 === row.original.cascade.dst_country_code);
+                const dst_country = countryCodesWithFlag.find(
+                    item => item.alpha2 === row.original.cascade.dst_country_code
+                );
 
-                return <CountryTextField text={dst_country?.name || ""} countryCode={dst_country?.alpha2} />;
+                return <CountryTextField text={dst_country?.name || ""} />;
             }
         },
         {

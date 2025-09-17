@@ -16,8 +16,8 @@ import clsx from "clsx";
 import { useGetCascadeShowColumns } from "./Columns";
 import { CirclePlus } from "lucide-react";
 import { CreateCascadeTerminalsDialog } from "../../lists/CascadeTerminals/CreateCascadeTerminalsDialog";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export interface CascadeShowProps {
     id: string;
@@ -28,6 +28,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
     const context = useAbortableShowController<CascadeSchema>({ resource: "cascades", id });
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -39,7 +40,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
         return <Loading />;
     }
 
-    const dst_country = countryCodes.find(item => item.alpha2 === context.record?.dst_country_code);
+    const dst_country = countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -110,7 +111,6 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                     <CountryTextField
                         text={dst_country?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
-                        countryCode={dst_country?.alpha2}
                     />
 
                     <div className="flex flex-col">
