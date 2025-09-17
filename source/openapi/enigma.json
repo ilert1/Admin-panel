@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "BlowFish - Enigma API Service",
-    "version": "local"
+    "version": "develop"
   },
   "paths": {
     "/health": {
@@ -11517,8 +11517,8 @@
         "properties": {
           "status_code": {
             "type": "integer",
-            "maximum": 599.0,
-            "minimum": 100.0,
+            "maximum": 599,
+            "minimum": 100,
             "title": "Status Code",
             "description": "HTTP status code",
             "default": 200
@@ -11551,7 +11551,7 @@
         "properties": {
           "weight": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Weight",
             "description": "Terminal weight for load balancing (0 for extra terminals)",
             "default": 1,
@@ -11576,7 +11576,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 1.0
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -12527,8 +12527,8 @@
           },
           "accuracy": {
             "type": "integer",
-            "maximum": 16.0,
-            "minimum": 1.0,
+            "maximum": 16,
+            "minimum": 1,
             "title": "Accuracy",
             "description": "Accuracy of the currency (number of decimal places)",
             "default": 2,
@@ -12588,8 +12588,8 @@
           },
           "accuracy": {
             "type": "integer",
-            "maximum": 16.0,
-            "minimum": 1.0,
+            "maximum": 16,
+            "minimum": 1,
             "title": "Accuracy",
             "description": "Accuracy of the currency (number of decimal places)",
             "default": 2,
@@ -12932,8 +12932,8 @@
           },
           "weight": {
             "type": "integer",
-            "maximum": 1000.0,
-            "minimum": 0.0,
+            "maximum": 1000,
+            "minimum": 0,
             "title": "Weight",
             "description": "Weight of the direction",
             "default": 0,
@@ -14783,7 +14783,7 @@
             "description": "Minimum limit value",
             "examples": [
               0,
-              10.0,
+              10,
               "100.50",
               {
                 "accuracy": 100,
@@ -14813,7 +14813,7 @@
             "description": "Maximum limit value",
             "examples": [
               10000,
-              50000.0,
+              50000,
               "100000.00",
               {
                 "accuracy": 100,
@@ -16874,7 +16874,7 @@
         "properties": {
           "rank": {
             "type": "integer",
-            "minimum": 1.0,
+            "minimum": 1,
             "title": "Rank",
             "description": "Priority rank of the cascade (1 = highest priority)",
             "examples": [
@@ -16970,10 +16970,10 @@
                 "get_trade_methods_payin": {
                   "execution_name": "api_get_trade_methods",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16984,10 +16984,10 @@
                 "get_trade_methods_payout": {
                   "execution_name": "api_get_trade_methods_payout",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -16998,8 +16998,8 @@
                 "h2h_async": {
                   "execution_name": "PayIn_h2h_async",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1
                   },
                   "task_queue": "pay4u-workflows",
@@ -17011,10 +17011,10 @@
                 "h2h_sync": {
                   "execution_name": "PayIn_h2h_sync",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": [
                       "ProviderError",
                       "ValidationError"
@@ -17030,10 +17030,10 @@
                 "h2h_sync_out": {
                   "execution_name": "PayOut_h2h",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": []
                   },
                   "task_queue": "pay4u-workflows",
@@ -17221,7 +17221,7 @@
         "properties": {
           "quantity": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Quantity",
             "description": "The quantity part of the rate value. It represents the numeric value without the decimal separator. For example, '12.34' is stored as 1234.",
             "default": 0,
@@ -17231,7 +17231,7 @@
           },
           "accuracy": {
             "type": "integer",
-            "minimum": 0.0,
+            "minimum": 0,
             "title": "Accuracy",
             "description": "The accuracy factor for the rate value. It must be a power of 10 (e.g., 1, 10, 100, 1000) corresponding to the number of decimal places.",
             "default": 1,
@@ -17334,18 +17334,18 @@
             "type": "number",
             "title": "Initial Interval",
             "description": "Initial interval between attempts, in seconds.",
-            "default": 1.0,
+            "default": 1,
             "examples": [
-              1.0
+              1
             ]
           },
           "backoff_coefficient": {
             "type": "number",
             "title": "Backoff Coefficient",
             "description": "Exponential backoff coefficient for retry interval.",
-            "default": 2.0,
+            "default": 2,
             "examples": [
-              2.0
+              2
             ]
           },
           "maximum_interval": {
@@ -17360,12 +17360,12 @@
             "title": "Maximum Interval",
             "description": "Maximum interval between attempts, in seconds. If None, unlimited.",
             "examples": [
-              10.0
+              10
             ]
           },
           "maximum_attempts": {
             "type": "integer",
-            "exclusiveMinimum": 0.0,
+            "exclusiveMinimum": 0,
             "title": "Maximum Attempts",
             "description": "Maximum number of attempts. 1 means no retries (only one attempt).",
             "default": 1,
@@ -17426,18 +17426,13 @@
               30
             ]
           },
-          "retry_on_status": {
-            "items": {
-              "type": "integer"
-            },
-            "type": "array",
-            "title": "Retry On Status",
-            "description": "List of HTTP status codes that should trigger a retry. Empty list disables retry based on status code.",
+          "backoff_multiplier": {
+            "type": "number",
+            "title": "Backoff Multiplier",
+            "description": "Backoff multiplier for exponential strategy",
+            "default": 2,
             "examples": [
-              [
-                400,
-                500
-              ]
+              2
             ]
           },
           "strategy": {
@@ -17539,7 +17534,7 @@
             ],
             "title": "Enforcement Mode",
             "description": "Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them",
-            "default": "strict",
+            "default": "log",
             "examples": [
               "strict"
             ]
@@ -17767,7 +17762,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -17785,7 +17780,7 @@
             "anyOf": [
               {
                 "type": "integer",
-                "minimum": 0.0
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -18086,8 +18081,8 @@
           },
           "allocation_timeout_seconds": {
             "type": "integer",
-            "maximum": 120.0,
-            "minimum": 0.0,
+            "maximum": 120,
+            "minimum": 0,
             "title": "Allocation Timeout Seconds",
             "description": "Timeout for allocation in seconds (0 to 120)",
             "default": 2,
@@ -19129,8 +19124,8 @@
             "anyOf": [
               {
                 "type": "integer",
-                "maximum": 120.0,
-                "minimum": 0.0
+                "maximum": 120,
+                "minimum": 0
               },
               {
                 "type": "null"
@@ -19387,10 +19382,10 @@
                 "get_trade_methods_payin": {
                   "execution_name": "api_get_trade_methods",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -19401,10 +19396,10 @@
                 "get_trade_methods_payout": {
                   "execution_name": "api_get_trade_methods_payout",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 5.0
+                    "maximum_interval": 5
                   },
                   "task_queue": "pay4u-activities",
                   "timeouts": {
@@ -19415,8 +19410,8 @@
                 "h2h_async": {
                   "execution_name": "PayIn_h2h_async",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1
                   },
                   "task_queue": "pay4u-workflows",
@@ -19428,10 +19423,10 @@
                 "h2h_sync": {
                   "execution_name": "PayIn_h2h_sync",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": [
                       "ProviderError",
                       "ValidationError"
@@ -19447,10 +19442,10 @@
                 "h2h_sync_out": {
                   "execution_name": "PayOut_h2h",
                   "retry_policy": {
-                    "backoff_coefficient": 2.0,
-                    "initial_interval": 1.0,
+                    "backoff_coefficient": 2,
+                    "initial_interval": 1,
                     "maximum_attempts": 1,
-                    "maximum_interval": 10.0,
+                    "maximum_interval": 10,
                     "non_retryable_error_types": []
                   },
                   "task_queue": "pay4u-workflows",
@@ -19510,19 +19505,19 @@
         "properties": {
           "rpc_timeout": {
             "type": "number",
-            "maximum": 600.0,
-            "minimum": 1.0,
+            "maximum": 600,
+            "minimum": 1,
             "title": "Rpc Timeout",
             "description": "RPC timeout in seconds",
-            "default": 180.0
+            "default": 180
           },
           "async_timeout": {
             "type": "number",
-            "maximum": 3600.0,
-            "minimum": 1.0,
+            "maximum": 3600,
+            "minimum": 1,
             "title": "Async Timeout",
             "description": "Async timeout in seconds",
-            "default": 300.0
+            "default": 300
           }
         },
         "type": "object",

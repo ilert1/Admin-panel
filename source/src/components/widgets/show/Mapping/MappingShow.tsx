@@ -144,7 +144,6 @@ export const MappingShow = (props: MappingShowProps) => {
     const max_attempts = record.delivery_policy?.retry_policy?.max_attempts;
 
     const controlsDisabled = !context.record && !!externalData;
-
     // status_code?: number;
     // /** HTTP headers */
     // headers?: CallbackResponseHeaders;
