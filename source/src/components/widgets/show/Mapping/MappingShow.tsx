@@ -22,6 +22,7 @@ import { EditIPsDialog } from "./EditIPsDialog";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useFetchDictionaries } from "@/hooks";
+import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 
 interface MappingShowProps {
     id: string;
@@ -135,11 +136,20 @@ export const MappingShow = (props: MappingShowProps) => {
         }
     };
 
-    const burst_limit = record.security_policy?.burst_limit;
-    const base_delay = record.retry_policy?.base_delay;
-    const max_attempts = record.retry_policy?.max_attempts;
+    console.log(record);
+
+    const rate_limit = record.security_policy?.rate_limit;
+
+    const base_delay = record.delivery_policy?.retry_policy?.base_delay;
+    const max_attempts = record.delivery_policy?.retry_policy?.max_attempts;
+
     const controlsDisabled = !context.record && !!externalData;
 
+    // status_code?: number;
+    // /** HTTP headers */
+    // headers?: CallbackResponseHeaders;
+    // /** Response body */
+    // body?: CallbackResponseBody;
     return (
         <>
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
@@ -197,11 +207,45 @@ export const MappingShow = (props: MappingShowProps) => {
                             />
                         </div>
                         <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
-                            <div className="flex flex-col gap-2">
+                            <div>
                                 <div className="flex flex-col justify-between sm:flex-row">
                                     <h3 className="mb-2 text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
-                                        {translate("resources.callbridge.mapping.fields.retry_policy")}
+                                        {translate("resources.callbridge.mapping.fields.delivery_policy.name")}
                                     </h3>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-3">
+                                    <TextField
+                                        label={translate(
+                                            "resources.callbridge.mapping.fields.delivery_policy.strategy"
+                                        )}
+                                        text={
+                                            record.delivery_policy?.strategy
+                                                ? translate(
+                                                      "resources.callbridge.mapping.fields.delivery_policy.strategies." +
+                                                          record.delivery_policy?.strategy
+                                                  )
+                                                : ""
+                                        }
+                                    />
+                                    <TextField
+                                        label={translate(
+                                            "resources.callbridge.mapping.fields.delivery_policy.timeout_config.rpc_timeout"
+                                        )}
+                                        text={String(record.delivery_policy?.timeout_config?.rpc_timeout)}
+                                    />
+                                    <TextField
+                                        label={translate(
+                                            "resources.callbridge.mapping.fields.delivery_policy.timeout_config.async_timeout"
+                                        )}
+                                        text={String(record.delivery_policy?.timeout_config?.async_timeout)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-2 flex flex-col gap-2 border-t-[1px] border-neutral-50 pt-5 dark:border-neutral-80 md:mt-5 md:pt-5">
+                                <div className="flex flex-col justify-between sm:flex-row">
+                                    <h4 className="mb-2 text-display-4 text-neutral-90 dark:text-neutral-0 md:mb-4">
+                                        {translate("resources.callbridge.mapping.fields.retry_policy")}
+                                    </h4>
                                     <Button
                                         disabled={controlsDisabled}
                                         onClick={() => {
@@ -214,26 +258,60 @@ export const MappingShow = (props: MappingShowProps) => {
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.state")}
                                         text={
-                                            record.retry_policy?.enabled
+                                            record.delivery_policy?.retry_policy?.enabled
                                                 ? translate("resources.callbridge.mapping.fields.active")
                                                 : translate("resources.callbridge.mapping.fields.disabled")
                                         }
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.base_delay")}
-                                        text={base_delay ? String(record.retry_policy?.base_delay) : ""}
+                                        text={base_delay ? String(base_delay) : ""}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.max_attempts")}
-                                        text={max_attempts ? String(record.retry_policy?.max_attempts) : ""}
+                                        text={max_attempts ? String(max_attempts) : ""}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.strategy")}
-                                        text={record.retry_policy?.strategy ?? ""}
+                                        text={record.delivery_policy?.retry_policy?.strategy ?? ""}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.retryOn")}
-                                        text={record.retry_policy?.retry_on_status?.join(", ") ?? ""}
+                                        text={record.delivery_policy?.retry_policy?.retry_on_status?.join(", ") ?? ""}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-2 flex flex-col gap-2 border-t-[1px] border-neutral-50 pt-5 dark:border-neutral-80 md:mt-5 md:pt-5">
+                                <div className="flex flex-col justify-between sm:flex-row">
+                                    <h4 className="mb-2 text-display-4 text-neutral-90 dark:text-neutral-0 md:mb-4">
+                                        {translate(
+                                            "resources.callbridge.mapping.fields.delivery_policy.response_policy.name"
+                                        ) +
+                                            " (" +
+                                            translate(
+                                                "resources.callbridge.mapping.fields.delivery_policy.response_policy.type"
+                                            ) +
+                                            ": " +
+                                            translate(
+                                                "resources.callbridge.mapping.fields.delivery_policy.response_policy.types." +
+                                                    record.delivery_policy?.response_policy?.type
+                                            ) +
+                                            ")"}
+                                    </h4>
+                                </div>
+                                <div>
+                                    <CallbridgeHistoryTechnicalInfoShow
+                                        label={translate(
+                                            "resources.callbridge.mapping.fields.delivery_policy.response_policy.template"
+                                        )}
+                                        technicalInfo={{
+                                            response_headers:
+                                                record.delivery_policy?.response_policy?.template?.headers ?? {}
+                                        }}
+                                        bodies={{
+                                            response_body:
+                                                record.delivery_policy?.response_policy?.template?.body ?? "{}"
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -298,16 +376,8 @@ export const MappingShow = (props: MappingShowProps) => {
                                         </div>
                                     </div>
                                     <TextField
-                                        label={translate("resources.callbridge.mapping.fields.auth")}
-                                        text={
-                                            record.security_policy?.auth_required
-                                                ? translate("resources.callbridge.mapping.fields.auth_required")
-                                                : translate("resources.callbridge.mapping.fields.auth_not_required")
-                                        }
-                                    />
-                                    <TextField
-                                        label={translate("resources.callbridge.mapping.fields.burst_limit")}
-                                        text={burst_limit ? String(burst_limit) : ""}
+                                        label={translate("resources.callbridge.mapping.fields.rate_limit")}
+                                        text={rate_limit ? String(rate_limit) : ""}
                                     />
                                     <TextField
                                         label={translate("resources.callbridge.mapping.fields.strategy")}
@@ -343,7 +413,7 @@ export const MappingShow = (props: MappingShowProps) => {
                 id={id}
                 open={editRetryStatusClicked}
                 onOpenChange={setEditRetryStatusClicked}
-                oldStatuses={record.retry_policy?.retry_on_status}
+                oldStatuses={record.delivery_policy?.retry_policy?.retry_on_status}
             />
 
             <EditIPsDialog

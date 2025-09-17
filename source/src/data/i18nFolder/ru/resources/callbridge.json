@@ -31,18 +31,38 @@
             "allowedVariant": "Ввод должен быть вида 400, 404,500 без лишних символов",
             "security_policy": "Политика безопасности",
             "allowed_ips": "Разрешённые IP-адреса",
-            "auth": "Авторизация",
-            "auth_required": "Требуется авторизация",
-            "auth_not_required": "Не требуется авторизация",
             "whiteListEdit": "Изменить разрешённые IP адреса",
             "blackListEdit": "Изменить запрещённые IP адреса",
             "actDeactButton": "Активировать/деактивировать политику",
             "blocked": "Отключено",
             "permitted": "Включено",
             "blocked_ips": "Запрещённые IP-адреса",
-            "burst_limit": "Порог частоты запросов",
+            "rate_limit": "Порог частоты запросов",
             "enforcement_mode": "Режим принудительного контроля",
-            "updated_at": "Дата обновления"
+            "updated_at": "Дата обновления",
+            "delivery_policy": {
+                "name": "Политика доставки",
+                "strategy": "Стратегия",
+                "strategies": {
+                    "ASYNC_ONLY": "Только асинхронно",
+                    "RPC_STRICT": "Строгий RPC",
+                    "RPC_WITH_FALLBACK": "RPC с откатом"
+                },
+                "timeout_config": {
+                    "name": "Конфигурация таймаута",
+                    "rpc_timeout": "RPC таймаут",
+                    "async_timeout": "Асинхронный таймаут"
+                },
+                "response_policy": {
+                    "name": "Политика ответа",
+                    "type": "Тип",
+                    "types": {
+                        "FROM_TEMPLATE": "Из шаблона",
+                        "FROM_RESPONSE": "Из ответа"
+                    },
+                    "template": "Шаблон ответа"
+                }
+            }
         },
         "sec_policy_edit": {
             "editingAllowedPolicy": "Редактирование списка разрешённых адресов",

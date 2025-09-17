@@ -22,12 +22,12 @@ import {
 } from "@/api/enigma/provider/provider";
 import {
     PaymentTypesLink,
-    Provider,
+    ProviderBase,
     ProviderCreate,
     ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export interface IProvider extends Provider {
+export interface IProvider extends ProviderBase {
     id: string;
 }
 
