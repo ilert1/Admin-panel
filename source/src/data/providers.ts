@@ -21,6 +21,7 @@ import {
     providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut
 } from "@/api/enigma/provider/provider";
 import {
+    PaymentTypeBase,
     PaymentTypesLink,
     ProviderBase,
     ProviderCreate,
@@ -29,6 +30,7 @@ import {
 
 export interface IProvider extends ProviderBase {
     id: string;
+    payment_types: PaymentTypeBase[];
 }
 
 export class ProvidersDataProvider extends IBaseDataProvider {

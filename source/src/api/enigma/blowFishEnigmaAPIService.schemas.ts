@@ -3035,6 +3035,8 @@ export interface ProviderBase {
     public_key?: ProviderBasePublicKey;
     /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
     methods: ProviderBaseMethods;
+    /** Provider configuration settings */
+    settings?: ProviderSettingsOutput;
 }
 
 /**

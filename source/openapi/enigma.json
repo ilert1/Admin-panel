@@ -16964,87 +16964,11 @@
             },
             "type": "object",
             "title": "Methods",
-            "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.",
-            "examples": [
-              {
-                "get_trade_methods_payin": {
-                  "execution_name": "api_get_trade_methods",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s"
-                  },
-                  "type": "trade_methods_payin"
-                },
-                "get_trade_methods_payout": {
-                  "execution_name": "api_get_trade_methods_payout",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 5
-                  },
-                  "task_queue": "pay4u-activities",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s"
-                  },
-                  "type": "trade_methods_payout"
-                },
-                "h2h_async": {
-                  "execution_name": "PayIn_h2h_async",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s"
-                  },
-                  "type": "withdraw"
-                },
-                "h2h_sync": {
-                  "execution_name": "PayIn_h2h_sync",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": [
-                      "ProviderError",
-                      "ValidationError"
-                    ]
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s",
-                    "wait_condition_timeout": "15s"
-                  },
-                  "type": "deposit"
-                },
-                "h2h_sync_out": {
-                  "execution_name": "PayOut_h2h",
-                  "retry_policy": {
-                    "backoff_coefficient": 2,
-                    "initial_interval": 1,
-                    "maximum_attempts": 1,
-                    "maximum_interval": 10,
-                    "non_retryable_error_types": []
-                  },
-                  "task_queue": "pay4u-workflows",
-                  "timeouts": {
-                    "start_to_close_timeout": "15s",
-                    "wait_condition_timeout": "15s"
-                  },
-                  "type": "transfer"
-                }
-              }
-            ]
+            "description": "Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases."
+          },
+          "settings": {
+            "$ref": "#/components/schemas/ProviderSettings-Output",
+            "description": "Provider configuration settings"
           }
         },
         "type": "object",

@@ -36,6 +36,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
         return <Loading />;
     }
 
+    console.log(context.record.settings?.callback?.callback_nats_queue);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
