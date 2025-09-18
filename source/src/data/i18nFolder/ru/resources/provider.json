@@ -10,7 +10,6 @@
         "json_schema": "Схема Json",
         "enterMethods": "Введите свои методы",
         "methods": "Методы",
-
         "callback_nats_queue": "Очередь Nats"
     },
     "resources.provider.errors": {
@@ -18,6 +17,7 @@
         "alreadyInUse": "Данное имя уже используется․ Выберите другое.",
         "methodAlreadyExist": "Данный метод уже существует"
     },
+    "resources.provider.securityPolicyEdit": "Редактирование политики безопасности",
     "resources.provider.successCreate": "Провайдер %{name} успешно создан.",
     "resources.provider.recreateConfirm": "Пересоздать ключи?",
     "resources.provider.recreateConfirmDescription": "Старые ключи станут недействительными",

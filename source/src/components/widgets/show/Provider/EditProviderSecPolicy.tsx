@@ -25,7 +25,9 @@ export const EditProviderSecPolicy = (props: EditProviderSecPolicyProps) => {
                 disableOutsideClick
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
-                    <DialogTitle className="text-center">{translate("resources.provider.editingProvider")}</DialogTitle>
+                    <DialogTitle className="text-center">
+                        {translate("resources.provider.securityPolicyEdit")}
+                    </DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <ProvidersSecPolicyEdit id={id} onClose={() => onOpenChange(false)} />
