@@ -68,7 +68,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             <span className="text-title-2 text-neutral-90 dark:text-neutral-0">
                                 {context.record.name}
                             </span>
-                            {!isPrioritized && (
+                            {isPrioritized && (
                                 <Badge variant={"destructive"} className="!rounded-16 bg-red-50 py-0">
                                     {translate("resources.direction.fields.condition.prioritized")}
                                 </Badge>
