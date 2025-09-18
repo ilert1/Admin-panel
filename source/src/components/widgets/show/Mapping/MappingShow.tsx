@@ -428,6 +428,7 @@ export const MappingShow = (props: MappingShowProps) => {
                 onOpenChange={setEditBlockedIPsClicked}
                 open={editBlockedIPsClicked}
                 variant="Blocked"
+                resource="mapping"
             />
 
             <EditIPsDialog
@@ -439,6 +440,7 @@ export const MappingShow = (props: MappingShowProps) => {
                 onOpenChange={setEditAllowedIPsClicked}
                 open={editAllowedIPsClicked}
                 variant="Allowed"
+                resource="mapping"
             />
         </>
     );

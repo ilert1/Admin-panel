@@ -42,7 +42,9 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         fields_json_schema: z.string().optional().default(""),
         methods: z.string().trim().optional(),
-        payment_types: z.array(z.string()).optional().default([])
+        payment_types: z.array(z.string()).optional().default([]),
+        adapter_nats_subject: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
+        callback_nats_queue: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -51,7 +53,9 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
             name: "",
             fields_json_schema: "",
             methods: "{}",
-            payment_types: []
+            payment_types: [],
+            adapter_nats_subject: "",
+            callback_nats_queue: ""
         }
     });
 
@@ -62,6 +66,12 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
         const parsedData: IProviderCreate = {
             ...data,
+            settings: {
+                callback: {
+                    adapter_nats_subject: data.adapter_nats_subject,
+                    callback_nats_queue: data.callback_nats_queue
+                }
+            },
             methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
         };
 
@@ -142,7 +152,40 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                 </FormItem>
                             )}
                         />
-
+                        <FormField
+                            control={form.control}
+                            name="callback_nats_queue"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.provider.fields.callback_nats_queue")}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="adapter_nats_subject"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2 sm:w-1/2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.callbridge.mapping.fields.nats_subject")}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="payment_types"

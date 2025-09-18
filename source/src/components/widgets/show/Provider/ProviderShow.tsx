@@ -23,6 +23,7 @@ import {
 import { TableTypes } from "../../shared/SimpleTable";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { EditProviderSecPolicy } from "./EditProviderSecPolicy";
 
 export interface ProviderShowProps {
     id: string;
@@ -40,6 +41,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [editSecPolicyClicked, setEditSecPolicyClicked] = useState(false);
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [editAllowedIPsClicked, setEditAllowedIPsClicked] = useState(false);
@@ -306,58 +308,51 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 </div>
                 <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <div className="flex flex-col gap-2">
-                        <div className="flex flex-col justify-between sm:flex-row">
-                            <h3 className="flex-2 mb-2 !min-w-72 flex-grow text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
-                                {translate("resources.callbridge.mapping.fields.security_policy")}
-                            </h3>
-
-                            <div className="flex flex-col flex-wrap gap-2 md:flex-row">
-                                <Button
-                                    onClick={() => {
-                                        setEditBlockedIPsClicked(true);
-                                    }}>
-                                    {translate("resources.callbridge.mapping.fields.blackListEdit")}
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        setEditAllowedIPsClicked(true);
-                                    }}>
-                                    {translate("resources.callbridge.mapping.fields.whiteListEdit")}
-                                </Button>
-                            </div>
-                        </div>
-                        <div className="mb-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
-                            <div>
-                                <TextField label={translate("resources.callbridge.mapping.fields.state")} text=" " />
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        disabled={buttonsDisabled}
-                                        onClick={handleConfirmClicked}
-                                        className={clsx(
-                                            "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
-                                            currentStateReversed ? "bg-green-50" : "bg-red-40"
-                                        )}>
-                                        <span
+                        <div className="flex justify-between">
+                            <div className="mb-2 flex flex-col items-center justify-start gap-2 sm:mb-4 sm:flex-row">
+                                <h3 className="flex-2 !min-w-72 text-display-3 text-neutral-90 dark:text-neutral-0">
+                                    {translate("resources.callbridge.mapping.fields.security_policy")}
+                                </h3>
+                                <div>
+                                    {/* <TextField label={translate("resources.callbridge.mapping.fields.state")} text=" " /> */}
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            disabled={buttonsDisabled}
+                                            onClick={handleConfirmClicked}
                                             className={clsx(
-                                                "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
-                                                currentStateReversed ? "translate-x-full" : "translate-x-0"
+                                                "flex h-[27px] w-[50px] cursor-pointer items-center rounded-20 border-none p-0.5 outline-none transition-colors disabled:grayscale",
+                                                currentStateReversed ? "bg-green-50" : "bg-red-40"
                                             )}>
-                                            {currentStateReversed ? (
-                                                <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
-                                            ) : (
-                                                <LockKeyhole className="h-[15px] w-[15px] text-red-40" />
-                                            )}
-                                        </span>
-                                    </button>
-                                    <TextField
-                                        text={
-                                            sec_policy?.blocked
-                                                ? translate("resources.callbridge.mapping.fields.blocked")
-                                                : translate("resources.callbridge.mapping.fields.permitted")
-                                        }
-                                    />
+                                            <span
+                                                className={clsx(
+                                                    "flex h-[23px] w-[23px] items-center justify-center rounded-full bg-white p-1 transition-transform",
+                                                    currentStateReversed ? "translate-x-full" : "translate-x-0"
+                                                )}>
+                                                {currentStateReversed ? (
+                                                    <LockKeyholeOpen className="h-[15px] w-[15px] text-green-50" />
+                                                ) : (
+                                                    <LockKeyhole className="h-[15px] w-[15px] text-red-40" />
+                                                )}
+                                            </span>
+                                        </button>
+                                        <TextField
+                                            text={
+                                                sec_policy?.blocked
+                                                    ? translate("resources.callbridge.mapping.fields.blocked")
+                                                    : translate("resources.callbridge.mapping.fields.permitted")
+                                            }
+                                        />
+                                    </div>
                                 </div>
                             </div>
+                            <Button
+                                onClick={() => {
+                                    setEditSecPolicyClicked(true);
+                                }}>
+                                {translate("app.ui.actions.edit")}
+                            </Button>
+                        </div>
+                        <div className="mb-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.rate_limit")}
                                 text={sec_policy?.rate_limit ? String(sec_policy?.rate_limit) : ""}
@@ -375,22 +370,36 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             />
                         </div>
                         <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
-                            <div className="w-full">
+                            <div className="flex w-full flex-col">
                                 <SimpleTable
                                     data={sec_policy?.blocked_ips ?? []}
                                     columns={blockedIPColumn}
                                     tableType={TableTypes.COLORED}
                                     className="max-h-96 overflow-auto overflow-x-hidden"
                                 />
+                                <Button
+                                    onClick={() => {
+                                        setEditBlockedIPsClicked(true);
+                                    }}>
+                                    {/* {translate("resources.callbridge.mapping.fields.blackListEdit")} */}
+                                    Изменить
+                                </Button>
                             </div>
 
-                            <div className="w-full">
+                            <div className="flex w-full flex-col">
                                 <SimpleTable
                                     data={sec_policy?.allowed_ips ?? []}
                                     columns={allowedIPColumn}
                                     tableType={TableTypes.COLORED}
                                     className="max-h-96 overflow-auto overflow-x-hidden"
                                 />
+                                <Button
+                                    onClick={() => {
+                                        setEditAllowedIPsClicked(true);
+                                    }}>
+                                    {/* {translate("resources.callbridge.mapping.fields.whiteListEdit")} */}
+                                    Изменить
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -420,6 +429,9 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 onOpenChange={setEditBlockedIPsClicked}
                 open={editBlockedIPsClicked}
                 variant="Blocked"
+                resource="provider"
+                adapter_nats_subject={callback?.adapter_nats_subject}
+                callback_nats_queue={callback?.callback_nats_queue}
             />
 
             <EditIPsDialog
@@ -429,7 +441,11 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 onOpenChange={setEditAllowedIPsClicked}
                 open={editAllowedIPsClicked}
                 variant="Allowed"
+                resource="provider"
+                adapter_nats_subject={callback?.adapter_nats_subject}
+                callback_nats_queue={callback?.callback_nats_queue}
             />
+            <EditProviderSecPolicy id={id} onOpenChange={setEditSecPolicyClicked} open={editSecPolicyClicked} />
         </div>
     );
 };
