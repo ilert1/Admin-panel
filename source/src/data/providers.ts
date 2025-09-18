@@ -25,12 +25,17 @@ import {
     PaymentTypesLink,
     ProviderBase,
     ProviderCreate,
-    ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder
+    ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder,
+    ProviderUpdate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface IProvider extends ProviderBase {
     id: string;
     payment_types: PaymentTypeBase[];
+}
+
+export interface ProviderUpdateParams extends ProviderUpdate {
+    id: string;
 }
 
 export class ProvidersDataProvider extends IBaseDataProvider {
@@ -146,7 +151,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<IProvider>> {
+    async update(resource: string, params: UpdateParams<ProviderUpdateParams>): Promise<UpdateResult<IProvider>> {
         const res = await providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut(params.id, params.data, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
