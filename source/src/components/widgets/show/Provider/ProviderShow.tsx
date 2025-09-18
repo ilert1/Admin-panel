@@ -360,7 +360,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             </div>
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.rate_limit")}
-                                text={String(sec_policy?.rate_limit)}
+                                text={sec_policy?.rate_limit ? String(sec_policy?.rate_limit) : ""}
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.enforcement_mode")}
