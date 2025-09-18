@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
-import { IProvider, ProvidersDataProvider } from "@/data/providers";
+import { IProvider, ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
@@ -23,6 +23,7 @@ import {
 import { TableTypes } from "../../shared/SimpleTable";
 import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
+import { EditProviderDeliveryPolicyDialog } from "./EditProviderDeliveryPolicyDialog";
 
 export interface ProviderShowProps {
     id: string;
@@ -44,6 +45,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [editAllowedIPsClicked, setEditAllowedIPsClicked] = useState(false);
     const [editBlockedIPsClicked, setEditBlockedIPsClicked] = useState(false);
+    const [editDeliveryPolicyDialogOpen, setEditDeliveryPolicyDialogOpen] = useState(false);
 
     const allowedIPColumn: ColumnDef<SecurityPolicyConfigAllowedIpsItem>[] = [
         {
@@ -95,7 +97,10 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
             await dataProvider.update("callbridge/v1/mapping", {
                 data,
                 id,
-                previousData: undefined
+                previousData: {
+                    ...context.record,
+                    payment_types: context.record?.payment_types.map(pt => pt.code) || []
+                } as ProviderUpdateParams
             });
             refresh();
             if (sec_policy?.blocked) {
@@ -195,11 +200,9 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
-                    <Button className="" onClick={handleEditClicked}>
-                        {translate("app.ui.actions.edit")}
-                    </Button>
+                    <Button onClick={handleEditClicked}>{translate("app.ui.actions.edit")}</Button>
 
-                    <Button className="" onClick={handleDeleteClicked} variant={"outline_gray"}>
+                    <Button onClick={handleDeleteClicked} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
                 </div>
@@ -210,6 +213,10 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             <h3 className="mb-2 text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
                                 {translate("resources.callbridge.mapping.fields.delivery_policy.name")}
                             </h3>
+
+                            <Button onClick={() => setEditDeliveryPolicyDialogOpen(true)}>
+                                {translate("resources.callbridge.mapping.fields.delivery_policy.editBtn")}
+                            </Button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-3">
                             <TextField
@@ -243,7 +250,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                 {translate("resources.callbridge.mapping.fields.retry_policy")}
                             </h4>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.state")}
                                 text={
@@ -429,6 +436,12 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 onOpenChange={setEditAllowedIPsClicked}
                 open={editAllowedIPsClicked}
                 variant="Allowed"
+            />
+
+            <EditProviderDeliveryPolicyDialog
+                open={editDeliveryPolicyDialogOpen}
+                onOpenChange={setEditDeliveryPolicyDialogOpen}
+                id={id}
             />
         </div>
     );
