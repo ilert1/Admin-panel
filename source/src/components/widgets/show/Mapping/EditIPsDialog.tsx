@@ -13,7 +13,6 @@ import { Button, TrashButton } from "@/components/ui/Button";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CallbackMappingUpdate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { ConfirmCloseDialog } from "./ConfirmCloseDialog";
 
 export interface EditBlockedIPsDialogProps {
@@ -23,6 +22,9 @@ export interface EditBlockedIPsDialogProps {
     onOpenChange: (state: boolean) => void;
     variant: "Blocked" | "Allowed";
     secondaryList: string[] | undefined;
+    resource: "mapping" | "provider";
+    adapter_nats_subject?: string;
+    callback_nats_queue?: string;
 }
 
 const isValidIP = (ip: string) => {
@@ -39,7 +41,17 @@ const isValidIP = (ip: string) => {
 };
 
 export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
-    const { open, id, IpList, variant, secondaryList, onOpenChange } = props;
+    const {
+        open,
+        id,
+        IpList,
+        variant,
+        secondaryList,
+        onOpenChange,
+        resource,
+        adapter_nats_subject,
+        callback_nats_queue
+    } = props;
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
     const [newIp, setNewIp] = useState("");
@@ -227,16 +239,44 @@ export const EditIPsDialog = (props: EditBlockedIPsDialogProps) => {
         }
 
         try {
-            const data: CallbackMappingUpdate =
-                variant === "Blocked"
-                    ? {
-                          security_policy: { blocked_ips: newIpList, allowed_ips: secondaryList }
-                      }
-                    : {
-                          security_policy: { allowed_ips: newIpList, blocked_ips: secondaryList }
-                      };
+            let data;
+            if (variant === "Blocked") {
+                if (resource === "provider") {
+                    data = {
+                        settings: {
+                            callback: {
+                                adapter_nats_subject,
+                                callback_nats_queue,
+                                security_policy: { blocked_ips: newIpList, allowed_ips: secondaryList }
+                            }
+                        }
+                    };
+                } else {
+                    data = {
+                        security_policy: { blocked_ips: newIpList, allowed_ips: secondaryList }
+                    };
+                }
+            } else {
+                if (resource === "provider") {
+                    data = {
+                        settings: {
+                            callback: {
+                                adapter_nats_subject,
+                                callback_nats_queue,
+                                security_policy: { blocked_ips: secondaryList, allowed_ips: newIpList }
+                            }
+                        }
+                    };
+                } else {
+                    data = {
+                        security_policy: { blocked_ips: secondaryList, allowed_ips: newIpList }
+                    };
+                }
+            }
 
-            await dataProvider.update("callbridge/v1/mapping", {
+            const res = resource === "mapping" ? "callbridge/v1/mapping" : "provider";
+
+            await dataProvider.update(res, {
                 data,
                 id,
                 previousData: undefined

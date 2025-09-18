@@ -1,4 +1,4 @@
-export { ProvidersEdit } from "./ProvidersEdit";
+export { ProvidersEdit } from "./Providers/ProvidersEdit";
 export { CurrencyEdit } from "./CurrenciesEdit";
 export { MerchantEdit } from "./Merchant/MerchantsEdit";
 export { DirectionEdit } from "./DirectionsEdit";

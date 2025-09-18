@@ -10,14 +10,15 @@
         "json_schema": "Json schema",
         "enterMethods": "Enter your methods",
         "methods": "Methods",
-
-        "callback_nats_queue": "Nats queue"
+        "callback_nats_queue": "Nats queue",
+        "adapter_nats_subject": "Adapter nats subject"
     },
     "resources.provider.errors": {
         "name": "Name must contain at least 1 symbol",
         "alreadyInUse": "This name is already in use. Choose another one.",
         "methodAlreadyExist": "This method already exists"
     },
+    "resources.provider.securityPolicyEdit": "Security policy edit",
     "resources.provider.successCreate": "Provider %{name} has been successfully created.",
     "resources.provider.recreateConfirm": "Recreate keys?",
     "resources.provider.recreateConfirmDescription": "Old keys will become invalid.",
