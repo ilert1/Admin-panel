@@ -50,6 +50,8 @@
             "delivery_policy": {
                 "name": "Delivery policy",
                 "strategy": "Strategy",
+                "editingDialog": "Editing delivery policy",
+                "editBtn": "Edit delivery policy",
                 "strategies": {
                     "ASYNC_ONLY": "Async only",
                     "RPC_STRICT": "RPC strict",
@@ -68,6 +70,11 @@
                         "FROM_RESPONSE": "From response"
                     },
                     "template": "Response template"
+                },
+                "errors": {
+                    "minValue": "The value must be greater than or equal to 1",
+                    "maxRpcValue": "The value must be less than or equal to 600",
+                    "maxAsyncValue": "The value must be less than or equal to 3600"
                 }
             }
         },
