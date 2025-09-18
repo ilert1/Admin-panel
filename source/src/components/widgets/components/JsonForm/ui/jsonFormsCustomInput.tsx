@@ -7,7 +7,6 @@ const JsonFormsCustomInput = ({ data, label, visible, schema, config }: ControlP
     const translate = useTranslate();
     if (!visible || (!data && !config.showNull)) return null;
     let displayValue = !data || data === null ? "-" : String(data);
-    console.log();
 
     if (schema?.type?.includes("string") && (schema.format === "date" || schema.format === "date-time") && data) {
         const date = new Date(data);

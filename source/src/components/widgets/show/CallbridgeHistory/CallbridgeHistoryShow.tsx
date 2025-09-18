@@ -53,12 +53,24 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
     const changeActivity = () => {
         setCurrentState(!currentState);
     };
+    //    security_rejected: "security_rejected",
+    // queued: "queued",
+    // rpc_sent: "rpc_sent",
+    // rpc_completed: "rpc_completed",
+    // rpc_failed: "rpc_failed",
+    // rpc_timeout: "rpc_timeout",
+    // processing: "processing",
+    // delivered: "delivered",
+    // error: "error",
+    // retrying: "retrying",
+    // success: "success",
+    // quick_processing: "quick_processing"
 
     return (
         <>
             <div className="flex flex-col gap-4 px-[20px] md:px-[45px]">
                 <div className="">
-                     <TextField text={id} copyValue onClick={() => setOpenMapping(true)} />
+                    <TextField text={id} copyValue onClick={() => setOpenMapping(true)} />
                 </div>
 
                 <JsonForm schema={schema} uischema={uischema} formData={formData} setFormData={setFormData} />

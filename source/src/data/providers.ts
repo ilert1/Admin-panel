@@ -21,14 +21,16 @@ import {
     providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut
 } from "@/api/enigma/provider/provider";
 import {
+    PaymentTypeBase,
     PaymentTypesLink,
-    Provider,
+    ProviderBase,
     ProviderCreate,
     ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export interface IProvider extends Provider {
+export interface IProvider extends ProviderBase {
     id: string;
+    payment_types: PaymentTypeBase[];
 }
 
 export class ProvidersDataProvider extends IBaseDataProvider {

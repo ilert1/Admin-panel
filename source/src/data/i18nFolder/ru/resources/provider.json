@@ -9,7 +9,9 @@
         "regenKey": "Пересоздать ключи",
         "json_schema": "Схема Json",
         "enterMethods": "Введите свои методы",
-        "methods": "Методы"
+        "methods": "Методы",
+
+        "callback_nats_queue": "Очередь Nats"
     },
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",

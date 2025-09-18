@@ -63,8 +63,6 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     };
 
     const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async data => {
-        console.log("Submit");
-
         if (submitButtonDisabled) return;
 
         setSubmitButtonDisabled(true);

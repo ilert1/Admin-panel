@@ -9,7 +9,9 @@
         "regenKey": "Regenerate keys",
         "json_schema": "Json schema",
         "enterMethods": "Enter your methods",
-        "methods": "Methods"
+        "methods": "Methods",
+
+        "callback_nats_queue": "Nats queue"
     },
     "resources.provider.errors": {
         "name": "Name must contain at least 1 symbol",
