@@ -44,7 +44,7 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
     const [isFinished, setIsFinished] = useState(false);
 
     const formSchema = z.object({
-        rate_limit: z.number().optional(),
+        rate_limit: z.coerce.number().optional(),
         enforcement_mode: z.string().optional()
     });
 
@@ -80,6 +80,8 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
                     ...data,
                     settings: {
                         callback: {
+                            adapter_nats_subject: provider?.settings?.callback?.adapter_nats_subject,
+                            callback_nats_queue: provider?.settings?.callback?.callback_nats_queue,
                             security_policy: {
                                 rate_limit: data.rate_limit,
                                 enforcement_mode: data.enforcement_mode
@@ -128,44 +130,31 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
                         render={({ field, fieldState }) => (
                             <FormItem className="w-full p-2 sm:w-1/2">
                                 <FormControl>
-                                    <FormField
-                                        control={form.control}
-                                        name="enforcement_mode"
-                                        render={({ field, fieldState }) => {
-                                            return (
-                                                <FormItem>
-                                                    <Label>
+                                    <>
+                                        <Label>
+                                            {translate("resources.callbridge.mapping.fields.enforcement_mode")}
+                                        </Label>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <FormControl>
+                                                <SelectTrigger
+                                                    variant={SelectType.GRAY}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}>
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {enforcement_modes.map(mode => (
+                                                    <SelectItem key={mode} value={mode} variant={SelectType.GRAY}>
                                                         {translate(
-                                                            "resources.callbridge.mapping.fields.enforcement_mode"
+                                                            "resources.callbridge.mapping.fields.enforcement_modes." +
+                                                                mode
                                                         )}
-                                                    </Label>
-                                                    <Select value={field.value} onValueChange={field.onChange}>
-                                                        <FormControl>
-                                                            <SelectTrigger
-                                                                variant={SelectType.GRAY}
-                                                                isError={fieldState.invalid}
-                                                                errorMessage={<FormMessage />}>
-                                                                <SelectValue />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {enforcement_modes.map(mode => (
-                                                                <SelectItem
-                                                                    key={mode}
-                                                                    value={mode}
-                                                                    variant={SelectType.GRAY}>
-                                                                    {translate(
-                                                                        "resources.callbridge.mapping.fields.enforcement_modes." +
-                                                                            mode
-                                                                    )}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                                                </FormItem>
-                                            );
-                                        }}
-                                    />
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </>
                                 </FormControl>
                             </FormItem>
                         )}

@@ -108,15 +108,15 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
             if (sec_policy?.blocked) {
                 appToast(
                     "success",
-                    translate("resources.callbridge.mapping.statusActivatedSuccessfully", {
-                        mappingName: "aa"
+                    translate("resources.provider.fields.securityPolicy.statusActivatedSuccessfully", {
+                        providerName: context.record?.name ?? ""
                     })
                 );
             } else {
                 appToast(
                     "success",
-                    translate("resources.callbridge.mapping.statusDeactivatedSuccessfully", {
-                        mappingName: "aa"
+                    translate("resources.provider.fields.securityPolicy.statusDeactivatedSuccessfully", {
+                        providerName: context.record?.name ?? ""
                     })
                 );
             }

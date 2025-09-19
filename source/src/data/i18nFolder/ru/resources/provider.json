@@ -17,6 +17,10 @@
         "alreadyInUse": "Данное имя уже используется․ Выберите другое.",
         "methodAlreadyExist": "Данный метод уже существует"
     },
+    "resources.provider.fields.securityPolicy": {
+        "statusActivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно активирована",
+        "statusDeactivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно деактивирована"
+    },
     "resources.provider.securityPolicyEdit": "Редактирование политики безопасности",
     "resources.provider.successCreate": "Провайдер %{name} успешно создан.",
     "resources.provider.recreateConfirm": "Пересоздать ключи?",
