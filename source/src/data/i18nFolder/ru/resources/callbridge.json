@@ -149,7 +149,7 @@
             "rpc_failed": "Ошибка Rpc",
             "rpc_timeout": "Тайм-аут Rpc",
             "delivered": "Доставлено",
-            "response_sent": "Ответ доставлен"
+            "response_sent": "Ответ отправлен"
         },
         "show": {
             "fields": {
