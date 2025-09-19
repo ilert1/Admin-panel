@@ -177,34 +177,35 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                             (context.record.condition?.ttl?.max?.toString() ?? "-")
                         }
                     />
+                    <div className="flex flex-row gap-4">
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.cascadeSettings.cascadeTerminals.fields.created_at")}
+                            </small>
 
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascadeTerminals.fields.created_at")}
-                        </small>
-
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                            </p>
+                            <div>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.created_at).toLocaleDateString(locale)}
+                                </p>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.created_at).toLocaleTimeString(locale)}
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascadeTerminals.fields.updated_at")}
-                        </small>
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.cascadeSettings.cascadeTerminals.fields.updated_at")}
+                            </small>
 
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                            </p>
+                            <div>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.updated_at).toLocaleDateString(locale)}
+                                </p>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.updated_at).toLocaleTimeString(locale)}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
