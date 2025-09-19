@@ -35,11 +35,14 @@ export const useGetCallbridgeHistoryColumns = () => {
             cell: ({ row }) => {
                 const from = row.original.status?.from ?? "-";
                 const to = row.original.status?.to ?? "-";
+                console.log(from, to);
 
                 return (
                     <div>
-                        {from ? translate(`resources.callbridge.history.callbacksStatus.${from}`) + " / " : " / "}
-                        {to ? translate(`resources.callbridge.history.callbacksStatus.${to}`) : ""}
+                        {from && from !== "-"
+                            ? translate(`resources.callbridge.history.callbacksStatus.${from}`) + " / "
+                            : "- / "}
+                        {to && from !== "-" ? translate(`resources.callbridge.history.callbacksStatus.${to}`) : "-"}
                     </div>
                 );
             }
