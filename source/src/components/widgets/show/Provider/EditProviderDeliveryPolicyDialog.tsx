@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { ProvidersDeliveryPolicyEdit } from "../../edit/ProvidersDeliveryPolicyEdit";
+import { ProvidersDeliveryPolicyEdit } from "../../edit/Providers/ProvidersDeliveryPolicyEdit";
 
 interface IEditProviderDeliveryPolicyDialog {
     open: boolean;
