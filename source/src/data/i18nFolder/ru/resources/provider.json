@@ -10,7 +10,8 @@
         "json_schema": "Схема Json",
         "enterMethods": "Введите свои методы",
         "methods": "Методы",
-        "callback_nats_queue": "Очередь Nats"
+        "callback_nats_queue": "Очередь Nats",
+        "adapter_nats_subject": "Субъект Nats"
     },
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",
@@ -21,6 +22,9 @@
         "statusActivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно активирована",
         "statusDeactivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно деактивирована"
     },
+    "resources.provider.callback": "Callback",
+    "resources.provider.callbackEdit": "Изменить callback",
+    "resources.provider.callbackEditing": "Изменение callback",
     "resources.provider.securityPolicyEdit": "Редактирование политики безопасности",
     "resources.provider.successCreate": "Провайдер %{name} успешно создан.",
     "resources.provider.recreateConfirm": "Пересоздать ключи?",

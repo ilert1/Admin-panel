@@ -25,6 +25,7 @@ import clsx from "clsx";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { EditProviderDeliveryPolicyDialog } from "./EditProviderDeliveryPolicyDialog";
 import { EditProviderSecPolicy } from "./EditProviderSecPolicy";
+import { EditProviderCallbackDialog } from "./EditProviderCallbackDialog";
 
 export interface ProviderShowProps {
     id: string;
@@ -48,6 +49,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const [editAllowedIPsClicked, setEditAllowedIPsClicked] = useState(false);
     const [editBlockedIPsClicked, setEditBlockedIPsClicked] = useState(false);
     const [editDeliveryPolicyDialogOpen, setEditDeliveryPolicyDialogOpen] = useState(false);
+    const [editCallbackDialogOpen, setEditCallbackDialogOpen] = useState(false);
 
     const allowedIPColumn: ColumnDef<SecurityPolicyConfigAllowedIpsItem>[] = [
         {
@@ -172,17 +174,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                 : ""
                         }
                     />
-                    <TextField
-                        label={translate("resources.callbridge.mapping.fields.nats_subject")}
-                        text={callback?.adapter_nats_subject ?? ""}
-                        copyValue
-                    />
-
-                    <TextField
-                        label={translate("resources.provider.fields.callback_nats_queue")}
-                        text={callback?.callback_nats_queue ?? ""}
-                        copyValue
-                    />
 
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
@@ -207,6 +198,32 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     <Button onClick={handleDeleteClicked} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
                     </Button>
+                </div>
+
+                <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
+                    <div className="flex flex-col justify-between sm:flex-row">
+                        <h3 className="mb-2 text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
+                            {translate("resources.provider.callback")}
+                        </h3>
+
+                        <Button onClick={() => setEditCallbackDialogOpen(true)}>
+                            {translate("resources.provider.callbackEdit")}
+                        </Button>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                        <TextField
+                            label={translate("resources.provider.fields.adapter_nats_subject")}
+                            text={callback?.adapter_nats_subject ?? ""}
+                            copyValue
+                        />
+
+                        <TextField
+                            label={translate("resources.provider.fields.callback_nats_queue")}
+                            text={callback?.callback_nats_queue ?? ""}
+                            copyValue
+                        />
+                    </div>
                 </div>
 
                 <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
@@ -458,6 +475,13 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 onOpenChange={setEditDeliveryPolicyDialogOpen}
                 id={id}
             />
+
+            <EditProviderCallbackDialog
+                open={editCallbackDialogOpen}
+                onOpenChange={setEditCallbackDialogOpen}
+                id={id}
+            />
+
             <EditProviderSecPolicy id={id} onOpenChange={setEditSecPolicyClicked} open={editSecPolicyClicked} />
         </div>
     );

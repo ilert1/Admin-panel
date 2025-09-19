@@ -22,6 +22,9 @@
         "alreadyInUse": "This name is already in use. Choose another one.",
         "methodAlreadyExist": "This method already exists"
     },
+    "resources.provider.callback": "Callback",
+    "resources.provider.callbackEdit": "Edit callback",
+    "resources.provider.callbackEditing": "Callback editing",
     "resources.provider.securityPolicyEdit": "Security policy edit",
     "resources.provider.successCreate": "Provider %{name} has been successfully created.",
     "resources.provider.recreateConfirm": "Recreate keys?",
