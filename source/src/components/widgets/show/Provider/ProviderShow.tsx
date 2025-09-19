@@ -154,7 +154,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
             </div>
 
-            <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
+            <div className="flex flex-col gap-2 pt-2">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <TextField
                         label={translate("resources.provider.fields.pk")}
@@ -191,7 +191,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
                 <div className="mt-5 flex flex-col gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <div className="flex flex-col justify-between sm:flex-row">
-                        <h3 className="mb-2 text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
+                        <h3 className="mb-2 text-display-2 text-neutral-90 dark:text-neutral-0 md:mb-4">
                             {translate("resources.provider.callback")}
                         </h3>
 
@@ -252,13 +252,13 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             />
                         </div>
                     </div>
-                    <div className="mt-2 flex flex-col gap-2 border-t-[1px] border-neutral-50 pt-5 dark:border-neutral-80 md:mt-5 md:pt-5">
+                    <div className="mt-10 flex flex-col gap-2 dark:border-neutral-80">
                         <div className="flex flex-col justify-between sm:flex-row">
-                            <h4 className="mb-2 text-display-4 text-neutral-90 dark:text-neutral-0 md:mb-4">
+                            <h4 className="text-display-4 text-neutral-90 dark:text-neutral-0">
                                 {translate("resources.callbridge.mapping.fields.retry_policy")}
                             </h4>
                         </div>
-                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.state")}
                                 text={
@@ -288,7 +288,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             />
                         </div>
                     </div>
-                    <div className="mt-2 flex flex-col gap-2 border-t-[1px] border-neutral-50 pt-5 dark:border-neutral-80 md:mt-5 md:pt-5">
+                    <div className="mt-10 flex flex-col gap-2 dark:border-neutral-80">
                         <div className="flex flex-col justify-between sm:flex-row">
                             <h4 className="mb-2 text-display-4 text-neutral-90 dark:text-neutral-0 md:mb-4">
                                 {translate("resources.callbridge.mapping.fields.delivery_policy.response_policy.name") +

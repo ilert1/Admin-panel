@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useTheme } from "../providers";
 import { cn } from "@/lib/utils";
 
-type EditorSize = "h-48" | "h-96" | "h-full";
+type EditorSize = "h-24" | "h-48" | "h-96" | "h-full";
 
 interface MonacoEditorProps {
     height?: EditorSize;
