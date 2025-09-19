@@ -11,7 +11,7 @@
         "enterMethods": "Enter your methods",
         "methods": "Methods",
         "callback_nats_queue": "Nats queue",
-        "adapter_nats_subject": "Adapter nats subject"
+        "adapter_nats_subject": "Nats subject"
     },
     "resources.provider.fields.securityPolicy": {
         "statusActivatedSuccessfully": "Security policy for %{providerName} provider was activated successfully",

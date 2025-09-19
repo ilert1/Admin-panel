@@ -11,7 +11,7 @@
         "enterMethods": "Введите свои методы",
         "methods": "Методы",
         "callback_nats_queue": "Очередь Nats",
-        "adapter_nats_subject": "Субъект Nats"
+        "adapter_nats_subject": "Nats тема"
     },
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",

@@ -126,7 +126,7 @@ export const ProviderCallbackEdit = ({ id, onOpenChange = () => {} }: IProviderC
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.callbridge.mapping.fields.nats_subject")}
+                                        label={translate("resources.provider.fields.adapter_nats_subject")}
                                     />
                                 </FormControl>
                             </FormItem>
