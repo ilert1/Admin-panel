@@ -21,7 +21,7 @@
             "state": "Состояние",
             "active": "Активно",
             "disabled": "Выключено",
-            "max_attempts": "Максимальное число попыток",
+            "max_attempts": "Максимум попыток",
             "strategy": "Стратегия",
             "strategies": {
                 "exponential": "Экспоненциальная",

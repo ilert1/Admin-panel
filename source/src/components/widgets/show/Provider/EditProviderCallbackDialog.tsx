@@ -7,19 +7,15 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { useTranslate } from "react-admin";
-import { ProvidersDeliveryPolicyEdit } from "../../edit/Providers/ProvidersDeliveryPolicyEdit";
+import { ProviderCallbackEdit } from "../../edit/Providers/ProviderCallbackEdit";
 
-interface IEditProviderDeliveryPolicyDialog {
+interface IEditProviderCallbackDialog {
     open: boolean;
     onOpenChange?: (state: boolean) => void;
     id: string;
 }
 
-export const EditProviderDeliveryPolicyDialog = ({
-    open,
-    id,
-    onOpenChange = () => {}
-}: IEditProviderDeliveryPolicyDialog) => {
+export const EditProviderCallbackDialog = ({ open, id, onOpenChange = () => {} }: IEditProviderCallbackDialog) => {
     const translate = useTranslate();
 
     return (
@@ -28,13 +24,11 @@ export const EditProviderDeliveryPolicyDialog = ({
                 disableOutsideClick
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
-                    <DialogTitle className="text-center">
-                        {translate("resources.callbridge.mapping.fields.delivery_policy.editingDialog")}
-                    </DialogTitle>
+                    <DialogTitle className="text-center">{translate("resources.provider.callbackEditing")}</DialogTitle>
                     <DialogDescription />
                 </DialogHeader>
 
-                <ProvidersDeliveryPolicyEdit id={id} onOpenChange={onOpenChange} />
+                <ProviderCallbackEdit id={id} onOpenChange={onOpenChange} />
                 <DialogFooter />
             </DialogContent>
         </Dialog>

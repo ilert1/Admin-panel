@@ -307,8 +307,8 @@ export const ProvidersDeliveryPolicyEdit = ({ id, onOpenChange }: IProvidersDeli
                         )}
                     />
 
-                    <div className="mt-5 grid gap-4 border-t-[1px] border-neutral-50 pt-5 dark:border-neutral-80 md:col-span-3 md:grid-cols-2">
-                        <div className="flex items-center gap-4 md:col-span-2">
+                    <div className="mt-5 grid gap-4 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:col-span-3 md:grid-cols-4">
+                        <div className="flex items-center gap-4 md:col-span-4">
                             <h4 className="text-display-4 text-neutral-90 dark:text-neutral-0">
                                 {translate("resources.callbridge.mapping.fields.retry_policy")}
                             </h4>
@@ -420,7 +420,7 @@ export const ProvidersDeliveryPolicyEdit = ({ id, onOpenChange }: IProvidersDeli
                         />
                     </div>
 
-                    <div className="mt-5 flex flex-col gap-4 border-t-[1px] border-neutral-50 pt-5 dark:border-neutral-80 md:col-span-3">
+                    <div className="mt-5 flex flex-col gap-4 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:col-span-3">
                         <h4 className="text-display-4 text-neutral-90 dark:text-neutral-0 md:col-span-2">
                             {translate("resources.callbridge.mapping.fields.delivery_policy.response_policy.name")}
                         </h4>
@@ -479,6 +479,7 @@ export const ProvidersDeliveryPolicyEdit = ({ id, onOpenChange }: IProvidersDeli
                                                 code={field.value ?? "{}"}
                                                 setCode={field.onChange}
                                                 allowEmptyValues
+                                                height={"h-24"}
                                             />
                                         </FormControl>
                                         <FormMessage />

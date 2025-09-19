@@ -1,4 +1,4 @@
-import { useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { useEffect, useState } from "react";
@@ -10,19 +10,18 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { ProvidersDataProvider, IProvider } from "@/data/providers";
+import { ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 
 export interface ProviderEditParams {
-    id?: string;
-    onClose?: () => void;
+    id: string;
+    onClose: () => void;
 }
 
 export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) => {
-    const dataProvider = useDataProvider();
     const providersDataProvider = new ProvidersDataProvider();
     const refresh = useRefresh();
 
@@ -32,7 +31,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         isFetchedAfterMount
     } = useQuery({
         queryKey: ["provider", id],
-        queryFn: ({ signal }) => dataProvider.getOne<IProvider>("provider", { id: id ?? "", signal }),
+        queryFn: ({ signal }) => providersDataProvider.getOne("provider", { id: id ?? "", signal }),
         enabled: true,
         select: data => data.data
     });
@@ -49,32 +48,23 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const formSchema = z.object({
-        fields_json_schema: z.string().optional().default(""),
         methods: z.string().trim().optional(),
-        payment_types: z.array(z.string()).optional(),
-        adapter_nats_subject: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
-        callback_nats_queue: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim()
+        payment_types: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            fields_json_schema: "",
             methods: "{}",
-            payment_types: [],
-            callback_nats_queue: "",
-            adapter_nats_subject: ""
+            payment_types: []
         }
     });
 
     useEffect(() => {
         if (!isLoadingProvider && provider && isFetchedAfterMount) {
             const updatedValues = {
-                fields_json_schema: provider.fields_json_schema || "",
                 methods: JSON.stringify(provider.methods, null, 2) || "{}",
-                payment_types: provider?.payment_types?.map(pt => pt.code) || [],
-                callback_nats_queue: provider?.settings?.callback?.callback_nats_queue || "",
-                adapter_nats_subject: provider?.settings?.callback?.adapter_nats_subject || ""
+                payment_types: provider?.payment_types?.map(pt => pt.code) || []
             };
 
             form.reset(updatedValues);
@@ -101,19 +91,16 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         const paymentsToDelete = oldPaymentTypes.difference(new Set(payment_types));
 
         try {
-            await dataProvider.update<IProvider>("provider", {
+            await providersDataProvider.update("provider", {
                 id,
                 data: {
                     ...data,
-                    methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {},
-                    settings: {
-                        callback: {
-                            adapter_nats_subject: data.adapter_nats_subject,
-                            callback_nats_queue: data.callback_nats_queue
-                        }
-                    }
+                    methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
                 },
-                previousData: undefined
+                previousData: {
+                    ...provider,
+                    payment_types: provider?.payment_types.map(pt => pt.code) || []
+                } as ProviderUpdateParams
             });
 
             await Promise.all(
@@ -157,7 +144,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="flex flex-wrap">
-                    <div className="w-full p-2 sm:w-1/2">
+                    <div className="w-full p-2">
                         <Input
                             value={provider.name}
                             variant={InputTypes.GRAY}
@@ -165,58 +152,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             disabled
                         />
                     </div>
-
-                    <FormField
-                        control={form.control}
-                        name="fields_json_schema"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        label={translate("resources.provider.fields.json_schema")}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="callback_nats_queue"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.fields.callback_nats_queue")}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="adapter_nats_subject"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                        label={translate("resources.callbridge.mapping.fields.nats_subject")}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
 
                     <FormField
                         control={form.control}

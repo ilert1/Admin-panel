@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { IProvider } from "@/data/providers";
+import { ProvidersDataProvider } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
@@ -22,7 +22,7 @@ export interface ProviderCreateProps {
 }
 
 export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
-    const dataProvider = useDataProvider();
+    const providersDataProvider = new ProvidersDataProvider();
     const controllerProps = useCreateController<IProviderCreate>();
     const { theme } = useTheme();
 
@@ -40,22 +40,16 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        fields_json_schema: z.string().optional().default(""),
         methods: z.string().trim().optional(),
-        payment_types: z.array(z.string()).optional().default([]),
-        adapter_nats_subject: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
-        callback_nats_queue: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim()
+        payment_types: z.array(z.string()).optional().default([])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            fields_json_schema: "",
             methods: "{}",
-            payment_types: [],
-            adapter_nats_subject: "",
-            callback_nats_queue: ""
+            payment_types: []
         }
     });
 
@@ -64,19 +58,13 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
         setSubmitButtonDisabled(true);
 
-        const parsedData: IProviderCreate = {
-            ...data,
-            settings: {
-                callback: {
-                    adapter_nats_subject: data.adapter_nats_subject,
-                    callback_nats_queue: data.callback_nats_queue
-                }
-            },
-            methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
-        };
-
         try {
-            const res = await dataProvider.create<IProvider>("provider", { data: parsedData });
+            const res = await providersDataProvider.create("provider", {
+                data: {
+                    ...data,
+                    methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
+                }
+            });
 
             appToast(
                 "success",
@@ -122,7 +110,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -135,57 +123,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="fields_json_schema"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.provider.fields.json_schema")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="callback_nats_queue"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.provider.fields.callback_nats_queue")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="adapter_nats_subject"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.callbridge.mapping.fields.nats_subject")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+
                         <FormField
                             control={form.control}
                             name="payment_types"

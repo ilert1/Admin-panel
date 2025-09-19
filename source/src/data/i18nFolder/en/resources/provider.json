@@ -11,7 +11,7 @@
         "enterMethods": "Enter your methods",
         "methods": "Methods",
         "callback_nats_queue": "Nats queue",
-        "adapter_nats_subject": "Adapter nats subject"
+        "adapter_nats_subject": "Nats subject"
     },
     "resources.provider.fields.securityPolicy": {
         "statusActivatedSuccessfully": "Security policy for %{providerName} provider was activated successfully",
@@ -22,8 +22,12 @@
         "alreadyInUse": "This name is already in use. Choose another one.",
         "methodAlreadyExist": "This method already exists"
     },
+    "resources.provider.callback": "Callback",
+    "resources.provider.callbackEdit": "Edit callback",
+    "resources.provider.callbackEditing": "Callback editing",
     "resources.provider.securityPolicyEdit": "Security policy edit",
     "resources.provider.successCreate": "Provider %{name} has been successfully created.",
+    "resources.provider.editBtn": "Edit security policy",
     "resources.provider.recreateConfirm": "Recreate keys?",
     "resources.provider.recreateConfirmDescription": "Old keys will become invalid.",
     "resources.provider.recreate": "Recreate",

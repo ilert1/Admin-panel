@@ -29,8 +29,8 @@
         "kinds": {
             "kind": "Вид направления",
             "cascadeKind": "Вид каскада",
-            "sequential": "Последовательное",
-            "fanout": "Разветвленное"
+            "sequential": "Последовательнный",
+            "fanout": "Разветвленный"
         },
         "condition": {
             "condition": "Условия",
