@@ -48,7 +48,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const formSchema = z.object({
-        fields_json_schema: z.string().optional().default(""),
         methods: z.string().trim().optional(),
         payment_types: z.array(z.string()).optional()
     });
@@ -56,7 +55,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            fields_json_schema: "",
             methods: "{}",
             payment_types: []
         }
@@ -65,7 +63,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
     useEffect(() => {
         if (!isLoadingProvider && provider && isFetchedAfterMount) {
             const updatedValues = {
-                fields_json_schema: provider.fields_json_schema || "",
                 methods: JSON.stringify(provider.methods, null, 2) || "{}",
                 payment_types: provider?.payment_types?.map(pt => pt.code) || []
             };
@@ -147,7 +144,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="flex flex-wrap">
-                    <div className="w-full p-2 sm:w-1/2">
+                    <div className="w-full p-2">
                         <Input
                             value={provider.name}
                             variant={InputTypes.GRAY}
@@ -155,24 +152,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                             disabled
                         />
                     </div>
-
-                    <FormField
-                        control={form.control}
-                        name="fields_json_schema"
-                        render={({ field, fieldState }) => (
-                            <FormItem className="w-full p-2 sm:w-1/2">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        label={translate("resources.provider.fields.json_schema")}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
 
                     <FormField
                         control={form.control}

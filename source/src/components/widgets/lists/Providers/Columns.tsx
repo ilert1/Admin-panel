@@ -87,24 +87,6 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
             }
         },
         {
-            id: "fields_json_schema",
-            accessorKey: "fields_json_schema",
-            header: translate("resources.provider.fields.json_schema"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            row.getValue("fields_json_schema")
-                                ? String(row.getValue("fields_json_schema")).length > 30
-                                    ? String(row.getValue("fields_json_schema")).substring(0, 30) + "..."
-                                    : row.getValue("fields_json_schema")
-                                : ""
-                        }
-                    />
-                );
-            }
-        },
-        {
             id: "recreate_field",
             header: () => {
                 return <div className="text-center">{translate("resources.provider.fields.regenKey")}</div>;

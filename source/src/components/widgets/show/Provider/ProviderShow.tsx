@@ -164,17 +164,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         linesCount={1}
                     />
 
-                    <TextField
-                        label={translate("resources.provider.fields.json_schema")}
-                        text={
-                            context.record.fields_json_schema
-                                ? String(context.record.fields_json_schema).length > 30
-                                    ? String(context.record.fields_json_schema).substring(0, 30) + "..."
-                                    : context.record.fields_json_schema
-                                : ""
-                        }
-                    />
-
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}

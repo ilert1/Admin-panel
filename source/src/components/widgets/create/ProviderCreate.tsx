@@ -40,7 +40,6 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        fields_json_schema: z.string().optional().default(""),
         methods: z.string().trim().optional(),
         payment_types: z.array(z.string()).optional().default([])
     });
@@ -49,7 +48,6 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            fields_json_schema: "",
             methods: "{}",
             payment_types: []
         }
@@ -112,7 +110,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -120,23 +118,6 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate("resources.provider.fields._name")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="fields_json_schema"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.provider.fields.json_schema")}
                                         />
                                     </FormControl>
                                 </FormItem>
