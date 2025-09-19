@@ -36,7 +36,6 @@ export const CountrySelect = ({
             }
             modal={modal}
             isLoading={isLoading}
-            // complexFiltering={true}
         />
     );
 };
