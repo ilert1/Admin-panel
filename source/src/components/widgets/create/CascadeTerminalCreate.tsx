@@ -48,6 +48,7 @@ export const CascadeTerminalCreate = ({
                 .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
                 .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
                 .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                .max(1000, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMax"))
                 .optional(),
             rank: z.coerce
                 .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })

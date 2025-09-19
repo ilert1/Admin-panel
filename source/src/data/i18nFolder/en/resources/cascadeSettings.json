@@ -89,6 +89,7 @@
             "rank": "Enter the correct competitive weight value",
             "ttl": "Enter the correct TTL value",
             "weightMin": "The value must be greater than or equal 0",
+            "weightMax": "The value must be less than or equal to 1000",
             "rankMin": "The value must be greater than or equal 1"
         }
     },
