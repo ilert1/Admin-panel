@@ -189,7 +189,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     </Button>
                 </div>
 
-                <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
+                <div className="mt-5 flex flex-col gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <div className="flex flex-col justify-between sm:flex-row">
                         <h3 className="mb-2 text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
                             {translate("resources.provider.callback")}
@@ -216,7 +216,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 </div>
 
                 <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
-                    <div>
+                    <div className="flex flex-col gap-2">
                         <div className="flex flex-col justify-between sm:flex-row">
                             <h3 className="mb-2 text-display-3 text-neutral-90 dark:text-neutral-0 md:mb-4">
                                 {translate("resources.callbridge.mapping.fields.delivery_policy.name")}
@@ -226,7 +226,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                 {translate("resources.callbridge.mapping.fields.delivery_policy.editBtn")}
                             </Button>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.delivery_policy.strategy")}
                                 text={
@@ -319,11 +319,11 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
+                <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <div className="flex flex-col gap-2">
-                        <div className="flex justify-between">
-                            <div className="mb-2 flex flex-col items-center justify-start gap-2 sm:mb-4 sm:flex-row">
-                                <h3 className="flex-2 !min-w-72 text-display-3 text-neutral-90 dark:text-neutral-0">
+                        <div className="flex flex-col justify-between sm:flex-row">
+                            <div className="mb-2 flex items-center justify-start gap-2 sm:mb-4 sm:flex-row">
+                                <h3 className="flex-2 text-display-3 text-neutral-90 dark:text-neutral-0">
                                     {translate("resources.callbridge.mapping.fields.security_policy")}
                                 </h3>
                                 <div>
@@ -417,7 +417,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
+                <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <ProviderMethodsShow
                         providerId={id}
                         methods={context.record.methods}
