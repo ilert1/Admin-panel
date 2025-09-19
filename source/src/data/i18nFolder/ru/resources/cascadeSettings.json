@@ -55,7 +55,7 @@
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Терминалы каскадов",
-        "cascadeTerminal": "Терминал каскадов",
+        "cascadeTerminal": "Терминал каскада",
         "createNew": "Привязать терминал",
         "creatingCascadeTerminal": "Привязка терминала",
         "editingCascadeTerminal": "Изменение терминала каскадов",

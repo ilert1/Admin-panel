@@ -35,10 +35,19 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
         item => item.alpha2 === context.record?.terminal.dst_country_code
     );
 
+    const isPrioritized = context.record.condition?.extra;
+
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
-                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+                <div className="flex flex-wrap gap-2">
+                    <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+                    {isPrioritized && (
+                        <Badge variant={"prioritized"}>
+                            {translate("resources.direction.fields.condition.prioritized")}
+                        </Badge>
+                    )}
+                </div>
 
                 <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
                     {context.record.state === "active" && (
@@ -56,36 +65,6 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-2 gap-2">
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascadeTerminals.fields.created_at")}
-                        </small>
-
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.created_at).toLocaleTimeString(locale)}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascadeTerminals.fields.updated_at")}
-                        </small>
-
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap">
-                                {new Date(context.record.updated_at).toLocaleTimeString(locale)}
-                            </p>
-                        </div>
-                    </div>
-
                     <div className="flex flex-col items-start">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.cascadeSettings.cascadeTerminals.fields.cascade")}
@@ -155,10 +134,9 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                             {context.record.terminal.provider.name}
                         </Button>
                     </div>
-
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
-                        text={String(context.record.condition?.extra)}
+                    <CountryTextField
+                        text={terminal_dst_country?.name || ""}
+                        label={translate("resources.direction.destinationCountry")}
                     />
 
                     <div className="flex flex-col">
@@ -181,11 +159,6 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                         </div>
                     </div>
 
-                    <CountryTextField
-                        text={terminal_dst_country?.name || ""}
-                        label={translate("resources.direction.destinationCountry")}
-                    />
-
                     <TextField
                         label={translate("resources.cascadeSettings.cascadeTerminals.fields.weight")}
                         text={context.record.condition?.weight?.toString() ?? ""}
@@ -197,14 +170,44 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                     />
 
                     <TextField
-                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_min")}
-                        text={context.record.condition?.ttl?.min?.toString() ?? ""}
+                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_minmax")}
+                        text={
+                            (context.record.condition?.ttl?.min?.toString() ?? "-") +
+                            " / " +
+                            (context.record.condition?.ttl?.max?.toString() ?? "-")
+                        }
                     />
+                    <div className="flex flex-row gap-4">
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.cascadeSettings.cascadeTerminals.fields.created_at")}
+                            </small>
 
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.ttl_max")}
-                        text={context.record.condition?.ttl?.max?.toString() ?? ""}
-                    />
+                            <div>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.created_at).toLocaleDateString(locale)}
+                                </p>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.created_at).toLocaleTimeString(locale)}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.cascadeSettings.cascadeTerminals.fields.updated_at")}
+                            </small>
+
+                            <div>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.updated_at).toLocaleDateString(locale)}
+                                </p>
+                                <p className="text-nowrap">
+                                    {new Date(context.record.updated_at).toLocaleTimeString(locale)}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
