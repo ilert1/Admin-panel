@@ -26,6 +26,7 @@
     "resources.provider.callbackEdit": "Изменить callback",
     "resources.provider.callbackEditing": "Изменение callback",
     "resources.provider.securityPolicyEdit": "Редактирование политики безопасности",
+    "resources.provider.editBtn": "Изменить политику безопасности",
     "resources.provider.successCreate": "Провайдер %{name} успешно создан.",
     "resources.provider.recreateConfirm": "Пересоздать ключи?",
     "resources.provider.recreateConfirmDescription": "Старые ключи станут недействительными",

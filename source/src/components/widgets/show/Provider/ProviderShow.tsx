@@ -362,7 +362,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                 onClick={() => {
                                     setEditSecPolicyClicked(true);
                                 }}>
-                                {translate("app.ui.actions.edit")}
+                                {translate("resources.provider.editBtn")}
                             </Button>
                         </div>
                         <div className="mb-2 grid grid-cols-1 gap-2 sm:grid-cols-3">

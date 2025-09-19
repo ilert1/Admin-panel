@@ -27,6 +27,7 @@
     "resources.provider.callbackEditing": "Callback editing",
     "resources.provider.securityPolicyEdit": "Security policy edit",
     "resources.provider.successCreate": "Provider %{name} has been successfully created.",
+    "resources.provider.editBtn": "Edit security policy",
     "resources.provider.recreateConfirm": "Recreate keys?",
     "resources.provider.recreateConfirmDescription": "Old keys will become invalid.",
     "resources.provider.recreate": "Recreate",
