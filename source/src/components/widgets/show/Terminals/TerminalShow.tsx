@@ -18,7 +18,6 @@ import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { Badge } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
 import { StateViewer } from "@/components/ui/StateViewer";
-import { CountryTextField } from "../../components/CountryTextField";
 import { useCountryCodes } from "@/hooks";
 
 interface TerminalShowProps {
@@ -110,11 +109,6 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
 
                             {dst_cur ? <Badge variant="currency">{dst_cur}</Badge> : <TextField text="-" />}
                         </div>
-
-                        <CountryTextField
-                            text={dst_country?.name || ""}
-                            label={translate("resources.direction.destinationCountry")}
-                        />
 
                         <div className="md:col-span-2">
                             <TextField

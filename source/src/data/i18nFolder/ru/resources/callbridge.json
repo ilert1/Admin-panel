@@ -148,7 +148,8 @@
             "rpc_completed": "Rpc выполнен",
             "rpc_failed": "Ошибка Rpc",
             "rpc_timeout": "Тайм-аут Rpc",
-            "delivered": "Доставлено"
+            "delivered": "Доставлено",
+            "response_sent": "Ответ отправлен"
         },
         "show": {
             "fields": {

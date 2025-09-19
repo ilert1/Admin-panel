@@ -146,7 +146,8 @@
             "rpc_completed": "Rpc completed",
             "rpc_failed": "Rpc failed",
             "rpc_timeout": "Rpc timeout",
-            "delivered": "Delivered"
+            "delivered": "Delivered",
+            "response_sent": "Response sent"
         },
         "show": {
             "fields": {
