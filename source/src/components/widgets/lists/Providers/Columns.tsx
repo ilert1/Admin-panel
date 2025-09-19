@@ -69,6 +69,28 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
             }
         },
         {
+            id: "payment_types",
+            header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
+            cell: ({ row }) => {
+                return (
+                    <div className="max-w-auto flex flex-wrap gap-2">
+                        {row.original.payment_types && row.original.payment_types.length > 0
+                            ? row.original.payment_types?.map(pt => {
+                                  return (
+                                      <PaymentTypeIcon
+                                          className="h-7 w-7"
+                                          key={pt.code}
+                                          type={pt.code}
+                                          metaIcon={pt.meta?.["icon"]}
+                                      />
+                                  );
+                              })
+                            : "-"}
+                    </div>
+                );
+            }
+        },
+        {
             id: "public_key",
             accessorKey: "public_key",
             header: translate("resources.provider.fields.pk"),
@@ -103,28 +125,7 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
                 );
             }
         },
-        {
-            id: "payment_types",
-            header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
-            cell: ({ row }) => {
-                return (
-                    <div className="max-w-auto flex flex-wrap gap-2">
-                        {row.original.payment_types && row.original.payment_types.length > 0
-                            ? row.original.payment_types?.map(pt => {
-                                  return (
-                                      <PaymentTypeIcon
-                                          className="h-7 w-7"
-                                          key={pt.code}
-                                          type={pt.code}
-                                          metaIcon={pt.meta?.["icon"]}
-                                      />
-                                  );
-                              })
-                            : "-"}
-                    </div>
-                );
-            }
-        },
+
         {
             id: "actions",
             cell: ({ row }) => {

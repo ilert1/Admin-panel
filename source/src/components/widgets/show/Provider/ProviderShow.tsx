@@ -156,14 +156,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
             <div className="flex flex-col gap-2 pt-2">
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
-                    <TextField
-                        label={translate("resources.provider.fields.pk")}
-                        text={context.record.public_key || ""}
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                    />
-
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
@@ -179,6 +171,14 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             )}
                         </div>
                     </div>
+
+                    <TextField
+                        label={translate("resources.provider.fields.pk")}
+                        text={context.record.public_key || ""}
+                        copyValue
+                        lineClamp
+                        linesCount={1}
+                    />
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
