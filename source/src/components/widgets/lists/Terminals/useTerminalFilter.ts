@@ -14,12 +14,31 @@ const useTerminalFilter = () => {
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
     useEffect(() => {
-        if (terminalsData) {
+        if (terminalsData && filterValues?.terminal_id) {
             const foundTerm = terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminal_id);
-            setTerminalFilterName(foundTerm?.verbose_name ?? "");
+
+            if (foundTerm) {
+                setTerminalFilterName(foundTerm?.verbose_name);
+            } else {
+                Reflect.deleteProperty(filterValues, "terminal_id");
+                setFilters(filterValues, displayedFilters, true);
+                setTerminalFilterName("");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
+
+    useEffect(() => {
+        if (providersData && filterValues?.provider) {
+            const foundProvider = providersData?.find(provider => provider.name === filterValues?.provider);
+
+            if (!foundProvider) {
+                setFilters({}, displayedFilters, true);
+                setProviderName("");
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
 
     const onPropertySelected = debounce((value: string, type: "terminal_id" | "provider") => {
         const { ...newFilterValues } = filterValues;
