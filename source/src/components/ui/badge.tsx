@@ -15,7 +15,9 @@ const badgeVariants = cva(
                 outline: "text-foreground",
                 currency: "cursor-default border border-neutral-50 bg-transparent font-normal hover:bg-transparent",
                 warning: "bg-yellow-50 !rounded-16",
-                success: "bg-green-50 !rounded-16"
+                success: "bg-green-50 !rounded-16",
+                prioritized:
+                    "border-transparent  text-destructive-foreground shadow hover:bg-red-50 !rounded-16 bg-red-50 py-0 select-none"
             }
         },
         defaultVariants: {
