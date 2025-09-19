@@ -236,11 +236,11 @@
             "updatedSuccessfully": "Limits updated successfully",
             "resetedSuccessfully": "Limits reset successfully",
             "errors": {
-                "minGreaterThanMax": "The maximum value of %{field} limit cannot be less than the minimum value",
-                "maxTooSmall": "The maximum value of %{field} limit must be 0 or greater than 1",
-                "minTooSmall": "The minimum value of %{field} limit must be 0 or greater than 1",
-                "maxTooLarge": "The maximum value of %{field} limit cannot be greater than 10,000,000",
-                "minTooSmallForOne": "The minimum value of %{field} limit must be 1 or greater",
+                "minGreaterThanMax": "The maximum value of limit cannot be less than the minimum value",
+                "maxTooSmall": "The maximum value of limit must be 0 or greater than 1",
+                "minTooSmall": "The minimum value of limit must be 0 or greater than 1",
+                "maxTooLarge": "The maximum value of limit cannot be greater than 10,000,000",
+                "minTooSmallForOne": "The minimum value of limit must be 1 or greater",
                 "ofDeposit": "deposit",
                 "ofPayment": "payment",
                 "ofReward": "reward"
