@@ -226,6 +226,8 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                 onOpenChange={setDeleteDialogOpen}
                 onQuickShowOpenChange={onOpenChange}
                 id={id}
+                termName={context.record.terminal.verbose_name}
+                cascadeName={context.record.cascade.name}
             />
 
             <EditCascadeTerminalDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />

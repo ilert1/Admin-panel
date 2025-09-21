@@ -18,6 +18,7 @@ import { CirclePlus } from "lucide-react";
 import { CreateCascadeTerminalsDialog } from "../../lists/CascadeTerminals/CreateCascadeTerminalsDialog";
 import { CountryTextField } from "../../components/CountryTextField";
 import { useCountryCodes } from "@/hooks";
+import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 
 export interface CascadeShowProps {
     id: string;
@@ -34,7 +35,15 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [createCascadeTerminalDialogOpen, setCreateCascadeTerminalDialogOpen] = useState(false);
 
-    const { cascadeTerminalColumns } = useGetCascadeShowColumns({ isFetchingCascadeTerminalsData: context.isFetching });
+    const {
+        cascadeTerminalColumns,
+        chosenId,
+        chosenTermName,
+        showCascadeTerminalDeleteDialog,
+        setShowCascadeTerminalDeleteDialog
+    } = useGetCascadeShowColumns({
+        isFetchingCascadeTerminalsData: context.isFetching
+    });
 
     if (context.isLoading || !context.record) {
         return <Loading />;
@@ -221,6 +230,14 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                 onOpenChange={setDeleteDialogOpen}
                 onQuickShowOpenChange={onOpenChange}
                 id={id}
+            />
+
+            <DeleteCascadeTerminalDialog
+                open={showCascadeTerminalDeleteDialog}
+                onOpenChange={setShowCascadeTerminalDeleteDialog}
+                id={chosenId}
+                cascadeName={context.record.name}
+                termName={chosenTermName}
             />
 
             <EditCascadeDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />

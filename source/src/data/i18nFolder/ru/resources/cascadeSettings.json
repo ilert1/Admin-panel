@@ -60,6 +60,7 @@
         "creatingCascadeTerminal": "Привязка терминала",
         "editingCascadeTerminal": "Изменение терминала каскадов",
         "deleteCascadeTerminal": "Удалить связь терминала и каскада?",
+        "deletedSuccessfully": "Связь каскада %{cascade}, и терминала %{terminal} успешно удалена.",
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",

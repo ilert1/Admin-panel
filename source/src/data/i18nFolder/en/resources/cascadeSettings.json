@@ -60,6 +60,7 @@
         "creatingCascadeTerminal": "Linking terminal",
         "editingCascadeTerminal": "Editing cascade terminal",
         "deleteCascadeTerminal": "Delete link between terminal and cascade?",
+        "deletedSuccessfully": "Link between cascade %{cascade} and terminal %{terminal} deleted successfully.",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",

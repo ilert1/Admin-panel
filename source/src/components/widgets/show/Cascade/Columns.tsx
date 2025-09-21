@@ -10,7 +10,6 @@ import { useState } from "react";
 import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
-import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 import { CountryTextField } from "../../components/CountryTextField";
 import { useCountryCodes } from "@/hooks";
 
@@ -26,12 +25,21 @@ export const useGetCascadeShowColumns = ({
     const { openSheet } = useSheets();
     const { countryCodesWithFlag } = useCountryCodes();
 
+    const [chosenId, setChosenId] = useState("");
+    const [chosenTermName, setChosenTermName] = useState("");
     const [showCascadeTerminalDeleteDialog, setShowCascadeTerminalDeleteDialog] = useState(false);
+
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
     });
+
+    const handleDeleteClicked = (id: string, termName: string) => {
+        setChosenId(id);
+        setShowCascadeTerminalDeleteDialog(true);
+        setChosenTermName(termName);
+    };
 
     const onSubmit = async (id: string, data: Pick<CascadeTerminalRead, "state">) => {
         try {
@@ -195,22 +203,19 @@ export const useGetCascadeShowColumns = ({
             header: () => <div className="flex justify-center">{translate("resources.currency.fields.delete")}</div>,
             cell: ({ row }) => {
                 return (
-                    <>
-                        <TrashButton onClick={() => setShowCascadeTerminalDeleteDialog(true)} />
-
-                        <DeleteCascadeTerminalDialog
-                            open={showCascadeTerminalDeleteDialog}
-                            onOpenChange={setShowCascadeTerminalDeleteDialog}
-                            onQuickShowOpenChange={() => {}}
-                            id={row.original.id}
-                        />
-                    </>
+                    <TrashButton
+                        onClick={() => handleDeleteClicked(row.original.id, row.original.terminal.verbose_name)}
+                    />
                 );
             }
         }
     ];
 
     return {
-        cascadeTerminalColumns
+        cascadeTerminalColumns,
+        chosenId,
+        chosenTermName,
+        showCascadeTerminalDeleteDialog,
+        setShowCascadeTerminalDeleteDialog
     };
 };
