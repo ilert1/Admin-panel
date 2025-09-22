@@ -40,7 +40,7 @@
             "blocked": "Off",
             "permitted": "On",
             "blocked_ips": "Blocked IPs",
-            "rate_limit": "Burst limit",
+            "rate_limit": "Rate limit",
             "enforcement_mode": "Enforcement mode",
             "enforcement_modes": {
                 "log": "Log",
