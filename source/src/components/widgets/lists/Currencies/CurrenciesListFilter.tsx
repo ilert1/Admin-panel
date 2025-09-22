@@ -4,12 +4,14 @@ import { useState } from "react";
 import { FilterButtonGroup } from "../../components/FilterButtonGroup";
 import { AnimatedContainer } from "../../components/AnimatedContainer";
 import { ResourceHeaderTitle } from "../../components/ResourceHeaderTitle";
-import { Input } from "@/components/ui/Input/input";
 import { CreateCurrencyDialog } from "./CreateCurrencyDialog";
 import useCurrenciesListFilter from "./useCurrenciesListFilter";
+import { Label } from "@/components/ui/label";
+import { CurrencySelect } from "../../components/Selects/CurrencySelect";
 
 export const CurrenciesListFilter = () => {
-    const { translate, currencyCode, onCurrencyCodeChanged, onClearFilters } = useCurrenciesListFilter();
+    const { translate, currenciesData, currenciesLoadingProcess, currencyCode, onCurrencyCodeChanged, onClearFilters } =
+        useCurrenciesListFilter();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -43,13 +45,20 @@ export const CurrenciesListFilter = () => {
 
                 <AnimatedContainer open={openFiltersClicked}>
                     <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
-                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
-                            <Input
-                                label={translate("resources.currency.fields.currency")}
-                                labelSize="title-2"
+                        <div className="flex min-w-36 flex-1 flex-col">
+                            <Label variant={"title-2"}>
+                                {translate("resources.paymentSettings.systemPaymentInstruments.fields.currency_code")}
+                            </Label>
+                            <CurrencySelect
+                                currencies={currenciesData ?? []}
                                 value={currencyCode}
                                 onChange={onCurrencyCodeChanged}
-                                placeholder={translate("resources.currency.fields.currency")}
+                                disabled={currenciesLoadingProcess}
+                                style="Black"
+                                placeholder={translate(
+                                    "resources.paymentSettings.systemPaymentInstruments.placeholders.currencyCode"
+                                )}
+                                isLoading={currenciesLoadingProcess}
                             />
                         </div>
                     </div>

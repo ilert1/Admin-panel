@@ -19,10 +19,9 @@ export const DirectionListFilter = () => {
         merchantsLoadingProcess,
         merchantValue,
         setMerchantValue,
-        merchantId,
         onMerchantChanged,
         clearFilters,
-        provider,
+        providerValue,
         onProviderChanged,
         providersData,
         providersLoadingProcess
@@ -35,7 +34,7 @@ export const DirectionListFilter = () => {
         setCreateDialogOpen(true);
     };
 
-    const clearDisabled = !merchantId && !provider;
+    const clearDisabled = !merchantValue && !providerValue;
 
     return (
         <>
@@ -55,7 +54,7 @@ export const DirectionListFilter = () => {
                         <FilterButtonGroup
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
-                            filterList={[merchantId, provider]}
+                            filterList={[merchantValue, providerValue]}
                             clearButtonDisabled={clearDisabled}
                             onClearFilters={clearFilters}
                         />
@@ -87,7 +86,7 @@ export const DirectionListFilter = () => {
 
                             <ProviderSelect
                                 providers={providersData || []}
-                                value={provider}
+                                value={providerValue}
                                 onChange={onProviderChanged}
                                 isLoading={providersLoadingProcess}
                                 disabled={providersLoadingProcess}
