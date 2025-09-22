@@ -106,7 +106,8 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                 state: cascadeTerminalData.state || CASCADE_TERMINAL_STATE[0],
                 condition: {
                     extra: cascadeTerminalData.condition?.extra || false,
-                    weight: cascadeTerminalData.condition?.weight || undefined,
+                    weight:
+                        cascadeTerminalData.condition?.weight || (cascadeTerminalData.condition?.extra ? 0 : undefined),
                     rank: cascadeTerminalData.condition?.rank || undefined,
                     ttl: {
                         min: cascadeTerminalData.condition?.ttl?.min || undefined,
