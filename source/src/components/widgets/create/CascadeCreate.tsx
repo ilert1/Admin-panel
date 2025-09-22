@@ -127,26 +127,24 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                    <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
-                        <div className="col-span-2">
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field, fieldState }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                variant={InputTypes.GRAY}
-                                                error={fieldState.invalid}
-                                                errorMessage={<FormMessage />}
-                                                label={translate("resources.cascadeSettings.cascades.fields.name")}
-                                            />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                    <div className="grid grid-cols-1 gap-4 p-2 sm:grid-cols-2">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="col-span-1 sm:col-span-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate("resources.cascadeSettings.cascades.fields.name")}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
 
                         <FormField
                             control={form.control}
@@ -226,7 +224,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
                             )}
                         />
 
-                        <div className="grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
+                        <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
                             <FormField
                                 control={form.control}
                                 name="priority_policy.rank"
@@ -315,7 +313,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
                             name="details"
                             render={({ field }) => {
                                 return (
-                                    <FormItem className="col-span-1 sm:col-span-2">
+                                    <FormItem className="col-span-1 md:col-span-2">
                                         <Label>{translate("resources.cascadeSettings.cascades.fields.details")}</Label>
                                         <FormControl>
                                             <MonacoEditor
