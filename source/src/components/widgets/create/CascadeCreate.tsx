@@ -25,7 +25,7 @@ import { useCurrenciesListWithoutPagination } from "@/hooks";
 import { CascadesDataProvider } from "@/data";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
+import { CASCADE_KIND, CASCADE_TYPE } from "@/data/cascades";
 import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
@@ -63,7 +63,6 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
             .trim(),
         cascade_kind: z.enum([CASCADE_KIND[0], ...CASCADE_KIND.slice(0)]).default(CASCADE_KIND[0]),
-        state: z.enum([CASCADE_STATE[0], ...CASCADE_STATE.slice(0)]).default(CASCADE_STATE[0]),
         payment_types: z.array(z.string()).optional().default([]),
         description: z.string().trim().optional(),
         details: z.string().trim().optional()
@@ -80,7 +79,6 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             src_currency_code: "",
             dst_country_code: "",
             cascade_kind: CASCADE_KIND[0],
-            state: CASCADE_STATE[0],
             payment_types: [],
             description: "",
             details: "{}"
@@ -130,52 +128,25 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.cascadeSettings.cascades.fields.name")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.cascadeSettings.cascades.fields.state")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                        <div className="col-span-2">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
                                         <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate("resources.cascadeSettings.cascades.fields.name")}
+                                            />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_STATE.map(state => (
-                                                    <SelectItem value={state} variant={SelectType.GRAY} key={state}>
-                                                        {translate(`resources.cascadeSettings.cascades.state.${state}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
                         <FormField
                             control={form.control}
