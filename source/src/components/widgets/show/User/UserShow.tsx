@@ -38,7 +38,7 @@ export const UserShow = ({ id, onOpenChange }: UserShowProps) => {
 
     return (
         <div className="relative">
-            <div className="flex flex-row flex-wrap justify-between gap-2 px-4 pb-1 md:flex-nowrap md:px-[42px] md:pb-[25px]">
+            <div className="flex flex-row flex-wrap items-center gap-2 px-4 pb-1 md:flex-nowrap md:px-[42px] md:pb-[25px]">
                 <TextField text={id} copyValue className="text-neutral-70 dark:text-neutral-30" />
 
                 <div className="flex items-center justify-center">
