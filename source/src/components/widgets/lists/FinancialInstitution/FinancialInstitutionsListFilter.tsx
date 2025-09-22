@@ -105,7 +105,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                         />
                     </div>
 
-                    <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                    <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-24">
                         <Input
                             label={translate("resources.paymentSettings.financialInstitution.fields.code")}
                             labelSize="title-2"
@@ -128,7 +128,7 @@ export const FinancialInstitutionsListFilter = (props: FinancialInstitutionsList
                         />
                     </div>
 
-                    <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                    <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-24">
                         <Input
                             label={translate("resources.paymentSettings.financialInstitution.fields.nspk_member_id")}
                             labelSize="title-2"
