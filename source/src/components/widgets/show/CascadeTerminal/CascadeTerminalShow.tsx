@@ -39,28 +39,34 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
-                <div className="flex flex-wrap gap-2">
-                    <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
-                    {isPrioritized && (
-                        <Badge variant={"prioritized"}>
-                            {translate("resources.direction.fields.condition.prioritized")}
-                        </Badge>
-                    )}
-                </div>
+            <div className="flex flex-col flex-wrap gap-2 md:flex-nowrap">
+                <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
+                        <TextField
+                            text={context.record.id}
+                            copyValue
+                            className="text-neutral-70 dark:text-neutral-30"
+                        />
+                    </div>
 
-                <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
-                    {context.record.state === "active" && (
-                        <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                            {translate("resources.cascadeSettings.cascades.state.active")}
-                        </span>
-                    )}
-                    {context.record.state === "inactive" && (
-                        <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                            {translate("resources.cascadeSettings.cascades.state.inactive")}
-                        </span>
-                    )}
+                    <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0">
+                        {context.record.state === "active" && (
+                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                                {translate("resources.cascadeSettings.cascades.state.active")}
+                            </span>
+                        )}
+                        {context.record.state === "inactive" && (
+                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                                {translate("resources.cascadeSettings.cascades.state.inactive")}
+                            </span>
+                        )}
+                    </div>
                 </div>
+                {isPrioritized && (
+                    <Badge variant={"prioritized"} className="self-start">
+                        {translate("resources.direction.fields.condition.prioritized")}
+                    </Badge>
+                )}
             </div>
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
