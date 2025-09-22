@@ -139,13 +139,14 @@ const persistentStore = initializeStore();
 const BANK_TRANSFER = import.meta.env.VITE_BANK_TRANSFER_ENABLED === "true" ? true : false;
 
 export const App = () => {
+    const getDefaultRoute = (permissions: string) => {
+        const last = localStorage.getItem(`lastResource_${permissions}`);
+        return last ? last : "/accounts";
+    };
+
     return (
         <ThemeProvider defaultTheme="dark" storageKey="juggler-ui-theme">
-            <BrowserRouter
-                future={{
-                    v7_startTransition: true,
-                    v7_relativeSplatPath: true
-                }}>
+            <BrowserRouter>
                 <CoreAdminContext
                     i18nProvider={i18nProvider}
                     dataProvider={dataProvider}
@@ -162,6 +163,13 @@ export const App = () => {
                             loginPage={LoginPage}>
                             {(permissions: string) => (
                                 <>
+                                    <CustomRoutes>
+                                        <Route
+                                            path="/"
+                                            element={<Navigate to={getDefaultRoute(permissions)} replace />}
+                                        />
+                                    </CustomRoutes>
+
                                     <Resource name="accounts" list={AccountList} icon={WalletMinimalIcon} />
                                     <Resource name="transactions" list={TransactionList} icon={HistoryIcon} />
                                     <Resource name="withdraw" list={WithdrawList} icon={BitcoinIcon} />
