@@ -1,11 +1,13 @@
+import { useCurrenciesListWithoutPagination } from "@/hooks";
 import { debounce } from "lodash";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useListContext, useTranslate } from "react-admin";
 
 const useCurrenciesListFilter = () => {
     const translate = useTranslate();
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
 
     const [currencyCode, setCurrencyCode] = useState(filterValues?.code || "");
 
@@ -19,9 +21,9 @@ const useCurrenciesListFilter = () => {
         setPage(1);
     }, 300);
 
-    const onCurrencyCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        setCurrencyCode(e.target.value);
-        onPropertySelected(e.target.value, "code");
+    const onCurrencyCodeChanged = (code: string) => {
+        setCurrencyCode(code);
+        onPropertySelected(code, "code");
     };
 
     const onClearFilters = () => {
@@ -32,6 +34,8 @@ const useCurrenciesListFilter = () => {
 
     return {
         translate,
+        currenciesData,
+        currenciesLoadingProcess,
         currencyCode,
         onCurrencyCodeChanged,
         onClearFilters
