@@ -306,50 +306,46 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     <div className="flex flex-wrap">
                         <div className="flex w-full flex-col gap-2">
                             <div className="grid w-full gap-x-4 gap-y-2 sm:grid-cols-2 md:grid-cols-3">
-                                <div className="col-span-2 md:col-span-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="provider"
-                                        render={({ field, fieldState }) => (
-                                            <FormItem className="w-full">
-                                                <Label>{translate("resources.direction.provider")}</Label>
-                                                <ProviderSelect
-                                                    providers={providersData || []}
-                                                    value={field.value}
-                                                    onChange={field.onChange}
-                                                    isError={fieldState.invalid}
-                                                    errorMessage={fieldState.error?.message}
-                                                    disabled={providersLoadingProcess}
-                                                    modal
-                                                    isLoading={providersLoadingProcess}
-                                                />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                <FormField
+                                    control={form.control}
+                                    name="provider"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="col-span-2 w-full md:col-span-1">
+                                            <Label>{translate("resources.direction.provider")}</Label>
+                                            <ProviderSelect
+                                                providers={providersData || []}
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
+                                                disabled={providersLoadingProcess}
+                                                modal
+                                                isLoading={providersLoadingProcess}
+                                            />
+                                        </FormItem>
+                                    )}
+                                />
 
-                                <div className="col-span-2">
-                                    <FormField
-                                        control={form.control}
-                                        name="verbose_name"
-                                        render={({ field, fieldState }) => (
-                                            <FormItem className="w-full">
-                                                <FormControl>
-                                                    <Input
-                                                        label={translate("resources.terminals.fields.verbose_name")}
-                                                        autoCorrect="off"
-                                                        autoCapitalize="none"
-                                                        spellCheck="false"
-                                                        error={fieldState.invalid}
-                                                        errorMessage={<FormMessage />}
-                                                        variant={InputTypes.GRAY}
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                <FormField
+                                    control={form.control}
+                                    name="verbose_name"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem className="col-span-2 w-full">
+                                            <FormControl>
+                                                <Input
+                                                    label={translate("resources.terminals.fields.verbose_name")}
+                                                    autoCorrect="off"
+                                                    autoCapitalize="none"
+                                                    spellCheck="false"
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    variant={InputTypes.GRAY}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
 
                                 <FormField
                                     control={form.control}
