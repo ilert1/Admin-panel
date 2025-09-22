@@ -67,7 +67,9 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         dst_country_code: z
             .string()
             .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
-            .trim(),
+            .trim()
+            .optional()
+            .or(z.literal("")),
         type: z.enum([CASCADE_TYPE[0], ...CASCADE_TYPE.slice(0)]).default(CASCADE_TYPE[0]),
         priority_policy: z.object({
             rank: z.coerce
@@ -133,7 +135,11 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         try {
             await cascadesDataProvider.update("cascades", {
                 id,
-                data: { ...data, details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {} },
+                data: {
+                    ...data,
+                    dst_country_code: data.dst_country_code || null,
+                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {}
+                },
                 previousData: cascadeData as CascadeUpdateParams
             });
 
@@ -253,28 +259,37 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                         )}
                     />
 
-                    {!cascadeData.dst_country_code && (
-                        <FormField
-                            control={form.control}
-                            name="dst_country_code"
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <FormItem>
-                                        <Label>{translate("resources.direction.destinationCountry")}</Label>
+                    <FormField
+                        control={form.control}
+                        name="dst_country_code"
+                        render={({ field, fieldState }) => {
+                            return (
+                                <FormItem>
+                                    {!cascadeData.dst_country_code ? (
+                                        <>
+                                            <Label>{translate("resources.direction.destinationCountry")}</Label>
 
-                                        <CountrySelect
+                                            <CountrySelect
+                                                value={currentCountryCodeName}
+                                                onChange={setCurrentCountryCodeName}
+                                                setIdValue={field.onChange}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
+                                                modal
+                                            />
+                                        </>
+                                    ) : (
+                                        <Input
                                             value={currentCountryCodeName}
-                                            onChange={setCurrentCountryCodeName}
-                                            setIdValue={field.onChange}
-                                            isError={fieldState.invalid}
-                                            errorMessage={fieldState.error?.message}
-                                            modal
+                                            label={translate("resources.direction.destinationCountry")}
+                                            disabled
+                                            variant={InputTypes.GRAY}
                                         />
-                                    </FormItem>
-                                );
-                            }}
-                        />
-                    )}
+                                    )}
+                                </FormItem>
+                            );
+                        }}
+                    />
 
                     <FormField
                         control={form.control}

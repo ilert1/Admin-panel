@@ -63,7 +63,9 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         dst_country_code: z
             .string()
             .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
-            .trim(),
+            .trim()
+            .optional()
+            .or(z.literal("")),
         cascade_kind: z.enum([CASCADE_KIND[0], ...CASCADE_KIND.slice(0)]).default(CASCADE_KIND[0]),
         payment_types: z.array(z.string()).optional().default([]),
         description: z.string().trim().optional(),
@@ -96,6 +98,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             const res = await cascadesDataProvider.create("cascades", {
                 data: {
                     ...data,
+                    dst_country_code: data.dst_country_code || null,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {}
                 }
             });
