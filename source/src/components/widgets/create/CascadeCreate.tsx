@@ -27,6 +27,7 @@ import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/Paym
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { CASCADE_KIND, CASCADE_TYPE } from "@/data/cascades";
 import { CountrySelect } from "../components/Selects/CountrySelect";
+import { useSheets } from "@/components/providers/SheetProvider";
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
     const cascadesDataProvider = new CascadesDataProvider();
@@ -35,6 +36,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
     const appToast = useAppToast();
     const translate = useTranslate();
     const refresh = useRefresh();
+    const { openSheet } = useSheets();
 
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
@@ -91,14 +93,28 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         setSubmitButtonDisabled(true);
 
         try {
-            await cascadesDataProvider.create("cascades", {
+            const res = await cascadesDataProvider.create("cascades", {
                 data: {
                     ...data,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {}
                 }
             });
 
-            appToast("success", translate("app.ui.create.createSuccess"));
+            appToast(
+                "success",
+                <span>
+                    {translate("resources.cascadeSettings.cascades.successCreate", { name: data.name })}
+                    <Button
+                        className="!pl-1"
+                        variant="resourceLink"
+                        onClick={() => openSheet("cascade", { id: res.data.id })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </span>,
+                translate("app.ui.toast.success"),
+                10000
+            );
+
             refresh();
             onClose();
         } catch (error) {

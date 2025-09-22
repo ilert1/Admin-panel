@@ -51,7 +51,8 @@
             "alreadyExist": "Cascade already exist"
         },
         "selectPlaceholder": "Select cascade",
-        "notFoundMessage": "Cascades not found."
+        "notFoundMessage": "Cascades not found.",
+        "successCreate": "Cascade %{name} has been successfully created."
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Cascade terminals",
