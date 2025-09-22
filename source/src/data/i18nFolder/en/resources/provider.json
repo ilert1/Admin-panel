@@ -1,5 +1,16 @@
 {
     "resources.provider.name": "Providers",
+    "resources.provider.links": {
+        "linksEdit": "Edit links",
+        "linksEditing": "Links editing",
+        "grafana_link": "Grafana",
+        "mapping_bank_keys": "Banking mapping keys",
+        "provider_docs": "Provider documentation",
+        "provider_environment": "Provider environment",
+        "telegram_chat": "Telegram chat",
+        "temporal_link": "Temporal link",
+        "wiki_link": "Wiki"
+    },
     "resources.provider.fields": {
         "_name": "Name",
         "name": "Provider",

@@ -35,7 +35,7 @@ export interface IProvider extends ProviderBase {
 }
 
 export interface ProviderUpdateParams extends ProviderUpdate {
-    id: string;
+    id?: string;
 }
 
 export class ProvidersDataProvider extends IBaseDataProvider {

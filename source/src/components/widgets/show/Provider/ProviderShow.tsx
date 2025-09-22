@@ -26,6 +26,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { EditProviderDeliveryPolicyDialog } from "./EditProviderDeliveryPolicyDialog";
 import { EditProviderSecPolicy } from "./EditProviderSecPolicy";
 import { EditProviderCallbackDialog } from "./EditProviderCallbackDialog";
+import { EditProviderLinksDialog } from "./EditProviderLinks/EditProviderLinksDialog";
 
 export interface ProviderShowProps {
     id: string;
@@ -44,6 +45,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [editSecPolicyClicked, setEditSecPolicyClicked] = useState(false);
+    const [editLinksDialogOpen, setEditLinksDialogOpen] = useState(false);
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [editAllowedIPsClicked, setEditAllowedIPsClicked] = useState(false);
@@ -137,6 +139,10 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
         setEditDialogOpen(prev => !prev);
     }, []);
 
+    const handleEditLinksClicked = useCallback(() => {
+        setEditLinksDialogOpen(prev => !prev);
+    }, []);
+
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
@@ -183,6 +189,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
                     <Button onClick={handleEditClicked}>{translate("app.ui.actions.edit")}</Button>
+                    <Button onClick={handleEditLinksClicked}>{translate("resources.provider.links.linksEdit")}</Button>
 
                     <Button onClick={handleDeleteClicked} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
@@ -394,8 +401,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                     onClick={() => {
                                         setEditBlockedIPsClicked(true);
                                     }}>
-                                    {/* {translate("resources.callbridge.mapping.fields.blackListEdit")} */}
-                                    Изменить
+                                    {translate("app.ui.actions.edit")}
                                 </Button>
                             </div>
 
@@ -410,8 +416,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                     onClick={() => {
                                         setEditAllowedIPsClicked(true);
                                     }}>
-                                    {/* {translate("resources.callbridge.mapping.fields.whiteListEdit")} */}
-                                    Изменить
+                                    {translate("app.ui.actions.edit")}
                                 </Button>
                             </div>
                         </div>
@@ -472,6 +477,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
             />
 
             <EditProviderSecPolicy id={id} onOpenChange={setEditSecPolicyClicked} open={editSecPolicyClicked} />
+            <EditProviderLinksDialog id={id} open={editLinksDialogOpen} onOpenChange={setEditLinksDialogOpen} />
         </div>
     );
 };
