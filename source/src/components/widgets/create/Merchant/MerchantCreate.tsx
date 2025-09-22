@@ -13,16 +13,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { useCurrenciesListWithoutPagination, useFetchDictionaries } from "@/hooks";
+import { useFetchDictionaries } from "@/hooks";
 import { Fees } from "../../components/Fees";
-import { CurrenciesMultiSelect } from "../../components/MultiSelectComponents/CurrenciesMultiSelect";
-import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
 
 export type FeeType = "inner" | "default";
 
 export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean) => void }) => {
-    const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
+    // const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const { openSheet } = useSheets();
     const translate = useTranslate();
     const refresh = useRefresh();
@@ -68,31 +65,31 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         setSubmitButtonDisabled(true);
 
         const formData = {
-            ...data,
-            settings: {
-                deposit: {
-                    ttl: {
-                        min: form.getValues("minTTLDep"),
-                        max: form.getValues("maxTTLDep")
-                    }
-                },
-                withdraw: {
-                    ttl: {
-                        min: form.getValues("minTTLWith"),
-                        max: form.getValues("maxTTLWith")
-                    }
-                },
-                connection: {
-                    ttl: {
-                        max: form.getValues("maxConnectionTTL")
-                    }
-                }
-            }
+            ...data
+            // settings: {
+            //     deposit: {
+            //         ttl: {
+            //             min: form.getValues("minTTLDep"),
+            //             max: form.getValues("maxTTLDep")
+            //         }
+            //     },
+            //     withdraw: {
+            //         ttl: {
+            //             min: form.getValues("minTTLWith"),
+            //             max: form.getValues("maxTTLWith")
+            //         }
+            //     },
+            //     connection: {
+            //         ttl: {
+            //             max: form.getValues("maxConnectionTTL")
+            //         }
+            //     }
+            // }
         };
 
-        if (formData?.description?.length === 0) {
-            formData.description = null;
-        }
+        // if (formData?.description?.length === 0) {
+        //     formData.description = null;
+        // }
 
         try {
             const json = await merchantsDataProvider.createNewFlow({ data: formData });
@@ -126,126 +123,125 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
         }
     };
 
-    const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+    // const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
-    const formSchema = z
-        .object({
-            name: z
-                .string({ message: translate("resources.merchant.errors.required") })
-                .min(1, translate("resources.merchant.errors.name"))
-                .trim(),
-            public_key: z
-                .string({ message: translate("resources.merchant.errors.required") })
-                .startsWith("-----BEGIN PUBLIC KEY-----", translate("resources.merchant.errors.publicKey"))
-                .endsWith("-----END PUBLIC KEY-----", translate("resources.merchant.errors.publicKey")),
-            description: z.string().trim().nullable(),
-            fees: z.record(
-                z.object({
-                    type: z.number(),
-                    value: z.number(),
-                    currency: z.string(),
-                    recipient: z.string(),
-                    direction: z.string()
-                })
-            ),
-            currencies: z.array(z.string()).optional(),
-            payment_types: z.array(z.string()).optional().default([]),
-            minTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
-            maxTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
-            minTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
-            maxTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
-            maxConnectionTTL: z.coerce
-                .number()
-                .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
-                .max(60001)
-        })
-        .refine(
-            data => {
-                if (data.maxTTLDep === 0) {
-                    return true;
-                }
-
-                return data.minTTLDep <= data.maxTTLDep;
-            },
-            {
-                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
-                path: ["maxTTLDep"]
-            }
+    const formSchema = z.object({
+        name: z
+            .string({ message: translate("resources.merchant.errors.required") })
+            .min(1, translate("resources.merchant.errors.name"))
+            .trim(),
+        public_key: z
+            .string({ message: translate("resources.merchant.errors.required") })
+            .startsWith("-----BEGIN PUBLIC KEY-----", translate("resources.merchant.errors.publicKey"))
+            .endsWith("-----END PUBLIC KEY-----", translate("resources.merchant.errors.publicKey")),
+        // description: z.string().trim().nullable(),
+        fees: z.record(
+            z.object({
+                type: z.number(),
+                value: z.number(),
+                currency: z.string(),
+                recipient: z.string(),
+                direction: z.string()
+            })
         )
-        .refine(
-            data => {
-                if (data.maxTTLWith === 0) {
-                    return true;
-                }
+        // currencies: z.array(z.string()).optional(),
+        // payment_types: z.array(z.string()).optional().default([]),
+        // minTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
+        // maxTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
+        // minTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
+        // maxTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(60001),
+        // maxConnectionTTL: z.coerce
+        //     .number()
+        //     .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
+        //     .max(60001)
+    });
+    // .refine(
+    //     data => {
+    //         if (data.maxTTLDep === 0) {
+    //             return true;
+    //         }
 
-                return data.minTTLWith <= data.maxTTLWith;
-            },
-            {
-                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
-                path: ["maxTTLWith"]
-            }
-        );
+    //         return data.minTTLDep <= data.maxTTLDep;
+    //     },
+    //     {
+    //         message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+    //         path: ["maxTTLDep"]
+    //     }
+    // )
+    // .refine(
+    //     data => {
+    //         if (data.maxTTLWith === 0) {
+    //             return true;
+    //         }
+
+    //         return data.minTTLWith <= data.maxTTLWith;
+    //     },
+    //     {
+    //         message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+    //         path: ["maxTTLWith"]
+    //     }
+    // );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            description: "",
+            // description: "",
             public_key: "",
-            fees: {},
-            currencies: [],
-            payment_types: [],
-            minTTLDep: 0,
-            maxTTLDep: 0,
-            minTTLWith: 0,
-            maxTTLWith: 0,
-            maxConnectionTTL: 0
+            fees: {}
+            // currencies: [],
+            // payment_types: [],
+            // minTTLDep: 0,
+            // maxTTLDep: 0,
+            // minTTLWith: 0,
+            // maxTTLWith: 0,
+            // maxConnectionTTL: 0
         }
     });
 
-    const handleChange = (
-        key: "minTTLDep" | "maxTTLDep" | "minTTLWith" | "maxTTLWith" | "maxConnectionTTL",
-        value: string
-    ) => {
-        value = value.replace(/[^0-9.]/g, "");
+    // const handleChange = (
+    //     key: "minTTLDep" | "maxTTLDep" | "minTTLWith" | "maxTTLWith" | "maxConnectionTTL",
+    //     value: string
+    // ) => {
+    //     value = value.replace(/[^0-9.]/g, "");
 
-        const parts = value.split(".");
-        if (parts.length > 2) {
-            value = parts[0] + "." + parts[1];
-        }
+    //     const parts = value.split(".");
+    //     if (parts.length > 2) {
+    //         value = parts[0] + "." + parts[1];
+    //     }
 
-        if (parts.length === 2 && parts[1].length > 2) {
-            parts[1] = parts[1].slice(0, 2);
-            value = parts.join(".");
-        }
+    //     if (parts.length === 2 && parts[1].length > 2) {
+    //         parts[1] = parts[1].slice(0, 2);
+    //         value = parts.join(".");
+    //     }
 
-        if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
-            value = value.replace(/^0+/, "") || "0";
-        }
+    //     if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+    //         value = value.replace(/^0+/, "") || "0";
+    //     }
 
-        if (value === "") {
-            form.resetField(key);
-            return;
-        }
+    //     if (value === "") {
+    //         form.resetField(key);
+    //         return;
+    //     }
 
-        if (value.endsWith(".") || value === "0.") {
-            return;
-        }
+    //     if (value.endsWith(".") || value === "0.") {
+    //         return;
+    //     }
 
-        const numericValue = parseFloat(value);
-        if (!isNaN(numericValue)) {
-            let finalValue = numericValue;
+    //     const numericValue = parseFloat(value);
+    //     if (!isNaN(numericValue)) {
+    //         let finalValue = numericValue;
 
-            if (numericValue > 60000) {
-                finalValue = 60000;
-            }
-            if (numericValue < 0) {
-                finalValue = 0;
-            }
+    //         if (numericValue > 60000) {
+    //             finalValue = 60000;
+    //         }
+    //         if (numericValue < 0) {
+    //             finalValue = 0;
+    //         }
 
-            form.setValue(key, finalValue);
-        }
-    };
+    //         form.setValue(key, finalValue);
+    //     }
+    // };
 
     if (controllerProps.isLoading || !data)
         return (
@@ -263,7 +259,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -277,7 +273,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                 </FormItem>
                             )}
                         />
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
@@ -295,9 +291,9 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     </FormControl>
                                 </FormItem>
                             )}
-                        />
-                        <div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100"></div>
-                        <FormField
+                        /> */}
+                        {/*<div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100"></div>
+                         <FormField
                             control={form.control}
                             name="maxConnectionTTL"
                             render={({ field, fieldState }) => (
@@ -396,10 +392,10 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     </FormControl>
                                 </FormItem>
                             )}
-                        />
+                        /> */}
                         <div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100"></div>
 
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="payment_types"
                             render={({ field }) => (
@@ -431,7 +427,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
                                     />
                                 </FormItem>
                             )}
-                        />
+                        /> */}
                         <div className="w-full p-2" onDragOver={e => e.preventDefault()} onDrop={handleFileDrop}>
                             <FormField
                                 name="public_key"
