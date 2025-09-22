@@ -38,6 +38,7 @@ const useAccountFilter = () => {
             } else {
                 Reflect.deleteProperty(filterValues, "merchantId");
                 setFilters(filterValues, displayedFilters, true);
+                setMerchantId("");
                 setMerchantValue("");
             }
         }
