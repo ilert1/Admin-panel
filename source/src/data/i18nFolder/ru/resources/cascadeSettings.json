@@ -51,7 +51,8 @@
             "alreadyExist": "Каскад уже существует"
         },
         "selectPlaceholder": "Выберите каскад",
-        "notFoundMessage": "Каскады не найдены."
+        "notFoundMessage": "Каскады не найдены.",
+        "successCreate": "Каскад %{name} успешно создан."
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Терминалы каскадов",
