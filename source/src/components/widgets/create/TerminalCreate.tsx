@@ -306,25 +306,27 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                     <div className="flex flex-wrap">
                         <div className="flex w-full flex-col gap-2">
                             <div className="grid w-full gap-x-4 gap-y-2 sm:grid-cols-2 md:grid-cols-3">
-                                <FormField
-                                    control={form.control}
-                                    name="provider"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem className="w-full">
-                                            <Label>{translate("resources.direction.provider")}</Label>
-                                            <ProviderSelect
-                                                providers={providersData || []}
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                                isError={fieldState.invalid}
-                                                errorMessage={fieldState.error?.message}
-                                                disabled={providersLoadingProcess}
-                                                modal
-                                                isLoading={providersLoadingProcess}
-                                            />
-                                        </FormItem>
-                                    )}
-                                />
+                                <div className="col-span-2 md:col-span-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="provider"
+                                        render={({ field, fieldState }) => (
+                                            <FormItem className="w-full">
+                                                <Label>{translate("resources.direction.provider")}</Label>
+                                                <ProviderSelect
+                                                    providers={providersData || []}
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                    isError={fieldState.invalid}
+                                                    errorMessage={fieldState.error?.message}
+                                                    disabled={providersLoadingProcess}
+                                                    modal
+                                                    isLoading={providersLoadingProcess}
+                                                />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
 
                                 <div className="col-span-2">
                                     <FormField
