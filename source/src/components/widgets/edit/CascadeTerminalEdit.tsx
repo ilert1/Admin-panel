@@ -61,6 +61,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                 .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
                 .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
                 .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                .max(1000, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMax"))
                 .optional(),
             rank: z.coerce
                 .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })
@@ -173,6 +174,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <Input
                                         {...field}
                                         variant={InputTypes.GRAY}
+                                        disabled={form.getValues("condition.extra")}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                         label={translate("resources.cascadeSettings.cascadeTerminals.fields.weight")}
@@ -190,6 +192,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                 <FormControl>
                                     <Input
                                         {...field}
+                                        value={field.value === undefined ? "" : field.value}
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
@@ -279,7 +282,11 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                         render={({ field }) => (
                             <FormItem>
                                 <label
-                                    onClick={() => field.onChange(!field.value)}
+                                    onClick={() => {
+                                        const newState = !field.value;
+                                        form.setValue("condition.weight", newState ? 0 : undefined);
+                                        field.onChange(newState);
+                                    }}
                                     className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
                                     <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
                                         {field.value && (
