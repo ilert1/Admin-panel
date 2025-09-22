@@ -34,7 +34,7 @@
         },
         "condition": {
             "condition": "Условия",
-            "rank": "Вес реквизита",
+            "rank": "Ранг",
             "extra": "Приоритет",
             "prioritized": "В приоритете"
         }
