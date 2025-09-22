@@ -13,6 +13,7 @@ const keycloakLoginUrl = import.meta.env.VITE_KEYCLOAK_LOGIN_URL;
 const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 const clearUserData = () => {
+    localStorage.removeItem("permissions");
     localStorage.removeItem("user");
     localStorage.removeItem("refresh-token");
     localStorage.removeItem("access-token");
@@ -91,8 +92,16 @@ export const authProvider: AuthProvider = {
     },
 
     logout: async () => {
+        const currentResource = window.location.pathname + window.location.search;
+        const permissions = localStorage.getItem("permissions");
+
+        if (permissions) {
+            localStorage.setItem(`lastResource_${permissions}`, currentResource);
+        }
+
         try {
             const refreshToken = localStorage.getItem("refresh-token");
+
             if (refreshToken) {
                 const bodyObject = {
                     client_id: clientId,
@@ -149,11 +158,16 @@ export const authProvider: AuthProvider = {
 
         if (!roles) return Promise.reject();
 
+        let role: string | null = null;
         if (roles.includes("admin")) {
-            return Promise.resolve("admin");
+            role = "admin";
+        } else if (roles.includes("merchant")) {
+            role = "merchant";
         }
-        if (roles.includes("merchant")) {
-            return Promise.resolve("merchant");
+
+        if (role) {
+            localStorage.setItem("permissions", role);
+            return Promise.resolve(role);
         }
 
         return Promise.reject();
