@@ -132,7 +132,7 @@ export const CascadeTerminalShow = ({ id, onOpenChange }: CascadeTerminalShowPro
                             variant={"resourceLink"}
                             onClick={() => {
                                 if (context.record.terminal.provider.id) {
-                                    openSheet("terminal", {
+                                    openSheet("provider", {
                                         id: context.record.terminal.provider.id
                                     });
                                 }
