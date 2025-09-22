@@ -55,8 +55,6 @@ export const DeleteCascadeTerminalDialog = ({
         deleteElem();
     };
 
-    console.log(id);
-
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-h-[250px] max-w-[270px] overflow-auto bg-muted sm:max-h-[200px]">
