@@ -58,7 +58,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                             className="whitespace-break-spaces text-left">
                             {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
                         </Button>
-                        {!isPrioritized && (
+                        {isPrioritized && (
                             <Badge variant={"prioritized"}>
                                 {translate("resources.direction.fields.condition.prioritized")}
                             </Badge>

@@ -90,7 +90,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                             )}
                         </div>
                     </div>
-                    {!isPrioritized && (
+                    {isPrioritized && (
                         <Badge variant={"destructive"} className="self-start !rounded-16 bg-red-50 py-0">
                             {translate("resources.direction.fields.condition.prioritized")}
                         </Badge>
