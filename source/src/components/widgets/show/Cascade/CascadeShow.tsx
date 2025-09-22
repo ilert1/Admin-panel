@@ -56,7 +56,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         />
                     </div>
 
-                    <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
+                    <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0">
                         {context.record.state === "active" && (
                             <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                                 {translate("resources.cascadeSettings.cascades.state.active")}

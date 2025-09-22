@@ -61,7 +61,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                             />
                         </div>
 
-                        {context.record.state && <StateViewer value={context.record.state} />}
+                        {context.record.state && <StateViewer className="self-start" value={context.record.state} />}
                     </div>
 
                     <div className="grid gap-4 md:grid-cols-2 md:gap-6">
