@@ -267,6 +267,7 @@
             "selectCurrencies": "Выберите валюты",
             "selectRequiredFields": "Выберите обязательные поля",
             "selectTerminals": "Выберите терминалы",
+            "selectPaymentMethods": "Выберите платёжные методы",
             "selectProviderAtFirst": "Сначала выберите провайдера",
             "noResultFound": "Нет результатов",
             "searchPlaceholder": "Поиск...",

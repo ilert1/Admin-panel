@@ -38,6 +38,8 @@ export interface ProviderUpdateParams extends ProviderUpdate {
     id: string;
 }
 
+export const PROVIDER_PAYMENT_METHODS = ["payin_h2h", "payout_h2h", "ecom"];
+
 export class ProvidersDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<IProvider>> {
         const fieldsForSearch = Object.keys(params.filter).filter(item => item === "id");
@@ -131,7 +133,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams): Promise<CreateResult<IProvider>> {
+    async create(resource: string, params: CreateParams<ProviderCreate>): Promise<CreateResult<IProvider>> {
         const res = await providerEndpointsCreateProviderEnigmaV1ProviderPost(params.data as ProviderCreate, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`

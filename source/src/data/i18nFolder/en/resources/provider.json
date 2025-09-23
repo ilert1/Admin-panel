@@ -11,7 +11,8 @@
         "enterMethods": "Enter your methods",
         "methods": "Methods",
         "callback_nats_queue": "Nats queue",
-        "adapter_nats_subject": "Nats subject"
+        "adapter_nats_subject": "Nats subject",
+        "paymentMethods": "Payment methods"
     },
     "resources.provider.fields.securityPolicy": {
         "statusActivatedSuccessfully": "Security policy for %{providerName} provider was activated successfully",
@@ -58,5 +59,6 @@
     "resources.provider.methodDeleteSuccess": "Provider method successfully deleted",
     "resources.provider.methodTimeoutRegexError": "This field must match the hh:mm:ss format",
     "resources.provider.addMethod": "Add method",
-    "resources.provider.removeMethodDialog": "Delete the method?"
+    "resources.provider.removeMethodDialog": "Delete the method?",
+    "resources.provider.paymentMethods.notFoundMessage": "Payment methods not found"
 }

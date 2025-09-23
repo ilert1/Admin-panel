@@ -11,7 +11,8 @@
         "enterMethods": "Введите свои методы",
         "methods": "Методы",
         "callback_nats_queue": "Очередь Nats",
-        "adapter_nats_subject": "Nats тема"
+        "adapter_nats_subject": "Nats тема",
+        "paymentMethods": "Платёжные методы"
     },
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",
@@ -58,5 +59,6 @@
     "resources.provider.methodDeleteSuccess": "Метод провайдера успешно удален",
     "resources.provider.methodTimeoutRegexError": "Данное поле должно соответствовать формату hh:mm:ss",
     "resources.provider.addMethod": "Добавить метод",
-    "resources.provider.removeMethodDialog": "Удалить метод?"
+    "resources.provider.removeMethodDialog": "Удалить метод?",
+    "resources.provider.paymentMethods.notFoundMessage": "Платёжные методы не найдены"
 }
