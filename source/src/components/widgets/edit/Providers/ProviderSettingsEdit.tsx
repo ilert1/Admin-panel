@@ -53,11 +53,14 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
         return [...Object.values(ProviderEnvironment)];
     };
 
+    const urlRegex = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+
     const formSchema = z.object({
         telegram_chat: z
             .string()
             .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
             .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
+            .regex(urlRegex, "aaa")
             .trim(),
         wiki_link: z
             .string()
@@ -278,7 +281,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                     />
                     <FormField
                         control={form.control}
-                        name="mapping_bank_keys.deposit"
+                        name="mapping_bank_keys.withdraw"
                         render={({ field, fieldState }) => (
                             <FormItem>
                                 <FormControl>
@@ -287,7 +290,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.settings.mapping_bank_keys_deposit")}
+                                        label={translate("resources.provider.settings.mapping_bank_keys_withdraw")}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -300,7 +303,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                             <FormItem>
                                 <Label>{translate("resources.provider.settings.provider_environment")}</Label>
                                 <Select
-                                    value={field.value ?? "__NULL__"}
+                                    value={field.value ?? ""}
                                     onValueChange={val => field.onChange(val === "__NULL__" ? null : val)}>
                                     <FormControl>
                                         <SelectTrigger
@@ -308,9 +311,15 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                                             isError={fieldState.invalid}
                                             errorMessage={<FormMessage />}>
                                             <SelectValue
-                                                placeholder={translate(
-                                                    "resources.provider.settings.provider_environment_placeholder"
-                                                )}
+                                                placeholder={
+                                                    field.value
+                                                        ? translate(
+                                                              "resources.provider.settings.provider_environment_placeholder"
+                                                          )
+                                                        : translate(
+                                                              "resources.provider.settings.provider_environments.NULL"
+                                                          )
+                                                }
                                             />
                                         </SelectTrigger>
                                     </FormControl>

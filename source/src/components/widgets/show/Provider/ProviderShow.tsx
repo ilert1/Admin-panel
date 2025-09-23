@@ -179,23 +179,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             )}
                         </div>
                     </div>
-                    {/* <div className="flex flex-wrap gap-2">
-                        <Button variant={"outline_gray"} disabled={!info?.telegram_chat}>
-                            <TelegramIcon className="h-4 w-4" />
-                        </Button>
-                        <Button variant={"outline_gray"} disabled={!info?.grafana_link}>
-                            <GrafanaIcon className="h-4 w-4" />
-                        </Button>
-                        <Button variant={"outline_gray"} disabled={!info?.temporal_link}>
-                            <NetworkIcon className="h-4 w-4" />
-                        </Button>
-                        <Button variant={"outline_gray"} disabled={!info?.provider_environment}>
-                            <AlarmClock className="h-4 w-4" />
-                        </Button>
-                        <Button variant={"outline_gray"} disabled={!info?.provider_docs}>
-                            <FileText />
-                        </Button>
-                    </div> */}
+
                     <IconsList info={context.record.info} />
                 </div>
 
