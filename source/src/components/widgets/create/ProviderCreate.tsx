@@ -8,11 +8,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { ProvidersDataProvider } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { Label } from "@/components/ui/label";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
@@ -25,22 +23,17 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const providersDataProvider = new ProvidersDataProvider();
     const controllerProps = useCreateController<IProviderCreate>();
     const { theme } = useTheme();
-
     const appToast = useAppToast();
-
     const translate = useTranslate();
     const refresh = useRefresh();
     const { openSheet } = useSheets();
-    const [hasErrors, setHasErrors] = useState(false);
-    const [hasValid, setHasValid] = useState(true);
-    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        methods: z.string().trim().optional(),
         payment_types: z.array(z.string()).optional().default([])
     });
 
@@ -48,7 +41,6 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            methods: "{}",
             payment_types: []
         }
     });
@@ -59,12 +51,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
         setSubmitButtonDisabled(true);
 
         try {
-            const res = await providersDataProvider.create("provider", {
-                data: {
-                    ...data,
-                    methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
-                }
-            });
+            const res = await providersDataProvider.create("provider", { data });
 
             appToast(
                 "success",
@@ -142,39 +129,12 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                             )}
                         />
 
-                        <FormField
-                            control={form.control}
-                            name="methods"
-                            render={({ field }) => {
-                                return (
-                                    <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.provider.fields.methods")}</Label>
-                                        <FormControl>
-                                            <MonacoEditor
-                                                onErrorsChange={setHasErrors}
-                                                onValidChange={setHasValid}
-                                                onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value ?? "{}"}
-                                                setCode={field.onChange}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                );
-                            }}
-                        />
-
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
                             <Button
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={
-                                    hasErrors ||
-                                    !monacoEditorMounted ||
-                                    (!hasValid && form.watch("methods")?.length !== 0) ||
-                                    submitButtonDisabled
-                                }>
+                                disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
