@@ -2,7 +2,7 @@ import { useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -51,36 +51,54 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const formSchema = z.object({
-        state: z
-            .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
-            .default(CASCADE_TERMINAL_STATE[0]),
-        condition: z.object({
-            extra: z.boolean(),
-            weight: z.coerce
-                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
-                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
-                .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
-                .max(1000, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMax"))
-                .optional(),
-            rank: z.coerce
-                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })
-                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.rank"))
-                .min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.rankMin")),
-            ttl: z.object({
-                min: z.coerce
-                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
-                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+    const formSchema = z
+        .object({
+            state: z
+                .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
+                .default(CASCADE_TERMINAL_STATE[0]),
+            condition: z.object({
+                extra: z.boolean(),
+                weight: z.coerce
+                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
+                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
                     .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                    .max(1000, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMax"))
                     .optional(),
-                max: z.coerce
-                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
-                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
-                    .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
-                    .optional()
+                rank: z.coerce
+                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })
+                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.rank"))
+                    .min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.rankMin")),
+                ttl: z.object({
+                    min: z.coerce
+                        .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                        .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                        // .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                        .optional(),
+                    max: z.coerce
+                        .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                        .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                        // .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                        .optional()
+                })
             })
         })
-    });
+        .refine(
+            data => {
+                if (data.condition.ttl.min === undefined || data.condition.ttl.max === undefined) {
+                    return true;
+                }
+
+                if (data.condition.ttl.max === 0) {
+                    return true;
+                }
+
+                return data.condition.ttl.min <= data.condition.ttl.max;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["condition.ttl.max"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -153,6 +171,46 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
         }
     };
 
+    const handleChange = useCallback(
+        (key: "condition.ttl.min" | "condition.ttl.max", value: string) => {
+            if (value === "") {
+                form.setValue(key, undefined);
+                return;
+            }
+
+            value = value.replace(/[^0-9.]/g, "");
+
+            const parts = value.split(".");
+            if (parts.length > 2) {
+                value = parts[0] + "." + parts[1];
+            }
+
+            if (parts.length === 2 && parts[1].length > 2) {
+                parts[1] = parts[1].slice(0, 2);
+                value = parts.join(".");
+            }
+
+            if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+                value = value.replace(/^0+/, "") || "0";
+            }
+
+            const numericValue = parseFloat(value);
+            if (!isNaN(numericValue)) {
+                let finalValue = numericValue;
+
+                if (numericValue > 100000) {
+                    finalValue = 100000;
+                }
+                if (numericValue < 0) {
+                    finalValue = 0;
+                }
+
+                form.setValue(key, finalValue);
+            }
+        },
+        [form]
+    );
+
     usePreventFocus({ dependencies: [cascadeTerminalData] });
 
     if (isLoadingCascadeTerminalData || !cascadeTerminalData || !isFinished)
@@ -213,6 +271,8 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={field.value === undefined ? "" : String(field.value)}
+                                            onChange={e => handleChange("condition.ttl.min", e.target.value)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -233,6 +293,8 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={field.value === undefined ? "" : String(field.value)}
+                                            onChange={e => handleChange("condition.ttl.max", e.target.value)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
