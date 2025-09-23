@@ -16684,27 +16684,16 @@
             "default": false
           },
           "task_queue": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Task Queue",
             "description": "Temporal task queue name for this payment method's workflows and activities"
-          },
-          "create": {
-            "type": "boolean",
-            "title": "Create",
-            "description": "Whether create method is enabled",
-            "default": true
-          },
-          "get_state": {
-            "type": "boolean",
-            "title": "Get State",
-            "description": "Whether get_state method is enabled",
-            "default": true
-          },
-          "start_processing": {
-            "type": "boolean",
-            "title": "Start Processing",
-            "description": "Whether start_processing method is enabled",
-            "default": true
           },
           "confirm": {
             "type": "boolean",
@@ -16717,18 +16706,9 @@
             "title": "Cancel",
             "description": "Whether cancel method is enabled",
             "default": true
-          },
-          "update_state": {
-            "type": "boolean",
-            "title": "Update State",
-            "description": "Whether update_state method is enabled",
-            "default": true
           }
         },
         "type": "object",
-        "required": [
-          "task_queue"
-        ],
         "title": "PaymentMethodConfig"
       },
       "PaymentTypeBase": {

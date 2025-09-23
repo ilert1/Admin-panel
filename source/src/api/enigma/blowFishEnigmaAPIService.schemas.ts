@@ -2933,23 +2933,20 @@ export interface PaymentCategoryItem {
     value: string;
 }
 
+/**
+ * Temporal task queue name for this payment method's workflows and activities
+ */
+export type PaymentMethodConfigTaskQueue = string | null;
+
 export interface PaymentMethodConfig {
     /** Whether this payment method is enabled for the provider */
     enabled?: boolean;
     /** Temporal task queue name for this payment method's workflows and activities */
-    task_queue: string;
-    /** Whether create method is enabled */
-    create?: boolean;
-    /** Whether get_state method is enabled */
-    get_state?: boolean;
-    /** Whether start_processing method is enabled */
-    start_processing?: boolean;
+    task_queue?: PaymentMethodConfigTaskQueue;
     /** Whether confirm method is enabled */
     confirm?: boolean;
     /** Whether cancel method is enabled */
     cancel?: boolean;
-    /** Whether update_state method is enabled */
-    update_state?: boolean;
 }
 
 /**
