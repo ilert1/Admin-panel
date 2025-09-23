@@ -27,6 +27,7 @@ import { CascadeUpdateParams } from "@/data/cascades";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { CountrySelect } from "../components/Selects/CountrySelect";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 
 export interface CascadeEditProps {
     id: string;
@@ -37,12 +38,18 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
     const cascadesDataProvider = new CascadesDataProvider();
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+    const { parseError } = useErrorHandler();
+    const appToast = useAppToast();
+    const translate = useTranslate();
+    const refresh = useRefresh();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [isFinished, setIsFinished] = useState(false);
     const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const {
         data: cascadeData,
@@ -54,13 +61,6 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         enabled: true,
         select: data => data.data
     });
-    const appToast = useAppToast();
-
-    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-    const translate = useTranslate();
-    const refresh = useRefresh();
-    const { countryCodesWithFlag } = useCountryCodes();
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.cascadeSettings.cascades.errors.name")).trim(),
@@ -148,16 +148,14 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            if (error instanceof Error) {
-                appToast(
-                    "error",
-                    error.message.includes("already exist")
-                        ? translate("resources.cascadeSettings.cascades.errors.alreadyExist")
-                        : error.message
-                );
-            } else {
-                appToast("error", translate("app.ui.edit.editError"));
-            }
+            appToast(
+                "error",
+                parseError({
+                    error,
+                    defaultErrorText: translate("app.ui.edit.editError"),
+                    alreadyExistText: translate("resources.cascadeSettings.cascades.errors.alreadyExist")
+                })
+            );
         } finally {
             setSubmitButtonDisabled(false);
         }

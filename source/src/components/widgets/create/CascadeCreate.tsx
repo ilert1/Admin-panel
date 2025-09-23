@@ -28,6 +28,7 @@ import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { CASCADE_KIND, CASCADE_TYPE } from "@/data/cascades";
 import { CountrySelect } from "../components/Selects/CountrySelect";
 import { useSheets } from "@/components/providers/SheetProvider";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
     const cascadesDataProvider = new CascadesDataProvider();
@@ -37,6 +38,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
     const translate = useTranslate();
     const refresh = useRefresh();
     const { openSheet } = useSheets();
+    const { parseError } = useErrorHandler();
 
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
@@ -121,15 +123,13 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             refresh();
             onClose();
         } catch (error) {
-            if (error instanceof Error) {
-                if (error.message.includes("already exists")) {
-                    appToast("error", translate("resources.cascadeSettings.cascades.errors.alreadyExist"));
-                } else {
-                    appToast("error", error.message);
-                }
-            } else {
-                appToast("error", translate("app.ui.toast.error"));
-            }
+            appToast(
+                "error",
+                parseError({
+                    error,
+                    alreadyExistText: translate("resources.cascadeSettings.cascades.errors.alreadyExist")
+                })
+            );
         } finally {
             setSubmitButtonDisabled(false);
         }
