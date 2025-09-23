@@ -102,30 +102,27 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
                         </Button>
                     );
                 } else {
-                    const text = String(row.getValue("public_key"));
+                    return (
+                        <div className="flex items-center gap-2">
+                            <TextField
+                                text={String(row.getValue("public_key"))}
+                                copyValue
+                                lineClamp
+                                linesCount={1}
+                                wrap
+                                maxWidth="250px"
+                            />
 
-                    return <TextField text={text} copyValue lineClamp linesCount={1} maxWidth="150px" />;
+                            <Button
+                                onClick={() => handleClickGenerate(row.original.id, row.original.name)}
+                                variant={"text_btn"}>
+                                <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
+                            </Button>
+                        </div>
+                    );
                 }
             }
         },
-        {
-            id: "recreate_field",
-            header: () => {
-                return <div className="text-center">{translate("resources.provider.fields.regenKey")}</div>;
-            },
-            cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => handleClickGenerate(row.original.id, row.original.name)}
-                            variant={"text_btn"}>
-                            <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
-                        </Button>
-                    </div>
-                );
-            }
-        },
-
         {
             id: "actions",
             cell: ({ row }) => {
