@@ -141,7 +141,7 @@ const BANK_TRANSFER = import.meta.env.VITE_BANK_TRANSFER_ENABLED === "true" ? tr
 export const App = () => {
     const getDefaultRoute = (permissions: string) => {
         const last = localStorage.getItem(`lastResource_${permissions}`);
-        return last ? last : "/accounts";
+        return last && last !== "/" ? last : "/accounts";
     };
 
     return (
