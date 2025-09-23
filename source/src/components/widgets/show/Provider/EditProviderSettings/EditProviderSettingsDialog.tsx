@@ -6,16 +6,16 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import { ProviderLinksEdit } from "@/components/widgets/edit/Providers/ProviderLinksEdit";
+import { ProviderSettingsEdit } from "@/components/widgets/edit/Providers/ProviderSettingsEdit";
 import { useTranslate } from "react-admin";
 
-interface EditProviderLinksDialogProps {
+interface EditProviderSettingsDialogProps {
     id: string;
     open: boolean;
     onOpenChange?: (state: boolean) => void;
 }
 
-export const EditProviderLinksDialog = ({ open, id, onOpenChange = () => {} }: EditProviderLinksDialogProps) => {
+export const EditProviderSettingsDialog = ({ open, id, onOpenChange = () => {} }: EditProviderSettingsDialogProps) => {
     const translate = useTranslate();
 
     return (
@@ -25,11 +25,11 @@ export const EditProviderLinksDialog = ({ open, id, onOpenChange = () => {} }: E
                 className="max-w-full !overflow-y-auto bg-muted sm:max-h-[100dvh] sm:w-[716px]">
                 <DialogHeader>
                     <DialogTitle className="text-center">
-                        {translate("resources.provider.links.linksEditing")}
+                        {translate("resources.provider.settings.settingsEditing")}
                     </DialogTitle>
                     <DialogDescription />
                 </DialogHeader>
-                <ProviderLinksEdit id={id} onOpenChange={onOpenChange} />
+                <ProviderSettingsEdit id={id} onOpenChange={onOpenChange} />
                 <DialogFooter />
             </DialogContent>
         </Dialog>

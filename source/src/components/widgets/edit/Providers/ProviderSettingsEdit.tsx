@@ -12,13 +12,23 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/Button";
 import { ProviderEnvironment } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectType,
+    SelectValue
+} from "@/components/ui/select";
 
-export interface ProviderLinksEditProps {
+export interface ProviderSettingsEditProps {
     id: string;
     onOpenChange: (state: boolean) => void;
 }
 
-export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinksEditProps) => {
+export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSettingsEditProps) => {
     const providersDataProvider = new ProvidersDataProvider();
     const refresh = useRefresh();
     const providerEnvs: string[] = Object.values(ProviderEnvironment);
@@ -147,7 +157,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.telegram_chat")}
+                                        label={translate("resources.provider.settings.telegram_chat")}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -165,7 +175,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.wiki_link")}
+                                        label={translate("resources.provider.settings.wiki_link")}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -182,7 +192,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.provider_docs")}
+                                        label={translate("resources.provider.settings.provider_docs")}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -200,7 +210,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.temporal_link")}
+                                        label={translate("resources.provider.settings.temporal_link")}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -217,12 +227,13 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.grafana_link")}
+                                        label={translate("resources.provider.settings.grafana_link")}
                                     />
                                 </FormControl>
                             </FormItem>
                         )}
                     />
+                    <div className="mt-4 w-full border-t-[1px] border-neutral-40 pt-3 dark:border-neutral-100" />
 
                     <FormField
                         control={form.control}
@@ -235,7 +246,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.mapping_bank_keys_deposit")}
+                                        label={translate("resources.provider.settings.mapping_bank_keys_deposit")}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -243,7 +254,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                     />
                     <FormField
                         control={form.control}
-                        name="mapping_bank_keys.withdraw"
+                        name="mapping_bank_keys.deposit"
                         render={({ field, fieldState }) => (
                             <FormItem>
                                 <FormControl>
@@ -252,9 +263,37 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.mapping_bank_keys_withdraw")}
+                                        label={translate("resources.provider.settings.mapping_bank_keys_deposit")}
                                     />
                                 </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="provider_environment"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <Label>{translate("resources.provider.settings.provider_environment")}</Label>
+                                <Select value={field.value} onValueChange={field.onChange}>
+                                    <FormControl>
+                                        <SelectTrigger
+                                            variant={SelectType.GRAY}
+                                            isError={fieldState.invalid}
+                                            errorMessage={<FormMessage />}>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {providerEnvs.map(kind => (
+                                                <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
+                                                    {translate(`resources.provider.provider_environments.${kind}`)}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </FormItem>
                         )}
                     />

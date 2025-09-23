@@ -1,14 +1,18 @@
 {
     "resources.provider.name": "Providers",
-    "resources.provider.links": {
-        "linksEdit": "Edit links",
-        "linksEditing": "Links editing",
+    "resources.provider.settings": {
+        "settingsEdit": "Settings",
+        "settingsEditing": "Settings editing",
         "grafana_link": "Grafana",
         "mapping_bank_keys": "Banking mapping keys",
         "mapping_bank_keys_deposit": "Banking mapping keys for deposit",
         "mapping_bank_keys_withdraw": "Banking mapping keys for withdraw",
         "provider_docs": "Provider documentation",
         "provider_environment": "Provider environment",
+        "provider_environments": {
+            "TEST": "Test environment",
+            "PROD": "Production environment"
+        },
         "telegram_chat": "Telegram chat",
         "temporal_link": "Temporal link",
         "wiki_link": "Wiki"
@@ -63,7 +67,7 @@
     "resources.provider.selectPlaceholder": "Select provider",
     "resources.provider.editingProvider": "Editing provider",
     "resources.provider.creatingProvider": "Creating provider",
-    "resources.provider.methodNotFound": "Provider methods is empty",
+    "resources.provider.methodNotFound": "Provider methods are empty",
     "resources.provider.methodName": "Method name",
     "resources.provider.methodParameters": "Method parameters",
     "resources.provider.methodAddSuccess": "Provider method successfully added",

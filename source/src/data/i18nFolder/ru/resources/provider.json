@@ -1,14 +1,18 @@
 {
     "resources.provider.name": "Провайдеры",
-    "resources.provider.links": {
-        "linksEdit": "Изменить ссылки",
-        "linksEditing": "Изменения ссылок",
+    "resources.provider.settings": {
+        "settingsEdit": "Настройки",
+        "settingsEditing": "Изменения настроек",
         "grafana_link": "Grafana",
         "mapping_bank_keys": "Ключи для банковского маппинга",
         "mapping_bank_keys_deposit": "Ключи для банковского маппинга пополнения",
         "mapping_bank_keys_withdraw": "Ключи для банковского маппинга вывода",
         "provider_docs": "Документация провайдера",
         "provider_environment": "Окружение провайдера",
+        "provider_environments": {
+            "TEST": "Тестовое окружение",
+            "PROD": "Продакшн окружение"
+        },
         "telegram_chat": "Телеграм чат",
         "temporal_link": "Временная ссылка",
         "wiki_link": "Документация"

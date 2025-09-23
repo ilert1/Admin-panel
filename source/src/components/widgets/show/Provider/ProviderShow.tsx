@@ -26,7 +26,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { EditProviderDeliveryPolicyDialog } from "./EditProviderDeliveryPolicyDialog";
 import { EditProviderSecPolicy } from "./EditProviderSecPolicy";
 import { EditProviderCallbackDialog } from "./EditProviderCallbackDialog";
-import { EditProviderLinksDialog } from "./EditProviderLinks/EditProviderLinksDialog";
+import { EditProviderSettingsDialog } from "./EditProviderSettings/EditProviderSettingsDialog";
 
 export interface ProviderShowProps {
     id: string;
@@ -189,7 +189,9 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
                     <Button onClick={handleEditClicked}>{translate("app.ui.actions.edit")}</Button>
-                    <Button onClick={handleEditLinksClicked}>{translate("resources.provider.links.linksEdit")}</Button>
+                    <Button onClick={handleEditLinksClicked}>
+                        {translate("resources.provider.settings.settingsEdit")}
+                    </Button>
 
                     <Button onClick={handleDeleteClicked} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
@@ -477,7 +479,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
             />
 
             <EditProviderSecPolicy id={id} onOpenChange={setEditSecPolicyClicked} open={editSecPolicyClicked} />
-            <EditProviderLinksDialog id={id} open={editLinksDialogOpen} onOpenChange={setEditLinksDialogOpen} />
+            <EditProviderSettingsDialog id={id} open={editLinksDialogOpen} onOpenChange={setEditLinksDialogOpen} />
         </div>
     );
 };
