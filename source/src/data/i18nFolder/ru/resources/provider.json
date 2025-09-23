@@ -5,6 +5,8 @@
         "linksEditing": "Изменения ссылок",
         "grafana_link": "Grafana",
         "mapping_bank_keys": "Ключи для банковского маппинга",
+        "mapping_bank_keys_deposit": "Ключи для банковского маппинга пополнения",
+        "mapping_bank_keys_withdraw": "Ключи для банковского маппинга вывода",
         "provider_docs": "Документация провайдера",
         "provider_environment": "Окружение провайдера",
         "telegram_chat": "Телеграм чат",

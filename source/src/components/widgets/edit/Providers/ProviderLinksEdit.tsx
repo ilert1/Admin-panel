@@ -7,10 +7,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { usePreventFocus } from "@/hooks";
-import { ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
+import { ProvidersDataProvider } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/Button";
+import { ProviderEnvironment } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export interface ProviderLinksEditProps {
     id: string;
@@ -20,6 +21,7 @@ export interface ProviderLinksEditProps {
 export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinksEditProps) => {
     const providersDataProvider = new ProvidersDataProvider();
     const refresh = useRefresh();
+    const providerEnvs: string[] = Object.values(ProviderEnvironment);
 
     const {
         data: provider,
@@ -38,28 +40,18 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
-    const formSchema = z
-        .object({
-            telegramChat: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
-            wikiLink: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
-            providerDocs: z.string().trim(),
-            temporalLink: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
-            grafanaLink: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
-            providerEnvironment: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).trim(),
-            mapping_bank_keys: z.object({
-                deposit: z.string().trim(),
-                withdraw: z.string().trim()
-            })
+    const formSchema = z.object({
+        telegram_chat: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
+        wiki_link: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
+        provider_docs: z.string().url().trim(),
+        temporal_link: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
+        grafana_link: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
+        provider_environment: z.enum(providerEnvs as [string, ...string[]]).default("TEST"),
+        mapping_bank_keys: z.object({
+            deposit: z.string().trim(),
+            withdraw: z.string().trim()
         })
-        .transform(data => ({
-            mapping_bank_keys: data.mapping_bank_keys,
-            telegram_chat: data.telegramChat,
-            wiki_link: data.wikiLink,
-            provider_docs: data.providerDocs,
-            temporal_link: data.temporalLink,
-            grafana_link: data.grafanaLink,
-            provider_environment: data.providerEnvironment
-        }));
+    });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -69,7 +61,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
             provider_docs: "",
             temporal_link: "",
             grafana_link: "",
-            provider_environment: "",
+            provider_environment: "TEST",
             mapping_bank_keys: {
                 deposit: "",
                 withdraw: ""
@@ -80,12 +72,12 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
     useEffect(() => {
         if (!isLoadingProvider && provider && isFetchedAfterMount) {
             const updatedValues = {
-                telegramChat: provider?.info?.telegram_chat || "",
-                wikiLink: provider?.info?.wiki_link || "",
-                providerDocs: provider?.info?.provider_docs || "",
-                temporalLink: provider?.info?.temporal_link || "",
-                grafanaLink: provider?.info?.grafana_link || "",
-                providerEnvironment: provider?.info?.provider_environment || "",
+                telegram_chat: provider?.info?.telegram_chat || "",
+                wiki_link: provider?.info?.wiki_link || "",
+                provider_docs: provider?.info?.provider_docs || "",
+                temporal_link: provider?.info?.temporal_link || "",
+                grafana_link: provider?.info?.grafana_link || "",
+                provider_environment: provider?.info?.provider_environment || "TEST",
                 mapping_bank_keys: {
                     deposit: provider?.info?.mapping_bank_keys?.deposit || "",
                     withdraw: provider?.info?.mapping_bank_keys?.withdraw || ""
@@ -106,7 +98,10 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
             await providersDataProvider.update("provider", {
                 id,
                 data: {
-                    info: data
+                    info: {
+                        ...data,
+                        provider_environment: data.provider_environment as ProviderEnvironment
+                    }
                 },
                 previousData: {}
             });
@@ -140,10 +135,10 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                <div className="grid grid-cols-1 gap-x-4 p-2 md:grid-cols-2">
+                <div className="flex flex-col gap-2">
                     <FormField
                         control={form.control}
-                        name="telegramChat"
+                        name="telegram_chat"
                         render={({ field, fieldState }) => (
                             <FormItem>
                                 <FormControl>
@@ -152,7 +147,7 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
-                                        label={translate("resources.provider.links.telegramChat")}
+                                        label={translate("resources.provider.links.telegram_chat")}
                                     />
                                 </FormControl>
                             </FormItem>
@@ -161,7 +156,59 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
 
                     <FormField
                         control={form.control}
-                        name="grafanaLink"
+                        name="wiki_link"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.provider.links.wiki_link")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="provider_docs"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.provider.links.provider_docs")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="temporal_link"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.provider.links.temporal_link")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="grafana_link"
                         render={({ field, fieldState }) => (
                             <FormItem>
                                 <FormControl>
@@ -171,6 +218,41 @@ export const ProviderLinksEdit = ({ id, onOpenChange = () => {} }: ProviderLinks
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                         label={translate("resources.provider.links.grafana_link")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="mapping_bank_keys.deposit"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.provider.links.mapping_bank_keys_deposit")}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="mapping_bank_keys.withdraw"
+                        render={({ field, fieldState }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        variant={InputTypes.GRAY}
+                                        error={fieldState.invalid}
+                                        errorMessage={<FormMessage />}
+                                        label={translate("resources.provider.links.mapping_bank_keys_withdraw")}
                                     />
                                 </FormControl>
                             </FormItem>

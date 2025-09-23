@@ -5,6 +5,8 @@
         "linksEditing": "Links editing",
         "grafana_link": "Grafana",
         "mapping_bank_keys": "Banking mapping keys",
+        "mapping_bank_keys_deposit": "Banking mapping keys for deposit",
+        "mapping_bank_keys_withdraw": "Banking mapping keys for withdraw",
         "provider_docs": "Provider documentation",
         "provider_environment": "Provider environment",
         "telegram_chat": "Telegram chat",
