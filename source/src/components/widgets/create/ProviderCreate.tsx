@@ -37,7 +37,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
         payment_types: z.array(z.string()).optional().default([]),
-        payment_methods: z.array(z.string()).optional().default([])
+        payment_methods: z.array(z.enum(PROVIDER_PAYMENT_METHODS)).optional().default([])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({

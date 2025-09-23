@@ -38,7 +38,7 @@ export interface ProviderUpdateParams extends ProviderUpdate {
     id: string;
 }
 
-export const PROVIDER_PAYMENT_METHODS = ["payin_h2h", "payout_h2h", "ecom"];
+export const PROVIDER_PAYMENT_METHODS = ["payin_h2h", "payout_h2h", "ecom"] as const;
 
 export class ProvidersDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<IProvider>> {
