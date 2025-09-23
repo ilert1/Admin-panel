@@ -9,6 +9,8 @@ import { IProvider } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { ColumnSortingButton, SortingState } from "../../shared";
+import { Badge } from "@/components/ui/badge";
+import { ProviderPaymentMethods } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const useGetProvidersColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
@@ -85,6 +87,35 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
                                       />
                                   );
                               })
+                            : "-"}
+                    </div>
+                );
+            }
+        },
+        {
+            id: "payment_methods",
+            accessorKey: "payment_methods",
+            header: translate("resources.provider.fields.paymentMethods"),
+            cell: ({ row }) => {
+                const paymentMethods = Object.keys(
+                    row.original.payment_methods || {}
+                ) as (keyof ProviderPaymentMethods)[];
+                const enabledPaymentMethods = paymentMethods.filter(
+                    item => row.original.payment_methods?.[item]?.enabled === true
+                );
+
+                return (
+                    <div className="flex max-h-32 min-w-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {enabledPaymentMethods.length > 0
+                            ? enabledPaymentMethods.map(value => (
+                                  <Badge
+                                      key={value}
+                                      className="cursor-default overflow-x-hidden border-foreground/10 bg-muted font-normal text-neutral-90 transition duration-150 ease-out hover:bg-muted dark:text-neutral-0">
+                                      <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
+                                          <p>{value}</p>
+                                      </span>
+                                  </Badge>
+                              ))
                             : "-"}
                     </div>
                 );
