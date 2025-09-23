@@ -11,11 +11,15 @@
         "provider_environment": "Provider environment",
         "provider_environments": {
             "TEST": "Test environment",
-            "PROD": "Production environment"
+            "PROD": "Production environment",
+            "NULL": "Without environment"
         },
         "telegram_chat": "Telegram chat",
         "temporal_link": "Temporal link",
-        "wiki_link": "Wiki"
+        "wiki_link": "Wiki",
+        "errors": {
+            "WrongFormatOfUrl": "Wrong format of URL"
+        }
     },
     "resources.provider.fields": {
         "_name": "Name",

@@ -11,11 +11,15 @@
         "provider_environment": "Окружение провайдера",
         "provider_environments": {
             "TEST": "Тестовое окружение",
-            "PROD": "Продакшн окружение"
+            "PROD": "Продакшн окружение",
+            "NULL": "Без окружения"
         },
         "telegram_chat": "Телеграм чат",
         "temporal_link": "Временная ссылка",
-        "wiki_link": "Документация"
+        "wiki_link": "Документация",
+        "errors": {
+            "WrongFormatOfUrl": "Неправильный формат URL"
+        }
     },
     "resources.provider.fields": {
         "_name": "Название",

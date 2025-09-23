@@ -10,7 +10,7 @@ import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { ProviderMethodsShow } from "./ProviderMethods";
 import { useFetchDictionaries } from "@/hooks";
-import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
+import { AlarmClock, FileText, LockKeyhole, LockKeyholeOpen, NetworkIcon } from "lucide-react";
 import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 import { EditIPsDialog } from "../Mapping/EditIPsDialog";
 import { SimpleTable } from "../../shared";
@@ -26,7 +26,9 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { EditProviderDeliveryPolicyDialog } from "./EditProviderDeliveryPolicyDialog";
 import { EditProviderSecPolicy } from "./EditProviderSecPolicy";
 import { EditProviderCallbackDialog } from "./EditProviderCallbackDialog";
-import { EditProviderSettingsDialog } from "./EditProviderSettings/EditProviderSettingsDialog";
+import { EditProviderSettingsDialog } from "./ProviderSettings/EditProviderSettingsDialog";
+
+import { IconsList } from "./ProviderSettings/IconsList";
 
 export interface ProviderShowProps {
     id: string;
@@ -177,14 +179,24 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             )}
                         </div>
                     </div>
-
-                    <TextField
-                        label={translate("resources.provider.fields.pk")}
-                        text={context.record.public_key || ""}
-                        copyValue
-                        lineClamp
-                        linesCount={1}
-                    />
+                    {/* <div className="flex flex-wrap gap-2">
+                        <Button variant={"outline_gray"} disabled={!info?.telegram_chat}>
+                            <TelegramIcon className="h-4 w-4" />
+                        </Button>
+                        <Button variant={"outline_gray"} disabled={!info?.grafana_link}>
+                            <GrafanaIcon className="h-4 w-4" />
+                        </Button>
+                        <Button variant={"outline_gray"} disabled={!info?.temporal_link}>
+                            <NetworkIcon className="h-4 w-4" />
+                        </Button>
+                        <Button variant={"outline_gray"} disabled={!info?.provider_environment}>
+                            <AlarmClock className="h-4 w-4" />
+                        </Button>
+                        <Button variant={"outline_gray"} disabled={!info?.provider_docs}>
+                            <FileText />
+                        </Button>
+                    </div> */}
+                    <IconsList info={context.record.info} />
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
