@@ -31,7 +31,6 @@ export interface ProviderSettingsEditProps {
 export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSettingsEditProps) => {
     const providersDataProvider = new ProvidersDataProvider();
     const refresh = useRefresh();
-    const providerEnvs: string[] = Object.values(ProviderEnvironment);
 
     const {
         data: provider,
@@ -50,13 +49,33 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
 
+    const getEnvironmentOptions = () => {
+        return [...Object.values(ProviderEnvironment)];
+    };
+
     const formSchema = z.object({
-        telegram_chat: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
-        wiki_link: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
-        provider_docs: z.string().url().trim(),
-        temporal_link: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
-        grafana_link: z.string().min(1, translate("pages.settings.passChange.errors.cantBeEmpty")).url().trim(),
-        provider_environment: z.enum(providerEnvs as [string, ...string[]]).default("TEST"),
+        telegram_chat: z
+            .string()
+            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
+            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
+            .trim(),
+        wiki_link: z
+            .string()
+            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
+            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
+            .trim(),
+        provider_docs: z.string().url(translate("resources.provider.settings.errors.WrongFormatOfUrl")).trim(),
+        temporal_link: z
+            .string()
+            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
+            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
+            .trim(),
+        grafana_link: z
+            .string()
+            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
+            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
+            .trim(),
+        provider_environment: z.nativeEnum(ProviderEnvironment).nullable(),
         mapping_bank_keys: z.object({
             deposit: z.string().trim(),
             withdraw: z.string().trim()
@@ -71,7 +90,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
             provider_docs: "",
             temporal_link: "",
             grafana_link: "",
-            provider_environment: "TEST",
+            provider_environment: null,
             mapping_bank_keys: {
                 deposit: "",
                 withdraw: ""
@@ -87,7 +106,9 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                 provider_docs: provider?.info?.provider_docs || "",
                 temporal_link: provider?.info?.temporal_link || "",
                 grafana_link: provider?.info?.grafana_link || "",
-                provider_environment: provider?.info?.provider_environment || "TEST",
+                provider_environment: provider?.info?.provider_environment
+                    ? provider?.info?.provider_environment
+                    : null,
                 mapping_bank_keys: {
                     deposit: provider?.info?.mapping_bank_keys?.deposit || "",
                     withdraw: provider?.info?.mapping_bank_keys?.withdraw || ""
@@ -110,7 +131,10 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                 data: {
                     info: {
                         ...data,
-                        provider_environment: data.provider_environment as ProviderEnvironment
+                        provider_environment:
+                            data.provider_environment === null
+                                ? undefined
+                                : (data.provider_environment as ProviderEnvironment)
                     }
                 },
                 previousData: {}
@@ -275,20 +299,31 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                         render={({ field, fieldState }) => (
                             <FormItem>
                                 <Label>{translate("resources.provider.settings.provider_environment")}</Label>
-                                <Select value={field.value} onValueChange={field.onChange}>
+                                <Select
+                                    value={field.value ?? "__NULL__"}
+                                    onValueChange={val => field.onChange(val === "__NULL__" ? null : val)}>
                                     <FormControl>
                                         <SelectTrigger
                                             variant={SelectType.GRAY}
                                             isError={fieldState.invalid}
                                             errorMessage={<FormMessage />}>
-                                            <SelectValue />
+                                            <SelectValue
+                                                placeholder={translate(
+                                                    "resources.provider.settings.provider_environment_placeholder"
+                                                )}
+                                            />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
                                         <SelectGroup>
-                                            {providerEnvs.map(kind => (
-                                                <SelectItem value={kind} variant={SelectType.GRAY} key={kind}>
-                                                    {translate(`resources.provider.provider_environments.${kind}`)}
+                                            <SelectItem variant={SelectType.GRAY} value="__NULL__">
+                                                {translate("resources.provider.settings.provider_environments.NULL")}
+                                            </SelectItem>
+                                            {getEnvironmentOptions().map(env => (
+                                                <SelectItem variant={SelectType.GRAY} value={env} key={env}>
+                                                    {translate(
+                                                        `resources.provider.settings.provider_environments.${env}`
+                                                    )}
                                                 </SelectItem>
                                             ))}
                                         </SelectGroup>
