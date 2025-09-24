@@ -10,7 +10,7 @@ import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { ProviderMethodsShow } from "./ProviderMethods";
 import { useFetchDictionaries } from "@/hooks";
-import { AlarmClock, FileText, LockKeyhole, LockKeyholeOpen, NetworkIcon } from "lucide-react";
+import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 import { EditIPsDialog } from "../Mapping/EditIPsDialog";
 import { SimpleTable } from "../../shared";
@@ -29,6 +29,8 @@ import { EditProviderCallbackDialog } from "./EditProviderCallbackDialog";
 import { EditProviderSettingsDialog } from "./ProviderSettings/EditProviderSettingsDialog";
 
 import { IconsList } from "./ProviderSettings/IconsList";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export interface ProviderShowProps {
     id: string;
@@ -154,16 +156,26 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const delivery_policy = callback?.delivery_policy;
     const retryPolicy = delivery_policy?.retry_policy;
     const currentStateReversed = !sec_policy?.blocked;
+    const providerEnvironment = context.record.info?.provider_environment;
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div>
-                <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
-                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+            <div className="flex flex-col gap-1">
+                <div>
+                    <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+                    <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+                </div>
+                {providerEnvironment && (
+                    <Badge
+                        variant={"prioritized"}
+                        className={cn("self-start", providerEnvironment === "PROD" && "bg-green-50 hover:bg-green-50")}>
+                        {translate("resources.provider.settings.provider_environments." + providerEnvironment)}
+                    </Badge>
+                )}
             </div>
 
             <div className="flex flex-col gap-2 pt-2">
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
+                <div className="mb-2 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}

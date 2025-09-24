@@ -6,6 +6,7 @@ import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { AlarmClock, FileText, NetworkIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
+import { Label } from "@/components/ui/label";
 
 interface IconsListProps {
     info: ProviderBaseInfo | undefined;
@@ -58,23 +59,28 @@ export const IconsList = (props: IconsListProps) => {
     return (
         <>
             <TooltipProvider>
-                <div className="flex h-10 flex-wrap gap-2">
-                    {listData.map((item, index) => (
-                        <Tooltip delayDuration={100} key={index}>
-                            <TooltipTrigger role="tooltip" asChild className="h-auto">
-                                <Button
-                                    onClick={() => window.open(item.linkTo, "_blank")}
-                                    className="px-3"
-                                    variant={"outline_gray"}
-                                    disabled={item.disabled}>
-                                    {item.icon}
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                                <p>{item.contentText}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    ))}
+                <div className="flex flex-col">
+                    <Label className="text-sm dark:!text-neutral-60">
+                        {translate("resources.provider.settings.links")}
+                    </Label>
+                    <div className="flex h-10 flex-wrap gap-2">
+                        {listData.map((item, index) => (
+                            <Tooltip delayDuration={100} key={index}>
+                                <TooltipTrigger role="tooltip" asChild className="h-auto">
+                                    <Button
+                                        onClick={() => window.open(item.linkTo, "_blank")}
+                                        className="px-3"
+                                        variant={"outline_gray"}
+                                        disabled={item.disabled}>
+                                        {item.icon}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent tabIndex={-1} sideOffset={5} align="center">
+                                    <p>{item.contentText}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        ))}
+                    </div>
                 </div>
             </TooltipProvider>
         </>

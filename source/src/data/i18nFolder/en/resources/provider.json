@@ -1,6 +1,7 @@
 {
     "resources.provider.name": "Providers",
     "resources.provider.settings": {
+        "links": "Links to resources",
         "settingsEdit": "Settings",
         "settingsEditing": "Settings editing",
         "grafana_link": "Grafana",
