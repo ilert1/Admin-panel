@@ -53,14 +53,14 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
         return [...Object.values(ProviderEnvironment)];
     };
 
-    const urlRegex = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+    // const domainRegex =
+    //     /^https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}(?:\/.*)?$/;
 
     const formSchema = z.object({
         telegram_chat: z
             .string()
             .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
             .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
-            .regex(urlRegex, "aaa")
             .trim(),
         wiki_link: z
             .string()
@@ -208,6 +208,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="provider_docs"
@@ -243,6 +244,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="grafana_link"
@@ -279,6 +281,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="mapping_bank_keys.withdraw"
@@ -296,6 +299,7 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="provider_environment"
