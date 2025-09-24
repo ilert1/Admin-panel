@@ -378,10 +378,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         </div>
                         <div className="mb-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
                             <TextField
-                                label={translate("resources.callbridge.mapping.fields.rate_limit")}
-                                text={sec_policy?.rate_limit ? String(sec_policy?.rate_limit) : ""}
-                            />
-                            <TextField
                                 label={translate("resources.callbridge.mapping.fields.enforcement_mode")}
                                 text={
                                     sec_policy?.enforcement_mode
@@ -391,6 +387,10 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                           )
                                         : ""
                                 }
+                            />
+                            <TextField
+                                label={translate("resources.callbridge.mapping.fields.rate_limit")}
+                                text={sec_policy?.rate_limit ? String(sec_policy?.rate_limit) : ""}
                             />
                         </div>
                         <div className="flex w-full flex-col gap-2 sm:flex-row md:w-1/2">
