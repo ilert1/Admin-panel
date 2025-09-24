@@ -69,33 +69,79 @@ export const ProvidersDeliveryPolicyEdit = ({ id, onOpenChange }: IProvidersDeli
                 .number({ message: translate("resources.currency.errors.intOnly") })
                 .int({ message: translate("resources.currency.errors.intOnly") })
                 .min(1, translate("resources.callbridge.mapping.fields.delivery_policy.errors.minValue"))
-                .max(600, translate("resources.callbridge.mapping.fields.delivery_policy.errors.maxRpcValue"))
+                .max(
+                    600,
+                    translate("resources.callbridge.mapping.fields.delivery_policy.errors.maxCustomValue", {
+                        value: 600
+                    })
+                )
                 .default(180)
                 .optional(),
             async_timeout: z.coerce
                 .number({ message: translate("resources.currency.errors.intOnly") })
                 .int({ message: translate("resources.currency.errors.intOnly") })
                 .min(1, translate("resources.callbridge.mapping.fields.delivery_policy.errors.minValue"))
-                .max(3600, translate("resources.callbridge.mapping.fields.delivery_policy.errors.maxAsyncValue"))
+                .max(
+                    3600,
+                    translate("resources.callbridge.mapping.fields.delivery_policy.errors.maxCustomValue", {
+                        value: 3600
+                    })
+                )
                 .default(300)
                 .optional()
         }),
         retry_policy: z.object({
             enabled: z.boolean().default(true),
-            max_attempts: z.coerce
-                .number({ message: translate("resources.currency.errors.intOnly") })
-                .int({ message: translate("resources.currency.errors.intOnly") })
-                .default(5)
+            max_attempts: z
+                .literal("")
+                .transform(() => undefined)
+                .or(
+                    z.coerce
+                        .number({ message: translate("resources.currency.errors.intOnly") })
+                        .int({ message: translate("resources.currency.errors.intOnly") })
+                        .min(1, translate("resources.callbridge.mapping.fields.delivery_policy.errors.minValue"))
+                        .max(
+                            100,
+                            translate("resources.callbridge.mapping.fields.delivery_policy.errors.maxCustomValue", {
+                                value: 100
+                            })
+                        )
+                        .default(5)
+                )
                 .optional(),
-            base_delay: z.coerce
-                .number({ message: translate("resources.currency.errors.intOnly") })
-                .int({ message: translate("resources.currency.errors.intOnly") })
-                .default(10)
+            base_delay: z
+                .literal("")
+                .transform(() => undefined)
+                .or(
+                    z.coerce
+                        .number({ message: translate("resources.currency.errors.intOnly") })
+                        .int({ message: translate("resources.currency.errors.intOnly") })
+                        .min(1, translate("resources.callbridge.mapping.fields.delivery_policy.errors.minValue"))
+                        .max(
+                            3600,
+                            translate("resources.callbridge.mapping.fields.delivery_policy.errors.maxCustomValue", {
+                                value: 3600
+                            })
+                        )
+                        .default(10)
+                )
                 .optional(),
-            backoff_multiplier: z.coerce
-                .number({ message: translate("resources.currency.errors.intOnly") })
-                .int({ message: translate("resources.currency.errors.intOnly") })
-                .default(2)
+            backoff_multiplier: z
+                .literal("")
+                .transform(() => undefined)
+                .or(
+                    z.coerce
+                        .number({ message: translate("resources.currency.errors.intOnly") })
+                        .int({ message: translate("resources.currency.errors.intOnly") })
+                        .min(1, translate("resources.callbridge.mapping.fields.delivery_policy.errors.minValue"))
+                        .max(
+                            10,
+                            translate("resources.callbridge.mapping.fields.delivery_policy.errors.maxCustomValue", {
+                                value: 10
+                            })
+                        )
+                        .default(2)
+                )
                 .optional(),
             strategy: z.enum([RETRY_STRATEGY[0], ...RETRY_STRATEGY.slice(0)]).default(RETRY_STRATEGY[1])
         }),
@@ -460,54 +506,58 @@ export const ProvidersDeliveryPolicyEdit = ({ id, onOpenChange }: IProvidersDeli
                             )}
                         />
 
-                        <FormField
-                            control={form.control}
-                            name="response_policy.template.headers"
-                            render={({ field }) => {
-                                return (
-                                    <FormItem className="col-span-1 sm:col-span-2">
+                        {form.getValues("response_policy.type") === "FROM_RESPONSE" && (
+                            <FormField
+                                control={form.control}
+                                name="response_policy.template.headers"
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem className="col-span-1 sm:col-span-2">
+                                            <Label>
+                                                {translate(
+                                                    "resources.callbridge.mapping.fields.delivery_policy.response_policy.template"
+                                                ) + " (response_headers)"}
+                                            </Label>
+                                            <FormControl>
+                                                <MonacoEditor
+                                                    onErrorsChange={setHasErrors}
+                                                    onValidChange={setIsValid}
+                                                    onMountEditor={() => setMonacoEditorMounted(true)}
+                                                    code={field.value ?? "{}"}
+                                                    setCode={field.onChange}
+                                                    allowEmptyValues
+                                                    height={"h-48"}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                        )}
+
+                        {form.getValues("response_policy.type") === "FROM_TEMPLATE" && (
+                            <FormField
+                                control={form.control}
+                                name="response_policy.template.body"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-1 w-full md:col-span-2">
                                         <Label>
                                             {translate(
                                                 "resources.callbridge.mapping.fields.delivery_policy.response_policy.template"
-                                            ) + " (response_headers)"}
+                                            ) + " (response_body)"}
                                         </Label>
                                         <FormControl>
-                                            <MonacoEditor
-                                                onErrorsChange={setHasErrors}
-                                                onValidChange={setIsValid}
-                                                onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value ?? "{}"}
-                                                setCode={field.onChange}
-                                                allowEmptyValues
-                                                height={"h-24"}
+                                            <Textarea
+                                                {...field}
+                                                value={field.value ?? ""}
+                                                className="h-36 w-full resize-none overflow-auto rounded border border-neutral-60 p-2 text-title-1 text-neutral-80 outline-none focus:border-neutral-60 dark:bg-muted dark:text-white dark:focus:border-neutral-60"
                                             />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
-                                );
-                            }}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="response_policy.template.body"
-                            render={({ field }) => (
-                                <FormItem className="col-span-1 w-full md:col-span-2">
-                                    <Label>
-                                        {translate(
-                                            "resources.callbridge.mapping.fields.delivery_policy.response_policy.template"
-                                        ) + " (response_body)"}
-                                    </Label>
-                                    <FormControl>
-                                        <Textarea
-                                            {...field}
-                                            value={field.value ?? ""}
-                                            className="h-36 w-full resize-none overflow-auto rounded border border-neutral-60 p-2 text-title-1 text-neutral-80 outline-none focus:border-neutral-60 dark:bg-muted dark:text-white dark:focus:border-neutral-60"
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                )}
+                            />
+                        )}
                     </div>
 
                     <div className="mt-5 flex items-center justify-end gap-2 md:col-span-3">
@@ -517,9 +567,10 @@ export const ProvidersDeliveryPolicyEdit = ({ id, onOpenChange }: IProvidersDeli
                             variant="default"
                             disabled={
                                 submitButtonDisabled ||
-                                hasErrors ||
-                                (!isValid && form.watch("response_policy.template.headers")?.length !== 0) ||
-                                !monacoEditorMounted
+                                (form.getValues("response_policy.type") === "FROM_RESPONSE" &&
+                                    (hasErrors ||
+                                        (!isValid && form.watch("response_policy.template.headers")?.length !== 0) ||
+                                        !monacoEditorMounted))
                             }>
                             {translate("app.ui.actions.save")}
                         </Button>
