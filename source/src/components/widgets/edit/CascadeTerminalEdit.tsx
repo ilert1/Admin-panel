@@ -1,8 +1,8 @@
 import { useTranslate, useRefresh } from "react-admin";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -73,12 +73,14 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                         .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
                         .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
                         // .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
-                        .optional(),
+                        .optional()
+                        .nullable(),
                     max: z.coerce
                         .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
                         .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
                         // .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
                         .optional()
+                        .nullable()
                 })
             })
         })
@@ -89,6 +91,10 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                 }
 
                 if (data.condition.ttl.max === 0) {
+                    return true;
+                }
+
+                if (data.condition.ttl.min === null || data.condition.ttl.max === null) {
                     return true;
                 }
 
@@ -171,45 +177,58 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
         }
     };
 
-    const handleChange = useCallback(
-        (key: "condition.ttl.min" | "condition.ttl.max", value: string) => {
-            if (value === "") {
-                form.setValue(key, undefined);
-                return;
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        let value = e.target.value;
+
+        value = value.replace(/[^0-9.]/g, "");
+
+        const parts = value.split(".");
+        if (parts.length > 2) {
+            value = parts[0] + "." + parts[1];
+        }
+
+        if (parts.length === 2) {
+            parts[1] = parts[1].slice(0, 2);
+            value = parts.join(".");
+        }
+
+        if (/^0[0-9]+/.test(value)) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+
+        if (value.startsWith(".")) {
+            value = "0" + value;
+        }
+
+        e.target.value = value;
+
+        if (value === "") {
+            form.setValue(field.name, null);
+            return;
+        }
+
+        if (value.endsWith(".")) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            form.setValue(field.name, value);
+            return;
+        }
+
+        const numericValue = parseFloat(value);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+
+            if (numericValue > 100000) {
+                finalValue = 100000;
+                e.target.value = "100000";
             }
 
-            value = value.replace(/[^0-9.]/g, "");
-
-            const parts = value.split(".");
-            if (parts.length > 2) {
-                value = parts[0] + "." + parts[1];
-            }
-
-            if (parts.length === 2 && parts[1].length > 2) {
-                parts[1] = parts[1].slice(0, 2);
-                value = parts.join(".");
-            }
-
-            if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
-                value = value.replace(/^0+/, "") || "0";
-            }
-
-            const numericValue = parseFloat(value);
-            if (!isNaN(numericValue)) {
-                let finalValue = numericValue;
-
-                if (numericValue > 100000) {
-                    finalValue = 100000;
-                }
-                if (numericValue < 0) {
-                    finalValue = 0;
-                }
-
-                form.setValue(key, finalValue);
-            }
-        },
-        [form]
-    );
+            form.setValue(field.name, finalValue);
+        }
+    };
 
     usePreventFocus({ dependencies: [cascadeTerminalData] });
 
@@ -271,8 +290,9 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            value={field.value === undefined ? "" : String(field.value)}
-                                            onChange={e => handleChange("condition.ttl.min", e.target.value)}
+                                            value={field.value ?? ""}
+                                            onChange={e => handleInputChange(e, field)}
+                                            // onChange={e => handleChange("condition.ttl.min", e.target.value)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -293,8 +313,9 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            value={field.value === undefined ? "" : String(field.value)}
-                                            onChange={e => handleChange("condition.ttl.max", e.target.value)}
+                                            value={field.value ?? ""}
+                                            onChange={e => handleInputChange(e, field)}
+                                            // onChange={e => handleChange("condition.ttl.max", e.target.value)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
