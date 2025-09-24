@@ -74,6 +74,7 @@ export const ProviderCallbackEdit = ({ id, onOpenChange = () => {} }: IProviderC
                 data: {
                     settings: {
                         callback: {
+                            ...provider?.settings?.callback,
                             ...data
                         }
                     }
