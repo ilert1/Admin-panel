@@ -30,8 +30,17 @@ const useAccountFilter = () => {
     const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     useEffect(() => {
-        if (merchantData) {
-            setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.merchantId)?.name || "");
+        if (merchantData && filterValues?.merchantId) {
+            const foundMerchant = merchantData.find(merchant => merchant.id === filterValues?.merchantId)?.name;
+
+            if (foundMerchant) {
+                setMerchantValue(foundMerchant);
+            } else {
+                Reflect.deleteProperty(filterValues, "merchantId");
+                setFilters(filterValues, displayedFilters, true);
+                setMerchantId("");
+                setMerchantValue("");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);

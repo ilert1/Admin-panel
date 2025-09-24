@@ -8,16 +8,38 @@ const useDirectionsListFilter = () => {
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
 
-    const [merchantId, setMerchantId] = useState(filterValues?.merchant || "");
     const [merchantValue, setMerchantValue] = useState("");
-    const [provider, setProvider] = useState(filterValues?.provider || "");
+    const [providerValue, setProviderValue] = useState("");
 
     useEffect(() => {
-        if (merchantData) {
-            setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.merchant)?.name || "");
+        if (merchantData && filterValues?.merchant) {
+            const foundMerchant = merchantData.find(merchant => merchant.id === filterValues?.merchant)?.name;
+
+            if (foundMerchant) {
+                setMerchantValue(foundMerchant);
+            } else {
+                Reflect.deleteProperty(filterValues, "merchant");
+                setFilters(filterValues, displayedFilters, true);
+                setMerchantValue("");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
+
+    useEffect(() => {
+        if (providersData && filterValues?.provider) {
+            const foundProvider = providersData.find(provider => provider.name === filterValues?.provider)?.name;
+
+            if (foundProvider) {
+                setProviderValue(foundProvider);
+            } else {
+                Reflect.deleteProperty(filterValues, "provider");
+                setFilters(filterValues, displayedFilters, true);
+                setProviderValue("");
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
 
     const onPropertySelected = debounce((value: string, type: "merchant" | "provider") => {
         if (value) {
@@ -30,19 +52,17 @@ const useDirectionsListFilter = () => {
     }, 300);
 
     const onMerchantChanged = (merchant: string) => {
-        setMerchantId(merchant);
         onPropertySelected(merchant, "merchant");
     };
 
     const onProviderChanged = (provider: string) => {
-        setProvider(provider);
+        setProviderValue(provider);
         onPropertySelected(provider, "provider");
     };
 
     const clearFilters = () => {
-        setMerchantId("");
         setMerchantValue("");
-        setProvider("");
+        setProviderValue("");
         setFilters({}, displayedFilters, true);
         setPage(1);
     };
@@ -52,10 +72,9 @@ const useDirectionsListFilter = () => {
         merchantsLoadingProcess,
         merchantValue,
         setMerchantValue,
-        merchantId,
         onMerchantChanged,
         clearFilters,
-        provider,
+        providerValue,
         onProviderChanged,
         providersData,
         providersLoadingProcess

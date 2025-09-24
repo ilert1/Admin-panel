@@ -17,7 +17,7 @@ const badgeVariants = cva(
                 warning: "bg-yellow-50 !rounded-16",
                 success: "bg-green-50 !rounded-16",
                 prioritized:
-                    "border-transparent  text-destructive-foreground shadow hover:bg-red-50 !rounded-16 bg-red-50 py-0 select-none"
+                    "border-transparent text-destructive-foreground shadow hover:bg-red-50 !rounded-16 bg-red-50 py-0 select-none !text-title-2"
             }
         },
         defaultVariants: {

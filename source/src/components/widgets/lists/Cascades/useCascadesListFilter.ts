@@ -15,7 +15,7 @@ const useCascadesListFilter = () => {
     const [type, setType] = useState(filterValues?.type || "");
     const [cascadeKind, setCascadeKind] = useState(filterValues?.cascade_kind || "");
     const [state, setState] = useState(filterValues?.state || "");
-    const [srcCurrencyCode, setSrcCurrencyCode] = useState(filterValues?.src_currency_code || "");
+    const [srcCurrencyCode, setSrcCurrencyCode] = useState("");
     const [merchantValue, setMerchantValue] = useState("");
 
     useEffect(() => {
@@ -47,6 +47,23 @@ const useCascadesListFilter = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cascadesData]);
+
+    useEffect(() => {
+        if (currenciesData && filterValues?.src_currency_code) {
+            const foundCurrencyCode = currenciesData.find(
+                currency => currency.code === filterValues?.src_currency_code
+            )?.code;
+
+            if (foundCurrencyCode) {
+                setSrcCurrencyCode(foundCurrencyCode);
+            } else {
+                Reflect.deleteProperty(filterValues, "src_currency_code");
+                setFilters(filterValues, displayedFilters, true);
+                setSrcCurrencyCode("");
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currenciesData]);
 
     useEffect(() => {
         if (total === 0) {

@@ -28,7 +28,6 @@ const useWithdrawFilter = () => {
     );
     const [statusFilter, setStatusFilter] = useState<string>(filterValues?.order_state || "");
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
-    const [merchantId, setMerchantId] = useState<string>(filterValues?.accountId || "");
     const [merchantValue, setMerchantValue] = useState("");
     const [operationId, setOperationId] = useState<string>(filterValues?.id || "");
     const [operationTrc20, setOperationTrc20] = useState<string>(filterValues?.dst_address || "");
@@ -36,8 +35,16 @@ const useWithdrawFilter = () => {
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
     useEffect(() => {
-        if (merchantData) {
-            setMerchantValue(merchantData?.find(merchant => merchant.id === filterValues?.accountId)?.name || "");
+        if (merchantData && filterValues?.accountId) {
+            const foundMerchant = merchantData.find(merchant => merchant.id === filterValues?.accountId)?.name;
+
+            if (foundMerchant) {
+                setMerchantValue(foundMerchant);
+            } else {
+                Reflect.deleteProperty(filterValues, "accountId");
+                setFilters(filterValues, displayedFilters, true);
+                setMerchantValue("");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData]);
@@ -91,7 +98,6 @@ const useWithdrawFilter = () => {
     };
 
     const onMerchantChanged = (merchant: string) => {
-        setMerchantId(merchant);
         onPropertySelected(merchant, "accountId");
     };
 
@@ -105,7 +111,6 @@ const useWithdrawFilter = () => {
         setEndDate(undefined);
         setOperationId("");
         setOperationTrc20("");
-        setMerchantId("");
         setMerchantValue("");
         setStatusFilter("");
         setTypeTabActive(0);
@@ -170,7 +175,6 @@ const useWithdrawFilter = () => {
         startDate,
         merchantData,
         merchantsLoadingProcess,
-        merchantId,
         merchantValue,
         setMerchantValue,
         onMerchantChanged,
