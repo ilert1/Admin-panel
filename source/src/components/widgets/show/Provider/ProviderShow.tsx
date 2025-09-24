@@ -269,22 +269,33 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.base_delay")}
-                                text={retryPolicy?.base_delay ? String(retryPolicy.base_delay) : ""}
+                                text={
+                                    retryPolicy?.base_delay || retryPolicy?.base_delay === 0
+                                        ? String(retryPolicy.base_delay)
+                                        : ""
+                                }
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.max_attempts")}
-                                text={retryPolicy?.max_attempts ? String(retryPolicy.max_attempts) : ""}
+                                text={
+                                    retryPolicy?.max_attempts || retryPolicy?.max_attempts === 0
+                                        ? String(retryPolicy.max_attempts)
+                                        : ""
+                                }
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.strategy")}
                                 text={translate(
-                                    "resources.callbridge.mapping.fields.strategies." +
-                                        delivery_policy?.retry_policy?.strategy
+                                    "resources.callbridge.mapping.fields.strategies." + retryPolicy?.strategy
                                 )}
                             />
                             <TextField
                                 label={translate("resources.callbridge.mapping.fields.backoff_multiplier")}
-                                text={String(delivery_policy?.retry_policy?.backoff_multiplier)}
+                                text={String(
+                                    retryPolicy?.backoff_multiplier || retryPolicy?.backoff_multiplier === 0
+                                        ? String(retryPolicy.backoff_multiplier)
+                                        : ""
+                                )}
                             />
                         </div>
                     </div>
