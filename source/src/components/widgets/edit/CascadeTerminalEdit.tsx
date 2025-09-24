@@ -90,10 +90,6 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                     return true;
                 }
 
-                if (data.condition.ttl.max === 0) {
-                    return true;
-                }
-
                 if (data.condition.ttl.min === null || data.condition.ttl.max === null) {
                     return true;
                 }
