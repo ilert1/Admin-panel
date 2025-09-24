@@ -193,6 +193,17 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     </div>
 
                     <IconsList info={context.record.info} />
+
+                    <TextField
+                        label={translate("resources.provider.settings.mapping_bank_keys_deposit")}
+                        text={context.record.info?.mapping_bank_keys?.deposit ?? ""}
+                        copyValue
+                    />
+                    <TextField
+                        label={translate("resources.provider.settings.mapping_bank_keys_withdraw")}
+                        text={context.record.info?.mapping_bank_keys?.deposit ?? ""}
+                        copyValue
+                    />
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">

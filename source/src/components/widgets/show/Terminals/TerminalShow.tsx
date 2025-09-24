@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
 import { StateViewer } from "@/components/ui/StateViewer";
 import { useCountryCodes } from "@/hooks";
+import { IconsList } from "../Provider/ProviderSettings/IconsList";
 
 interface TerminalShowProps {
     id: string;
@@ -70,6 +71,11 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         />
 
                         <TextField
+                            text={context.record?.allocation_timeout_seconds?.toString() ?? ""}
+                            label={translate("resources.terminals.fields.allocation_timeout_seconds")}
+                        />
+
+                        <TextField
                             label={translate("resources.terminals.fields.provider")}
                             className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
                             text={context.record?.provider.name}
@@ -79,11 +85,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                                 });
                             }}
                         />
-
-                        <TextField
-                            text={context.record?.allocation_timeout_seconds?.toString() ?? ""}
-                            label={translate("resources.terminals.fields.allocation_timeout_seconds")}
-                        />
+                        <IconsList info={context.record.provider.info} />
 
                         <TextField
                             text={
