@@ -182,50 +182,22 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
         field: ControllerRenderProps<z.infer<typeof formSchema>>
     ) => {
         let value = e.target.value;
-
-        value = value.replace(/[^0-9.]/g, "");
-
-        const parts = value.split(".");
-        if (parts.length > 2) {
-            value = parts[0] + "." + parts[1];
-        }
-
-        if (parts.length === 2) {
-            parts[1] = parts[1].slice(0, 2);
-            value = parts.join(".");
-        }
-
+        value = value.replace(/[^0-9]/g, "");
         if (/^0[0-9]+/.test(value)) {
             value = value.replace(/^0+/, "") || "0";
         }
-
-        if (value.startsWith(".")) {
-            value = "0" + value;
-        }
-
         e.target.value = value;
-
         if (value === "") {
             form.setValue(field.name, null);
             return;
         }
-
-        if (value.endsWith(".")) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            form.setValue(field.name, value);
-            return;
-        }
-
-        const numericValue = parseFloat(value);
+        const numericValue = parseInt(value, 10);
         if (!isNaN(numericValue)) {
             let finalValue = numericValue;
-
             if (numericValue > 100000) {
                 finalValue = 100000;
                 e.target.value = "100000";
             }
-
             form.setValue(field.name, finalValue);
         }
     };
@@ -292,7 +264,6 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                             {...field}
                                             value={field.value ?? ""}
                                             onChange={e => handleInputChange(e, field)}
-                                            // onChange={e => handleChange("condition.ttl.min", e.target.value)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -315,7 +286,6 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                             {...field}
                                             value={field.value ?? ""}
                                             onChange={e => handleInputChange(e, field)}
-                                            // onChange={e => handleChange("condition.ttl.max", e.target.value)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
