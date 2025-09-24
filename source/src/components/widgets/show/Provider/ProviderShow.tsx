@@ -26,6 +26,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { EditProviderDeliveryPolicyDialog } from "./EditProviderDeliveryPolicyDialog";
 import { EditProviderSecPolicy } from "./EditProviderSecPolicy";
 import { EditProviderCallbackDialog } from "./EditProviderCallbackDialog";
+import { ProviderPaymentMethodsShow } from "./ProviderPaymentMethods/ProviderPaymentMethodsShow";
 
 export interface ProviderShowProps {
     id: string;
@@ -428,6 +429,17 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         </div>
                     </div>
                 </div>
+
+                {context.record.payment_methods && (
+                    <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
+                        <ProviderPaymentMethodsShow
+                            providerId={id}
+                            paymentMethods={context.record.payment_methods}
+                            isFetching={context.isFetching}
+                        />
+                    </div>
+                )}
+
                 <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <ProviderMethodsShow
                         providerId={id}
