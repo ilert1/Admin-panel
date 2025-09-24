@@ -1,7 +1,7 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
@@ -44,14 +44,14 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
     const [isFinished, setIsFinished] = useState(false);
 
     const formSchema = z.object({
-        rate_limit: z.coerce.number().optional(),
+        rate_limit: z.coerce.number().optional().nullable(),
         enforcement_mode: z.string().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            rate_limit: provider?.settings?.callback?.security_policy?.rate_limit || 0,
+            rate_limit: provider?.settings?.callback?.security_policy?.rate_limit || null,
             enforcement_mode: provider?.settings?.callback?.security_policy?.enforcement_mode || enforcement_modes[0]
         }
     });
@@ -59,7 +59,7 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
     useEffect(() => {
         if (!isLoadingProvider && provider && isFetchedAfterMount) {
             const updatedValues = {
-                rate_limit: provider.settings?.callback?.security_policy?.rate_limit || 0,
+                rate_limit: provider.settings?.callback?.security_policy?.rate_limit || null,
                 enforcement_mode: provider.settings?.callback?.security_policy?.enforcement_mode || enforcement_modes[0]
             };
 
@@ -83,7 +83,7 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
                             adapter_nats_subject: provider?.settings?.callback?.adapter_nats_subject,
                             callback_nats_queue: provider?.settings?.callback?.callback_nats_queue,
                             security_policy: {
-                                rate_limit: data.rate_limit,
+                                rate_limit: data.rate_limit ?? null,
                                 enforcement_mode: data.enforcement_mode
                             }
                         }
@@ -111,11 +111,46 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
         }
     };
 
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        let value = e.target.value;
+
+        // Оставляем только цифры
+        value = value.replace(/[^0-9]/g, "");
+
+        // Убираем лидирующие нули (кроме одного нуля)
+        if (/^0[0-9]+/.test(value)) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+
+        e.target.value = value;
+
+        // Полное очищение
+        if (value === "") {
+            form.setValue(field.name, null);
+            return;
+        }
+
+        const numericValue = parseInt(value, 10);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+
+            if (numericValue > 10000) {
+                finalValue = 10000;
+                e.target.value = "10000";
+            }
+
+            form.setValue(field.name, finalValue);
+        }
+    };
+
     usePreventFocus({ dependencies: [provider] });
 
     if (isLoadingProvider || !provider || !isFinished)
         return (
-            <div className="h-[200px]">
+            <div className="h-[150px]">
                 <Loading />
             </div>
         );
@@ -168,10 +203,12 @@ export const ProvidersSecPolicyEdit = ({ id, onClose = () => {} }: ProviderEditP
                                 <FormControl>
                                     <Input
                                         {...field}
+                                        value={field.value || ""}
                                         variant={InputTypes.GRAY}
                                         label={translate("resources.callbridge.mapping.fields.rate_limit")}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
+                                        onChange={e => handleInputChange(e, field)}
                                     />
                                 </FormControl>
                             </FormItem>
