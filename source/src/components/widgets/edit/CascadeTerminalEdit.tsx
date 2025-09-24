@@ -2,7 +2,7 @@ import { useTranslate, useRefresh } from "react-admin";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -130,8 +130,8 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                         cascadeTerminalData.condition?.weight || (cascadeTerminalData.condition?.extra ? 0 : undefined),
                     rank: cascadeTerminalData.condition?.rank || undefined,
                     ttl: {
-                        min: cascadeTerminalData.condition?.ttl?.min || undefined,
-                        max: cascadeTerminalData.condition?.ttl?.max || undefined
+                        min: cascadeTerminalData.condition?.ttl?.min ?? undefined,
+                        max: cascadeTerminalData.condition?.ttl?.max ?? undefined
                     }
                 }
             };
@@ -281,6 +281,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                         <Input
                                             {...field}
                                             value={field.value ?? ""}
+                                            // value={field.value || field.value === 0 ? field.value : ""}
                                             onChange={e => handleInputChange(e, field)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
