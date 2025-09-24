@@ -31,6 +31,8 @@ import { EyeIcon } from "lucide-react";
 import { TransactionCustomerDataDialog } from "./TransactionCustomerDataDialog";
 import { TransactionRequisitesDialog } from "./TransactionRequisitesDialog";
 import { SyncDialog } from "./SyncDialog";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
+import { useGetCallbridgeHistory } from "../../lists/CallbridgeHistory/Columns";
 
 interface TransactionShowProps {
     id: string;
@@ -45,8 +47,10 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const [requisitesOpen, setRequisitesOpen] = useState(false);
     const [customerDataOpen, setCustomerDataOpen] = useState(false);
     const [syncDialogOpen, setSyncDialogOpen] = useState(false);
+    const [view, setView] = useState(false);
 
     const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
+    const { columns } = useGetCallbridgeHistory();
 
     const appToast = useAppToast();
 
@@ -444,6 +448,52 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         )}
                     />
                 </div>
+            )}
+
+            {adminOnly && (
+                <>
+                    <label className="flex items-center gap-2 self-end">
+                        <button
+                            onClick={() => setView(!view)}
+                            className={clsx(
+                                "flex w-11 items-center rounded-[50px] p-0.5 outline outline-1",
+                                view
+                                    ? "bg-neutral-100 outline-transparent dark:bg-green-50 dark:outline-green-40"
+                                    : "bg-transparent outline-green-40 dark:outline-green-50"
+                            )}>
+                            <span
+                                className={clsx(
+                                    "h-5 w-5 rounded-full outline outline-1 transition-all",
+                                    view
+                                        ? "translate-x-full bg-neutral-0 outline-transparent dark:bg-neutral-100 dark:outline-green-40"
+                                        : "translate-x-0 bg-green-50 outline-green-40 dark:bg-green-50 dark:outline-transparent"
+                                )}
+                            />
+                        </button>
+                        <p className="text-base text-neutral-90 dark:text-neutral-30">JSON</p>
+                    </label>
+                    {!view ? (
+                        <div className="w-full">
+                            <SimpleTable
+                                columns={columns}
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                //@ts-ignore
+                                data={[]}
+                                // data={formData?.changes_history ?? []}
+                                tableType={TableTypes.COLORED}
+                            />
+                        </div>
+                    ) : (
+                        <div className="h-[350px] w-full">
+                            <MonacoEditor
+                                // code={JSON.stringify(formData?.changes_history, null, 2)}
+                                code={""}
+                                height="h-full"
+                                disabled
+                            />
+                        </div>
+                    )}
+                </>
             )}
 
             {adminOnly && (

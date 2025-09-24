@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "BlowFish - CallBridge API Service",
-        "version": "local"
+        "version": "develop"
     },
     "paths": {
         "/health": {
@@ -511,13 +511,13 @@
                 }
             }
         },
-        "/callbridge/v1/mapping/bulk/create": {
+        "/callbridge/v1/mapping/bulk/create-or-update": {
             "post": {
                 "tags": [
                     "Callback mapping"
                 ],
                 "summary": "Create or update multiple callback mappings",
-                "operationId": "CallbackMappingEndpoints_bulk_create_or_update_mapping_via_internal_path_callbridge_v1_mapping_bulk_create_post",
+                "operationId": "CallbackMappingEndpoints_bulk_create_or_update_mapping_via_internal_path_callbridge_v1_mapping_bulk_create_or_update_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1788,7 +1788,14 @@
                         ]
                     },
                     "request_method": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Request Method",
                         "description": "HTTP method",
                         "examples": [
@@ -1811,14 +1818,28 @@
                         ]
                     },
                     "request_headers": {
-                        "additionalProperties": true,
-                        "type": "object",
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Request Headers",
                         "description": "Incoming headers"
                     },
                     "request_params": {
-                        "additionalProperties": true,
-                        "type": "object",
+                        "anyOf": [
+                            {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Request Params",
                         "description": "Incoming query params"
                     },
@@ -1909,11 +1930,25 @@
                         "description": "External Order ID"
                     },
                     "status": {
-                        "$ref": "#/components/schemas/CallbackStatusEnum",
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CallbackStatusEnum"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "Processing status"
                     },
                     "trigger_type": {
-                        "$ref": "#/components/schemas/CallbackTriggerType",
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CallbackTriggerType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "description": "What triggered this delivery"
                     },
                     "attempts": {
@@ -2006,11 +2041,6 @@
                 "type": "object",
                 "required": [
                     "original_url",
-                    "request_method",
-                    "request_headers",
-                    "request_params",
-                    "status",
-                    "trigger_type",
                     "id",
                     "callback_id",
                     "created_at",
@@ -2523,8 +2553,8 @@
                 "properties": {
                     "status_code": {
                         "type": "integer",
-                        "maximum": 599.0,
-                        "minimum": 100.0,
+                        "maximum": 599,
+                        "minimum": 100,
                         "title": "Status Code",
                         "description": "HTTP status code",
                         "default": 200
@@ -2625,9 +2655,10 @@
                     "rpc_timeout",
                     "processing",
                     "delivered",
-                    "error",
-                    "retrying",
                     "success",
+                    "error",
+                    "response_sent",
+                    "retrying",
                     "quick_processing"
                 ],
                 "title": "CallbackStatusEnum"
@@ -3183,7 +3214,7 @@
                 "properties": {
                     "quantity": {
                         "type": "integer",
-                        "minimum": 0.0,
+                        "minimum": 0,
                         "title": "Quantity",
                         "description": "The quantity part of the rate value. It represents the numeric value without the decimal separator. For example, '12.34' is stored as 1234.",
                         "default": 0,
@@ -3193,7 +3224,7 @@
                     },
                     "accuracy": {
                         "type": "integer",
-                        "minimum": 0.0,
+                        "minimum": 0,
                         "title": "Accuracy",
                         "description": "The accuracy factor for the rate value. It must be a power of 10 (e.g., 1, 10, 100, 1000) corresponding to the number of decimal places.",
                         "default": 1,
@@ -3308,18 +3339,13 @@
                             30
                         ]
                     },
-                    "retry_on_status": {
-                        "items": {
-                            "type": "integer"
-                        },
-                        "type": "array",
-                        "title": "Retry On Status",
-                        "description": "List of HTTP status codes that should trigger a retry. Empty list disables retry based on status code.",
+                    "backoff_multiplier": {
+                        "type": "number",
+                        "title": "Backoff Multiplier",
+                        "description": "Backoff multiplier for exponential strategy",
+                        "default": 2,
                         "examples": [
-                            [
-                                400,
-                                500
-                            ]
+                            2
                         ]
                     },
                     "strategy": {
@@ -3421,9 +3447,9 @@
                         ],
                         "title": "Enforcement Mode",
                         "description": "Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them",
-                        "default": "strict",
+                        "default": "log",
                         "examples": [
-                            "strict"
+                            "log"
                         ]
                     }
                 },
@@ -3719,19 +3745,19 @@
                 "properties": {
                     "rpc_timeout": {
                         "type": "number",
-                        "maximum": 600.0,
-                        "minimum": 1.0,
+                        "maximum": 600,
+                        "minimum": 1,
                         "title": "Rpc Timeout",
                         "description": "RPC timeout in seconds",
-                        "default": 180.0
+                        "default": 180
                     },
                     "async_timeout": {
                         "type": "number",
-                        "maximum": 3600.0,
-                        "minimum": 1.0,
+                        "maximum": 3600,
+                        "minimum": 1,
                         "title": "Async Timeout",
                         "description": "Async timeout in seconds",
-                        "default": 300.0
+                        "default": 300
                     }
                 },
                 "type": "object",

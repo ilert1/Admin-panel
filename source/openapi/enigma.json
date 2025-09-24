@@ -11340,6 +11340,79 @@
         ],
         "title": "ApiResponse[list[RequiredFieldItem]]"
       },
+      "BaseFieldConfig": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "description": "Field key in structure",
+            "examples": [
+              "api_key",
+              "merchant_id"
+            ]
+          },
+          "required": {
+            "type": "boolean",
+            "title": "Required",
+            "description": "Whether the field is required",
+            "default": true,
+            "examples": [
+              true
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Field description",
+            "examples": [
+              "API key for authentication"
+            ]
+          },
+          "default_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Value",
+            "description": "Default value",
+            "examples": [
+              "",
+              null
+            ]
+          },
+          "validation_pattern": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validation Pattern",
+            "description": "Regular expression for validation",
+            "examples": [
+              "^[a-zA-Z0-9_]+$"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "key"
+        ],
+        "title": "BaseFieldConfig"
+      },
       "Body_FinancialInstitutionEndpoints_import_financial_institutions_enigma_v1_financial_institution_import_post": {
         "properties": {
           "csv_file": {
@@ -11461,11 +11534,15 @@
         "properties": {
           "adapter_nats_subject": {
             "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
             "title": "Adapter Nats Subject",
             "description": "NATS subject for callback execution"
           },
           "callback_nats_queue": {
             "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
             "title": "Callback Nats Queue",
             "description": "Task queue for callback processing"
           },
@@ -11489,11 +11566,15 @@
         "properties": {
           "adapter_nats_subject": {
             "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
             "title": "Adapter Nats Subject",
             "description": "NATS subject for callback execution"
           },
           "callback_nats_queue": {
             "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
             "title": "Callback Nats Queue",
             "description": "Task queue for callback processing"
           },
@@ -11534,7 +11615,8 @@
           "body": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 10000
               },
               {
                 "type": "null"
@@ -14936,6 +15018,42 @@
         "type": "object",
         "title": "LimitsUpdate"
       },
+      "MapBankKeys": {
+        "properties": {
+          "deposit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deposit",
+            "description": "Bank key for deposit operations",
+            "examples": [
+              "deposit_key_123"
+            ]
+          },
+          "withdraw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Withdraw",
+            "description": "Bank key for withdraw operations",
+            "examples": [
+              "withdraw_key_456"
+            ]
+          }
+        },
+        "type": "object",
+        "title": "MapBankKeys"
+      },
       "MerchantBase": {
         "properties": {
           "id": {
@@ -16566,6 +16684,42 @@
         ],
         "title": "PaymentCategoryItem"
       },
+      "PaymentMethodConfig": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "description": "Whether this payment method is enabled for the provider",
+            "default": false
+          },
+          "task_queue": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Queue",
+            "description": "Temporal task queue name for this payment method's workflows and activities"
+          },
+          "confirm": {
+            "type": "boolean",
+            "title": "Confirm",
+            "description": "Whether confirm method is enabled",
+            "default": true
+          },
+          "cancel": {
+            "type": "boolean",
+            "title": "Cancel",
+            "description": "Whether cancel method is enabled",
+            "default": true
+          }
+        },
+        "type": "object",
+        "title": "PaymentMethodConfig"
+      },
       "PaymentTypeBase": {
         "properties": {
           "code": {
@@ -16969,6 +17123,50 @@
           "settings": {
             "$ref": "#/components/schemas/ProviderSettings-Output",
             "description": "Provider configuration settings"
+          },
+          "info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Provider information including links and configuration"
+          },
+          "payment_methods": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderPaymentMethods"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Payment methods configuration reflecting which methods are supported and their Temporal task queues"
+          },
+          "terminal_auth_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalAuthSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Auth structure schema for provider terminals"
+          },
+          "terminal_details_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalDetailsSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Details structure schema for provider terminals"
           }
         },
         "type": "object",
@@ -17030,6 +17228,50 @@
           "settings": {
             "$ref": "#/components/schemas/ProviderSettings-Input",
             "description": "Provider configuration settings"
+          },
+          "info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Provider information including links and configuration"
+          },
+          "payment_methods": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderPaymentMethods"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Payment methods configuration reflecting which methods are supported and their Temporal task queues"
+          },
+          "terminal_auth_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalAuthSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Auth structure schema for provider terminals"
+          },
+          "terminal_details_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalDetailsSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Details structure schema for provider terminals"
           }
         },
         "type": "object",
@@ -17037,6 +17279,153 @@
           "name"
         ],
         "title": "ProviderCreate"
+      },
+      "ProviderEnvironment": {
+        "type": "string",
+        "enum": [
+          "TEST",
+          "PROD"
+        ],
+        "title": "ProviderEnvironment"
+      },
+      "ProviderInfo": {
+        "properties": {
+          "telegram_chat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telegram Chat",
+            "description": "Link to Telegram chat",
+            "examples": [
+              "https://t.me/provider_chat"
+            ]
+          },
+          "wiki_link": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wiki Link",
+            "description": "Link to wiki documentation",
+            "examples": [
+              "https://wiki.example.com/provider"
+            ]
+          },
+          "provider_docs": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider Docs",
+            "description": "Link to provider documentation",
+            "examples": [
+              "https://docs.provider.com"
+            ]
+          },
+          "temporal_link": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temporal Link",
+            "description": "Auto-generated link to Temporal with queue filter"
+          },
+          "grafana_link": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grafana Link",
+            "description": "Auto-generated link to Grafana with provider filter"
+          },
+          "provider_environment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderEnvironment"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Provider environment (TEST or PROD)",
+            "examples": [
+              "TEST"
+            ]
+          },
+          "mapping_bank_keys": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MapBankKeys"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Bank keys mapping for provider documentation"
+          }
+        },
+        "type": "object",
+        "title": "ProviderInfo"
+      },
+      "ProviderPaymentMethods": {
+        "properties": {
+          "payin_h2h": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PaymentMethodConfig"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "H2H deposit payment method configuration"
+          },
+          "payout_h2h": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PaymentMethodConfig"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "H2H withdrawal payment method configuration"
+          },
+          "ecom": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PaymentMethodConfig"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "E-commerce payment method configuration"
+          }
+        },
+        "type": "object",
+        "title": "ProviderPaymentMethods"
       },
       "ProviderSettings-Input": {
         "properties": {
@@ -17136,6 +17525,50 @@
               }
             ],
             "description": "Provider configuration settings"
+          },
+          "info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Provider information including links and configuration"
+          },
+          "payment_methods": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderPaymentMethods"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Payment methods configuration reflecting which methods are supported and their Temporal task queues"
+          },
+          "terminal_auth_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalAuthSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Auth structure schema for provider terminals"
+          },
+          "terminal_details_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalDetailsSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Details structure schema for provider terminals"
           }
         },
         "type": "object",
@@ -17334,6 +17767,8 @@
           },
           "max_attempts": {
             "type": "integer",
+            "maximum": 100,
+            "minimum": 1,
             "title": "Max Attempts",
             "description": "Maximum number of retry attempts",
             "default": 5,
@@ -17343,6 +17778,8 @@
           },
           "base_delay": {
             "type": "integer",
+            "maximum": 3600,
+            "minimum": 1,
             "title": "Base Delay",
             "description": "Base delay (in seconds) between retries",
             "default": 10,
@@ -17352,6 +17789,8 @@
           },
           "backoff_multiplier": {
             "type": "number",
+            "maximum": 10,
+            "minimum": 1,
             "title": "Backoff Multiplier",
             "description": "Backoff multiplier for exponential strategy",
             "default": 2,
@@ -17429,7 +17868,8 @@
           "rate_limit": {
             "anyOf": [
               {
-                "type": "integer"
+                "type": "integer",
+                "minimum": 1
               },
               {
                 "type": "null"
@@ -17721,6 +18161,20 @@
         },
         "type": "object",
         "title": "TTLConfig"
+      },
+      "TerminalAuthSchema": {
+        "properties": {
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/BaseFieldConfig"
+            },
+            "type": "array",
+            "title": "Fields",
+            "description": "List of fields in terminal structure"
+          }
+        },
+        "type": "object",
+        "title": "TerminalAuthSchema"
       },
       "TerminalBase": {
         "properties": {
@@ -18122,6 +18576,20 @@
           "keys"
         ],
         "title": "TerminalDeleteAuth"
+      },
+      "TerminalDetailsSchema": {
+        "properties": {
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/BaseFieldConfig"
+            },
+            "type": "array",
+            "title": "Fields",
+            "description": "List of fields in terminal structure"
+          }
+        },
+        "type": "object",
+        "title": "TerminalDetailsSchema"
       },
       "TerminalInitializePaymentInstrumentsRequest": {
         "properties": {
@@ -19508,6 +19976,50 @@
           "settings": {
             "$ref": "#/components/schemas/ProviderSettings-Output",
             "description": "Provider configuration settings"
+          },
+          "info": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Provider information including links and configuration"
+          },
+          "payment_methods": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderPaymentMethods"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Payment methods configuration reflecting which methods are supported and their Temporal task queues"
+          },
+          "terminal_auth_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalAuthSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Auth structure schema for provider terminals"
+          },
+          "terminal_details_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TerminalDetailsSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Details structure schema for provider terminals"
           },
           "payment_types": {
             "items": {

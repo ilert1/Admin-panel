@@ -933,6 +933,34 @@ export interface ApiResponseListRequiredFieldItem {
     meta?: ApiResponseListRequiredFieldItemMeta;
 }
 
+/**
+ * Field description
+ */
+export type BaseFieldConfigDescription = string | null;
+
+/**
+ * Default value
+ */
+export type BaseFieldConfigDefaultValue = string | null;
+
+/**
+ * Regular expression for validation
+ */
+export type BaseFieldConfigValidationPattern = string | null;
+
+export interface BaseFieldConfig {
+    /** Field key in structure */
+    key: string;
+    /** Whether the field is required */
+    required?: boolean;
+    /** Field description */
+    description?: BaseFieldConfigDescription;
+    /** Default value */
+    default_value?: BaseFieldConfigDefaultValue;
+    /** Regular expression for validation */
+    validation_pattern?: BaseFieldConfigValidationPattern;
+}
+
 export interface BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost {
     /** Upload CSV file with data for import */
     csv_file: Blob;
@@ -970,9 +998,17 @@ export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInst
 }
 
 export interface CallbackConfigInput {
-    /** NATS subject for callback execution */
+    /**
+     * NATS subject for callback execution
+     * @minLength 1
+     * @maxLength 200
+     */
     adapter_nats_subject: string;
-    /** Task queue for callback processing */
+    /**
+     * Task queue for callback processing
+     * @minLength 1
+     * @maxLength 100
+     */
     callback_nats_queue: string;
     /** Security policy for callback endpoints */
     security_policy?: SecurityPolicyConfig;
@@ -981,9 +1017,17 @@ export interface CallbackConfigInput {
 }
 
 export interface CallbackConfigOutput {
-    /** NATS subject for callback execution */
+    /**
+     * NATS subject for callback execution
+     * @minLength 1
+     * @maxLength 200
+     */
     adapter_nats_subject: string;
-    /** Task queue for callback processing */
+    /**
+     * Task queue for callback processing
+     * @minLength 1
+     * @maxLength 100
+     */
     callback_nats_queue: string;
     /** Security policy for callback endpoints */
     security_policy?: SecurityPolicyConfig;
@@ -2388,6 +2432,23 @@ export interface LimitsUpdate {
 }
 
 /**
+ * Bank key for deposit operations
+ */
+export type MapBankKeysDeposit = string | null;
+
+/**
+ * Bank key for withdraw operations
+ */
+export type MapBankKeysWithdraw = string | null;
+
+export interface MapBankKeys {
+    /** Bank key for deposit operations */
+    deposit?: MapBankKeysDeposit;
+    /** Bank key for withdraw operations */
+    withdraw?: MapBankKeysWithdraw;
+}
+
+/**
  * Description of the merchant
  */
 export type MerchantBaseDescription = string | null;
@@ -2889,6 +2950,22 @@ export interface PaymentCategoryItem {
 }
 
 /**
+ * Temporal task queue name for this payment method's workflows and activities
+ */
+export type PaymentMethodConfigTaskQueue = string | null;
+
+export interface PaymentMethodConfig {
+    /** Whether this payment method is enabled for the provider */
+    enabled?: boolean;
+    /** Temporal task queue name for this payment method's workflows and activities */
+    task_queue?: PaymentMethodConfigTaskQueue;
+    /** Whether confirm method is enabled */
+    confirm?: boolean;
+    /** Whether cancel method is enabled */
+    cancel?: boolean;
+}
+
+/**
  * Arbitrary metadata for the payment type (JSON object)
  */
 export type PaymentTypeBaseMeta = { [key: string]: unknown };
@@ -3021,6 +3098,26 @@ export type ProviderBasePublicKey = string | null;
  */
 export type ProviderBaseMethods = { [key: string]: ExecutionMethodOutput };
 
+/**
+ * Provider information including links and configuration
+ */
+export type ProviderBaseInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type ProviderBasePaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type ProviderBaseTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type ProviderBaseTerminalDetailsSchema = TerminalDetailsSchema | null;
+
 export interface ProviderBase {
     /** Provider ID */
     id?: ProviderBaseId;
@@ -3037,6 +3134,14 @@ export interface ProviderBase {
     methods: ProviderBaseMethods;
     /** Provider configuration settings */
     settings?: ProviderSettingsOutput;
+    /** Provider information including links and configuration */
+    info?: ProviderBaseInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: ProviderBasePaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: ProviderBaseTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: ProviderBaseTerminalDetailsSchema;
 }
 
 /**
@@ -3049,6 +3154,26 @@ export type ProviderCreateFieldsJsonSchema = string | null;
  */
 export type ProviderCreateMethods = { [key: string]: ExecutionMethodInput };
 
+/**
+ * Provider information including links and configuration
+ */
+export type ProviderCreateInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type ProviderCreatePaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type ProviderCreateTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type ProviderCreateTerminalDetailsSchema = TerminalDetailsSchema | null;
+
 export interface ProviderCreate {
     /** Provider name */
     name: string;
@@ -3060,6 +3185,98 @@ export interface ProviderCreate {
     payment_types?: string[];
     /** Provider configuration settings */
     settings?: ProviderSettingsInput;
+    /** Provider information including links and configuration */
+    info?: ProviderCreateInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: ProviderCreatePaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: ProviderCreateTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: ProviderCreateTerminalDetailsSchema;
+}
+
+export type ProviderEnvironment = (typeof ProviderEnvironment)[keyof typeof ProviderEnvironment];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProviderEnvironment = {
+    TEST: "TEST",
+    PROD: "PROD"
+} as const;
+
+/**
+ * Link to Telegram chat
+ */
+export type ProviderInfoTelegramChat = string | null;
+
+/**
+ * Link to wiki documentation
+ */
+export type ProviderInfoWikiLink = string | null;
+
+/**
+ * Link to provider documentation
+ */
+export type ProviderInfoProviderDocs = string | null;
+
+/**
+ * Auto-generated link to Temporal with queue filter
+ */
+export type ProviderInfoTemporalLink = string | null;
+
+/**
+ * Auto-generated link to Grafana with provider filter
+ */
+export type ProviderInfoGrafanaLink = string | null;
+
+/**
+ * Provider environment (TEST or PROD)
+ */
+export type ProviderInfoProviderEnvironment = ProviderEnvironment | null;
+
+/**
+ * Bank keys mapping for provider documentation
+ */
+export type ProviderInfoMappingBankKeys = MapBankKeys | null;
+
+export interface ProviderInfo {
+    /** Link to Telegram chat */
+    telegram_chat?: ProviderInfoTelegramChat;
+    /** Link to wiki documentation */
+    wiki_link?: ProviderInfoWikiLink;
+    /** Link to provider documentation */
+    provider_docs?: ProviderInfoProviderDocs;
+    /** Auto-generated link to Temporal with queue filter */
+    temporal_link?: ProviderInfoTemporalLink;
+    /** Auto-generated link to Grafana with provider filter */
+    grafana_link?: ProviderInfoGrafanaLink;
+    /** Provider environment (TEST or PROD) */
+    provider_environment?: ProviderInfoProviderEnvironment;
+    /** Bank keys mapping for provider documentation */
+    mapping_bank_keys?: ProviderInfoMappingBankKeys;
+}
+
+/**
+ * H2H deposit payment method configuration
+ */
+export type ProviderPaymentMethodsPayinH2h = PaymentMethodConfig | null;
+
+/**
+ * H2H withdrawal payment method configuration
+ */
+export type ProviderPaymentMethodsPayoutH2h = PaymentMethodConfig | null;
+
+/**
+ * E-commerce payment method configuration
+ */
+export type ProviderPaymentMethodsEcom = PaymentMethodConfig | null;
+
+export interface ProviderPaymentMethods {
+    /** H2H deposit payment method configuration */
+    payin_h2h?: ProviderPaymentMethodsPayinH2h;
+    /** H2H withdrawal payment method configuration */
+    payout_h2h?: ProviderPaymentMethodsPayoutH2h;
+    /** E-commerce payment method configuration */
+    ecom?: ProviderPaymentMethodsEcom;
 }
 
 /**
@@ -3104,6 +3321,26 @@ export type ProviderUpdatePaymentTypes = string[] | null;
  */
 export type ProviderUpdateSettings = ProviderSettingsInput | null;
 
+/**
+ * Provider information including links and configuration
+ */
+export type ProviderUpdateInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type ProviderUpdatePaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type ProviderUpdateTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type ProviderUpdateTerminalDetailsSchema = TerminalDetailsSchema | null;
+
 export interface ProviderUpdate {
     /** JSON schema for provider fields */
     fields_json_schema?: ProviderUpdateFieldsJsonSchema;
@@ -3113,6 +3350,14 @@ export interface ProviderUpdate {
     payment_types?: ProviderUpdatePaymentTypes;
     /** Provider configuration settings */
     settings?: ProviderUpdateSettings;
+    /** Provider information including links and configuration */
+    info?: ProviderUpdateInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: ProviderUpdatePaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: ProviderUpdateTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: ProviderUpdateTerminalDetailsSchema;
 }
 
 export interface RateValue {
@@ -3190,11 +3435,23 @@ export interface RetryPolicy {
 export interface RetryPolicyConfig {
     /** Enable retries for this mapping */
     enabled?: boolean;
-    /** Maximum number of retry attempts */
+    /**
+     * Maximum number of retry attempts
+     * @minimum 1
+     * @maximum 100
+     */
     max_attempts?: number;
-    /** Base delay (in seconds) between retries */
+    /**
+     * Base delay (in seconds) between retries
+     * @minimum 1
+     * @maximum 3600
+     */
     base_delay?: number;
-    /** Backoff multiplier for exponential strategy */
+    /**
+     * Backoff multiplier for exponential strategy
+     * @minimum 1
+     * @maximum 10
+     */
     backoff_multiplier?: number;
     /** Backoff strategy to use */
     strategy?: RetryStrategy;
@@ -3343,6 +3600,11 @@ export interface TTLConfig {
     max?: TTLConfigMax;
 }
 
+export interface TerminalAuthSchema {
+    /** List of fields in terminal structure */
+    fields?: BaseFieldConfig[];
+}
+
 /**
  * Description of the terminal
  */
@@ -3475,6 +3737,11 @@ export interface TerminalCreate {
 export interface TerminalDeleteAuth {
     /** Authentication data for the terminal */
     keys: string[];
+}
+
+export interface TerminalDetailsSchema {
+    /** List of fields in terminal structure */
+    fields?: BaseFieldConfig[];
 }
 
 export interface TerminalInitializePaymentInstrumentsRequest {
@@ -4030,6 +4297,26 @@ export type SourceSchemasProviderProviderPublicKey = string | null;
  */
 export type SourceSchemasProviderProviderMethods = { [key: string]: ExecutionMethodOutput };
 
+/**
+ * Provider information including links and configuration
+ */
+export type SourceSchemasProviderProviderInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type SourceSchemasProviderProviderPaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type SourceSchemasProviderProviderTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type SourceSchemasProviderProviderTerminalDetailsSchema = TerminalDetailsSchema | null;
+
 export interface SourceSchemasProviderProvider {
     /** Provider ID */
     id?: SourceSchemasProviderProviderId;
@@ -4046,6 +4333,14 @@ export interface SourceSchemasProviderProvider {
     methods: SourceSchemasProviderProviderMethods;
     /** Provider configuration settings */
     settings?: ProviderSettingsOutput;
+    /** Provider information including links and configuration */
+    info?: SourceSchemasProviderProviderInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: SourceSchemasProviderProviderPaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: SourceSchemasProviderProviderTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: SourceSchemasProviderProviderTerminalDetailsSchema;
     /** List of payment types associated with this provider */
     payment_types?: PaymentTypeBase[];
 }
