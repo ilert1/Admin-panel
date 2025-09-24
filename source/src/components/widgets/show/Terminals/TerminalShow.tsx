@@ -42,7 +42,6 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     }
     const src_cur = context.record.src_currency?.code;
     const dst_cur = context.record.dst_currency?.code;
-    const dst_country = countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <>
