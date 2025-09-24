@@ -11534,11 +11534,15 @@
         "properties": {
           "adapter_nats_subject": {
             "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
             "title": "Adapter Nats Subject",
             "description": "NATS subject for callback execution"
           },
           "callback_nats_queue": {
             "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
             "title": "Callback Nats Queue",
             "description": "Task queue for callback processing"
           },
@@ -11562,11 +11566,15 @@
         "properties": {
           "adapter_nats_subject": {
             "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
             "title": "Adapter Nats Subject",
             "description": "NATS subject for callback execution"
           },
           "callback_nats_queue": {
             "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
             "title": "Callback Nats Queue",
             "description": "Task queue for callback processing"
           },
@@ -11607,7 +11615,8 @@
           "body": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 10000
               },
               {
                 "type": "null"
@@ -17758,6 +17767,8 @@
           },
           "max_attempts": {
             "type": "integer",
+            "maximum": 100,
+            "minimum": 1,
             "title": "Max Attempts",
             "description": "Maximum number of retry attempts",
             "default": 5,
@@ -17767,6 +17778,8 @@
           },
           "base_delay": {
             "type": "integer",
+            "maximum": 3600,
+            "minimum": 1,
             "title": "Base Delay",
             "description": "Base delay (in seconds) between retries",
             "default": 10,
@@ -17776,6 +17789,8 @@
           },
           "backoff_multiplier": {
             "type": "number",
+            "maximum": 10,
+            "minimum": 1,
             "title": "Backoff Multiplier",
             "description": "Backoff multiplier for exponential strategy",
             "default": 2,
@@ -17853,7 +17868,8 @@
           "rate_limit": {
             "anyOf": [
               {
-                "type": "integer"
+                "type": "integer",
+                "minimum": 1
               },
               {
                 "type": "null"

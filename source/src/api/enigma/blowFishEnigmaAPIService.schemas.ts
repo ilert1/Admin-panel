@@ -998,9 +998,17 @@ export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInst
 }
 
 export interface CallbackConfigInput {
-    /** NATS subject for callback execution */
+    /**
+     * NATS subject for callback execution
+     * @minLength 1
+     * @maxLength 200
+     */
     adapter_nats_subject: string;
-    /** Task queue for callback processing */
+    /**
+     * Task queue for callback processing
+     * @minLength 1
+     * @maxLength 100
+     */
     callback_nats_queue: string;
     /** Security policy for callback endpoints */
     security_policy?: SecurityPolicyConfig;
@@ -1009,9 +1017,17 @@ export interface CallbackConfigInput {
 }
 
 export interface CallbackConfigOutput {
-    /** NATS subject for callback execution */
+    /**
+     * NATS subject for callback execution
+     * @minLength 1
+     * @maxLength 200
+     */
     adapter_nats_subject: string;
-    /** Task queue for callback processing */
+    /**
+     * Task queue for callback processing
+     * @minLength 1
+     * @maxLength 100
+     */
     callback_nats_queue: string;
     /** Security policy for callback endpoints */
     security_policy?: SecurityPolicyConfig;
@@ -3419,11 +3435,23 @@ export interface RetryPolicy {
 export interface RetryPolicyConfig {
     /** Enable retries for this mapping */
     enabled?: boolean;
-    /** Maximum number of retry attempts */
+    /**
+     * Maximum number of retry attempts
+     * @minimum 1
+     * @maximum 100
+     */
     max_attempts?: number;
-    /** Base delay (in seconds) between retries */
+    /**
+     * Base delay (in seconds) between retries
+     * @minimum 1
+     * @maximum 3600
+     */
     base_delay?: number;
-    /** Backoff multiplier for exponential strategy */
+    /**
+     * Backoff multiplier for exponential strategy
+     * @minimum 1
+     * @maximum 10
+     */
     backoff_multiplier?: number;
     /** Backoff strategy to use */
     strategy?: RetryStrategy;
