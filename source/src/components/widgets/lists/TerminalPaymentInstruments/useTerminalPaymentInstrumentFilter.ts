@@ -41,23 +41,12 @@ const useTerminalPaymentInstrumentFilter = () => {
             } else {
                 Reflect.deleteProperty(filterValues, "terminalFilterId");
                 setFilters(filterValues, displayedFilters, true);
+                setTerminalFilterId("");
                 setTerminalFilterName("");
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
-
-    useEffect(() => {
-        if (providersData && filterValues?.provider) {
-            const foundProvider = providersData?.find(provider => provider.name === filterValues?.provider);
-
-            if (!foundProvider) {
-                setFilters({}, displayedFilters, true);
-                setProviderName("");
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [providersData]);
 
     const onPropertySelected = debounce(
         (
@@ -149,6 +138,18 @@ const useTerminalPaymentInstrumentFilter = () => {
         setProviderName("");
         setSelectSpiCode("");
     };
+
+    useEffect(() => {
+        if (providersData && filterValues?.provider) {
+            const foundProvider = providersData?.find(provider => provider.name === filterValues?.provider);
+
+            if (!foundProvider) {
+                setFilters({}, displayedFilters, true);
+                onClearFilters();
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
 
     const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
         setReportLoading(true);
