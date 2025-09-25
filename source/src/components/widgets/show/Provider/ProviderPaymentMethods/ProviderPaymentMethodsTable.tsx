@@ -44,7 +44,7 @@ export const ProviderPaymentMethodsTable = ({
                             <TableRow className="border-muted">
                                 <TableCell
                                     className={cn(
-                                        "relative border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
+                                        "relative w-80 border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
                                         rowIndex % 2
                                             ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                             : "bg-neutral-0 dark:bg-neutral-100"
@@ -54,15 +54,22 @@ export const ProviderPaymentMethodsTable = ({
 
                                 <TableCell
                                     className={cn(
-                                        "relative border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
+                                        "relative min-h-11 border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
                                         rowIndex % 2
                                             ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                             : "bg-neutral-0 dark:bg-neutral-100"
                                     )}>
                                     {typeof methodValue[methodKey] === "boolean" ? (
-                                        <Checkbox checked={methodValue[methodKey]} className="cursor-default" />
+                                        <Checkbox
+                                            checked={methodValue[methodKey]}
+                                            disabled
+                                            className="cursor-default"
+                                        />
                                     ) : (
-                                        <TextField text={methodValue[methodKey] || ""} />
+                                        <TextField
+                                            className="text-neutral-80 dark:text-neutral-40"
+                                            text={methodValue[methodKey] || ""}
+                                        />
                                     )}
                                 </TableCell>
                             </TableRow>
