@@ -44,7 +44,7 @@ export const ProviderPaymentMethodsTable = ({
                             <TableRow className="border-muted">
                                 <TableCell
                                     className={cn(
-                                        "relative w-80 border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
+                                        "relative border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0 sm:w-80",
                                         rowIndex % 2
                                             ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                             : "bg-neutral-0 dark:bg-neutral-100"
