@@ -7,6 +7,7 @@ import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ProviderUpdateParams } from "@/data/providers";
 import { ProviderPaymentMethodsForm } from "./ProviderPaymentMethodsForm";
 import { ProviderPaymentMethodsTable } from "./ProviderPaymentMethodsTable";
+import { cn } from "@/lib/utils";
 
 interface IProviderMethodsShow {
     providerId: string;
@@ -57,10 +58,16 @@ export const ProviderPaymentMethodsShow = ({ paymentMethods, providerId, isFetch
                 <Accordion type="multiple">
                     {(Object.keys(paymentMethods) as (keyof ProviderPaymentMethods)[]).map(methodKey => (
                         <AccordionItem key={methodKey} value={methodKey}>
-                            <AccordionTrigger
-                                disabled={!paymentMethods[methodKey]}
-                                className="text-neutral-90 dark:text-neutral-0">
-                                {methodKey}
+                            <AccordionTrigger className="text-neutral-90 dark:text-neutral-0">
+                                <div className="flex items-center gap-2">
+                                    <span
+                                        className={cn(
+                                            "mt-0.5 h-4 w-4 rounded-full",
+                                            paymentMethods[methodKey]?.enabled ? "bg-green-50" : "bg-red-40"
+                                        )}
+                                    />
+                                    <p className="text-base">{methodKey}</p>
+                                </div>
                             </AccordionTrigger>
 
                             <AccordionContent>
