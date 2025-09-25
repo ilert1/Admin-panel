@@ -14,7 +14,6 @@ export const ProvidersListFilter = () => {
         translate,
         providersData,
         providersLoadingProcess,
-        providerId,
         onProviderIdChanged,
         providerName,
         onProviderNameChanged,
@@ -24,7 +23,7 @@ export const ProvidersListFilter = () => {
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
-    const clearDisabled = !providerId;
+    const clearDisabled = !providerName;
 
     return (
         <>
@@ -44,7 +43,7 @@ export const ProvidersListFilter = () => {
                         <FilterButtonGroup
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
-                            filterList={[providerId]}
+                            filterList={[providerName]}
                             clearButtonDisabled={clearDisabled}
                             onClearFilters={clearFilters}
                         />
@@ -65,7 +64,7 @@ export const ProvidersListFilter = () => {
                             isLoading={providersLoadingProcess}
                             idField="id"
                             setIdValue={onProviderIdChanged}
-                            idFieldValue={providerId}
+                            idFieldValue={providerName}
                             style="Black"
                         />
                     </div>

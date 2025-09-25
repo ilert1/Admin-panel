@@ -9,7 +9,6 @@ const useProvidersFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage, total } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
 
-    const [providerId, setProviderId] = useState(filterValues?.id || "");
     const [providerName, setProviderName] = useState("");
 
     useEffect(() => {
@@ -45,7 +44,6 @@ const useProvidersFilter = () => {
     }, 300);
 
     const onProviderIdChanged = (provider: string) => {
-        setProviderId(provider);
         onPropertySelected(provider, "id");
     };
 
@@ -54,7 +52,6 @@ const useProvidersFilter = () => {
     };
 
     const clearFilters = () => {
-        setProviderId("");
         setProviderName("");
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -64,7 +61,6 @@ const useProvidersFilter = () => {
         translate,
         providersData,
         providersLoadingProcess,
-        providerId,
         onProviderIdChanged,
         providerName,
         onProviderNameChanged,
