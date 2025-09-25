@@ -14,7 +14,6 @@ export const MerchantListFilter = () => {
         translate,
         merchantData,
         merchantsLoadingProcess,
-        merchantId,
         onMerchantChanged,
         merchantValue,
         setMerchantValue,
@@ -24,7 +23,7 @@ export const MerchantListFilter = () => {
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
 
-    const clearDisabled = !merchantId;
+    const clearDisabled = !merchantValue;
 
     return (
         <>
@@ -44,7 +43,7 @@ export const MerchantListFilter = () => {
                         <FilterButtonGroup
                             open={openFiltersClicked}
                             onOpenChange={setOpenFiltersClicked}
-                            filterList={[merchantId]}
+                            filterList={[merchantValue]}
                             clearButtonDisabled={clearDisabled}
                             onClearFilters={clearFilters}
                         />
