@@ -8,12 +8,11 @@ const useMerchantFilter = () => {
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
     const translate = useTranslate();
 
-    const [merchantId, setMerchantId] = useState(filterValues?.id || "");
     const [merchantValue, setMerchantValue] = useState("");
 
     useEffect(() => {
         if (merchantData && filterValues?.id) {
-            const foundMerchant = merchantData?.find(merchant => merchant.id === filterValues?.id)?.name;
+            const foundMerchant = merchantData.find(merchant => merchant.id === filterValues?.id)?.name;
 
             if (foundMerchant) {
                 setMerchantValue(foundMerchant);
@@ -44,12 +43,10 @@ const useMerchantFilter = () => {
     }, 300);
 
     const onMerchantChanged = (merchant: string) => {
-        setMerchantId(merchant);
         onPropertySelected(merchant, "id");
     };
 
     const clearFilters = () => {
-        setMerchantId("");
         setMerchantValue("");
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -59,7 +56,6 @@ const useMerchantFilter = () => {
         translate,
         merchantData,
         merchantsLoadingProcess,
-        merchantId,
         onMerchantChanged,
         merchantValue,
         setMerchantValue,
