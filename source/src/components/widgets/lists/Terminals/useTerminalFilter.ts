@@ -34,6 +34,7 @@ const useTerminalFilter = () => {
 
             if (!foundProvider) {
                 setFilters({}, displayedFilters, true);
+                setTerminalFilterName("");
                 setProviderName("");
             }
         }
