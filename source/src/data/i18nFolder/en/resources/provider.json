@@ -16,7 +16,7 @@
             "NULL": "Not selected"
         },
         "telegram_chat": "Telegram chat",
-        "temporal_link": "Temporal link",
+        "temporal_link": "Temporal link with queue filter",
         "wiki_link": "Wiki",
         "errors": {
             "WrongFormatOfUrl": "Invalid URL format. Example: http(s)://www.example.com"

@@ -15,8 +15,8 @@
             "PROD": "Продакшн среда",
             "NULL": "Не выбран"
         },
-        "telegram_chat": "Телеграм чат",
-        "temporal_link": "Временная ссылка",
+        "telegram_chat": "Telegram чат",
+        "temporal_link": "Temporal ссылка с фильтром на очередь",
         "wiki_link": "Документация",
         "errors": {
             "WrongFormatOfUrl": "Некорректный формат URL. Пример: http(s)://www.example.com"
