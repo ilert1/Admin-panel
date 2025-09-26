@@ -59,7 +59,7 @@
         "cascadeTerminal": "Терминал каскада",
         "createNew": "Привязать терминал",
         "creatingCascadeTerminal": "Привязка терминала",
-        "editingCascadeTerminal": "Изменение терминала каскадов",
+        "editingCascadeTerminal": "Изменение связи терминала с каскадом",
         "deleteCascadeTerminal": "Удалить связь терминала и каскада?",
         "deletedSuccessfully": "Связь каскада %{cascade}, и терминала %{terminal} успешно удалена.",
         "fields": {
@@ -84,7 +84,7 @@
             "state": "Состояние"
         },
         "errors": {
-            "alreadyExist": "Терминал каскада уже существует",
+            "alreadyExist": "Терминал уже привязан к каскаду",
             "cascade_id": "Выберите каскад",
             "terminal_id": "Выберите терминал",
             "weight": "Введите корректное значение веса",
@@ -119,7 +119,7 @@
             "cascade_id": "ID каскада"
         },
         "errors": {
-            "alreadyExist": "Каскад мерчанта уже существует"
+            "alreadyExist": "Каскад уже привязан к мерчанту"
         }
     },
     "resources.cascadeSettings.cascadeConflicts": {

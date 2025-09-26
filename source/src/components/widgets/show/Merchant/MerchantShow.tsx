@@ -20,6 +20,7 @@ import { MerchantSettingsDialog } from "./MerchantSettingsDialog";
 import { MerchantSchema } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Badge } from "@/components/ui/badge";
 import { CreateCascadeMerchantsDialog } from "../../lists/CascadeMerchants/CreateCascadeMerchantDialog";
+import { DeleteCascadeMerchantDialog } from "../CascadeMerchant/DeleteCascadeMerchantDialog";
 
 interface MerchantShowProps {
     id: string;
@@ -87,7 +88,13 @@ export const MerchantShow = (props: MerchantShowProps) => {
         enabled: !!context.record?.id
     });
 
-    const { directionColumns, cascadeMerchantsColumns } = useGetMerchantShowColumns({
+    const {
+        directionColumns,
+        cascadeMerchantsColumns,
+        chosenId,
+        deleteCascadeMerchantDialogOpen,
+        setDeleteCascadeMerchantDialogOpen
+    } = useGetMerchantShowColumns({
         isFetchingMerchantData: isMerchantDirectionsFetching,
         isFetchingCascadeMerchantData
     });
@@ -250,6 +257,12 @@ export const MerchantShow = (props: MerchantShowProps) => {
                 merchantId={id}
                 open={createCascadeLinkDialogOpen}
                 onOpenChange={setCreateCascadeLinkDialogOpen}
+            />
+            <DeleteCascadeMerchantDialog
+                open={deleteCascadeMerchantDialogOpen}
+                onOpenChange={setDeleteCascadeMerchantDialogOpen}
+                onQuickShowOpenChange={() => {}}
+                id={chosenId}
             />
         </>
     );
