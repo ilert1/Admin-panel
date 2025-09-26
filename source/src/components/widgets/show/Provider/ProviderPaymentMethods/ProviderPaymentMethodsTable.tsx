@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { TextField } from "@/components/ui/text-field";
 import { Checkbox } from "@/components/ui/checkbox";
 
-interface IProviderMethodsTable {
+interface IProviderPaymentMethodsTable {
     onEditClick: () => void;
     methodValue: PaymentMethodConfig | null | undefined;
     disabledProcess: boolean;
@@ -18,7 +18,7 @@ export const ProviderPaymentMethodsTable = ({
     onEditClick,
     disabledProcess,
     disabledEditButton
-}: IProviderMethodsTable) => {
+}: IProviderPaymentMethodsTable) => {
     const translate = useTranslate();
 
     return (

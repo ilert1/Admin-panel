@@ -9,13 +9,13 @@ import { ProviderPaymentMethodsForm } from "./ProviderPaymentMethodsForm";
 import { ProviderPaymentMethodsTable } from "./ProviderPaymentMethodsTable";
 import { StateViewer } from "@/components/ui/StateViewer";
 
-interface IProviderMethodsShow {
+interface IProviderPaymentMethodsShow {
     providerId: string;
     paymentMethods: ProviderPaymentMethods;
     isFetching: boolean;
 }
 
-export const ProviderPaymentMethodsShow = ({ paymentMethods, providerId, isFetching }: IProviderMethodsShow) => {
+export const ProviderPaymentMethodsShow = ({ paymentMethods, providerId, isFetching }: IProviderPaymentMethodsShow) => {
     const providersDataProvider = new ProvidersDataProvider();
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [editMethod, setEditMethod] = useState("");
