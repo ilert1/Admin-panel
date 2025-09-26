@@ -51,7 +51,7 @@ export const ProviderTerminalAuthSchemaForm = ({
         form.reset({
             ...form.getValues(),
             key: schemaKey || "",
-            required: schemaValue?.required || true,
+            required: schemaValue?.required !== undefined ? schemaValue?.required : true,
             description: schemaValue?.description || "",
             default_value: schemaValue?.default_value || "",
             validation_pattern: schemaValue?.validation_pattern || ""
