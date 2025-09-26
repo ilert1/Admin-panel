@@ -6,8 +6,8 @@
         "settingsEditing": "Settings editing",
         "grafana_link": "Grafana",
         "mapping_bank_keys": "Banking mapping keys",
-        "mapping_bank_keys_deposit": "Banking mapping keys for deposit",
-        "mapping_bank_keys_withdraw": "Banking mapping keys for withdraw",
+        "mapping_bank_keys_deposit": "Mapping bank keys (deposit)",
+        "mapping_bank_keys_withdraw": "Mapping bank keys (withdraw) ",
         "provider_docs": "Provider documentation",
         "provider_environment": "Provider environment",
         "provider_environments": {
@@ -19,7 +19,7 @@
         "temporal_link": "Temporal link",
         "wiki_link": "Wiki",
         "errors": {
-            "WrongFormatOfUrl": "Wrong format of URL"
+            "WrongFormatOfUrl": "Invalid URL format. Example: http(s)://www.example.com"
         }
     },
     "resources.provider.fields": {

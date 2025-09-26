@@ -53,31 +53,19 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
         return [...Object.values(ProviderEnvironment)];
     };
 
-    // const domainRegex =
-    //     /^https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}(?:\/.*)?$/;
+    const urlSchema = z
+        .string()
+        .trim()
+        .refine(value => value === "" || /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/.test(value), {
+            message: translate("resources.provider.settings.errors.WrongFormatOfUrl")
+        });
 
     const formSchema = z.object({
-        telegram_chat: z
-            .string()
-            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
-            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
-            .trim(),
-        wiki_link: z
-            .string()
-            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
-            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
-            .trim(),
-        provider_docs: z.string().url(translate("resources.provider.settings.errors.WrongFormatOfUrl")).trim(),
-        temporal_link: z
-            .string()
-            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
-            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
-            .trim(),
-        grafana_link: z
-            .string()
-            .min(1, translate("pages.settings.passChange.errors.cantBeEmpty"))
-            .url(translate("resources.provider.settings.errors.WrongFormatOfUrl"))
-            .trim(),
+        telegram_chat: urlSchema,
+        wiki_link: urlSchema,
+        provider_docs: urlSchema,
+        temporal_link: urlSchema,
+        grafana_link: urlSchema,
         provider_environment: z.nativeEnum(ProviderEnvironment).nullable(),
         mapping_bank_keys: z.object({
             deposit: z.string().trim(),

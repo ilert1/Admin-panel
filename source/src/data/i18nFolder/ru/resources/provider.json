@@ -6,8 +6,8 @@
         "settingsEditing": "Изменения настроек",
         "grafana_link": "Grafana",
         "mapping_bank_keys": "Ключи для банковского маппинга",
-        "mapping_bank_keys_deposit": "Ключи для банковского маппинга пополнения",
-        "mapping_bank_keys_withdraw": "Ключи для банковского маппинга вывода",
+        "mapping_bank_keys_deposit": "Ключи маппинга банков (пополнение)",
+        "mapping_bank_keys_withdraw": "Ключи маппинга банков (вывод)",
         "provider_docs": "Документация провайдера",
         "provider_environment": "Среда провайдера",
         "provider_environments": {
@@ -19,7 +19,7 @@
         "temporal_link": "Временная ссылка",
         "wiki_link": "Документация",
         "errors": {
-            "WrongFormatOfUrl": "Неправильный формат URL"
+            "WrongFormatOfUrl": "Некорректный формат URL. Пример: http(s)://www.example.com"
         }
     },
     "resources.provider.fields": {
