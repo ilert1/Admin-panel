@@ -12,7 +12,8 @@
         "methods": "Методы",
         "callback_nats_queue": "Очередь Nats",
         "adapter_nats_subject": "Nats тема",
-        "paymentMethods": "Платёжные методы"
+        "paymentMethods": "Платёжные методы",
+        "terminal_auth_schema": "Схема авторизации терминала"
     },
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",
@@ -22,6 +23,15 @@
     "resources.provider.fields.securityPolicy": {
         "statusActivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно активирована",
         "statusDeactivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно деактивирована"
+    },
+    "resources.provider.terminalAuthSchema": {
+        "schemaName": "Наименование ключа схемы",
+        "addSchema": "Добавить схему",
+        "removeSchemaDialog": "Удалить схему авторизации терминала?",
+        "schemaAddSuccess": "Схема успешно добавлена",
+        "schemaEditSuccess": "Схема успешно изменена",
+        "schemaDeleteSuccess": "Схема успешно удалена",
+        "notFound": "Схемы авторизации терминала не найдены"
     },
     "resources.provider.callback": "Callback",
     "resources.provider.callbackEdit": "Изменить callback",
