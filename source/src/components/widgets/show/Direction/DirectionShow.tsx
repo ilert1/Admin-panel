@@ -13,8 +13,8 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowComponent";
 import { Badge } from "@/components/ui/badge";
-import { useFetchDictionaries } from "@/hooks";
-import { countryCodes } from "../../components/Selects/CountrySelect";
+import { useCountryCodes, useFetchDictionaries } from "@/hooks";
+import { CountryTextField } from "../../components/CountryTextField";
 
 export interface DirectionsShowProps {
     id: string;
@@ -26,6 +26,7 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const data = useFetchDictionaries();
     const translate = useTranslate();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -56,41 +57,44 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
     const isPrioritized = context.record.condition?.extra ?? false;
 
     const controlsDisabled = !!context.record.cascade_id;
+    const dst_country = countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-col gap-2">
-                <div className="flex flex-row flex-wrap items-center gap-5 md:flex-nowrap">
-                    <div className="">
-                        <div className="flex flex-wrap gap-2">
-                            <span className="text-title-2 text-neutral-90 dark:text-neutral-0">
-                                {context.record.name}
-                            </span>
-                            {!isPrioritized && (
-                                <Badge variant={"destructive"} className="!rounded-16 bg-red-50 py-0">
-                                    {translate("resources.direction.fields.condition.prioritized")}
-                                </Badge>
+                <div className="flex flex-col flex-wrap gap-2 md:flex-nowrap">
+                    <div className="flex gap-2">
+                        <div className="flex flex-col">
+                            <div className="flex flex-wrap gap-2">
+                                <span className="text-title-2 text-neutral-90 dark:text-neutral-0">
+                                    {context.record.name}
+                                </span>
+                            </div>
+                            <TextField
+                                text={context.record.id}
+                                copyValue
+                                className="text-neutral-70 dark:text-neutral-30"
+                            />
+                        </div>
+
+                        <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0">
+                            {context.record.state === "active" && (
+                                <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                                    {translate("resources.cascadeSettings.cascades.state.active")}
+                                </span>
+                            )}
+                            {context.record.state === "inactive" && (
+                                <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
+                                    {translate("resources.cascadeSettings.cascades.state.inactive")}
+                                </span>
                             )}
                         </div>
-                        <TextField
-                            text={context.record.id}
-                            copyValue
-                            className="text-neutral-70 dark:text-neutral-30"
-                        />
                     </div>
-
-                    <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
-                        {context.record.state === "active" && (
-                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                                {translate("resources.cascadeSettings.cascades.state.active")}
-                            </span>
-                        )}
-                        {context.record.state === "inactive" && (
-                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                                {translate("resources.cascadeSettings.cascades.state.inactive")}
-                            </span>
-                        )}
-                    </div>
+                    {isPrioritized && (
+                        <Badge variant={"destructive"} className="self-start !rounded-16 bg-red-50 py-0">
+                            {translate("resources.direction.fields.condition.prioritized")}
+                        </Badge>
+                    )}
                 </div>
 
                 {context.record.description && (
@@ -121,8 +125,8 @@ export const DirectionsShow = ({ id, onOpenChange }: DirectionsShowProps) => {
                     />
                     <PaymentsTypesShowComponent payment_types={context.record.payment_types} />
 
-                    <TextField
-                        text={countryCodes.find(item => item.alpha2 === context.record?.dst_country_code)?.name || ""}
+                    <CountryTextField
+                        text={dst_country?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
                     />
 

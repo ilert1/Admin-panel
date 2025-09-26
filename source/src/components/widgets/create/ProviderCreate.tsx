@@ -1,4 +1,4 @@
-import { useCreateController, CreateContextProvider, useTranslate, useDataProvider, useRefresh } from "react-admin";
+import { useCreateController, CreateContextProvider, useTranslate, useRefresh } from "react-admin";
 import { useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
@@ -8,50 +8,44 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { IProvider } from "@/data/providers";
+import { PROVIDER_PAYMENT_METHODS, ProvidersDataProvider } from "@/data/providers";
 import { ProviderCreate as IProviderCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { Label } from "@/components/ui/label";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
+import { MultiSelect } from "@/components/ui/multi-select";
+import { Label } from "@/components/ui/label";
 
 export interface ProviderCreateProps {
     onClose?: () => void;
 }
 
 export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
-    const dataProvider = useDataProvider();
+    const providersDataProvider = new ProvidersDataProvider();
     const controllerProps = useCreateController<IProviderCreate>();
     const { theme } = useTheme();
-
     const appToast = useAppToast();
-
     const translate = useTranslate();
     const refresh = useRefresh();
     const { openSheet } = useSheets();
-    const [hasErrors, setHasErrors] = useState(false);
-    const [hasValid, setHasValid] = useState(true);
-    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
+
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.provider.errors.name")).trim(),
-        fields_json_schema: z.string().optional().default(""),
-        methods: z.string().trim().optional(),
-        payment_types: z.array(z.string()).optional().default([])
+        payment_types: z.array(z.string()).optional().default([]),
+        payment_methods: z.array(z.enum(PROVIDER_PAYMENT_METHODS)).optional().default([])
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            fields_json_schema: "",
-            methods: "{}",
-            payment_types: []
+            payment_types: [],
+            payment_methods: []
         }
     });
 
@@ -60,13 +54,13 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
         setSubmitButtonDisabled(true);
 
-        const parsedData: IProviderCreate = {
-            ...data,
-            methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
-        };
-
         try {
-            const res = await dataProvider.create<IProvider>("provider", { data: parsedData });
+            const res = await providersDataProvider.create("provider", {
+                data: {
+                    ...data,
+                    payment_methods: Object.fromEntries(data.payment_methods.map(key => [key, { enabled: true }]))
+                }
+            });
 
             appToast(
                 "success",
@@ -112,7 +106,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
+                                <FormItem className="w-full p-2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -120,23 +114,6 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
                                             label={translate("resources.provider.fields._name")}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="fields_json_schema"
-                            render={({ field, fieldState }) => (
-                                <FormItem className="w-full p-2 sm:w-1/2">
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate("resources.provider.fields.json_schema")}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -163,24 +140,30 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
 
                         <FormField
                             control={form.control}
-                            name="methods"
-                            render={({ field }) => {
-                                return (
-                                    <FormItem className="w-full p-2">
-                                        <Label>{translate("resources.provider.fields.methods")}</Label>
-                                        <FormControl>
-                                            <MonacoEditor
-                                                onErrorsChange={setHasErrors}
-                                                onValidChange={setHasValid}
-                                                onMountEditor={() => setMonacoEditorMounted(true)}
-                                                code={field.value ?? "{}"}
-                                                setCode={field.onChange}
+                            name="payment_methods"
+                            render={({ field }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <div>
+                                            <Label>{translate("resources.provider.fields.paymentMethods")}</Label>
+                                            <MultiSelect
+                                                selectedValues={field.value}
+                                                options={PROVIDER_PAYMENT_METHODS.map(item => ({
+                                                    label: item,
+                                                    value: item
+                                                }))}
+                                                onValueChange={field.onChange}
+                                                placeholder={translate("app.widgets.multiSelect.selectPaymentMethods")}
+                                                notFoundMessage={translate(
+                                                    "resources.provider.paymentMethods.notFoundMessage"
+                                                )}
+                                                animation={0}
+                                                modalPopover={true}
                                             />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                );
-                            }}
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
                         />
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
@@ -188,12 +171,7 @@ export const ProviderCreate = ({ onClose = () => {} }: ProviderCreateProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={
-                                    hasErrors ||
-                                    !monacoEditorMounted ||
-                                    (!hasValid && form.watch("methods")?.length !== 0) ||
-                                    submitButtonDisabled
-                                }>
+                                disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button

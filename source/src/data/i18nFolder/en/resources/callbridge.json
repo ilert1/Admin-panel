@@ -20,7 +20,12 @@
             "disabled": "Active",
             "max_attempts": "Max attempts",
             "strategy": "Strategy",
+            "strategies": {
+                "exponential": "Exponential",
+                "fixed": "Fixed"
+            },
             "retryOn": "Retrying on status",
+            "backoff_multiplier": "Backoff multiplier",
             "retryStatusChange": "Edit retry status",
             "newStatus": "New status",
             "enterSepWithCommas": "Enter new statuses separated by commas",
@@ -29,18 +34,50 @@
             "allowedVariant": "Input must be in the format like 400, 404, 500 without extra symbols",
             "security_policy": "Security policy",
             "allowed_ips": "Allowed IPs",
-            "auth": "Authorization",
-            "auth_required": "Auth required",
-            "auth_not_required": "No authorization required",
             "whiteListEdit": "Edit allowed IPs",
             "blackListEdit": "Edit blocked IPs",
             "actDeactButton": "Activate/Deactivate policy",
             "blocked": "Off",
             "permitted": "On",
             "blocked_ips": "Blocked IPs",
-            "burst_limit": "Burst limit",
+            "rate_limit": "Rate limit",
             "enforcement_mode": "Enforcement mode",
-            "updated_at": "Updated at"
+            "enforcement_modes": {
+                "log": "Log",
+                "strict": "Strict"
+            },
+            "updated_at": "Updated at",
+            "delivery_policy": {
+                "name": "Delivery policy",
+                "strategy": "Strategy",
+                "editingDialog": "Editing delivery policy",
+                "editBtn": "Edit delivery policy",
+                "strategies": {
+                    "ASYNC_ONLY": "Async only",
+                    "RPC_STRICT": "RPC strict",
+                    "RPC_WITH_FALLBACK": "RPC with fallback"
+                },
+                "timeout_config": {
+                    "name": "Timeout config",
+                    "rpc_timeout": "RPC timeout",
+                    "async_timeout": "Async timeout"
+                },
+                "response_policy": {
+                    "name": "Response policy",
+                    "type": "Type",
+                    "types": {
+                        "FROM_TEMPLATE": "From template",
+                        "FROM_RESPONSE": "From response"
+                    },
+                    "template": "Response template"
+                },
+                "errors": {
+                    "minValue": "The value must be greater than or equal to 1",
+                    "maxRpcValue": "The value must be less than or equal to 600",
+                    "maxAsyncValue": "The value must be less than or equal to 3600",
+                    "maxCustomValue": "The value must be less than or equal to %{value}"
+                }
+            }
         },
         "sec_policy_edit": {
             "editingAllowedPolicy": "Editing the list of allowed addresses",
@@ -104,7 +141,14 @@
             "retrying": "Retrying",
             "success": "Success",
             "error": "Error",
-            "sync": "Sync"
+            "sync": "Sync",
+            "security_rejected": "Security rejected",
+            "rpc_sent": "Rpc sent",
+            "rpc_completed": "Rpc completed",
+            "rpc_failed": "Rpc failed",
+            "rpc_timeout": "Rpc timeout",
+            "delivered": "Delivered",
+            "response_sent": "Response sent"
         },
         "show": {
             "fields": {

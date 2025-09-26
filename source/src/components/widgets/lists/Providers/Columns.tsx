@@ -9,6 +9,8 @@ import { IProvider } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { ColumnSortingButton, SortingState } from "../../shared";
+import { Badge } from "@/components/ui/badge";
+import { ProviderPaymentMethods } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 export const useGetProvidersColumns = ({ listContext }: { listContext: ListControllerResult }) => {
     const translate = useTranslate();
@@ -69,59 +71,6 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
             }
         },
         {
-            id: "public_key",
-            accessorKey: "public_key",
-            header: translate("resources.provider.fields.pk"),
-            cell: ({ row }) => {
-                if (!row.getValue("public_key")) {
-                    return (
-                        <Button onClick={() => handleClickGenerate(row.original.id, row.getValue("name"))}>
-                            {translate("resources.provider.fields.genKey")}
-                        </Button>
-                    );
-                } else {
-                    const text = String(row.getValue("public_key"));
-
-                    return <TextField text={text} copyValue lineClamp linesCount={1} maxWidth="150px" />;
-                }
-            }
-        },
-        {
-            id: "fields_json_schema",
-            accessorKey: "fields_json_schema",
-            header: translate("resources.provider.fields.json_schema"),
-            cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            row.getValue("fields_json_schema")
-                                ? String(row.getValue("fields_json_schema")).length > 30
-                                    ? String(row.getValue("fields_json_schema")).substring(0, 30) + "..."
-                                    : row.getValue("fields_json_schema")
-                                : ""
-                        }
-                    />
-                );
-            }
-        },
-        {
-            id: "recreate_field",
-            header: () => {
-                return <div className="text-center">{translate("resources.provider.fields.regenKey")}</div>;
-            },
-            cell: ({ row }) => {
-                return (
-                    <div className="flex items-center justify-center">
-                        <Button
-                            onClick={() => handleClickGenerate(row.original.id, row.original.name)}
-                            variant={"text_btn"}>
-                            <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
-                        </Button>
-                    </div>
-                );
-            }
-        },
-        {
             id: "payment_types",
             header: translate("resources.paymentSettings.paymentType.fields.payment_types"),
             cell: ({ row }) => {
@@ -142,6 +91,55 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
                     </div>
                 );
             }
+        },
+        {
+            id: "payment_methods",
+            accessorKey: "payment_methods",
+            header: translate("resources.provider.fields.paymentMethods"),
+            cell: ({ row }) => {
+                const paymentMethods = Object.keys(
+                    row.original.payment_methods || {}
+                ) as (keyof ProviderPaymentMethods)[];
+                const enabledPaymentMethods = paymentMethods.filter(
+                    item => row.original.payment_methods?.[item]?.enabled === true
+                );
+
+                return (
+                    <div className="flex max-h-32 min-w-32 flex-wrap items-center gap-1 overflow-y-auto">
+                        {enabledPaymentMethods.length > 0
+                            ? enabledPaymentMethods.map(value => (
+                                  <Badge
+                                      key={value}
+                                      className="cursor-default overflow-x-hidden border-foreground/10 bg-muted font-normal text-neutral-90 transition duration-150 ease-out hover:bg-muted dark:text-neutral-0">
+                                      <span className="flex max-w-48 flex-col overflow-hidden text-ellipsis break-words">
+                                          <p>{value}</p>
+                                      </span>
+                                  </Badge>
+                              ))
+                            : "-"}
+                    </div>
+                );
+            }
+        },
+        {
+            id: "public_key",
+            accessorKey: "public_key",
+            header: translate("resources.provider.fields.pk"),
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center">
+                    {!row.getValue("public_key") ? (
+                        <Button onClick={() => handleClickGenerate(row.original.id, row.getValue("name"))}>
+                            {translate("resources.provider.fields.genKey")}
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={() => handleClickGenerate(row.original.id, row.original.name)}
+                            variant={"text_btn"}>
+                            <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
+                        </Button>
+                    )}
+                </div>
+            )
         },
         {
             id: "actions",

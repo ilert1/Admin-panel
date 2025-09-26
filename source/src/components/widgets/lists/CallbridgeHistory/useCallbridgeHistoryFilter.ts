@@ -28,7 +28,7 @@ const useCallbridgeHistoryFilter = () => {
     });
 
     const [status, setStatus] = useState(filterValues?.status || "");
-    const [mappingId, setMappingId] = useState(filterValues?.mapping_id || "");
+    const [mappingId, setMappingId] = useState("");
     const [callbackId, setCallbackId] = useState(filterValues?.callback_id || "");
     const [txId, settxId] = useState(filterValues?.transaction_id || "");
     const [extOrderId, setExtOrderId] = useState(filterValues?.external_order_id || "");
@@ -38,8 +38,16 @@ const useCallbridgeHistoryFilter = () => {
     const appToast = useAppToast();
 
     useEffect(() => {
-        if (filterValues?.mapping_id) {
-            setMappingName(mappings?.find(item => item.id === filterValues?.mapping_id)?.name || "");
+        if (mappings && filterValues?.mapping_id) {
+            const foundMapping = mappings.find(item => item.id === filterValues?.mapping_id)?.name;
+
+            if (foundMapping) {
+                setMappingName(foundMapping);
+            } else {
+                Reflect.deleteProperty(filterValues, "mapping_id");
+                setFilters(filterValues, displayedFilters, true);
+                setMappingName("");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mappings]);

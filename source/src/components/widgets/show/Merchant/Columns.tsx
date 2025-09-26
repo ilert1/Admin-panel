@@ -11,12 +11,13 @@ import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
 import { Badge } from "@/components/ui/badge";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { useState } from "react";
-import { countryCodes } from "../../components/Selects/CountrySelect";
 import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
 import { CASCADE_STATE } from "@/data/cascades";
 import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { DeleteCascadeMerchantDialog } from "../CascadeMerchant/DeleteCascadeMerchantDialog";
+import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetMerchantShowColumns = ({
     isFetchingMerchantData = false,
@@ -30,6 +31,7 @@ export const useGetMerchantShowColumns = ({
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteCascadeMerchantDialogOpen, setDeleteCascadeMerchantDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
@@ -42,7 +44,7 @@ export const useGetMerchantShowColumns = ({
         try {
             setIsDataUpdating(true);
 
-            await dataProvider.update("cascades", {
+            await dataProvider.update("cascadeMerchants", {
                 id,
                 data,
                 previousData: undefined
@@ -231,14 +233,11 @@ export const useGetMerchantShowColumns = ({
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            countryCodes.find(item => item.alpha2 === row.original.cascade.dst_country_code)?.name || ""
-                        }
-                        wrap
-                    />
+                const dst_country = countryCodesWithFlag.find(
+                    item => item.alpha2 === row.original.cascade.dst_country_code
                 );
+
+                return <CountryTextField text={dst_country?.name || ""} />;
             }
         },
         {

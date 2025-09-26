@@ -1,7 +1,7 @@
 import {
     ExecutionMethodInput,
     ExecutionMethodOutput,
-    ProviderMethods,
+    ProviderBaseMethods,
     ProviderUpdateMethodsAnyOf
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useRefresh, useTranslate } from "react-admin";
@@ -21,10 +21,11 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
+import { ProviderUpdateParams } from "@/data/providers";
 
 interface IProviderMethodsShow {
     providerId: string;
-    methods: ProviderMethods | ProviderUpdateMethodsAnyOf;
+    methods: ProviderBaseMethods | ProviderUpdateMethodsAnyOf;
     isFetching: boolean;
 }
 
@@ -54,7 +55,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
         await providersDataProvider.update("provider", {
             id: providerId,
             data: { methods: { ...tempMethodsData } },
-            previousData: undefined
+            previousData: { methods } as ProviderUpdateParams
         });
 
     const onAddMethod = async (key: string, value: ExecutionMethodInput) => {

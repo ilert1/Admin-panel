@@ -21,15 +21,24 @@ import {
     providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut
 } from "@/api/enigma/provider/provider";
 import {
+    PaymentTypeBase,
     PaymentTypesLink,
-    Provider,
+    ProviderBase,
     ProviderCreate,
-    ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder
+    ProviderEndpointsListProvidersEnigmaV1ProviderGetSortOrder,
+    ProviderUpdate
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-export interface IProvider extends Provider {
+export interface IProvider extends ProviderBase {
+    id: string;
+    payment_types: PaymentTypeBase[];
+}
+
+export interface ProviderUpdateParams extends ProviderUpdate {
     id: string;
 }
+
+export const PROVIDER_PAYMENT_METHODS = ["payin_h2h", "payout_h2h", "ecom"] as const;
 
 export class ProvidersDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<IProvider>> {
@@ -124,7 +133,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async create(resource: string, params: CreateParams): Promise<CreateResult<IProvider>> {
+    async create(resource: string, params: CreateParams<ProviderCreate>): Promise<CreateResult<IProvider>> {
         const res = await providerEndpointsCreateProviderEnigmaV1ProviderPost(params.data as ProviderCreate, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
@@ -144,7 +153,7 @@ export class ProvidersDataProvider extends IBaseDataProvider {
         return Promise.reject();
     }
 
-    async update(resource: string, params: UpdateParams): Promise<UpdateResult<IProvider>> {
+    async update(resource: string, params: UpdateParams<ProviderUpdateParams>): Promise<UpdateResult<IProvider>> {
         const res = await providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut(params.id, params.data, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`

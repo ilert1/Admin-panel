@@ -6,18 +6,32 @@ import { useProvidersListWithoutPagination } from "@/hooks";
 const useProvidersFilter = () => {
     const translate = useTranslate();
 
-    const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const { filterValues, setFilters, displayedFilters, setPage, total } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
 
-    const [providerId, setProviderId] = useState(filterValues?.id || "");
     const [providerName, setProviderName] = useState("");
 
     useEffect(() => {
-        if (providersData) {
-            setProviderName(providersData?.find(provider => provider.id === filterValues?.id)?.name || "");
+        if (providersData && filterValues?.id) {
+            const foundProvider = providersData?.find(provider => provider.id === filterValues?.id)?.name;
+
+            if (foundProvider) {
+                setProviderName(foundProvider);
+            } else {
+                setFilters({}, displayedFilters, true);
+                setProviderName("");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData]);
+
+    useEffect(() => {
+        if (total === 0) {
+            setFilters({}, displayedFilters, true);
+            setProviderName("");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [total]);
 
     const onPropertySelected = debounce((value: string, type: "id") => {
         if (value) {
@@ -30,7 +44,6 @@ const useProvidersFilter = () => {
     }, 300);
 
     const onProviderIdChanged = (provider: string) => {
-        setProviderId(provider);
         onPropertySelected(provider, "id");
     };
 
@@ -39,7 +52,6 @@ const useProvidersFilter = () => {
     };
 
     const clearFilters = () => {
-        setProviderId("");
         setProviderName("");
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -49,7 +61,6 @@ const useProvidersFilter = () => {
         translate,
         providersData,
         providersLoadingProcess,
-        providerId,
         onProviderIdChanged,
         providerName,
         onProviderNameChanged,

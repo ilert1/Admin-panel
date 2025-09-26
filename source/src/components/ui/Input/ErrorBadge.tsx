@@ -25,7 +25,7 @@ export const ErrorBadge = (props: ErrorBadgeProps) => {
                             sideOffset={5}
                             align="center"
                             className={cn(
-                                "z-[100] text-wrap border-red-40 text-center text-red-40",
+                                "z-[100] text-wrap border-red-40 text-center !text-note-1 text-neutral-90 dark:text-neutral-0",
                                 disableErrorMessage && "hidden"
                             )}>
                             {errorMessage}

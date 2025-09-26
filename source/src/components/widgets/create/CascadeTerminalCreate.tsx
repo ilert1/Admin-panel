@@ -1,7 +1,7 @@
 import { useTranslate, useRefresh } from "react-admin";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,37 +36,58 @@ export const CascadeTerminalCreate = ({
     const [terminalValueName, setTerminalValueName] = useState("");
     const [cascadeValueName, setCascadeValueName] = useState("");
 
-    const formSchema = z.object({
-        cascade_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.cascade_id")),
-        terminal_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.terminal_id")),
-        state: z
-            .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
-            .default(CASCADE_TERMINAL_STATE[0]),
-        condition: z.object({
-            extra: z.boolean(),
-            weight: z.coerce
-                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
-                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
-                .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
-                .optional(),
-            rank: z.coerce
-                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })
-                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.rank"))
-                .min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.rankMin")),
-            ttl: z.object({
-                min: z.coerce
-                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
-                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+    const formSchema = z
+        .object({
+            cascade_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.cascade_id")),
+            terminal_id: z.string().min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.terminal_id")),
+            state: z
+                .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
+                .default(CASCADE_TERMINAL_STATE[0]),
+            condition: z.object({
+                extra: z.boolean(),
+                weight: z.coerce
+                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
+                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
                     .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                    .max(1000, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMax"))
                     .optional(),
-                max: z.coerce
-                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
-                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
-                    .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
-                    .optional()
+                rank: z.coerce
+                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })
+                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.rank"))
+                    .min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.rankMin")),
+                ttl: z.object({
+                    min: z.coerce
+                        .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                        .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                        .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                        .optional()
+                        .nullable(),
+                    max: z.coerce
+                        .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                        .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                        .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                        .optional()
+                        .nullable()
+                })
             })
         })
-    });
+        .refine(
+            data => {
+                if (data.condition.ttl.min === undefined || data.condition.ttl.max === undefined) {
+                    return true;
+                }
+
+                if (data.condition.ttl.min === null || data.condition.ttl.max === null) {
+                    return true;
+                }
+
+                return data.condition.ttl.min <= data.condition.ttl.max;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["condition.ttl.max"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -143,6 +164,31 @@ export const CascadeTerminalCreate = ({
             }
         } finally {
             setSubmitButtonDisabled(false);
+        }
+    };
+
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        let value = e.target.value;
+        value = value.replace(/[^0-9]/g, "");
+        if (/^0[0-9]+/.test(value)) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+        e.target.value = value;
+        if (value === "") {
+            form.setValue(field.name, null);
+            return;
+        }
+        const numericValue = parseInt(value, 10);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+            if (numericValue > 100000) {
+                finalValue = 100000;
+                e.target.value = "100000";
+            }
+            form.setValue(field.name, finalValue);
         }
     };
 
@@ -285,6 +331,8 @@ export const CascadeTerminalCreate = ({
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={field.value ?? ""}
+                                            onChange={e => handleInputChange(e, field)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -305,6 +353,8 @@ export const CascadeTerminalCreate = ({
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={field.value ?? ""}
+                                            onChange={e => handleInputChange(e, field)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}

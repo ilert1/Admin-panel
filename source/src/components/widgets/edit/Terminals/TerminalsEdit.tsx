@@ -7,7 +7,7 @@ import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
+import { useCountryCodes, useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { TerminalsDataProvider, TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,7 +27,7 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { CurrencySelect } from "../../components/Selects/CurrencySelect";
-import { countryCodes, CountrySelect } from "../../components/Selects/CountrySelect";
+import { CountrySelect } from "../../components/Selects/CountrySelect";
 
 interface ProviderEditParams {
     provider: ProviderBase;
@@ -42,6 +42,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const { countryCodesWithFlag } = useCountryCodes();
     const terminalsDataProvider = new TerminalsDataProvider();
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
@@ -136,7 +137,9 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 maxTTL: terminal.settings?.ttl?.max || 0
             };
 
-            setCurrentCountryCodeName(countryCodes.find(code => code.alpha2 === terminal.dst_country_code)?.name || "");
+            setCurrentCountryCodeName(
+                countryCodesWithFlag.find(code => code.alpha2 === terminal.dst_country_code)?.name || ""
+            );
 
             form.reset(updatedValues);
             setIsFinished(true);

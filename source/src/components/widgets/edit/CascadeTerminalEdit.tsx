@@ -1,8 +1,8 @@
 import { useTranslate, useRefresh } from "react-admin";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import {
     Select,
@@ -51,35 +51,56 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
     const translate = useTranslate();
     const refresh = useRefresh();
 
-    const formSchema = z.object({
-        state: z
-            .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
-            .default(CASCADE_TERMINAL_STATE[0]),
-        condition: z.object({
-            extra: z.boolean(),
-            weight: z.coerce
-                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
-                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
-                .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
-                .optional(),
-            rank: z.coerce
-                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })
-                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.rank"))
-                .min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.rankMin")),
-            ttl: z.object({
-                min: z.coerce
-                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
-                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+    const formSchema = z
+        .object({
+            state: z
+                .enum([CASCADE_TERMINAL_STATE[0], ...CASCADE_TERMINAL_STATE.slice(0)])
+                .default(CASCADE_TERMINAL_STATE[0]),
+            condition: z.object({
+                extra: z.boolean(),
+                weight: z.coerce
+                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.weight") })
+                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.weight"))
                     .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                    .max(1000, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMax"))
                     .optional(),
-                max: z.coerce
-                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
-                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
-                    .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
-                    .optional()
+                rank: z.coerce
+                    .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.rank") })
+                    .int(translate("resources.cascadeSettings.cascadeTerminals.errors.rank"))
+                    .min(1, translate("resources.cascadeSettings.cascadeTerminals.errors.rankMin")),
+                ttl: z.object({
+                    min: z.coerce
+                        .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                        .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                        // .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                        .optional()
+                        .nullable(),
+                    max: z.coerce
+                        .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                        .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                        // .min(0, translate("resources.cascadeSettings.cascadeTerminals.errors.weightMin"))
+                        .optional()
+                        .nullable()
+                })
             })
         })
-    });
+        .refine(
+            data => {
+                if (data.condition.ttl.min === undefined || data.condition.ttl.max === undefined) {
+                    return true;
+                }
+
+                if (data.condition.ttl.min === null || data.condition.ttl.max === null) {
+                    return true;
+                }
+
+                return data.condition.ttl.min <= data.condition.ttl.max;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["condition.ttl.max"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -105,11 +126,12 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                 state: cascadeTerminalData.state || CASCADE_TERMINAL_STATE[0],
                 condition: {
                     extra: cascadeTerminalData.condition?.extra || false,
-                    weight: cascadeTerminalData.condition?.weight || undefined,
+                    weight:
+                        cascadeTerminalData.condition?.weight || (cascadeTerminalData.condition?.extra ? 0 : undefined),
                     rank: cascadeTerminalData.condition?.rank || undefined,
                     ttl: {
-                        min: cascadeTerminalData.condition?.ttl?.min || undefined,
-                        max: cascadeTerminalData.condition?.ttl?.max || undefined
+                        min: cascadeTerminalData.condition?.ttl?.min ?? undefined,
+                        max: cascadeTerminalData.condition?.ttl?.max ?? undefined
                     }
                 }
             };
@@ -151,6 +173,31 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
         }
     };
 
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        let value = e.target.value;
+        value = value.replace(/[^0-9]/g, "");
+        if (/^0[0-9]+/.test(value)) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+        e.target.value = value;
+        if (value === "") {
+            form.setValue(field.name, null);
+            return;
+        }
+        const numericValue = parseInt(value, 10);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+            if (numericValue > 100000) {
+                finalValue = 100000;
+                e.target.value = "100000";
+            }
+            form.setValue(field.name, finalValue);
+        }
+    };
+
     usePreventFocus({ dependencies: [cascadeTerminalData] });
 
     if (isLoadingCascadeTerminalData || !cascadeTerminalData || !isFinished)
@@ -173,6 +220,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <Input
                                         {...field}
                                         variant={InputTypes.GRAY}
+                                        disabled={form.getValues("condition.extra")}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
                                         label={translate("resources.cascadeSettings.cascadeTerminals.fields.weight")}
@@ -190,6 +238,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                 <FormControl>
                                     <Input
                                         {...field}
+                                        value={field.value === undefined ? "" : field.value}
                                         variant={InputTypes.GRAY}
                                         error={fieldState.invalid}
                                         errorMessage={<FormMessage />}
@@ -209,6 +258,8 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={field.value ?? ""}
+                                            onChange={e => handleInputChange(e, field)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -229,6 +280,9 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            value={field.value ?? ""}
+                                            // value={field.value || field.value === 0 ? field.value : ""}
+                                            onChange={e => handleInputChange(e, field)}
                                             variant={InputTypes.GRAY}
                                             error={fieldState.invalid}
                                             errorMessage={<FormMessage />}
@@ -279,7 +333,11 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                         render={({ field }) => (
                             <FormItem>
                                 <label
-                                    onClick={() => field.onChange(!field.value)}
+                                    onClick={() => {
+                                        const newState = !field.value;
+                                        form.setValue("condition.weight", newState ? 0 : undefined);
+                                        field.onChange(newState);
+                                    }}
                                     className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
                                     <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
                                         {field.value && (

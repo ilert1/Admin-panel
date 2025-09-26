@@ -10,8 +10,8 @@ import { useState } from "react";
 import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CASCADE_STATE } from "@/data/cascades";
-import { countryCodes } from "../../components/Selects/CountrySelect";
-import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
+import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetCascadeShowColumns = ({
     isFetchingCascadeTerminalsData
@@ -23,13 +23,23 @@ export const useGetCascadeShowColumns = ({
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
+    const [chosenId, setChosenId] = useState("");
+    const [chosenTermName, setChosenTermName] = useState("");
     const [showCascadeTerminalDeleteDialog, setShowCascadeTerminalDeleteDialog] = useState(false);
+
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
     });
+
+    const handleDeleteClicked = (id: string, termName: string) => {
+        setChosenId(id);
+        setShowCascadeTerminalDeleteDialog(true);
+        setChosenTermName(termName);
+    };
 
     const onSubmit = async (id: string, data: Pick<CascadeTerminalRead, "state">) => {
         try {
@@ -138,15 +148,11 @@ export const useGetCascadeShowColumns = ({
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={
-                            countryCodes.find(item => item.alpha2 === row.original.terminal.dst_country_code)?.name ||
-                            ""
-                        }
-                        wrap
-                    />
+                const dst_country = countryCodesWithFlag.find(
+                    item => item.alpha2 === row.original.terminal.dst_country_code
                 );
+
+                return <CountryTextField text={dst_country?.name || ""} />;
             }
         },
         {
@@ -156,7 +162,7 @@ export const useGetCascadeShowColumns = ({
         },
         {
             accessorKey: "rank",
-            header: translate("resources.cascadeSettings.cascadeTerminals.fields.rankSmall"),
+            header: translate("resources.cascadeSettings.cascadeTerminals.fields.rank"),
             cell: ({ row }) => <TextField text={row.original.condition?.rank?.toString() || ""} />
         },
         {
@@ -197,22 +203,19 @@ export const useGetCascadeShowColumns = ({
             header: () => <div className="flex justify-center">{translate("resources.currency.fields.delete")}</div>,
             cell: ({ row }) => {
                 return (
-                    <>
-                        <TrashButton onClick={() => setShowCascadeTerminalDeleteDialog(true)} />
-
-                        <DeleteCascadeTerminalDialog
-                            open={showCascadeTerminalDeleteDialog}
-                            onOpenChange={setShowCascadeTerminalDeleteDialog}
-                            onQuickShowOpenChange={() => {}}
-                            id={row.original.id}
-                        />
-                    </>
+                    <TrashButton
+                        onClick={() => handleDeleteClicked(row.original.id, row.original.terminal.verbose_name)}
+                    />
                 );
             }
         }
     ];
 
     return {
-        cascadeTerminalColumns
+        cascadeTerminalColumns,
+        chosenId,
+        chosenTermName,
+        showCascadeTerminalDeleteDialog,
+        setShowCascadeTerminalDeleteDialog
     };
 };

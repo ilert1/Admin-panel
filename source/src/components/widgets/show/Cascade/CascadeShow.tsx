@@ -16,7 +16,9 @@ import clsx from "clsx";
 import { useGetCascadeShowColumns } from "./Columns";
 import { CirclePlus } from "lucide-react";
 import { CreateCascadeTerminalsDialog } from "../../lists/CascadeTerminals/CreateCascadeTerminalsDialog";
-import { countryCodes } from "../../components/Selects/CountrySelect";
+import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
+import { DeleteCascadeTerminalDialog } from "../CascadeTerminal/DeleteCascadeTerminalDialog";
 
 export interface CascadeShowProps {
     id: string;
@@ -27,16 +29,27 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
     const context = useAbortableShowController<CascadeSchema>({ resource: "cascades", id });
     const translate = useTranslate();
     const [locale] = useLocaleState();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [createCascadeTerminalDialogOpen, setCreateCascadeTerminalDialogOpen] = useState(false);
 
-    const { cascadeTerminalColumns } = useGetCascadeShowColumns({ isFetchingCascadeTerminalsData: context.isFetching });
+    const {
+        cascadeTerminalColumns,
+        chosenId,
+        chosenTermName,
+        showCascadeTerminalDeleteDialog,
+        setShowCascadeTerminalDeleteDialog
+    } = useGetCascadeShowColumns({
+        isFetchingCascadeTerminalsData: context.isFetching
+    });
 
     if (context.isLoading || !context.record) {
         return <Loading />;
     }
+
+    const dst_country = countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -52,7 +65,7 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         />
                     </div>
 
-                    <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
+                    <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0">
                         {context.record.state === "active" && (
                             <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                                 {translate("resources.cascadeSettings.cascades.state.active")}
@@ -104,8 +117,8 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                         }
                     />
 
-                    <TextField
-                        text={countryCodes.find(item => item.alpha2 === context.record?.dst_country_code)?.name || ""}
+                    <CountryTextField
+                        text={dst_country?.name || ""}
                         label={translate("resources.direction.destinationCountry")}
                     />
 
@@ -217,6 +230,14 @@ export const CascadeShow = ({ id, onOpenChange }: CascadeShowProps) => {
                 onOpenChange={setDeleteDialogOpen}
                 onQuickShowOpenChange={onOpenChange}
                 id={id}
+            />
+
+            <DeleteCascadeTerminalDialog
+                open={showCascadeTerminalDeleteDialog}
+                onOpenChange={setShowCascadeTerminalDeleteDialog}
+                id={chosenId}
+                cascadeName={context.record.name}
+                termName={chosenTermName}
             />
 
             <EditCascadeDialog open={editDialogOpen} onOpenChange={setEditDialogOpen} id={id} />

@@ -8,7 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
+import { useCountryCodes, useCurrenciesListWithoutPagination, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
@@ -27,7 +27,7 @@ import {
 import { CurrenciesMultiSelect } from "../components/MultiSelectComponents/CurrenciesMultiSelect";
 import { FinancialInstitutionType } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInstitutionTypes";
-import { countryCodes, CountrySelect } from "../components/Selects/CountrySelect";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface FinancialInstitutionProps {
     id: string;
@@ -51,6 +51,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
@@ -118,7 +119,7 @@ export const FinancialInstitutionEdit = ({ id, onClose = () => {} }: FinancialIn
             };
 
             setCurrentCountryCodeName(
-                countryCodes.find(code => code.alpha2 === financialInstitutionData.country_code)?.name || ""
+                countryCodesWithFlag.find(code => code.alpha2 === financialInstitutionData.country_code)?.name || ""
             );
 
             form.reset(updatedValues);

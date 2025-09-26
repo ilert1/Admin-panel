@@ -146,7 +146,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.direction.errors.name")).trim(),
-        state: z.enum(["active", "inactive"]),
         description: z.string().trim().nullable(),
         src_currency: z.string().min(1, translate("resources.direction.errors.src_curr")),
         dst_currency: z.string().min(1, translate("resources.direction.errors.dst_curr")),
@@ -174,7 +173,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            state: "inactive",
             description: "",
             src_currency: "",
             dst_currency: "",
@@ -500,38 +498,6 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
 
                         <FormField
                             control={form.control}
-                            name="state"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.direction.fields.active")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue
-                                                    placeholder={translate("resources.direction.fields.active")}
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectItem value="active" variant={SelectType.GRAY}>
-                                                    {translate("resources.direction.fields.stateActive")}
-                                                </SelectItem>
-                                                <SelectItem value="inactive" variant={SelectType.GRAY}>
-                                                    {translate("resources.direction.fields.stateInactive")}
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
                             name="kind"
                             render={({ field, fieldState }) => (
                                 <FormItem>
@@ -567,7 +533,7 @@ export const DirectionCreate = ({ onOpenChange }: { onOpenChange: (state: boolea
                             control={form.control}
                             name="description"
                             render={({ field, fieldState }) => (
-                                <FormItem>
+                                <FormItem className="col-span-2">
                                     <FormControl>
                                         <Input
                                             {...field}

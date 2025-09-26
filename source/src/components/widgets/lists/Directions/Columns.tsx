@@ -10,12 +10,14 @@ import { DirectionActivityBtn } from "./DirectionActivityBtn";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { Badge } from "@/components/ui/badge";
 import makeSafeSpacesInBrackets from "@/helpers/makeSafeSpacesInBrackets";
-import { countryCodes } from "../../components/Selects/CountrySelect";
+import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: boolean }) => {
     const translate = useTranslate();
     const { openSheet, closeSheet } = useSheets();
     const { getMerchantId, isMerchantsLoading } = useGetMerchantData();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [chosenId, setChosenId] = useState("");
@@ -56,12 +58,11 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
                             className="whitespace-break-spaces text-left">
                             {row.original.name ? makeSafeSpacesInBrackets(row.original.name) : ""}
                         </Button>
-                        {!isPrioritized && (
-                            <Badge variant={"destructive"} className="!rounded-16 bg-red-50 py-0">
+                        {isPrioritized && (
+                            <Badge variant={"prioritized"}>
                                 {translate("resources.direction.fields.condition.prioritized")}
                             </Badge>
                         )}
-                        {/* {isPrioritized && <Badge variant={"destructive"}>Prioritized</Badge>} */}
                     </div>
                 );
             }
@@ -91,12 +92,9 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             accessorKey: "dst_country_code",
             header: translate("resources.direction.destinationCountry"),
             cell: ({ row }) => {
-                return (
-                    <TextField
-                        text={countryCodes.find(item => item.alpha2 === row.original.dst_country_code)?.name || ""}
-                        wrap
-                    />
-                );
+                const dst_country = countryCodesWithFlag.find(item => item.alpha2 === row.original.dst_country_code);
+
+                return <CountryTextField text={dst_country?.name || ""} />;
             }
         },
         {

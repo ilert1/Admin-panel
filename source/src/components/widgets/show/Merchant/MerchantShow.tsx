@@ -106,7 +106,7 @@ export const MerchantShow = (props: MerchantShowProps) => {
     return (
         <>
             <div className="flex h-full min-h-[300px] flex-col overflow-auto pt-0">
-                <div className="flex flex-col gap-1 md:gap-4">
+                <div className="flex flex-col gap-2 md:gap-4">
                     <div className="px-4 md:px-[42px]">
                         <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
                         <TextField
@@ -115,16 +115,23 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             className="text-neutral-70 dark:text-neutral-30"
                         />
                     </div>
-                    <div className="grid grid-cols-1 gap-y-2 px-4 md:grid-cols-2 md:px-[42px]">
-                        <TextField
-                            label={translate("resources.merchant.fields.descr")}
-                            text={context.record.description || ""}
-                        />
-                        <TextField label="Keycloak ID" copyValue text={context.record.keycloak_id || ""} />
 
+                    <div className="flex flex-col gap-2 px-4 md:px-[42px]">
+                        {context.record.description && (
+                            <TextField
+                                label={translate("resources.merchant.fields.descr")}
+                                text={context.record.description || ""}
+                            />
+                        )}
+                        {context.record.keycloak_id && (
+                            <TextField label="Keycloak ID" copyValue text={context.record.keycloak_id || ""} />
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-y-2 px-4 md:grid-cols-2 md:px-[42px]">
                         <div className="mr-2 flex flex-col pr-2">
                             <small className="mb-0.5 text-sm text-neutral-60">
-                                {translate("resources.paymentSettings.financialInstitution.fields.currencies")}
+                                {translate("resources.merchant.fields.currencies")}
                             </small>
 
                             <div className="flex max-h-32 flex-wrap items-center gap-1 overflow-y-auto">
@@ -142,6 +149,13 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         </div>
 
                         <PaymentsTypesShowComponent payment_types={payment_types} />
+
+                        <div className="col-span-2 grid">
+                            <TextField
+                                label={translate("app.widgets.ttl.maxConnectionTTLFull")}
+                                text={`${String(context.record.settings?.connection?.ttl?.max ?? "-")}`}
+                            />
+                        </div>
 
                         <TextField
                             label={translate("app.widgets.ttl.TTLDep")}

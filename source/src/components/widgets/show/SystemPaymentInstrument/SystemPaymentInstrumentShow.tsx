@@ -52,31 +52,18 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                     <div className="flex items-center justify-between px-4 md:px-[42px]">
                         <TextField text={context.record.code} copyValue fontSize="title-2" />
                     </div>
+                    {context.record.description && (
+                        <div className="flex items-center justify-between px-4 md:px-[42px]">
+                            <TextField
+                                fontSize="title-2"
+                                label={translate(
+                                    "resources.paymentSettings.systemPaymentInstruments.fields.description"
+                                )}
+                                text={context.record.description ?? ""}
+                            />
+                        </div>
+                    )}
                     <div className="grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
-                        <div>
-                            <TextField
-                                fontSize="title-2"
-                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.createdAt")}
-                                text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
-                            />
-                            <TextField
-                                fontSize="title-2"
-                                text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
-                            />
-                        </div>
-
-                        <div>
-                            <TextField
-                                fontSize="title-2"
-                                label={translate("resources.paymentSettings.systemPaymentInstruments.list.updatedAt")}
-                                text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
-                            />
-                            <TextField
-                                fontSize="title-2"
-                                text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
-                            />
-                        </div>
-
                         <div>
                             <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
                                 {translate("resources.paymentSettings.systemPaymentInstruments.list.paymentType")}
@@ -110,11 +97,35 @@ export const SystemPaymentInstrumentShow = (props: SystemPaymentInstrumentShowPr
                             </div>
                         </div>
 
-                        <TextField
-                            fontSize="title-2"
-                            label={translate("resources.paymentSettings.systemPaymentInstruments.fields.description")}
-                            text={context.record.description ?? ""}
-                        />
+                        <div className="flex gap-4">
+                            <div>
+                                <TextField
+                                    fontSize="title-2"
+                                    label={translate(
+                                        "resources.paymentSettings.systemPaymentInstruments.list.createdAt"
+                                    )}
+                                    text={new Date(context.record.created_at).toLocaleDateString(locale) || ""}
+                                />
+                                <TextField
+                                    fontSize="title-2"
+                                    text={new Date(context.record.created_at).toLocaleTimeString(locale) || ""}
+                                />
+                            </div>
+
+                            <div>
+                                <TextField
+                                    fontSize="title-2"
+                                    label={translate(
+                                        "resources.paymentSettings.systemPaymentInstruments.list.updatedAt"
+                                    )}
+                                    text={new Date(context.record.updated_at).toLocaleDateString(locale) || ""}
+                                />
+                                <TextField
+                                    fontSize="title-2"
+                                    text={new Date(context.record.updated_at).toLocaleTimeString(locale) || ""}
+                                />
+                            </div>
+                        </div>
 
                         <div className="col-span-2 flex flex-col">
                             <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">

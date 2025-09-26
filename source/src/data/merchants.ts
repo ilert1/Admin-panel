@@ -272,7 +272,7 @@ export class MerchantsDataProvider extends IBaseDataProvider {
         }
     }
 
-    async getMerchantSettings(id: string, signal?: AbortSignal): Promise<Merchant.SettingsResponse[] | undefined> {
+    async getMerchantSettings(id: string, signal?: AbortSignal): Promise<Merchant.SettingsResponse | undefined> {
         const res = await fetch(`${MONEYGATE_URL}/clients?id=${id}`, {
             method: "GET",
             headers: {

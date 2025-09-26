@@ -25,7 +25,6 @@ export const WithdrawListFilter = () => {
         startDate,
         merchantData,
         merchantsLoadingProcess,
-        merchantId,
         merchantValue,
         setMerchantValue,
         onMerchantChanged,
@@ -45,7 +44,7 @@ export const WithdrawListFilter = () => {
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
     const clearDisabled =
-        !operationId && !operationTrc20 && !startDate && !typeTabActive && !merchantId && !statusFilter;
+        !operationId && !operationTrc20 && !startDate && !typeTabActive && !merchantValue && !statusFilter;
 
     return (
         <div>
@@ -57,7 +56,14 @@ export const WithdrawListFilter = () => {
                         open={openFiltersClicked}
                         onOpenChange={setOpenFiltersClicked}
                         clearButtonDisabled={clearDisabled}
-                        filterList={[operationId, operationTrc20, startDate, merchantId, statusFilter, typeTabActive]}
+                        filterList={[
+                            operationId,
+                            operationTrc20,
+                            startDate,
+                            merchantValue,
+                            statusFilter,
+                            typeTabActive
+                        ]}
                         onClearFilters={clearFilters}
                     />
                 </div>
@@ -115,7 +121,7 @@ export const WithdrawListFilter = () => {
                                         Object.keys(dictionaries.states).map(index => (
                                             <SelectItem
                                                 key={dictionaries.states[index].state_int}
-                                                value={dictionaries.states[index].state_int.toString()}>
+                                                value={dictionaries.states[index].state_int!.toString()}>
                                                 {translate(
                                                     `resources.transactions.states.${dictionaries?.states?.[
                                                         index

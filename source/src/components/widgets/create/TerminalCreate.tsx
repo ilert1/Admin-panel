@@ -99,7 +99,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
                 .trim(),
             callback_url: z.string().optional().nullable().default(null),
-            state: z.enum(["active", "inactive"]),
             minTTL: z.coerce
                 .number()
                 .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
@@ -132,7 +131,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             src_currency_code: "",
             dst_currency_code: "",
             dst_country_code: "",
-            state: "inactive",
             maxTTL: 0,
             minTTL: 0,
             callback_url: ""
@@ -222,7 +220,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 payment_types: [],
                 src_currency_code: "",
                 dst_currency_code: "",
-                state: "inactive",
                 maxTTL: 0,
                 minTTL: 0,
                 callback_url: ""
@@ -313,7 +310,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                     control={form.control}
                                     name="provider"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="w-full">
+                                        <FormItem className="col-span-2 w-full md:col-span-1">
                                             <Label>{translate("resources.direction.provider")}</Label>
                                             <ProviderSelect
                                                 providers={providersData || []}
@@ -333,7 +330,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                     control={form.control}
                                     name="verbose_name"
                                     render={({ field, fieldState }) => (
-                                        <FormItem className="w-full">
+                                        <FormItem className="col-span-2 w-full">
                                             <FormControl>
                                                 <Input
                                                     label={translate("resources.terminals.fields.verbose_name")}
@@ -346,41 +343,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                                     {...field}
                                                 />
                                             </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="state"
-                                    render={({ field, fieldState }) => (
-                                        <FormItem>
-                                            <Label>{translate("resources.direction.fields.active")}</Label>
-                                            <Select value={field.value} onValueChange={field.onChange}>
-                                                <FormControl>
-                                                    <SelectTrigger
-                                                        variant={SelectType.GRAY}
-                                                        isError={fieldState.invalid}
-                                                        errorMessage={<FormMessage />}>
-                                                        <SelectValue
-                                                            placeholder={translate("resources.direction.fields.active")}
-                                                        />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        <SelectItem value="active" variant={SelectType.GRAY}>
-                                                            {translate("resources.direction.fields.stateActive")}
-                                                        </SelectItem>
-                                                        <SelectItem value="inactive" variant={SelectType.GRAY}>
-                                                            {translate("resources.direction.fields.stateInactive")}
-                                                        </SelectItem>
-                                                        <SelectItem value="archived" variant={SelectType.GRAY}>
-                                                            {translate("resources.direction.fields.stateArchived")}
-                                                        </SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
                                         </FormItem>
                                     )}
                                 />

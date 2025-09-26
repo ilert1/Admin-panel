@@ -13,24 +13,25 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 
 interface CallbridgeHistoryTechnicalInfoShowProps {
     technicalInfo: {
-        request_headers: CallbackHistoryReadRequestHeaders;
-        request_params: CallbackHistoryReadResponseHeaders;
+        request_headers?: CallbackHistoryReadRequestHeaders;
+        request_params?: CallbackHistoryReadResponseHeaders;
         response_headers?: CallbackHistoryReadRequestParams | null;
     };
     bodies: {
         request_body?: CallbackHistoryReadRequestBody;
         response_body?: CallbackHistoryReadResponseBody;
     };
+    label?: string;
 }
 
 export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechnicalInfoShowProps) => {
-    const { technicalInfo, bodies } = props;
+    const { technicalInfo, bodies, label } = props;
     const translate = useTranslate();
 
     return (
         <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
             <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
-                {translate("resources.callbridge.history.show.technicalInfo")}
+                {label ?? translate("resources.callbridge.history.show.technicalInfo")}
             </h3>
 
             {Object.keys(technicalInfo).length > 0 ? (

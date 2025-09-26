@@ -9,13 +9,25 @@
         "regenKey": "Пересоздать ключи",
         "json_schema": "Схема Json",
         "enterMethods": "Введите свои методы",
-        "methods": "Методы"
+        "methods": "Методы",
+        "callback_nats_queue": "Очередь Nats",
+        "adapter_nats_subject": "Nats тема",
+        "paymentMethods": "Платёжные методы"
     },
     "resources.provider.errors": {
         "name": "Имя должно содержать хотя бы один символ",
         "alreadyInUse": "Данное имя уже используется․ Выберите другое.",
         "methodAlreadyExist": "Данный метод уже существует"
     },
+    "resources.provider.fields.securityPolicy": {
+        "statusActivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно активирована",
+        "statusDeactivatedSuccessfully": "Политика безопасности для провайдера %{providerName} успешно деактивирована"
+    },
+    "resources.provider.callback": "Callback",
+    "resources.provider.callbackEdit": "Изменить callback",
+    "resources.provider.callbackEditing": "Изменение callback",
+    "resources.provider.securityPolicyEdit": "Редактирование политики безопасности",
+    "resources.provider.editBtn": "Изменить политику безопасности",
     "resources.provider.successCreate": "Провайдер %{name} успешно создан.",
     "resources.provider.recreateConfirm": "Пересоздать ключи?",
     "resources.provider.recreateConfirmDescription": "Старые ключи станут недействительными",
@@ -47,5 +59,6 @@
     "resources.provider.methodDeleteSuccess": "Метод провайдера успешно удален",
     "resources.provider.methodTimeoutRegexError": "Данное поле должно соответствовать формату hh:mm:ss",
     "resources.provider.addMethod": "Добавить метод",
-    "resources.provider.removeMethodDialog": "Удалить метод?"
+    "resources.provider.removeMethodDialog": "Удалить метод?",
+    "resources.provider.paymentMethods.notFoundMessage": "Платёжные методы не найдены"
 }

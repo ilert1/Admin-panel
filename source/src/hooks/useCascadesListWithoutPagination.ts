@@ -8,7 +8,8 @@ export const useCascadesListWithoutPagination = (disabled?: boolean) => {
     const {
         data: cascadesData,
         isLoading: isCascadesLoading,
-        isFetching: isCascadesFetching
+        isFetching: isCascadesFetching,
+        refetch: cascadesRefetch
     } = useQuery({
         queryKey: ["cascades", "getListWithoutPagination"],
         queryFn: async ({ signal }) => await cascadesDataProvider.getListWithoutPagination("cascades", signal),
@@ -21,5 +22,5 @@ export const useCascadesListWithoutPagination = (disabled?: boolean) => {
         [isCascadesFetching, isCascadesLoading]
     );
 
-    return { cascadesData, isCascadesLoading, cascadesLoadingProcess };
+    return { cascadesData, isCascadesLoading, cascadesLoadingProcess, cascadesRefetch };
 };

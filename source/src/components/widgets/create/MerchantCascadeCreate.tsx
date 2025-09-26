@@ -9,10 +9,10 @@ import { Loading } from "@/components/ui/loading";
 import { useTheme } from "@/components/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Label } from "@/components/ui/label";
-import { useQuery } from "@tanstack/react-query";
-import { CascadesDataProvider, MerchantsDataProvider } from "@/data";
 import { MerchantSelect } from "../components/Selects/MerchantSelect";
 import { CascadeSelect } from "../components/Selects/CascadeSelect";
+import { useCascadesListWithoutPagination } from "@/hooks/useCascadesListWithoutPagination";
+import { useMerchantsListWithoutPagination } from "@/hooks";
 
 interface MerchantCascadeCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -21,25 +21,17 @@ interface MerchantCascadeCreateProps {
 
 export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCascadeCreateProps) => {
     const dataProvider = useDataProvider();
-    const merchantsDataProvider = new MerchantsDataProvider();
-    const cascadesDataProvider = new CascadesDataProvider();
     const controllerProps = useCreateController({ resource: "cascadeSettings/cascadeMerchants" });
     const { theme } = useTheme();
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
+
+    const { merchantData, isMerchantsLoading } = useMerchantsListWithoutPagination();
+    const { cascadesData, isCascadesLoading } = useCascadesListWithoutPagination();
+
     const [merchantName, setMerchantName] = useState("");
     const [cascadeName, setCascadeName] = useState("");
-
-    const { data: merchants, isLoading: isLoadingMerchants } = useQuery({
-        queryKey: ["merchants_list"],
-        queryFn: async ({ signal }) => await merchantsDataProvider.getListWithoutPagination("merchants", signal)
-    });
-
-    const { data: cascades, isLoading: isCascadesLoading } = useQuery({
-        queryKey: ["cascades_list"],
-        queryFn: async ({ signal }) => await cascadesDataProvider.getListWithoutPagination("cascades", signal)
-    });
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
@@ -59,8 +51,8 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
     });
 
     useEffect(() => {
-        if (merchantId && merchants && merchants.data.length > 0) {
-            const preFoundMerchant = merchants.data.find(item => item.id === merchantId);
+        if (merchantId && merchantData && merchantData.length > 0) {
+            const preFoundMerchant = merchantData.find(item => item.id === merchantId);
 
             if (preFoundMerchant) {
                 setMerchantName(preFoundMerchant.name);
@@ -68,25 +60,25 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [merchants, merchantId]);
+    }, [merchantData, merchantId]);
 
     const formMerchantId = form.watch("merchant");
 
     const cascadesFilteredData = useMemo(() => {
-        if (cascades) {
-            if (merchants && formMerchantId) {
-                const preFoundMerchant = merchants.data.find(item => item.id === formMerchantId);
+        if (cascadesData) {
+            if (merchantData && formMerchantId) {
+                const preFoundMerchant = merchantData.find(item => item.id === formMerchantId);
 
-                return cascades.data.filter(cascade =>
+                return cascadesData.filter(cascade =>
                     preFoundMerchant?.allowed_src_currencies?.map(item => item.code).includes(cascade.src_currency.code)
                 );
             } else {
-                return cascades.data;
+                return cascadesData;
             }
         } else {
             return [];
         }
-    }, [cascades, merchants, formMerchantId]);
+    }, [cascadesData, merchantData, formMerchantId]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -119,7 +111,7 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
         }
     };
 
-    if (controllerProps.isLoading || isLoadingMerchants || isCascadesLoading || theme.length === 0)
+    if (controllerProps.isLoading || isMerchantsLoading || isCascadesLoading || theme.length === 0)
         return (
             <div className="h-[250px]">
                 <Loading />
@@ -145,7 +137,7 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
                                             </Label>
 
                                             <MerchantSelect
-                                                merchants={merchants?.data || []}
+                                                merchants={merchantData || []}
                                                 value={merchantName}
                                                 onChange={val => {
                                                     if (cascadeName || form.getValues("cascade")) {
@@ -158,8 +150,8 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
                                                 setIdValue={field.onChange}
                                                 isError={fieldState.invalid}
                                                 errorMessage={fieldState.error?.message}
-                                                disabled={isLoadingMerchants}
-                                                isLoading={isLoadingMerchants}
+                                                disabled={isMerchantsLoading}
+                                                isLoading={isMerchantsLoading}
                                                 modal
                                             />
                                         </>

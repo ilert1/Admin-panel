@@ -15,12 +15,16 @@ export interface DeleteCascadeTerminalDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
     id: string;
-    onQuickShowOpenChange: (state: boolean) => void;
+    onQuickShowOpenChange?: (state: boolean) => void;
+    termName: string;
+    cascadeName: string;
 }
 export const DeleteCascadeTerminalDialog = ({
     open,
     id,
     onOpenChange,
+    termName,
+    cascadeName,
     onQuickShowOpenChange
 }: DeleteCascadeTerminalDialogProps) => {
     const cascadeTerminalDataProvider = new CascadeTerminalDataProvider();
@@ -34,10 +38,16 @@ export const DeleteCascadeTerminalDialog = ({
                 await cascadeTerminalDataProvider.delete("cascade_terminals", {
                     id
                 });
-
+                appToast(
+                    "success",
+                    translate("resources.cascadeSettings.cascadeTerminals.deletedSuccessfully", {
+                        cascade: cascadeName,
+                        terminal: termName
+                    })
+                );
                 refresh();
                 onOpenChange(false);
-                onQuickShowOpenChange(false);
+                if (onQuickShowOpenChange) onQuickShowOpenChange(false);
             } catch (error) {
                 if (error instanceof Error) appToast("error", error.message);
             }

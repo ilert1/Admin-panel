@@ -34,7 +34,7 @@
         },
         "condition": {
             "condition": "Condition",
-            "rank": "Requisite weight",
+            "rank": "Rank",
             "extra": "Priority",
             "prioritized": "Prioritized"
         }

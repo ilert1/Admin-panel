@@ -13,6 +13,8 @@ import { FinancialInstitutionProvider, FinancialInstitutionWithId } from "@/data
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Badge } from "@/components/ui/badge";
 import { BankIcon } from "@/components/ui/BankIcon";
+import { CountryTextField } from "../../components/CountryTextField";
+import { useCountryCodes } from "@/hooks";
 
 export const useGetFinancialInstitutionColumns = ({
     listContext
@@ -24,6 +26,7 @@ export const useGetFinancialInstitutionColumns = ({
     const translate = useTranslate();
     const appToast = useAppToast();
     const { openSheet } = useSheets();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
@@ -272,7 +275,12 @@ export const useGetFinancialInstitutionColumns = ({
                         listContext.setSort({ field: column.id, order });
                     }}
                 />
-            )
+            ),
+            cell: ({ row }) => {
+                const country_code = countryCodesWithFlag.find(item => item.alpha2 === row.original.country_code);
+
+                return <CountryTextField text={country_code?.name || ""} />;
+            }
         },
         {
             id: "delete_field",

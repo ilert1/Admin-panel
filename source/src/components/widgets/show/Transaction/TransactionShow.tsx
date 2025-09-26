@@ -147,6 +147,27 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         context.record?.destination?.id
     );
 
+    const hasRequisitesData = () => {
+        if (!adminOnly) return false;
+
+        const requisitesData =
+            context.record.type === 1
+                ? context.record.source?.requisites?.[0]
+                : context.record.destination?.requisites?.[0];
+
+        return requisitesData && Object.values(requisitesData).some(value => !!value);
+    };
+
+    const hasCustomerData = () => {
+        if (adminOnly) {
+            const customerData = context.record.meta?.customer_data;
+            return customerData && Object.values(customerData).some(value => !!value);
+        } else {
+            const customerData = context.record.meta?.customer_data;
+            return customerData && Object.values(customerData).some(value => !!value);
+        }
+    };
+
     let adminData = {};
     let adminCustomerData = {};
 
@@ -355,45 +376,33 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         text={context.record.meta.provider ?? "-"}
                     />
                 )}
-                {/* <div> */}
-                {/* <div className="flex items-center gap-4"> */}
                 {adminOnly && (
                     <div className="flex flex-col items-center justify-center">
                         <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
                             {translate("resources.transactions.show.transactionData")}
                         </Label>
                         <Button
-                            disabled={!adminData || Object.keys(adminData).length === 0}
-                            onClick={() => {
-                                setRequisitesOpen(true);
-                            }}
+                            disabled={!hasRequisitesData()}
+                            onClick={() => setRequisitesOpen(true)}
                             variant="text_btn"
                             className="flex size-7 h-7 w-7 items-center bg-transparent p-0 text-green-50 hover:text-green-40 disabled:text-neutral-90">
                             <EyeIcon className=" " />
                         </Button>
                     </div>
                 )}
+
                 <div className="flex flex-col items-center justify-center">
                     <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
                         {translate("resources.transactions.show.customerData")}
                     </Label>
                     <Button
-                        disabled={
-                            adminOnly
-                                ? !adminCustomerData || Object.keys(adminCustomerData).length === 0
-                                : !context.record.meta?.customer_data ||
-                                  Object.keys(context.record.meta?.customer_data).length === 0
-                        }
-                        onClick={() => {
-                            setCustomerDataOpen(true);
-                        }}
+                        disabled={!hasCustomerData()}
+                        onClick={() => setCustomerDataOpen(true)}
                         variant="text_btn"
                         className="flex size-7 h-7 w-7 items-center bg-transparent p-0 text-green-50 hover:text-green-40 disabled:text-neutral-90">
                         <EyeIcon className=" " />
                     </Button>
                 </div>
-                {/* </div> */}
-                {/* </div> */}
             </div>
 
             {isHistoryLoading ? (

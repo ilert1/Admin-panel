@@ -51,7 +51,8 @@
             "alreadyExist": "Cascade already exist"
         },
         "selectPlaceholder": "Select cascade",
-        "notFoundMessage": "Cascades not found."
+        "notFoundMessage": "Cascades not found.",
+        "successCreate": "Cascade %{name} has been successfully created."
     },
     "resources.cascadeSettings.cascadeTerminals": {
         "name": "Cascade terminals",
@@ -60,6 +61,7 @@
         "creatingCascadeTerminal": "Linking terminal",
         "editingCascadeTerminal": "Editing cascade terminal",
         "deleteCascadeTerminal": "Delete link between terminal and cascade?",
+        "deletedSuccessfully": "Link between cascade %{cascade} and terminal %{terminal} deleted successfully.",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",
@@ -73,8 +75,7 @@
             "dst_currency": "Destination currency",
             "currencies": "Сurrency pair",
             "weight": "Weight",
-            "rank": "Competitive weight",
-            "rankSmall": "Rank",
+            "rank": "Rank",
             "extra": "Extra",
             "ttl_min": "TTL min",
             "ttl_max": "TTL max",
@@ -90,6 +91,7 @@
             "rank": "Enter the correct competitive weight value",
             "ttl": "Enter the correct TTL value",
             "weightMin": "The value must be greater than or equal 0",
+            "weightMax": "The value must be less than or equal to 1000",
             "rankMin": "The value must be greater than or equal 1"
         }
     },
@@ -112,7 +114,7 @@
             "created_at": "Created at",
             "updated_at": "Updated at",
             "changed_by": "Changed by",
-            "rank": "Priority policy",
+            "rank": "Rank",
             "payment_types": "Payment types",
             "cascade_id": "Cascade ID"
         },

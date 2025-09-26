@@ -12,7 +12,7 @@ import { useTranslate } from "react-admin";
 interface EditProviderDialogProps {
     open?: boolean;
     onOpenChange?: (state: boolean) => void;
-    id?: string;
+    id: string;
 }
 
 export const EditProviderDialog = (props: EditProviderDialogProps) => {

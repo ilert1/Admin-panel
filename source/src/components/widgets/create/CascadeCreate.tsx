@@ -25,8 +25,10 @@ import { useCurrenciesListWithoutPagination } from "@/hooks";
 import { CascadesDataProvider } from "@/data";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
+import { CASCADE_KIND, CASCADE_TYPE } from "@/data/cascades";
 import { CountrySelect } from "../components/Selects/CountrySelect";
+import { useSheets } from "@/components/providers/SheetProvider";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 
 export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) => {
     const cascadesDataProvider = new CascadesDataProvider();
@@ -35,6 +37,8 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
     const appToast = useAppToast();
     const translate = useTranslate();
     const refresh = useRefresh();
+    const { openSheet } = useSheets();
+    const { parseError } = useErrorHandler();
 
     const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
@@ -61,9 +65,10 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         dst_country_code: z
             .string()
             .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
-            .trim(),
+            .trim()
+            .optional()
+            .or(z.literal("")),
         cascade_kind: z.enum([CASCADE_KIND[0], ...CASCADE_KIND.slice(0)]).default(CASCADE_KIND[0]),
-        state: z.enum([CASCADE_STATE[0], ...CASCADE_STATE.slice(0)]).default(CASCADE_STATE[0]),
         payment_types: z.array(z.string()).optional().default([]),
         description: z.string().trim().optional(),
         details: z.string().trim().optional()
@@ -80,7 +85,6 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             src_currency_code: "",
             dst_country_code: "",
             cascade_kind: CASCADE_KIND[0],
-            state: CASCADE_STATE[0],
             payment_types: [],
             description: "",
             details: "{}"
@@ -93,26 +97,39 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         setSubmitButtonDisabled(true);
 
         try {
-            await cascadesDataProvider.create("cascades", {
+            const res = await cascadesDataProvider.create("cascades", {
                 data: {
                     ...data,
+                    dst_country_code: data.dst_country_code || null,
                     details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {}
                 }
             });
 
-            appToast("success", translate("app.ui.create.createSuccess"));
+            appToast(
+                "success",
+                <span>
+                    {translate("resources.cascadeSettings.cascades.successCreate", { name: data.name })}
+                    <Button
+                        className="!pl-1"
+                        variant="resourceLink"
+                        onClick={() => openSheet("cascade", { id: res.data.id })}>
+                        {translate("app.ui.actions.details")}
+                    </Button>
+                </span>,
+                translate("app.ui.toast.success"),
+                10000
+            );
+
             refresh();
             onClose();
         } catch (error) {
-            if (error instanceof Error) {
-                if (error.message.includes("already exists")) {
-                    appToast("error", translate("resources.cascadeSettings.cascades.errors.alreadyExist"));
-                } else {
-                    appToast("error", error.message);
-                }
-            } else {
-                appToast("error", translate("app.ui.toast.error"));
-            }
+            appToast(
+                "error",
+                parseError({
+                    error,
+                    alreadyExistText: translate("resources.cascadeSettings.cascades.errors.alreadyExist")
+                })
+            );
         } finally {
             setSubmitButtonDisabled(false);
         }
@@ -129,12 +146,12 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
         <CreateContextProvider value={controllerProps}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                    <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 p-2 sm:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="name"
                             render={({ field, fieldState }) => (
-                                <FormItem>
+                                <FormItem className="col-span-1 sm:col-span-2">
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -144,35 +161,6 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
                                             label={translate("resources.cascadeSettings.cascades.fields.name")}
                                         />
                                     </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>{translate("resources.cascadeSettings.cascades.fields.state")}</Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_STATE.map(state => (
-                                                    <SelectItem value={state} variant={SelectType.GRAY} key={state}>
-                                                        {translate(`resources.cascadeSettings.cascades.state.${state}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
                                 </FormItem>
                             )}
                         />
@@ -255,7 +243,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
                             )}
                         />
 
-                        <div className="grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
+                        <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
                             <FormField
                                 control={form.control}
                                 name="priority_policy.rank"
@@ -344,7 +332,7 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
                             name="details"
                             render={({ field }) => {
                                 return (
-                                    <FormItem className="col-span-1 sm:col-span-2">
+                                    <FormItem className="col-span-1 md:col-span-2">
                                         <Label>{translate("resources.cascadeSettings.cascades.fields.details")}</Label>
                                         <FormControl>
                                             <MonacoEditor

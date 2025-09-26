@@ -2,12 +2,14 @@
     "openapi": "3.1.0",
     "info": {
         "title": "BlowFish - CallBridge API Service",
-        "version": "develop"
+        "version": "local"
     },
     "paths": {
         "/health": {
             "get": {
-                "tags": ["Health"],
+                "tags": [
+                    "Health"
+                ],
                 "summary": "Get Health",
                 "operationId": "get_health_health_get",
                 "responses": {
@@ -26,7 +28,9 @@
         },
         "/metrics": {
             "get": {
-                "tags": ["Metrics"],
+                "tags": [
+                    "Metrics"
+                ],
                 "summary": "Get Metrics",
                 "operationId": "get_metrics_metrics_get",
                 "responses": {
@@ -38,7 +42,9 @@
         },
         "/callbridge/v1/mapping": {
             "get": {
-                "tags": ["Callback mapping"],
+                "tags": [
+                    "Callback mapping"
+                ],
                 "summary": "List callback mappings",
                 "operationId": "CallbackMappingEndpoints_list_mappings_callbridge_v1_mapping_get",
                 "parameters": [
@@ -243,7 +249,10 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "enum": ["asc", "desc"],
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
                             "type": "string",
                             "title": "Sorting order",
                             "description": "Sort order: 'asc' or 'desc'",
@@ -276,7 +285,9 @@
                 }
             },
             "post": {
-                "tags": ["Callback mapping"],
+                "tags": [
+                    "Callback mapping"
+                ],
                 "summary": "Create callback mapping",
                 "operationId": "CallbackMappingEndpoints_create_mapping_callbridge_v1_mapping_post",
                 "deprecated": true,
@@ -316,7 +327,9 @@
         },
         "/callbridge/v1/mapping/by-external-path": {
             "post": {
-                "tags": ["Callback mapping"],
+                "tags": [
+                    "Callback mapping"
+                ],
                 "summary": "Create or update callback mapping by internal path",
                 "operationId": "CallbackMappingEndpoints_create_or_update_mapping_via_internal_path_callbridge_v1_mapping_by_external_path_post",
                 "requestBody": {
@@ -355,7 +368,9 @@
         },
         "/callbridge/v1/mapping/{mapping_id}": {
             "get": {
-                "tags": ["Callback mapping"],
+                "tags": [
+                    "Callback mapping"
+                ],
                 "summary": "Get callback mapping by ID",
                 "operationId": "CallbackMappingEndpoints_get_mapping_callbridge_v1_mapping__mapping_id__get",
                 "parameters": [
@@ -397,7 +412,9 @@
                 }
             },
             "put": {
-                "tags": ["Callback mapping"],
+                "tags": [
+                    "Callback mapping"
+                ],
                 "summary": "Update callback mapping",
                 "operationId": "CallbackMappingEndpoints_update_mapping_callbridge_v1_mapping__mapping_id__put",
                 "deprecated": true,
@@ -450,7 +467,9 @@
                 }
             },
             "delete": {
-                "tags": ["Callback mapping"],
+                "tags": [
+                    "Callback mapping"
+                ],
                 "summary": "Delete callback mapping",
                 "operationId": "CallbackMappingEndpoints_delete_mapping_callbridge_v1_mapping__mapping_id__delete",
                 "parameters": [
@@ -492,9 +511,52 @@
                 }
             }
         },
+        "/callbridge/v1/mapping/bulk/create": {
+            "post": {
+                "tags": [
+                    "Callback mapping"
+                ],
+                "summary": "Create or update multiple callback mappings",
+                "operationId": "CallbackMappingEndpoints_bulk_create_or_update_mapping_via_internal_path_callbridge_v1_mapping_bulk_create_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CallbackMappingBulkCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse_CallbackMappingBulkResponse_"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/callbridge/v1/history/backup": {
             "get": {
-                "tags": ["Callback backup"],
+                "tags": [
+                    "Callback backup"
+                ],
                 "summary": "Get list all backup files with callback history records",
                 "operationId": "CallbackHistoryBackupEndpoints_list_backups_callbridge_v1_history_backup_get",
                 "parameters": [
@@ -567,7 +629,10 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "enum": ["asc", "desc"],
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
                             "type": "string",
                             "description": "Sort order: 'asc' or 'desc'",
                             "default": "asc",
@@ -602,7 +667,9 @@
         },
         "/callbridge/v1/history/backup/download": {
             "get": {
-                "tags": ["Callback backup"],
+                "tags": [
+                    "Callback backup"
+                ],
                 "summary": "Download archive history file from S3",
                 "operationId": "CallbackHistoryBackupEndpoints_download_backup_callbridge_v1_history_backup_download_get",
                 "parameters": [
@@ -643,7 +710,9 @@
         },
         "/callbridge/v1/history/backup/restore": {
             "post": {
-                "tags": ["Callback backup"],
+                "tags": [
+                    "Callback backup"
+                ],
                 "summary": "Restoring callback history records from a JSONL GZIP backup.",
                 "description": "Restoring callback history records from a JSONL GZIP backup.\n\nSupports three restoration strategies:\n\n    MERGE: (default): Only inserts new records that don't exist\n    SKIP: Skips the entire restore if any records already exist\n    OVERWRITE: Deletes existing records before inserting all from backup\n\nRequest parameters:\n\n    file: Required - The backup file to restore (GZIP-compressed JSONL format)\n    strategy: Optional - Restoration strategy (MERGE|SKIP|OVERWRITE), defaults to MERGE\n\nReturns:\n    CallbackHistoryRestoreResult object containing:\n\n    total: Total records in backup\n    inserted: Number of new records inserted\n    deleted: Number of existing records deleted (OVERWRITE only)\n    skipped: Number of records skipped (due to existing or strategy)",
                 "operationId": "CallbackHistoryBackupEndpoints_restore_backup_callbridge_v1_history_backup_restore_post",
@@ -697,7 +766,9 @@
         },
         "/callbridge/v1/history": {
             "get": {
-                "tags": ["Callback history"],
+                "tags": [
+                    "Callback history"
+                ],
                 "summary": "List callback history records",
                 "operationId": "CallbackHistoryEndpoints_list_history_callbridge_v1_history_get",
                 "parameters": [
@@ -902,7 +973,10 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "enum": ["asc", "desc"],
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
                             "type": "string",
                             "title": "Sorting order",
                             "description": "Sort order: 'asc' or 'desc'",
@@ -937,7 +1011,9 @@
         },
         "/callbridge/v1/history/{callback_id}": {
             "get": {
-                "tags": ["Callback history"],
+                "tags": [
+                    "Callback history"
+                ],
                 "summary": "Get callback record by ID",
                 "operationId": "CallbackHistoryEndpoints_get_callback_callbridge_v1_history__callback_id__get",
                 "parameters": [
@@ -1155,7 +1231,10 @@
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "enum": ["asc", "desc"],
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
                             "type": "string",
                             "title": "Sorting order",
                             "description": "Sort order: 'asc' or 'desc'",
@@ -1190,7 +1269,9 @@
         },
         "/callbridge/v1/history/{callback_id}/retry": {
             "get": {
-                "tags": ["Callback history"],
+                "tags": [
+                    "Callback history"
+                ],
                 "summary": "Retry callback by history ID",
                 "description": "This endpoint is deprecated and will be removed in a future version.\n             Use `/callbridge/v1/history/retry/bulk`",
                 "operationId": "CallbackHistoryEndpoints_retry_by_callback_id_callbridge_v1_history__callback_id__retry_get",
@@ -1236,7 +1317,9 @@
         },
         "/callbridge/v1/history/retry/bulk": {
             "post": {
-                "tags": ["Callback history"],
+                "tags": [
+                    "Callback history"
+                ],
                 "summary": "Retry all callbacks by listed history IDs",
                 "operationId": "CallbackHistoryEndpoints_retry_bulk_by_callback_ids_callbridge_v1_history_retry_bulk_post",
                 "requestBody": {
@@ -1312,8 +1395,51 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[CallbackHistoryRestoreResult]"
+            },
+            "ApiResponse_CallbackMappingBulkResponse_": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success",
+                        "description": "Indicates whether the request was successful.",
+                        "default": true
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/CallbackMappingBulkResponse",
+                        "description": "The actual response data if the request was successful."
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/ErrorBody"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "The error details if the request was not successful."
+                    },
+                    "meta": {
+                        "anyOf": [
+                            {},
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Meta",
+                        "description": "The meta details if the request. DEPRECATED",
+                        "deprecated": true
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "data"
+                ],
+                "title": "ApiResponse[CallbackMappingBulkResponse]"
             },
             "ApiResponse_CallbackMappingRead_": {
                 "properties": {
@@ -1351,7 +1477,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[CallbackMappingRead]"
             },
             "ApiResponse_CallbackRetryResponse_": {
@@ -1390,7 +1518,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[CallbackRetryResponse]"
             },
             "ApiResponse_DeliveryRequestMessage_": {
@@ -1429,7 +1559,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[DeliveryRequestMessage]"
             },
             "ApiResponse_NoneType_": {
@@ -1469,7 +1601,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[NoneType]"
             },
             "ApiResponse_OffsetPagination_CallbackHistoryBackup__": {
@@ -1508,7 +1642,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[OffsetPagination[CallbackHistoryBackup]]"
             },
             "ApiResponse_OffsetPagination_CallbackHistoryRead__": {
@@ -1547,7 +1683,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[OffsetPagination[CallbackHistoryRead]]"
             },
             "ApiResponse_OffsetPagination_CallbackMappingRead__": {
@@ -1586,7 +1724,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["data"],
+                "required": [
+                    "data"
+                ],
                 "title": "ApiResponse[OffsetPagination[CallbackMappingRead]]"
             },
             "Body_CallbackHistoryBackupEndpoints_restore_backup_callbridge_v1_history_backup_restore_post": {
@@ -1599,7 +1739,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["file"],
+                "required": [
+                    "file"
+                ],
                 "title": "Body_CallbackHistoryBackupEndpoints_restore_backup_callbridge_v1_history_backup_restore_post"
             },
             "CallbackHistoryBackup": {
@@ -1627,7 +1769,12 @@
                     }
                 },
                 "type": "object",
-                "required": ["file_name", "file_size", "created", "records_count"],
+                "required": [
+                    "file_name",
+                    "file_size",
+                    "created",
+                    "records_count"
+                ],
                 "title": "CallbackHistoryBackup"
             },
             "CallbackHistoryRead": {
@@ -1636,13 +1783,17 @@
                         "type": "string",
                         "title": "Original Url",
                         "description": "Full original callback URL",
-                        "examples": ["https://..."]
+                        "examples": [
+                            "https://..."
+                        ]
                     },
                     "request_method": {
                         "type": "string",
                         "title": "Request Method",
                         "description": "HTTP method",
-                        "examples": ["POST"]
+                        "examples": [
+                            "POST"
+                        ]
                     },
                     "request_url": {
                         "anyOf": [
@@ -1655,7 +1806,9 @@
                         ],
                         "title": "Request Url",
                         "description": "Full callback URL",
-                        "examples": ["https://..."]
+                        "examples": [
+                            "https://..."
+                        ]
                     },
                     "request_headers": {
                         "additionalProperties": true,
@@ -1810,8 +1963,15 @@
                         "description": "Identifier of the callback history"
                     },
                     "mapping_id": {
-                        "type": "string",
-                        "format": "uuid",
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Mapping Id",
                         "description": "Linked mapping if matched"
                     },
@@ -1852,7 +2012,6 @@
                     "status",
                     "trigger_type",
                     "id",
-                    "mapping_id",
                     "callback_id",
                     "created_at",
                     "updated_at"
@@ -1886,7 +2045,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["total"],
+                "required": [
+                    "total"
+                ],
                 "title": "CallbackHistoryRestoreResult"
             },
             "CallbackMappingBase": {
@@ -1895,7 +2056,9 @@
                         "type": "string",
                         "title": "Name",
                         "description": "Name of the CallbackMapping",
-                        "examples": ["adapter.status"]
+                        "examples": [
+                            "adapter.status"
+                        ]
                     },
                     "description": {
                         "anyOf": [
@@ -1908,20 +2071,32 @@
                         ],
                         "title": "Description",
                         "description": "Description of the CallbackMapping",
-                        "examples": ["This CallbackMapping is used for adapter callback"]
+                        "examples": [
+                            "This CallbackMapping is used for adapter callback"
+                        ]
                     },
                     "external_path": {
                         "type": "string",
                         "title": "External Path",
                         "description": "Full external path exposed to clients",
-                        "examples": ["/api/health"]
+                        "examples": [
+                            "/api/health"
+                        ]
                     },
                     "adapter_nats_subject": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
-                        "default": "MISSING ADAPTER NATS SUBJECT",
-                        "examples": ["adapters.pay4u.callback.status.update"]
+                        "examples": [
+                            "adapters.pay4u.callback.status.update"
+                        ]
                     },
                     "terminal": {
                         "anyOf": [
@@ -1945,34 +2120,97 @@
                         ],
                         "title": "Internal Path",
                         "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
-                    "retry_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/RetryPolicyConfig"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "Retry behavior configuration for delivery attempts"
+                        "examples": [
+                            "http://callbridge_api:8000/health"
+                        ]
                     },
                     "security_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/SecurityPolicyConfig"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "$ref": "#/components/schemas/SecurityPolicyConfig",
                         "description": "Security policy including IP filtering and rate limiting"
+                    },
+                    "delivery_policy": {
+                        "$ref": "#/components/schemas/DeliveryPolicy-Output",
+                        "description": "Delivery policy (strategy, retry, fallback)"
                     }
                 },
                 "type": "object",
-                "required": ["name", "external_path"],
+                "required": [
+                    "name",
+                    "external_path"
+                ],
                 "title": "CallbackMappingBase"
+            },
+            "CallbackMappingBulkCreate": {
+                "properties": {
+                    "mappings": {
+                        "items": {
+                            "$ref": "#/components/schemas/CallbackMappingCreate"
+                        },
+                        "type": "array",
+                        "maxItems": 100,
+                        "minItems": 1,
+                        "title": "Mappings",
+                        "description": "List of callback mappings to create or update"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "mappings"
+                ],
+                "title": "CallbackMappingBulkCreate"
+            },
+            "CallbackMappingBulkResponse": {
+                "properties": {
+                    "created": {
+                        "items": {
+                            "$ref": "#/components/schemas/CallbackMappingRead"
+                        },
+                        "type": "array",
+                        "title": "Created",
+                        "description": "Successfully created mappings"
+                    },
+                    "updated": {
+                        "items": {
+                            "$ref": "#/components/schemas/CallbackMappingRead"
+                        },
+                        "type": "array",
+                        "title": "Updated",
+                        "description": "Successfully updated mappings"
+                    },
+                    "errors": {
+                        "items": {
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Errors",
+                        "description": "Errors that occurred during processing"
+                    },
+                    "total_processed": {
+                        "type": "integer",
+                        "title": "Total Processed",
+                        "description": "Total number of mappings processed"
+                    },
+                    "total_successful": {
+                        "type": "integer",
+                        "title": "Total Successful",
+                        "description": "Number of successful operations"
+                    },
+                    "total_errors": {
+                        "type": "integer",
+                        "title": "Total Errors",
+                        "description": "Number of failed operations"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "total_processed",
+                    "total_successful",
+                    "total_errors"
+                ],
+                "title": "CallbackMappingBulkResponse"
             },
             "CallbackMappingCreate": {
                 "properties": {
@@ -1980,7 +2218,9 @@
                         "type": "string",
                         "title": "Name",
                         "description": "Name of the CallbackMapping",
-                        "examples": ["adapter.status"]
+                        "examples": [
+                            "adapter.status"
+                        ]
                     },
                     "description": {
                         "anyOf": [
@@ -1993,20 +2233,32 @@
                         ],
                         "title": "Description",
                         "description": "Description of the CallbackMapping",
-                        "examples": ["This CallbackMapping is used for adapter callback"]
+                        "examples": [
+                            "This CallbackMapping is used for adapter callback"
+                        ]
                     },
                     "external_path": {
                         "type": "string",
                         "title": "External Path",
                         "description": "Full external path exposed to clients",
-                        "examples": ["/api/health"]
+                        "examples": [
+                            "/api/health"
+                        ]
                     },
                     "adapter_nats_subject": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
-                        "default": "MISSING ADAPTER NATS SUBJECT",
-                        "examples": ["adapters.pay4u.callback.status.update"]
+                        "examples": [
+                            "adapters.pay4u.callback.status.update"
+                        ]
                     },
                     "terminal": {
                         "anyOf": [
@@ -2030,33 +2282,24 @@
                         ],
                         "title": "Internal Path",
                         "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
-                    "retry_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/RetryPolicyConfig"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "Retry behavior configuration for delivery attempts"
+                        "examples": [
+                            "http://callbridge_api:8000/health"
+                        ]
                     },
                     "security_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/SecurityPolicyConfig"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "$ref": "#/components/schemas/SecurityPolicyConfig",
                         "description": "Security policy including IP filtering and rate limiting"
+                    },
+                    "delivery_policy": {
+                        "$ref": "#/components/schemas/DeliveryPolicy-Input",
+                        "description": "Delivery policy (strategy, retry, fallback)"
                     }
                 },
                 "type": "object",
-                "required": ["name", "external_path"],
+                "required": [
+                    "name",
+                    "external_path"
+                ],
                 "title": "CallbackMappingCreate"
             },
             "CallbackMappingRead": {
@@ -2065,7 +2308,9 @@
                         "type": "string",
                         "title": "Name",
                         "description": "Name of the CallbackMapping",
-                        "examples": ["adapter.status"]
+                        "examples": [
+                            "adapter.status"
+                        ]
                     },
                     "description": {
                         "anyOf": [
@@ -2078,20 +2323,32 @@
                         ],
                         "title": "Description",
                         "description": "Description of the CallbackMapping",
-                        "examples": ["This CallbackMapping is used for adapter callback"]
+                        "examples": [
+                            "This CallbackMapping is used for adapter callback"
+                        ]
                     },
                     "external_path": {
                         "type": "string",
                         "title": "External Path",
                         "description": "Full external path exposed to clients",
-                        "examples": ["/api/health"]
+                        "examples": [
+                            "/api/health"
+                        ]
                     },
                     "adapter_nats_subject": {
-                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
-                        "default": "MISSING ADAPTER NATS SUBJECT",
-                        "examples": ["adapters.pay4u.callback.status.update"]
+                        "examples": [
+                            "adapters.pay4u.callback.status.update"
+                        ]
                     },
                     "terminal": {
                         "anyOf": [
@@ -2115,29 +2372,17 @@
                         ],
                         "title": "Internal Path",
                         "description": "Full internal URL path to route the request to",
-                        "examples": ["http://callbridge_api:8000/health"]
-                    },
-                    "retry_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/RetryPolicyConfig"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "Retry behavior configuration for delivery attempts"
+                        "examples": [
+                            "http://callbridge_api:8000/health"
+                        ]
                     },
                     "security_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/SecurityPolicyConfig"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
+                        "$ref": "#/components/schemas/SecurityPolicyConfig",
                         "description": "Security policy including IP filtering and rate limiting"
+                    },
+                    "delivery_policy": {
+                        "$ref": "#/components/schemas/DeliveryPolicy-Output",
+                        "description": "Delivery policy (strategy, retry, fallback)"
                     },
                     "id": {
                         "type": "string",
@@ -2159,11 +2404,20 @@
                         "title": "Callback Url",
                         "description": "Full callback_url path exposed to internal service",
                         "readOnly": true,
-                        "examples": ["https://my.service.com/api/health"]
+                        "examples": [
+                            "https://my.service.com/api/health"
+                        ]
                     }
                 },
                 "type": "object",
-                "required": ["name", "external_path", "id", "created_at", "updated_at", "callback_url"],
+                "required": [
+                    "name",
+                    "external_path",
+                    "id",
+                    "created_at",
+                    "updated_at",
+                    "callback_url"
+                ],
                 "title": "CallbackMappingRead"
             },
             "CallbackMappingUpdate": {
@@ -2179,7 +2433,9 @@
                         ],
                         "title": "Name",
                         "description": "Name of the CallbackMapping",
-                        "examples": ["adapter.status"]
+                        "examples": [
+                            "adapter.status"
+                        ]
                     },
                     "description": {
                         "anyOf": [
@@ -2192,7 +2448,9 @@
                         ],
                         "title": "Description",
                         "description": "Description of the CallbackMapping",
-                        "examples": ["This CallbackMapping is used for adapter callback"]
+                        "examples": [
+                            "This CallbackMapping is used for adapter callback"
+                        ]
                     },
                     "external_path": {
                         "anyOf": [
@@ -2205,7 +2463,9 @@
                         ],
                         "title": "External Path",
                         "description": "New external path",
-                        "examples": ["/adapter/v1/callback/new"]
+                        "examples": [
+                            "/adapter/v1/callback/new"
+                        ]
                     },
                     "adapter_nats_subject": {
                         "anyOf": [
@@ -2218,7 +2478,9 @@
                         ],
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
-                        "examples": ["adapters.pay4u.callback.status.update"]
+                        "examples": [
+                            "adapters.pay4u.callback.status.update"
+                        ]
                     },
                     "terminal": {
                         "anyOf": [
@@ -2231,17 +2493,6 @@
                         ],
                         "description": "Terminal to which the callback is associated"
                     },
-                    "retry_policy": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/RetryPolicyConfig"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "description": "Updated retry policy"
-                    },
                     "security_policy": {
                         "anyOf": [
                             {
@@ -2252,10 +2503,55 @@
                             }
                         ],
                         "description": "Updated security policy"
+                    },
+                    "delivery_policy": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/DeliveryPolicy-Input"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Updated delivery policy"
                     }
                 },
                 "type": "object",
                 "title": "CallbackMappingUpdate"
+            },
+            "CallbackResponse": {
+                "properties": {
+                    "status_code": {
+                        "type": "integer",
+                        "maximum": 599.0,
+                        "minimum": 100.0,
+                        "title": "Status Code",
+                        "description": "HTTP status code",
+                        "default": 200
+                    },
+                    "headers": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Headers",
+                        "description": "HTTP headers"
+                    },
+                    "body": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Body",
+                        "description": "Response body"
+                    }
+                },
+                "type": "object",
+                "title": "CallbackResponse"
             },
             "CallbackRetryRequestItems": {
                 "properties": {
@@ -2270,7 +2566,9 @@
                     }
                 },
                 "type": "object",
-                "required": ["callback_ids"],
+                "required": [
+                    "callback_ids"
+                ],
                 "title": "CallbackRetryRequestItems"
             },
             "CallbackRetryResponse": {
@@ -2310,18 +2608,85 @@
                     }
                 },
                 "type": "object",
-                "required": ["callback_id", "reason"],
+                "required": [
+                    "callback_id",
+                    "reason"
+                ],
                 "title": "CallbackRetrySkippedItem"
             },
             "CallbackStatusEnum": {
                 "type": "string",
-                "enum": ["queued", "processing", "quick_processing", "success", "error", "retrying"],
+                "enum": [
+                    "security_rejected",
+                    "queued",
+                    "rpc_sent",
+                    "rpc_completed",
+                    "rpc_failed",
+                    "rpc_timeout",
+                    "processing",
+                    "delivered",
+                    "error",
+                    "retrying",
+                    "success",
+                    "quick_processing"
+                ],
                 "title": "CallbackStatusEnum"
             },
             "CallbackTriggerType": {
                 "type": "string",
-                "enum": ["system", "retry", "manual", "unknown"],
+                "enum": [
+                    "system",
+                    "retry",
+                    "manual",
+                    "unknown"
+                ],
                 "title": "CallbackTriggerType"
+            },
+            "DeliveryPolicy-Input": {
+                "properties": {
+                    "strategy": {
+                        "$ref": "#/components/schemas/DeliveryStrategyEnum",
+                        "description": "Delivery strategy",
+                        "default": "ASYNC_ONLY"
+                    },
+                    "retry_policy": {
+                        "$ref": "#/components/schemas/RetryPolicyConfig",
+                        "description": "Retry policy"
+                    },
+                    "timeout_config": {
+                        "$ref": "#/components/schemas/TimeoutConfig",
+                        "description": "Timeout configuration for different strategies"
+                    },
+                    "response_policy": {
+                        "$ref": "#/components/schemas/ResponsePolicy",
+                        "description": "Response policy from template or response"
+                    }
+                },
+                "type": "object",
+                "title": "DeliveryPolicy"
+            },
+            "DeliveryPolicy-Output": {
+                "properties": {
+                    "strategy": {
+                        "$ref": "#/components/schemas/DeliveryStrategyEnum",
+                        "description": "Delivery strategy",
+                        "default": "ASYNC_ONLY"
+                    },
+                    "retry_policy": {
+                        "$ref": "#/components/schemas/RetryPolicyConfig",
+                        "description": "Retry policy"
+                    },
+                    "timeout_config": {
+                        "$ref": "#/components/schemas/TimeoutConfig",
+                        "description": "Timeout configuration for different strategies"
+                    },
+                    "response_policy": {
+                        "$ref": "#/components/schemas/ResponsePolicy",
+                        "description": "Response policy from template or response"
+                    }
+                },
+                "type": "object",
+                "title": "DeliveryPolicy"
             },
             "DeliveryRequestMessage": {
                 "properties": {
@@ -2404,13 +2769,13 @@
                         "title": "Next Retry At",
                         "description": "Planned time for next retry"
                     },
-                    "retry_policy": {
-                        "$ref": "#/components/schemas/RetryPolicyConfig",
-                        "description": "Retry configuration"
-                    },
                     "security_policy": {
                         "$ref": "#/components/schemas/SecurityPolicyConfig",
                         "description": "Security and access rules"
+                    },
+                    "delivery_policy": {
+                        "$ref": "#/components/schemas/DeliveryPolicy-Output",
+                        "description": "Delivery policy"
                     },
                     "trigger_type": {
                         "$ref": "#/components/schemas/CallbackTriggerType",
@@ -2427,7 +2792,9 @@
                         ],
                         "title": "Adapter Nats Subject",
                         "description": "NATS subject for the adapter to publish messages to",
-                        "examples": ["adapters.pay4u.callback.status.update"]
+                        "examples": [
+                            "adapters.pay4u.callback.status.update"
+                        ]
                     },
                     "terminal": {
                         "anyOf": [
@@ -2442,8 +2809,23 @@
                     }
                 },
                 "type": "object",
-                "required": ["callback_id", "mapping_id", "original_url", "method", "trigger_type"],
+                "required": [
+                    "callback_id",
+                    "mapping_id",
+                    "original_url",
+                    "method",
+                    "trigger_type"
+                ],
                 "title": "DeliveryRequestMessage"
+            },
+            "DeliveryStrategyEnum": {
+                "type": "string",
+                "enum": [
+                    "ASYNC_ONLY",
+                    "RPC_STRICT",
+                    "RPC_WITH_FALLBACK"
+                ],
+                "title": "DeliveryStrategyEnum"
             },
             "ErrorBody": {
                 "properties": {
@@ -2451,17 +2833,24 @@
                         "type": "string",
                         "title": "Error Type",
                         "description": "A string identifier for the error type.",
-                        "examples": ["ValidationError"]
+                        "examples": [
+                            "ValidationError"
+                        ]
                     },
                     "error_message": {
                         "type": "string",
                         "title": "Error Message",
                         "description": "A human-readable error message describing the issue.",
-                        "examples": ["Invalid input data."]
+                        "examples": [
+                            "Invalid input data."
+                        ]
                     }
                 },
                 "type": "object",
-                "required": ["error_type", "error_message"],
+                "required": [
+                    "error_type",
+                    "error_message"
+                ],
                 "title": "ErrorBody"
             },
             "Fee": {
@@ -2471,18 +2860,24 @@
                         "format": "uuid",
                         "title": "Id",
                         "description": "Unique identifier for the fee",
-                        "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+                        "examples": [
+                            "123e4567-e89b-12d3-a456-426614174000"
+                        ]
                     },
                     "recipient": {
                         "type": "string",
                         "title": "Recipient",
                         "description": "Recipient for the fee",
-                        "examples": ["recipient@example.com"]
+                        "examples": [
+                            "recipient@example.com"
+                        ]
                     },
                     "type": {
                         "$ref": "#/components/schemas/FeeType",
                         "description": "Type of the fee",
-                        "examples": [3]
+                        "examples": [
+                            3
+                        ]
                     },
                     "currency": {
                         "anyOf": [
@@ -2495,7 +2890,9 @@
                         ],
                         "title": "Currency",
                         "description": "Currency code for the fee",
-                        "examples": ["USD"]
+                        "examples": [
+                            "USD"
+                        ]
                     },
                     "value": {
                         "$ref": "#/components/schemas/RateValue",
@@ -2511,7 +2908,9 @@
                             }
                         ],
                         "description": "Fee direction if applicable",
-                        "examples": [1]
+                        "examples": [
+                            1
+                        ]
                     },
                     "description": {
                         "anyOf": [
@@ -2524,16 +2923,26 @@
                         ],
                         "title": "Description",
                         "description": "Optional fee description",
-                        "examples": ["Fee for service"]
+                        "examples": [
+                            "Fee for service"
+                        ]
                     }
                 },
                 "type": "object",
-                "required": ["recipient", "type", "value"],
+                "required": [
+                    "recipient",
+                    "type",
+                    "value"
+                ],
                 "title": "Fee"
             },
             "FeeType": {
                 "type": "integer",
-                "enum": [1, 2, 3],
+                "enum": [
+                    1,
+                    2,
+                    3
+                ],
                 "title": "FeeType"
             },
             "HTTPValidationError": {
@@ -2554,11 +2963,15 @@
                     "status": {
                         "$ref": "#/components/schemas/Status",
                         "description": "Indicates the health status of the service.",
-                        "examples": ["Ok"]
+                        "examples": [
+                            "Ok"
+                        ]
                     }
                 },
                 "type": "object",
-                "required": ["status"],
+                "required": [
+                    "status"
+                ],
                 "title": "HealthStatus"
             },
             "OffsetPagination_CallbackHistoryBackup_": {
@@ -2575,23 +2988,34 @@
                         "type": "integer",
                         "title": "Limit",
                         "description": "The maximum number of items returned in a single page.",
-                        "examples": [10]
+                        "examples": [
+                            10
+                        ]
                     },
                     "offset": {
                         "type": "integer",
                         "title": "Offset",
                         "description": "The starting index for the current page.",
-                        "examples": [0]
+                        "examples": [
+                            0
+                        ]
                     },
                     "total": {
                         "type": "integer",
                         "title": "Total",
                         "description": "The total number of available items.",
-                        "examples": [100]
+                        "examples": [
+                            100
+                        ]
                     }
                 },
                 "type": "object",
-                "required": ["items", "limit", "offset", "total"],
+                "required": [
+                    "items",
+                    "limit",
+                    "offset",
+                    "total"
+                ],
                 "title": "OffsetPagination[CallbackHistoryBackup]"
             },
             "OffsetPagination_CallbackHistoryRead_": {
@@ -2608,23 +3032,34 @@
                         "type": "integer",
                         "title": "Limit",
                         "description": "The maximum number of items returned in a single page.",
-                        "examples": [10]
+                        "examples": [
+                            10
+                        ]
                     },
                     "offset": {
                         "type": "integer",
                         "title": "Offset",
                         "description": "The starting index for the current page.",
-                        "examples": [0]
+                        "examples": [
+                            0
+                        ]
                     },
                     "total": {
                         "type": "integer",
                         "title": "Total",
                         "description": "The total number of available items.",
-                        "examples": [100]
+                        "examples": [
+                            100
+                        ]
                     }
                 },
                 "type": "object",
-                "required": ["items", "limit", "offset", "total"],
+                "required": [
+                    "items",
+                    "limit",
+                    "offset",
+                    "total"
+                ],
                 "title": "OffsetPagination[CallbackHistoryRead]"
             },
             "OffsetPagination_CallbackMappingRead_": {
@@ -2641,28 +3076,42 @@
                         "type": "integer",
                         "title": "Limit",
                         "description": "The maximum number of items returned in a single page.",
-                        "examples": [10]
+                        "examples": [
+                            10
+                        ]
                     },
                     "offset": {
                         "type": "integer",
                         "title": "Offset",
                         "description": "The starting index for the current page.",
-                        "examples": [0]
+                        "examples": [
+                            0
+                        ]
                     },
                     "total": {
                         "type": "integer",
                         "title": "Total",
                         "description": "The total number of available items.",
-                        "examples": [100]
+                        "examples": [
+                            100
+                        ]
                     }
                 },
                 "type": "object",
-                "required": ["items", "limit", "offset", "total"],
+                "required": [
+                    "items",
+                    "limit",
+                    "offset",
+                    "total"
+                ],
                 "title": "OffsetPagination[CallbackMappingRead]"
             },
             "PaymentCategory": {
                 "type": "string",
-                "enum": ["p2p", "ecom"],
+                "enum": [
+                    "p2p",
+                    "ecom"
+                ],
                 "title": "PaymentCategory"
             },
             "PaymentTypeBase": {
@@ -2672,34 +3121,43 @@
                         "pattern": "^[A-Za-z0-9_-]+$",
                         "title": "Code",
                         "description": "Unique payment type code",
-                        "examples": ["card2card", "spb", "tsbp"]
+                        "examples": [
+                            "card2card",
+                            "spb",
+                            "tsbp"
+                        ]
                     },
                     "title": {
                         "type": "string",
                         "title": "Title",
                         "description": "Human-readable payment type title",
-                        "examples": ["Bank card"]
+                        "examples": [
+                            "Bank card"
+                        ]
                     },
                     "category": {
                         "$ref": "#/components/schemas/PaymentCategory",
                         "description": "Category of the payment type (H2H or ECOM)",
-                        "examples": ["p2p"]
+                        "examples": [
+                            "p2p"
+                        ]
                     },
                     "required_fields_for_payment": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "type": "string"
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Required Fields For Payment",
+                        "$ref": "#/components/schemas/RequiredFieldsForPayment",
                         "description": "List of field names required to initiate a payment with this type. These fields must exist in the Requisites model.",
-                        "examples": [["card_number", "card_lifetime_month", "card_lifetime_year", "card_cvc"]]
+                        "examples": [
+                            {
+                                "deposit": [
+                                    "customer.phone_number",
+                                    "customer.first_name",
+                                    "customer.last_name",
+                                    "customer.email"
+                                ],
+                                "withdrawal": [
+                                    "customer.phone_number"
+                                ]
+                            }
+                        ]
                     },
                     "meta": {
                         "additionalProperties": true,
@@ -2714,34 +3172,111 @@
                     }
                 },
                 "type": "object",
-                "required": ["code", "title", "category"],
+                "required": [
+                    "code",
+                    "title",
+                    "category"
+                ],
                 "title": "PaymentTypeBase"
             },
             "RateValue": {
                 "properties": {
                     "quantity": {
                         "type": "integer",
-                        "minimum": 0,
+                        "minimum": 0.0,
                         "title": "Quantity",
                         "description": "The quantity part of the rate value. It represents the numeric value without the decimal separator. For example, '12.34' is stored as 1234.",
                         "default": 0,
-                        "examples": [1234]
+                        "examples": [
+                            1234
+                        ]
                     },
                     "accuracy": {
                         "type": "integer",
-                        "minimum": 0,
+                        "minimum": 0.0,
                         "title": "Accuracy",
                         "description": "The accuracy factor for the rate value. It must be a power of 10 (e.g., 1, 10, 100, 1000) corresponding to the number of decimal places.",
                         "default": 1,
-                        "examples": [100]
+                        "examples": [
+                            100
+                        ]
                     }
                 },
                 "type": "object",
                 "title": "RateValue"
             },
+            "RequiredFieldsForPayment": {
+                "properties": {
+                    "deposit": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Deposit",
+                        "description": "List of required fields for deposit operation",
+                        "examples": [
+                            [
+                                "customer.phone_number"
+                            ]
+                        ]
+                    },
+                    "withdrawal": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Withdrawal",
+                        "description": "List of required fields for withdrawal operation",
+                        "examples": [
+                            [
+                                "customer.phone_number",
+                                "customer.first_name",
+                                "customer.last_name",
+                                "customer.email"
+                            ]
+                        ]
+                    }
+                },
+                "type": "object",
+                "title": "RequiredFieldsForPayment"
+            },
+            "ResponsePolicy": {
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/ResponsePolicyTypeEnum",
+                        "description": "Response type",
+                        "default": "FROM_RESPONSE"
+                    },
+                    "template": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/CallbackResponse"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Response template"
+                    }
+                },
+                "type": "object",
+                "title": "ResponsePolicy"
+            },
+            "ResponsePolicyTypeEnum": {
+                "type": "string",
+                "enum": [
+                    "FROM_TEMPLATE",
+                    "FROM_RESPONSE"
+                ],
+                "title": "ResponsePolicyTypeEnum"
+            },
             "RestoreStrategy": {
                 "type": "string",
-                "enum": ["merge", "skip", "overwrite"],
+                "enum": [
+                    "merge",
+                    "skip",
+                    "overwrite"
+                ],
                 "title": "RestoreStrategy"
             },
             "RetryPolicyConfig": {
@@ -2751,21 +3286,27 @@
                         "title": "Enabled",
                         "description": "Enable retries for this mapping",
                         "default": true,
-                        "examples": [true]
+                        "examples": [
+                            true
+                        ]
                     },
                     "max_attempts": {
                         "type": "integer",
                         "title": "Max Attempts",
                         "description": "Maximum number of retry attempts",
                         "default": 5,
-                        "examples": [3]
+                        "examples": [
+                            3
+                        ]
                     },
                     "base_delay": {
                         "type": "integer",
                         "title": "Base Delay",
                         "description": "Base delay (in seconds) between retries",
                         "default": 10,
-                        "examples": [30]
+                        "examples": [
+                            30
+                        ]
                     },
                     "retry_on_status": {
                         "items": {
@@ -2774,13 +3315,20 @@
                         "type": "array",
                         "title": "Retry On Status",
                         "description": "List of HTTP status codes that should trigger a retry. Empty list disables retry based on status code.",
-                        "examples": [[400, 500]]
+                        "examples": [
+                            [
+                                400,
+                                500
+                            ]
+                        ]
                     },
                     "strategy": {
                         "$ref": "#/components/schemas/RetryStrategy",
                         "description": "Backoff strategy to use",
                         "default": "exponential",
-                        "examples": ["fixed"]
+                        "examples": [
+                            "fixed"
+                        ]
                     }
                 },
                 "type": "object",
@@ -2788,7 +3336,10 @@
             },
             "RetryStrategy": {
                 "type": "string",
-                "enum": ["fixed", "exponential"],
+                "enum": [
+                    "fixed",
+                    "exponential"
+                ],
                 "title": "RetryStrategy"
             },
             "SecurityPolicyConfig": {
@@ -2809,7 +3360,12 @@
                         "type": "array",
                         "title": "Allowed Ips",
                         "description": "List of allowed IPs or networks (CIDR) that can access the route",
-                        "examples": [["192.168.1.10", "10.0.0.0/24"]]
+                        "examples": [
+                            [
+                                "192.168.1.10",
+                                "10.0.0.0/24"
+                            ]
+                        ]
                     },
                     "blocked_ips": {
                         "items": {
@@ -2827,7 +3383,11 @@
                         "type": "array",
                         "title": "Blocked Ips",
                         "description": "IPs or networks to explicitly deny (takes precedence over allowed)",
-                        "examples": [["0.0.0.0/0"]]
+                        "examples": [
+                            [
+                                "0.0.0.0/0"
+                            ]
+                        ]
                     },
                     "rate_limit": {
                         "anyOf": [
@@ -2840,42 +3400,31 @@
                         ],
                         "title": "Rate Limit",
                         "description": "Maximum number of requests per minute per source IP",
-                        "examples": [100]
-                    },
-                    "burst_limit": {
-                        "anyOf": [
-                            {
-                                "type": "integer"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Burst Limit",
-                        "description": "Number of requests allowed to exceed the rate limit in bursts",
-                        "examples": [20]
-                    },
-                    "auth_required": {
-                        "type": "boolean",
-                        "title": "Auth Required",
-                        "description": "Whether authentication is required (token/header/etc)",
-                        "default": false,
-                        "examples": [true]
+                        "examples": [
+                            100
+                        ]
                     },
                     "blocked": {
                         "type": "boolean",
                         "title": "Blocked",
                         "description": "Entire route is blocked and should not process any callbacks",
                         "default": false,
-                        "examples": [false]
+                        "examples": [
+                            false
+                        ]
                     },
                     "enforcement_mode": {
                         "type": "string",
-                        "enum": ["log", "strict"],
+                        "enum": [
+                            "log",
+                            "strict"
+                        ],
                         "title": "Enforcement Mode",
                         "description": "Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them",
                         "default": "strict",
-                        "examples": ["strict"]
+                        "examples": [
+                            "strict"
+                        ]
                     }
                 },
                 "type": "object",
@@ -2883,7 +3432,9 @@
             },
             "Status": {
                 "type": "string",
-                "enum": ["Ok"],
+                "enum": [
+                    "Ok"
+                ],
                 "title": "Status"
             },
             "Terminal-Input": {
@@ -2893,13 +3444,17 @@
                         "format": "uuid",
                         "title": "Terminal Id",
                         "description": "Unique identifier of the terminal",
-                        "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+                        "examples": [
+                            "123e4567-e89b-12d3-a456-426614174000"
+                        ]
                     },
                     "verbose_name": {
                         "type": "string",
                         "title": "Verbose Name",
                         "description": "Name of the terminal",
-                        "examples": ["Main Terminal"]
+                        "examples": [
+                            "Main Terminal"
+                        ]
                     },
                     "description": {
                         "anyOf": [
@@ -2912,14 +3467,18 @@
                         ],
                         "title": "Description",
                         "description": "Description of the terminal",
-                        "examples": ["This is the main terminal"]
+                        "examples": [
+                            "This is the main terminal"
+                        ]
                     },
                     "allocation_timeout_seconds": {
                         "type": "integer",
                         "title": "Allocation Timeout Seconds",
                         "description": "Timeout for allocation in seconds",
                         "default": 2,
-                        "examples": [2]
+                        "examples": [
+                            2
+                        ]
                     },
                     "fees": {
                         "additionalProperties": {
@@ -2952,7 +3511,9 @@
                         "type": "string",
                         "title": "Provider",
                         "description": "Provider name associated with the terminal",
-                        "examples": ["ProviderA"]
+                        "examples": [
+                            "ProviderA"
+                        ]
                     },
                     "auth": {
                         "additionalProperties": true,
@@ -2971,7 +3532,9 @@
                         "title": "Account Created",
                         "description": "Indicates if the account is created",
                         "default": false,
-                        "examples": [false]
+                        "examples": [
+                            false
+                        ]
                     },
                     "callback_url": {
                         "anyOf": [
@@ -3006,7 +3569,11 @@
                     }
                 },
                 "type": "object",
-                "required": ["terminal_id", "verbose_name", "provider"],
+                "required": [
+                    "terminal_id",
+                    "verbose_name",
+                    "provider"
+                ],
                 "title": "Terminal"
             },
             "Terminal-Output": {
@@ -3016,13 +3583,17 @@
                         "format": "uuid",
                         "title": "Terminal Id",
                         "description": "Unique identifier of the terminal",
-                        "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+                        "examples": [
+                            "123e4567-e89b-12d3-a456-426614174000"
+                        ]
                     },
                     "verbose_name": {
                         "type": "string",
                         "title": "Verbose Name",
                         "description": "Name of the terminal",
-                        "examples": ["Main Terminal"]
+                        "examples": [
+                            "Main Terminal"
+                        ]
                     },
                     "description": {
                         "anyOf": [
@@ -3035,14 +3606,18 @@
                         ],
                         "title": "Description",
                         "description": "Description of the terminal",
-                        "examples": ["This is the main terminal"]
+                        "examples": [
+                            "This is the main terminal"
+                        ]
                     },
                     "allocation_timeout_seconds": {
                         "type": "integer",
                         "title": "Allocation Timeout Seconds",
                         "description": "Timeout for allocation in seconds",
                         "default": 2,
-                        "examples": [2]
+                        "examples": [
+                            2
+                        ]
                     },
                     "fees": {
                         "additionalProperties": {
@@ -3075,7 +3650,9 @@
                         "type": "string",
                         "title": "Provider",
                         "description": "Provider name associated with the terminal",
-                        "examples": ["ProviderA"]
+                        "examples": [
+                            "ProviderA"
+                        ]
                     },
                     "auth": {
                         "additionalProperties": true,
@@ -3094,7 +3671,9 @@
                         "title": "Account Created",
                         "description": "Indicates if the account is created",
                         "default": false,
-                        "examples": [false]
+                        "examples": [
+                            false
+                        ]
                     },
                     "callback_url": {
                         "anyOf": [
@@ -3129,12 +3708,43 @@
                     }
                 },
                 "type": "object",
-                "required": ["terminal_id", "verbose_name", "provider"],
+                "required": [
+                    "terminal_id",
+                    "verbose_name",
+                    "provider"
+                ],
                 "title": "Terminal"
+            },
+            "TimeoutConfig": {
+                "properties": {
+                    "rpc_timeout": {
+                        "type": "number",
+                        "maximum": 600.0,
+                        "minimum": 1.0,
+                        "title": "Rpc Timeout",
+                        "description": "RPC timeout in seconds",
+                        "default": 180.0
+                    },
+                    "async_timeout": {
+                        "type": "number",
+                        "maximum": 3600.0,
+                        "minimum": 1.0,
+                        "title": "Async Timeout",
+                        "description": "Async timeout in seconds",
+                        "default": 300.0
+                    }
+                },
+                "type": "object",
+                "title": "TimeoutConfig"
             },
             "TransactionType": {
                 "type": "integer",
-                "enum": [1, 2, 3, 4],
+                "enum": [
+                    1,
+                    2,
+                    3,
+                    4
+                ],
                 "title": "TransactionType"
             },
             "ValidationError": {
@@ -3163,7 +3773,11 @@
                     }
                 },
                 "type": "object",
-                "required": ["loc", "msg", "type"],
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
                 "title": "ValidationError"
             }
         }

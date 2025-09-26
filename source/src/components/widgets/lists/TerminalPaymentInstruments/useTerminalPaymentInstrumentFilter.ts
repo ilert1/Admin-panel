@@ -23,7 +23,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFinancialInstitutionCode, setTerminalFinancialInstitutionCode] = useState(
         filterValues?.terminal_financial_institution_code || ""
     );
-    const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminalFilterId || "");
+    const [terminalFilterId, setTerminalFilterId] = useState("");
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
@@ -33,11 +33,17 @@ const useTerminalPaymentInstrumentFilter = () => {
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
     useEffect(() => {
-        if (terminalsData) {
-            setTerminalFilterName(
-                terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminalFilterId)
-                    ?.verbose_name || ""
-            );
+        if (terminalsData && filterValues?.terminalFilterId) {
+            const foundTerm = terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminalFilterId);
+
+            if (foundTerm) {
+                setTerminalFilterName(foundTerm?.verbose_name);
+            } else {
+                Reflect.deleteProperty(filterValues, "terminalFilterId");
+                setFilters(filterValues, displayedFilters, true);
+                setTerminalFilterId("");
+                setTerminalFilterName("");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
@@ -132,6 +138,18 @@ const useTerminalPaymentInstrumentFilter = () => {
         setProviderName("");
         setSelectSpiCode("");
     };
+
+    useEffect(() => {
+        if (providersData && filterValues?.provider) {
+            const foundProvider = providersData?.find(provider => provider.name === filterValues?.provider);
+
+            if (!foundProvider) {
+                setFilters({}, displayedFilters, true);
+                onClearFilters();
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [providersData]);
 
     const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
         setReportLoading(true);

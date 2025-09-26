@@ -693,7 +693,7 @@ export interface ApiResponseProvider {
     /** Indicates whether the request was successful */
     success?: boolean;
     /** The actual response data if the request was successful */
-    data: Provider;
+    data: SourceSchemasProviderProvider;
     /** The error details if the request was not successful */
     error?: ApiResponseProviderError;
     /**
@@ -933,6 +933,34 @@ export interface ApiResponseListRequiredFieldItem {
     meta?: ApiResponseListRequiredFieldItemMeta;
 }
 
+/**
+ * Field description
+ */
+export type BaseFieldConfigDescription = string | null;
+
+/**
+ * Default value
+ */
+export type BaseFieldConfigDefaultValue = string | null;
+
+/**
+ * Regular expression for validation
+ */
+export type BaseFieldConfigValidationPattern = string | null;
+
+export interface BaseFieldConfig {
+    /** Field key in structure */
+    key: string;
+    /** Whether the field is required */
+    required?: boolean;
+    /** Field description */
+    description?: BaseFieldConfigDescription;
+    /** Default value */
+    default_value?: BaseFieldConfigDefaultValue;
+    /** Regular expression for validation */
+    validation_pattern?: BaseFieldConfigValidationPattern;
+}
+
 export interface BodyFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost {
     /** Upload CSV file with data for import */
     csv_file: Blob;
@@ -967,6 +995,67 @@ export interface BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInst
     data: string;
     financial_institutions_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostFinancialInstitutionsCsv;
     currency_csv?: BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPostCurrencyCsv;
+}
+
+export interface CallbackConfigInput {
+    /**
+     * NATS subject for callback execution
+     * @minLength 1
+     * @maxLength 200
+     */
+    adapter_nats_subject: string;
+    /**
+     * Task queue for callback processing
+     * @minLength 1
+     * @maxLength 100
+     */
+    callback_nats_queue: string;
+    /** Security policy for callback endpoints */
+    security_policy?: SecurityPolicyConfig;
+    /** Delivery policy for callback processing */
+    delivery_policy?: DeliveryPolicyInput;
+}
+
+export interface CallbackConfigOutput {
+    /**
+     * NATS subject for callback execution
+     * @minLength 1
+     * @maxLength 200
+     */
+    adapter_nats_subject: string;
+    /**
+     * Task queue for callback processing
+     * @minLength 1
+     * @maxLength 100
+     */
+    callback_nats_queue: string;
+    /** Security policy for callback endpoints */
+    security_policy?: SecurityPolicyConfig;
+    /** Delivery policy for callback processing */
+    delivery_policy?: DeliveryPolicyOutput;
+}
+
+/**
+ * HTTP headers
+ */
+export type CallbackResponseHeaders = { [key: string]: string };
+
+/**
+ * Response body
+ */
+export type CallbackResponseBody = string | null;
+
+export interface CallbackResponse {
+    /**
+     * HTTP status code
+     * @minimum 100
+     * @maximum 599
+     */
+    status_code?: number;
+    /** HTTP headers */
+    headers?: CallbackResponseHeaders;
+    /** Response body */
+    body?: CallbackResponseBody;
 }
 
 /**
@@ -1367,6 +1456,37 @@ export interface CurrencyUpdate {
     accuracy?: number;
 }
 
+export interface DeliveryPolicyInput {
+    /** Delivery strategy */
+    strategy?: DeliveryStrategyEnum;
+    /** Retry policy */
+    retry_policy?: RetryPolicyConfig;
+    /** Timeout configuration for different strategies */
+    timeout_config?: SourceSchemasPoliciesTimeoutConfig;
+    /** Response policy from template or response */
+    response_policy?: ResponsePolicy;
+}
+
+export interface DeliveryPolicyOutput {
+    /** Delivery strategy */
+    strategy?: DeliveryStrategyEnum;
+    /** Retry policy */
+    retry_policy?: RetryPolicyConfig;
+    /** Timeout configuration for different strategies */
+    timeout_config?: SourceSchemasPoliciesTimeoutConfig;
+    /** Response policy from template or response */
+    response_policy?: ResponsePolicy;
+}
+
+export type DeliveryStrategyEnum = (typeof DeliveryStrategyEnum)[keyof typeof DeliveryStrategyEnum];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeliveryStrategyEnum = {
+    ASYNC_ONLY: "ASYNC_ONLY",
+    RPC_STRICT: "RPC_STRICT",
+    RPC_WITH_FALLBACK: "RPC_WITH_FALLBACK"
+} as const;
+
 /**
  * Description of the direction
  */
@@ -1424,7 +1544,7 @@ export interface Direction {
     /** Merchant ID associated with the direction */
     merchant: MerchantTemporalRead;
     /** Provider name associated with the direction */
-    provider: ProviderBase;
+    provider: BlowfishProtocolSchemasProviderProvider;
     /** Terminal ID associated with the direction */
     terminal: TerminalTemporalRead;
     /** Source currency code */
@@ -1834,7 +1954,7 @@ export interface ExecutionMethodInput {
     /** The task queue where the execution will be dispatched. */
     task_queue: string;
     /** Timeouts configuration, including execution and optional wait condition timeouts. */
-    timeouts?: TimeoutConfig;
+    timeouts?: BlowfishProtocolSchemasProviderTimeoutConfig;
     /** Retry policy configuration. By default, maximum_attempts=1 (no retries), other fields as in Temporal defaults. */
     retry_policy?: RetryPolicy;
 }
@@ -1847,7 +1967,7 @@ export interface ExecutionMethodOutput {
     /** The task queue where the execution will be dispatched. */
     task_queue: string;
     /** Timeouts configuration, including execution and optional wait condition timeouts. */
-    timeouts?: TimeoutConfig;
+    timeouts?: BlowfishProtocolSchemasProviderTimeoutConfig;
     /** Retry policy configuration. By default, maximum_attempts=1 (no retries), other fields as in Temporal defaults. */
     retry_policy?: RetryPolicy;
     /** @deprecated */
@@ -2312,6 +2432,23 @@ export interface LimitsUpdate {
 }
 
 /**
+ * Bank key for deposit operations
+ */
+export type MapBankKeysDeposit = string | null;
+
+/**
+ * Bank key for withdraw operations
+ */
+export type MapBankKeysWithdraw = string | null;
+
+export interface MapBankKeys {
+    /** Bank key for deposit operations */
+    deposit?: MapBankKeysDeposit;
+    /** Bank key for withdraw operations */
+    withdraw?: MapBankKeysWithdraw;
+}
+
+/**
  * Description of the merchant
  */
 export type MerchantBaseDescription = string | null;
@@ -2477,6 +2614,8 @@ export interface MerchantSettingsInput {
     deposit?: TimeoutSettings;
     /** Timeout settings for withdraw */
     withdraw?: TimeoutSettings;
+    /** Connection settings */
+    connection?: TimeoutSettings;
 }
 
 export interface MerchantSettingsOutput {
@@ -2484,6 +2623,8 @@ export interface MerchantSettingsOutput {
     deposit?: TimeoutSettings;
     /** Timeout settings for withdraw */
     withdraw?: TimeoutSettings;
+    /** Connection settings */
+    connection?: TimeoutSettings;
 }
 
 /**
@@ -2751,7 +2892,7 @@ export interface OffsetPaginationPaymentTypeModel {
 
 export interface OffsetPaginationProvider {
     /** A list of items in the current page */
-    items: Provider[];
+    items: SourceSchemasProviderProvider[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -2806,6 +2947,22 @@ export interface PaymentCategoryItem {
     name: string;
     /** Value of the payment category */
     value: string;
+}
+
+/**
+ * Temporal task queue name for this payment method's workflows and activities
+ */
+export type PaymentMethodConfigTaskQueue = string | null;
+
+export interface PaymentMethodConfig {
+    /** Whether this payment method is enabled for the provider */
+    enabled?: boolean;
+    /** Temporal task queue name for this payment method's workflows and activities */
+    task_queue?: PaymentMethodConfigTaskQueue;
+    /** Whether confirm method is enabled */
+    confirm?: boolean;
+    /** Whether cancel method is enabled */
+    cancel?: boolean;
 }
 
 /**
@@ -2919,42 +3076,9 @@ export interface PriorityPolicy {
     rank: number;
 }
 
-/**
- * Provider ID
- */
-export type ProviderId = string | null;
-
-/**
- * The public key encoded in base58, corresponding to the private key.
- */
-export type ProviderPublicKey = string | null;
-
-/**
- * Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.
- */
-export type ProviderMethods = { [key: string]: ExecutionMethodOutput };
-
-export interface Provider {
-    /** Provider ID */
-    id?: ProviderId;
-    /**
-     * Provider name
-     * @minLength 1
-     */
-    name: string;
-    /** JSON schema for provider fields */
-    fields_json_schema: string;
-    /** The public key encoded in base58, corresponding to the private key. */
-    public_key?: ProviderPublicKey;
-    /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
-    methods: ProviderMethods;
-    /** List of payment types associated with this provider */
-    payment_types?: PaymentTypeBase[];
-}
-
 export interface ProviderAddKeypair {
     /** Detailed information about the provider */
-    provider: Provider;
+    provider: SourceSchemasProviderProvider;
     /** The key pair details (public and private keys) to be associated with the provider */
     keypair: KeyPair;
 }
@@ -2974,6 +3098,26 @@ export type ProviderBasePublicKey = string | null;
  */
 export type ProviderBaseMethods = { [key: string]: ExecutionMethodOutput };
 
+/**
+ * Provider information including links and configuration
+ */
+export type ProviderBaseInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type ProviderBasePaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type ProviderBaseTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type ProviderBaseTerminalDetailsSchema = TerminalDetailsSchema | null;
+
 export interface ProviderBase {
     /** Provider ID */
     id?: ProviderBaseId;
@@ -2988,6 +3132,16 @@ export interface ProviderBase {
     public_key?: ProviderBasePublicKey;
     /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
     methods: ProviderBaseMethods;
+    /** Provider configuration settings */
+    settings?: ProviderSettingsOutput;
+    /** Provider information including links and configuration */
+    info?: ProviderBaseInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: ProviderBasePaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: ProviderBaseTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: ProviderBaseTerminalDetailsSchema;
 }
 
 /**
@@ -3000,6 +3154,26 @@ export type ProviderCreateFieldsJsonSchema = string | null;
  */
 export type ProviderCreateMethods = { [key: string]: ExecutionMethodInput };
 
+/**
+ * Provider information including links and configuration
+ */
+export type ProviderCreateInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type ProviderCreatePaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type ProviderCreateTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type ProviderCreateTerminalDetailsSchema = TerminalDetailsSchema | null;
+
 export interface ProviderCreate {
     /** Provider name */
     name: string;
@@ -3009,6 +3183,120 @@ export interface ProviderCreate {
     methods?: ProviderCreateMethods;
     /** Unique codes of the payment types to link */
     payment_types?: string[];
+    /** Provider configuration settings */
+    settings?: ProviderSettingsInput;
+    /** Provider information including links and configuration */
+    info?: ProviderCreateInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: ProviderCreatePaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: ProviderCreateTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: ProviderCreateTerminalDetailsSchema;
+}
+
+export type ProviderEnvironment = (typeof ProviderEnvironment)[keyof typeof ProviderEnvironment];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProviderEnvironment = {
+    TEST: "TEST",
+    PROD: "PROD"
+} as const;
+
+/**
+ * Link to Telegram chat
+ */
+export type ProviderInfoTelegramChat = string | null;
+
+/**
+ * Link to wiki documentation
+ */
+export type ProviderInfoWikiLink = string | null;
+
+/**
+ * Link to provider documentation
+ */
+export type ProviderInfoProviderDocs = string | null;
+
+/**
+ * Auto-generated link to Temporal with queue filter
+ */
+export type ProviderInfoTemporalLink = string | null;
+
+/**
+ * Auto-generated link to Grafana with provider filter
+ */
+export type ProviderInfoGrafanaLink = string | null;
+
+/**
+ * Provider environment (TEST or PROD)
+ */
+export type ProviderInfoProviderEnvironment = ProviderEnvironment | null;
+
+/**
+ * Bank keys mapping for provider documentation
+ */
+export type ProviderInfoMappingBankKeys = MapBankKeys | null;
+
+export interface ProviderInfo {
+    /** Link to Telegram chat */
+    telegram_chat?: ProviderInfoTelegramChat;
+    /** Link to wiki documentation */
+    wiki_link?: ProviderInfoWikiLink;
+    /** Link to provider documentation */
+    provider_docs?: ProviderInfoProviderDocs;
+    /** Auto-generated link to Temporal with queue filter */
+    temporal_link?: ProviderInfoTemporalLink;
+    /** Auto-generated link to Grafana with provider filter */
+    grafana_link?: ProviderInfoGrafanaLink;
+    /** Provider environment (TEST or PROD) */
+    provider_environment?: ProviderInfoProviderEnvironment;
+    /** Bank keys mapping for provider documentation */
+    mapping_bank_keys?: ProviderInfoMappingBankKeys;
+}
+
+/**
+ * H2H deposit payment method configuration
+ */
+export type ProviderPaymentMethodsPayinH2h = PaymentMethodConfig | null;
+
+/**
+ * H2H withdrawal payment method configuration
+ */
+export type ProviderPaymentMethodsPayoutH2h = PaymentMethodConfig | null;
+
+/**
+ * E-commerce payment method configuration
+ */
+export type ProviderPaymentMethodsEcom = PaymentMethodConfig | null;
+
+export interface ProviderPaymentMethods {
+    /** H2H deposit payment method configuration */
+    payin_h2h?: ProviderPaymentMethodsPayinH2h;
+    /** H2H withdrawal payment method configuration */
+    payout_h2h?: ProviderPaymentMethodsPayoutH2h;
+    /** E-commerce payment method configuration */
+    ecom?: ProviderPaymentMethodsEcom;
+}
+
+/**
+ * Callback configuration for the provider
+ */
+export type ProviderSettingsInputCallback = CallbackConfigInput | null;
+
+export interface ProviderSettingsInput {
+    /** Callback configuration for the provider */
+    callback?: ProviderSettingsInputCallback;
+}
+
+/**
+ * Callback configuration for the provider
+ */
+export type ProviderSettingsOutputCallback = CallbackConfigOutput | null;
+
+export interface ProviderSettingsOutput {
+    /** Callback configuration for the provider */
+    callback?: ProviderSettingsOutputCallback;
 }
 
 /**
@@ -3028,6 +3316,31 @@ export type ProviderUpdateMethods = ProviderUpdateMethodsAnyOf | null;
  */
 export type ProviderUpdatePaymentTypes = string[] | null;
 
+/**
+ * Provider configuration settings
+ */
+export type ProviderUpdateSettings = ProviderSettingsInput | null;
+
+/**
+ * Provider information including links and configuration
+ */
+export type ProviderUpdateInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type ProviderUpdatePaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type ProviderUpdateTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type ProviderUpdateTerminalDetailsSchema = TerminalDetailsSchema | null;
+
 export interface ProviderUpdate {
     /** JSON schema for provider fields */
     fields_json_schema?: ProviderUpdateFieldsJsonSchema;
@@ -3035,6 +3348,16 @@ export interface ProviderUpdate {
     methods?: ProviderUpdateMethods;
     /** Unique codes of the payment types to link */
     payment_types?: ProviderUpdatePaymentTypes;
+    /** Provider configuration settings */
+    settings?: ProviderUpdateSettings;
+    /** Provider information including links and configuration */
+    info?: ProviderUpdateInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: ProviderUpdatePaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: ProviderUpdateTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: ProviderUpdateTerminalDetailsSchema;
 }
 
 export interface RateValue {
@@ -3065,6 +3388,26 @@ export interface RequiredFieldsForPayment {
 }
 
 /**
+ * Response template
+ */
+export type ResponsePolicyTemplate = CallbackResponse | null;
+
+export interface ResponsePolicy {
+    /** Response type */
+    type?: ResponsePolicyTypeEnum;
+    /** Response template */
+    template?: ResponsePolicyTemplate;
+}
+
+export type ResponsePolicyTypeEnum = (typeof ResponsePolicyTypeEnum)[keyof typeof ResponsePolicyTypeEnum];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ResponsePolicyTypeEnum = {
+    FROM_TEMPLATE: "FROM_TEMPLATE",
+    FROM_RESPONSE: "FROM_RESPONSE"
+} as const;
+
+/**
  * Maximum interval between attempts, in seconds. If None, unlimited.
  */
 export type RetryPolicyMaximumInterval = number | null;
@@ -3087,6 +3430,73 @@ export interface RetryPolicy {
     maximum_attempts?: number;
     /** A list of error types that should not be retried. */
     non_retryable_error_types?: RetryPolicyNonRetryableErrorTypes;
+}
+
+export interface RetryPolicyConfig {
+    /** Enable retries for this mapping */
+    enabled?: boolean;
+    /**
+     * Maximum number of retry attempts
+     * @minimum 1
+     * @maximum 100
+     */
+    max_attempts?: number;
+    /**
+     * Base delay (in seconds) between retries
+     * @minimum 1
+     * @maximum 3600
+     */
+    base_delay?: number;
+    /**
+     * Backoff multiplier for exponential strategy
+     * @minimum 1
+     * @maximum 10
+     */
+    backoff_multiplier?: number;
+    /** Backoff strategy to use */
+    strategy?: RetryStrategy;
+}
+
+export type RetryStrategy = (typeof RetryStrategy)[keyof typeof RetryStrategy];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RetryStrategy = {
+    fixed: "fixed",
+    exponential: "exponential"
+} as const;
+
+export type SecurityPolicyConfigAllowedIpsItem = string | string;
+
+export type SecurityPolicyConfigBlockedIpsItem = string | string;
+
+/**
+ * Maximum number of requests per minute per source IP
+ */
+export type SecurityPolicyConfigRateLimit = number | null;
+
+/**
+ * Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them
+ */
+export type SecurityPolicyConfigEnforcementMode =
+    (typeof SecurityPolicyConfigEnforcementMode)[keyof typeof SecurityPolicyConfigEnforcementMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SecurityPolicyConfigEnforcementMode = {
+    log: "log",
+    strict: "strict"
+} as const;
+
+export interface SecurityPolicyConfig {
+    /** List of allowed IPs or networks (CIDR) that can access the route */
+    allowed_ips?: SecurityPolicyConfigAllowedIpsItem[];
+    /** IPs or networks to explicitly deny (takes precedence over allowed) */
+    blocked_ips?: SecurityPolicyConfigBlockedIpsItem[];
+    /** Maximum number of requests per minute per source IP */
+    rate_limit?: SecurityPolicyConfigRateLimit;
+    /** Entire route is blocked and should not process any callbacks */
+    blocked?: boolean;
+    /** Mode of policy enforcement: 'log' only logs violations, 'strict' blocks them */
+    enforcement_mode?: SecurityPolicyConfigEnforcementMode;
 }
 
 export type Status = (typeof Status)[keyof typeof Status];
@@ -3174,20 +3584,25 @@ export interface SystemPaymentInstrumentUpdate {
 }
 
 /**
- * Minimum time-to-live in seconds before terminal can be used
+ * Minimum time-to-live in milliseconds
  */
 export type TTLConfigMin = number | null;
 
 /**
- * Maximum time-to-live in seconds after which terminal is unavailable
+ * Maximum time-to-live in milliseconds
  */
 export type TTLConfigMax = number | null;
 
 export interface TTLConfig {
-    /** Minimum time-to-live in seconds before terminal can be used */
+    /** Minimum time-to-live in milliseconds */
     min?: TTLConfigMin;
-    /** Maximum time-to-live in seconds after which terminal is unavailable */
+    /** Maximum time-to-live in milliseconds */
     max?: TTLConfigMax;
+}
+
+export interface TerminalAuthSchema {
+    /** List of fields in terminal structure */
+    fields?: BaseFieldConfig[];
 }
 
 /**
@@ -3322,6 +3737,11 @@ export interface TerminalCreate {
 export interface TerminalDeleteAuth {
     /** Authentication data for the terminal */
     keys: string[];
+}
+
+export interface TerminalDetailsSchema {
+    /** List of fields in terminal structure */
+    fields?: BaseFieldConfig[];
 }
 
 export interface TerminalInitializePaymentInstrumentsRequest {
@@ -3784,13 +4204,6 @@ export interface TerminalUpdateAuth {
     auth: TerminalUpdateAuthAuth;
 }
 
-export interface TimeoutConfig {
-    /** Maximum execution time for the activity. */
-    start_to_close_timeout?: string;
-    /** Maximum wait time for an external condition, if applicable. */
-    wait_condition_timeout?: string;
-}
-
 export interface TimeoutSettings {
     /** Time-to-live configuration for terminal availability */
     ttl?: TTLConfig;
@@ -3812,6 +4225,124 @@ export interface ValidationError {
     loc: ValidationErrorLocItem[];
     msg: string;
     type: string;
+}
+
+/**
+ * Provider ID
+ */
+export type BlowfishProtocolSchemasProviderProviderId = string | null;
+
+/**
+ * The public key encoded in base58, corresponding to the private key.
+ */
+export type BlowfishProtocolSchemasProviderProviderPublicKey = string | null;
+
+/**
+ * Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.
+ */
+export type BlowfishProtocolSchemasProviderProviderMethods = { [key: string]: ExecutionMethodOutput };
+
+export interface BlowfishProtocolSchemasProviderProvider {
+    /** Provider ID */
+    id?: BlowfishProtocolSchemasProviderProviderId;
+    /**
+     * Provider name
+     * @minLength 1
+     */
+    name: string;
+    /** JSON schema for provider fields */
+    fields_json_schema: string;
+    /** The public key encoded in base58, corresponding to the private key. */
+    public_key?: BlowfishProtocolSchemasProviderProviderPublicKey;
+    /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
+    methods: BlowfishProtocolSchemasProviderProviderMethods;
+    /** List of payment types associated with this provider */
+    payment_types?: PaymentTypeBase[];
+}
+
+export interface BlowfishProtocolSchemasProviderTimeoutConfig {
+    /** Maximum execution time for the activity. */
+    start_to_close_timeout?: string;
+    /** Maximum wait time for an external condition, if applicable. */
+    wait_condition_timeout?: string;
+}
+
+export interface SourceSchemasPoliciesTimeoutConfig {
+    /**
+     * RPC timeout in seconds
+     * @minimum 1
+     * @maximum 600
+     */
+    rpc_timeout?: number;
+    /**
+     * Async timeout in seconds
+     * @minimum 1
+     * @maximum 3600
+     */
+    async_timeout?: number;
+}
+
+/**
+ * Provider ID
+ */
+export type SourceSchemasProviderProviderId = string | null;
+
+/**
+ * The public key encoded in base58, corresponding to the private key.
+ */
+export type SourceSchemasProviderProviderPublicKey = string | null;
+
+/**
+ * Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases.
+ */
+export type SourceSchemasProviderProviderMethods = { [key: string]: ExecutionMethodOutput };
+
+/**
+ * Provider information including links and configuration
+ */
+export type SourceSchemasProviderProviderInfo = ProviderInfo | null;
+
+/**
+ * Payment methods configuration reflecting which methods are supported and their Temporal task queues
+ */
+export type SourceSchemasProviderProviderPaymentMethods = ProviderPaymentMethods | null;
+
+/**
+ * Auth structure schema for provider terminals
+ */
+export type SourceSchemasProviderProviderTerminalAuthSchema = TerminalAuthSchema | null;
+
+/**
+ * Details structure schema for provider terminals
+ */
+export type SourceSchemasProviderProviderTerminalDetailsSchema = TerminalDetailsSchema | null;
+
+export interface SourceSchemasProviderProvider {
+    /** Provider ID */
+    id?: SourceSchemasProviderProviderId;
+    /**
+     * Provider name
+     * @minLength 1
+     */
+    name: string;
+    /** JSON schema for provider fields */
+    fields_json_schema: string;
+    /** The public key encoded in base58, corresponding to the private key. */
+    public_key?: SourceSchemasProviderProviderPublicKey;
+    /** Provider execution methods configuration. This field retains backward compatibility with previous 'workflow_*' fields via aliases. */
+    methods: SourceSchemasProviderProviderMethods;
+    /** Provider configuration settings */
+    settings?: ProviderSettingsOutput;
+    /** Provider information including links and configuration */
+    info?: SourceSchemasProviderProviderInfo;
+    /** Payment methods configuration reflecting which methods are supported and their Temporal task queues */
+    payment_methods?: SourceSchemasProviderProviderPaymentMethods;
+    /** Auth structure schema for provider terminals */
+    terminal_auth_schema?: SourceSchemasProviderProviderTerminalAuthSchema;
+    /** Details structure schema for provider terminals */
+    terminal_details_schema?: SourceSchemasProviderProviderTerminalDetailsSchema;
+    /** List of payment types associated with this provider */
+    payment_types?: PaymentTypeBase[];
 }
 
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {

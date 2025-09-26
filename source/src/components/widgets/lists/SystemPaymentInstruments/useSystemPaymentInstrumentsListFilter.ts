@@ -1,36 +1,67 @@
 import { CallbackStatusEnum } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
 import { useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
-import { ChangeEvent, useState } from "react";
-import { useDataProvider, useListContext, useRefresh, useTranslate } from "react-admin";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
 import { useCurrenciesListWithoutPagination } from "@/hooks";
+import { PaymentTypesProvider } from "@/data/payment_types";
 
 const useSystemPaymentInstrumentsListFilter = () => {
     const { currenciesData, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
-    const dataProvider = useDataProvider();
+    const paymentTypesProvider = new PaymentTypesProvider();
     const systemPIDataProvider = new SystemPaymentInstrumentsProvider();
 
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
-    const [code, setCode] = useState(filterValues?.code || "");
-    const [currencyCode, setCurrencyCode] = useState(filterValues?.currency_code || "");
-    const [paymentTypeCode, setPaymentTypeCode] = useState<CallbackStatusEnum | "">(
-        filterValues?.payment_type_code || ""
-    );
-
-    const [reportLoading, setReportLoading] = useState(false);
     const appToast = useAppToast();
     const refresh = useRefresh();
 
+    const [code, setCode] = useState(filterValues?.code || "");
+    const [currencyCode, setCurrencyCode] = useState("");
+    const [paymentTypeCode, setPaymentTypeCode] = useState("");
+    const [reportLoading, setReportLoading] = useState(false);
+
     const { data: paymentTypes, isLoading: isLoadingPaymentTypes } = useQuery({
         queryKey: ["paymentTypesForSystemPI", "getListWithoutPagination"],
-        queryFn: ({ signal }) => dataProvider.getListWithoutPagination("payment_type", signal),
+        queryFn: ({ signal }) => paymentTypesProvider.getListWithoutPagination("payment_type", signal),
         select: data => data.data
     });
+
+    useEffect(() => {
+        if (currenciesData && filterValues?.currency_code) {
+            const foundCurrencyCode = currenciesData.find(
+                currency => currency.code === filterValues?.currency_code
+            )?.code;
+
+            if (foundCurrencyCode) {
+                setCurrencyCode(foundCurrencyCode);
+            } else {
+                Reflect.deleteProperty(filterValues, "currency_code");
+                setFilters(filterValues, displayedFilters, true);
+                setCurrencyCode("");
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currenciesData]);
+
+    useEffect(() => {
+        if (paymentTypes && filterValues?.payment_type_code) {
+            const foundPaymentTypeCode = paymentTypes.find(type => type.code === filterValues?.payment_type_code)?.code;
+
+            if (foundPaymentTypeCode) {
+                setPaymentTypeCode(foundPaymentTypeCode);
+            } else {
+                Reflect.deleteProperty(filterValues, "payment_type_code");
+                setFilters(filterValues, displayedFilters, true);
+                setPaymentTypeCode("");
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [paymentTypes]);
 
     const onPropertySelected = debounce((value: string, type: "code" | "currency_code" | "payment_type_code") => {
         if (value) {

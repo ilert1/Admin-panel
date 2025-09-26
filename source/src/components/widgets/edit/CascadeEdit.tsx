@@ -16,7 +16,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormItem, FormMessage, FormControl, FormField } from "@/components/ui/form";
-import { usePreventFocus } from "@/hooks";
+import { useCountryCodes, usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +26,8 @@ import { CASCADE_KIND, CASCADE_STATE, CASCADE_TYPE } from "@/data/cascades";
 import { CascadeUpdateParams } from "@/data/cascades";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
-import { countryCodes, CountrySelect } from "../components/Selects/CountrySelect";
+import { CountrySelect } from "../components/Selects/CountrySelect";
+import { useErrorHandler } from "@/hooks/useErrorHandler";
 
 export interface CascadeEditProps {
     id: string;
@@ -37,12 +38,18 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
     const cascadesDataProvider = new CascadesDataProvider();
 
     const { allPaymentTypes, isLoadingAllPaymentTypes } = useGetPaymentTypes({});
+    const { parseError } = useErrorHandler();
+    const appToast = useAppToast();
+    const translate = useTranslate();
+    const refresh = useRefresh();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [hasErrors, setHasErrors] = useState(false);
     const [hasValid, setHasValid] = useState(true);
     const [isFinished, setIsFinished] = useState(false);
     const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const {
         data: cascadeData,
@@ -54,19 +61,15 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         enabled: true,
         select: data => data.data
     });
-    const appToast = useAppToast();
-
-    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-
-    const translate = useTranslate();
-    const refresh = useRefresh();
 
     const formSchema = z.object({
         name: z.string().min(1, translate("resources.cascadeSettings.cascades.errors.name")).trim(),
         dst_country_code: z
             .string()
             .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
-            .trim(),
+            .trim()
+            .optional()
+            .or(z.literal("")),
         type: z.enum([CASCADE_TYPE[0], ...CASCADE_TYPE.slice(0)]).default(CASCADE_TYPE[0]),
         priority_policy: z.object({
             rank: z.coerce
@@ -116,7 +119,7 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
             };
 
             setCurrentCountryCodeName(
-                countryCodes.find(code => code.alpha2 === cascadeData.dst_country_code)?.name || ""
+                countryCodesWithFlag.find(code => code.alpha2 === cascadeData.dst_country_code)?.name || ""
             );
 
             form.reset(updatedValues);
@@ -132,7 +135,11 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
         try {
             await cascadesDataProvider.update("cascades", {
                 id,
-                data: { ...data, details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {} },
+                data: {
+                    ...data,
+                    dst_country_code: data.dst_country_code || null,
+                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {}
+                },
                 previousData: cascadeData as CascadeUpdateParams
             });
 
@@ -141,16 +148,14 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
             refresh();
             onOpenChange(false);
         } catch (error) {
-            if (error instanceof Error) {
-                appToast(
-                    "error",
-                    error.message.includes("already exist")
-                        ? translate("resources.cascadeSettings.cascades.errors.alreadyExist")
-                        : error.message
-                );
-            } else {
-                appToast("error", translate("app.ui.edit.editError"));
-            }
+            appToast(
+                "error",
+                parseError({
+                    error,
+                    defaultErrorText: translate("app.ui.edit.editError"),
+                    alreadyExistText: translate("resources.cascadeSettings.cascades.errors.alreadyExist")
+                })
+            );
         } finally {
             setSubmitButtonDisabled(false);
         }
@@ -252,28 +257,37 @@ export const CascadeEdit = ({ id, onOpenChange }: CascadeEditProps) => {
                         )}
                     />
 
-                    {!cascadeData.dst_country_code && (
-                        <FormField
-                            control={form.control}
-                            name="dst_country_code"
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <FormItem>
-                                        <Label>{translate("resources.direction.destinationCountry")}</Label>
+                    <FormField
+                        control={form.control}
+                        name="dst_country_code"
+                        render={({ field, fieldState }) => {
+                            return (
+                                <FormItem>
+                                    {!cascadeData.dst_country_code ? (
+                                        <>
+                                            <Label>{translate("resources.direction.destinationCountry")}</Label>
 
-                                        <CountrySelect
+                                            <CountrySelect
+                                                value={currentCountryCodeName}
+                                                onChange={setCurrentCountryCodeName}
+                                                setIdValue={field.onChange}
+                                                isError={fieldState.invalid}
+                                                errorMessage={fieldState.error?.message}
+                                                modal
+                                            />
+                                        </>
+                                    ) : (
+                                        <Input
                                             value={currentCountryCodeName}
-                                            onChange={setCurrentCountryCodeName}
-                                            setIdValue={field.onChange}
-                                            isError={fieldState.invalid}
-                                            errorMessage={fieldState.error?.message}
-                                            modal
+                                            label={translate("resources.direction.destinationCountry")}
+                                            disabled
+                                            variant={InputTypes.GRAY}
                                         />
-                                    </FormItem>
-                                );
-                            }}
-                        />
-                    )}
+                                    )}
+                                </FormItem>
+                            );
+                        }}
+                    />
 
                     <FormField
                         control={form.control}
