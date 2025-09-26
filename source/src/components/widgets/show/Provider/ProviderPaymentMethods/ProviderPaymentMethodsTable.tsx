@@ -62,8 +62,7 @@ export const ProviderPaymentMethodsTable = ({
                                     {typeof methodValue[methodKey] === "boolean" ? (
                                         <Checkbox
                                             checked={methodValue[methodKey]}
-                                            disabled
-                                            className="cursor-default"
+                                            className="pointer-events-none cursor-default"
                                         />
                                     ) : (
                                         <TextField
