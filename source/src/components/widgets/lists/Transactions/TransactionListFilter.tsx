@@ -18,6 +18,7 @@ import { useLoading, useRefresh } from "react-admin";
 import clsx from "clsx";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 import useTransactionFilter from "./useTransactionFilter";
+import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 
 export const TransactionListFilter = () => {
     const {
@@ -47,7 +48,9 @@ export const TransactionListFilter = () => {
         handleDownloadReport,
         clearFilters,
         providerNameFilter,
-        onProviderNameChanged
+        onProviderNameChanged,
+        providersData,
+        providersLoadingProcess
     } = useTransactionFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -109,13 +112,19 @@ export const TransactionListFilter = () => {
                             />
                         </div>
                         <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
-                            <Input
-                                className="flex-1"
+                            <Label variant="title-2">
+                                {translate("resources.transactions.filter.filterByProvider")}
+                            </Label>
+                            <ProviderSelect
+                                providers={providersData ?? []}
                                 placeholder={translate("resources.transactions.filter.filterByProviderNamePlaceholder")}
                                 value={providerNameFilter}
                                 onChange={onProviderNameChanged}
-                                label={translate("resources.transactions.filter.filterByProvider")}
-                                labelSize="title-2"
+                                isLoading={providersLoadingProcess}
+                                modal={false}
+                                style="Black"
+                                customSearch={true}
+                                customSearchHandler={onProviderNameChanged}
                             />
                         </div>
 

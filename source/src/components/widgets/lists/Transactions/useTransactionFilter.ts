@@ -6,13 +6,14 @@ import { API_URL } from "@/data/base";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AccountsDataProvider } from "@/data";
-import { useFetchDictionaries, useMerchantsListWithoutPagination } from "@/hooks";
+import { useFetchDictionaries, useMerchantsListWithoutPagination, useProvidersListWithoutPagination } from "@/hooks";
 import { getFilenameFromContentDisposition } from "@/helpers/getFilenameFromContentDisposition";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const dictionaries = useFetchDictionaries();
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
     const appToast = useAppToast();
     const translate = useTranslate();
     const { permissions } = usePermissions();
@@ -115,9 +116,9 @@ const useTransactionFilter = () => {
         onPropertySelected(order, "order_ingress_state");
     };
 
-    const onProviderNameChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        setProviderNameFilter(e.target.value);
-        onPropertySelected(e.target.value, "provider_name");
+    const onProviderNameChanged = (provider: string) => {
+        setProviderNameFilter(provider);
+        onPropertySelected(provider, "provider_name");
     };
 
     const changeDate = (date: DateRange | undefined) => {
@@ -226,7 +227,9 @@ const useTransactionFilter = () => {
         handleDownloadReport,
         clearFilters,
         providerNameFilter,
-        onProviderNameChanged
+        onProviderNameChanged,
+        providersData,
+        providersLoadingProcess
     };
 };
 
