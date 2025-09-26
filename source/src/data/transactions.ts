@@ -113,6 +113,26 @@ export class ITransactionDataProvider extends IBaseDataProvider {
             }
         };
     }
+
+    async getTransactionCallbackHistory(txId: string) {
+        const { json } = await fetchUtils.fetchJson(`${MONEYGATE_URL}/callback_history/${txId}`, {
+            headers: new Headers({
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`
+            }),
+            method: "GET"
+        });
+
+        if (!json.success) {
+            throw new Error(json.error);
+        }
+
+        return {
+            data: {
+                ...json.data
+            }
+        };
+    }
 }
 
 export const TransactionDataProvider = addRefreshAuthToDataProvider(new ITransactionDataProvider(), updateTokenHelper);

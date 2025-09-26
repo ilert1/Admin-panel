@@ -1,7 +1,7 @@
 import { useTranslate, useGetManyReference, usePermissions, ListContextProvider } from "react-admin";
 import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TableTypes } from "../../shared/SimpleTable";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -33,6 +33,8 @@ import { TransactionRequisitesDialog } from "./TransactionRequisitesDialog";
 import { SyncDialog } from "./SyncDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useGetCallbridgeHistory } from "../../lists/CallbridgeHistory/Columns";
+import { TransactionDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 interface TransactionShowProps {
     id: string;
@@ -48,6 +50,14 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const [customerDataOpen, setCustomerDataOpen] = useState(false);
     const [syncDialogOpen, setSyncDialogOpen] = useState(false);
     const [view, setView] = useState(false);
+    const transactionDataProvider = TransactionDataProvider;
+
+    const { data: callbackHistory } = useQuery({
+        queryKey: ["transactionCallbackHistory", id],
+        queryFn: async () => await transactionDataProvider.getTransactionCallbackHistory(id)
+    });
+
+    console.log(callbackHistory);
 
     const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
     const { columns } = useGetCallbridgeHistory();
