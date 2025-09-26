@@ -125,34 +125,21 @@ export const useGetProvidersColumns = ({ listContext }: { listContext: ListContr
             id: "public_key",
             accessorKey: "public_key",
             header: translate("resources.provider.fields.pk"),
-            cell: ({ row }) => {
-                if (!row.getValue("public_key")) {
-                    return (
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center">
+                    {!row.getValue("public_key") ? (
                         <Button onClick={() => handleClickGenerate(row.original.id, row.getValue("name"))}>
                             {translate("resources.provider.fields.genKey")}
                         </Button>
-                    );
-                } else {
-                    return (
-                        <div className="flex items-center gap-2">
-                            <TextField
-                                text={String(row.getValue("public_key"))}
-                                copyValue
-                                lineClamp
-                                linesCount={1}
-                                wrap
-                                maxWidth="250px"
-                            />
-
-                            <Button
-                                onClick={() => handleClickGenerate(row.original.id, row.original.name)}
-                                variant={"text_btn"}>
-                                <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
-                            </Button>
-                        </div>
-                    );
-                }
-            }
+                    ) : (
+                        <Button
+                            onClick={() => handleClickGenerate(row.original.id, row.original.name)}
+                            variant={"text_btn"}>
+                            <ReloadRoundSvg className="stroke-green-50 hover:stroke-green-40" />
+                        </Button>
+                    )}
+                </div>
+            )
         },
         {
             id: "actions",
