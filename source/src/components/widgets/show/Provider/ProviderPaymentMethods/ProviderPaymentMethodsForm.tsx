@@ -35,9 +35,9 @@ export const ProviderPaymentMethodsForm = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            enabled: methodValue?.enabled || false,
-            cancel: methodValue?.cancel || false,
-            confirm: methodValue?.confirm || false,
+            enabled: methodValue?.enabled !== undefined ? methodValue?.enabled : false,
+            cancel: methodValue?.cancel !== undefined ? methodValue?.cancel : false,
+            confirm: methodValue?.confirm !== undefined ? methodValue?.confirm : false,
             task_queue: methodValue?.task_queue || ""
         }
     });
