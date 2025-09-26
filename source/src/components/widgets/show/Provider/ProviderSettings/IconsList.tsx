@@ -56,6 +56,8 @@ export const IconsList = (props: IconsListProps) => {
         }
     ];
 
+    const isThereAnyValue = listData.some(item => item.disabled === false);
+
     return (
         <>
             <TooltipProvider>
@@ -64,22 +66,27 @@ export const IconsList = (props: IconsListProps) => {
                         {translate("resources.provider.settings.links")}
                     </Label>
                     <div className="flex h-10 flex-wrap gap-2">
-                        {listData.map((item, index) => (
-                            <Tooltip delayDuration={100} key={index}>
-                                <TooltipTrigger role="tooltip" asChild className="h-auto">
-                                    <Button
-                                        onClick={() => window.open(item.linkTo, "_blank")}
-                                        className="px-3"
-                                        variant={"outline_gray"}
-                                        disabled={item.disabled}>
-                                        {item.icon}
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                                    <p>{item.contentText}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        ))}
+                        {isThereAnyValue
+                            ? listData.map(
+                                  (item, index) =>
+                                      !item.disabled && (
+                                          <Tooltip delayDuration={100} key={index}>
+                                              <TooltipTrigger role="tooltip" asChild className="h-auto">
+                                                  <Button
+                                                      onClick={() => window.open(item.linkTo, "_blank")}
+                                                      className="px-3"
+                                                      variant={"outline_gray"}
+                                                      disabled={item.disabled}>
+                                                      {item.icon}
+                                                  </Button>
+                                              </TooltipTrigger>
+                                              <TooltipContent tabIndex={-1} sideOffset={5} align="center">
+                                                  <p>{item.contentText}</p>
+                                              </TooltipContent>
+                                          </Tooltip>
+                                      )
+                              )
+                            : "-"}
                     </div>
                 </div>
             </TooltipProvider>

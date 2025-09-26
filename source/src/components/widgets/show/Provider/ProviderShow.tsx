@@ -168,7 +168,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 {providerEnvironment && (
                     <Badge
                         variant={"prioritized"}
-                        className={cn("self-start", providerEnvironment === "PROD" && "bg-green-50 hover:bg-green-50")}>
+                        className={cn("self-start", providerEnvironment === "TEST" && "bg-green-50 hover:bg-green-50")}>
                         {translate("resources.provider.settings.provider_environments." + providerEnvironment)}
                     </Badge>
                 )}
