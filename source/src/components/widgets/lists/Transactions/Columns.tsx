@@ -115,13 +115,12 @@ export const useGetTransactionColumns = () => {
                       id: "provider",
                       header: translate("resources.transactions.fields.provider"),
                       cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
-                          //   const merchantName = row.original.provider_name ?? "";
-                          const merchantName = "";
+                          const providerName = row.original.provider_name ?? "";
 
                           return (
-                              <div>
+                              <div className="min-w-32">
                                   <TextField
-                                      text={merchantName}
+                                      text={providerName}
                                       wrap
                                       copyValue
                                       lineClamp

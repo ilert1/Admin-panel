@@ -136,6 +136,7 @@
         "showAll": "Показать все",
         "filterById": "Поиск по ID операции",
         "filterByIdPlaceholder": "ID",
+        "filterByProviderNamePlaceholder": "Имя провайдера",
         "filterByAccount": "Мерчант",
         "filterByProvider": "Провайдер",
         "filterAllPlaceholder": "Все",

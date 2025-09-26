@@ -136,6 +136,7 @@
         "showAll": "Show all",
         "filterById": "Search by operation ID",
         "filterByIdPlaceholder": "ID",
+        "filterByProviderNamePlaceholder": "Provider name",
         "filterByAccount": "Merchant",
         "filterByProvider": "Provider",
         "filterAllPlaceholder": "All",

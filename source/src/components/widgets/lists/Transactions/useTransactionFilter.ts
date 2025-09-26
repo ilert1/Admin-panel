@@ -31,6 +31,7 @@ const useTransactionFilter = () => {
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
     const [orderIngressStatusFilter, setOrderIngressStatusFilter] = useState(filterValues?.order_ingress_state || "");
+    const [providerNameFilter, setProviderNameFilter] = useState(filterValues?.provider_name || "");
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
@@ -68,6 +69,7 @@ const useTransactionFilter = () => {
                 | "order_state"
                 | "order_ingress_state"
                 | "date"
+                | "provider_name"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
@@ -113,6 +115,11 @@ const useTransactionFilter = () => {
         onPropertySelected(order, "order_ingress_state");
     };
 
+    const onProviderNameChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setProviderNameFilter(e.target.value);
+        onPropertySelected(e.target.value, "provider_name");
+    };
+
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
             if (date.from && date.to) {
@@ -141,6 +148,7 @@ const useTransactionFilter = () => {
         setCustomerPaymentId("");
         setOrderStatusFilter("");
         setOrderIngressStatusFilter("");
+        setProviderNameFilter("");
         setTypeTabActive(0);
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -216,7 +224,9 @@ const useTransactionFilter = () => {
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
-        clearFilters
+        clearFilters,
+        providerNameFilter,
+        onProviderNameChanged
     };
 };
 

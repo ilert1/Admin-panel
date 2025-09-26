@@ -45,7 +45,9 @@ export const TransactionListFilter = () => {
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
-        clearFilters
+        clearFilters,
+        providerNameFilter,
+        onProviderNameChanged
     } = useTransactionFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -103,6 +105,16 @@ export const TransactionListFilter = () => {
                                 value={customerPaymentId}
                                 onChange={onCustomerPaymentIdChanged}
                                 label={translate("resources.transactions.filter.filterCustomerPaymentId")}
+                                labelSize="title-2"
+                            />
+                        </div>
+                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                            <Input
+                                className="flex-1"
+                                placeholder={translate("resources.transactions.filter.filterByProviderNamePlaceholder")}
+                                value={providerNameFilter}
+                                onChange={onProviderNameChanged}
+                                label={translate("resources.transactions.filter.filterByProvider")}
                                 labelSize="title-2"
                             />
                         </div>
@@ -195,7 +207,7 @@ export const TransactionListFilter = () => {
                         />
 
                         {adminOnly && (
-                            <div className="flex-grow-100 flex flex-1 flex-col gap-1 md:basis-[350px] md:gap-1">
+                            <div className="flex-grow-100 flex max-w-80 flex-1 flex-col gap-1 md:basis-[350px] md:gap-1">
                                 <Label className="mb-0 md:text-nowrap" variant="title-2">
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
