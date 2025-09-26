@@ -217,6 +217,26 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     </div>
                 </div>
 
+                {context.record.payment_methods && (
+                    <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
+                        <ProviderPaymentMethodsShow
+                            providerId={id}
+                            paymentMethods={context.record.payment_methods}
+                            isFetching={context.isFetching}
+                        />
+                    </div>
+                )}
+
+                {context.record.terminal_auth_schema?.fields && (
+                    <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
+                        <ProviderTerminalAuthSchemaShow
+                            providerId={id}
+                            authSchemaFields={context.record.terminal_auth_schema.fields}
+                            isFetching={context.isFetching}
+                        />
+                    </div>
+                )}
+
                 <div className="mt-5 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-col justify-between sm:flex-row">
@@ -431,16 +451,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     </div>
                 </div>
 
-                {context.record.payment_methods && (
-                    <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
-                        <ProviderPaymentMethodsShow
-                            providerId={id}
-                            paymentMethods={context.record.payment_methods}
-                            isFetching={context.isFetching}
-                        />
-                    </div>
-                )}
-
                 <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
                     <ProviderMethodsShow
                         providerId={id}
@@ -448,16 +458,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         isFetching={context.isFetching}
                     />
                 </div>
-
-                {context.record.terminal_auth_schema?.fields && (
-                    <div className="mt-5 gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
-                        <ProviderTerminalAuthSchemaShow
-                            providerId={id}
-                            authSchemaFields={context.record.terminal_auth_schema.fields}
-                            isFetching={context.isFetching}
-                        />
-                    </div>
-                )}
             </div>
 
             <DeleteProviderDialog
