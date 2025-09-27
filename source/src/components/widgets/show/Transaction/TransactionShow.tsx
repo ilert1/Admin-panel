@@ -270,7 +270,10 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 <Button className="min-w-36" onClick={() => setSyncDialogOpen(true)}>
                                     {translate("resources.transactions.show.sync")}
                                 </Button>
-                                <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
+                                <Button
+                                    disabled={sendWebhookLoading || !context.record.state.final}
+                                    className="min-w-36"
+                                    onClick={sendWebhookHandler}>
                                     {sendWebhookLoading ? (
                                         <div className="w-[20px]">
                                             <LoadingBlock />
