@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/Button";
 import TelegramIcon from "@/lib/icons/providerLinks/telegram.svg?react";
 import GrafanaIcon from "@/lib/icons/providerLinks/grafana.svg?react";
+import TemporalIcon from "@/lib/icons/providerLinks/temporal.svg?react";
 import { ProviderBaseInfo } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { AlarmClock, FileText, NetworkIcon } from "lucide-react";
+import { FileText, NetworkIcon } from "lucide-react";
 import { useTranslate } from "react-admin";
 import { Label } from "@/components/ui/label";
 
@@ -37,7 +38,7 @@ export const IconsList = (props: IconsListProps) => {
             linkTo: info?.grafana_link as string
         },
         {
-            icon: <AlarmClock className="h-4 w-4" />,
+            icon: <TemporalIcon className="h-4 w-4 fill-inherit" />,
             contentText: translate("resources.provider.settings.temporal_link"),
             disabled: !info?.temporal_link,
             linkTo: info?.temporal_link as string
@@ -74,7 +75,7 @@ export const IconsList = (props: IconsListProps) => {
                                               <TooltipTrigger role="tooltip" asChild className="h-auto">
                                                   <Button
                                                       onClick={() => window.open(item.linkTo, "_blank")}
-                                                      className="px-3"
+                                                      className="fill-white px-3 hover:fill-black"
                                                       variant={"outline_gray"}
                                                       disabled={item.disabled}>
                                                       {item.icon}
