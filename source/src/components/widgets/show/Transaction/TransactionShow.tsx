@@ -1,7 +1,7 @@
 import { useTranslate, useGetManyReference, usePermissions, ListContextProvider } from "react-admin";
 import { DataTable, SimpleTable } from "@/components/widgets/shared";
 import { TextField } from "@/components/ui/text-field";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { LoadingBlock } from "@/components/ui/loading";
 import { TableTypes } from "../../shared/SimpleTable";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
