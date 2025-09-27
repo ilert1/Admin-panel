@@ -111,8 +111,8 @@ export const TransactionListFilter = () => {
                                 labelSize="title-2"
                             />
                         </div>
-                        <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
-                            <Label variant="title-2">
+                        <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
+                            <Label variant="title-2" className="">
                                 {translate("resources.transactions.filter.filterByProvider")}
                             </Label>
                             <ProviderSelect
