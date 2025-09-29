@@ -94,7 +94,7 @@ export const useGetDirectionsColumns = ({ isFetching = false }: { isFetching?: b
             cell: ({ row }) => {
                 const dst_country = countryCodesWithFlag.find(item => item.alpha2 === row.original.dst_country_code);
 
-                return <CountryTextField text={dst_country?.name || ""} />;
+                return <CountryTextField text={dst_country?.name || ""} wrapText />;
             }
         },
         {

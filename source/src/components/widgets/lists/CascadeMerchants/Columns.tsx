@@ -124,7 +124,7 @@ export const useGetCascadeMerchantColumns = () => {
                     item => item.alpha2 === row.original.cascade.dst_country_code
                 );
 
-                return <CountryTextField text={dst_country?.name || ""} />;
+                return <CountryTextField text={dst_country?.name || ""} wrapText />;
             }
         },
         {
