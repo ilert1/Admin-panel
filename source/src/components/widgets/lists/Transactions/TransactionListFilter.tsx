@@ -64,6 +64,7 @@ export const TransactionListFilter = () => {
         !customerPaymentId &&
         !startDate &&
         !typeTabActive &&
+        !providerNameFilter &&
         (adminOnly ? !orderStatusFilter && !orderIngressStatusFilter : !orderIngressStatusFilter);
 
     return (
@@ -81,6 +82,7 @@ export const TransactionListFilter = () => {
                             customerPaymentId,
                             startDate,
                             typeTabActive,
+                            providerNameFilter,
                             orderIngressStatusFilter,
                             ...(adminOnly ? [orderStatusFilter] : [])
                         ]}
