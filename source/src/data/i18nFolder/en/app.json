@@ -290,7 +290,7 @@
             "notFoundData": "There is no data for the report"
         },
         "popoverSelect": {
-            "searchInDeletedProviders": "Search provider"
+            "searchInDeletedProviders": "Search by string in history"
         }
     },
     "app.login": {
