@@ -1,3 +1,4 @@
+import { BaseFieldConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button, TrashButton } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
 import clsx from "clsx";
@@ -14,9 +15,10 @@ interface IAuthDataEditTable {
     loading: boolean;
     authData: ParseAuthData;
     onChangeAuthData: (val: ParseAuthData) => void;
+    authSchema?: BaseFieldConfig[];
 }
 
-export const AuthDataEditTable = ({ authData, onChangeAuthData, loading }: IAuthDataEditTable) => {
+export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSchema }: IAuthDataEditTable) => {
     const translate = useTranslate();
 
     const [newKey, setNewKey] = useState("");
@@ -85,39 +87,49 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading }: IAuth
                 <p className="bg-green-50 px-4 py-[11px] text-base text-neutral-0">Value</p>
             </div>
 
-            {authData.map((item, index) => (
-                <div
-                    key={item.id}
-                    className={clsx(
-                        "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
-                        index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
-                    )}>
-                    <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <Input
-                            value={item.key}
-                            onChange={e => onKeyChange(e, item.key)}
-                            error={item.key.length === 0}
-                            errorMessage={translate("resources.terminals.errors.value_error")}
-                            type="text"
-                        />
-                    </div>
+            {authData.map((item, index) => {
+                const currentAuthSchema = authSchema?.find(schema => schema.key === item.key);
 
-                    <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <Input
-                            copyValue
-                            value={item.value}
-                            onChange={e => onValueChange(e, item.key)}
-                            error={item.value.length === 0}
-                            errorMessage={translate("resources.terminals.errors.value_error")}
-                            type="password_masked"
-                        />
-                    </div>
+                return (
+                    <div
+                        key={item.id}
+                        className={clsx(
+                            "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
+                            index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
+                        )}>
+                        <div className="relative flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <Input
+                                value={item.key}
+                                onChange={e => onKeyChange(e, item.key)}
+                                error={item.key.length === 0}
+                                errorMessage={translate("resources.terminals.errors.value_error")}
+                                type="text"
+                            />
 
-                    <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <TrashButton disabled={loading} onClick={() => handleDelete(item.key)} />
+                            {currentAuthSchema?.required && (
+                                <span className="pointer-events-none absolute right-5 top-2.5 text-lg text-red-40">
+                                    *
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <Input
+                                copyValue
+                                value={item.value}
+                                onChange={e => onValueChange(e, item.key)}
+                                error={item.value.length === 0}
+                                errorMessage={translate("resources.terminals.errors.value_error")}
+                                type="password_masked"
+                            />
+                        </div>
+
+                        <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <TrashButton disabled={loading} onClick={() => handleDelete(item.key)} />
+                        </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
 
             <div
                 className={clsx(

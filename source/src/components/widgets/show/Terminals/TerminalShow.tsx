@@ -171,6 +171,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 open={editAuthDataDialogOpen}
                 onOpenChange={setEditAuthDataDialogOpen}
                 originalAuthData={context.record?.auth}
+                authSchema={context.record.provider.terminal_auth_schema?.fields}
             />
 
             <DetailsDataEditSheet

@@ -5,7 +5,7 @@ import { JsonToggle } from "../JsonToggle";
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
-import { TerminalBaseAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { BaseFieldConfig, TerminalBaseAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AuthDataEditTable } from "./AuthDataEditTable";
 import {
@@ -18,9 +18,16 @@ interface IAuthDataEditSheet {
     terminalId: string;
     originalAuthData: TerminalBaseAuth | undefined;
     onOpenChange: (state: boolean) => void;
+    authSchema?: BaseFieldConfig[];
 }
 
-export const AuthDataEditSheet = ({ originalAuthData, terminalId, open, onOpenChange }: IAuthDataEditSheet) => {
+export const AuthDataEditSheet = ({
+    originalAuthData,
+    terminalId,
+    open,
+    onOpenChange,
+    authSchema
+}: IAuthDataEditSheet) => {
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -40,6 +47,12 @@ export const AuthDataEditSheet = ({ originalAuthData, terminalId, open, onOpenCh
         () => Object.fromEntries(authData.map(item => [item.key, item.value])),
         [authData]
     );
+
+    const filteringAuthSchema = useMemo(
+        () => authSchema?.filter(item => Object.keys(originalAuthData || {}).includes(item.key)),
+        [originalAuthData, authSchema]
+    );
+    ``;
 
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
@@ -198,7 +211,12 @@ export const AuthDataEditSheet = ({ originalAuthData, terminalId, open, onOpenCh
                             setCode={setStringAuthData}
                         />
                     ) : (
-                        <AuthDataEditTable loading={disabledBtn} authData={authData} onChangeAuthData={setAuthData} />
+                        <AuthDataEditTable
+                            loading={disabledBtn}
+                            authData={authData}
+                            onChangeAuthData={setAuthData}
+                            authSchema={filteringAuthSchema}
+                        />
                     )}
 
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
