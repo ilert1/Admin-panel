@@ -1,0 +1,1 @@
+export { DetailsDataViewer } from "./DetailsDataViewer";
