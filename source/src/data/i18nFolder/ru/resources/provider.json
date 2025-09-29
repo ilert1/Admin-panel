@@ -1,5 +1,27 @@
 {
     "resources.provider.name": "Провайдеры",
+    "resources.provider.settings": {
+        "links": "Ссылки на ресурсы",
+        "settingsEdit": "Настройки",
+        "settingsEditing": "Изменения настроек",
+        "grafana_link": "Grafana",
+        "mapping_bank_keys": "Ключи для банковского маппинга",
+        "mapping_bank_keys_deposit": "Ключи маппинга банков (пополнение)",
+        "mapping_bank_keys_withdraw": "Ключи маппинга банков (вывод)",
+        "provider_docs": "Документация провайдера",
+        "provider_environment": "Среда провайдера",
+        "provider_environments": {
+            "TEST": "Тестовая среда",
+            "PROD": "Продакшн среда",
+            "NULL": "Не выбран"
+        },
+        "telegram_chat": "Telegram чат",
+        "temporal_link": "Temporal ссылка с фильтром на очередь",
+        "wiki_link": "Документация",
+        "errors": {
+            "WrongFormatOfUrl": "Некорректный формат URL. Пример: http(s)://www.example.com"
+        }
+    },
     "resources.provider.fields": {
         "_name": "Название",
         "name": "Провайдер",

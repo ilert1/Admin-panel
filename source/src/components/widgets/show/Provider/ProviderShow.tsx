@@ -27,6 +27,11 @@ import { EditProviderDeliveryPolicyDialog } from "./EditProviderDeliveryPolicyDi
 import { EditProviderSecPolicy } from "./EditProviderSecPolicy";
 import { EditProviderCallbackDialog } from "./EditProviderCallbackDialog";
 import { ProviderPaymentMethodsShow } from "./ProviderPaymentMethods/ProviderPaymentMethodsShow";
+import { EditProviderSettingsDialog } from "./ProviderSettings/EditProviderSettingsDialog";
+
+import { IconsList } from "./ProviderSettings/IconsList";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export interface ProviderShowProps {
     id: string;
@@ -45,6 +50,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [editSecPolicyClicked, setEditSecPolicyClicked] = useState(false);
+    const [editLinksDialogOpen, setEditLinksDialogOpen] = useState(false);
 
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [editAllowedIPsClicked, setEditAllowedIPsClicked] = useState(false);
@@ -138,6 +144,10 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
         setEditDialogOpen(prev => !prev);
     }, []);
 
+    const handleEditLinksClicked = useCallback(() => {
+        setEditLinksDialogOpen(prev => !prev);
+    }, []);
+
     if (context.isLoading || !context.record || !data) {
         return <Loading />;
     }
@@ -147,16 +157,26 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const delivery_policy = callback?.delivery_policy;
     const retryPolicy = delivery_policy?.retry_policy;
     const currentStateReversed = !sec_policy?.blocked;
+    const providerEnvironment = context.record.info?.provider_environment;
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div>
-                <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
-                <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+            <div className="flex flex-col gap-1">
+                <div>
+                    <span className="text-title-1 text-neutral-90 dark:text-neutral-0">{context.record.name}</span>
+                    <TextField text={context.record.id} copyValue className="text-neutral-70 dark:text-neutral-30" />
+                </div>
+                {providerEnvironment && (
+                    <Badge
+                        variant={"prioritized"}
+                        className={cn("self-start", providerEnvironment === "TEST" && "bg-green-50 hover:bg-green-50")}>
+                        {translate("resources.provider.settings.provider_environments." + providerEnvironment)}
+                    </Badge>
+                )}
             </div>
 
             <div className="flex flex-col gap-2 pt-2">
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
+                <div className="mb-2 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-[24px]">
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.paymentSettings.financialInstitution.fields.payment_types")}
@@ -165,7 +185,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         <div className="max-w-auto flex flex-wrap gap-2">
                             {context.record.payment_types && context.record.payment_types?.length > 0 ? (
                                 context.record.payment_types.map(pt => {
-                                    return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" />;
+                                    return <PaymentTypeIcon key={pt.code} type={pt.code} />;
                                 })
                             ) : (
                                 <span className="title-1">-</span>
@@ -173,17 +193,25 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         </div>
                     </div>
 
+                    <IconsList info={context.record.info} />
+
                     <TextField
-                        label={translate("resources.provider.fields.pk")}
-                        text={context.record.public_key || ""}
+                        label={translate("resources.provider.settings.mapping_bank_keys_deposit")}
+                        text={context.record.info?.mapping_bank_keys?.deposit ?? ""}
                         copyValue
-                        lineClamp
-                        linesCount={1}
+                    />
+                    <TextField
+                        label={translate("resources.provider.settings.mapping_bank_keys_withdraw")}
+                        text={context.record.info?.mapping_bank_keys?.deposit ?? ""}
+                        copyValue
                     />
                 </div>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">
                     <Button onClick={handleEditClicked}>{translate("app.ui.actions.edit")}</Button>
+                    <Button onClick={handleEditLinksClicked}>
+                        {translate("resources.provider.settings.settingsEdit")}
+                    </Button>
 
                     <Button onClick={handleDeleteClicked} variant={"outline_gray"}>
                         {translate("app.ui.actions.delete")}
@@ -406,8 +434,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                     onClick={() => {
                                         setEditBlockedIPsClicked(true);
                                     }}>
-                                    {/* {translate("resources.callbridge.mapping.fields.blackListEdit")} */}
-                                    Изменить
+                                    {translate("app.ui.actions.edit")}
                                 </Button>
                             </div>
 
@@ -422,8 +449,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                                     onClick={() => {
                                         setEditAllowedIPsClicked(true);
                                     }}>
-                                    {/* {translate("resources.callbridge.mapping.fields.whiteListEdit")} */}
-                                    Изменить
+                                    {translate("app.ui.actions.edit")}
                                 </Button>
                             </div>
                         </div>
@@ -495,6 +521,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
             />
 
             <EditProviderSecPolicy id={id} onOpenChange={setEditSecPolicyClicked} open={editSecPolicyClicked} />
+            <EditProviderSettingsDialog id={id} open={editLinksDialogOpen} onOpenChange={setEditLinksDialogOpen} />
         </div>
     );
 };

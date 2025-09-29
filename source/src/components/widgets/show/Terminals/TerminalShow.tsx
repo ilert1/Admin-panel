@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
 import { StateViewer } from "@/components/ui/StateViewer";
 import { useCountryCodes } from "@/hooks";
+import { IconsList } from "../Provider/ProviderSettings/IconsList";
 
 interface TerminalShowProps {
     id: string;
@@ -42,7 +43,6 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     }
     const src_cur = context.record.src_currency?.code;
     const dst_cur = context.record.dst_currency?.code;
-    const dst_country = countryCodesWithFlag.find(item => item.alpha2 === context.record?.dst_country_code);
 
     return (
         <>
@@ -71,20 +71,27 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         />
 
                         <TextField
-                            label={translate("resources.terminals.fields.provider")}
-                            className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                            text={context.record?.provider.name}
-                            onClick={() => {
-                                openSheet("provider", {
-                                    id: context.record?.provider.id as string
-                                });
-                            }}
-                        />
-
-                        <TextField
                             text={context.record?.allocation_timeout_seconds?.toString() ?? ""}
                             label={translate("resources.terminals.fields.allocation_timeout_seconds")}
                         />
+                        {/* label={translate("resources.terminals.fields.provider")} */}
+                        <div>
+                            <p className={"text-sm text-neutral-60"}>
+                                {translate("resources.terminals.fields.provider")}
+                            </p>
+                            <div className="flex flex-row items-center gap-3">
+                                <TextField
+                                    className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                                    text={context.record?.provider.name}
+                                    onClick={() => {
+                                        openSheet("provider", {
+                                            id: context.record?.provider.id as string
+                                        });
+                                    }}
+                                />
+                                <IconsList info={context.record.provider.info} iconsSmall label={false} />
+                            </div>
+                        </div>
 
                         <TextField
                             text={
