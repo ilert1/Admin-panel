@@ -74,18 +74,24 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                             text={context.record?.allocation_timeout_seconds?.toString() ?? ""}
                             label={translate("resources.terminals.fields.allocation_timeout_seconds")}
                         />
-
-                        <TextField
-                            label={translate("resources.terminals.fields.provider")}
-                            className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
-                            text={context.record?.provider.name}
-                            onClick={() => {
-                                openSheet("provider", {
-                                    id: context.record?.provider.id as string
-                                });
-                            }}
-                        />
-                        <IconsList info={context.record.provider.info} />
+                        {/* label={translate("resources.terminals.fields.provider")} */}
+                        <div>
+                            <p className={"text-sm text-neutral-60"}>
+                                {translate("resources.terminals.fields.provider")}
+                            </p>
+                            <div className="flex flex-row items-center gap-3">
+                                <TextField
+                                    className="!cursor-pointer !text-green-50 transition-all duration-300 hover:!text-green-40 dark:!text-green-40 dark:hover:!text-green-50"
+                                    text={context.record?.provider.name}
+                                    onClick={() => {
+                                        openSheet("provider", {
+                                            id: context.record?.provider.id as string
+                                        });
+                                    }}
+                                />
+                                <IconsList info={context.record.provider.info} iconsSmall label={false} />
+                            </div>
+                        </div>
 
                         <TextField
                             text={
