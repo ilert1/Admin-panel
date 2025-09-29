@@ -171,6 +171,8 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     let adminData = {};
     let adminCustomerData = {};
 
+    console.log(context.record.meta);
+
     if (adminOnly) {
         adminData =
             context.record.type === 1
@@ -217,16 +219,10 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                     )}
 
                     <div className="flex flex-wrap gap-3">
-                        {/* {showDispute && (
-                            <Button disabled={!context.record?.state.final} onClick={switchDispute}>
-                                {disputeCaption}
-                            </Button>
-                        )} */}
-
                         {showCommit && (
                             <>
                                 <Button
-                                    disabled={!context.record?.state.final}
+                                    disabled={!context.record?.state.final || !context.record.meta?.callback_url}
                                     variant={"default"}
                                     onClick={() => setDialogOpen(true)}>
                                     {commitCaption}
