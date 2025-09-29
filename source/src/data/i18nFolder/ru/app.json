@@ -289,7 +289,7 @@
             "notFoundData": "Нет данных для отчёта"
         },
         "popoverSelect": {
-            "searchInDeletedProviders": "Искать провайдера"
+            "searchInDeletedProviders": "Искать по строке в истории"
         }
     },
     "app.login": {

@@ -225,13 +225,11 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
     return (
         <Popover open={open} onOpenChange={setOpen} modal={modal}>
             <PopoverTrigger asChild className="mt-0">
-                {/* disabled={disabled} */}
                 <Button
                     variant={"outline_gray"}
                     role="combobox"
                     onClick={handleTogglePopover}
                     disabled={disabled}
-                    // aria-expanded={open}
                     className={cn(
                         style === "Black"
                             ? "bg-white hover:bg-white dark:bg-black hover:dark:bg-black"
@@ -293,26 +291,11 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                     <CommandList
                         ref={commandList}
                         onKeyDown={e => {
-                            // предотвращаем cmdk scrollIntoView()
                             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
                                 e.preventDefault();
                             }
                         }}>
-                        <CommandEmpty>
-                            {customSearch ? (
-                                <>
-                                    <Button
-                                        className="text-wrap py-4"
-                                        onClick={() => {
-                                            onSelectChange(searchValue);
-                                        }}>
-                                        {translate("app.widgets.popoverSelect.searchInDeletedProviders")}
-                                    </Button>
-                                </>
-                            ) : (
-                                notFoundMessage
-                            )}
-                        </CommandEmpty>
+                        {!customSearch && <CommandEmpty>{notFoundMessage}</CommandEmpty>}
                         <CommandGroup>
                             {filteredVariants.map(variant => {
                                 const newVariant = () => {
@@ -354,7 +337,9 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                     </CommandItem>
                                 );
                             })}
-                            {customSearch && searchValue.length > 0 && (
+                        </CommandGroup>
+                        {customSearch && searchValue.length > 0 && (
+                            <CommandGroup forceMount>
                                 <CommandItem
                                     className={cn(
                                         "cursor-pointer data-[selected=true]:bg-green-50 dark:data-[selected=true]:bg-green-50",
@@ -371,8 +356,8 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                         </Button>
                                     </div>
                                 </CommandItem>
-                            )}
-                        </CommandGroup>
+                            </CommandGroup>
+                        )}
                     </CommandList>
                 </Command>
             </PopoverContent>
