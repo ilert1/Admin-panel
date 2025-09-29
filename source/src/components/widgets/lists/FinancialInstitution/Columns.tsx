@@ -279,7 +279,7 @@ export const useGetFinancialInstitutionColumns = ({
             cell: ({ row }) => {
                 const country_code = countryCodesWithFlag.find(item => item.alpha2 === row.original.country_code);
 
-                return <CountryTextField text={country_code?.name || ""} />;
+                return <CountryTextField text={country_code?.name || ""} wrapText />;
             }
         },
         {
