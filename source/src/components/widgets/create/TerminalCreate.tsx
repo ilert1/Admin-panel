@@ -20,21 +20,11 @@ import { Label } from "@/components/ui/label";
 import { TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalCreate as ITerminalCreate, PaymentTypeModel } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
 import { useCurrenciesListWithoutPagination, useProvidersListWithoutPagination } from "@/hooks";
 import { PaymentTypeMultiSelect } from "../components/MultiSelectComponents/PaymentTypeMultiSelect";
 import { CurrencySelect } from "../components/Selects/CurrencySelect";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectType,
-    SelectValue
-} from "@/components/ui/select";
 import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface TerminalCreateProps {
@@ -55,9 +45,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
     const dataProvider = useDataProvider();
     const controllerProps = useCreateController<TerminalWithId>();
 
-    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
-    const [hasErrors, setHasErrors] = useState(false);
-    const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [availablePaymentTypes, setAvailablePaymentTypes] = useState<PaymentTypeModel[]>([]);
     const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
@@ -79,7 +66,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 }, translate("resources.terminals.errors.providerHasNoPaymentTypes")),
             verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
             description: z.union([z.string().trim(), z.literal("")]),
-            details: z.string().trim().optional(),
             allocation_timeout_seconds: z
                 .literal("")
                 .transform(() => undefined)
@@ -125,7 +111,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
             provider: "",
             verbose_name: "",
             description: "",
-            details: "{}",
             allocation_timeout_seconds: 2,
             payment_types: [],
             src_currency_code: "",
@@ -168,7 +153,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 data: {
                     ...data,
                     settings: { ttl: { min: data.minTTL, max: data.maxTTL } },
-                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     ...(data.allocation_timeout_seconds !== undefined && {
                         allocation_timeout_seconds: data.allocation_timeout_seconds
                     })
@@ -215,7 +199,6 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                 provider: "",
                 verbose_name: "",
                 description: "",
-                details: "{}",
                 allocation_timeout_seconds: 2,
                 payment_types: [],
                 src_currency_code: "",
@@ -519,7 +502,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                     control={form.control}
                                     name="description"
                                     render={({ field }) => (
-                                        <FormItem className="col-span-2 w-full sm:col-span-1">
+                                        <FormItem className="col-span-2 w-full sm:col-span-2">
                                             <Label className="">
                                                 {translate("resources.terminals.fields.description")}
                                             </Label>
@@ -534,34 +517,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                         </FormItem>
                                     )}
                                 />
-
-                                <FormField
-                                    control={form.control}
-                                    name="details"
-                                    render={({ field }) => (
-                                        <FormItem className="col-span-2 w-full sm:col-span-1">
-                                            <Label>{translate("resources.terminals.fields.details")}</Label>
-                                            <FormControl>
-                                                <MonacoEditor
-                                                    width="100%"
-                                                    onMountEditor={() => setMonacoEditorMounted(true)}
-                                                    onErrorsChange={setHasErrors}
-                                                    onValidChange={setHasValid}
-                                                    code={field.value ?? "{}"}
-                                                    setCode={field.onChange}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
                             </div>
-
-                            {/* <TTL
-                                ttl={}
-                                editClicked={editClicked}
-                                setEditClicked={setEditClicked}
-                            /> */}
                         </div>
 
                         <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
@@ -569,12 +525,7 @@ export const TerminalCreate = ({ onClose }: TerminalCreateProps) => {
                                 type="submit"
                                 variant="default"
                                 className="w-full sm:w-1/2"
-                                disabled={
-                                    hasErrors ||
-                                    (!hasValid && form.watch("details")?.length !== 0) ||
-                                    !monacoEditorMounted ||
-                                    submitButtonDisabled
-                                }>
+                                disabled={submitButtonDisabled}>
                                 {translate("app.ui.actions.save")}
                             </Button>
                             <Button
