@@ -20,6 +20,7 @@ import { StateViewer } from "@/components/ui/StateViewer";
 import { useCountryCodes } from "@/hooks";
 import { DetailsDataViewer } from "../../edit/Terminals/DetailsData";
 import { IconsList } from "../Provider/ProviderSettings/IconsList";
+import { DetailsDataEditSheet } from "../../edit/Terminals/DetailsData/DetailsDataEditSheet";
 
 interface TerminalShowProps {
     id: string;
@@ -170,6 +171,13 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 open={editAuthDataDialogOpen}
                 onOpenChange={setEditAuthDataDialogOpen}
                 originalAuthData={context.record?.auth}
+            />
+
+            <DetailsDataEditSheet
+                terminalId={id}
+                open={editDetailsDataDialogOpen}
+                onOpenChange={setEditDetailsDataDialogOpen}
+                originalDetailsData={context.record?.details}
             />
 
             <EditTerminalDialog
