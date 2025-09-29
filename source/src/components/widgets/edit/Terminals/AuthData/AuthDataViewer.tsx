@@ -6,7 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { TableTypes } from "../../../shared/SimpleTable";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
-import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
+import { JsonToggle } from "../JsonToggle";
 import { TerminalBaseAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 interface IAuthDataViewer {
@@ -52,7 +52,7 @@ export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataVie
                     </p>
 
                     <div className="flex gap-4">
-                        <AuthDataJsonToggle showJson={showJson} setShowJson={setShowJson} />
+                        <JsonToggle showJson={showJson} setShowJson={setShowJson} />
 
                         <Button
                             onClick={e => {

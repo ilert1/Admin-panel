@@ -1,7 +1,7 @@
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { useRefresh, useTranslate } from "react-admin";
 import { CloseSheetXButton } from "../../../components/CloseSheetXButton";
-import { AuthDataJsonToggle } from "./AuthDataJsonToggle";
+import { JsonToggle } from "../JsonToggle";
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
@@ -184,7 +184,7 @@ export const AuthDataEditSheet = ({ originalAuthData, terminalId, open, onOpenCh
 
                 <div className="mb-4 flex flex-col gap-6 p-4 md:mb-[42px] md:px-[42px]">
                     <div className="self-end">
-                        <AuthDataJsonToggle showJson={showJson} setShowJson={toggleJsonHandler} />
+                        <JsonToggle showJson={showJson} setShowJson={toggleJsonHandler} />
                     </div>
 
                     {showJson ? (
