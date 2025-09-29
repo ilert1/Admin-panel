@@ -4,7 +4,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/Button";
 import { CirclePlus } from "lucide-react";
 import { useState } from "react";
-import { ProviderTerminalAuthSchemaForm } from "./ProviderTerminalAuthSchemaForm";
 import { ProvidersDataProvider } from "@/data";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import {
@@ -16,19 +15,22 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { ProviderUpdateParams } from "@/data/providers";
-import { ProviderTerminalAuthSchemaTable } from "./ProviderTerminalAuthSchemaTable";
+import { ProviderTerminalSchemaForm } from "./ProviderTerminalSchemaForm";
+import { ProviderTerminalSchemaTable } from "./ProviderTerminalSchemaTable";
 
-interface IProviderTerminalAuthSchemaShow {
+interface IProviderTerminalSchemaShow {
+    schemaType: "auth" | "details";
     providerId: string;
     authSchemaFields: BaseFieldConfig[];
     isFetching: boolean;
 }
 
-export const ProviderTerminalAuthSchemaShow = ({
+export const ProviderTerminalSchemaShow = ({
+    schemaType,
     authSchemaFields,
     providerId,
     isFetching
-}: IProviderTerminalAuthSchemaShow) => {
+}: IProviderTerminalSchemaShow) => {
     const providersDataProvider = new ProvidersDataProvider();
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [editMethod, setEditMethod] = useState("");
@@ -53,8 +55,15 @@ export const ProviderTerminalAuthSchemaShow = ({
     const updateProviderMethods = async (tempAuthSchemaFieldsData: typeof authSchemaFields) =>
         await providersDataProvider.update("provider", {
             id: providerId,
-            data: { terminal_auth_schema: { fields: tempAuthSchemaFieldsData } },
-            previousData: { terminal_auth_schema: { fields: tempAuthSchemaFieldsData } } as ProviderUpdateParams
+            data: {
+                [schemaType === "auth" ? "terminal_auth_schema" : "terminal_details_schema"]: {
+                    fields: tempAuthSchemaFieldsData
+                }
+            },
+            previousData:
+                schemaType === "auth"
+                    ? ({ terminal_details_schema: { fields: tempAuthSchemaFieldsData } } as ProviderUpdateParams)
+                    : ({ terminal_details_schema: { fields: tempAuthSchemaFieldsData } } as ProviderUpdateParams)
         });
 
     const onAddMethod = async (value: BaseFieldConfig) => {
@@ -120,7 +129,9 @@ export const ProviderTerminalAuthSchemaShow = ({
     return (
         <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
             <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
-                {translate("resources.provider.fields.terminal_auth_schema")}
+                {schemaType === "auth"
+                    ? translate("resources.provider.fields.terminal_auth_schema")
+                    : translate("resources.provider.fields.terminal_details_schema")}
             </h3>
 
             {authSchemaFields.length > 0 ? (
@@ -133,7 +144,7 @@ export const ProviderTerminalAuthSchemaShow = ({
 
                             <AccordionContent>
                                 {editMethod === schema.key ? (
-                                    <ProviderTerminalAuthSchemaForm
+                                    <ProviderTerminalSchemaForm
                                         schemaKey={schema.key}
                                         schemaValue={schema}
                                         disabledProcess={isFetching || buttonDisabled}
@@ -141,7 +152,7 @@ export const ProviderTerminalAuthSchemaShow = ({
                                         onCancel={() => setEditMethod("")}
                                     />
                                 ) : (
-                                    <ProviderTerminalAuthSchemaTable
+                                    <ProviderTerminalSchemaTable
                                         disabledProcess={isFetching || buttonDisabled}
                                         disabledEditButton={!!editMethod}
                                         onDeleteClick={() => handleDeleteClick(schema.key)}
@@ -155,7 +166,7 @@ export const ProviderTerminalAuthSchemaShow = ({
                 </Accordion>
             ) : (
                 <span className="self-center text-lg text-neutral-50">
-                    {translate("resources.provider.terminalAuthSchema.notFound")}
+                    {translate("resources.provider.terminalSchema.notFound")}
                 </span>
             )}
 
@@ -164,11 +175,11 @@ export const ProviderTerminalAuthSchemaShow = ({
                 className="flex items-center gap-1 self-end"
                 onClick={() => setAddMethodForm(true)}>
                 <CirclePlus className="h-[16px] w-[16px]" />
-                <span className="text-title-1">{translate("resources.provider.terminalAuthSchema.addSchema")}</span>
+                <span className="text-title-1">{translate("resources.provider.terminalSchema.addSchema")}</span>
             </Button>
 
             {addMethodForm && (
-                <ProviderTerminalAuthSchemaForm
+                <ProviderTerminalSchemaForm
                     disabledProcess={isFetching || buttonDisabled}
                     onChangeMethod={onAddMethod}
                     onCancel={() => setAddMethodForm(false)}
@@ -179,7 +190,7 @@ export const ProviderTerminalAuthSchemaShow = ({
                 <DialogContent className="!z-[200] h-auto max-h-56 !w-72 overflow-hidden rounded-16 bg-muted xl:max-h-none">
                     <DialogHeader>
                         <DialogTitle className="text-center">
-                            {translate("resources.provider.terminalAuthSchema.removeSchemaDialog")}
+                            {translate("resources.provider.terminalSchema.removeSchemaDialog")}
                         </DialogTitle>
                         <DialogDescription />
                     </DialogHeader>

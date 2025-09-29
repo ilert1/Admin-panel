@@ -11,7 +11,7 @@ import { useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface IProviderTerminalAuthSchemaForm {
+interface IProviderTerminalSchemaForm {
     schemaKey?: string;
     schemaValue?: BaseFieldConfig;
     disabledProcess: boolean;
@@ -19,13 +19,13 @@ interface IProviderTerminalAuthSchemaForm {
     onCancel: () => void;
 }
 
-export const ProviderTerminalAuthSchemaForm = ({
+export const ProviderTerminalSchemaForm = ({
     schemaValue,
     schemaKey,
     onChangeMethod,
     onCancel,
     disabledProcess
-}: IProviderTerminalAuthSchemaForm) => {
+}: IProviderTerminalSchemaForm) => {
     const translate = useTranslate();
 
     const formSchema = z.object({
@@ -69,7 +69,7 @@ export const ProviderTerminalAuthSchemaForm = ({
                 )}>
                 <div className="flex flex-col gap-4 border-b border-neutral-90 pb-4 dark:border-neutral-100">
                     <p className="text-base text-neutral-90 dark:text-neutral-30">
-                        {translate("resources.provider.terminalAuthSchema.schemaName")}
+                        {translate("resources.provider.terminalSchema.schemaName")}
                     </p>
 
                     <FormField

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { TextField } from "@/components/ui/text-field";
 import { Checkbox } from "@/components/ui/checkbox";
 
-interface IProviderTerminalAuthSchemaTable {
+interface IProviderTerminalSchemaTable {
     schemaValue: BaseFieldConfig;
     onEditClick: () => void;
     onDeleteClick: () => void;
@@ -15,14 +15,14 @@ interface IProviderTerminalAuthSchemaTable {
     disabledDeleteButton?: boolean;
 }
 
-export const ProviderTerminalAuthSchemaTable = ({
+export const ProviderTerminalSchemaTable = ({
     schemaValue,
     onEditClick,
     onDeleteClick,
     disabledProcess,
     disabledEditButton,
     disabledDeleteButton
-}: IProviderTerminalAuthSchemaTable) => {
+}: IProviderTerminalSchemaTable) => {
     const translate = useTranslate();
 
     return (

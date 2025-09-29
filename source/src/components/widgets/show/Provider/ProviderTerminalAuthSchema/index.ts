@@ -1,1 +1,0 @@
-export { ProviderTerminalAuthSchemaShow } from "./ProviderTerminalAuthSchemaShow";
