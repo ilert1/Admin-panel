@@ -233,6 +233,7 @@ declare namespace Transaction {
         rate: string;
         rate_source_currency: string;
         rate_destination_currency: string;
+        provider_name: string;
     };
 
     type TransactionStateUpdate = {

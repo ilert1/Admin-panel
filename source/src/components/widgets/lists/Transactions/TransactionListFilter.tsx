@@ -18,6 +18,7 @@ import { useLoading, useRefresh } from "react-admin";
 import clsx from "clsx";
 import { MerchantSelect } from "../../components/Selects/MerchantSelect";
 import useTransactionFilter from "./useTransactionFilter";
+import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 
 export const TransactionListFilter = () => {
     const {
@@ -45,7 +46,11 @@ export const TransactionListFilter = () => {
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
-        clearFilters
+        clearFilters,
+        providerNameFilter,
+        onProviderNameChanged,
+        providersData,
+        providersLoadingProcess
     } = useTransactionFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(false);
@@ -104,6 +109,22 @@ export const TransactionListFilter = () => {
                                 onChange={onCustomerPaymentIdChanged}
                                 label={translate("resources.transactions.filter.filterCustomerPaymentId")}
                                 labelSize="title-2"
+                            />
+                        </div>
+                        <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
+                            <Label variant="title-2" className="">
+                                {translate("resources.transactions.filter.filterByProvider")}
+                            </Label>
+                            <ProviderSelect
+                                providers={providersData ?? []}
+                                placeholder={translate("resources.transactions.filter.filterByProviderNamePlaceholder")}
+                                value={providerNameFilter}
+                                onChange={onProviderNameChanged}
+                                isLoading={providersLoadingProcess}
+                                modal={false}
+                                style="Black"
+                                customSearch={true}
+                                customSearchHandler={onProviderNameChanged}
                             />
                         </div>
 
@@ -195,7 +216,7 @@ export const TransactionListFilter = () => {
                         />
 
                         {adminOnly && (
-                            <div className="flex-grow-100 flex flex-1 flex-col gap-1 md:basis-[350px] md:gap-1">
+                            <div className="flex-grow-100 flex max-w-80 flex-1 flex-col gap-1 md:basis-[350px] md:gap-1">
                                 <Label className="mb-0 md:text-nowrap" variant="title-2">
                                     {translate("resources.transactions.filter.filterByAccount")}
                                 </Label>
