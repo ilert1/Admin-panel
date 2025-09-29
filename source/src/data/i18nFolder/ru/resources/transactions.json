@@ -10,6 +10,8 @@
         "accountBalance": "Баланс счёта",
         "amount_value": "Сумма",
         "currency": "Валюта",
+        "merchant": "Мерчант",
+        "provider": "Провайдер",
         "meta": {
             "payment_type": "Платёжный тип",
             "provider": "Провайдер",
@@ -134,6 +136,7 @@
         "showAll": "Показать все",
         "filterById": "Поиск по ID операции",
         "filterByIdPlaceholder": "ID",
+        "filterByProviderNamePlaceholder": "Имя провайдера",
         "filterByAccount": "Мерчант",
         "filterByProvider": "Провайдер",
         "filterAllPlaceholder": "Все",

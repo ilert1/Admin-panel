@@ -6,13 +6,14 @@ import { API_URL } from "@/data/base";
 import moment from "moment";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { AccountsDataProvider } from "@/data";
-import { useFetchDictionaries, useMerchantsListWithoutPagination } from "@/hooks";
+import { useFetchDictionaries, useMerchantsListWithoutPagination, useProvidersListWithoutPagination } from "@/hooks";
 import { getFilenameFromContentDisposition } from "@/helpers/getFilenameFromContentDisposition";
 
 const useTransactionFilter = () => {
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const dictionaries = useFetchDictionaries();
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
     const appToast = useAppToast();
     const translate = useTranslate();
     const { permissions } = usePermissions();
@@ -31,6 +32,7 @@ const useTransactionFilter = () => {
     const [typeTabActive, setTypeTabActive] = useState(filterValues?.order_type ? Number(filterValues.order_type) : 0);
     const [orderStatusFilter, setOrderStatusFilter] = useState(filterValues?.order_state || "");
     const [orderIngressStatusFilter, setOrderIngressStatusFilter] = useState(filterValues?.order_ingress_state || "");
+    const [providerNameFilter, setProviderNameFilter] = useState(filterValues?.provider_name || "");
 
     const formattedDate = (date: Date) => moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
@@ -68,6 +70,7 @@ const useTransactionFilter = () => {
                 | "order_state"
                 | "order_ingress_state"
                 | "date"
+                | "provider_name"
         ) => {
             if (value) {
                 if (type === "date" && typeof value !== "string" && typeof value !== "number") {
@@ -113,6 +116,11 @@ const useTransactionFilter = () => {
         onPropertySelected(order, "order_ingress_state");
     };
 
+    const onProviderNameChanged = (provider: string) => {
+        setProviderNameFilter(provider);
+        onPropertySelected(provider, "provider_name");
+    };
+
     const changeDate = (date: DateRange | undefined) => {
         if (date) {
             if (date.from && date.to) {
@@ -141,6 +149,7 @@ const useTransactionFilter = () => {
         setCustomerPaymentId("");
         setOrderStatusFilter("");
         setOrderIngressStatusFilter("");
+        setProviderNameFilter("");
         setTypeTabActive(0);
         setFilters({}, displayedFilters, true);
         setPage(1);
@@ -216,7 +225,11 @@ const useTransactionFilter = () => {
         onTabChanged,
         chooseClassTabActive,
         handleDownloadReport,
-        clearFilters
+        clearFilters,
+        providerNameFilter,
+        onProviderNameChanged,
+        providersData,
+        providersLoadingProcess
     };
 };
 

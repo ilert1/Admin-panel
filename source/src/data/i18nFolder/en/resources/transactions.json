@@ -10,6 +10,8 @@
         "accountBalance": "Account balance",
         "amount_value": "Amount",
         "currency": "Currency",
+        "merchant": "Merchant",
+        "provider": "Provider",
         "meta": {
             "payment_type": "Payment type",
             "provider": "Provider",
@@ -134,6 +136,7 @@
         "showAll": "Show all",
         "filterById": "Search by operation ID",
         "filterByIdPlaceholder": "ID",
+        "filterByProviderNamePlaceholder": "Provider name",
         "filterByAccount": "Merchant",
         "filterByProvider": "Provider",
         "filterAllPlaceholder": "All",

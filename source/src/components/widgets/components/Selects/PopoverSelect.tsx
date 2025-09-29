@@ -9,6 +9,7 @@ import { ErrorBadge } from "@/components/ui/Input/ErrorBadge";
 import { PaymentTypeIcon } from "../PaymentTypeIcon";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { LoadingBlock } from "@/components/ui/loading";
+import { useTranslate } from "react-admin";
 
 export interface IPopoverSelect {
     value: string;
@@ -23,6 +24,7 @@ export interface IPopoverSelect {
     modal?: boolean;
     isLoading?: boolean;
     idFieldValue?: string;
+    customSearch?: boolean;
 }
 
 interface PopoverSelectProps extends IPopoverSelect {
@@ -56,8 +58,10 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
         isLoading = false,
         onChange,
         setIdValue,
-        idFieldValue
+        idFieldValue,
+        customSearch
     } = props;
+    const translate = useTranslate();
     const [open, setOpen] = useState(false);
     const [ttpOpen, setTtpOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
@@ -294,7 +298,21 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                 e.preventDefault();
                             }
                         }}>
-                        <CommandEmpty>{notFoundMessage}</CommandEmpty>
+                        <CommandEmpty>
+                            {customSearch ? (
+                                <>
+                                    <Button
+                                        className="text-wrap py-4"
+                                        onClick={() => {
+                                            onSelectChange(searchValue);
+                                        }}>
+                                        {translate("app.widgets.popoverSelect.searchInDeletedProviders")}
+                                    </Button>
+                                </>
+                            ) : (
+                                notFoundMessage
+                            )}
+                        </CommandEmpty>
                         <CommandGroup>
                             {filteredVariants.map(variant => {
                                 const newVariant = () => {
@@ -336,6 +354,24 @@ export const PopoverSelect = (props: PopoverSelectProps) => {
                                     </CommandItem>
                                 );
                             })}
+                            {customSearch && searchValue.length > 0 && (
+                                <CommandItem
+                                    className={cn(
+                                        "cursor-pointer data-[selected=true]:bg-green-50 dark:data-[selected=true]:bg-green-50",
+                                        "bg-white hover:bg-green-50 dark:hover:bg-green-50",
+                                        "text-neutral-90 hover:text-white dark:text-neutral-0",
+                                        style === "Black" ? "dark:bg-black" : "dark:bg-muted",
+                                        "p-0"
+                                    )}
+                                    value={searchValue}
+                                    onSelect={onSelectChange}>
+                                    <div className="flex h-full w-full items-center justify-center">
+                                        <Button className="h-full w-full rounded-t-[0px] text-center">
+                                            {translate("app.widgets.popoverSelect.searchInDeletedProviders")}
+                                        </Button>
+                                    </div>
+                                </CommandItem>
+                            )}
                         </CommandGroup>
                     </CommandList>
                 </Command>

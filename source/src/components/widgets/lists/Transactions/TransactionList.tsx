@@ -26,7 +26,7 @@ export const TransactionList = () => {
                             startDate={startDate}
                             endDate={endDate}
                             typeTabActive={typeTabActive}
-                            open={chartOpen}
+                            open={chartOpen}    
                         />
                     </div> */}
 

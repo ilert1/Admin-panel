@@ -15,7 +15,6 @@ import { StatesTableEditableCell } from "../../shared/StatesTableEditableCell";
 import { CASCADE_STATE } from "@/data/cascades";
 import { CurrentCell } from "../../shared";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { DeleteCascadeMerchantDialog } from "../CascadeMerchant/DeleteCascadeMerchantDialog";
 import { CountryTextField } from "../../components/CountryTextField";
 import { useCountryCodes } from "@/hooks";
 
@@ -33,12 +32,18 @@ export const useGetMerchantShowColumns = ({
     const { openSheet } = useSheets();
     const { countryCodesWithFlag } = useCountryCodes();
 
+    const [chosenId, setChosenId] = useState("");
     const [deleteCascadeMerchantDialogOpen, setDeleteCascadeMerchantDialogOpen] = useState(false);
     const [isDataUpdating, setIsDataUpdating] = useState(false);
     const [currentCellEdit, setCurrentCellEdit] = useState<CurrentCell>({
         row: undefined,
         column: undefined
     });
+
+    const handleDeleteClicked = (id: string) => {
+        setChosenId(id);
+        setDeleteCascadeMerchantDialogOpen(true);
+    };
 
     const onSubmit = async (id: string, data: Pick<MerchantCascadeSchema, "state">) => {
         try {
@@ -313,14 +318,7 @@ export const useGetMerchantShowColumns = ({
             cell: ({ row }) => {
                 return (
                     <>
-                        <TrashButton onClick={() => setDeleteCascadeMerchantDialogOpen(true)} />
-
-                        <DeleteCascadeMerchantDialog
-                            open={deleteCascadeMerchantDialogOpen}
-                            onOpenChange={setDeleteCascadeMerchantDialogOpen}
-                            onQuickShowOpenChange={() => {}}
-                            id={row.original.id}
-                        />
+                        <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />
                     </>
                 );
             }
@@ -338,5 +336,11 @@ export const useGetMerchantShowColumns = ({
             }
         }
     ];
-    return { directionColumns, cascadeMerchantsColumns };
+    return {
+        chosenId,
+        directionColumns,
+        cascadeMerchantsColumns,
+        deleteCascadeMerchantDialogOpen,
+        setDeleteCascadeMerchantDialogOpen
+    };
 };
