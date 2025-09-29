@@ -184,7 +184,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         <div className="max-w-auto flex flex-wrap gap-2">
                             {context.record.payment_types && context.record.payment_types?.length > 0 ? (
                                 context.record.payment_types.map(pt => {
-                                    return <PaymentTypeIcon key={pt.code} type={pt.code} className="h-7 w-7" />;
+                                    return <PaymentTypeIcon key={pt.code} type={pt.code} />;
                                 })
                             ) : (
                                 <span className="title-1">-</span>
