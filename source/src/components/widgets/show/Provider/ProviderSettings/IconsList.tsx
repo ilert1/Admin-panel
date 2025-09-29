@@ -27,7 +27,9 @@ interface ListDataType {
 export const IconsList = (props: IconsListProps) => {
     const { info, iconsSmall = false, label = true, border = true } = props;
     const translate = useTranslate();
-    const iconsSize = iconsSmall ? "h-4 w-4" : "h-5 w-5";
+
+    const iconsSize = iconsSmall ? "h-4 w-4" : "h-[1.625rem] w-[1.625rem]";
+
     const listData: ListDataType[] = [
         {
             icon: <TelegramIcon className={cn("fill-black dark:fill-white", iconsSize)} />,
@@ -86,7 +88,7 @@ export const IconsList = (props: IconsListProps) => {
                             {translate("resources.provider.settings.links")}
                         </Label>
                     )}
-                    <div className={cn("flex flex-wrap gap-3")}>
+                    <div className={cn("flex flex-wrap gap-2")}>
                         {isThereAnyValue
                             ? listData.map(
                                   (item, index) =>
