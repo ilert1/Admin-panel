@@ -33,7 +33,7 @@ export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataVie
             accessorKey: "value",
             header: "Value",
             cell: ({ row }) => {
-                return <TextField text={row.original.value} type="secret" copyValue />;
+                return <TextField text={row.original.value} type={row.original.value ? "secret" : "text"} copyValue />;
             }
         }
     ];
