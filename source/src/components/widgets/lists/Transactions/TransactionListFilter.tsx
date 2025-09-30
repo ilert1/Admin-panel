@@ -113,23 +113,26 @@ export const TransactionListFilter = () => {
                                 labelSize="title-2"
                             />
                         </div>
-                        <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
-                            <Label variant="title-2" className="">
-                                {translate("resources.transactions.filter.filterByProvider")}
-                            </Label>
-                            <ProviderSelect
-                                providers={providersData ?? []}
-                                placeholder={translate("resources.transactions.filter.filterByProviderNamePlaceholder")}
-                                value={providerNameFilter}
-                                onChange={onProviderNameChanged}
-                                isLoading={providersLoadingProcess}
-                                modal={false}
-                                style="Black"
-                                customSearch={true}
-                                customSearchHandler={onProviderNameChanged}
-                            />
-                        </div>
-
+                        {adminOnly && (
+                            <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
+                                <Label variant="title-2" className="">
+                                    {translate("resources.transactions.filter.filterByProvider")}
+                                </Label>
+                                <ProviderSelect
+                                    providers={providersData ?? []}
+                                    placeholder={translate(
+                                        "resources.transactions.filter.filterByProviderNamePlaceholder"
+                                    )}
+                                    value={providerNameFilter}
+                                    onChange={onProviderNameChanged}
+                                    isLoading={providersLoadingProcess}
+                                    modal={false}
+                                    style="Black"
+                                    customSearch={true}
+                                    customSearchHandler={onProviderNameChanged}
+                                />
+                            </div>
+                        )}
                         {adminOnly && (
                             <div className="flex min-w-48 flex-1 flex-col gap-1">
                                 <Label variant="title-2" className="mb-0">
