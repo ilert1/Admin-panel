@@ -21,20 +21,20 @@ import { ProviderTerminalSchemaTable } from "./ProviderTerminalSchemaTable";
 interface IProviderTerminalSchemaShow {
     schemaType: "auth" | "details";
     providerId: string;
-    authSchemaFields: BaseFieldConfig[];
+    schemaFields: BaseFieldConfig[];
     isFetching: boolean;
 }
 
 export const ProviderTerminalSchemaShow = ({
     schemaType,
-    authSchemaFields,
+    schemaFields,
     providerId,
     isFetching
 }: IProviderTerminalSchemaShow) => {
     const providersDataProvider = new ProvidersDataProvider();
     const [buttonDisabled, setButtonDisabled] = useState(false);
-    const [editMethod, setEditMethod] = useState("");
-    const [addMethodForm, setAddMethodForm] = useState(false);
+    const [editSchema, setEditSchema] = useState("");
+    const [addSchemaForm, setAddSchemaForm] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [keyForRemove, setKeyForRemove] = useState("");
 
@@ -52,7 +52,7 @@ export const ProviderTerminalSchemaShow = ({
         setDeleteDialogOpen(false);
     };
 
-    const updateProviderMethods = async (tempAuthSchemaFieldsData: typeof authSchemaFields) =>
+    const updateProviderMethods = async (tempAuthSchemaFieldsData: typeof schemaFields) =>
         await providersDataProvider.update("provider", {
             id: providerId,
             data: {
@@ -67,19 +67,19 @@ export const ProviderTerminalSchemaShow = ({
         });
 
     const onAddMethod = async (value: BaseFieldConfig) => {
-        if (authSchemaFields.length > 0 && authSchemaFields.filter(item => item.key === value.key).length > 0) {
-            appToast("error", translate("resources.provider.errors.methodAlreadyExist"));
+        if (schemaFields.length > 0 && schemaFields.filter(item => item.key === value.key).length > 0) {
+            appToast("error", translate("resources.provider.terminalSchema.schemaAlreadyExist"));
             return;
         }
 
         try {
             setButtonDisabled(true);
 
-            await updateProviderMethods([...authSchemaFields, { ...value }]);
+            await updateProviderMethods([...schemaFields, { ...value }]);
 
-            appToast("success", translate("resources.provider.methodAddSuccess"));
+            appToast("success", translate("resources.provider.terminalSchema.schemaAddSuccess"));
             refresh();
-            setAddMethodForm(false);
+            setAddSchemaForm(false);
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.toast.error"));
@@ -88,17 +88,17 @@ export const ProviderTerminalSchemaShow = ({
         }
     };
 
-    const onChangeMethod = async (originalKey: string, value: BaseFieldConfig) => {
-        const tempMethodsData = [...authSchemaFields.filter(item => item.key !== originalKey), { ...value }];
+    const onChangeSchema = async (originalKey: string, value: BaseFieldConfig) => {
+        const tempMethodsData = [...schemaFields.filter(item => item.key !== originalKey), { ...value }];
 
         try {
             setButtonDisabled(true);
 
             await updateProviderMethods(tempMethodsData);
 
-            appToast("success", translate("resources.provider.methodEditSuccess"));
+            appToast("success", translate("resources.provider.terminalSchema.schemaEditSuccess"));
             refresh();
-            setEditMethod("");
+            setEditSchema("");
         } catch (error) {
             if (error instanceof Error) appToast("error", error.message);
             else appToast("error", translate("app.ui.toast.error"));
@@ -108,14 +108,14 @@ export const ProviderTerminalSchemaShow = ({
     };
 
     const onRemoveMethod = async (originalKey: string) => {
-        const tempMethodsData = authSchemaFields.filter(item => item.key !== originalKey);
+        const tempMethodsData = schemaFields.filter(item => item.key !== originalKey);
 
         try {
             setButtonDisabled(true);
 
             await updateProviderMethods(tempMethodsData);
 
-            appToast("success", translate("resources.provider.methodDeleteSuccess"));
+            appToast("success", translate("resources.provider.terminalSchema.schemaDeleteSuccess"));
             refresh();
             closeDeleteDialog();
         } catch (error) {
@@ -134,29 +134,29 @@ export const ProviderTerminalSchemaShow = ({
                     : translate("resources.provider.fields.terminal_details_schema")}
             </h3>
 
-            {authSchemaFields.length > 0 ? (
+            {schemaFields.length > 0 ? (
                 <Accordion type="multiple">
-                    {authSchemaFields.map(schema => (
+                    {schemaFields.map(schema => (
                         <AccordionItem key={schema.key} value={schema.key}>
                             <AccordionTrigger className="text-neutral-90 dark:text-neutral-0">
                                 {schema.key}
                             </AccordionTrigger>
 
                             <AccordionContent>
-                                {editMethod === schema.key ? (
+                                {editSchema === schema.key ? (
                                     <ProviderTerminalSchemaForm
                                         schemaKey={schema.key}
                                         schemaValue={schema}
                                         disabledProcess={isFetching || buttonDisabled}
-                                        onChangeMethod={value => onChangeMethod(schema.key, value)}
-                                        onCancel={() => setEditMethod("")}
+                                        onChangeSchema={value => onChangeSchema(schema.key, value)}
+                                        onCancel={() => setEditSchema("")}
                                     />
                                 ) : (
                                     <ProviderTerminalSchemaTable
                                         disabledProcess={isFetching || buttonDisabled}
-                                        disabledEditButton={!!editMethod}
+                                        disabledEditButton={!!editSchema}
                                         onDeleteClick={() => handleDeleteClick(schema.key)}
-                                        onEditClick={() => setEditMethod(schema.key)}
+                                        onEditClick={() => setEditSchema(schema.key)}
                                         schemaValue={schema}
                                     />
                                 )}
@@ -171,18 +171,18 @@ export const ProviderTerminalSchemaShow = ({
             )}
 
             <Button
-                disabled={addMethodForm || isFetching || buttonDisabled}
+                disabled={addSchemaForm || isFetching || buttonDisabled}
                 className="flex items-center gap-1 self-end"
-                onClick={() => setAddMethodForm(true)}>
+                onClick={() => setAddSchemaForm(true)}>
                 <CirclePlus className="h-[16px] w-[16px]" />
                 <span className="text-title-1">{translate("resources.provider.terminalSchema.addSchema")}</span>
             </Button>
 
-            {addMethodForm && (
+            {addSchemaForm && (
                 <ProviderTerminalSchemaForm
                     disabledProcess={isFetching || buttonDisabled}
-                    onChangeMethod={onAddMethod}
-                    onCancel={() => setAddMethodForm(false)}
+                    onChangeSchema={onAddMethod}
+                    onCancel={() => setAddSchemaForm(false)}
                 />
             )}
 

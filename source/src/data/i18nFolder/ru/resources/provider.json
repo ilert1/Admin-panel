@@ -54,7 +54,8 @@
         "schemaAddSuccess": "Схема успешно добавлена",
         "schemaEditSuccess": "Схема успешно изменена",
         "schemaDeleteSuccess": "Схема успешно удалена",
-        "notFound": "Схемы терминала не найдены"
+        "notFound": "Схемы терминала не найдены",
+        "schemaAlreadyExist": "Данная схема уже существует"
     },
     "resources.provider.callback": "Callback",
     "resources.provider.callbackEdit": "Изменить callback",

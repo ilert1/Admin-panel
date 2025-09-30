@@ -234,7 +234,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         <ProviderTerminalSchemaShow
                             schemaType="auth"
                             providerId={id}
-                            authSchemaFields={context.record.terminal_auth_schema.fields}
+                            schemaFields={context.record.terminal_auth_schema.fields}
                             isFetching={context.isFetching}
                         />
                     </div>
@@ -245,7 +245,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                         <ProviderTerminalSchemaShow
                             schemaType="details"
                             providerId={id}
-                            authSchemaFields={context.record.terminal_details_schema.fields}
+                            schemaFields={context.record.terminal_details_schema.fields}
                             isFetching={context.isFetching}
                         />
                     </div>

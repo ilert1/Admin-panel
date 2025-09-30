@@ -54,7 +54,8 @@
         "schemaAddSuccess": "Schema successfully added",
         "schemaEditSuccess": "Schema successfully edited",
         "schemaDeleteSuccess": "Schema successfully deleted",
-        "notFound": "Terminal schema not found"
+        "notFound": "Terminal schema not found",
+        "schemaAlreadyExist": "This schema already exists"
     },
     "resources.provider.callback": "Callback",
     "resources.provider.callbackEdit": "Edit callback",

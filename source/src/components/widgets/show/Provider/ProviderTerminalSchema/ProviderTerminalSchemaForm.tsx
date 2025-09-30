@@ -15,14 +15,14 @@ interface IProviderTerminalSchemaForm {
     schemaKey?: string;
     schemaValue?: BaseFieldConfig;
     disabledProcess: boolean;
-    onChangeMethod: (value: BaseFieldConfig) => void;
+    onChangeSchema: (value: BaseFieldConfig) => void;
     onCancel: () => void;
 }
 
 export const ProviderTerminalSchemaForm = ({
     schemaValue,
     schemaKey,
-    onChangeMethod,
+    onChangeSchema,
     onCancel,
     disabledProcess
 }: IProviderTerminalSchemaForm) => {
@@ -62,7 +62,7 @@ export const ProviderTerminalSchemaForm = ({
     return (
         <Form {...form}>
             <form
-                onSubmit={form.handleSubmit(onChangeMethod)}
+                onSubmit={form.handleSubmit(onChangeSchema)}
                 className={cn(
                     "flex flex-col gap-4 rounded-8 p-4",
                     schemaKey ? "bg-transparent" : "bg-neutral-20 dark:bg-neutral-bb"
