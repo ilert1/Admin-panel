@@ -82,11 +82,6 @@ export const DetailsDataEditSheet = ({
         setStringDetailsData(() => JSON.stringify(originalDetailsData || {}, null, 2));
     }, [originalDetailsData]);
 
-    const filteringDetailsSchema = useMemo(
-        () => detailsSchema?.filter(item => Object.keys(originalDetailsData || {}).includes(item.key)),
-        [originalDetailsData, detailsSchema]
-    );
-
     const buttonSaveDisabled = useMemo(() => {
         const stringifyOriginalDetailsData = JSON.stringify(originalDetailsData || {}, null, 2);
         const stringifyDetailsData = JSON.stringify(arrayDetailsDataToObject(), null, 2);
@@ -115,6 +110,20 @@ export const DetailsDataEditSheet = ({
     ]);
 
     const submitHandler = async () => {
+        const arrayOfRequiredFields = detailsSchema?.filter(
+            schema => !detailsData.find(item => item.key === schema.key) && schema.required
+        );
+
+        if (arrayOfRequiredFields && arrayOfRequiredFields.length > 0) {
+            appToast(
+                "error",
+                translate("resources.terminals.errors.schemaRequiredFields", {
+                    keys: arrayOfRequiredFields.map(item => item.key).join(", ")
+                })
+            );
+            return;
+        }
+
         try {
             setDisabledBtn(true);
 
@@ -146,7 +155,7 @@ export const DetailsDataEditSheet = ({
                 <div className="flex-shrink-0 p-4 !pb-0 md:p-[42px]">
                     <div className="flex items-center justify-between">
                         <SheetTitle className="!text-display-1">
-                            {translate("resources.terminals.fields.auth")}
+                            {translate("resources.terminals.fields.details")}
                         </SheetTitle>
                         <CloseSheetXButton onOpenChange={onOpenChangeHandler} />
                     </div>
@@ -174,7 +183,7 @@ export const DetailsDataEditSheet = ({
                             loading={disabledBtn}
                             detailsData={detailsData}
                             onChangeDetailsData={setDetailsData}
-                            detailsSchema={filteringDetailsSchema}
+                            detailsSchema={detailsSchema}
                         />
                     )}
 
