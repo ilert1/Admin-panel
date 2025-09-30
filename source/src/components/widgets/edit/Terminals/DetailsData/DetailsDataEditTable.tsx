@@ -1,7 +1,9 @@
+import { BaseFieldConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button, TrashButton } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import clsx from "clsx";
-import { PlusCircle } from "lucide-react";
+import { Info, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -14,9 +16,15 @@ interface IDetailsDataEditTable {
     loading: boolean;
     detailsData: ParseDetailsData;
     onChangeDetailsData: (val: ParseDetailsData) => void;
+    detailsSchema?: BaseFieldConfig[];
 }
 
-export const DetailsDataEditTable = ({ detailsData, onChangeDetailsData, loading }: IDetailsDataEditTable) => {
+export const DetailsDataEditTable = ({
+    detailsData,
+    onChangeDetailsData,
+    loading,
+    detailsSchema
+}: IDetailsDataEditTable) => {
     const translate = useTranslate();
 
     const [newKey, setNewKey] = useState("");
@@ -85,39 +93,66 @@ export const DetailsDataEditTable = ({ detailsData, onChangeDetailsData, loading
                 <p className="bg-green-50 px-4 py-[11px] text-base text-neutral-0">Value</p>
             </div>
 
-            {detailsData.map((item, index) => (
-                <div
-                    key={item.id}
-                    className={clsx(
-                        "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
-                        index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
-                    )}>
-                    <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <Input
-                            value={item.key}
-                            onChange={e => onKeyChange(e, item.key)}
-                            error={item.key.length === 0}
-                            errorMessage={translate("resources.terminals.errors.value_error")}
-                            type="text"
-                        />
-                    </div>
+            {detailsData.map((item, index) => {
+                const currentDetailsSchema = detailsSchema?.find(schema => schema.key === item.key);
 
-                    <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <Input
-                            copyValue
-                            value={item.value}
-                            onChange={e => onValueChange(e, item.key)}
-                            error={item.value.length === 0}
-                            errorMessage={translate("resources.terminals.errors.value_error")}
-                            type="text"
-                        />
-                    </div>
+                return (
+                    <div
+                        key={item.id}
+                        className={clsx(
+                            "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
+                            index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
+                        )}>
+                        <div className="flex items-center gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="relative w-full">
+                                <Input
+                                    value={item.key}
+                                    onChange={e => onKeyChange(e, item.key)}
+                                    error={item.key.length === 0}
+                                    errorMessage={translate("resources.terminals.errors.value_error")}
+                                    type="text"
+                                />
 
-                    <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                        <TrashButton disabled={loading} onClick={() => handleDelete(item.key)} />
+                                {currentDetailsSchema?.required && (
+                                    <span className="pointer-events-none absolute right-1.5 top-0 text-lg text-red-40">
+                                        *
+                                    </span>
+                                )}
+                            </div>
+
+                            {currentDetailsSchema?.description && currentDetailsSchema?.description.length > 0 && (
+                                <TooltipProvider>
+                                    <Tooltip delayDuration={100} key={index}>
+                                        <TooltipTrigger role="tooltip" asChild className="h-auto">
+                                            <Button variant="secondary" className="p-0">
+                                                <Info className="text-neutral-60 dark:text-neutral-40" />
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent tabIndex={-1} sideOffset={5} align="center">
+                                            <p>{currentDetailsSchema?.description}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            )}
+                        </div>
+
+                        <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <Input
+                                copyValue
+                                value={item.value}
+                                onChange={e => onValueChange(e, item.key)}
+                                error={item.value.length === 0}
+                                errorMessage={translate("resources.terminals.errors.value_error")}
+                                type="text"
+                            />
+                        </div>
+
+                        <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <TrashButton disabled={loading} onClick={() => handleDelete(item.key)} />
+                        </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
 
             <div
                 className={clsx(

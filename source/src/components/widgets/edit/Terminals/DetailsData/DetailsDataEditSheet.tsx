@@ -5,7 +5,7 @@ import { JsonToggle } from "../JsonToggle";
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
-import { TerminalReadDetails, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { BaseFieldConfig, TerminalReadDetails, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalsDataProvider } from "@/data";
 import { DetailsDataEditTable } from "./DetailsDataEditTable";
@@ -15,13 +15,15 @@ interface IDetailsDataEditSheet {
     terminalId: string;
     originalDetailsData: TerminalReadDetails | undefined;
     onOpenChange: (state: boolean) => void;
+    detailsSchema?: BaseFieldConfig[];
 }
 
 export const DetailsDataEditSheet = ({
     originalDetailsData,
     terminalId,
     open,
-    onOpenChange
+    onOpenChange,
+    detailsSchema
 }: IDetailsDataEditSheet) => {
     const terminalsDataProvider = new TerminalsDataProvider();
     const translate = useTranslate();
@@ -79,6 +81,11 @@ export const DetailsDataEditSheet = ({
         setDetailsData(() => parseAuthData(originalDetailsData));
         setStringDetailsData(() => JSON.stringify(originalDetailsData || {}, null, 2));
     }, [originalDetailsData]);
+
+    const filteringDetailsSchema = useMemo(
+        () => detailsSchema?.filter(item => Object.keys(originalDetailsData || {}).includes(item.key)),
+        [originalDetailsData, detailsSchema]
+    );
 
     const buttonSaveDisabled = useMemo(() => {
         const stringifyOriginalDetailsData = JSON.stringify(originalDetailsData || {}, null, 2);
@@ -167,6 +174,7 @@ export const DetailsDataEditSheet = ({
                             loading={disabledBtn}
                             detailsData={detailsData}
                             onChangeDetailsData={setDetailsData}
+                            detailsSchema={filteringDetailsSchema}
                         />
                     )}
 

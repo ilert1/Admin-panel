@@ -179,6 +179,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 open={editDetailsDataDialogOpen}
                 onOpenChange={setEditDetailsDataDialogOpen}
                 originalDetailsData={context.record?.details}
+                detailsSchema={context.record.provider.terminal_details_schema?.fields}
             />
 
             <EditTerminalDialog
