@@ -168,7 +168,10 @@ export const DetailsDataEditTable = ({
                         </div>
 
                         <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                            <TrashButton disabled={loading} onClick={() => handleDelete(item.key)} />
+                            <TrashButton
+                                disabled={loading || currentDetailsSchema?.required}
+                                onClick={() => handleDelete(item.key)}
+                            />
                         </div>
                     </div>
                 );

@@ -159,7 +159,10 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                         </div>
 
                         <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                            <TrashButton disabled={loading} onClick={() => handleDelete(item.key)} />
+                            <TrashButton
+                                disabled={loading || currentAuthSchema?.required}
+                                onClick={() => handleDelete(item.key)}
+                            />
                         </div>
                     </div>
                 );
