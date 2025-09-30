@@ -12,7 +12,6 @@ import { TerminalsDataProvider, TerminalWithId } from "@/data/terminals";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { ProviderBase, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
@@ -44,9 +43,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
     const appToast = useAppToast();
     const { countryCodesWithFlag } = useCountryCodes();
     const terminalsDataProvider = new TerminalsDataProvider();
-    const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
-    const [hasErrors, setHasErrors] = useState(false);
-    const [hasValid, setHasValid] = useState(true);
     const queryClient = useQueryClient();
     const [isFinished, setIsFinished] = useState(false);
     const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
@@ -128,7 +124,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         defaultValues: {
             verbose_name: "",
             description: "",
-            details: "{}",
             allocation_timeout_seconds: 2,
             payment_types: [],
             src_currency_code: "",
@@ -146,7 +141,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             const updatedValues = {
                 verbose_name: terminal.verbose_name || "",
                 description: terminal.description || "",
-                details: JSON.stringify(terminal.details, null, 2) || "{}",
                 allocation_timeout_seconds: terminal.allocation_timeout_seconds ?? 2,
                 payment_types: terminal.payment_types?.map(pt => pt.code) || [],
                 src_currency_code: terminal.src_currency?.code || "",
@@ -192,7 +186,6 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 data: {
                     ...data,
                     settings: { ttl: { min: data.minTTL, max: data.maxTTL } },
-                    details: data.details && data.details.length !== 0 ? JSON.parse(data.details) : {},
                     allocation_timeout_seconds:
                         data.allocation_timeout_seconds !== undefined ? data.allocation_timeout_seconds : null
                 } as TerminalUpdate,
@@ -528,38 +521,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                         )}
                     />
 
-                    <FormField
-                        control={form.control}
-                        name="details"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <Label>{translate("resources.terminals.fields.details")}</Label>
-                                <FormControl>
-                                    <MonacoEditor
-                                        width="100%"
-                                        onMountEditor={() => setMonacoEditorMounted(true)}
-                                        onErrorsChange={setHasErrors}
-                                        onValidChange={setHasValid}
-                                        code={field.value ?? "{}"}
-                                        setCode={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
                     <div className="ml-auto mt-6 flex w-full flex-col space-x-0 p-2 sm:flex-row sm:space-x-2 md:w-2/5">
-                        <Button
-                            disabled={
-                                hasErrors ||
-                                (!hasValid && form.watch("details")?.length !== 0) ||
-                                !monacoEditorMounted ||
-                                submitButtonDisabled
-                            }
-                            type="submit"
-                            variant="default"
-                            className="flex-1">
+                        <Button disabled={submitButtonDisabled} type="submit" variant="default" className="flex-1">
                             {translate("app.ui.actions.save")}
                         </Button>
                         <Button

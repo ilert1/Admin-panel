@@ -34,7 +34,9 @@
         "methods": "Methods",
         "callback_nats_queue": "Nats queue",
         "adapter_nats_subject": "Nats subject",
-        "paymentMethods": "Payment methods"
+        "paymentMethods": "Payment methods",
+        "terminal_auth_schema": "Terminal auth schema",
+        "terminal_details_schema": "Terminal details schema"
     },
     "resources.provider.fields.securityPolicy": {
         "statusActivatedSuccessfully": "Security policy for %{providerName} provider was activated successfully",
@@ -44,6 +46,16 @@
         "name": "Name must contain at least 1 symbol",
         "alreadyInUse": "This name is already in use. Choose another one.",
         "methodAlreadyExist": "This method already exists"
+    },
+    "resources.provider.terminalSchema": {
+        "schemaName": "Name of schema key",
+        "addSchema": "Add schema",
+        "removeSchemaDialog": "Delete terminal schema?",
+        "schemaAddSuccess": "Schema successfully added",
+        "schemaEditSuccess": "Schema successfully edited",
+        "schemaDeleteSuccess": "Schema successfully deleted",
+        "notFound": "Terminal schema not found",
+        "schemaAlreadyExist": "This schema already exists"
     },
     "resources.provider.callback": "Callback",
     "resources.provider.callbackEdit": "Edit callback",

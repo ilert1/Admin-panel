@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { MouseEvent } from "react";
 
-interface IAuthDataJsonToggle {
+interface IJsonToggle {
     showJson: boolean;
     setShowJson: (state: boolean) => void;
 }
 
-export const AuthDataJsonToggle = ({ showJson, setShowJson }: IAuthDataJsonToggle) => {
+export const JsonToggle = ({ showJson, setShowJson }: IJsonToggle) => {
     const toggleJsonHandler = (e: MouseEvent) => {
         e.preventDefault();
         setShowJson(!showJson);

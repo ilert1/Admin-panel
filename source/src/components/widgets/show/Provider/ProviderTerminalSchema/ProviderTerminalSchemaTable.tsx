@@ -1,24 +1,28 @@
 import { Button } from "@/components/ui/Button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTranslate } from "react-admin";
-import { PaymentMethodConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { BaseFieldConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { cn } from "@/lib/utils";
 import { TextField } from "@/components/ui/text-field";
 import { Checkbox } from "@/components/ui/checkbox";
 
-interface IProviderPaymentMethodsTable {
+interface IProviderTerminalSchemaTable {
+    schemaValue: BaseFieldConfig;
     onEditClick: () => void;
-    methodValue: PaymentMethodConfig | null | undefined;
+    onDeleteClick: () => void;
     disabledProcess: boolean;
     disabledEditButton?: boolean;
+    disabledDeleteButton?: boolean;
 }
 
-export const ProviderPaymentMethodsTable = ({
-    methodValue,
+export const ProviderTerminalSchemaTable = ({
+    schemaValue,
     onEditClick,
+    onDeleteClick,
     disabledProcess,
-    disabledEditButton
-}: IProviderPaymentMethodsTable) => {
+    disabledEditButton,
+    disabledDeleteButton
+}: IProviderTerminalSchemaTable) => {
     const translate = useTranslate();
 
     return (
@@ -38,9 +42,9 @@ export const ProviderPaymentMethodsTable = ({
                     </TableRow>
                 </TableHeader>
 
-                {methodValue &&
-                    (Object.keys(methodValue) as (keyof PaymentMethodConfig)[]).map((methodKey, rowIndex) => (
-                        <TableBody key={methodKey}>
+                {schemaValue &&
+                    (Object.keys(schemaValue) as (keyof BaseFieldConfig)[]).map((key, rowIndex) => (
+                        <TableBody key={key}>
                             <TableRow className="border-muted">
                                 <TableCell
                                     className={cn(
@@ -49,7 +53,7 @@ export const ProviderPaymentMethodsTable = ({
                                             ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                             : "bg-neutral-0 dark:bg-neutral-100"
                                     )}>
-                                    {methodKey}
+                                    {key}
                                 </TableCell>
 
                                 <TableCell
@@ -59,15 +63,15 @@ export const ProviderPaymentMethodsTable = ({
                                             ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                             : "bg-neutral-0 dark:bg-neutral-100"
                                     )}>
-                                    {typeof methodValue[methodKey] === "boolean" ? (
+                                    {typeof schemaValue[key] === "boolean" ? (
                                         <Checkbox
-                                            checked={methodValue[methodKey]}
+                                            checked={schemaValue[key]}
                                             className="pointer-events-none cursor-default"
                                         />
                                     ) : (
                                         <TextField
                                             className="text-neutral-80 dark:text-neutral-40"
-                                            text={methodValue[methodKey] || ""}
+                                            text={schemaValue[key] || ""}
                                         />
                                     )}
                                 </TableCell>
@@ -79,6 +83,14 @@ export const ProviderPaymentMethodsTable = ({
             <div className="flex flex-wrap justify-end gap-2 md:gap-4">
                 <Button disabled={disabledProcess || disabledEditButton} onClick={onEditClick}>
                     {translate("app.ui.actions.edit")}
+                </Button>
+
+                <Button
+                    className="disabled:bg-neutral-40 disabled:dark:bg-neutral-70"
+                    disabled={disabledProcess || disabledDeleteButton}
+                    onClick={onDeleteClick}
+                    variant={"outline_gray"}>
+                    {translate("app.ui.actions.delete")}
                 </Button>
             </div>
         </div>

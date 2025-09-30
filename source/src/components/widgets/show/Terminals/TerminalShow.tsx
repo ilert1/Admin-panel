@@ -12,14 +12,15 @@ import { PaymentsTypesShowComponent } from "../../components/PaymentsTypesShowCo
 import { useSheets } from "@/components/providers/SheetProvider";
 import { Fees } from "../../components/Fees";
 import { Label } from "@/components/ui/label";
-import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { GenerateCallbackDialog } from "./GenerateCallbackDialog";
 import { Badge } from "@/components/ui/badge";
 import { Limits } from "../../components/Limits";
 import { StateViewer } from "@/components/ui/StateViewer";
 import { useCountryCodes } from "@/hooks";
+import { DetailsDataViewer } from "../../edit/Terminals/DetailsData";
 import { IconsList } from "../Provider/ProviderSettings/IconsList";
+import { DetailsDataEditSheet } from "../../edit/Terminals/DetailsData/DetailsDataEditSheet";
 
 interface TerminalShowProps {
     id: string;
@@ -36,6 +37,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
     const { countryCodesWithFlag } = useCountryCodes();
 
     const [editAuthDataDialogOpen, setEditAuthDataDialogOpen] = useState(false);
+    const [editDetailsDataDialogOpen, setEditDetailsDataDialogOpen] = useState(false);
     const [generateCallbackDialogOpen, setGenerateCallbackDialogOpen] = useState(false);
 
     if (context.isLoading || !context.record) {
@@ -150,26 +152,17 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         </div>
                     </div>
 
-                    {context.record?.details && Object.keys(context.record?.details).length > 0 && (
-                        <div className="mt-5 border-t-[1px] border-neutral-90 pt-3 dark:border-neutral-100 md:mt-10 md:pt-8">
-                            <Label className="text-sm !text-neutral-60 dark:!text-neutral-60">
-                                {translate("resources.terminals.fields.details")}
-                            </Label>
-                            <div className="flex h-full">
-                                <MonacoEditor
-                                    disabled
-                                    height="h-48"
-                                    width="100%"
-                                    code={JSON.stringify(context.record?.details || "{}", null, 2)}
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    <div className="my-5 border-y-[1px] border-neutral-90 py-5 dark:border-neutral-100 md:my-10 md:py-10">
+                    <div className="mt-5 border-t-[1px] border-neutral-90 pt-3 dark:border-neutral-100 md:mt-10 md:pt-8">
                         <AuthDataViewer
                             authData={context.record?.auth}
                             showAuthDataEditSheet={() => setEditAuthDataDialogOpen(true)}
+                        />
+                    </div>
+
+                    <div className="my-5 border-y-[1px] border-neutral-90 py-5 dark:border-neutral-100 md:my-10 md:py-10">
+                        <DetailsDataViewer
+                            detailsData={context.record?.details}
+                            showDetailsDataEditSheet={() => setEditDetailsDataDialogOpen(true)}
                         />
                     </div>
                 </div>
@@ -183,6 +176,15 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                 open={editAuthDataDialogOpen}
                 onOpenChange={setEditAuthDataDialogOpen}
                 originalAuthData={context.record?.auth}
+                authSchema={context.record.provider.terminal_auth_schema?.fields}
+            />
+
+            <DetailsDataEditSheet
+                terminalId={id}
+                open={editDetailsDataDialogOpen}
+                onOpenChange={setEditDetailsDataDialogOpen}
+                originalDetailsData={context.record?.details}
+                detailsSchema={context.record.provider.terminal_details_schema?.fields}
             />
 
             <EditTerminalDialog

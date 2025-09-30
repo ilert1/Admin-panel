@@ -7,19 +7,24 @@ import { Info, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
-type ParseAuthData = {
+type ParseDetailsData = {
     id: number;
     key: string;
     value: string;
 }[];
-interface IAuthDataEditTable {
+interface IDetailsDataEditTable {
     loading: boolean;
-    authData: ParseAuthData;
-    onChangeAuthData: (val: ParseAuthData) => void;
-    authSchema?: BaseFieldConfig[];
+    detailsData: ParseDetailsData;
+    onChangeDetailsData: (val: ParseDetailsData) => void;
+    detailsSchema?: BaseFieldConfig[];
 }
 
-export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSchema }: IAuthDataEditTable) => {
+export const DetailsDataEditTable = ({
+    detailsData,
+    onChangeDetailsData,
+    loading,
+    detailsSchema
+}: IDetailsDataEditTable) => {
     const translate = useTranslate();
 
     const [newKey, setNewKey] = useState("");
@@ -27,15 +32,15 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
     const [errors, setErrors] = useState({ keyError: false, valueError: false });
 
     const handleDelete = (key: string) => {
-        onChangeAuthData(authData.filter(item => item.key !== key));
+        onChangeDetailsData(detailsData.filter(item => item.key !== key));
     };
 
-    const addAuthData = () => {
-        if (!newKey || !newValue || !!authData.find(item => item.key === newKey)) {
-            setErrors({ keyError: !newKey || !!authData.find(item => item.key === newKey), valueError: !newValue });
+    const addDetailsData = () => {
+        if (!newKey || !newValue || !!detailsData.find(item => item.key === newKey)) {
+            setErrors({ keyError: !newKey || !!detailsData.find(item => item.key === newKey), valueError: !newValue });
             return;
         }
-        onChangeAuthData([...authData, { id: authData.length, key: newKey, value: newValue }]);
+        onChangeDetailsData([...detailsData, { id: detailsData.length, key: newKey, value: newValue }]);
         setNewKey("");
         setNewValue("");
     };
@@ -66,15 +71,15 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
 
     const onValueChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
         const value = e.target.value;
-        onChangeAuthData(
-            authData.map(item => (item.key === authDataKey ? { id: item.id, key: item.key, value } : item))
+        onChangeDetailsData(
+            detailsData.map(item => (item.key === authDataKey ? { id: item.id, key: item.key, value } : item))
         );
     };
 
     const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
         const value = e.target.value;
-        onChangeAuthData(
-            authData.map(item => (item.key === authDataKey ? { id: item.id, key: value, value: item.value } : item))
+        onChangeDetailsData(
+            detailsData.map(item => (item.key === authDataKey ? { id: item.id, key: value, value: item.value } : item))
         );
     };
 
@@ -90,8 +95,8 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                 </p>
             </div>
 
-            {authData.map((item, index) => {
-                const currentAuthSchema = authSchema?.find(schema => schema.key === item.key);
+            {detailsData.map((item, index) => {
+                const currentDetailsSchema = detailsSchema?.find(schema => schema.key === item.key);
 
                 return (
                     <div
@@ -110,14 +115,14 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                                     type="text"
                                 />
 
-                                {currentAuthSchema?.required && (
+                                {currentDetailsSchema?.required && (
                                     <span className="pointer-events-none absolute right-1.5 top-0 text-lg text-red-40">
                                         *
                                     </span>
                                 )}
                             </div>
 
-                            {currentAuthSchema?.description && currentAuthSchema?.description.length > 0 && (
+                            {currentDetailsSchema?.description && currentDetailsSchema?.description.length > 0 && (
                                 <TooltipProvider>
                                     <Tooltip delayDuration={100} key={index}>
                                         <TooltipTrigger role="tooltip" asChild className="h-auto">
@@ -126,7 +131,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                                             </Button>
                                         </TooltipTrigger>
                                         <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                                            <p>{currentAuthSchema?.description}</p>
+                                            <p>{currentDetailsSchema?.description}</p>
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
@@ -140,7 +145,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                                 onChange={e => onValueChange(e, item.key)}
                                 error={item.value.length === 0}
                                 errorMessage={translate("resources.terminals.errors.value_error")}
-                                type="password_masked"
+                                type="text"
                             />
                         </div>
 
@@ -154,7 +159,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
             <div
                 className={clsx(
                     "grid w-full grid-cols-[1fr,1fr,100px] items-start bg-green-50",
-                    authData.length % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
+                    detailsData.length % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                 )}>
                 <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Input
@@ -178,7 +183,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
 
                 <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Button disabled={loading} className="h-9 px-2" variant="default">
-                        <PlusCircle onClick={addAuthData} />
+                        <PlusCircle onClick={addDetailsData} />
                     </Button>
                 </div>
             </div>

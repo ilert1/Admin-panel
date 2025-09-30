@@ -7,14 +7,14 @@ import { TableTypes } from "../../../shared/SimpleTable";
 import { TextField } from "@/components/ui/text-field";
 import { Button } from "@/components/ui/Button";
 import { JsonToggle } from "../JsonToggle";
-import { TerminalBaseAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { TerminalReadDetails } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
-interface IAuthDataViewer {
-    authData: TerminalBaseAuth | undefined;
-    showAuthDataEditSheet: () => void;
+interface IDetailsDataViewer {
+    detailsData: TerminalReadDetails | undefined;
+    showDetailsDataEditSheet: () => void;
 }
 
-export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataViewer) => {
+export const DetailsDataViewer = ({ detailsData, showDetailsDataEditSheet }: IDetailsDataViewer) => {
     const translate = useTranslate();
 
     const [showJson, setShowJson] = useState(false);
@@ -33,14 +33,14 @@ export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataVie
             accessorKey: "value",
             header: translate("resources.terminals.fields.value"),
             cell: ({ row }) => {
-                return <TextField text={row.original.value} type={row.original.value ? "secret" : "text"} copyValue />;
+                return <TextField text={row.original.value} wrap lineClamp copyValue />;
             }
         }
     ];
 
-    const parseAuthData = useMemo(
-        () => (authData ? Object.keys(authData).map(key => ({ key, value: authData[key] as string })) : []),
-        [authData]
+    const parseDetailsData = useMemo(
+        () => (detailsData ? Object.keys(detailsData).map(key => ({ key, value: detailsData[key] as string })) : []),
+        [detailsData]
     );
 
     return (
@@ -48,7 +48,7 @@ export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataVie
             <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-1">
                     <p className="text-xl !text-neutral-90 dark:!text-neutral-30 md:text-2xl">
-                        {translate("resources.terminals.fields.auth")}
+                        {translate("resources.terminals.fields.details")}
                     </p>
 
                     <div className="flex gap-4">
@@ -57,7 +57,7 @@ export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataVie
                         <Button
                             onClick={e => {
                                 e.preventDefault();
-                                showAuthDataEditSheet();
+                                showDetailsDataEditSheet();
                             }}>
                             {translate("app.ui.actions.edit")}
                         </Button>
@@ -65,11 +65,11 @@ export const AuthDataViewer = ({ authData, showAuthDataEditSheet }: IAuthDataVie
                 </div>
 
                 {showJson ? (
-                    <MonacoEditor disabled height="h-48" width="100%" code={JSON.stringify(authData, null, 2)} />
+                    <MonacoEditor disabled height="h-48" width="100%" code={JSON.stringify(detailsData, null, 2)} />
                 ) : (
                     <SimpleTable
                         columns={authDataColumns}
-                        data={parseAuthData}
+                        data={parseDetailsData}
                         tableType={TableTypes.COLORED}
                         className="overflow-hidden rounded-16"
                     />

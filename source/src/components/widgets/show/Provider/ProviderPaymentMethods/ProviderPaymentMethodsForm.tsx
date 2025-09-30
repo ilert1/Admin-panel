@@ -10,7 +10,7 @@ import { useTranslate } from "react-admin";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface IProviderMethodsForm {
+interface IProviderPaymentMethodsForm {
     methodValue: PaymentMethodConfig | null | undefined;
     disabledProcess: boolean;
     onChangeMethod: (value: PaymentMethodConfig) => void;
@@ -22,7 +22,7 @@ export const ProviderPaymentMethodsForm = ({
     onChangeMethod,
     onCancel,
     disabledProcess
-}: IProviderMethodsForm) => {
+}: IProviderPaymentMethodsForm) => {
     const translate = useTranslate();
 
     const formSchema = z.object({
@@ -35,9 +35,9 @@ export const ProviderPaymentMethodsForm = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            enabled: methodValue?.enabled || false,
-            cancel: methodValue?.cancel || false,
-            confirm: methodValue?.confirm || false,
+            enabled: methodValue?.enabled !== undefined ? methodValue?.enabled : false,
+            cancel: methodValue?.cancel !== undefined ? methodValue?.cancel : false,
+            confirm: methodValue?.confirm !== undefined ? methodValue?.confirm : false,
             task_queue: methodValue?.task_queue || ""
         }
     });
@@ -60,10 +60,10 @@ export const ProviderPaymentMethodsForm = ({
                         </TableRow>
                     </TableHeader>
 
-                    {methodValue &&
-                        (Object.keys(methodValue) as (keyof PaymentMethodConfig)[]).map((methodKey, rowIndex) => (
-                            <TableBody key={methodKey}>
-                                <TableRow className="border-muted">
+                    <TableBody>
+                        {methodValue &&
+                            (Object.keys(methodValue) as (keyof PaymentMethodConfig)[]).map((methodKey, rowIndex) => (
+                                <TableRow key={methodKey} className="border-muted">
                                     <TableCell
                                         className={cn(
                                             "relative border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0 sm:w-80",
@@ -118,8 +118,8 @@ export const ProviderPaymentMethodsForm = ({
                                         )}
                                     </TableCell>
                                 </TableRow>
-                            </TableBody>
-                        ))}
+                            ))}
+                    </TableBody>
                 </Table>
 
                 <div className="flex flex-wrap justify-end gap-2 md:gap-4">

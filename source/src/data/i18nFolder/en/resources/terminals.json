@@ -13,7 +13,9 @@
         "details": "Details",
         "allocation_timeout_seconds": "Provider response timeout",
         "timeout": "Provider timeout",
-        "pays": "PayIn/PayOut"
+        "pays": "PayIn/PayOut",
+        "key": "Key",
+        "value": "Value"
     },
     "resources.terminals.filter": {
         "filters": "Filters",
@@ -26,8 +28,8 @@
         "verbose_name": "The terminal must have a name",
         "description": "The terminal must have a description",
         "auth_data_toggle": "To switch the mode, fix the errors",
-        "key_error": "The key field is required",
-        "value_error": "The value field is required",
+        "key_error": "The key cannot be empty",
+        "value_error": "The value cannot be empty",
         "allocation_timeout_seconds": "Integer values only",
         "allocation_timeout_seconds_min": "The minimum value is 1",
         "allocation_timeout_seconds_max": "The maximum value is 120",

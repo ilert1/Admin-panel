@@ -5,66 +5,61 @@ import { JsonToggle } from "../JsonToggle";
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { Button } from "@/components/ui/Button";
-import { BaseFieldConfig, TerminalBaseAuth } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { BaseFieldConfig, TerminalReadDetails, TerminalUpdate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { AuthDataEditTable } from "./AuthDataEditTable";
-import {
-    terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDelete,
-    terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatch
-} from "@/api/enigma/terminal/terminal";
+import { TerminalsDataProvider } from "@/data";
+import { DetailsDataEditTable } from "./DetailsDataEditTable";
 
-interface IAuthDataEditSheet {
+interface IDetailsDataEditSheet {
     open: boolean;
     terminalId: string;
-    originalAuthData: TerminalBaseAuth | undefined;
+    originalDetailsData: TerminalReadDetails | undefined;
     onOpenChange: (state: boolean) => void;
-    authSchema?: BaseFieldConfig[];
+    detailsSchema?: BaseFieldConfig[];
 }
 
-export const AuthDataEditSheet = ({
-    originalAuthData,
+export const DetailsDataEditSheet = ({
+    originalDetailsData,
     terminalId,
     open,
     onOpenChange,
-    authSchema
-}: IAuthDataEditSheet) => {
+    detailsSchema
+}: IDetailsDataEditSheet) => {
+    const terminalsDataProvider = new TerminalsDataProvider();
     const translate = useTranslate();
     const refresh = useRefresh();
     const appToast = useAppToast();
 
-    const parseAuthData = (data: TerminalBaseAuth | undefined) =>
+    const parseAuthData = (data: TerminalReadDetails | undefined) =>
         data ? Object.keys(data).map((key, index) => ({ id: index, key, value: data[key] as string })) : [];
 
     const [hasErrors, setHasErrors] = useState(false);
     const [isValid, setIsValid] = useState(true);
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
-    const [authData, setAuthData] = useState(() => parseAuthData(originalAuthData));
-    const [stringAuthData, setStringAuthData] = useState(() => JSON.stringify(originalAuthData || {}, null, 2));
+    const [detailsData, setDetailsData] = useState(() => parseAuthData(originalDetailsData));
+    const [stringDetailsData, setStringDetailsData] = useState(() =>
+        JSON.stringify(originalDetailsData || {}, null, 2)
+    );
     const [showJson, setShowJson] = useState(false);
     const [disabledBtn, setDisabledBtn] = useState(false);
 
-    const arrayAuthDataToObject = useCallback(
-        () => Object.fromEntries(authData.map(item => [item.key, item.value])),
-        [authData]
-    );
-
-    const filteringAuthSchema = useMemo(
-        () => authSchema?.filter(item => Object.keys(originalAuthData || {}).includes(item.key)),
-        [originalAuthData, authSchema]
+    const arrayDetailsDataToObject = useCallback(
+        () => Object.fromEntries(detailsData.map(item => [item.key, item.value])),
+        [detailsData]
     );
 
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
             if (state) {
-                if (authData.find(item => item.key === "" || item.value === "")) {
+                if (detailsData.find(item => item.key === "" || item.value === "")) {
                     throw new Error();
                 }
-                setStringAuthData(JSON.stringify(arrayAuthDataToObject(), null, 2));
+                setStringDetailsData(JSON.stringify(arrayDetailsDataToObject(), null, 2));
             } else {
                 if (hasErrors || !isValid || !monacoEditorMounted) {
                     throw new Error();
                 }
-                setAuthData(() => parseAuthData(JSON.parse(stringAuthData)));
+                setDetailsData(() => parseAuthData(JSON.parse(stringDetailsData)));
             }
 
             setShowJson(state);
@@ -75,98 +70,63 @@ export const AuthDataEditSheet = ({
 
     const onOpenChangeHandler = (state: boolean) => {
         if (!state) {
-            setAuthData(() => parseAuthData(originalAuthData));
-            setStringAuthData(() => JSON.stringify(originalAuthData || {}, null, 2));
+            setDetailsData(() => parseAuthData(originalDetailsData));
+            setStringDetailsData(() => JSON.stringify(originalDetailsData || {}, null, 2));
         }
 
         onOpenChange(state);
     };
 
     useEffect(() => {
-        setAuthData(() => parseAuthData(originalAuthData));
-        setStringAuthData(() => JSON.stringify(originalAuthData || {}, null, 2));
-    }, [originalAuthData]);
+        setDetailsData(() => parseAuthData(originalDetailsData));
+        setStringDetailsData(() => JSON.stringify(originalDetailsData || {}, null, 2));
+    }, [originalDetailsData]);
+
+    const filteringDetailsSchema = useMemo(
+        () => detailsSchema?.filter(item => Object.keys(originalDetailsData || {}).includes(item.key)),
+        [originalDetailsData, detailsSchema]
+    );
 
     const buttonSaveDisabled = useMemo(() => {
-        const stringifyOriginalAuthData = JSON.stringify(originalAuthData || {}, null, 2);
-        const stringifyAuthData = JSON.stringify(arrayAuthDataToObject(), null, 2);
+        const stringifyOriginalDetailsData = JSON.stringify(originalDetailsData || {}, null, 2);
+        const stringifyDetailsData = JSON.stringify(arrayDetailsDataToObject(), null, 2);
 
         return (
             (!showJson &&
-                (!!authData.find(item => item.key === "" || item.value === "") ||
-                    stringifyOriginalAuthData === stringifyAuthData)) ||
+                (!!detailsData.find(item => item.key === "" || item.value === "") ||
+                    stringifyOriginalDetailsData === stringifyDetailsData)) ||
             (showJson &&
-                (hasErrors || !isValid || !monacoEditorMounted || stringifyOriginalAuthData === stringAuthData)) ||
+                (hasErrors ||
+                    !isValid ||
+                    !monacoEditorMounted ||
+                    stringifyOriginalDetailsData === stringDetailsData)) ||
             disabledBtn
         );
     }, [
-        arrayAuthDataToObject,
-        authData,
+        arrayDetailsDataToObject,
+        detailsData,
         disabledBtn,
         hasErrors,
         isValid,
         monacoEditorMounted,
-        originalAuthData,
+        originalDetailsData,
         showJson,
-        stringAuthData
+        stringDetailsData
     ]);
 
     const submitHandler = async () => {
         try {
             setDisabledBtn(true);
 
-            const currentAuthData = showJson ? JSON.parse(stringAuthData) : arrayAuthDataToObject();
-            const authDataToUpdate: TerminalBaseAuth = {};
+            const detailsData = showJson ? JSON.parse(stringDetailsData) : arrayDetailsDataToObject();
 
-            // Проверка какие ключи нужно добавить или изменить
-            Object.keys(currentAuthData).forEach(key => {
-                if (!originalAuthData?.[key] || originalAuthData[key] !== currentAuthData[key]) {
-                    authDataToUpdate[key] = currentAuthData[key];
-                }
+            await terminalsDataProvider.update("terminals", {
+                id: terminalId,
+                data: {
+                    details: detailsData
+                } as TerminalUpdate,
+                previousData: undefined
             });
-
-            // Проверка какие ключи нужно удалить
-            const authDataKeysToRemove = Object.keys(originalAuthData || {}).filter(key => !currentAuthData[key]);
-
-            if (Object.keys(authDataToUpdate).length > 0) {
-                const res = await terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatch(
-                    terminalId,
-                    {
-                        auth: authDataToUpdate
-                    },
-                    {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem("access-token")}`
-                        }
-                    }
-                );
-
-                if ("data" in res.data && !res.data.success) {
-                    throw new Error(res.data.error?.error_message);
-                } else if ("detail" in res.data) {
-                    throw new Error(res.data.detail?.[0].msg);
-                }
-            }
-
-            if (authDataKeysToRemove.length > 0) {
-                const res = await terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDelete(
-                    terminalId,
-                    {
-                        keys: authDataKeysToRemove
-                    },
-                    {
-                        headers: {
-                            authorization: `Bearer ${localStorage.getItem("access-token")}`
-                        }
-                    }
-                );
-
-                if ("data" in res.data && !res.data.success) {
-                    throw new Error(res.data.error?.error_message);
-                } else if ("detail" in res.data) {
-                    throw new Error(res.data.detail?.[0].msg);
-                }
-            }
 
             refresh();
             onOpenChange(false);
@@ -206,15 +166,15 @@ export const AuthDataEditSheet = ({
                             onMountEditor={() => setMonacoEditorMounted(true)}
                             onErrorsChange={setHasErrors}
                             onValidChange={setIsValid}
-                            code={stringAuthData}
-                            setCode={setStringAuthData}
+                            code={stringDetailsData}
+                            setCode={setStringDetailsData}
                         />
                     ) : (
-                        <AuthDataEditTable
+                        <DetailsDataEditTable
                             loading={disabledBtn}
-                            authData={authData}
-                            onChangeAuthData={setAuthData}
-                            authSchema={filteringAuthSchema}
+                            detailsData={detailsData}
+                            onChangeDetailsData={setDetailsData}
+                            detailsSchema={filteringDetailsSchema}
                         />
                     )}
 
