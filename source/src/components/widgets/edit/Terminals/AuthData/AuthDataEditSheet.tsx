@@ -52,7 +52,6 @@ export const AuthDataEditSheet = ({
         () => authSchema?.filter(item => Object.keys(originalAuthData || {}).includes(item.key)),
         [originalAuthData, authSchema]
     );
-    ``;
 
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
