@@ -10,7 +10,7 @@ import { ProviderPaymentMethodsTable } from "./ProviderPaymentMethodsTable";
 import { StateViewer } from "@/components/ui/StateViewer";
 import { ProviderSettingsJsonShowDialog } from "../ProviderSettingsJsonShowDialog";
 import { Button, ShowButton } from "@/components/ui/Button";
-import { Copy } from "lucide-react";
+import { Copy, EyeIcon } from "lucide-react";
 import { useCopy } from "@/hooks/useCopy";
 
 interface IProviderMethodsShow {
@@ -64,14 +64,16 @@ export const ProviderPaymentMethodsShow = ({ paymentMethods, providerId, isFetch
                         {translate("resources.provider.fields.paymentMethods")}
                     </h3>
                     <div className="flex flex-col items-center">
-                        <Button className="flex" onClick={() => copy(stringifiedData)}>
-                            <Copy className="h-4 w-4" />
+                        <Button className="flex flex-col py-6" onClick={() => copy(stringifiedData)}>
+                            <Copy className="min-h-4 min-w-4" />
+                            <span>Json</span>
                         </Button>
-                        <span>Json</span>
                     </div>
                     <div className="flex flex-col items-center">
-                        <ShowButton onClick={() => setOpen(true)} />
-                        <span>Json</span>
+                        <Button onClick={() => setOpen(true)} variant="text_btn" className="flex flex-col py-6">
+                            <EyeIcon className="min-h-4 min-w-4" />
+                            <span>Json</span>
+                        </Button>
                     </div>
                 </div>
 

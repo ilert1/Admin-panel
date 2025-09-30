@@ -8,7 +8,7 @@ import { useRefresh, useTranslate } from "react-admin";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ProviderMethodsTable } from "./ProviderMethodsTable";
 import { Button, ShowButton } from "@/components/ui/Button";
-import { CirclePlus, Copy } from "lucide-react";
+import { CirclePlus, Copy, EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { ProviderMethodsForm } from "./ProviderMethodsForm";
 import { ProvidersDataProvider } from "@/data";
@@ -138,10 +138,21 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                 <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
                     {translate("resources.provider.fields.methods")}
                 </h3>
-                <Button className="flex" onClick={() => copy(stringifiedMethods)}>
-                    <Copy className="h-4 w-4" />
-                </Button>
-                <ShowButton onClick={() => setShowMethodsDialog(true)} />
+                <div className="flex flex-col items-center">
+                    <Button className="flex flex-col py-6" onClick={() => copy(stringifiedMethods)}>
+                        <Copy className="min-h-4 min-w-4" />
+                        <span>Json</span>
+                    </Button>
+                </div>
+                <div className="flex flex-col items-center">
+                    <Button
+                        onClick={() => setShowMethodsDialog(true)}
+                        variant="text_btn"
+                        className="flex flex-col py-6">
+                        <EyeIcon className="min-h-4 min-w-4" />
+                        <span>Json</span>
+                    </Button>
+                </div>
             </div>
             {Object.keys(methods).length > 0 ? (
                 <Accordion type="multiple">

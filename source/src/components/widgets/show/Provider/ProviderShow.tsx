@@ -10,7 +10,7 @@ import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { ProviderMethodsShow } from "./ProviderMethods";
 import { useFetchDictionaries } from "@/hooks";
-import { Copy, LockKeyhole, LockKeyholeOpen } from "lucide-react";
+import { Copy, EyeIcon, LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 import { EditIPsDialog } from "../Mapping/EditIPsDialog";
 import { SimpleTable } from "../../shared";
@@ -229,10 +229,21 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             <h3 className="text-display-2 text-neutral-90 dark:text-neutral-0">
                                 {translate("resources.provider.callback")}
                             </h3>
-                            <Button className="flex" onClick={() => copy(stringifiedCallbackData)}>
-                                <Copy className="h-4 w-4" />
-                            </Button>
-                            <ShowButton onClick={() => setShowProviderCallback(true)} />
+                            <div className="flex flex-col items-center">
+                                <Button className="flex flex-col py-6" onClick={() => copy(stringifiedCallbackData)}>
+                                    <Copy className="min-h-4 min-w-4" />
+                                    <span>Json</span>
+                                </Button>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <Button
+                                    onClick={() => setShowProviderCallback(true)}
+                                    variant="text_btn"
+                                    className="flex flex-col py-6">
+                                    <EyeIcon className="min-h-4 min-w-4" />
+                                    <span>Json</span>
+                                </Button>
+                            </div>
                         </div>
 
                         <Button onClick={() => setEditCallbackDialogOpen(true)}>
