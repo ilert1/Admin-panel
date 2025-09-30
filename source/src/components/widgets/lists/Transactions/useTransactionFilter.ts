@@ -10,14 +10,14 @@ import { useFetchDictionaries, useMerchantsListWithoutPagination, useProvidersLi
 import { getFilenameFromContentDisposition } from "@/helpers/getFilenameFromContentDisposition";
 
 const useTransactionFilter = () => {
+    const { permissions } = usePermissions();
+    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
     const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
     const dictionaries = useFetchDictionaries();
     const { merchantData, merchantsLoadingProcess } = useMerchantsListWithoutPagination();
-    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
+    const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination(!adminOnly);
     const appToast = useAppToast();
     const translate = useTranslate();
-    const { permissions } = usePermissions();
-    const adminOnly = useMemo(() => permissions === "admin", [permissions]);
 
     const [startDate, setStartDate] = useState<Date | undefined>(
         filterValues?.start_date ? new Date(filterValues?.start_date) : undefined
