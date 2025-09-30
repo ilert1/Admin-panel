@@ -8,6 +8,10 @@ import { ProviderUpdateParams } from "@/data/providers";
 import { ProviderPaymentMethodsForm } from "./ProviderPaymentMethodsForm";
 import { ProviderPaymentMethodsTable } from "./ProviderPaymentMethodsTable";
 import { StateViewer } from "@/components/ui/StateViewer";
+import { ProviderSettingsJsonShowDialog } from "../ProviderSettingsJsonShowDialog";
+import { Button, ShowButton } from "@/components/ui/Button";
+import { Copy } from "lucide-react";
+import { useCopy } from "@/hooks/useCopy";
 
 interface IProviderMethodsShow {
     providerId: string;
@@ -19,6 +23,8 @@ export const ProviderPaymentMethodsShow = ({ paymentMethods, providerId, isFetch
     const providersDataProvider = new ProvidersDataProvider();
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [editMethod, setEditMethod] = useState("");
+    const [open, setOpen] = useState(false);
+    const { copy } = useCopy();
 
     const appToast = useAppToast();
     const refresh = useRefresh();
@@ -48,49 +54,73 @@ export const ProviderPaymentMethodsShow = ({ paymentMethods, providerId, isFetch
         }
     };
 
+    const stringifiedData = JSON.stringify(paymentMethods || "{}", null, 4);
+
     return (
-        <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
-            <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
-                {translate("resources.provider.fields.paymentMethods")}
-            </h3>
+        <>
+            <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
+                <div className="flex items-center gap-4">
+                    <h3 className="self-start text-2xl text-neutral-90 dark:text-neutral-30">
+                        {translate("resources.provider.fields.paymentMethods")}
+                    </h3>
+                    <div className="flex flex-col items-center">
+                        <Button className="flex" onClick={() => copy(stringifiedData)}>
+                            <Copy className="h-4 w-4" />
+                        </Button>
+                        <span>Json</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <ShowButton onClick={() => setOpen(true)} />
+                        <span>Json</span>
+                    </div>
+                </div>
 
-            {Object.keys(paymentMethods).length > 0 ? (
-                <Accordion type="multiple">
-                    {(Object.keys(paymentMethods) as (keyof ProviderPaymentMethods)[]).map(methodKey => (
-                        <AccordionItem key={methodKey} value={methodKey}>
-                            <AccordionTrigger className="text-neutral-90 dark:text-neutral-0">
-                                <div className="flex items-center gap-2">
-                                    <p className="text-base">{methodKey}</p>
+                {Object.keys(paymentMethods).length > 0 ? (
+                    <Accordion type="multiple">
+                        {(Object.keys(paymentMethods) as (keyof ProviderPaymentMethods)[]).map(methodKey => (
+                            <AccordionItem key={methodKey} value={methodKey}>
+                                <AccordionTrigger className="text-neutral-90 dark:text-neutral-0">
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base">{methodKey}</p>
 
-                                    <StateViewer value={paymentMethods[methodKey]?.enabled ? "active" : "inactive"} />
-                                </div>
-                            </AccordionTrigger>
+                                        <StateViewer
+                                            value={paymentMethods[methodKey]?.enabled ? "active" : "inactive"}
+                                        />
+                                    </div>
+                                </AccordionTrigger>
 
-                            <AccordionContent>
-                                {editMethod === methodKey ? (
-                                    <ProviderPaymentMethodsForm
-                                        methodValue={paymentMethods[methodKey]}
-                                        disabledProcess={isFetching || buttonDisabled}
-                                        onChangeMethod={value => onChangeMethod(methodKey, value)}
-                                        onCancel={() => setEditMethod("")}
-                                    />
-                                ) : (
-                                    <ProviderPaymentMethodsTable
-                                        disabledProcess={isFetching || buttonDisabled}
-                                        disabledEditButton={!!editMethod}
-                                        onEditClick={() => setEditMethod(methodKey)}
-                                        methodValue={paymentMethods[methodKey]}
-                                    />
-                                )}
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            ) : (
-                <span className="self-center text-lg text-neutral-50">
-                    {translate("resources.provider.methodNotFound")}
-                </span>
-            )}
-        </div>
+                                <AccordionContent>
+                                    {editMethod === methodKey ? (
+                                        <ProviderPaymentMethodsForm
+                                            methodValue={paymentMethods[methodKey]}
+                                            disabledProcess={isFetching || buttonDisabled}
+                                            onChangeMethod={value => onChangeMethod(methodKey, value)}
+                                            onCancel={() => setEditMethod("")}
+                                        />
+                                    ) : (
+                                        <ProviderPaymentMethodsTable
+                                            disabledProcess={isFetching || buttonDisabled}
+                                            disabledEditButton={!!editMethod}
+                                            onEditClick={() => setEditMethod(methodKey)}
+                                            methodValue={paymentMethods[methodKey]}
+                                        />
+                                    )}
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                ) : (
+                    <span className="self-center text-lg text-neutral-50">
+                        {translate("resources.provider.methodNotFound")}
+                    </span>
+                )}
+                <ProviderSettingsJsonShowDialog
+                    open={open}
+                    setOpen={setOpen}
+                    label={translate("resources.provider.fields.paymentMethods")}
+                    json={stringifiedData}
+                />
+            </div>
+        </>
     );
 };

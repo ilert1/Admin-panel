@@ -20,7 +20,8 @@
         "wiki_link": "Wiki",
         "errors": {
             "WrongFormatOfUrl": "Invalid URL format. Example: http(s)://www.example.com"
-        }
+        },
+        "copyAllData": "Copy all data"
     },
     "resources.provider.fields": {
         "_name": "Name",

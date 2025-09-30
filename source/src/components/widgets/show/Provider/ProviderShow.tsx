@@ -2,7 +2,7 @@ import { useRefresh, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { useCallback, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
-import { Button } from "@/components/ui/Button";
+import { Button, ShowButton } from "@/components/ui/Button";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { IProvider, ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
@@ -10,7 +10,7 @@ import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { ProviderMethodsShow } from "./ProviderMethods";
 import { useFetchDictionaries } from "@/hooks";
-import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
+import { Copy, LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 import { EditIPsDialog } from "../Mapping/EditIPsDialog";
 import { SimpleTable } from "../../shared";
@@ -32,6 +32,8 @@ import { EditProviderSettingsDialog } from "./ProviderSettings/EditProviderSetti
 import { IconsList } from "./ProviderSettings/IconsList";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useCopy } from "@/hooks/useCopy";
+import { ProviderSettingsJsonShowDialog } from "./ProviderSettingsJsonShowDialog";
 
 export interface ProviderShowProps {
     id: string;
@@ -44,6 +46,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const dataProvider = new ProvidersDataProvider();
     const refresh = useRefresh();
     const appToast = useAppToast();
+    const { copy } = useCopy();
 
     const translate = useTranslate();
 
@@ -57,6 +60,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const [editBlockedIPsClicked, setEditBlockedIPsClicked] = useState(false);
     const [editDeliveryPolicyDialogOpen, setEditDeliveryPolicyDialogOpen] = useState(false);
     const [editCallbackDialogOpen, setEditCallbackDialogOpen] = useState(false);
+    const [showProviderCallback, setShowProviderCallback] = useState(false);
 
     const allowedIPColumn: ColumnDef<SecurityPolicyConfigAllowedIpsItem>[] = [
         {
@@ -158,6 +162,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const retryPolicy = delivery_policy?.retry_policy;
     const currentStateReversed = !sec_policy?.blocked;
     const providerEnvironment = context.record.info?.provider_environment;
+    const stringifiedCallbackData = JSON.stringify(callback || "{}", null, 4);
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
@@ -219,10 +224,16 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                 </div>
 
                 <div className="mt-5 flex flex-col gap-2 border-t-[1px] border-neutral-90 pt-5 dark:border-neutral-100 md:mt-10 md:pt-10">
-                    <div className="flex flex-col justify-between sm:flex-row">
-                        <h3 className="mb-2 text-display-2 text-neutral-90 dark:text-neutral-0 md:mb-4">
-                            {translate("resources.provider.callback")}
-                        </h3>
+                    <div className="mb-2 flex flex-col justify-between sm:mb-4 sm:flex-row">
+                        <div className="flex items-center justify-center gap-4">
+                            <h3 className="text-display-2 text-neutral-90 dark:text-neutral-0">
+                                {translate("resources.provider.callback")}
+                            </h3>
+                            <Button className="flex" onClick={() => copy(stringifiedCallbackData)}>
+                                <Copy className="h-4 w-4" />
+                            </Button>
+                            <ShowButton onClick={() => setShowProviderCallback(true)} />
+                        </div>
 
                         <Button onClick={() => setEditCallbackDialogOpen(true)}>
                             {translate("resources.provider.callbackEdit")}
@@ -522,6 +533,12 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
 
             <EditProviderSecPolicy id={id} onOpenChange={setEditSecPolicyClicked} open={editSecPolicyClicked} />
             <EditProviderSettingsDialog id={id} open={editLinksDialogOpen} onOpenChange={setEditLinksDialogOpen} />
+            <ProviderSettingsJsonShowDialog
+                open={showProviderCallback}
+                setOpen={setShowProviderCallback}
+                label={translate("resources.provider.callback")}
+                json={stringifiedCallbackData}
+            />
         </div>
     );
 };

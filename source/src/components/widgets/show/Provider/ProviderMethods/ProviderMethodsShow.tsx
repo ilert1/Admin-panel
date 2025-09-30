@@ -7,8 +7,8 @@ import {
 import { useRefresh, useTranslate } from "react-admin";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ProviderMethodsTable } from "./ProviderMethodsTable";
-import { Button } from "@/components/ui/Button";
-import { CirclePlus } from "lucide-react";
+import { Button, ShowButton } from "@/components/ui/Button";
+import { CirclePlus, Copy } from "lucide-react";
 import { useState } from "react";
 import { ProviderMethodsForm } from "./ProviderMethodsForm";
 import { ProvidersDataProvider } from "@/data";
@@ -22,6 +22,8 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { ProviderUpdateParams } from "@/data/providers";
+import { useCopy } from "@/hooks/useCopy";
+import { ProviderSettingsJsonShowDialog } from "../ProviderSettingsJsonShowDialog";
 
 interface IProviderMethodsShow {
     providerId: string;
@@ -36,10 +38,12 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
     const [addMethodForm, setAddMethodForm] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [keyForRemove, setKeyForRemove] = useState("");
+    const [showMethodsDialog, setShowMethodsDialog] = useState(false);
 
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
+    const { copy } = useCopy();
 
     const handleDeleteClick = (key: string) => {
         setKeyForRemove(key);
@@ -126,12 +130,19 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
         }
     };
 
+    const stringifiedMethods = JSON.stringify(methods || "{}", null, 4);
+
     return (
         <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
-            <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
-                {translate("resources.provider.fields.methods")}
-            </h3>
-
+            <div className="flex items-center gap-4">
+                <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
+                    {translate("resources.provider.fields.methods")}
+                </h3>
+                <Button className="flex" onClick={() => copy(stringifiedMethods)}>
+                    <Copy className="h-4 w-4" />
+                </Button>
+                <ShowButton onClick={() => setShowMethodsDialog(true)} />
+            </div>
             {Object.keys(methods).length > 0 ? (
                 <Accordion type="multiple">
                     {Object.keys(methods).map(methodKey => (
@@ -210,6 +221,13 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            <ProviderSettingsJsonShowDialog
+                open={showMethodsDialog}
+                setOpen={setShowMethodsDialog}
+                label={translate("resources.provider.fields.methods")}
+                json={stringifiedMethods}
+            />
         </div>
     );
 };
