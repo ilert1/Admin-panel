@@ -1,8 +1,9 @@
 import { BaseFieldConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button, TrashButton } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input/input";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import clsx from "clsx";
-import { PlusCircle } from "lucide-react";
+import { Info, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useTranslate } from "react-admin";
 
@@ -97,19 +98,36 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                             "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
                             index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                         )}>
-                        <div className="relative flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                            <Input
-                                value={item.key}
-                                onChange={e => onKeyChange(e, item.key)}
-                                error={item.key.length === 0}
-                                errorMessage={translate("resources.terminals.errors.value_error")}
-                                type="text"
-                            />
+                        <div className="flex items-center gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="relative w-full">
+                                <Input
+                                    value={item.key}
+                                    onChange={e => onKeyChange(e, item.key)}
+                                    error={item.key.length === 0}
+                                    errorMessage={translate("resources.terminals.errors.value_error")}
+                                    type="text"
+                                />
 
-                            {currentAuthSchema?.required && (
-                                <span className="pointer-events-none absolute right-5 top-2.5 text-lg text-red-40">
-                                    *
-                                </span>
+                                {currentAuthSchema?.required && (
+                                    <span className="pointer-events-none absolute right-1.5 top-0 text-lg text-red-40">
+                                        *
+                                    </span>
+                                )}
+                            </div>
+
+                            {currentAuthSchema?.description && currentAuthSchema?.description.length > 0 && (
+                                <TooltipProvider>
+                                    <Tooltip delayDuration={100} key={index}>
+                                        <TooltipTrigger role="tooltip" asChild className="h-auto">
+                                            <Button variant="secondary" className="p-0">
+                                                <Info className="text-neutral-60 dark:text-neutral-40" />
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent tabIndex={-1} sideOffset={5} align="center">
+                                            <p>{currentAuthSchema?.description}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             )}
                         </div>
 
