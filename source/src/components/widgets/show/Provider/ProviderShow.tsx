@@ -2,7 +2,7 @@ import { useRefresh, useTranslate } from "react-admin";
 import { Loading } from "@/components/ui/loading";
 import { useCallback, useState } from "react";
 import { TextField } from "@/components/ui/text-field";
-import { Button, ShowButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useAbortableShowController } from "@/hooks/useAbortableShowController";
 import { IProvider, ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
 import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";

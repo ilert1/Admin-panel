@@ -7,7 +7,7 @@ import {
 import { useRefresh, useTranslate } from "react-admin";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ProviderMethodsTable } from "./ProviderMethodsTable";
-import { Button, ShowButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { CirclePlus, Copy, EyeIcon } from "lucide-react";
 import { useState } from "react";
 import { ProviderMethodsForm } from "./ProviderMethodsForm";

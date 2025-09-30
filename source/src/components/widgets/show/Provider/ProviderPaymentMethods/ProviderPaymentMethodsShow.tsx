@@ -9,7 +9,7 @@ import { ProviderPaymentMethodsForm } from "./ProviderPaymentMethodsForm";
 import { ProviderPaymentMethodsTable } from "./ProviderPaymentMethodsTable";
 import { StateViewer } from "@/components/ui/StateViewer";
 import { ProviderSettingsJsonShowDialog } from "../ProviderSettingsJsonShowDialog";
-import { Button, ShowButton } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { Copy, EyeIcon } from "lucide-react";
 import { useCopy } from "@/hooks/useCopy";
 
