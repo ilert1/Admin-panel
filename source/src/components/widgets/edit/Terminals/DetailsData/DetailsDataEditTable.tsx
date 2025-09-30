@@ -106,6 +106,10 @@ export const DetailsDataEditTable = ({
             {detailsData.map((item, index) => {
                 const currentDetailsSchema = detailsSchema?.find(schema => schema.key === item.key);
 
+                const validRegExp = currentDetailsSchema?.validation_pattern
+                    ? new RegExp(currentDetailsSchema.validation_pattern).test(item.value)
+                    : true;
+
                 return (
                     <div
                         key={item.id}
@@ -151,8 +155,14 @@ export const DetailsDataEditTable = ({
                                 copyValue
                                 value={item.value}
                                 onChange={e => onValueChange(e, item.key)}
-                                error={item.value.length === 0}
-                                errorMessage={translate("resources.terminals.errors.value_error")}
+                                error={item.value.length === 0 || !validRegExp}
+                                errorMessage={
+                                    validRegExp
+                                        ? translate("resources.terminals.errors.value_error")
+                                        : translate("resources.terminals.errors.regExpValidation", {
+                                              regExp: currentDetailsSchema?.validation_pattern
+                                          })
+                                }
                                 type="text"
                             />
                         </div>

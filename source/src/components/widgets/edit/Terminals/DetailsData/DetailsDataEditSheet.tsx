@@ -124,6 +124,26 @@ export const DetailsDataEditSheet = ({
             return;
         }
 
+        const checkValidRegExp = detailsData.filter(item => {
+            const currSchema = detailsSchema?.find(schema => schema.key === item.key);
+
+            if (currSchema?.validation_pattern && !new RegExp(currSchema.validation_pattern).test(item.value)) {
+                return true;
+            }
+
+            return false;
+        });
+
+        if (checkValidRegExp && checkValidRegExp.length > 0) {
+            appToast(
+                "error",
+                translate("resources.terminals.errors.checkValid", {
+                    keys: checkValidRegExp.map(item => item.key).join(", ")
+                })
+            );
+            return;
+        }
+
         try {
             setDisabledBtn(true);
 
