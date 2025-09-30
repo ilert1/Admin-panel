@@ -8,7 +8,7 @@ import { useRefresh, useTranslate } from "react-admin";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ProviderMethodsTable } from "./ProviderMethodsTable";
 import { Button } from "@/components/ui/Button";
-import { CirclePlus, Copy, EyeIcon } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import { useState } from "react";
 import { ProviderMethodsForm } from "./ProviderMethodsForm";
 import { ProvidersDataProvider } from "@/data";
@@ -22,8 +22,8 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { ProviderUpdateParams } from "@/data/providers";
-import { useCopy } from "@/hooks/useCopy";
 import { ProviderSettingsJsonShowDialog } from "../ProviderSettingsJsonShowDialog";
+import { ProviderMethodsShowButtonsGroup } from "../ProviderMethodsShowButtonsGroup";
 
 interface IProviderMethodsShow {
     providerId: string;
@@ -43,7 +43,6 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
     const appToast = useAppToast();
     const refresh = useRefresh();
     const translate = useTranslate();
-    const { copy } = useCopy();
 
     const handleDeleteClick = (key: string) => {
         setKeyForRemove(key);
@@ -138,21 +137,10 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                 <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
                     {translate("resources.provider.fields.methods")}
                 </h3>
-                <div className="flex flex-col items-center">
-                    <Button className="flex flex-col py-6" onClick={() => copy(stringifiedMethods)}>
-                        <Copy className="min-h-4 min-w-4" />
-                        <span>Json</span>
-                    </Button>
-                </div>
-                <div className="flex flex-col items-center">
-                    <Button
-                        onClick={() => setShowMethodsDialog(true)}
-                        variant="text_btn"
-                        className="flex flex-col py-6">
-                        <EyeIcon className="min-h-4 min-w-4" />
-                        <span>Json</span>
-                    </Button>
-                </div>
+                <ProviderMethodsShowButtonsGroup
+                    stringifiedData={stringifiedMethods}
+                    onOpenChange={setShowMethodsDialog}
+                />
             </div>
             {Object.keys(methods).length > 0 ? (
                 <Accordion type="multiple">

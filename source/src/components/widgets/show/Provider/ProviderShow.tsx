@@ -10,7 +10,7 @@ import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { ProviderMethodsShow } from "./ProviderMethods";
 import { useFetchDictionaries } from "@/hooks";
-import { Copy, EyeIcon, LockKeyhole, LockKeyholeOpen } from "lucide-react";
+import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 import { EditIPsDialog } from "../Mapping/EditIPsDialog";
 import { SimpleTable } from "../../shared";
@@ -32,8 +32,8 @@ import { EditProviderSettingsDialog } from "./ProviderSettings/EditProviderSetti
 import { IconsList } from "./ProviderSettings/IconsList";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { useCopy } from "@/hooks/useCopy";
 import { ProviderSettingsJsonShowDialog } from "./ProviderSettingsJsonShowDialog";
+import { ProviderMethodsShowButtonsGroup } from "./ProviderMethodsShowButtonsGroup";
 
 export interface ProviderShowProps {
     id: string;
@@ -46,7 +46,6 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const dataProvider = new ProvidersDataProvider();
     const refresh = useRefresh();
     const appToast = useAppToast();
-    const { copy } = useCopy();
 
     const translate = useTranslate();
 
@@ -229,21 +228,10 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                             <h3 className="text-display-2 text-neutral-90 dark:text-neutral-0">
                                 {translate("resources.provider.callback")}
                             </h3>
-                            <div className="flex flex-col items-center">
-                                <Button className="flex flex-col py-6" onClick={() => copy(stringifiedCallbackData)}>
-                                    <Copy className="min-h-4 min-w-4" />
-                                    <span>Json</span>
-                                </Button>
-                            </div>
-                            <div className="flex flex-col items-center">
-                                <Button
-                                    onClick={() => setShowProviderCallback(true)}
-                                    variant="text_btn"
-                                    className="flex flex-col py-6">
-                                    <EyeIcon className="min-h-4 min-w-4" />
-                                    <span>Json</span>
-                                </Button>
-                            </div>
+                            <ProviderMethodsShowButtonsGroup
+                                onOpenChange={setShowProviderCallback}
+                                stringifiedData={stringifiedCallbackData}
+                            />
                         </div>
 
                         <Button onClick={() => setEditCallbackDialogOpen(true)}>
