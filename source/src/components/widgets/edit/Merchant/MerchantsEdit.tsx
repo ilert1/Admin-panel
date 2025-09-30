@@ -1,8 +1,8 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -61,18 +61,41 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 }),
             payment_types: z.array(z.string()).optional(),
             allowed_src_currencies: z.array(z.string()).optional(),
-            minTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
-            maxTTLDep: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
-            minTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
-            maxTTLWith: z.coerce.number().min(0, translate("app.widgets.limits.errors.minTooSmallForOne")).max(600001),
+            minTTLDep: z.coerce
+                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                .optional()
+                .nullable(),
+            maxTTLDep: z.coerce
+                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                .optional()
+                .nullable(),
+
+            minTTLWith: z.coerce
+                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                .optional()
+                .nullable(),
+            maxTTLWith: z.coerce
+                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                .optional()
+                .nullable(),
             maxConnectionTTL: z.coerce
                 .number()
                 .min(0, translate("app.widgets.limits.errors.minTooSmallForOne"))
                 .max(600001)
+                .optional()
+                .nullable()
         })
         .refine(
             data => {
-                if (data.maxTTLDep === 0) {
+                if (data.minTTLDep === undefined || data.maxTTLDep === undefined) {
+                    return true;
+                }
+
+                if (data.minTTLDep === null || data.maxTTLDep === null) {
                     return true;
                 }
 
@@ -85,7 +108,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         )
         .refine(
             data => {
-                if (data.maxTTLWith === 0) {
+                if (data.minTTLWith === undefined || data.maxTTLWith === undefined) {
+                    return true;
+                }
+
+                if (data.minTTLWith === null || data.maxTTLWith === null) {
                     return true;
                 }
 
@@ -106,11 +133,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
             keycloak_id: "",
             payment_types: [],
             allowed_src_currencies: [],
-            minTTLDep: 0,
-            maxTTLDep: 0,
-            minTTLWith: 0,
-            maxTTLWith: 0,
-            maxConnectionTTL: 0
+            minTTLDep: undefined,
+            maxTTLDep: undefined,
+            minTTLWith: undefined,
+            maxTTLWith: undefined,
+            maxConnectionTTL: undefined
         }
     });
 
@@ -127,11 +154,11 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                         merchant?.allowed_src_currencies?.length &&
                         merchant.allowed_src_currencies.map(el => el.code)) ||
                     [],
-                minTTLDep: merchant?.settings?.deposit?.ttl?.min || 0,
-                maxTTLDep: merchant?.settings?.deposit?.ttl?.max || 0,
-                minTTLWith: merchant?.settings?.withdraw?.ttl?.min || 0,
-                maxTTLWith: merchant?.settings?.withdraw?.ttl?.max || 0,
-                maxConnectionTTL: merchant?.settings?.connection?.ttl?.max || 0
+                minTTLDep: merchant?.settings?.deposit?.ttl?.min || undefined,
+                maxTTLDep: merchant?.settings?.deposit?.ttl?.max || undefined,
+                minTTLWith: merchant?.settings?.withdraw?.ttl?.min || undefined,
+                maxTTLWith: merchant?.settings?.withdraw?.ttl?.max || undefined,
+                maxConnectionTTL: merchant?.settings?.connection?.ttl?.max || undefined
             };
 
             form.reset(updatedValues);
@@ -214,48 +241,28 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
         }
     };
 
-    const handleChange = (
-        key: "minTTLDep" | "maxTTLDep" | "minTTLWith" | "maxTTLWith" | "maxConnectionTTL",
-        value: string
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
     ) => {
-        value = value.replace(/[^0-9.]/g, "");
-
-        const parts = value.split(".");
-        if (parts.length > 2) {
-            value = parts[0] + "." + parts[1];
-        }
-
-        if (parts.length === 2 && parts[1].length > 2) {
-            parts[1] = parts[1].slice(0, 2);
-            value = parts.join(".");
-        }
-
-        if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+        let value = e.target.value;
+        value = value.replace(/[^0-9]/g, "");
+        if (/^0[0-9]+/.test(value)) {
             value = value.replace(/^0+/, "") || "0";
         }
-
+        e.target.value = value;
         if (value === "") {
-            // form.resetField(key);
-            form.setValue(key, 0);
+            form.setValue(field.name, null);
             return;
         }
-
-        if (value.endsWith(".") || value === "0.") {
-            return;
-        }
-
-        const numericValue = parseFloat(value);
+        const numericValue = parseInt(value, 10);
         if (!isNaN(numericValue)) {
             let finalValue = numericValue;
-
             if (numericValue > 60000) {
                 finalValue = 60000;
+                e.target.value = "60000";
             }
-            if (numericValue < 0) {
-                finalValue = 0;
-            }
-
-            form.setValue(key, finalValue);
+            form.setValue(field.name, finalValue);
         }
     };
 
@@ -362,7 +369,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
-                                            onChange={e => handleChange("maxConnectionTTL", e.target.value)}
+                                            onChange={e => handleInputChange(e, field)}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -383,7 +390,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
-                                            onChange={e => handleChange("minTTLDep", e.target.value)}
+                                            onChange={e => handleInputChange(e, field)}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -403,7 +410,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
-                                            onChange={e => handleChange("maxTTLDep", e.target.value)}
+                                            onChange={e => handleInputChange(e, field)}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -423,7 +430,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
-                                            onChange={e => handleChange("minTTLWith", e.target.value)}
+                                            onChange={e => handleInputChange(e, field)}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -443,7 +450,7 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
-                                            onChange={e => handleChange("maxTTLWith", e.target.value)}
+                                            onChange={e => handleInputChange(e, field)}
                                         />
                                     </FormControl>
                                 </FormItem>

@@ -1,7 +1,7 @@
 import { useTranslate, useDataProvider, useRefresh } from "react-admin";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { Input, InputTypes } from "@/components/ui/Input/input";
-import { FC, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, FC, useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Loading } from "@/components/ui/loading";
 import { z } from "zod";
@@ -68,39 +68,60 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
 
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-    const formSchema = z.object({
-        verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
-        description: z.union([z.string().trim(), z.literal("")]),
-        details: z.string().trim().optional(),
-        allocation_timeout_seconds: z
-            .literal("")
-            .transform(() => undefined)
-            .or(
-                z.coerce
-                    .number({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
-                    .int({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
-                    .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
-                    .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
-            )
-            .optional(),
-        payment_types: z.array(z.string()).optional().default([]),
-        src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
-        dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
-        dst_country_code: z
-            .string()
-            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
-            .trim(),
-        callback_url: z.string().optional().nullable().default(null),
-        state: z.enum(["active", "inactive"]),
-        minTTL: z.coerce
-            .number()
-            .min(0, translate("resources.terminals.errors.minTTL"))
-            .max(100000, translate("resources.terminals.errors.maxTTL")),
-        maxTTL: z.coerce
-            .number()
-            .min(0, translate("resources.terminals.errors.minTTL"))
-            .max(100000, translate("resources.terminals.errors.maxTTL"))
-    });
+    const formSchema = z
+        .object({
+            verbose_name: z.string().min(1, translate("resources.terminals.errors.verbose_name")).trim(),
+            description: z.union([z.string().trim(), z.literal("")]),
+            details: z.string().trim().optional(),
+            allocation_timeout_seconds: z
+                .literal("")
+                .transform(() => undefined)
+                .or(
+                    z.coerce
+                        .number({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                        .int({ message: translate("resources.terminals.errors.allocation_timeout_seconds") })
+                        .min(0, translate("resources.terminals.errors.allocation_timeout_seconds_min"))
+                        .max(120, translate("resources.terminals.errors.allocation_timeout_seconds_max"))
+                )
+                .optional(),
+            payment_types: z.array(z.string()).optional().default([]),
+            src_currency_code: z.string().min(1, translate("resources.direction.errors.src_curr")),
+            dst_currency_code: z.string().min(1, translate("resources.direction.errors.dst_curr")),
+            dst_country_code: z
+                .string()
+                .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+                .trim(),
+            callback_url: z.string().optional().nullable().default(null),
+            state: z.enum(["active", "inactive"]),
+
+            minTTL: z.coerce
+                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                .optional()
+                .nullable(),
+            maxTTL: z.coerce
+                .number({ message: translate("resources.cascadeSettings.cascadeTerminals.errors.ttl") })
+                .int(translate("resources.cascadeSettings.cascadeTerminals.errors.ttl"))
+                .optional()
+                .nullable()
+        })
+        .refine(
+            data => {
+                if (data.minTTL === undefined || data.maxTTL === undefined) {
+                    return true;
+                }
+
+                if (data.minTTL === null || data.maxTTL === null) {
+                    return true;
+                }
+
+                return data.minTTL <= data.maxTTL;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
+                path: ["maxTTL"]
+            }
+        );
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -115,8 +136,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
             dst_country_code: "",
             callback_url: null,
             state: "inactive",
-            minTTL: 0,
-            maxTTL: 0
+            minTTL: undefined,
+            maxTTL: undefined
         }
     });
 
@@ -133,8 +154,8 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                 dst_country_code: terminal.dst_country_code || "",
                 callback_url: terminal.callback_url || null,
                 state: terminal.state || "inactive",
-                minTTL: terminal.settings?.ttl?.min || 0,
-                maxTTL: terminal.settings?.ttl?.max || 0
+                minTTL: terminal.settings?.ttl?.min || undefined,
+                maxTTL: terminal.settings?.ttl?.max || undefined
             };
 
             setCurrentCountryCodeName(
@@ -210,49 +231,73 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
         }
     };
 
-    const handleChange = useCallback(
-        (key: "minTTL" | "maxTTL", value: string) => {
-            value = value.replace(/[^0-9.]/g, "");
+    // const handleChange = useCallback(
+    //     (key: "minTTL" | "maxTTL", value: string) => {
+    //         value = value.replace(/[^0-9.]/g, "");
 
-            const parts = value.split(".");
-            if (parts.length > 2) {
-                value = parts[0] + "." + parts[1];
+    //         const parts = value.split(".");
+    //         if (parts.length > 2) {
+    //             value = parts[0] + "." + parts[1];
+    //         }
+
+    //         if (parts.length === 2 && parts[1].length > 2) {
+    //             parts[1] = parts[1].slice(0, 2);
+    //             value = parts.join(".");
+    //         }
+
+    //         if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
+    //             value = value.replace(/^0+/, "") || "0";
+    //         }
+
+    //         if (value === "") {
+    //             form.resetField(key);
+    //             return;
+    //         }
+
+    //         if (value.endsWith(".") || value === "0.") {
+    //             return;
+    //         }
+
+    //         const numericValue = parseFloat(value);
+    //         if (!isNaN(numericValue)) {
+    //             let finalValue = numericValue;
+
+    //             if (numericValue > 100000) {
+    //                 finalValue = 100000;
+    //             }
+    //             if (numericValue < 0) {
+    //                 finalValue = 0;
+    //             }
+
+    //             form.setValue(key, finalValue);
+    //         }
+    //     },
+    //     [form]
+    // );
+    const handleInputChange = (
+        e: ChangeEvent<HTMLInputElement>,
+        field: ControllerRenderProps<z.infer<typeof formSchema>>
+    ) => {
+        let value = e.target.value;
+        value = value.replace(/[^0-9]/g, "");
+        if (/^0[0-9]+/.test(value)) {
+            value = value.replace(/^0+/, "") || "0";
+        }
+        e.target.value = value;
+        if (value === "") {
+            form.setValue(field.name, null);
+            return;
+        }
+        const numericValue = parseInt(value, 10);
+        if (!isNaN(numericValue)) {
+            let finalValue = numericValue;
+            if (numericValue > 60000) {
+                finalValue = 60000;
+                e.target.value = "60000";
             }
-
-            if (parts.length === 2 && parts[1].length > 2) {
-                parts[1] = parts[1].slice(0, 2);
-                value = parts.join(".");
-            }
-
-            if (/^0[0-9]+/.test(value) && !value.startsWith("0.")) {
-                value = value.replace(/^0+/, "") || "0";
-            }
-
-            if (value === "") {
-                form.resetField(key);
-                return;
-            }
-
-            if (value.endsWith(".") || value === "0.") {
-                return;
-            }
-
-            const numericValue = parseFloat(value);
-            if (!isNaN(numericValue)) {
-                let finalValue = numericValue;
-
-                if (numericValue > 100000) {
-                    finalValue = 100000;
-                }
-                if (numericValue < 0) {
-                    finalValue = 0;
-                }
-
-                form.setValue(key, finalValue);
-            }
-        },
-        [form]
-    );
+            form.setValue(field.name, finalValue);
+        }
+    };
 
     usePreventFocus({ dependencies: [terminal] });
 
@@ -327,7 +372,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
-                                            onChange={e => handleChange("minTTL", e.target.value)}
+                                            onChange={e => handleInputChange(e, field)}
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -347,7 +392,7 @@ export const TerminalsEdit: FC<ProviderEditParams> = ({ id, provider, onClose })
                                             className=""
                                             value={field.value ?? ""}
                                             variant={InputTypes.GRAY}
-                                            onChange={e => handleChange("maxTTL", e.target.value)}
+                                            onChange={e => handleInputChange(e, field)}
                                         />
                                     </FormControl>
                                 </FormItem>
