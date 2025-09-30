@@ -66,17 +66,16 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         {context.record.state && <StateViewer className="self-start" value={context.record.state} />}
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2 md:gap-6">
-                        <TextField
-                            text={context.record?.description ?? ""}
-                            label={translate("resources.terminals.fields.description")}
-                        />
+                    {!context.record?.description && (
+                        <div className="mb-4 flex flex-row flex-wrap items-center gap-5 md:flex-nowrap">
+                            <TextField
+                                text={context.record?.description ?? ""}
+                                label={translate("resources.terminals.fields.description")}
+                            />
+                        </div>
+                    )}
 
-                        <TextField
-                            text={context.record?.allocation_timeout_seconds?.toString() ?? ""}
-                            label={translate("resources.terminals.fields.allocation_timeout_seconds")}
-                        />
-                        {/* label={translate("resources.terminals.fields.provider")} */}
+                    <div className="grid gap-4 md:grid-cols-2 md:gap-6">
                         <div>
                             <p className={"text-sm text-neutral-60"}>
                                 {translate("resources.terminals.fields.provider")}
@@ -136,6 +135,10 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         </div>
 
                         <PaymentsTypesShowComponent payment_types={context.record?.payment_types} />
+                        <TextField
+                            text={context.record?.allocation_timeout_seconds?.toString() ?? ""}
+                            label={translate("resources.terminals.fields.allocation_timeout_seconds")}
+                        />
                     </div>
 
                     <div className="mt-3 flex justify-end">
