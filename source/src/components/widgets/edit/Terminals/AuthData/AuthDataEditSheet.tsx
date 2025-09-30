@@ -48,11 +48,6 @@ export const AuthDataEditSheet = ({
         [authData]
     );
 
-    const filteringAuthSchema = useMemo(
-        () => authSchema?.filter(item => Object.keys(originalAuthData || {}).includes(item.key)),
-        [originalAuthData, authSchema]
-    );
-
     const toggleJsonHandler = (state: SetStateAction<boolean>) => {
         try {
             if (state) {
@@ -112,6 +107,20 @@ export const AuthDataEditSheet = ({
     ]);
 
     const submitHandler = async () => {
+        const arrayOfRequiredFields = authSchema?.filter(
+            schema => !authData.find(item => item.key === schema.key) && schema.required
+        );
+
+        if (arrayOfRequiredFields && arrayOfRequiredFields.length > 0) {
+            appToast(
+                "error",
+                translate("resources.terminals.errors.schemaRequiredFields", {
+                    keys: arrayOfRequiredFields.map(item => item.key).join(", ")
+                })
+            );
+            return;
+        }
+
         try {
             setDisabledBtn(true);
 
@@ -214,7 +223,7 @@ export const AuthDataEditSheet = ({
                             loading={disabledBtn}
                             authData={authData}
                             onChangeAuthData={setAuthData}
-                            authSchema={filteringAuthSchema}
+                            authSchema={authSchema}
                         />
                     )}
 

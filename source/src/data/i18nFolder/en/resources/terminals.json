@@ -33,7 +33,8 @@
         "allocation_timeout_seconds": "Integer values only",
         "allocation_timeout_seconds_min": "The minimum value is 1",
         "allocation_timeout_seconds_max": "The maximum value is 120",
-        "providerHasNoPaymentTypes": "Provider has no payment types, select another provider or add payment types to provider"
+        "providerHasNoPaymentTypes": "Provider has no payment types, select another provider or add payment types to provider",
+        "schemaRequiredFields": "You need to add the required fields with the following keys: %{keys}"
     },
     "resources.terminals.success": {
         "create": "Terminal %{name} has been successfully created."

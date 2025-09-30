@@ -33,7 +33,8 @@
         "allocation_timeout_seconds": "Только целочисленные значения",
         "allocation_timeout_seconds_min": "Минимальное значение 1",
         "allocation_timeout_seconds_max": "Максимальное значение 120",
-        "providerHasNoPaymentTypes": "У провайдера нет платежных типов, выберите другого провайдера или добавьте платежные типы к провайдеру"
+        "providerHasNoPaymentTypes": "У провайдера нет платежных типов, выберите другого провайдера или добавьте платежные типы к провайдеру",
+        "schemaRequiredFields": "Требуется добавить обязательные поля со следующими ключами: %{keys}"
     },
     "resources.terminals.success": {
         "create": "Терминал %{name} успешно создан."

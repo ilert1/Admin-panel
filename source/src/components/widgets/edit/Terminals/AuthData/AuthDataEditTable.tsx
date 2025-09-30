@@ -30,14 +30,18 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
         onChangeAuthData(authData.filter(item => item.key !== key));
     };
 
-    const addAuthData = () => {
-        if (!newKey || !newValue || !!authData.find(item => item.key === newKey)) {
-            setErrors({ keyError: !newKey || !!authData.find(item => item.key === newKey), valueError: !newValue });
-            return;
+    const addAuthData = (key?: string, value?: string) => {
+        if (key !== undefined && value !== undefined) {
+            onChangeAuthData([...authData, { id: authData.length, key, value }]);
+        } else {
+            if (!newKey || !newValue || !!authData.find(item => item.key === newKey)) {
+                setErrors({ keyError: !newKey || !!authData.find(item => item.key === newKey), valueError: !newValue });
+                return;
+            }
+            onChangeAuthData([...authData, { id: authData.length, key: newKey, value: newValue }]);
+            setNewKey("");
+            setNewValue("");
         }
-        onChangeAuthData([...authData, { id: authData.length, key: newKey, value: newValue }]);
-        setNewKey("");
-        setNewValue("");
     };
 
     const onNewKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +123,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
 
                             {currentAuthSchema?.description && currentAuthSchema?.description.length > 0 && (
                                 <TooltipProvider>
-                                    <Tooltip delayDuration={100} key={index}>
+                                    <Tooltip delayDuration={100}>
                                         <TooltipTrigger role="tooltip" asChild className="h-auto">
                                             <Button variant="secondary" className="p-0">
                                                 <Info className="text-neutral-60 dark:text-neutral-40" />
@@ -151,6 +155,56 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                 );
             })}
 
+            {authSchema?.map(schema => {
+                if (!authData.find(item => item.key === schema.key)?.key && schema.required) {
+                    return (
+                        <div
+                            key={schema.key}
+                            className={clsx(
+                                "grid w-full grid-cols-[1fr,1fr,100px] items-start bg-green-50",
+                                authData.length % 2
+                                    ? "bg-neutral-20 dark:bg-neutral-bb-2"
+                                    : "bg-neutral-0 dark:bg-neutral-100"
+                            )}>
+                            <div className="flex items-center gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                                <div className="relative w-full">
+                                    <Input disabled value={schema.key} type="text" />
+
+                                    <span className="pointer-events-none absolute right-1.5 top-0 text-lg text-red-40">
+                                        *
+                                    </span>
+                                </div>
+
+                                {schema?.description && schema?.description.length > 0 && (
+                                    <TooltipProvider>
+                                        <Tooltip delayDuration={100}>
+                                            <TooltipTrigger role="tooltip" asChild className="h-auto">
+                                                <Button variant="secondary" className="p-0">
+                                                    <Info className="text-neutral-60 dark:text-neutral-40" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent tabIndex={-1} sideOffset={5} align="center">
+                                                <p>{schema?.description}</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                )}
+                            </div>
+
+                            <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                                <Input disabled={true} value={schema.default_value || ""} />
+                            </div>
+
+                            <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                                <Button disabled={loading} className="h-9 px-2" variant="default">
+                                    <PlusCircle onClick={() => addAuthData(schema.key, schema.default_value || "")} />
+                                </Button>
+                            </div>
+                        </div>
+                    );
+                }
+            })}
+
             <div
                 className={clsx(
                     "grid w-full grid-cols-[1fr,1fr,100px] items-start bg-green-50",
@@ -178,7 +232,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
 
                 <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Button disabled={loading} className="h-9 px-2" variant="default">
-                        <PlusCircle onClick={addAuthData} />
+                        <PlusCircle onClick={() => addAuthData()} />
                     </Button>
                 </div>
             </div>
