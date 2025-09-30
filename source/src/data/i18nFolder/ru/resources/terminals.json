@@ -13,7 +13,9 @@
         "details": "Технические данные",
         "allocation_timeout_seconds": "Таймаут ответа провайдера",
         "timeout": "Таймаут провайдера",
-        "pays": "PayIn/PayOut"
+        "pays": "PayIn/PayOut",
+        "key": "Ключ",
+        "value": "Значение"
     },
     "resources.terminals.filter": {
         "filters": "Фильтры",
@@ -26,8 +28,8 @@
         "verbose_name": "У терминала обязательно должно быть имя",
         "description": "У терминала обязательно должно быть описание",
         "auth_data_toggle": "Для переключения режима - исправьте ошибки",
-        "key_error": "Поле key обязательное",
-        "value_error": "Поле value обязательное",
+        "key_error": "Ключ не может быть пустым",
+        "value_error": "Значение не может быть пустым",
         "allocation_timeout_seconds": "Только целочисленные значения",
         "allocation_timeout_seconds_min": "Минимальное значение 1",
         "allocation_timeout_seconds_max": "Максимальное значение 120",

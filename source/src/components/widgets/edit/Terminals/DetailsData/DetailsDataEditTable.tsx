@@ -87,10 +87,12 @@ export const DetailsDataEditTable = ({
         <div className="flex w-full flex-col">
             <div className="grid w-full grid-cols-[1fr,1fr,100px] bg-green-50">
                 <p className="border-r border-neutral-40 bg-green-50 px-4 py-[11px] text-base text-neutral-0 dark:border-muted">
-                    Key
+                    {translate("resources.terminals.fields.key")}
                 </p>
 
-                <p className="bg-green-50 px-4 py-[11px] text-base text-neutral-0">Value</p>
+                <p className="bg-green-50 px-4 py-[11px] text-base text-neutral-0">
+                    {translate("resources.terminals.fields.value")}
+                </p>
             </div>
 
             {detailsData.map((item, index) => {
@@ -109,7 +111,7 @@ export const DetailsDataEditTable = ({
                                     value={item.key}
                                     onChange={e => onKeyChange(e, item.key)}
                                     error={item.key.length === 0}
-                                    errorMessage={translate("resources.terminals.errors.value_error")}
+                                    errorMessage={translate("resources.terminals.errors.key_error")}
                                     type="text"
                                 />
 

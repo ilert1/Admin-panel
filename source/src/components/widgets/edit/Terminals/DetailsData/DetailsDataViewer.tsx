@@ -23,7 +23,7 @@ export const DetailsDataViewer = ({ detailsData, showDetailsDataEditSheet }: IDe
         {
             id: "key",
             accessorKey: "key",
-            header: "Key",
+            header: translate("resources.terminals.fields.key"),
             cell: ({ row }) => {
                 return <TextField text={row.original.key} wrap lineClamp />;
             }
@@ -31,7 +31,7 @@ export const DetailsDataViewer = ({ detailsData, showDetailsDataEditSheet }: IDe
         {
             id: "value",
             accessorKey: "value",
-            header: "Value",
+            header: translate("resources.terminals.fields.value"),
             cell: ({ row }) => {
                 return <TextField text={row.original.value} wrap lineClamp copyValue />;
             }
