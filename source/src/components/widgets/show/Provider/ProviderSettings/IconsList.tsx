@@ -15,6 +15,7 @@ interface IconsListProps {
     iconsSmall?: boolean;
     border?: boolean;
     label?: boolean;
+    showEmpty?: boolean;
 }
 
 interface ListDataType {
@@ -25,7 +26,7 @@ interface ListDataType {
 }
 
 export const IconsList = (props: IconsListProps) => {
-    const { info, iconsSmall = false, label = true, border = true } = props;
+    const { info, iconsSmall = false, label = true, border = true, showEmpty = true } = props;
     const translate = useTranslate();
 
     const iconsSize = iconsSmall ? "h-4 w-4" : "h-[1.625rem] w-[1.625rem]";
@@ -108,7 +109,9 @@ export const IconsList = (props: IconsListProps) => {
                                           </Tooltip>
                                       )
                               )
-                            : "-"}
+                            : showEmpty
+                              ? "-"
+                              : undefined}
                     </div>
                 </div>
             </TooltipProvider>

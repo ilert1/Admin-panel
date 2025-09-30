@@ -89,7 +89,12 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                                         });
                                     }}
                                 />
-                                <IconsList info={context.record.provider.info} iconsSmall label={false} />
+                                <IconsList
+                                    info={context.record.provider.info}
+                                    iconsSmall
+                                    label={false}
+                                    showEmpty={false}
+                                />
                             </div>
                         </div>
 
