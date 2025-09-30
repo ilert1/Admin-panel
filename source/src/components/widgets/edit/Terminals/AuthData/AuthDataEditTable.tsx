@@ -97,6 +97,10 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
             {authData.map((item, index) => {
                 const currentAuthSchema = authSchema?.find(schema => schema.key === item.key);
 
+                const validRegExp = currentAuthSchema?.validation_pattern
+                    ? new RegExp(currentAuthSchema.validation_pattern).test(item.value)
+                    : true;
+
                 return (
                     <div
                         key={item.id}
@@ -142,8 +146,14 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                                 copyValue
                                 value={item.value}
                                 onChange={e => onValueChange(e, item.key)}
-                                error={item.value.length === 0}
-                                errorMessage={translate("resources.terminals.errors.value_error")}
+                                error={item.value.length === 0 || !validRegExp}
+                                errorMessage={
+                                    validRegExp
+                                        ? translate("resources.terminals.errors.value_error")
+                                        : translate("resources.terminals.errors.regExpValidation", {
+                                              regExp: currentAuthSchema?.validation_pattern
+                                          })
+                                }
                                 type="password_masked"
                             />
                         </div>
