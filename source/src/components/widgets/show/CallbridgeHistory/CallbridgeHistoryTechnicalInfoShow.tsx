@@ -113,7 +113,7 @@ export const CallbridgeHistoryTechnicalInfoShow = (props: CallbridgeHistoryTechn
                                                                                 ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                                                                 : "bg-neutral-0 dark:bg-neutral-100"
                                                                         )}>
-                                                                        {info[key]}
+                                                                        {String(info[key] ?? "")}
                                                                     </TableCell>
                                                                 </TableRow>
                                                             );
