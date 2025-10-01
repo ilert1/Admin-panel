@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { useRefresh, useTranslate } from "react-admin";
 import { useState } from "react";
 import { ResourceType, UpdateLimitsType } from "../model/types/limits";
-import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { SourceSchemasLimitsLimits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { getMaxValue, getMinValue } from "../model/helpers/minmaxValue";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { z } from "zod";
@@ -12,7 +12,7 @@ import { LimitInputGroup } from "./LimitInputGroup";
 
 interface EditLimitCardProps {
     id: string;
-    limitsData: Limits;
+    limitsData: SourceSchemasLimitsLimits;
     setEditClicked: (state: boolean) => void;
     resource: ResourceType;
 }

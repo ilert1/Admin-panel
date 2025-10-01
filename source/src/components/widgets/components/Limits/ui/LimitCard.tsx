@@ -1,4 +1,4 @@
-import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { SourceSchemasLimitsLimits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { useTranslate } from "react-admin";
@@ -8,7 +8,7 @@ import { getMaxValue, getMinValue } from "../model/helpers/minmaxValue";
 
 interface LimitCardProps {
     directionId: string;
-    limits: Limits;
+    limits: SourceSchemasLimitsLimits;
     setEditClicked: (state: boolean) => void;
     disabled?: boolean;
 }

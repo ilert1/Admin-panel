@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useTranslate } from "react-admin";
 import { LimitCard } from "./LimitCard";
 import { EditLimitCard } from "./EditLimitCard";
-import { Limits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import { SourceSchemasLimitsLimits } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { ResourceType } from "../model/types/limits";
 
 interface LimitsProps {
     id: string;
-    limits: Limits;
+    limits: SourceSchemasLimitsLimits;
     className?: string;
     resource: ResourceType;
     padding?: boolean;
