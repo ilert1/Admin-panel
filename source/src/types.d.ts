@@ -115,7 +115,7 @@ declare namespace Transaction {
         fail_url: string;
         success_url: string;
         customer_data: CustomerData;
-        callback_url?: string;
+        common_callback_url?: string;
     };
 
     type State = {

@@ -222,7 +222,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         {showCommit && (
                             <>
                                 <Button
-                                    disabled={!context.record?.state.final || !context.record.meta?.callback_url}
+                                    disabled={!context.record?.state.final || !context.record.meta?.common_callback_url}
                                     variant={"default"}
                                     onClick={() => setDialogOpen(true)}>
                                     {commitCaption}
@@ -266,10 +266,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 <Button className="min-w-36" onClick={() => setSyncDialogOpen(true)}>
                                     {translate("resources.transactions.show.sync")}
                                 </Button>
-                                <Button
-                                    disabled={sendWebhookLoading || !context.record.state.final}
-                                    className="min-w-36"
-                                    onClick={sendWebhookHandler}>
+                                <Button disabled={sendWebhookLoading} className="min-w-36" onClick={sendWebhookHandler}>
                                     {sendWebhookLoading ? (
                                         <div className="w-[20px]">
                                             <LoadingBlock />
