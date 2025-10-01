@@ -1,4 +1,8 @@
-import { ExecutionMethodOutput, RetryPolicy, TimeoutConfig } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
+import {
+    ExecutionMethodOutput,
+    RetryPolicy,
+    BlowfishProtocolSchemasProviderTimeoutConfig
+} from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
@@ -42,32 +46,42 @@ const SubCell = ({ value, rowIndex }: { value: string | string[] | undefined; ro
 };
 
 export const TableCellForObjectMethod = ({ methodKey, methodValue, rowIndex }: ITableCellForObjectMethod) => {
-    return Object.keys(methodValue[methodKey] as TimeoutConfig | RetryPolicy).map((subkey, index) => (
-        <TableRow className="border-muted" key={subkey}>
-            {index === 0 && (
+    return Object.keys(methodValue[methodKey] as BlowfishProtocolSchemasProviderTimeoutConfig | RetryPolicy).map(
+        (subkey, index) => (
+            <TableRow className="border-muted" key={subkey}>
+                {index === 0 && (
+                    <TableCell
+                        rowSpan={
+                            Object.keys(
+                                methodValue[methodKey] as BlowfishProtocolSchemasProviderTimeoutConfig | RetryPolicy
+                            ).length
+                        }
+                        className={cn(
+                            "relative border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
+                            rowIndex % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
+                        )}>
+                        {methodKey}
+                    </TableCell>
+                )}
+
                 <TableCell
-                    rowSpan={Object.keys(methodValue[methodKey] as TimeoutConfig | RetryPolicy).length}
                     className={cn(
                         "relative border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
                         rowIndex % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                     )}>
-                    {methodKey}
+                    {subkey}
                 </TableCell>
-            )}
 
-            <TableCell
-                className={cn(
-                    "relative border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
-                    rowIndex % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
-                )}>
-                {subkey}
-            </TableCell>
-
-            <SubCell
-                key={subkey}
-                value={methodValue[methodKey]?.[subkey as keyof (TimeoutConfig | RetryPolicy)]}
-                rowIndex={rowIndex}
-            />
-        </TableRow>
-    ));
+                <SubCell
+                    key={subkey}
+                    value={
+                        methodValue[methodKey]?.[
+                            subkey as keyof (BlowfishProtocolSchemasProviderTimeoutConfig | RetryPolicy)
+                        ]
+                    }
+                    rowIndex={rowIndex}
+                />
+            </TableRow>
+        )
+    );
 };

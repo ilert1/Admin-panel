@@ -1,1 +1,1 @@
-export { ProviderMethodsShow } from "./ProviderPaymentMethodsShow";
+export { ProviderPaymentMethodsShow } from "./ProviderPaymentMethodsShow";
