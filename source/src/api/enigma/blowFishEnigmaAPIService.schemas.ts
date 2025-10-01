@@ -1061,14 +1061,14 @@ export interface CallbackResponse {
 /**
  * Priority rank of the terminal(1 = highest priority)
  */
-export type CascadeConditionRank = number | null;
+export type CascadeConditionInputRank = number | null;
 
 /**
  * Time-to-live configuration for terminal availability
  */
-export type CascadeConditionTtl = TTLConfig | null;
+export type CascadeConditionInputTtl = TTLConfigInput | null;
 
-export interface CascadeCondition {
+export interface CascadeConditionInput {
     /**
      * Terminal weight for load balancing (0 for extra terminals)
      * @minimum 0
@@ -1077,9 +1077,33 @@ export interface CascadeCondition {
     /** Whether this is an extra/backup terminal (must have weight=0) */
     extra?: boolean;
     /** Priority rank of the terminal(1 = highest priority) */
-    rank?: CascadeConditionRank;
+    rank?: CascadeConditionInputRank;
     /** Time-to-live configuration for terminal availability */
-    ttl?: CascadeConditionTtl;
+    ttl?: CascadeConditionInputTtl;
+}
+
+/**
+ * Priority rank of the terminal(1 = highest priority)
+ */
+export type CascadeConditionOutputRank = number | null;
+
+/**
+ * Time-to-live configuration for terminal availability
+ */
+export type CascadeConditionOutputTtl = SourceSchemasTtlConfigTTLConfig | null;
+
+export interface CascadeConditionOutput {
+    /**
+     * Terminal weight for load balancing (0 for extra terminals)
+     * @minimum 0
+     */
+    weight?: number;
+    /** Whether this is an extra/backup terminal (must have weight=0) */
+    extra?: boolean;
+    /** Priority rank of the terminal(1 = highest priority) */
+    rank?: CascadeConditionOutputRank;
+    /** Time-to-live configuration for terminal availability */
+    ttl?: CascadeConditionOutputTtl;
 }
 
 /**
@@ -1246,7 +1270,7 @@ export interface CascadeTerminalCreate {
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
     /** Configuration for terminal behavior within the cascade */
-    condition?: CascadeCondition;
+    condition?: CascadeConditionInput;
 }
 
 export interface CascadeTerminalRead {
@@ -1255,7 +1279,7 @@ export interface CascadeTerminalRead {
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
     /** Configuration for terminal behavior within the cascade */
-    condition?: CascadeCondition;
+    condition?: CascadeConditionOutput;
     /** Unique identifier of the cascade terminal record */
     id: string;
     /** Current operational state of the cascade terminal */
@@ -1274,7 +1298,7 @@ export interface CascadeTerminalSchema {
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
     /** Configuration for terminal behavior within the cascade */
-    condition?: CascadeCondition;
+    condition?: CascadeConditionOutput;
     /** Unique identifier of the cascade terminal record */
     id: string;
     /** Current operational state of the cascade terminal */
@@ -1305,7 +1329,7 @@ export type CascadeTerminalUpdateState = CascadeTerminalState | null;
 /**
  * Updated configuration for terminal behavior within the cascade
  */
-export type CascadeTerminalUpdateCondition = CascadeCondition | null;
+export type CascadeTerminalUpdateCondition = CascadeConditionInput | null;
 
 export interface CascadeTerminalUpdate {
     /** Updated operational state of the cascade terminal */
@@ -1520,7 +1544,7 @@ export type DirectionCascadeKind = string | null;
 /**
  * Condition DSL configuration
  */
-export type DirectionCondition = CascadeCondition | null;
+export type DirectionCondition = CascadeConditionOutput | null;
 
 export interface Direction {
     /** Unique identifier for the direction */
@@ -1538,7 +1562,7 @@ export interface Direction {
     /** Mapping of fee configurations with fee.id as key */
     fees?: DirectionFees;
     /** Direction limits (payin, payout, reward) with min and max values */
-    limits: Limits;
+    limits: SourceSchemasLimitsLimits;
     /** Account identifier associated with the direction */
     account_id?: DirectionAccountId;
     /** Merchant ID associated with the direction */
@@ -1598,7 +1622,7 @@ export type DirectionCreateCascadeKind = string | null;
 /**
  * Condition DSL configuration
  */
-export type DirectionCreateCondition = CascadeCondition | null;
+export type DirectionCreateCondition = CascadeConditionInput | null;
 
 export interface DirectionCreate {
     /** Name of the direction */
@@ -1750,7 +1774,7 @@ export type DirectionUpdateCascadeKind = string | null;
 /**
  * Condition DSL configuration
  */
-export type DirectionUpdateCondition = CascadeCondition | null;
+export type DirectionUpdateCondition = CascadeConditionInput | null;
 
 export interface DirectionUpdate {
     /** Name of the direction */
@@ -1881,7 +1905,7 @@ export type DirectionUpdateBulkItemCascadeKind = string | null;
 /**
  * Condition DSL configuration
  */
-export type DirectionUpdateBulkItemCondition = CascadeCondition | null;
+export type DirectionUpdateBulkItemCondition = CascadeConditionInput | null;
 
 export interface DirectionUpdateBulkItem {
     /** Name of the direction */
@@ -2375,52 +2399,43 @@ export interface KeyPair {
 /**
  * Minimum limit value
  */
-export type LimitValuesMin = number | number | string | RateValue | null;
+export type LimitValuesInputMin = number | number | string | RateValue | null;
 
 /**
  * Maximum limit value
  */
-export type LimitValuesMax = number | number | string | RateValue | null;
+export type LimitValuesInputMax = number | number | string | RateValue | null;
 
-export interface LimitValues {
+export interface LimitValuesInput {
     /** Minimum limit value */
-    min?: LimitValuesMin;
+    min?: LimitValuesInputMin;
     /** Maximum limit value */
-    max?: LimitValuesMax;
-}
-
-export interface Limits {
-    /** Limits for payin */
-    payin?: LimitValues;
-    /** Limits for payout */
-    payout?: LimitValues;
-    /** Limits for reward */
-    reward?: LimitValues;
+    max?: LimitValuesInputMax;
 }
 
 export interface LimitsCreate {
     /** Limits for payin operations (deposit transactions) */
-    payin?: LimitValues;
+    payin?: LimitValuesInput;
     /** Limits for payout operations (withdrawal transactions) */
-    payout?: LimitValues;
+    payout?: LimitValuesInput;
     /** Limits for reward operations (bonus/cashback transactions) */
-    reward?: LimitValues;
+    reward?: LimitValuesInput;
 }
 
 /**
  * Updated limits for payin operations
  */
-export type LimitsUpdatePayin = LimitValues | null;
+export type LimitsUpdatePayin = LimitValuesInput | null;
 
 /**
  * Updated limits for payout operations
  */
-export type LimitsUpdatePayout = LimitValues | null;
+export type LimitsUpdatePayout = LimitValuesInput | null;
 
 /**
  * Updated limits for reward operations
  */
-export type LimitsUpdateReward = LimitValues | null;
+export type LimitsUpdateReward = LimitValuesInput | null;
 
 export interface LimitsUpdate {
     /** Updated limits for payin operations */
@@ -2611,20 +2626,20 @@ export interface MerchantSchema {
 
 export interface MerchantSettingsInput {
     /** Timeout settings for deposit */
-    deposit?: TimeoutSettings;
+    deposit?: TimeoutSettingsInput;
     /** Timeout settings for withdraw */
-    withdraw?: TimeoutSettings;
+    withdraw?: TimeoutSettingsInput;
     /** Connection settings */
-    connection?: TimeoutSettings;
+    connection?: TimeoutSettingsInput;
 }
 
 export interface MerchantSettingsOutput {
     /** Timeout settings for deposit */
-    deposit?: TimeoutSettings;
+    deposit?: TimeoutSettingsOutput;
     /** Timeout settings for withdraw */
-    withdraw?: TimeoutSettings;
+    withdraw?: TimeoutSettingsOutput;
     /** Connection settings */
-    connection?: TimeoutSettings;
+    connection?: TimeoutSettingsOutput;
 }
 
 /**
@@ -2765,7 +2780,7 @@ export interface MergedCascadeTerminal {
     /** Unique identifier of the terminal in this cascade */
     terminal_id: string;
     /** Configuration for terminal behavior within the cascade */
-    condition?: CascadeCondition;
+    condition?: CascadeConditionOutput;
     /** Current operational state of the merged cascade terminal */
     state?: CascadeTerminalState;
     /** Human-readable name of the cascade this terminal belongs to */
@@ -2947,25 +2962,6 @@ export interface PaymentCategoryItem {
     name: string;
     /** Value of the payment category */
     value: string;
-}
-
-export interface PaymentMethodConfig {
-    /** Whether this payment method is enabled for the provider */
-    enabled?: boolean;
-    /** Temporal task queue name for this payment method's workflows and activities */
-    task_queue: string;
-    /** Whether create method is enabled */
-    create?: boolean;
-    /** Whether get_state method is enabled */
-    get_state?: boolean;
-    /** Whether start_processing method is enabled */
-    start_processing?: boolean;
-    /** Whether confirm method is enabled */
-    confirm?: boolean;
-    /** Whether cancel method is enabled */
-    cancel?: boolean;
-    /** Whether update_state method is enabled */
-    update_state?: boolean;
 }
 
 /**
@@ -3605,18 +3601,18 @@ export interface SystemPaymentInstrumentUpdate {
 /**
  * Minimum time-to-live in milliseconds
  */
-export type TTLConfigMin = number | null;
+export type TTLConfigInputMin = number | null;
 
 /**
  * Maximum time-to-live in milliseconds
  */
-export type TTLConfigMax = number | null;
+export type TTLConfigInputMax = number | null;
 
-export interface TTLConfig {
+export interface TTLConfigInput {
     /** Minimum time-to-live in milliseconds */
-    min?: TTLConfigMin;
+    min?: TTLConfigInputMin;
     /** Maximum time-to-live in milliseconds */
-    max?: TTLConfigMax;
+    max?: TTLConfigInputMax;
 }
 
 export interface TerminalAuthSchema {
@@ -3649,6 +3645,21 @@ export type TerminalBaseCallbackUrl = string | null;
  */
 export type TerminalBaseDetails = { [key: string]: unknown };
 
+/**
+ * Source currency code
+ */
+export type TerminalBaseSrcCurrency = Currency | null;
+
+/**
+ * Destination currency code
+ */
+export type TerminalBaseDstCurrency = Currency | null;
+
+/**
+ * Destination country code (ISO 3166-1 alpha-2)
+ */
+export type TerminalBaseDstCountryCode = string | null;
+
 export interface TerminalBase {
     /** Unique identifier of the terminal */
     terminal_id: string;
@@ -3670,6 +3681,18 @@ export interface TerminalBase {
     callback_url?: TerminalBaseCallbackUrl;
     /** Additional details about the terminal */
     details?: TerminalBaseDetails;
+    /** Source currency code */
+    src_currency?: TerminalBaseSrcCurrency;
+    /** Destination currency code */
+    dst_currency?: TerminalBaseDstCurrency;
+    /** Destination country code (ISO 3166-1 alpha-2) */
+    dst_country_code?: TerminalBaseDstCountryCode;
+    /** Terminal limits configuration */
+    limits?: BlowfishProtocolSchemasLimitsLimits;
+    /** Terminal settings configuration */
+    settings?: BlowfishProtocolSchemasTerminalTerminalSettings;
+    /** Terminal state */
+    state?: TerminalState;
 }
 
 export interface TerminalConflictGroup {
@@ -3748,7 +3771,7 @@ export interface TerminalCreate {
     /** Terminal limits configuration */
     limits?: LimitsCreate;
     /** Terminal settings configuration */
-    settings?: TerminalSettings;
+    settings?: TerminalSettingsInput;
     /** Unique codes of the payment types to link */
     payment_types?: string[];
 }
@@ -4020,9 +4043,9 @@ export interface TerminalRead {
     /** Destination country code (ISO 3166-1 alpha-2) */
     dst_country_code?: TerminalReadDstCountryCode;
     /** Terminal limits configuration */
-    limits?: Limits;
+    limits?: SourceSchemasLimitsLimits;
     /** Terminal settings configuration */
-    settings?: TerminalSettings;
+    settings?: SourceSchemasTerminalTerminalSettingsOutput;
     /** Terminal state */
     state?: TerminalState;
     /** Provider name associated with the terminal */
@@ -4041,9 +4064,9 @@ export interface TerminalRead {
     payment_types?: PaymentTypeBase[];
 }
 
-export interface TerminalSettings {
+export interface TerminalSettingsInput {
     /** Time-to-live configuration for terminal availability */
-    ttl?: TTLConfig;
+    ttl?: TTLConfigInput;
 }
 
 export type TerminalState = (typeof TerminalState)[keyof typeof TerminalState];
@@ -4122,9 +4145,9 @@ export interface TerminalTemporalRead {
     /** Destination country code (ISO 3166-1 alpha-2) */
     dst_country_code?: TerminalTemporalReadDstCountryCode;
     /** Terminal limits configuration */
-    limits?: Limits;
+    limits?: BlowfishProtocolSchemasLimitsLimits;
     /** Terminal settings configuration */
-    settings?: TerminalSettings;
+    settings?: BlowfishProtocolSchemasTerminalTerminalSettings;
     /** Terminal state */
     state?: TerminalState;
     /** List of payment types associated with this terminal */
@@ -4176,7 +4199,7 @@ export type TerminalUpdateLimits = LimitsUpdate | null;
 /**
  * Terminal settings configuration
  */
-export type TerminalUpdateSettings = TerminalSettings | null;
+export type TerminalUpdateSettings = TerminalSettingsInput | null;
 
 /**
  * Terminal state
@@ -4223,9 +4246,14 @@ export interface TerminalUpdateAuth {
     auth: TerminalUpdateAuthAuth;
 }
 
-export interface TimeoutSettings {
+export interface TimeoutSettingsInput {
     /** Time-to-live configuration for terminal availability */
-    ttl?: TTLConfig;
+    ttl?: TTLConfigInput;
+}
+
+export interface TimeoutSettingsOutput {
+    /** Time-to-live configuration for terminal availability */
+    ttl?: SourceSchemasTtlConfigTTLConfig;
 }
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType];
@@ -4244,6 +4272,22 @@ export interface ValidationError {
     loc: ValidationErrorLocItem[];
     msg: string;
     type: string;
+}
+
+export interface BlowfishProtocolSchemasLimitsLimitValues {
+    /** Minimum limit value */
+    min?: RateValue;
+    /** Maximum limit value */
+    max?: RateValue;
+}
+
+export interface BlowfishProtocolSchemasLimitsLimits {
+    /** Limits for payin */
+    payin?: BlowfishProtocolSchemasLimitsLimitValues;
+    /** Limits for payout */
+    payout?: BlowfishProtocolSchemasLimitsLimitValues;
+    /** Limits for reward */
+    reward?: BlowfishProtocolSchemasLimitsLimitValues;
 }
 
 /**
@@ -4284,6 +4328,54 @@ export interface BlowfishProtocolSchemasProviderTimeoutConfig {
     start_to_close_timeout?: string;
     /** Maximum wait time for an external condition, if applicable. */
     wait_condition_timeout?: string;
+}
+
+export interface BlowfishProtocolSchemasTerminalTerminalSettings {
+    /** Time-to-live configuration for terminal availability */
+    ttl?: BlowfishProtocolSchemasTtlConfigTTLConfig;
+}
+
+/**
+ * Minimum time-to-live in seconds before terminal can be used
+ */
+export type BlowfishProtocolSchemasTtlConfigTTLConfigMin = number | null;
+
+/**
+ * Maximum time-to-live in seconds after which terminal is unavailable
+ */
+export type BlowfishProtocolSchemasTtlConfigTTLConfigMax = number | null;
+
+export interface BlowfishProtocolSchemasTtlConfigTTLConfig {
+    /** Minimum time-to-live in seconds before terminal can be used */
+    min?: BlowfishProtocolSchemasTtlConfigTTLConfigMin;
+    /** Maximum time-to-live in seconds after which terminal is unavailable */
+    max?: BlowfishProtocolSchemasTtlConfigTTLConfigMax;
+}
+
+/**
+ * Minimum limit value
+ */
+export type SourceSchemasLimitsLimitValuesMin = number | number | string | RateValue | null;
+
+/**
+ * Maximum limit value
+ */
+export type SourceSchemasLimitsLimitValuesMax = number | number | string | RateValue | null;
+
+export interface SourceSchemasLimitsLimitValues {
+    /** Minimum limit value */
+    min?: SourceSchemasLimitsLimitValuesMin;
+    /** Maximum limit value */
+    max?: SourceSchemasLimitsLimitValuesMax;
+}
+
+export interface SourceSchemasLimitsLimits {
+    /** Limits for payin */
+    payin?: SourceSchemasLimitsLimitValues;
+    /** Limits for payout */
+    payout?: SourceSchemasLimitsLimitValues;
+    /** Limits for reward */
+    reward?: SourceSchemasLimitsLimitValues;
 }
 
 export interface SourceSchemasPoliciesTimeoutConfig {
@@ -4362,6 +4454,28 @@ export interface SourceSchemasProviderProvider {
     terminal_details_schema?: SourceSchemasProviderProviderTerminalDetailsSchema;
     /** List of payment types associated with this provider */
     payment_types?: PaymentTypeBase[];
+}
+
+export interface SourceSchemasTerminalTerminalSettingsOutput {
+    /** Time-to-live configuration for terminal availability */
+    ttl?: SourceSchemasTtlConfigTTLConfig;
+}
+
+/**
+ * Minimum time-to-live in milliseconds
+ */
+export type SourceSchemasTtlConfigTTLConfigMin = number | null;
+
+/**
+ * Maximum time-to-live in milliseconds
+ */
+export type SourceSchemasTtlConfigTTLConfigMax = number | null;
+
+export interface SourceSchemasTtlConfigTTLConfig {
+    /** Minimum time-to-live in milliseconds */
+    min?: SourceSchemasTtlConfigTTLConfigMin;
+    /** Maximum time-to-live in milliseconds */
+    max?: SourceSchemasTtlConfigTTLConfigMax;
 }
 
 export type CurrencyEndpointsListCurrenciesEnigmaV1CurrencyGetParams = {
