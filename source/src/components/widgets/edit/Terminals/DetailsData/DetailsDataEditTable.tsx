@@ -136,6 +136,7 @@ export const DetailsDataEditTable = ({
                         <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             <div className="relative w-full">
                                 <Input
+                                    disabled={currentDetailsSchema?.required}
                                     value={item.key}
                                     onChange={e => onKeyChange(e, item.key)}
                                     error={!item.key || duplicateError}
