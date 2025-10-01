@@ -17,7 +17,7 @@ function render(ui: React.ReactElement) {
 
     return rtlRender(
         <QueryClientProvider client={queryClient}>
-            <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>{ui}</MemoryRouter>
+            <MemoryRouter>{ui}</MemoryRouter>
         </QueryClientProvider>
     );
 }
