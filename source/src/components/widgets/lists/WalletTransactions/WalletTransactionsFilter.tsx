@@ -151,17 +151,19 @@ export const WalletTransactionsFilter = () => {
                                     </SelectItem>
 
                                     {data &&
-                                        Object.keys(data.states).map(index => (
-                                            <SelectItem
-                                                key={data.states[index].state_int}
-                                                value={data.states[index].state_int.toString()}>
-                                                {translate(
-                                                    `resources.transactions.states.${data?.states?.[
-                                                        index
-                                                    ]?.state_description?.toLowerCase()}`
-                                                )}
-                                            </SelectItem>
-                                        ))}
+                                        Object.keys(data.states).map(index => {
+                                            if (data.states[index].state_int && data.states[index].state_description) {
+                                                return (
+                                                    <SelectItem
+                                                        key={data.states[index].state_int}
+                                                        value={data.states[index].state_int.toString()}>
+                                                        {translate(
+                                                            `resources.transactions.states.${data.states[index].state_description.toLowerCase()}`
+                                                        )}
+                                                    </SelectItem>
+                                                );
+                                            }
+                                        })}
                                 </SelectContent>
                             </Select>
                         </div>

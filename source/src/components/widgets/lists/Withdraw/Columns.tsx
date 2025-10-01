@@ -77,7 +77,7 @@ export const useGetWithdrawColumns = () => {
                     ? row.original.destination.requisites[0]?.blockchain_address
                     : "";
 
-                return <TextField text={text} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
+                return <TextField text={text || ""} wrap copyValue lineClamp linesCount={1} minWidth="50px" />;
             }
         },
         ...(permissions === "admin"
@@ -121,9 +121,9 @@ export const useGetWithdrawColumns = () => {
 
                 return (
                     <TextField
-                        text={text}
+                        text={text || ""}
                         wrap
-                        copyValue={text !== "-" ? true : false}
+                        copyValue
                         link={hasRequsites ? `${row.original.destination.requisites[0].hash_link}` : "-"}
                         type={text ? "link" : "text"}
                         lineClamp
@@ -156,7 +156,9 @@ export const useGetWithdrawColumns = () => {
                               row.original.destination.requisites &&
                               Object.hasOwn(row.original.destination, "requisites")
                           ) {
-                              const isFound = checkAddress(row.original.destination.requisites[0]?.blockchain_address);
+                              const isFound = checkAddress(
+                                  row.original.destination.requisites[0]?.blockchain_address || ""
+                              );
                               return isFound && isFound[0] ? (
                                   <Button
                                       onClick={() => {
@@ -164,7 +166,7 @@ export const useGetWithdrawColumns = () => {
                                               setCryptoTransferState("process");
                                           }
                                           setRepeatData({
-                                              address: row.original.destination.requisites[0].blockchain_address,
+                                              address: row.original.destination.requisites[0].blockchain_address || "",
                                               amount:
                                                   row.original.destination.amount.value.quantity /
                                                   row.original.destination.amount.value.accuracy
@@ -186,7 +188,6 @@ export const useGetWithdrawColumns = () => {
         {
             header: translate("resources.withdraw.fields.state"),
             cell: ({ row }) => {
-                // eslint-disable-next-line react-hooks/rules-of-hooks
                 const { text, color } = useGetTransactionState({ state: row.original.state.state_int });
                 return (
                     <div className="flex items-center justify-center">

@@ -2,7 +2,7 @@ import { useTranslate } from "react-admin";
 import { useFetchDictionaries } from "./useFetchDictionaries";
 
 interface UseGetTransactionStateProps {
-    state: number;
+    state: number | undefined;
 }
 
 //TODO: переделать после доработки словарей
@@ -34,7 +34,7 @@ export const useGetTransactionState = (props: UseGetTransactionStateProps) => {
     const data = useFetchDictionaries();
     const translate = useTranslate();
 
-    if (!data) {
+    if (!data || !state) {
         return {
             text: "",
             color: "bg-neutral-0 dark:bg-neutral-100"

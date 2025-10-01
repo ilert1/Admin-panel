@@ -73,7 +73,8 @@ export const useGetCallbridgeHistory = () => {
                         onClick={
                             mapping_name
                                 ? () => {
-                                      openSheet("callbridgeMappings", { id: row.original.mapping_id });
+                                      if (row.original.mapping_id)
+                                          openSheet("callbridgeMappings", { id: row.original.mapping_id });
                                   }
                                 : undefined
                         }
