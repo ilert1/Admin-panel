@@ -29,6 +29,7 @@
         "description": "The terminal must have a description",
         "auth_data_toggle": "To switch the mode, fix the errors",
         "key_error": "The key cannot be empty",
+        "duplicate_key_error": "This key is already in use",
         "value_error": "The value cannot be empty",
         "allocation_timeout_seconds": "Integer values only",
         "allocation_timeout_seconds_min": "The minimum value is 1",

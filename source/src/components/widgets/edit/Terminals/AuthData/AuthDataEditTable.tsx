@@ -24,62 +24,80 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
 
     const [newKey, setNewKey] = useState("");
     const [newValue, setNewValue] = useState("");
-    const [errors, setErrors] = useState({ keyError: false, valueError: false });
+    const [errors, setErrors] = useState<{ key?: string; value?: string; [key: string]: string | undefined }>({});
 
     const handleDelete = (key: string) => {
         onChangeAuthData(authData.filter(item => item.key !== key));
     };
 
+    const validateNewRow = (key: string, value: string) => {
+        const newErrors: { key?: string; value?: string } = {};
+
+        if (!key.trim()) newErrors.key = translate("resources.terminals.errors.key_error");
+        else if (authData.some(item => item.key === key.trim()))
+            newErrors.key = translate("resources.terminals.errors.duplicate_key_error");
+
+        if (!value.trim()) newErrors.value = translate("resources.terminals.errors.value_error");
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const addAuthData = (key?: string, value?: string) => {
-        if (key !== undefined && value !== undefined) {
-            onChangeAuthData([...authData, { id: authData.length, key, value }]);
-        } else {
-            if (!newKey || !newValue || !!authData.find(item => item.key === newKey)) {
-                setErrors({ keyError: !newKey || !!authData.find(item => item.key === newKey), valueError: !newValue });
-                return;
-            }
-            onChangeAuthData([...authData, { id: authData.length, key: newKey, value: newValue }]);
-            setNewKey("");
-            setNewValue("");
-        }
+        const k = key ?? newKey.trim();
+        const v = value ?? newValue.trim();
+
+        if (!validateNewRow(k, v)) return;
+
+        onChangeAuthData([...authData, { id: authData.length, key: k, value: v }]);
+        setNewKey("");
+        setNewValue("");
+        setErrors({});
     };
 
     const onNewKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const key = e.target.value;
+        const val = e.target.value;
+        setNewKey(val);
 
-        if (!!key && errors.keyError) {
-            setErrors({ ...errors, keyError: false });
-        } else if (!key && !errors.keyError) {
-            setErrors({ ...errors, keyError: true });
+        if (errors.key) {
+            if (val.trim() && !authData.some(item => item.key === val.trim())) {
+                setErrors(prev => ({ ...prev, key: undefined }));
+            }
         }
-
-        setNewKey(key);
     };
 
     const onNewValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
+        const val = e.target.value;
+        setNewValue(val);
 
-        if (!!value && errors.valueError) {
-            setErrors({ ...errors, valueError: false });
-        } else if (!value && !errors.valueError) {
-            setErrors({ ...errors, valueError: true });
+        if (errors.value && val.trim()) {
+            setErrors(prev => ({ ...prev, value: undefined }));
         }
-
-        setNewValue(value);
     };
 
     const onValueChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
         const value = e.target.value;
-        onChangeAuthData(
-            authData.map(item => (item.key === authDataKey ? { id: item.id, key: item.key, value } : item))
-        );
+        onChangeAuthData(authData.map(item => (item.key === authDataKey ? { ...item, value } : item)));
     };
 
-    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
-        const value = e.target.value;
-        onChangeAuthData(
-            authData.map(item => (item.key === authDataKey ? { id: item.id, key: value, value: item.value } : item))
-        );
+    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, oldKey: string) => {
+        const newKey = e.target.value;
+        const isDuplicate = authData.some(item => item.key === newKey && item.key !== oldKey);
+
+        onChangeAuthData(authData.map(item => (item.key === oldKey ? { ...item, key: newKey } : item)));
+
+        if (isDuplicate) {
+            setErrors(prev => ({
+                ...prev,
+                [`dup-${newKey}`]: translate("resources.terminals.errors.duplicate_key_error")
+            }));
+        } else {
+            setErrors(prev => {
+                const copy = { ...prev };
+                delete copy[`dup-${newKey}`];
+                return copy;
+            });
+        }
     };
 
     return (
@@ -101,6 +119,8 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                     ? new RegExp(currentAuthSchema.validation_pattern).test(item.value)
                     : true;
 
+                const duplicateError = authData.filter(i => i.key === item.key).length > 1;
+
                 return (
                     <div
                         key={item.id}
@@ -108,13 +128,19 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                             "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
                             index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                         )}>
-                        <div className="flex items-center gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                        <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             <div className="relative w-full">
                                 <Input
                                     value={item.key}
                                     onChange={e => onKeyChange(e, item.key)}
-                                    error={item.key.length === 0}
-                                    errorMessage={translate("resources.terminals.errors.key_error")}
+                                    error={!item.key || duplicateError}
+                                    errorMessage={
+                                        !item.key
+                                            ? translate("resources.terminals.errors.key_error")
+                                            : duplicateError
+                                              ? translate("resources.terminals.errors.duplicate_key_error")
+                                              : undefined
+                                    }
                                     type="text"
                                 />
 
@@ -125,40 +151,42 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                                 )}
                             </div>
 
-                            {currentAuthSchema?.description && currentAuthSchema?.description.length > 0 && (
+                            {currentAuthSchema?.description && currentAuthSchema.description.length > 0 && (
                                 <TooltipProvider>
                                     <Tooltip delayDuration={100}>
-                                        <TooltipTrigger role="tooltip" asChild className="h-auto">
+                                        <TooltipTrigger role="tooltip" asChild>
                                             <Button variant="secondary" className="p-0">
                                                 <Info className="text-neutral-60 dark:text-neutral-40" />
                                             </Button>
                                         </TooltipTrigger>
                                         <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                                            <p>{currentAuthSchema?.description}</p>
+                                            <p>{currentAuthSchema.description}</p>
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
                             )}
                         </div>
 
-                        <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                        <div className="flex border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             <Input
                                 copyValue
                                 value={item.value}
                                 onChange={e => onValueChange(e, item.key)}
-                                error={item.value.length === 0 || !validRegExp}
+                                error={!item.value || !validRegExp}
                                 errorMessage={
-                                    validRegExp
+                                    !item.value
                                         ? translate("resources.terminals.errors.value_error")
-                                        : translate("resources.terminals.errors.regExpValidation", {
-                                              regExp: currentAuthSchema?.validation_pattern
-                                          })
+                                        : !validRegExp
+                                          ? translate("resources.terminals.errors.regExpValidation", {
+                                                regExp: currentAuthSchema?.validation_pattern
+                                            })
+                                          : undefined
                                 }
                                 type="password_masked"
                             />
                         </div>
 
-                        <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                        <div className="flex justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             <TrashButton
                                 disabled={loading || currentAuthSchema?.required}
                                 onClick={() => handleDelete(item.key)}
@@ -179,7 +207,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                                     ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                     : "bg-neutral-0 dark:bg-neutral-100"
                             )}>
-                            <div className="flex items-center gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                                 <div className="relative w-full">
                                     <Input disabled value={schema.key} type="text" />
 
@@ -204,11 +232,11 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                                 )}
                             </div>
 
-                            <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="flex border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                                 <Input disabled={true} value={schema.default_value || ""} />
                             </div>
 
-                            <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="flex justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                                 <Button disabled={loading} className="h-9 px-2" variant="default">
                                     <PlusCircle onClick={() => addAuthData(schema.key, schema.default_value || "")} />
                                 </Button>
@@ -223,27 +251,27 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                     "grid w-full grid-cols-[1fr,1fr,100px] items-start bg-green-50",
                     authData.length % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                 )}>
-                <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                <div className="flex border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Input
-                        error={errors.keyError}
-                        errorMessage={translate("resources.terminals.errors.key_error")}
+                        error={!!errors.key}
+                        errorMessage={errors.key}
                         disabled={loading}
                         value={newKey}
                         onChange={onNewKeyChange}
                     />
                 </div>
 
-                <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                <div className="flex border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Input
-                        error={errors.valueError}
-                        errorMessage={translate("resources.terminals.errors.value_error")}
+                        error={!!errors.value}
+                        errorMessage={errors.value}
                         disabled={loading}
                         value={newValue}
                         onChange={onNewValueChange}
                     />
                 </div>
 
-                <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                <div className="flex justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Button disabled={loading} className="h-9 px-2" variant="default">
                         <PlusCircle onClick={() => addAuthData()} />
                     </Button>

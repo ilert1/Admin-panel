@@ -12,6 +12,7 @@ type ParseDetailsData = {
     key: string;
     value: string;
 }[];
+
 interface IDetailsDataEditTable {
     loading: boolean;
     detailsData: ParseDetailsData;
@@ -29,66 +30,80 @@ export const DetailsDataEditTable = ({
 
     const [newKey, setNewKey] = useState("");
     const [newValue, setNewValue] = useState("");
-    const [errors, setErrors] = useState({ keyError: false, valueError: false });
+    const [errors, setErrors] = useState<{ key?: string; value?: string; [key: string]: string | undefined }>({});
 
     const handleDelete = (key: string) => {
         onChangeDetailsData(detailsData.filter(item => item.key !== key));
     };
 
-    const addDetailsData = (key?: string, value?: string) => {
-        if (key !== undefined && value !== undefined) {
-            onChangeDetailsData([...detailsData, { id: detailsData.length, key, value }]);
-        } else {
-            if (!newKey || !newValue || !!detailsData.find(item => item.key === newKey)) {
-                setErrors({
-                    keyError: !newKey || !!detailsData.find(item => item.key === newKey),
-                    valueError: !newValue
-                });
-                return;
-            }
+    const validateNewRow = (key: string, value: string) => {
+        const newErrors: { key?: string; value?: string } = {};
 
-            onChangeDetailsData([...detailsData, { id: detailsData.length, key: newKey, value: newValue }]);
-            setNewKey("");
-            setNewValue("");
-        }
+        if (!key.trim()) newErrors.key = translate("resources.terminals.errors.key_error");
+        else if (detailsData.some(item => item.key === key.trim()))
+            newErrors.key = translate("resources.terminals.errors.duplicate_key_error");
+
+        if (!value.trim()) newErrors.value = translate("resources.terminals.errors.value_error");
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const addDetailsData = (key?: string, value?: string) => {
+        const k = key ?? newKey.trim();
+        const v = value ?? newValue.trim();
+
+        if (!validateNewRow(k, v)) return;
+
+        onChangeDetailsData([...detailsData, { id: detailsData.length, key: k, value: v }]);
+        setNewKey("");
+        setNewValue("");
+        setErrors({});
     };
 
     const onNewKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const key = e.target.value;
+        const val = e.target.value;
+        setNewKey(val);
 
-        if (!!key && errors.keyError) {
-            setErrors({ ...errors, keyError: false });
-        } else if (!key && !errors.keyError) {
-            setErrors({ ...errors, keyError: true });
+        if (errors.key) {
+            if (val.trim() && !detailsData.some(item => item.key === val.trim())) {
+                setErrors(prev => ({ ...prev, key: undefined }));
+            }
         }
-
-        setNewKey(key);
     };
 
     const onNewValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
+        const val = e.target.value;
+        setNewValue(val);
 
-        if (!!value && errors.valueError) {
-            setErrors({ ...errors, valueError: false });
-        } else if (!value && !errors.valueError) {
-            setErrors({ ...errors, valueError: true });
+        if (errors.value && val.trim()) {
+            setErrors(prev => ({ ...prev, value: undefined }));
         }
-
-        setNewValue(value);
     };
 
     const onValueChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
         const value = e.target.value;
-        onChangeDetailsData(
-            detailsData.map(item => (item.key === authDataKey ? { id: item.id, key: item.key, value } : item))
-        );
+        onChangeDetailsData(detailsData.map(item => (item.key === authDataKey ? { ...item, value } : item)));
     };
 
-    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, authDataKey: string) => {
-        const value = e.target.value;
-        onChangeDetailsData(
-            detailsData.map(item => (item.key === authDataKey ? { id: item.id, key: value, value: item.value } : item))
-        );
+    const onKeyChange = (e: React.ChangeEvent<HTMLInputElement>, oldKey: string) => {
+        const newKey = e.target.value;
+        const isDuplicate = detailsData.some(item => item.key === newKey && item.key !== oldKey);
+
+        onChangeDetailsData(detailsData.map(item => (item.key === oldKey ? { ...item, key: newKey } : item)));
+
+        if (isDuplicate) {
+            setErrors(prev => ({
+                ...prev,
+                [`dup-${newKey}`]: translate("resources.terminals.errors.duplicate_key_error")
+            }));
+        } else {
+            setErrors(prev => {
+                const copy = { ...prev };
+                delete copy[`dup-${newKey}`];
+                return copy;
+            });
+        }
     };
 
     return (
@@ -105,10 +120,11 @@ export const DetailsDataEditTable = ({
 
             {detailsData.map((item, index) => {
                 const currentDetailsSchema = detailsSchema?.find(schema => schema.key === item.key);
-
                 const validRegExp = currentDetailsSchema?.validation_pattern
                     ? new RegExp(currentDetailsSchema.validation_pattern).test(item.value)
                     : true;
+
+                const duplicateError = detailsData.filter(i => i.key === item.key).length > 1;
 
                 return (
                     <div
@@ -117,13 +133,19 @@ export const DetailsDataEditTable = ({
                             "grid w-full grid-cols-[1fr,1fr,100px] bg-green-50",
                             index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                         )}>
-                        <div className="flex items-center gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                        <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             <div className="relative w-full">
                                 <Input
                                     value={item.key}
                                     onChange={e => onKeyChange(e, item.key)}
-                                    error={item.key.length === 0}
-                                    errorMessage={translate("resources.terminals.errors.key_error")}
+                                    error={!item.key || duplicateError}
+                                    errorMessage={
+                                        !item.key
+                                            ? translate("resources.terminals.errors.key_error")
+                                            : duplicateError
+                                              ? translate("resources.terminals.errors.duplicate_key_error")
+                                              : undefined
+                                    }
                                     type="text"
                                 />
 
@@ -134,40 +156,42 @@ export const DetailsDataEditTable = ({
                                 )}
                             </div>
 
-                            {currentDetailsSchema?.description && currentDetailsSchema?.description.length > 0 && (
+                            {currentDetailsSchema?.description && currentDetailsSchema.description.length > 0 && (
                                 <TooltipProvider>
                                     <Tooltip delayDuration={100}>
-                                        <TooltipTrigger role="tooltip" asChild className="h-auto">
+                                        <TooltipTrigger role="tooltip" asChild>
                                             <Button variant="secondary" className="p-0">
                                                 <Info className="text-neutral-60 dark:text-neutral-40" />
                                             </Button>
                                         </TooltipTrigger>
                                         <TooltipContent tabIndex={-1} sideOffset={5} align="center">
-                                            <p>{currentDetailsSchema?.description}</p>
+                                            <p>{currentDetailsSchema.description}</p>
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
                             )}
                         </div>
 
-                        <div className="flex items-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                        <div className="flex border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             <Input
                                 copyValue
                                 value={item.value}
                                 onChange={e => onValueChange(e, item.key)}
-                                error={item.value.length === 0 || !validRegExp}
+                                error={!item.value || !validRegExp}
                                 errorMessage={
-                                    validRegExp
+                                    !item.value
                                         ? translate("resources.terminals.errors.value_error")
-                                        : translate("resources.terminals.errors.regExpValidation", {
-                                              regExp: currentDetailsSchema?.validation_pattern
-                                          })
+                                        : !validRegExp
+                                          ? translate("resources.terminals.errors.regExpValidation", {
+                                                regExp: currentDetailsSchema?.validation_pattern
+                                            })
+                                          : undefined
                                 }
                                 type="text"
                             />
                         </div>
 
-                        <div className="flex items-center justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                        <div className="flex justify-center border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             <TrashButton
                                 disabled={loading || currentDetailsSchema?.required}
                                 onClick={() => handleDelete(item.key)}
@@ -188,7 +212,7 @@ export const DetailsDataEditTable = ({
                                     ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                     : "bg-neutral-0 dark:bg-neutral-100"
                             )}>
-                            <div className="flex items-center gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                                 <div className="relative w-full">
                                     <Input disabled value={schema.key} type="text" />
 
@@ -213,11 +237,11 @@ export const DetailsDataEditTable = ({
                                 )}
                             </div>
 
-                            <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="flex border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                                 <Input disabled={true} value={schema.default_value || ""} />
                             </div>
 
-                            <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                            <div className="flex justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                                 <Button disabled={loading} className="h-9 px-2" variant="default">
                                     <PlusCircle
                                         onClick={() => addDetailsData(schema.key, schema.default_value || "")}
@@ -234,27 +258,27 @@ export const DetailsDataEditTable = ({
                     "grid w-full grid-cols-[1fr,1fr,100px] items-start bg-green-50",
                     detailsData.length % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                 )}>
-                <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                <div className="flex border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Input
-                        error={errors.keyError}
-                        errorMessage={translate("resources.terminals.errors.key_error")}
+                        error={!!errors.key}
+                        errorMessage={errors.key}
                         disabled={loading}
                         value={newKey}
                         onChange={onNewKeyChange}
                     />
                 </div>
 
-                <div className="flex items-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                <div className="flex border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Input
-                        error={errors.valueError}
-                        errorMessage={translate("resources.terminals.errors.value_error")}
+                        error={!!errors.value}
+                        errorMessage={errors.value}
                         disabled={loading}
                         value={newValue}
                         onChange={onNewValueChange}
                     />
                 </div>
 
-                <div className="flex items-center justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
+                <div className="flex justify-center border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                     <Button disabled={loading} className="h-9 px-2" variant="default">
                         <PlusCircle onClick={() => addDetailsData()} />
                     </Button>
