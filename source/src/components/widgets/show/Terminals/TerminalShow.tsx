@@ -66,7 +66,7 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         {context.record.state && <StateViewer className="self-start" value={context.record.state} />}
                     </div>
 
-                    {!context.record?.description && (
+                    {context.record?.description && (
                         <div className="mb-4 flex flex-row flex-wrap items-center gap-5 md:flex-nowrap">
                             <TextField
                                 text={context.record?.description ?? ""}
