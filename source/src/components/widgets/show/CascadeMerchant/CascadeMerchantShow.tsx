@@ -45,11 +45,18 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
             <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
-                <TextField
-                    text={cascadeMerchantData?.cascade.name ?? ""}
-                    copyValue
-                    className="text-neutral-70 dark:text-neutral-30"
-                />
+                <div className="">
+                    <span className="text-title-1 text-neutral-90 dark:text-neutral-0">
+                        {cascadeMerchantData?.cascade.name ?? ""}
+                    </span>
+
+                    <TextField
+                        // label={translate("resources.cascadeSettings.cascades.fields.id")}
+                        text={cascadeMerchantData?.id ?? ""}
+                        copyValue
+                        className="text-neutral-70 dark:text-neutral-30"
+                    />
+                </div>
 
                 <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
                     {cascadeMerchantData?.state === "active" && (
@@ -67,12 +74,6 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
 
             <div className="flex flex-col gap-2 pt-2 md:gap-[24px] md:pt-[24px]">
                 <div className="grid grid-cols-2 gap-2">
-                    <TextField
-                        label={translate("resources.cascadeSettings.cascades.fields.id")}
-                        text={cascadeMerchantData?.id ?? ""}
-                        wrap
-                        copyValue
-                    />
                     <div>
                         <TextField
                             label={translate("resources.cascadeSettings.cascadeMerchants.fields.merchant")}
@@ -98,18 +99,19 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                         />
                     </div>
                     <div>
-                        <Label className="text-sm dark:!text-neutral-60">
-                            {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade")}
-                        </Label>
-                        <Button
-                            variant={"resourceLink"}
-                            onClick={() => {
-                                openSheet("cascade", {
-                                    id: cascadeMerchantData?.cascade_id ?? ""
-                                });
-                            }}>
-                            {cascadeMerchantData?.cascade.name ?? ""}
-                        </Button>
+                        <TextField
+                            label={translate("resources.cascadeSettings.cascadeMerchants.fields.cascade")}
+                            text={cascadeMerchantData?.cascade.name ?? ""}
+                            onClick={
+                                cascadeMerchantData?.cascade_id
+                                    ? () =>
+                                          openSheet("cascade", {
+                                              id: cascadeMerchantData?.cascade_id ?? ""
+                                          })
+                                    : undefined
+                            }
+                        />
+
                         <TextField
                             className="text-neutral-70"
                             text={cascadeMerchantData?.cascade.id ?? ""}
