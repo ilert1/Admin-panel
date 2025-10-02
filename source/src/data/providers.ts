@@ -35,7 +35,7 @@ export interface IProvider extends ProviderBase {
 }
 
 export interface ProviderUpdateParams extends ProviderUpdate {
-    id?: string;
+    id: string;
 }
 
 export const PROVIDER_PAYMENT_METHODS = ["payin_h2h", "payout_h2h", "ecom"] as const;

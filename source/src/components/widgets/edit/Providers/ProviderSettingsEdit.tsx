@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { usePreventFocus } from "@/hooks";
-import { ProvidersDataProvider } from "@/data/providers";
+import { ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/Button";
@@ -128,7 +128,10 @@ export const ProviderSettingsEdit = ({ id, onOpenChange = () => {} }: ProviderSe
                                 : (data.provider_environment as ProviderEnvironment)
                     }
                 },
-                previousData: {}
+                previousData: {
+                    ...provider,
+                    payment_types: provider?.payment_types.map(pt => pt.code) || []
+                } as ProviderUpdateParams
             });
             appToast("success", translate("app.ui.edit.editSuccess"));
             refresh();
