@@ -419,7 +419,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
             {(adminOnly ||
                 (permissions === "merchant" && context.record.committed && context.record.state.state_int === 16)) && (
                 <div className="flex flex-col gap-2">
-                    <span>{translate("resources.transactions.fields.fees")}</span>
+                    <span className="text-display-4">{translate("resources.transactions.fields.fees")}</span>
 
                     <SimpleTable
                         columns={feesColumns}
@@ -444,7 +444,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
             {adminOnly && (
                 <div className="flex flex-col gap-2 [&_thead_th]:text-sm">
-                    <span>{translate("resources.transactions.stateUpdate.title")}</span>
+                    <span className="text-display-4">{translate("resources.transactions.stateUpdate.title")}</span>
 
                     <ListContextProvider value={{ ...listContext }}>
                         <DataTable columns={stateUpdateColumns} />
