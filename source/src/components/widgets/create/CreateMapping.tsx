@@ -4,11 +4,12 @@ import { Input, InputTypes } from "@/components/ui/Input/input";
 import { usePreventFocus } from "@/hooks/usePreventFocus";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useDataProvider, useRefresh, useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { CallbackMappingCreate } from "@/api/callbridge/blowFishCallBridgeAPIService.schemas";
+import { CallbridgeDataProvider } from "@/data";
 
 interface CreateWalletProps {
     onOpenChange: (state: boolean) => void;
@@ -18,7 +19,7 @@ export const CreateMapping = (props: CreateWalletProps) => {
     const { onOpenChange } = props;
     const translate = useTranslate();
     const refresh = useRefresh();
-    const dataProvider = useDataProvider();
+    const callbridgeDataProvider = new CallbridgeDataProvider();
 
     const appToast = useAppToast();
 
@@ -28,7 +29,7 @@ export const CreateMapping = (props: CreateWalletProps) => {
         if (buttonDisabled) return;
         setButtonDisabled(true);
         try {
-            await dataProvider.create("callbridge/v1/mapping", { data: data });
+            await callbridgeDataProvider.create("callbridge/v1/mapping", { data: data });
             appToast(
                 "success",
                 translate("resources.callbridge.mapping.createSuccess"),
