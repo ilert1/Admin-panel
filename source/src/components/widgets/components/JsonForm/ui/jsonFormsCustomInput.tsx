@@ -1,19 +1,30 @@
 import { withJsonFormsControlProps } from "@jsonforms/react";
-import { ControlProps } from "@jsonforms/core";
+import { ControlProps, JsonSchema4 } from "@jsonforms/core";
 import { isControl, isIntegerControl, isStringControl, RankedTester, rankWith } from "@jsonforms/core";
 import { useTranslate } from "react-admin";
 
+interface ExtendedJsonSchema extends JsonSchema4 {
+    callbdridgeStatus?: boolean;
+}
+
 const JsonFormsCustomInput = ({ data, label, visible, schema, config }: ControlProps) => {
     const translate = useTranslate();
+    const extendedSchema = schema as ExtendedJsonSchema;
+
     if (!visible || (!data && !config.showNull)) return null;
+
     let displayValue = !data || data === null ? "-" : String(data);
 
-    if (schema?.type?.includes("string") && (schema.format === "date" || schema.format === "date-time") && data) {
+    if (
+        extendedSchema?.type?.includes("string") &&
+        (extendedSchema.format === "date" || extendedSchema.format === "date-time") &&
+        data
+    ) {
         const date = new Date(data);
         displayValue = date.toLocaleString().split(",").join(" ");
     }
 
-    if (schema.callbdridgeStatus) {
+    if (extendedSchema.callbdridgeStatus) {
         displayValue = translate(`resources.callbridge.history.callbacksStatus.${data}`);
     }
 
