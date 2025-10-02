@@ -124,8 +124,8 @@ export const DetailsDataEditTable = ({
                         )}>
                         <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             {currentDetailsSchema?.required ? (
-                                <TooltipProvider delayDuration={0}>
-                                    <Tooltip>
+                                <TooltipProvider delayDuration={0} skipDelayDuration={0}>
+                                    <Tooltip disableHoverableContent>
                                         <TooltipTrigger asChild className="!mt-0" role="none">
                                             <div className="relative w-full">
                                                 <Input
@@ -141,7 +141,7 @@ export const DetailsDataEditTable = ({
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <p className="text-center">
+                                            <p className="pointer-events-none text-center">
                                                 {translate("resources.terminals.errors.requiredFieldTooltip")}
                                             </p>
                                         </TooltipContent>
