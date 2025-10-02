@@ -119,7 +119,7 @@ export const AuthDataEditTable = ({ authData, onChangeAuthData, loading, authSch
                         )}>
                         <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
                             {currentAuthSchema?.required ? (
-                                <TooltipProvider>
+                                <TooltipProvider delayDuration={0}>
                                     <Tooltip>
                                         <TooltipTrigger asChild className="!mt-0" role="none">
                                             <div className="relative w-full">
