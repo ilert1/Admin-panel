@@ -90,19 +90,8 @@ export const DetailsDataEditTable = ({
         const newKey = e.target.value;
         const isDuplicate = detailsData.some(item => item.key === newKey && item.key !== oldKey);
 
-        onChangeDetailsData(detailsData.map(item => (item.key === oldKey ? { ...item, key: newKey } : item)));
-
-        if (isDuplicate) {
-            setErrors(prev => ({
-                ...prev,
-                [`dup-${newKey}`]: translate("resources.terminals.errors.duplicate_key_error")
-            }));
-        } else {
-            setErrors(prev => {
-                const copy = { ...prev };
-                delete copy[`dup-${newKey}`];
-                return copy;
-            });
+        if (!isDuplicate) {
+            onChangeDetailsData(detailsData.map(item => (item.key === oldKey ? { ...item, key: newKey } : item)));
         }
     };
 
@@ -134,9 +123,32 @@ export const DetailsDataEditTable = ({
                             index % 2 ? "bg-neutral-20 dark:bg-neutral-bb-2" : "bg-neutral-0 dark:bg-neutral-100"
                         )}>
                         <div className="flex gap-2 border-b border-r border-neutral-40 px-4 py-3 text-neutral-90 dark:border-muted dark:text-neutral-0">
-                            <div className="relative w-full">
+                            {currentDetailsSchema?.required ? (
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild className="!mt-0" role="none">
+                                            <div className="relative w-full">
+                                                <Input
+                                                    disabled
+                                                    className="disabled:bg-neutral-0 disabled:dark:bg-neutral-100"
+                                                    value={item.key}
+                                                    type="text"
+                                                />
+
+                                                <span className="pointer-events-none absolute right-1.5 top-0 text-lg text-red-40">
+                                                    *
+                                                </span>
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="text-center">
+                                                {translate("resources.terminals.errors.requiredFieldTooltip")}
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            ) : (
                                 <Input
-                                    disabled={currentDetailsSchema?.required}
                                     value={item.key}
                                     onChange={e => onKeyChange(e, item.key)}
                                     error={!item.key || duplicateError}
@@ -149,13 +161,7 @@ export const DetailsDataEditTable = ({
                                     }
                                     type="text"
                                 />
-
-                                {currentDetailsSchema?.required && (
-                                    <span className="pointer-events-none absolute right-1.5 top-0 text-lg text-red-40">
-                                        *
-                                    </span>
-                                )}
-                            </div>
+                            )}
 
                             {currentDetailsSchema?.description && currentDetailsSchema.description.length > 0 && (
                                 <TooltipProvider>

@@ -24,6 +24,7 @@
         "filterByName": "Terminal"
     },
     "resources.terminals.errors": {
+        "requiredFieldTooltip": "The key of the required field cannot be changed",
         "provider": "The terminal must have a provider",
         "verbose_name": "The terminal must have a name",
         "description": "The terminal must have a description",
