@@ -203,7 +203,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     />
                     <TextField
                         label={translate("resources.provider.settings.mapping_bank_keys_withdraw")}
-                        text={context.record.info?.mapping_bank_keys?.deposit ?? ""}
+                        text={context.record.info?.mapping_bank_keys?.withdraw ?? ""}
                         copyValue
                     />
                 </div>
