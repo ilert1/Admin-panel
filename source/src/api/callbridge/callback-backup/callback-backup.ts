@@ -52,8 +52,8 @@ export const getCallbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBack
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup`;
 };
 
 export const callbackHistoryBackupEndpointsListBackupsCallbridgeV1HistoryBackupGet = async (
@@ -105,8 +105,8 @@ export const getCallbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryB
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/download?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/download`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/download?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/download`;
 };
 
 export const callbackHistoryBackupEndpointsDownloadBackupCallbridgeV1HistoryBackupDownloadGet = async (
@@ -178,8 +178,8 @@ export const getCallbackHistoryBackupEndpointsRestoreBackupCallbridgeV1HistoryBa
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/restore?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/restore`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/restore?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/callbridge/v1/history/backup/restore`;
 };
 
 export const callbackHistoryBackupEndpointsRestoreBackupCallbridgeV1HistoryBackupRestorePost = async (

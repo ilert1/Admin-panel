@@ -56,8 +56,8 @@ export const getProviderEndpointsListProvidersEnigmaV1ProviderGetUrl = (
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider`;
 };
 
 export const providerEndpointsListProvidersEnigmaV1ProviderGet = async (
@@ -97,7 +97,7 @@ export type providerEndpointsCreateProviderEnigmaV1ProviderPostResponse =
     };
 
 export const getProviderEndpointsCreateProviderEnigmaV1ProviderPostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider`;
 };
 
 export const providerEndpointsCreateProviderEnigmaV1ProviderPost = async (
@@ -139,7 +139,7 @@ export type providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetRespons
     };
 
 export const getProviderEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGetUrl = (providerId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
 };
 
 export const providerEndpointsGetProviderByIdEnigmaV1ProviderProviderIdGet = async (
@@ -179,7 +179,7 @@ export type providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutResp
     };
 
 export const getProviderEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPutUrl = (providerId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
 };
 
 export const providerEndpointsUpdateProviderByIdEnigmaV1ProviderProviderIdPut = async (
@@ -222,7 +222,7 @@ export type providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteR
     };
 
 export const getProviderEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDeleteUrl = (providerId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}`;
 };
 
 export const providerEndpointsDeleteProviderByIdEnigmaV1ProviderProviderIdDelete = async (
@@ -276,8 +276,8 @@ export const getProviderEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeyp
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_keypair?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_keypair`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_keypair?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_keypair`;
 };
 
 export const providerEndpointsAddKeypairByIdEnigmaV1ProviderProviderIdAddKeypairPatch = async (
@@ -322,7 +322,7 @@ export type providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProvid
 export const getProviderEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatchUrl = (
     providerId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_payment_types`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/add_payment_types`;
 };
 
 export const providerEndpointsAddPaymentTypesToProviderByIdEnigmaV1ProviderProviderIdAddPaymentTypesPatch = async (
@@ -370,7 +370,7 @@ export type providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderPr
 
 export const getProviderEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
     (providerId: string, paymentTypeCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/remove_payment_type/${paymentTypeCode}`;
+        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/provider/${providerId}/remove_payment_type/${paymentTypeCode}`;
     };
 
 export const providerEndpointsRemovePaymentTypeFromProviderByIdEnigmaV1ProviderProviderIdRemovePaymentTypePaymentTypeCodeDelete =

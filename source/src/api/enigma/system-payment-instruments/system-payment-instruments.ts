@@ -60,8 +60,8 @@ export const getSystemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnig
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments`;
 };
 
 export const systemPaymentInstrumentEndpointsListSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsGet = async (
@@ -105,7 +105,7 @@ export type systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV
 
 export const getSystemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPostUrl =
     () => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments`;
+        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments`;
     };
 
 export const systemPaymentInstrumentEndpointsCreateSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsPost = async (
@@ -164,8 +164,8 @@ export const getSystemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEn
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/export?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/export`;
+            ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/export?${stringifiedParams}`
+            : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/export`;
     };
 
 export const systemPaymentInstrumentEndpointsExportSystemPaymentInstrumentsEnigmaV1SystemPaymentInstrumentsExportGet =
@@ -225,8 +225,8 @@ export const getSystemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEni
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/import?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/import`;
+            ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/import?${stringifiedParams}`
+            : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/import`;
     };
 
 export const systemPaymentInstrumentEndpointsImportSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsImportPost =
@@ -281,7 +281,7 @@ export type systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1Sy
 
 export const getSystemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGetUrl =
     (systemPaymentInstrumentCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
+        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
     };
 
 export const systemPaymentInstrumentEndpointsGetSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeGet =
@@ -328,7 +328,7 @@ export type systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1
 
 export const getSystemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatchUrl =
     (systemPaymentInstrumentCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
+        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
     };
 
 export const systemPaymentInstrumentEndpointsPatchSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodePatch =
@@ -378,7 +378,7 @@ export type systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV
 
 export const getSystemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDeleteUrl =
     (systemPaymentInstrumentCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
+        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/system_payment_instruments/${systemPaymentInstrumentCode}`;
     };
 
 export const systemPaymentInstrumentEndpointsDeleteSystemPaymentInstrumentEnigmaV1SystemPaymentInstrumentsSystemPaymentInstrumentCodeDelete =

@@ -49,8 +49,8 @@ export const getKeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetUrl = (
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/pki/keygen?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/pki/keygen`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/pki/keygen?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/pki/keygen`;
 };
 
 export const keyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGet = async (

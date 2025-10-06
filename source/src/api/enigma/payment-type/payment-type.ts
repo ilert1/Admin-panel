@@ -41,7 +41,7 @@ export type paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCateg
     };
 
 export const getPaymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGetUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/categories`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/categories`;
 };
 
 export const paymentTypeEndpointsGetPaymentTypeCategoriesEnigmaV1PaymentTypeCategoriesGet = async (
@@ -74,7 +74,7 @@ export type paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFiel
     };
 
 export const getPaymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGetUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/required-fields`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/required-fields`;
 };
 
 export const paymentTypeEndpointsGetRequiredFieldsEnigmaV1PaymentTypeRequiredFieldsGet = async (
@@ -126,8 +126,8 @@ export const getPaymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGetUrl = 
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type`;
 };
 
 export const paymentTypeEndpointsListPaymentTypesEnigmaV1PaymentTypeGet = async (
@@ -167,7 +167,7 @@ export type paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePostResponse
     };
 
 export const getPaymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type`;
 };
 
 export const paymentTypeEndpointsCreatePaymentTypeEnigmaV1PaymentTypePost = async (
@@ -222,8 +222,8 @@ export const getPaymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportG
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/export`;
 };
 
 export const paymentTypeEndpointsExportPaymentTypesEnigmaV1PaymentTypeExportGet = async (
@@ -276,8 +276,8 @@ export const getPaymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportP
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/import?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/import`;
+        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/import?${stringifiedParams}`
+        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/import`;
 };
 
 export const paymentTypeEndpointsImportPaymentTypesEnigmaV1PaymentTypeImportPost = async (
@@ -324,7 +324,7 @@ export type paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCode
 export const getPaymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGetUrl = (
     paymentTypeCode: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}`;
 };
 
 export const paymentTypeEndpointsGetPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeGet = async (
@@ -366,7 +366,7 @@ export type paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeC
 export const getPaymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePutUrl = (
     paymentTypeCode: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}`;
 };
 
 export const paymentTypeEndpointsUpdatePaymentTypeEnigmaV1PaymentTypePaymentTypeCodePut = async (
@@ -411,7 +411,7 @@ export type paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeC
 export const getPaymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDeleteUrl = (
     paymentTypeCode: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}`;
+    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}`;
 };
 
 export const paymentTypeEndpointsDeletePaymentTypeEnigmaV1PaymentTypePaymentTypeCodeDelete = async (
@@ -455,7 +455,7 @@ export type paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePay
 
 export const getPaymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatchUrl =
     (paymentTypeCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}/add_currencies`;
+        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}/add_currencies`;
     };
 
 export const paymentTypeEndpointsAddCurrenciesToPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeAddCurrenciesPatch =
@@ -505,7 +505,7 @@ export type paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentType
 
 export const getPaymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDeleteUrl =
     (paymentTypeCode: string, currencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}/remove_currency/${currencyCode}`;
+        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/payment_type/${paymentTypeCode}/remove_currency/${currencyCode}`;
     };
 
 export const paymentTypeEndpointsRemoveCurrencyFromPaymentTypeEnigmaV1PaymentTypePaymentTypeCodeRemoveCurrencyCurrencyCodeDelete =
