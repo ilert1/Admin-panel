@@ -171,8 +171,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     let adminData = {};
     let adminCustomerData = {};
 
-    console.log(context.record.meta);
-
     if (adminOnly) {
         adminData =
             context.record.type === 1
