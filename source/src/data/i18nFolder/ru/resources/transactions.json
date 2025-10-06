@@ -66,6 +66,7 @@
         "feeType": "Тип комиссии",
         "value": "Сумма",
         "history": "История",
+        "callbackHistory": "История коллбеков",
         "fees": "Комиссии",
         "feeValue": "Сумма комиссии",
         "sourceValue": "Сумма отправления",
@@ -100,6 +101,15 @@
             "external_id": "Внешний ID",
             "external_status": "Внешний статус",
             "callback_id": "Callback ID"
+        }
+    },
+    "resources.transactions.callbackHistory": {
+        "title": "История коллбеков",
+        "fields": {
+            "id": "ID",
+            "status": "Статус",
+            "updated_at": "Обновлено",
+            "created_at": "Создано"
         }
     },
     "resources.transactions.list": {

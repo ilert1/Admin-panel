@@ -32,7 +32,7 @@ import { TransactionCustomerDataDialog } from "./TransactionCustomerDataDialog";
 import { TransactionRequisitesDialog } from "./TransactionRequisitesDialog";
 import { SyncDialog } from "./SyncDialog";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { useGetCallbridgeHistory } from "../../lists/CallbridgeHistory/Columns";
+
 import { TransactionDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 
@@ -52,13 +52,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const [view, setView] = useState(false);
     const transactionDataProvider = TransactionDataProvider;
 
-    const { data: callbackHistory } = useQuery({
-        queryKey: ["transactionCallbackHistory", id],
-        queryFn: async () => await transactionDataProvider.getTransactionCallbackHistory(id)
-    });
-
     const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
-    const { columns } = useGetCallbridgeHistory();
 
     const appToast = useAppToast();
 
@@ -99,7 +93,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         sendWebhookLoading
     } = useTransactionActions(data, context.record);
 
-    const { feesColumns, briefHistory, stateUpdateColumns } = useGetTransactionShowColumns();
+    const { feesColumns, briefHistory, stateUpdateColumns, callbackHistoryColumns } = useGetTransactionShowColumns();
 
     const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
@@ -140,6 +134,11 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         },
         [merchantData]
     );
+
+    const { data: callbackHistory } = useQuery({
+        queryKey: ["transactionCallbackHistory", id],
+        queryFn: async () => await transactionDataProvider.getTransactionCallbackHistory(id)
+    });
 
     const merchantNameAndIdGenerate = (type: number, source: string, destination: string) => {
         const { destMerch, sourceMerch } = getSourceAndDestMerch(source, destination);
@@ -459,35 +458,35 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
             )}
 
             {adminOnly && (
-                <>
-                    <label className="flex items-center gap-2 self-end">
-                        <button
-                            onClick={() => setView(!view)}
-                            className={clsx(
-                                "flex w-11 items-center rounded-[50px] p-0.5 outline outline-1",
-                                view
-                                    ? "bg-neutral-100 outline-transparent dark:bg-green-50 dark:outline-green-40"
-                                    : "bg-transparent outline-green-40 dark:outline-green-50"
-                            )}>
-                            <span
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between gap-1">
+                        <span>{translate("resources.transactions.callbackHistory.title")}</span>
+                        <label className="flex items-center gap-2 self-end">
+                            <button
+                                onClick={() => setView(!view)}
                                 className={clsx(
-                                    "h-5 w-5 rounded-full outline outline-1 transition-all",
+                                    "flex w-11 items-center rounded-[50px] p-0.5 outline outline-1",
                                     view
-                                        ? "translate-x-full bg-neutral-0 outline-transparent dark:bg-neutral-100 dark:outline-green-40"
-                                        : "translate-x-0 bg-green-50 outline-green-40 dark:bg-green-50 dark:outline-transparent"
-                                )}
-                            />
-                        </button>
-                        <p className="text-base text-neutral-90 dark:text-neutral-30">JSON</p>
-                    </label>
+                                        ? "bg-neutral-100 outline-transparent dark:bg-green-50 dark:outline-green-40"
+                                        : "bg-transparent outline-green-40 dark:outline-green-50"
+                                )}>
+                                <span
+                                    className={clsx(
+                                        "h-5 w-5 rounded-full outline outline-1 transition-all",
+                                        view
+                                            ? "translate-x-full bg-neutral-0 outline-transparent dark:bg-neutral-100 dark:outline-green-40"
+                                            : "translate-x-0 bg-green-50 outline-green-40 dark:bg-green-50 dark:outline-transparent"
+                                    )}
+                                />
+                            </button>
+                            <p className="text-base text-neutral-90 dark:text-neutral-30">JSON</p>
+                        </label>
+                    </div>
                     {!view ? (
                         <div className="w-full">
                             <SimpleTable
-                                columns={columns}
-                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                //@ts-ignore
-                                data={callbackHistory ? callbackHistory : []}
-                                // data={formData?.changes_history ?? []}
+                                columns={callbackHistoryColumns}
+                                data={callbackHistory?.data || []}
                                 tableType={TableTypes.COLORED}
                             />
                         </div>
@@ -495,13 +494,13 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                         <div className="h-[350px] w-full">
                             <MonacoEditor
                                 // code={JSON.stringify(formData?.changes_history, null, 2)}
-                                code={""}
+                                code={JSON.stringify(callbackHistory || "{}", null, 2)}
                                 height="h-full"
                                 disabled
                             />
                         </div>
                     )}
-                </>
+                </div>
             )}
 
             {adminOnly && (

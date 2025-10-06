@@ -102,6 +102,15 @@
             "callback_id": "Callback ID"
         }
     },
+    "resources.transactions.callbackHistory": {
+        "title": "Callback history",
+        "fields": {
+            "id": "ID",
+            "status": "Status",
+            "updated_at": "Updated at",
+            "created_at": "Created at"
+        }
+    },
     "resources.transactions.list": {
         "filter": {
             "transactionId": "Transaction ID",

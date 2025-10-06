@@ -124,15 +124,11 @@ export class ITransactionDataProvider extends IBaseDataProvider {
             method: "GET"
         });
 
-        if (!json.success) {
+        /* if (!json.success) {
             throw new Error(json.error);
-        }
+        } */
 
-        return {
-            data: {
-                ...json.data
-            }
-        };
+        return json;
     }
 }
 
