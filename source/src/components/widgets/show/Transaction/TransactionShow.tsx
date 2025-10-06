@@ -193,6 +193,19 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         adminCustomerData = context.record.meta?.customer_data;
     }
 
+    // если имеется url для коллбека
+    // и указан статус
+    // и транзакция final
+    // и если это депозит - он не в статусе 6 или 7
+    // то вебхук можно отправлять
+    const isWebhookEnabled =
+        !!context.record.meta?.common_callback_url &&
+        !!context.record?.state?.state_int &&
+        context.record?.state?.final &&
+        !(context.record?.type === 1 && [6, 7].includes(context.record?.state?.state_int));
+
+    // [4, 5, 8, 9, 10].includes(context.record?.state?.state_int);
+
     return (
         <div className="top-[82px] flex h-full flex-col gap-6 overflow-auto p-4 pt-0 md:px-[42px]">
             {adminOnly && (
@@ -279,13 +292,11 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                     {translate("resources.transactions.show.sync")}
                                 </Button>
                                 <TooltipProvider>
-                                    <Tooltip open={!context.record.meta?.common_callback_url ? undefined : false}>
+                                    <Tooltip open={!isWebhookEnabled ? undefined : false}>
                                         <TooltipTrigger className="!mt-0" role="none" asChild>
                                             <div>
                                                 <Button
-                                                    disabled={
-                                                        sendWebhookLoading || !context.record.meta?.common_callback_url
-                                                    }
+                                                    disabled={sendWebhookLoading || !isWebhookEnabled}
                                                     className="min-w-36"
                                                     onClick={sendWebhookHandler}>
                                                     {sendWebhookLoading ? (

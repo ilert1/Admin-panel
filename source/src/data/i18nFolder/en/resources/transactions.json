@@ -85,7 +85,7 @@
         "commitTransaction": "Commit the transaction?",
         "sendWebhook": "Send a webhook",
         "sendWebhookSuccessMsg": "The webhook for the order %{id} has been successfully sent",
-        "webhookNotAvailable": "Webhook cannot be sent. The transaction's callback URL is not set",
+        "webhookNotAvailable": "Webhook can't be sent - the callback URL is not set, or the transaction status doesn't match the sending criteria",
         "notFound": "Transaction not found",
         "transactionData": "Requisites",
         "customerData": "Customer data",
