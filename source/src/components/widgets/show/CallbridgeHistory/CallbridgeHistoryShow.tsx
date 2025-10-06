@@ -53,18 +53,6 @@ export const CallbridgeHistoryShow = ({ id }: CallbridgeHistoryShowProps) => {
     const changeActivity = () => {
         setCurrentState(!currentState);
     };
-    //    security_rejected: "security_rejected",
-    // queued: "queued",
-    // rpc_sent: "rpc_sent",
-    // rpc_completed: "rpc_completed",
-    // rpc_failed: "rpc_failed",
-    // rpc_timeout: "rpc_timeout",
-    // processing: "processing",
-    // delivered: "delivered",
-    // error: "error",
-    // retrying: "retrying",
-    // success: "success",
-    // quick_processing: "quick_processing"
 
     return (
         <>

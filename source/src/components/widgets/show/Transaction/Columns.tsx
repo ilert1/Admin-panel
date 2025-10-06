@@ -3,6 +3,7 @@ import { useSheets } from "@/components/providers/SheetProvider";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/text-field";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { formatDateTime } from "@/helpers/formatDateTime";
 import { getStateByRole } from "@/helpers/getStateByRole";
 import { useFetchDictionaries } from "@/hooks";
 import { ColumnDef, Row } from "@tanstack/react-table";
@@ -234,5 +235,59 @@ export const useGetTransactionShowColumns = () => {
         }
     ];
 
-    return { feesColumns, briefHistory, stateUpdateColumns };
+    const callbackHistoryColumns: ColumnDef<Transaction.TransactionCallbackItem>[] = [
+        {
+            id: "dates",
+            header: () => {
+                return (
+                    <div className="flex flex-col">
+                        <p className="text-base/[1rem]">
+                            {translate("resources.transactions.callbackHistory.fields.created_at")}
+                        </p>
+                        <p className="text-base/[1rem]">
+                            {translate("resources.transactions.callbackHistory.fields.updated_at")}
+                        </p>
+                    </div>
+                );
+            },
+            cell: ({ row }) => (
+                <>
+                    <p className="text-nowrap">{formatDateTime(new Date(row.original.created_at))}</p>
+                    <p className="text-nowrap text-neutral-70">
+                        {row.original.updated_at ? formatDateTime(new Date(row.original.updated_at)) : "-"}
+                    </p>
+                </>
+            )
+        },
+        {
+            id: "id",
+            header: translate("resources.callbridge.history.fields.callback_id"),
+            cell: ({ row }) => {
+                return <TextField text={row.original.id} lineClamp linesCount={1} copyValue />;
+            }
+        },
+        {
+            id: "status",
+            accessorKey: "status",
+            header: translate("resources.callbridge.history.fields.status"),
+            cell: ({ row }) => {
+                return <TextField text={`${row.original.status}`} maxWidth="100%" />;
+            }
+        }
+
+        /* {
+            id: "show",
+            cell: ({ row }) => {
+                return (
+                    <ShowButton
+                        onClick={() => {
+                            openSheet("callbridgeHistory", { id: row.original.callback_id });
+                        }}
+                    />
+                );
+            }
+        } */
+    ];
+
+    return { feesColumns, briefHistory, stateUpdateColumns, callbackHistoryColumns };
 };

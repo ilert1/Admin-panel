@@ -259,6 +259,26 @@ declare namespace Transaction {
         external_status_details: string;
         callback_id: string;
     };
+
+    type TransactionCallbackHistoryItem = {
+        request: Record<string, any>;
+        response: {
+            body: any;
+        };
+        status: number;
+        sent_at: string;
+    };
+
+    type TransactionCallbackItem = {
+        attempts: number;
+        client_id: string;
+        created_at: string;
+        history: TransactionCallbackHistoryItem[];
+        id: string;
+        status: string;
+        success: boolean;
+        updated_at: string;
+    };
 }
 
 declare namespace JWT {

@@ -3620,6 +3620,11 @@ export interface TerminalAuthSchema {
     fields?: BaseFieldConfig[];
 }
 
+export interface TerminalAuthSchema {
+    /** List of fields in terminal structure */
+    fields?: BaseFieldConfig[];
+}
+
 /**
  * Description of the terminal
  */

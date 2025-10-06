@@ -31,6 +31,10 @@ import { EyeIcon } from "lucide-react";
 import { TransactionCustomerDataDialog } from "./TransactionCustomerDataDialog";
 import { TransactionRequisitesDialog } from "./TransactionRequisitesDialog";
 import { SyncDialog } from "./SyncDialog";
+import { MonacoEditor } from "@/components/ui/MonacoEditor";
+
+import { TransactionDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 interface TransactionShowProps {
     id: string;
@@ -45,6 +49,8 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     const [requisitesOpen, setRequisitesOpen] = useState(false);
     const [customerDataOpen, setCustomerDataOpen] = useState(false);
     const [syncDialogOpen, setSyncDialogOpen] = useState(false);
+    const [view, setView] = useState(false);
+    const transactionDataProvider = TransactionDataProvider;
 
     const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
 
@@ -87,7 +93,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         sendWebhookLoading
     } = useTransactionActions(data, context.record);
 
-    const { feesColumns, briefHistory, stateUpdateColumns } = useGetTransactionShowColumns();
+    const { feesColumns, briefHistory, stateUpdateColumns, callbackHistoryColumns } = useGetTransactionShowColumns();
 
     const trnId = useMemo<string>(() => context.record?.id || "", [context]);
 
@@ -128,6 +134,11 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         },
         [merchantData]
     );
+
+    const { data: callbackHistory } = useQuery({
+        queryKey: ["transactionCallbackHistory", id],
+        queryFn: async () => await transactionDataProvider.getTransactionCallbackHistory(id)
+    });
 
     const merchantNameAndIdGenerate = (type: number, source: string, destination: string) => {
         const { destMerch, sourceMerch } = getSourceAndDestMerch(source, destination);
@@ -440,6 +451,54 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                             context.record.fees?.length > 1 && "min-h-44"
                         )}
                     />
+                </div>
+            )}
+
+            {adminOnly && (
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between gap-1">
+                        <span className="text-display-4">
+                            {translate("resources.transactions.callbackHistory.title")}
+                        </span>
+                        <label className="flex items-center gap-2 self-end">
+                            <button
+                                onClick={() => setView(!view)}
+                                className={clsx(
+                                    "flex w-11 items-center rounded-[50px] p-0.5 outline outline-1",
+                                    view
+                                        ? "bg-neutral-100 outline-transparent dark:bg-green-50 dark:outline-green-40"
+                                        : "bg-transparent outline-green-40 dark:outline-green-50"
+                                )}>
+                                <span
+                                    className={clsx(
+                                        "h-5 w-5 rounded-full outline outline-1 transition-all",
+                                        view
+                                            ? "translate-x-full bg-neutral-0 outline-transparent dark:bg-neutral-100 dark:outline-green-40"
+                                            : "translate-x-0 bg-green-50 outline-green-40 dark:bg-green-50 dark:outline-transparent"
+                                    )}
+                                />
+                            </button>
+                            <p className="text-base text-neutral-90 dark:text-neutral-30">JSON</p>
+                        </label>
+                    </div>
+                    {!view ? (
+                        <div className="w-full">
+                            <SimpleTable
+                                columns={callbackHistoryColumns}
+                                data={callbackHistory?.data || []}
+                                tableType={TableTypes.COLORED}
+                            />
+                        </div>
+                    ) : (
+                        <div className="h-[350px] w-full">
+                            <MonacoEditor
+                                // code={JSON.stringify(formData?.changes_history, null, 2)}
+                                code={JSON.stringify(callbackHistory || "{}", null, 2)}
+                                height="h-full"
+                                disabled
+                            />
+                        </div>
+                    )}
                 </div>
             )}
 
