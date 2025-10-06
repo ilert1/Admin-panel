@@ -36,6 +36,9 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TransactionDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipPortal } from "@radix-ui/react-tooltip";
+
 interface TransactionShowProps {
     id: string;
 }
@@ -275,18 +278,29 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 <Button className="min-w-36" onClick={() => setSyncDialogOpen(true)}>
                                     {translate("resources.transactions.show.sync")}
                                 </Button>
-                                <Button
-                                    disabled={sendWebhookLoading || !context.record.meta?.common_callback_url}
-                                    className="min-w-36"
-                                    onClick={sendWebhookHandler}>
-                                    {sendWebhookLoading ? (
-                                        <div className="w-[20px]">
-                                            <LoadingBlock />
-                                        </div>
-                                    ) : (
-                                        translate("resources.transactions.show.sendWebhook")
-                                    )}
-                                </Button>
+                                <TooltipProvider>
+                                    <Tooltip open={!context.record.meta?.common_callback_url ? undefined : false}>
+                                        <TooltipTrigger className="!mt-0" role="none">
+                                            <Button
+                                                disabled={
+                                                    sendWebhookLoading || !context.record.meta?.common_callback_url
+                                                }
+                                                className="min-w-36"
+                                                onClick={sendWebhookHandler}>
+                                                {sendWebhookLoading ? (
+                                                    <div className="w-[20px]">
+                                                        <LoadingBlock />
+                                                    </div>
+                                                ) : (
+                                                    translate("resources.transactions.show.sendWebhook")
+                                                )}
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent collisionPadding={10}>
+                                            <p>{translate("resources.transactions.show.webhookNotAvailable")}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             </>
                         )}
                     </div>
