@@ -280,21 +280,23 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 </Button>
                                 <TooltipProvider>
                                     <Tooltip open={!context.record.meta?.common_callback_url ? undefined : false}>
-                                        <TooltipTrigger className="!mt-0" role="none">
-                                            <Button
-                                                disabled={
-                                                    sendWebhookLoading || !context.record.meta?.common_callback_url
-                                                }
-                                                className="min-w-36"
-                                                onClick={sendWebhookHandler}>
-                                                {sendWebhookLoading ? (
-                                                    <div className="w-[20px]">
-                                                        <LoadingBlock />
-                                                    </div>
-                                                ) : (
-                                                    translate("resources.transactions.show.sendWebhook")
-                                                )}
-                                            </Button>
+                                        <TooltipTrigger className="!mt-0" role="none" asChild>
+                                            <div>
+                                                <Button
+                                                    disabled={
+                                                        sendWebhookLoading || !context.record.meta?.common_callback_url
+                                                    }
+                                                    className="min-w-36"
+                                                    onClick={sendWebhookHandler}>
+                                                    {sendWebhookLoading ? (
+                                                        <div className="w-[20px]">
+                                                            <LoadingBlock />
+                                                        </div>
+                                                    ) : (
+                                                        translate("resources.transactions.show.sendWebhook")
+                                                    )}
+                                                </Button>
+                                            </div>
                                         </TooltipTrigger>
                                         <TooltipContent collisionPadding={10}>
                                             <p>{translate("resources.transactions.show.webhookNotAvailable")}</p>
