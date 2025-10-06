@@ -57,8 +57,6 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
         queryFn: async () => await transactionDataProvider.getTransactionCallbackHistory(id)
     });
 
-    console.log(callbackHistory);
-
     const { merchantSchema, merchantUISchema, adminSchema, adminUISchema } = useGetJsonFormDataForTransactions();
     const { columns } = useGetCallbridgeHistory();
 
@@ -488,7 +486,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
                                 columns={columns}
                                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                 //@ts-ignore
-                                data={[]}
+                                data={callbackHistory ? callbackHistory : []}
                                 // data={formData?.changes_history ?? []}
                                 tableType={TableTypes.COLORED}
                             />

@@ -6,6 +6,7 @@ import { updateTokenHelper } from "@/helpers/updateTokenHelper";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const MONEYGATE_URL = import.meta.env.VITE_MONEYGATE_URL;
+const APIGATE_BASE_URL = import.meta.env.VITE_APIGATE_BASE_URL;
 
 export class ITransactionDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult> {
@@ -115,7 +116,7 @@ export class ITransactionDataProvider extends IBaseDataProvider {
     }
 
     async getTransactionCallbackHistory(txId: string) {
-        const { json } = await fetchUtils.fetchJson(`${MONEYGATE_URL}/callback_history/${txId}`, {
+        const { json } = await fetchUtils.fetchJson(`${APIGATE_BASE_URL}/callback-history/${txId}`, {
             headers: new Headers({
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
