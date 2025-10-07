@@ -122,12 +122,30 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                             minWidth="50px"
                         />
                     </div>
+
                     <TextField
                         label={translate("resources.cascadeSettings.cascadeMerchants.fields.type")}
                         text={cascadeMerchantData?.cascade.type ?? ""}
                         wrap
                         copyValue
                     />
+
+                    <div>
+                        <Label className="text-sm dark:!text-neutral-60">
+                            {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_state")}
+                        </Label>
+                        {cascadeMerchantData?.cascade.state === "active" && (
+                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal text-white">
+                                {translate("resources.cascadeSettings.cascades.state.active")}
+                            </span>
+                        )}
+                        {cascadeMerchantData?.cascade.state === "inactive" && (
+                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal text-white">
+                                {translate("resources.cascadeSettings.cascades.state.inactive")}
+                            </span>
+                        )}
+                    </div>
+
                     <div className="flex flex-col">
                         <small className="mb-0.5 text-sm text-neutral-60">
                             {translate("resources.cascadeSettings.cascadeMerchants.fields.src_currency")}
@@ -170,34 +188,32 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                         text={String(cascadeMerchantData?.cascade.priority_policy.rank)}
                     />
 
-                    <div className="flex flex-row gap-4">
-                        <div className="flex flex-col">
-                            <small className="mb-0.5 text-sm text-neutral-60">
-                                {translate("resources.cascadeSettings.cascades.fields.created_at")}
-                            </small>
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.created_at")}
+                        </small>
 
-                            <div>
-                                <p className="text-nowrap">
-                                    {new Date(cascadeMerchantData?.created_at ?? "").toLocaleDateString(locale)}
-                                </p>
-                                <p className="text-nowrap text-neutral-70">
-                                    {new Date(cascadeMerchantData?.created_at ?? "").toLocaleTimeString(locale)}
-                                </p>
-                            </div>
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(cascadeMerchantData?.created_at ?? "").toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap text-neutral-70">
+                                {new Date(cascadeMerchantData?.created_at ?? "").toLocaleTimeString(locale)}
+                            </p>
                         </div>
-                        <div className="flex flex-col">
-                            <small className="mb-0.5 text-sm text-neutral-60">
-                                {translate("resources.cascadeSettings.cascades.fields.updated_at")}
-                            </small>
+                    </div>
+                    <div className="flex flex-col">
+                        <small className="mb-0.5 text-sm text-neutral-60">
+                            {translate("resources.cascadeSettings.cascades.fields.updated_at")}
+                        </small>
 
-                            <div>
-                                <p className="text-nowrap">
-                                    {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleDateString(locale)}
-                                </p>
-                                <p className="text-nowrap text-neutral-70">
-                                    {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleTimeString(locale)}
-                                </p>
-                            </div>
+                        <div>
+                            <p className="text-nowrap">
+                                {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleDateString(locale)}
+                            </p>
+                            <p className="text-nowrap text-neutral-70">
+                                {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleTimeString(locale)}
+                            </p>
                         </div>
                     </div>
                 </div>

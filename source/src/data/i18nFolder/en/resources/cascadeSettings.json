@@ -8,6 +8,7 @@
         "editingCascade": "Editing cascade",
         "deleteCascade": "Delete cascade?",
         "linkedTerminals": "Connected terminals",
+        "link": "Show link",
         "fields": {
             "created_at": "Created at",
             "updated_at": "Updated at",

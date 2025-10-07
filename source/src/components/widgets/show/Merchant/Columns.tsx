@@ -185,6 +185,7 @@ export const useGetMerchantShowColumns = ({
     const cascadeMerchantsColumns: ColumnDef<MerchantCascadeSchema>[] = [
         {
             id: "actions",
+            header: translate("resources.cascadeSettings.cascades.link"),
             cell: ({ row }) => {
                 return (
                     <ShowButton

@@ -73,7 +73,7 @@ export const useGetCascadeShowColumns = ({
     const cascadeTerminalColumns: ColumnDef<CascadeTerminalRead>[] = [
         {
             id: "show",
-            header: "",
+            header: translate("resources.cascadeSettings.cascades.link"),
             cell: ({ row }) => (
                 <>
                     <ShowButton

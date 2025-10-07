@@ -8,6 +8,7 @@
         "editingCascade": "Изменение каскада",
         "deleteCascade": "Удалить каскад?",
         "linkedTerminals": "Связанные терминалы",
+        "link": "Показать связь",
         "fields": {
             "created_at": "Создан",
             "updated_at": "Изменён",
