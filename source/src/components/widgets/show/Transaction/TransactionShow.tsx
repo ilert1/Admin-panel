@@ -200,9 +200,9 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
     // то вебхук можно отправлять
     const isWebhookEnabled =
         !!context.record.meta?.common_callback_url &&
-        !!context.record?.state?.state_int &&
+        !!context.record?.state?.state_int_ingress &&
         context.record?.state?.final &&
-        !(context.record?.type === 1 && [6, 7].includes(context.record?.state?.state_int));
+        !(context.record?.type === 1 && [6, 7].includes(context.record?.state?.state_int_ingress));
 
     // [4, 5, 8, 9, 10].includes(context.record?.state?.state_int);
 
