@@ -239,7 +239,14 @@ export const CascadeTerminalCreate = ({
                                 <Label>{translate("resources.cascadeSettings.cascadeTerminals.fields.terminal")}</Label>
                                 <PopoverSelect
                                     disabled={!form.watch("cascade_id") || isTerminalsLoading}
-                                    variants={terminalsData || []}
+                                    variants={
+                                        terminalsData?.filter(
+                                            item =>
+                                                !currentCascadeStructure?.cascade_terminals?.some(
+                                                    cascadeTerminal => cascadeTerminal.terminal_id === item.id
+                                                )
+                                        ) || []
+                                    }
                                     value={terminalValueName}
                                     idField="terminal_id"
                                     setIdValue={field.onChange}

@@ -13,6 +13,8 @@ import { MerchantSelect } from "../components/Selects/MerchantSelect";
 import { CascadeSelect } from "../components/Selects/CascadeSelect";
 import { useCascadesListWithoutPagination } from "@/hooks/useCascadesListWithoutPagination";
 import { useMerchantsListWithoutPagination } from "@/hooks";
+import { CascadeMerchantsDataProvider } from "@/data";
+import { useQuery } from "@tanstack/react-query";
 
 interface MerchantCascadeCreateProps {
     onOpenChange: (state: boolean) => void;
@@ -21,6 +23,7 @@ interface MerchantCascadeCreateProps {
 
 export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCascadeCreateProps) => {
     const dataProvider = useDataProvider();
+    const cascadeMerchantsDataProvider = new CascadeMerchantsDataProvider();
     const controllerProps = useCreateController({ resource: "cascadeSettings/cascadeMerchants" });
     const { theme } = useTheme();
     const appToast = useAppToast();
@@ -62,6 +65,13 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [merchantData, merchantId]);
 
+    const { data: merchantCascadesData, isLoading: isMerchantCascadesLoading } = useQuery({
+        queryKey: ["cascadeMerchants", "getMerchantCascades", merchantId],
+        queryFn: ({ signal }) =>
+            cascadeMerchantsDataProvider.getMerchantCascades("cascadeMerchants", merchantId || "", signal),
+        enabled: !!merchantId
+    });
+
     const formMerchantId = form.watch("merchant");
 
     const cascadesFilteredData = useMemo(() => {
@@ -69,8 +79,12 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
             if (merchantData && formMerchantId) {
                 const preFoundMerchant = merchantData.find(item => item.id === formMerchantId);
 
-                return cascadesData.filter(cascade =>
-                    preFoundMerchant?.allowed_src_currencies?.map(item => item.code).includes(cascade.src_currency.code)
+                return cascadesData.filter(
+                    cascade =>
+                        preFoundMerchant?.allowed_src_currencies
+                            ?.map(item => item.code)
+                            .includes(cascade.src_currency.code) &&
+                        !merchantCascadesData?.some(item => item.id === cascade.id)
                 );
             } else {
                 return cascadesData;
@@ -78,7 +92,7 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
         } else {
             return [];
         }
-    }, [cascadesData, merchantData, formMerchantId]);
+    }, [cascadesData, merchantData, formMerchantId, merchantCascadesData]);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
@@ -111,7 +125,13 @@ export const MerchantCascadeCreate = ({ onOpenChange, merchantId }: MerchantCasc
         }
     };
 
-    if (controllerProps.isLoading || isMerchantsLoading || isCascadesLoading || theme.length === 0)
+    if (
+        controllerProps.isLoading ||
+        isMerchantsLoading ||
+        isCascadesLoading ||
+        isMerchantCascadesLoading ||
+        theme.length === 0
+    )
         return (
             <div className="h-[250px]">
                 <Loading />
