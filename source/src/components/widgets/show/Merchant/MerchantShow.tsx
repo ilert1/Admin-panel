@@ -135,8 +135,8 @@ export const MerchantShow = (props: MerchantShowProps) => {
                         )}
                     </div>
 
-                    <div className="grid grid-cols-1 gap-y-2 px-4 md:grid-cols-2 md:px-[42px]">
-                        <div className="mr-2 flex flex-col pr-2">
+                    <div className="col-span-2 grid grid-cols-2 gap-y-2 px-4 md:px-[42px]">
+                        <div className="col-span-2 mr-2 flex flex-col pr-2 md:col-span-1">
                             <small className="mb-0.5 text-sm text-neutral-60">
                                 {translate("resources.merchant.fields.currencies")}
                             </small>
@@ -155,7 +155,9 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             </div>
                         </div>
 
-                        <PaymentsTypesShowComponent payment_types={payment_types} />
+                        <div className="col-span-2 md:col-span-1">
+                            <PaymentsTypesShowComponent payment_types={payment_types} />
+                        </div>
 
                         <div className="col-span-2 grid">
                             <TextField
@@ -164,28 +166,31 @@ export const MerchantShow = (props: MerchantShowProps) => {
                             />
                         </div>
 
-                        <TextField
-                            label={translate("app.widgets.ttl.TTLDep")}
-                            text={`${String(context.record.settings?.deposit?.ttl?.min ?? "-")} / ${String(context.record.settings?.deposit?.ttl?.max ?? "-")}`}
-                        />
-
-                        <TextField
-                            label={translate("app.widgets.ttl.TTLWith")}
-                            text={`${String(context.record.settings?.withdraw?.ttl?.min ?? "-")} / ${String(context.record.settings?.withdraw?.ttl?.max ?? "-")}`}
-                        />
-                    </div>
-                    <div className="self-end px-[42px]">
-                        <div className="flex gap-2">
-                            <Button className="" onClick={() => setuniqeunessOpen(true)}>
-                                {translate("resources.merchant.settings.title")}
-                            </Button>
-                            <Button className="" onClick={handleEditClicked}>
-                                {translate("app.ui.actions.edit")}
-                            </Button>
-                            <Button className="" variant={"outline_gray"} onClick={() => setDeleteDialogOpen(true)}>
-                                {translate("app.ui.actions.delete")}
-                            </Button>
+                        <div className="col-span-2 md:col-span-1">
+                            <TextField
+                                label={translate("app.widgets.ttl.TTLDep")}
+                                text={`${String(context.record.settings?.deposit?.ttl?.min ?? "-")} / ${String(context.record.settings?.deposit?.ttl?.max ?? "-")}`}
+                            />
                         </div>
+
+                        <div className="col-span-2 md:col-span-1">
+                            <TextField
+                                label={translate("app.widgets.ttl.TTLWith")}
+                                text={`${String(context.record.settings?.withdraw?.ttl?.min ?? "-")} / ${String(context.record.settings?.withdraw?.ttl?.max ?? "-")}`}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col flex-wrap justify-end gap-2 px-4 sm:flex-row md:gap-4 md:px-[42px]">
+                        <Button className="" onClick={() => setuniqeunessOpen(true)}>
+                            {translate("resources.merchant.settings.title")}
+                        </Button>
+                        <Button className="" onClick={handleEditClicked}>
+                            {translate("app.ui.actions.edit")}
+                        </Button>
+                        <Button className="" variant={"outline_gray"} onClick={() => setDeleteDialogOpen(true)}>
+                            {translate("app.ui.actions.delete")}
+                        </Button>
                     </div>
                 </div>
 

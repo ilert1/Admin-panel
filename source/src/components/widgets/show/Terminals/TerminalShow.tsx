@@ -141,18 +141,16 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                         />
                     </div>
 
-                    <div className="mt-3 flex justify-end">
-                        <div className="flex gap-3 md:gap-4">
-                            <Button className="" onClick={() => setGenerateCallbackDialogOpen(true)} disabled={!id}>
-                                {translate("app.ui.actions.generateCallback")}
-                            </Button>
+                    <div className="flex flex-col flex-wrap justify-end gap-2 px-0 sm:flex-row md:gap-4">
+                        <Button className="" onClick={() => setGenerateCallbackDialogOpen(true)} disabled={!id}>
+                            {translate("app.ui.actions.generateCallback")}
+                        </Button>
 
-                            <Button onClick={() => setEditDialogOpen(true)}>{translate("app.ui.actions.edit")}</Button>
+                        <Button onClick={() => setEditDialogOpen(true)}>{translate("app.ui.actions.edit")}</Button>
 
-                            <Button onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
-                                {translate("app.ui.actions.delete")}
-                            </Button>
-                        </div>
+                        <Button onClick={() => setDeleteDialogOpen(true)} variant={"outline_gray"}>
+                            {translate("app.ui.actions.delete")}
+                        </Button>
                     </div>
 
                     <div className="mt-5 border-t-[1px] border-neutral-90 pt-3 dark:border-neutral-100 md:mt-10 md:pt-8">

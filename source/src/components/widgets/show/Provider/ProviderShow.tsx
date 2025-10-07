@@ -212,7 +212,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
                     />
                 </div>
 
-                <div className="flex flex-wrap justify-end gap-2 md:gap-4">
+                <div className="flex flex-col flex-wrap justify-end gap-2 px-0 sm:flex-row md:gap-4">
                     <Button onClick={handleEditClicked}>{translate("app.ui.actions.edit")}</Button>
                     <Button onClick={handleEditLinksClicked}>
                         {translate("resources.provider.settings.settingsEdit")}
