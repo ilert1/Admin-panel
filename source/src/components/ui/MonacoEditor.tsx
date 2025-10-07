@@ -125,12 +125,11 @@ export const MonacoEditor = (props: MonacoEditorProps) => {
     return (
         <div
             className={cn(
-                "!mt-0 w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-2 dark:bg-muted",
+                "!mt-0 h-full min-h-[200px] w-full overflow-hidden rounded-[4px] border border-neutral-50 bg-white py-[1px] dark:bg-muted",
                 height
             )}>
-            <style>{`.monaco-editor {outline: none !important;}`}</style>
             <Editor
-                width={"99%"}
+                width={"100%"}
                 defaultLanguage="json"
                 value={code}
                 theme="myCustomTheme"

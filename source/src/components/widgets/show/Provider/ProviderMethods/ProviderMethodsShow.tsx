@@ -22,6 +22,8 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import { ProviderUpdateParams } from "@/data/providers";
+import { ProviderSettingsJsonShowDialog } from "../ProviderSettingsJsonShowDialog";
+import { ProviderMethodsShowButtonsGroup } from "../ProviderMethodsShowButtonsGroup";
 
 interface IProviderMethodsShow {
     providerId: string;
@@ -36,6 +38,7 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
     const [addMethodForm, setAddMethodForm] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [keyForRemove, setKeyForRemove] = useState("");
+    const [showMethodsDialog, setShowMethodsDialog] = useState(false);
 
     const appToast = useAppToast();
     const refresh = useRefresh();
@@ -126,12 +129,19 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
         }
     };
 
+    const stringifiedMethods = JSON.stringify(methods || "{}", null, 4);
+
     return (
         <div className="flex flex-col gap-4 rounded-8 bg-neutral-0 px-8 py-4 dark:bg-neutral-100">
-            <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
-                {translate("resources.provider.fields.methods")}
-            </h3>
-
+            <div className="flex items-center gap-4">
+                <h3 className="text-2xl text-neutral-90 dark:text-neutral-30">
+                    {translate("resources.provider.fields.methods")}
+                </h3>
+                <ProviderMethodsShowButtonsGroup
+                    stringifiedData={stringifiedMethods}
+                    onOpenChange={setShowMethodsDialog}
+                />
+            </div>
             {Object.keys(methods).length > 0 ? (
                 <Accordion type="multiple">
                     {Object.keys(methods).map(methodKey => (
@@ -210,6 +220,13 @@ export const ProviderMethodsShow = ({ methods, providerId, isFetching }: IProvid
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            <ProviderSettingsJsonShowDialog
+                open={showMethodsDialog}
+                setOpen={setShowMethodsDialog}
+                label={translate("resources.provider.fields.methods")}
+                json={stringifiedMethods}
+            />
         </div>
     );
 };

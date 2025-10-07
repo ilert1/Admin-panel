@@ -76,7 +76,7 @@ export const ProviderPaymentMethodsForm = ({
 
                                     <TableCell
                                         className={cn(
-                                            "relative flex min-h-12 items-center justify-center border border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
+                                            "relative flex min-h-12 items-center justify-center border-neutral-40 py-2 text-sm text-neutral-90 dark:border-muted dark:text-neutral-0",
                                             rowIndex % 2
                                                 ? "bg-neutral-20 dark:bg-neutral-bb-2"
                                                 : "bg-neutral-0 dark:bg-neutral-100"
