@@ -37,7 +37,6 @@ import { TransactionDataProvider } from "@/data";
 import { useQuery } from "@tanstack/react-query";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { TooltipPortal } from "@radix-ui/react-tooltip";
 
 interface TransactionShowProps {
     id: string;

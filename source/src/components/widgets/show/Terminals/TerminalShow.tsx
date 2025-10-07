@@ -170,7 +170,14 @@ export const TerminalShow = ({ id }: TerminalShowProps) => {
                     </div>
                 </div>
 
-                <Fees fees={context.record?.fees} feesResource={FeesResource.TERMINAL} id={id} padding={false} />
+                <Fees
+                    fees={context.record?.fees}
+                    feesResource={FeesResource.TERMINAL}
+                    id={id}
+                    padding={false}
+                    disabled={context.record?.state === "active"}
+                    disabledMessage={translate("resources.terminals.errors.editFeeDisabled")}
+                />
                 <Limits limits={context.record?.limits ?? {}} id={id} resource="terminal" padding={false} />
             </div>
 

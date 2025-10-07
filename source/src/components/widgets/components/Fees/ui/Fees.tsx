@@ -8,6 +8,7 @@ import { Currency, DirectionFees, FeeCreate, MerchantBaseFees } from "@/api/enig
 import { AddFeeCard, FeeType } from "./AddFeeCard";
 import { FeeCard } from "./FeeCard";
 import { useFetchDictionaries } from "@/hooks";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface FeesProps {
     className?: string;
@@ -20,6 +21,7 @@ interface FeesProps {
     padding?: boolean;
     feeType?: FeeType;
     disabled?: boolean;
+    disabledMessage?: string;
 }
 
 export const Fees = (props: FeesProps) => {
@@ -33,7 +35,8 @@ export const Fees = (props: FeesProps) => {
         padding = true,
         feeType = "default",
         setFees,
-        disabled = false
+        disabled = false,
+        disabledMessage = ""
     } = props;
 
     const data = useFetchDictionaries();
@@ -98,6 +101,7 @@ export const Fees = (props: FeesProps) => {
                                       currency={fee.currency}
                                       direction={fee.direction}
                                       disabled={disabled}
+                                      disabledMessage={disabledMessage}
                                   />
                               );
                           })
@@ -121,15 +125,29 @@ export const Fees = (props: FeesProps) => {
             </div>
             {addFee && (
                 <div className="flex justify-end">
-                    <Button
-                        onClick={() => setAddNewOpen(true)}
-                        className="my-6 flex w-full gap-[4px] sm:w-2/5"
-                        disabled={
-                            disabled || (isFeeCreateArray ? fees?.length > 2 : Object.values(fees ?? {}).length > 2)
-                        }>
-                        <PlusCircle className="h-[16px] w-[16px]" />
-                        {translate("resources.direction.fees.addFee")}
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip open={!disabled ? false : undefined} delayDuration={200}>
+                            <TooltipTrigger role="none" asChild>
+                                <div className="my-6 w-full sm:w-2/5">
+                                    <Button
+                                        onClick={() => setAddNewOpen(true)}
+                                        className="flex w-full gap-[4px]"
+                                        disabled={
+                                            disabled ||
+                                            (isFeeCreateArray ? fees?.length > 2 : Object.values(fees ?? {}).length > 2)
+                                        }>
+                                        <PlusCircle className="h-[16px] w-[16px]" />
+                                        {translate("resources.direction.fees.addFee")}
+                                    </Button>
+                                </div>
+                            </TooltipTrigger>
+                            {disabledMessage && (
+                                <TooltipContent collisionPadding={10}>
+                                    <p>{disabledMessage}</p>
+                                </TooltipContent>
+                            )}
+                        </Tooltip>
+                    </TooltipProvider>
                 </div>
             )}
         </div>

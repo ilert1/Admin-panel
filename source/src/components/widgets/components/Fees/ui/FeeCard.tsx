@@ -16,6 +16,8 @@ import { Trash2 } from "lucide-react";
 import { useFetchDictionaries } from "@/hooks";
 import Big from "big.js";
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 interface FeeCardProps {
     account: string;
     feeAmount: number;
@@ -29,6 +31,7 @@ interface FeeCardProps {
     deleteFn?: (innerId: number) => void;
     direction: number;
     disabled?: boolean;
+    disabledMessage?: string;
 }
 export const FeeCard = memo((props: FeeCardProps) => {
     const {
@@ -43,7 +46,8 @@ export const FeeCard = memo((props: FeeCardProps) => {
         isInner = false,
         deleteFn,
         direction,
-        disabled = false
+        disabled = false,
+        disabledMessage = ""
     } = props;
     const feeTypesMap = { 1: "FeeFromSender", 2: "FeeFromTransaction", 3: "FeeFixWithdraw" };
     const translate = useTranslate();
@@ -127,13 +131,28 @@ export const FeeCard = memo((props: FeeCardProps) => {
                         )}
                     </div>
                     {addFee && (
-                        <Button
-                            disabled={disabled}
-                            onClick={handleDeleteClicked}
-                            variant="text_btn"
-                            className="absolute right-3 top-5 h-6 w-6 bg-transparent p-0">
-                            <Trash2 className="h-4 w-4 text-red-40 hover:text-red-30 active:text-red-50" />
-                        </Button>
+                        <TooltipProvider>
+                            <Tooltip open={!disabled ? false : undefined} delayDuration={200}>
+                                <TooltipTrigger role="none" asChild>
+                                    <div className="absolute right-3 top-5 h-6 w-6">
+                                        <Button
+                                            disabled={disabled}
+                                            onClick={handleDeleteClicked}
+                                            variant="text_btn"
+                                            className="h-6 w-6 bg-transparent p-0">
+                                            <Trash2
+                                                className={`h-4 w-4 text-red-40 hover:text-red-30 active:text-red-50 ${disabled && "!text-neutral-70"}`}
+                                            />
+                                        </Button>
+                                    </div>
+                                </TooltipTrigger>
+                                {disabledMessage && (
+                                    <TooltipContent collisionPadding={10}>
+                                        <p>{disabledMessage}</p>
+                                    </TooltipContent>
+                                )}
+                            </Tooltip>
+                        </TooltipProvider>
                     )}
                 </div>
             </div>
