@@ -184,6 +184,18 @@ export const useGetMerchantShowColumns = ({
 
     const cascadeMerchantsColumns: ColumnDef<MerchantCascadeSchema>[] = [
         {
+            id: "actions",
+            cell: ({ row }) => {
+                return (
+                    <ShowButton
+                        onClick={() => {
+                            openSheet("cascadeMerchant", { id: row.original.id });
+                        }}
+                    />
+                );
+            }
+        },
+        {
             id: "cascade",
             accessorKey: "cascade",
             header: translate("resources.cascadeSettings.cascadeMerchants.fields.cascade"),
@@ -320,18 +332,6 @@ export const useGetMerchantShowColumns = ({
                     <>
                         <TrashButton onClick={() => handleDeleteClicked(row.original.id)} />
                     </>
-                );
-            }
-        },
-        {
-            id: "actions",
-            cell: ({ row }) => {
-                return (
-                    <ShowButton
-                        onClick={() => {
-                            openSheet("cascadeMerchant", { id: row.original.id });
-                        }}
-                    />
                 );
             }
         }

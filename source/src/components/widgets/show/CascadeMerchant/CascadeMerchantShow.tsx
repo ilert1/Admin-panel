@@ -44,7 +44,7 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
 
     return (
         <div className="px-4 md:px-[42px] md:pb-[42px]">
-            <div className="flex flex-row flex-wrap items-center justify-between md:flex-nowrap">
+            <div className="flex flex-row flex-wrap gap-2 md:flex-nowrap">
                 <div className="">
                     <span className="text-title-1 text-neutral-90 dark:text-neutral-0">
                         {cascadeMerchantData?.cascade.name ?? ""}
@@ -58,7 +58,7 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                     />
                 </div>
 
-                <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0 sm:self-center">
+                <div className="mt-2 flex items-center justify-center self-start text-white sm:mt-0">
                     {cascadeMerchantData?.state === "active" && (
                         <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
                             {translate("resources.cascadeSettings.cascades.state.active")}
@@ -147,21 +147,6 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
 
                     <div>
                         <Label className="text-sm dark:!text-neutral-60">
-                            {translate("resources.cascadeSettings.cascadeMerchants.fields.cascade_state")}
-                        </Label>
-                        {cascadeMerchantData?.cascade.state === "active" && (
-                            <span className="whitespace-nowrap rounded-20 bg-green-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                                {translate("resources.cascadeSettings.cascades.state.active")}
-                            </span>
-                        )}
-                        {cascadeMerchantData?.cascade.state === "inactive" && (
-                            <span className="whitespace-nowrap rounded-20 bg-red-50 px-3 py-0.5 text-center text-title-2 font-normal">
-                                {translate("resources.cascadeSettings.cascades.state.inactive")}
-                            </span>
-                        )}
-                    </div>
-                    <div>
-                        <Label className="text-sm dark:!text-neutral-60">
                             {translate("resources.cascadeSettings.cascadeMerchants.fields.payment_types")}
                         </Label>
 
@@ -184,32 +169,35 @@ export const CascadeMerchantShow = ({ id, onOpenChange }: CascadeMerchantShowPro
                         label={translate("resources.cascadeSettings.cascadeMerchants.fields.rank")}
                         text={String(cascadeMerchantData?.cascade.priority_policy.rank)}
                     />
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.created_at")}
-                        </small>
 
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(cascadeMerchantData?.created_at ?? "").toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap text-neutral-70">
-                                {new Date(cascadeMerchantData?.created_at ?? "").toLocaleTimeString(locale)}
-                            </p>
+                    <div className="flex flex-row gap-4">
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.cascadeSettings.cascades.fields.created_at")}
+                            </small>
+
+                            <div>
+                                <p className="text-nowrap">
+                                    {new Date(cascadeMerchantData?.created_at ?? "").toLocaleDateString(locale)}
+                                </p>
+                                <p className="text-nowrap text-neutral-70">
+                                    {new Date(cascadeMerchantData?.created_at ?? "").toLocaleTimeString(locale)}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <small className="mb-0.5 text-sm text-neutral-60">
-                            {translate("resources.cascadeSettings.cascades.fields.updated_at")}
-                        </small>
+                        <div className="flex flex-col">
+                            <small className="mb-0.5 text-sm text-neutral-60">
+                                {translate("resources.cascadeSettings.cascades.fields.updated_at")}
+                            </small>
 
-                        <div>
-                            <p className="text-nowrap">
-                                {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleDateString(locale)}
-                            </p>
-                            <p className="text-nowrap text-neutral-70">
-                                {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleTimeString(locale)}
-                            </p>
+                            <div>
+                                <p className="text-nowrap">
+                                    {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleDateString(locale)}
+                                </p>
+                                <p className="text-nowrap text-neutral-70">
+                                    {new Date(cascadeMerchantData?.updated_at ?? "").toLocaleTimeString(locale)}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
