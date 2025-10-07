@@ -22,7 +22,8 @@
             "WrongFormatOfUrl": "Некорректный формат URL. Пример: http(s)://www.example.com"
         },
         "copyAllData": "Скопировать всё",
-        "copyJson": "Скопировать json"
+        "copyJson": "Скопировать json",
+        "viewJson": "Просмотреть json"
     },
     "resources.provider.fields": {
         "_name": "Название",

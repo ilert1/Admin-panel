@@ -16,13 +16,13 @@ export const ProviderMethodsShowButtonsGroup = (props: ProviderMethodsShowButton
 
     return (
         <TooltipProvider>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap gap-2">
                 <Tooltip delayDuration={300}>
                     <TooltipTrigger asChild>
                         <Button
                             role="tooltip"
                             variant="text_btn"
-                            className="flex flex-col py-6"
+                            className="flex flex-col px-0 py-2"
                             onClick={() => copy(stringifiedData)}>
                             <Copy className="min-h-5 min-w-5" />
                         </Button>
@@ -31,11 +31,14 @@ export const ProviderMethodsShowButtonsGroup = (props: ProviderMethodsShowButton
                 </Tooltip>
                 <Tooltip delayDuration={300}>
                     <TooltipTrigger asChild>
-                        <Button onClick={() => onOpenChange(true)} variant="text_btn" className="flex flex-col py-6">
+                        <Button
+                            onClick={() => onOpenChange(true)}
+                            variant="text_btn"
+                            className="flex flex-col px-0 py-2">
                             <EyeIcon className="min-h-5 min-w-5" />
                         </Button>
                     </TooltipTrigger>
-                    <TooltipContent>{translate("resources.provider.settings.copyJson")}</TooltipContent>
+                    <TooltipContent>{translate("resources.provider.settings.viewJson")}</TooltipContent>
                 </Tooltip>
             </div>
         </TooltipProvider>

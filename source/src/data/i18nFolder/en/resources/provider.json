@@ -22,7 +22,8 @@
             "WrongFormatOfUrl": "Invalid URL format. Example: http(s)://www.example.com"
         },
         "copyAllData": "Copy all data",
-        "copyJson": "Copy json"
+        "copyJson": "Copy json",
+        "viewJson": "View json"
     },
     "resources.provider.fields": {
         "_name": "Name",

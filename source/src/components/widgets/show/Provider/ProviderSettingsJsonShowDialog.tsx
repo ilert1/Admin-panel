@@ -25,13 +25,12 @@ export const ProviderSettingsJsonShowDialog = (props: ProviderSettingsJsonShowDi
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="!z-[200] h-auto max-h-96 !w-[750px] overflow-hidden rounded-16 bg-muted xl:max-h-none">
+            <DialogContent className="!z-[200] h-[80dvh] overflow-auto rounded-16 bg-muted">
                 <DialogHeader>
                     <DialogTitle className="mb-2 text-center">{label}</DialogTitle>
                     <DialogDescription />
-                    <MonacoEditor code={json} height="h-96" disabled />
                 </DialogHeader>
-
+                <MonacoEditor code={json} height="h-full" disabled />
                 <DialogFooter>
                     <div className="flex w-full justify-end gap-4">
                         <Button onClick={() => copy(json)}>
