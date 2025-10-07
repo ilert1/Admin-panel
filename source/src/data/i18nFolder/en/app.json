@@ -259,7 +259,8 @@
             "maxConnectionTTL": "Connection TTL - MAX (ms.)",
             "maxConnectionTTLFull": "Connection TTL max in milliseconds",
             "errors": {
-                "minGreaterThanMax": "The maximum value of TTL limit cannot be less than the minimum value"
+                "minGreaterThanMax": "The maximum value of TTL limit cannot be less than the minimum value",
+                "ttlGreaterThatConnectionTTL": "The value of any TTL must be less than the value of connection TTL"
             }
         },
         "multiSelect": {

@@ -258,7 +258,8 @@
             "maxConnectionTTL": "TTL - МАКС. соединения (ms.)",
             "maxConnectionTTLFull": "TTL max соединения в миллисекундах",
             "errors": {
-                "minGreaterThanMax": "Максимальное значение TTL не может быть меньше минимального"
+                "minGreaterThanMax": "Максимальное значение TTL не может быть меньше минимального",
+                "ttlGreaterThatConnectionTTL": "Значение любого TTL должно быть меньше значения TTL соединения"
             }
         },
         "multiSelect": {

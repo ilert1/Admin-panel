@@ -122,8 +122,23 @@ export const MerchantEdit = ({ id = "", onOpenChange }: MerchantEditProps) => {
                 message: translate("app.widgets.ttl.errors.minGreaterThanMax"),
                 path: ["maxTTLWith"]
             }
+        )
+        .refine(
+            data => {
+                if (
+                    data.maxConnectionTTL &&
+                    ((data.minTTLWith && data.maxConnectionTTL <= data.minTTLWith) ||
+                        (data.maxTTLWith && data.maxConnectionTTL <= data.maxTTLWith))
+                ) {
+                    return false;
+                }
+                return true;
+            },
+            {
+                message: translate("app.widgets.ttl.errors.ttlGreaterThatConnectionTTL"),
+                path: ["maxConnectionTTL"]
+            }
         );
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
