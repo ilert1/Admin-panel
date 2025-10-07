@@ -115,12 +115,13 @@ export class ITransactionDataProvider extends IBaseDataProvider {
         };
     }
 
-    async getTransactionCallbackHistory(txId: string) {
+    async getTransactionCallbackHistory(txId: string, signal?: AbortSignal) {
         const { json } = await fetchUtils.fetchJson(`${APIGATE_BASE_URL}/callback-history/${txId}`, {
             headers: new Headers({
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("access-token")}`
             }),
+            signal,
             method: "GET"
         });
 

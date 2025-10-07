@@ -140,7 +140,7 @@ export const TransactionShow = ({ id }: TransactionShowProps) => {
 
     const { data: callbackHistory } = useQuery({
         queryKey: ["transactionCallbackHistory", id],
-        queryFn: async () => await transactionDataProvider.getTransactionCallbackHistory(id)
+        queryFn: async ({ signal }) => await transactionDataProvider.getTransactionCallbackHistory(id, signal)
     });
 
     const merchantNameAndIdGenerate = (type: number, source: string, destination: string) => {
