@@ -78,8 +78,8 @@
             "weight": "Вес",
             "rank": "Ранг",
             "extra": "Приоритет",
-            "ttl_min": "TTL min",
-            "ttl_max": "TTL max",
+            "ttl_min": "TTL min (в миллисекундах)",
+            "ttl_max": "TTL max (в миллисекундах)",
             "ttl_minmax": "TTL min/max",
             "enabled": "Состояние условий",
             "state": "Состояние"

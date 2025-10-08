@@ -78,9 +78,9 @@
             "weight": "Weight",
             "rank": "Rank",
             "extra": "Extra",
-            "ttl_min": "TTL min",
-            "ttl_max": "TTL max",
-            "ttl_minmax": "TTL min/max",
+            "ttl_min": "TTL min (ms.)",
+            "ttl_max": "TTL max (ms.)",
+            "ttl_minmax": "TTL min/max (ms.)",
             "enabled": "State condition",
             "state": "State"
         },
