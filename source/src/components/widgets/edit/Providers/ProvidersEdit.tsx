@@ -10,13 +10,11 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
-import { PROVIDER_PAYMENT_METHODS, ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
+import { ProvidersDataProvider, ProviderUpdateParams } from "@/data/providers";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useGetPaymentTypes } from "@/hooks/useGetPaymentTypes";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentTypeMultiSelect } from "../../components/MultiSelectComponents/PaymentTypeMultiSelect";
-import { ProviderPaymentMethods } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
-import { MultiSelect } from "@/components/ui/multi-select";
 
 export interface ProviderEditParams {
     id: string;
@@ -51,16 +49,14 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
 
     const formSchema = z.object({
         methods: z.string().trim().optional(),
-        payment_types: z.array(z.string()).optional(),
-        payment_methods: z.array(z.enum(PROVIDER_PAYMENT_METHODS)).optional().default([])
+        payment_types: z.array(z.string()).optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             methods: "{}",
-            payment_types: [],
-            payment_methods: []
+            payment_types: []
         }
     });
 
@@ -68,12 +64,7 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
         if (!isLoadingProvider && provider && isFetchedAfterMount) {
             const updatedValues = {
                 methods: JSON.stringify(provider.methods, null, 2) || "{}",
-                payment_types: provider?.payment_types?.map(pt => pt.code) || [],
-                payment_methods: provider?.payment_methods
-                    ? (Object.keys(provider?.payment_methods || {}) as (keyof ProviderPaymentMethods)[]).filter(
-                          pm => provider?.payment_methods?.[pm]?.enabled === true
-                      )
-                    : []
+                payment_types: provider?.payment_types?.map(pt => pt.code) || []
             };
 
             form.reset(updatedValues);
@@ -104,9 +95,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                 id,
                 data: {
                     ...data,
-                    payment_methods: Object.fromEntries(
-                        data.payment_methods.map(key => [key, { ...provider?.payment_methods?.[key], enabled: true }])
-                    ),
                     methods: data.methods && data.methods.length !== 0 ? JSON.parse(data.methods) : {}
                 },
                 previousData: {
@@ -176,34 +164,6 @@ export const ProvidersEdit = ({ id, onClose = () => {} }: ProviderEditParams) =>
                                         onChange={field.onChange}
                                         options={allPaymentTypes || []}
                                     />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="payment_methods"
-                        render={({ field }) => (
-                            <FormItem className="w-full p-2">
-                                <FormControl>
-                                    <div>
-                                        <Label>{translate("resources.provider.fields.paymentMethods")}</Label>
-                                        <MultiSelect
-                                            selectedValues={field.value}
-                                            options={PROVIDER_PAYMENT_METHODS.map(item => ({
-                                                label: item,
-                                                value: item
-                                            }))}
-                                            onValueChange={field.onChange}
-                                            placeholder={translate("app.widgets.multiSelect.selectPaymentMethods")}
-                                            notFoundMessage={translate(
-                                                "resources.provider.paymentMethods.notFoundMessage"
-                                            )}
-                                            animation={0}
-                                            modalPopover={true}
-                                        />
-                                    </div>
                                 </FormControl>
                             </FormItem>
                         )}
