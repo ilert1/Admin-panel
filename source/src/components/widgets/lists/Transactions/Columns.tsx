@@ -23,6 +23,8 @@ export const useGetTransactionColumns = () => {
         openSheet("transaction", { id });
     };
 
+    const TRANS_PROVIDER_FILTER_ENABLED = import.meta.env.VITE_TRANS_PROVIDER_FILTER_ENABLED === "true" ? true : false;
+
     const columns: ColumnDef<Transaction.TransactionView>[] = [
         {
             accessorKey: "created_at",
@@ -111,26 +113,30 @@ export const useGetTransactionColumns = () => {
                           );
                       }
                   },
-                  {
-                      id: "provider",
-                      header: translate("resources.transactions.fields.provider"),
-                      cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
-                          const providerName = row.original.provider_name ?? "";
+                  ...(TRANS_PROVIDER_FILTER_ENABLED
+                      ? [
+                            {
+                                id: "provider",
+                                header: translate("resources.transactions.fields.provider"),
+                                cell: ({ row }: { row: Row<Transaction.TransactionView> }) => {
+                                    const providerName = row.original.provider_name ?? "";
 
-                          return (
-                              <div className="min-w-32">
-                                  <TextField
-                                      text={providerName}
-                                      wrap
-                                      copyValue
-                                      lineClamp
-                                      linesCount={1}
-                                      minWidth="50px"
-                                  />
-                              </div>
-                          );
-                      }
-                  }
+                                    return (
+                                        <div className="min-w-32">
+                                            <TextField
+                                                text={providerName}
+                                                wrap
+                                                copyValue
+                                                lineClamp
+                                                linesCount={1}
+                                                minWidth="50px"
+                                            />
+                                        </div>
+                                    );
+                                }
+                            }
+                        ]
+                      : [])
               ]
             : []),
         {

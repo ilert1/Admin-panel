@@ -67,6 +67,8 @@ export const TransactionListFilter = () => {
         !providerNameFilter &&
         (adminOnly ? !orderStatusFilter && !orderIngressStatusFilter : !orderIngressStatusFilter);
 
+    const TRANS_PROVIDER_FILTER_ENABLED = import.meta.env.VITE_TRANS_PROVIDER_FILTER_ENABLED === "true" ? true : false;
+
     return (
         <>
             <div className="flex w-full flex-col">
@@ -113,7 +115,7 @@ export const TransactionListFilter = () => {
                                 labelSize="title-2"
                             />
                         </div>
-                        {adminOnly && (
+                        {adminOnly && TRANS_PROVIDER_FILTER_ENABLED && (
                             <div className="flex min-w-36 flex-1 flex-col items-start md:min-w-56">
                                 <Label variant="title-2" className="">
                                     {translate("resources.transactions.filter.filterByProvider")}
