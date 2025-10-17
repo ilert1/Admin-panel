@@ -23,7 +23,6 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
-import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface TerminalPaymentInstrumentsEditProps {
     id: string;
@@ -55,7 +54,6 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
     const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
-    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const formSchema = z.object({
         terminal_id: z
@@ -71,10 +69,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         direction: z.nativeEnum(DirectionType).default(DirectionType.deposit),
         terminal_payment_type_code: z.string().trim().optional(),
         terminal_currency_code: z.string().trim().optional(),
-        terminal_country: z
-            .string()
-            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
-            .trim(),
+        terminal_country: z.string().trim().optional(),
         terminal_financial_institution_code: z.string().trim().optional(),
         terminal_financial_institution_outgoing_code: z.string().trim().optional(),
         terminal_specific_parameters: z.string().trim().optional()
@@ -225,26 +220,21 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                         <FormField
                             control={form.control}
                             name="terminal_country"
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <FormItem className="w-full p-2">
-                                        <Label>
-                                            {translate(
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate(
                                                 "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
                                             )}
-                                        </Label>
-
-                                        <CountrySelect
-                                            value={currentCountryCodeName}
-                                            onChange={setCurrentCountryCodeName}
-                                            setIdValue={field.onChange}
-                                            isError={fieldState.invalid}
-                                            errorMessage={fieldState.error?.message}
-                                            modal
                                         />
-                                    </FormItem>
-                                );
-                            }}
+                                    </FormControl>
+                                </FormItem>
+                            )}
                         />
 
                         <FormField

@@ -32,7 +32,6 @@ import {
 import { ProviderSelect } from "../components/Selects/ProviderSelect";
 import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
 import { FinancialInstitutionProvider } from "@/data/financialInstitution";
-import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface TerminalPaymentInstrumentsCreateProps {
     onClose?: () => void;
@@ -66,7 +65,6 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const [monacoEditorMounted, setMonacoEditorMounted] = useState(false);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [createMode, setCreateMode] = useState<createModeEnum>(createModeEnum.SPI);
-    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
@@ -100,10 +98,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
         direction: z.nativeEnum(DirectionType).default(DirectionType.deposit),
         terminal_payment_type_code: z.string().trim().optional(),
         terminal_currency_code: z.string().trim().optional(),
-        terminal_country: z
-            .string()
-            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
-            .trim(),
+        terminal_country: z.string().trim().optional(),
         terminal_financial_institution_code: z.string().trim().optional(),
         terminal_financial_institution_outgoing_code: z.string().trim().optional(),
         terminal_specific_parameters: z.string().trim().optional()
@@ -379,26 +374,21 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
                             <FormField
                                 control={form.control}
                                 name="terminal_country"
-                                render={({ field, fieldState }) => {
-                                    return (
-                                        <FormItem className="w-full p-2">
-                                            <Label>
-                                                {translate(
+                                render={({ field, fieldState }) => (
+                                    <FormItem className="w-full p-2">
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
                                                     "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
                                                 )}
-                                            </Label>
-
-                                            <CountrySelect
-                                                value={currentCountryCodeName}
-                                                onChange={setCurrentCountryCodeName}
-                                                setIdValue={field.onChange}
-                                                isError={fieldState.invalid}
-                                                errorMessage={fieldState.error?.message}
-                                                modal
                                             />
-                                        </FormItem>
-                                    );
-                                }}
+                                        </FormControl>
+                                    </FormItem>
+                                )}
                             />
 
                             <FormField
