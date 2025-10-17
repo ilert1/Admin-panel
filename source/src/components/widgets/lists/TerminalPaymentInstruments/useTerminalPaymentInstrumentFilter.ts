@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { debounce } from "lodash";
-import { useCountryCodes, useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
+import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
@@ -15,7 +15,6 @@ const useTerminalPaymentInstrumentFilter = () => {
     const translate = useTranslate();
     const appToast = useAppToast();
     const refresh = useRefresh();
-    const { countryCodesWithFlag } = useCountryCodes();
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
         filterValues?.terminal_payment_type_code || ""
@@ -31,7 +30,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
-    const [terminalCountryName, setTerminalCountryName] = useState("");
+    const [terminalCountry, setTerminalCountry] = useState(filterValues?.terminal_country || "");
 
     const [reportLoading, setReportLoading] = useState(false);
 
@@ -52,15 +51,6 @@ const useTerminalPaymentInstrumentFilter = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
-
-    useEffect(() => {
-        if (countryCodesWithFlag && filterValues?.terminal_country) {
-            setTerminalCountryName(
-                countryCodesWithFlag?.find(code => code.alpha2 === filterValues.terminal_country)?.name || ""
-            );
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const onPropertySelected = debounce(
         (
@@ -123,7 +113,9 @@ const useTerminalPaymentInstrumentFilter = () => {
         onPropertySelected(value, "terminal_currency_code");
     };
 
-    const onTerminalCountryChanged = (value: string) => {
+    const onTerminalCountryChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setTerminalCountry(value);
         onPropertySelected(value, "terminal_country");
     };
 
@@ -158,7 +150,9 @@ const useTerminalPaymentInstrumentFilter = () => {
         setPage(1);
         setTerminalPaymentTypeCode("");
         setTerminalCurrencyCode("");
+        setTerminalCountry("");
         setTerminalFinancialInstitutionCode("");
+        setTerminalFinancialInstitutionOutgoingCode("");
         setTerminalFilterId("");
         setTerminalFilterName("");
         setProviderName("");
@@ -308,12 +302,11 @@ const useTerminalPaymentInstrumentFilter = () => {
         terminalCurrencyCode,
         terminalFinancialInstitutionCode,
         terminalFinancialInstitutionOutgoingCode,
-        terminalCountryName,
+        terminalCountry,
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
         onTerminalFinancialInstitutionOutgoingCodeChanged,
-        setTerminalCountryName,
         onTerminalCountryChanged,
         terminalsLoadingProcess,
         providerName,

@@ -10,7 +10,6 @@ import { CirclePlus } from "lucide-react";
 import { Input } from "@/components/ui/Input/input";
 import { ProviderSelect } from "../../components/Selects/ProviderSelect";
 import { PopoverSelect } from "../../components/Selects/PopoverSelect";
-// import { InitializeTerminalPaymentInstrumentsDialog } from "./InitializeTerminalPaymentInstrumentsDialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -20,7 +19,6 @@ import {
 import { ImportSingleFileDialog } from "./ImportSingleFileDialog";
 import { ImportMultipleFilesDialog } from "./ImportMultipleFilesDialog";
 import { ExportReportDialog } from "./ExportReportDialog";
-import { CountrySelect } from "../../components/Selects/CountrySelect";
 
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
@@ -37,12 +35,11 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         terminalCurrencyCode,
         terminalFinancialInstitutionCode,
         terminalFinancialInstitutionOutgoingCode,
-        terminalCountryName,
+        terminalCountry,
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
         onTerminalFinancialInstitutionOutgoingCodeChanged,
-        setTerminalCountryName,
         onTerminalCountryChanged,
         terminalsLoadingProcess,
         providerName,
@@ -69,7 +66,9 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         !terminalFilterId &&
         !terminalPaymentTypeCode &&
         !terminalCurrencyCode &&
+        !terminalCountry &&
         !terminalFinancialInstitutionCode &&
+        !terminalFinancialInstitutionOutgoingCode &&
         !selectSpiCode;
 
     return (
@@ -84,7 +83,9 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             terminalFilterId,
                             terminalPaymentTypeCode,
                             terminalCurrencyCode,
+                            terminalCountry,
                             terminalFinancialInstitutionCode,
+                            terminalFinancialInstitutionOutgoingCode,
                             selectSpiCode
                         ]}
                         onClearFilters={onClearFilters}
@@ -218,17 +219,17 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             </div>
 
                             <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52">
-                                <Label variant={"title-2"}>
-                                    {translate(
+                                <Input
+                                    labelSize="title-2"
+                                    value={terminalCountry}
+                                    onChange={onTerminalCountryChanged}
+                                    label={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
                                     )}
-                                </Label>
-
-                                <CountrySelect
-                                    style="Black"
-                                    value={terminalCountryName}
-                                    onChange={setTerminalCountryName}
-                                    setIdValue={onTerminalCountryChanged}
+                                    placeholder={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
+                                    )}
+                                    disabled={!providerName}
                                 />
                             </div>
 
