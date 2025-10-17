@@ -187,7 +187,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                     </div>
                     <div>
                         <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52">
                                 <Input
                                     labelSize="title-2"
                                     value={selectSpiCode}
@@ -202,7 +202,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalCurrencyCode}
@@ -217,7 +217,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52">
                                 <Label variant={"title-2"}>
                                     {translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
@@ -247,7 +247,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-80">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalFinancialInstitutionOutgoingCode}
