@@ -177,6 +177,23 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             }
         },
         {
+            id: "terminal_country",
+            accessorKey: "terminal_country",
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate("resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country")}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
+            cell: ({ row }) => {
+                return <TextField text={row.original.terminal_country || ""} lineClamp />;
+            }
+        },
+        {
             id: "terminal_financial_institution_code",
             accessorKey: "terminal_financial_institution_code",
             header: ({ column }) => (
@@ -207,6 +224,25 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
                         setShowEdit={setCurrentCellEdit}
                     />
                 );
+            }
+        },
+        {
+            id: "terminal_financial_institution_outgoing_code",
+            accessorKey: "terminal_financial_institution_outgoing_code",
+            header: ({ column }) => (
+                <ColumnSortingButton
+                    title={translate(
+                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code"
+                    )}
+                    order={sort.field === column.id ? sort.order : undefined}
+                    onChangeOrder={order => {
+                        setSort({ field: column.id, order });
+                        listContext.setSort({ field: column.id, order });
+                    }}
+                />
+            ),
+            cell: ({ row }) => {
+                return <TextField text={row.original.terminal_financial_institution_outgoing_code || ""} lineClamp />;
             }
         },
         {

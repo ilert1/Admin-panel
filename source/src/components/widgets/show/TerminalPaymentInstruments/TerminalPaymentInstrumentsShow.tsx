@@ -110,9 +110,23 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
 
                     <TextField
                         label={translate(
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
+                        )}
+                        text={context.record.terminal_country || ""}
+                    />
+
+                    <TextField
+                        label={translate(
                             "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
                         )}
                         text={context.record.terminal_financial_institution_code || ""}
+                    />
+
+                    <TextField
+                        label={translate(
+                            "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code"
+                        )}
+                        text={context.record.terminal_financial_institution_outgoing_code || ""}
                     />
 
                     <div>

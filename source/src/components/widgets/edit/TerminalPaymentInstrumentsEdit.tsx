@@ -23,6 +23,7 @@ import {
     SelectType,
     SelectValue
 } from "@/components/ui/select";
+import { CountrySelect } from "../components/Selects/CountrySelect";
 
 export interface TerminalPaymentInstrumentsEditProps {
     id: string;
@@ -54,6 +55,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
     const [hasValid, setHasValid] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isFinished, setIsFinished] = useState(false);
+    const [currentCountryCodeName, setCurrentCountryCodeName] = useState("");
 
     const formSchema = z.object({
         terminal_id: z
@@ -69,7 +71,12 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         direction: z.nativeEnum(DirectionType).default(DirectionType.deposit),
         terminal_payment_type_code: z.string().trim().optional(),
         terminal_currency_code: z.string().trim().optional(),
+        terminal_country: z
+            .string()
+            .regex(/^\w{2}$/, translate("resources.paymentSettings.financialInstitution.errors.country_code"))
+            .trim(),
         terminal_financial_institution_code: z.string().trim().optional(),
+        terminal_financial_institution_outgoing_code: z.string().trim().optional(),
         terminal_specific_parameters: z.string().trim().optional()
     });
 
@@ -78,9 +85,13 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
         defaultValues: {
             terminal_id: "",
             system_payment_instrument_code: "",
+            status: TerminalPaymentInstrumentStatus.INACTIVE,
+            direction: DirectionType.deposit,
             terminal_payment_type_code: "",
             terminal_currency_code: "",
+            terminal_country: "",
             terminal_financial_institution_code: "",
+            terminal_financial_institution_outgoing_code: "",
             terminal_specific_parameters: "{}"
         }
     });
@@ -90,12 +101,15 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
             const updatedValues = {
                 terminal_id: terminalPaymentInstrumentsData.terminal_id || "",
                 system_payment_instrument_code: terminalPaymentInstrumentsData.system_payment_instrument_code || "",
-                terminal_payment_type_code: terminalPaymentInstrumentsData.terminal_payment_type_code || "",
-                terminal_currency_code: terminalPaymentInstrumentsData.terminal_currency_code || "",
                 status: terminalPaymentInstrumentsData.status || TerminalPaymentInstrumentStatus.INACTIVE,
                 direction: terminalPaymentInstrumentsData.direction || DirectionType.deposit,
+                terminal_payment_type_code: terminalPaymentInstrumentsData.terminal_payment_type_code || "",
+                terminal_currency_code: terminalPaymentInstrumentsData.terminal_currency_code || "",
+                terminal_country: terminalPaymentInstrumentsData.terminal_country || "",
                 terminal_financial_institution_code:
                     terminalPaymentInstrumentsData.terminal_financial_institution_code || "",
+                terminal_financial_institution_outgoing_code:
+                    terminalPaymentInstrumentsData.terminal_financial_institution_outgoing_code || "",
                 terminal_specific_parameters:
                     JSON.stringify(terminalPaymentInstrumentsData.terminal_specific_parameters, null, 2) || "{}"
             };
@@ -187,9 +201,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                 disabled
                             />
                         </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3">
                         <FormField
                             control={form.control}
                             name="terminal_currency_code"
@@ -208,6 +220,31 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                     </FormControl>
                                 </FormItem>
                             )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="terminal_country"
+                            render={({ field, fieldState }) => {
+                                return (
+                                    <FormItem className="w-full p-2">
+                                        <Label>
+                                            {translate(
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
+                                            )}
+                                        </Label>
+
+                                        <CountrySelect
+                                            value={currentCountryCodeName}
+                                            onChange={setCurrentCountryCodeName}
+                                            setIdValue={field.onChange}
+                                            isError={fieldState.invalid}
+                                            errorMessage={fieldState.error?.message}
+                                            modal
+                                        />
+                                    </FormItem>
+                                );
+                            }}
                         />
 
                         <FormField
@@ -232,6 +269,28 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
 
                         <FormField
                             control={form.control}
+                            name="terminal_financial_institution_outgoing_code"
+                            render={({ field, fieldState }) => (
+                                <FormItem className="w-full p-2">
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            variant={InputTypes.GRAY}
+                                            error={fieldState.invalid}
+                                            errorMessage={<FormMessage />}
+                                            label={translate(
+                                                "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code"
+                                            )}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3">
+                        <FormField
+                            control={form.control}
                             name="terminal_payment_type_code"
                             render={({ field, fieldState }) => (
                                 <FormItem className="w-full p-2">
@@ -249,9 +308,7 @@ export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: Termi
                                 </FormItem>
                             )}
                         />
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2">
                         <FormField
                             control={form.control}
                             name="direction"

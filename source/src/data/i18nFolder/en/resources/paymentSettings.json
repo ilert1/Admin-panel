@@ -156,6 +156,8 @@
             "terminal_financial_institution_code": "Terminal financial institution code",
             "system_payment_instrument_code_filter": "System payment instrument code",
             "terminal_specific_parameters": "Parameters",
+            "terminal_financial_institution_outgoing_code": "Terminal financial institution outgoing code",
+            "terminal_country": "Terminal country",
             "status": "Status",
             "id": "ID",
             "terminalToChoose": "Select terminal",

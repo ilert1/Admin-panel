@@ -154,6 +154,8 @@
             "terminal_financial_institution_code": "Код фин. института терминала",
             "system_payment_instrument_code_filter": "Код сист. платёжного инструмента",
             "terminal_specific_parameters": "Параметры",
+            "terminal_financial_institution_outgoing_code": "Исходящий код фин. института терминала",
+            "terminal_country": "Страна терминала",
             "status": "Статус",
             "id": "ID",
             "terminalToChoose": "Выберите терминал",
