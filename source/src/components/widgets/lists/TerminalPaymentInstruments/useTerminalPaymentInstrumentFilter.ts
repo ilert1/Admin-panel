@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { debounce } from "lodash";
-import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
+import { useCountryCodes, useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
 import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
@@ -15,6 +15,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const translate = useTranslate();
     const appToast = useAppToast();
     const refresh = useRefresh();
+    const { countryCodesWithFlag } = useCountryCodes();
 
     const [terminalPaymentTypeCode, setTerminalPaymentTypeCode] = useState(
         filterValues?.terminal_payment_type_code || ""
@@ -23,10 +24,14 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFinancialInstitutionCode, setTerminalFinancialInstitutionCode] = useState(
         filterValues?.terminal_financial_institution_code || ""
     );
+    const [terminalFinancialInstitutionOutgoingCode, setTerminalFinancialInstitutionOutgoingCode] = useState(
+        filterValues?.terminal_financial_institution_outgoing_code || ""
+    );
     const [terminalFilterId, setTerminalFilterId] = useState("");
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
+    const [terminalCountryName, setTerminalCountryName] = useState("");
 
     const [reportLoading, setReportLoading] = useState(false);
 
@@ -48,6 +53,15 @@ const useTerminalPaymentInstrumentFilter = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [terminalsData]);
 
+    useEffect(() => {
+        if (countryCodesWithFlag && filterValues?.terminal_country) {
+            setTerminalCountryName(
+                countryCodesWithFlag?.find(code => code.alpha2 === filterValues.terminal_country)?.name || ""
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const onPropertySelected = debounce(
         (
             value: string,
@@ -57,6 +71,8 @@ const useTerminalPaymentInstrumentFilter = () => {
                 | "terminal_financial_institution_code"
                 | "terminalFilterId"
                 | "system_payment_instrument_code"
+                | "terminal_financial_institution_outgoing_code"
+                | "terminal_country"
         ) => {
             if (value) {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
@@ -107,10 +123,20 @@ const useTerminalPaymentInstrumentFilter = () => {
         onPropertySelected(value, "terminal_currency_code");
     };
 
+    const onTerminalCountryChanged = (value: string) => {
+        onPropertySelected(value, "terminal_country");
+    };
+
     const onTerminalFinancialInstitutionCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setTerminalFinancialInstitutionCode(value);
         onPropertySelected(value, "terminal_financial_institution_code");
+    };
+
+    const onTerminalFinancialInstitutionOutgoingCodeChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setTerminalFinancialInstitutionOutgoingCode(value);
+        onPropertySelected(value, "terminal_financial_institution_outgoing_code");
     };
 
     const onTerminalIdFieldChanged = (value: string) => {
@@ -281,9 +307,14 @@ const useTerminalPaymentInstrumentFilter = () => {
         terminalPaymentTypeCode,
         terminalCurrencyCode,
         terminalFinancialInstitutionCode,
+        terminalFinancialInstitutionOutgoingCode,
+        terminalCountryName,
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
+        onTerminalFinancialInstitutionOutgoingCodeChanged,
+        setTerminalCountryName,
+        onTerminalCountryChanged,
         terminalsLoadingProcess,
         providerName,
         terminalFilterName,
@@ -291,7 +322,6 @@ const useTerminalPaymentInstrumentFilter = () => {
         terminalFilterId,
         onTerminalNameChanged,
         onTerminalIdFieldChanged,
-        reportLoading,
         handleUploadReport,
         handleUploadMultipleFiles,
         handleDownloadReport,

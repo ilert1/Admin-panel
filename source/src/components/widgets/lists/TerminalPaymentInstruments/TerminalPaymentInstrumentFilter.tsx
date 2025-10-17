@@ -20,6 +20,7 @@ import {
 import { ImportSingleFileDialog } from "./ImportSingleFileDialog";
 import { ImportMultipleFilesDialog } from "./ImportMultipleFilesDialog";
 import { ExportReportDialog } from "./ExportReportDialog";
+import { CountrySelect } from "../../components/Selects/CountrySelect";
 
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
@@ -35,9 +36,14 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         terminalPaymentTypeCode,
         terminalCurrencyCode,
         terminalFinancialInstitutionCode,
+        terminalFinancialInstitutionOutgoingCode,
+        terminalCountryName,
         onTerminalPaymentTypeCodeChanged,
         onTerminalCurrencyCodeChanged,
         onTerminalFinancialInstitutionCodeChanged,
+        onTerminalFinancialInstitutionOutgoingCodeChanged,
+        setTerminalCountryName,
+        onTerminalCountryChanged,
         terminalsLoadingProcess,
         providerName,
         terminalFilterName,
@@ -212,6 +218,21 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             </div>
 
                             <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                                <Label variant={"title-2"}>
+                                    {translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_country"
+                                    )}
+                                </Label>
+
+                                <CountrySelect
+                                    style="Black"
+                                    value={terminalCountryName}
+                                    onChange={setTerminalCountryName}
+                                    setIdValue={onTerminalCountryChanged}
+                                />
+                            </div>
+
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalFinancialInstitutionCode}
@@ -221,6 +242,21 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                     )}
                                     placeholder={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                    )}
+                                    disabled={!providerName}
+                                />
+                            </div>
+
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                                <Input
+                                    labelSize="title-2"
+                                    value={terminalFinancialInstitutionOutgoingCode}
+                                    onChange={onTerminalFinancialInstitutionOutgoingCodeChanged}
+                                    label={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code"
+                                    )}
+                                    placeholder={translate(
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code"
                                     )}
                                     disabled={!providerName}
                                 />
