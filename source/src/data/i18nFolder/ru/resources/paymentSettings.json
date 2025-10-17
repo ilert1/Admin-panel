@@ -154,6 +154,7 @@
             "terminal_financial_institution_code": "Код фин. института терминала",
             "terminal_financial_institution_code_filter": "Код фин. института терминала",
             "system_payment_instrument_code_filter": "Код сист. платёжного инструмента",
+            "system_payment_instrument_code_name": "Код сист. платёжного инструмента",
             "terminal_specific_parameters": "Параметры",
             "terminal_financial_institution_outgoing_code": "Исходящий код фин. института терминала",
             "terminal_financial_institution_outgoing_code_filter": "Исходящий код фин. института терминала",

@@ -156,6 +156,7 @@
             "terminal_financial_institution_code_filter": "Terminal FI code",
             "terminal_financial_institution_code": "Terminal financial institution code",
             "system_payment_instrument_code_filter": "SPI code",
+            "system_payment_instrument_code_name": "System payment instrument code",
             "terminal_specific_parameters": "Parameters",
             "terminal_financial_institution_outgoing_code_filter": "Terminal FI outgoing code",
             "terminal_financial_institution_outgoing_code": "Terminal financial institution outgoing code",

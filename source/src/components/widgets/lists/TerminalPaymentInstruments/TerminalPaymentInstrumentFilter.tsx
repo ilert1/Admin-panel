@@ -197,7 +197,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
                                     )}
                                     placeholder={translate(
-                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_filter"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.system_payment_instrument_code_name"
                                     )}
                                     disabled={!providerName}
                                 />
