@@ -56,7 +56,11 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         id: string,
         data: Pick<
             TerminalPaymentInstrument,
-            "terminal_currency_code" | "terminal_financial_institution_code" | "terminal_payment_type_code"
+            | "terminal_currency_code"
+            | "terminal_country"
+            | "terminal_financial_institution_code"
+            | "terminal_financial_institution_outgoing_code"
+            | "terminal_payment_type_code"
         >
     ) => {
         try {
@@ -189,8 +193,22 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
                     }}
                 />
             ),
-            cell: ({ row }) => {
-                return <TextField text={row.original.terminal_country || ""} lineClamp />;
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.terminal_country || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value => onSubmit(row.original.id, { terminal_country: value })}
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
             }
         },
         {
@@ -241,8 +259,24 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
                     }}
                 />
             ),
-            cell: ({ row }) => {
-                return <TextField text={row.original.terminal_financial_institution_outgoing_code || ""} lineClamp />;
+            cell: ({ row, cell }) => {
+                const currentCellBoolean =
+                    currentCellEdit.row === cell.row.index && currentCellEdit.column === cell.column.getIndex();
+
+                return (
+                    <TableEditableCell
+                        initValue={row.original.terminal_financial_institution_outgoing_code || ""}
+                        cell={cell}
+                        showEdit={currentCellBoolean && !listContext.isFetching}
+                        isFetching={
+                            (currentCellBoolean && listContext.isFetching) || (currentCellBoolean && isDataUpdating)
+                        }
+                        onSubmit={value =>
+                            onSubmit(row.original.id, { terminal_financial_institution_outgoing_code: value })
+                        }
+                        setShowEdit={setCurrentCellEdit}
+                    />
+                );
             }
         },
         {
