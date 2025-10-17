@@ -187,8 +187,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                         </Button> */}
                     </div>
                     <div>
-                        <div className="mb-4 flex flex-col flex-wrap justify-between gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52">
+                        <div className="mb-4 flex flex-col flex-wrap gap-2 sm:flex-row sm:items-end sm:gap-x-4 sm:gap-y-3">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64 md:max-w-[350px]">
                                 <Input
                                     labelSize="title-2"
                                     value={selectSpiCode}
@@ -203,7 +203,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52 md:max-w-[350px]">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalCurrencyCode}
@@ -218,7 +218,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-52 md:max-w-[350px]">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalCountry}
@@ -233,13 +233,13 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-64 md:max-w-[350px]">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalFinancialInstitutionCode}
                                     onChange={onTerminalFinancialInstitutionCodeChanged}
                                     label={translate(
-                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code_filter"
                                     )}
                                     placeholder={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_code"
@@ -248,13 +248,13 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-80">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-80 md:max-w-[350px]">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalFinancialInstitutionOutgoingCode}
                                     onChange={onTerminalFinancialInstitutionOutgoingCodeChanged}
                                     label={translate(
-                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code"
+                                        "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code_filter"
                                     )}
                                     placeholder={translate(
                                         "resources.paymentSettings.terminalPaymentInstruments.fields.terminal_financial_institution_outgoing_code"
@@ -263,7 +263,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 />
                             </div>
 
-                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56">
+                            <div className="flex min-w-36 flex-1 flex-col items-start gap-2 md:min-w-56 md:max-w-[350px]">
                                 <Input
                                     labelSize="title-2"
                                     value={terminalPaymentTypeCode}
