@@ -3809,6 +3809,16 @@ export type TerminalPaymentInstrumentTerminalCurrencyCode = string | null;
 export type TerminalPaymentInstrumentTerminalFinancialInstitutionCode = string | null;
 
 /**
+ * Terminal's code for the outgoing financial institution
+ */
+export type TerminalPaymentInstrumentTerminalFinancialInstitutionOutgoingCode = string | null;
+
+/**
+ * Terminal's country code for source or destination country
+ */
+export type TerminalPaymentInstrumentTerminalCountry = string | null;
+
+/**
  * Additional terminal-specific parameters in JSON format
  */
 export type TerminalPaymentInstrumentTerminalSpecificParameters = { [key: string]: unknown };
@@ -3826,6 +3836,10 @@ export interface TerminalPaymentInstrument {
     terminal_currency_code?: TerminalPaymentInstrumentTerminalCurrencyCode;
     /** Provider's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentTerminalFinancialInstitutionCode;
+    /** Terminal's code for the outgoing financial institution */
+    terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentTerminalFinancialInstitutionOutgoingCode;
+    /** Terminal's country code for source or destination country */
+    terminal_country?: TerminalPaymentInstrumentTerminalCountry;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalPaymentInstrumentTerminalSpecificParameters;
     /** Status of the terminal instrument configuration */
@@ -3858,6 +3872,16 @@ export type TerminalPaymentInstrumentCreateTerminalCurrencyCode = string | null;
 export type TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCode = string | null;
 
 /**
+ * Terminal's code for the outgoing financial institution
+ */
+export type TerminalPaymentInstrumentCreateTerminalFinancialInstitutionOutgoingCode = string | null;
+
+/**
+ * Terminal's country code for source or destination country
+ */
+export type TerminalPaymentInstrumentCreateTerminalCountry = string | null;
+
+/**
  * Additional terminal-specific parameters in JSON format
  */
 export type TerminalPaymentInstrumentCreateTerminalSpecificParameters = { [key: string]: unknown };
@@ -3875,6 +3899,10 @@ export interface TerminalPaymentInstrumentCreate {
     terminal_currency_code?: TerminalPaymentInstrumentCreateTerminalCurrencyCode;
     /** Provider's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCode;
+    /** Terminal's code for the outgoing financial institution */
+    terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentCreateTerminalFinancialInstitutionOutgoingCode;
+    /** Terminal's country code for source or destination country */
+    terminal_country?: TerminalPaymentInstrumentCreateTerminalCountry;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalPaymentInstrumentCreateTerminalSpecificParameters;
     /** Status of the terminal instrument configuration */
@@ -3897,6 +3925,16 @@ export type TerminalPaymentInstrumentFIDataTerminalCurrencyCode = string | null;
 export type TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCode = string | null;
 
 /**
+ * Terminal's code for the outgoing financial institution
+ */
+export type TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionOutgoingCode = string | null;
+
+/**
+ * Terminal's country code for source or destination country
+ */
+export type TerminalPaymentInstrumentFIDataTerminalCountry = string | null;
+
+/**
  * Additional terminal-specific parameters in JSON format
  */
 export type TerminalPaymentInstrumentFIDataTerminalSpecificParameters = { [key: string]: unknown };
@@ -3910,6 +3948,10 @@ export interface TerminalPaymentInstrumentFIData {
     terminal_currency_code?: TerminalPaymentInstrumentFIDataTerminalCurrencyCode;
     /** Provider's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCode;
+    /** Terminal's code for the outgoing financial institution */
+    terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionOutgoingCode;
+    /** Terminal's country code for source or destination country */
+    terminal_country?: TerminalPaymentInstrumentFIDataTerminalCountry;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalPaymentInstrumentFIDataTerminalSpecificParameters;
     /** Status of the terminal instrument configuration */
@@ -3960,6 +4002,16 @@ export type TerminalPaymentInstrumentUpdateTerminalCurrencyCode = string | null;
  */
 export type TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode = string | null;
 
+/**
+ * Terminal's code for the outgoing financial institution
+ */
+export type TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionOutgoingCode = string | null;
+
+/**
+ * Terminal's country code for source or destination country
+ */
+export type TerminalPaymentInstrumentUpdateTerminalCountry = string | null;
+
 export type TerminalPaymentInstrumentUpdateTerminalSpecificParametersAnyOf = { [key: string]: unknown };
 
 /**
@@ -3983,6 +4035,10 @@ export interface TerminalPaymentInstrumentUpdate {
     terminal_currency_code?: TerminalPaymentInstrumentUpdateTerminalCurrencyCode;
     /** Terminal's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode;
+    /** Terminal's code for the outgoing financial institution */
+    terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionOutgoingCode;
+    /** Terminal's country code for source or destination country */
+    terminal_country?: TerminalPaymentInstrumentUpdateTerminalCountry;
     /** Additional terminal-specific parameters in JSON format */
     terminal_specific_parameters?: TerminalPaymentInstrumentUpdateTerminalSpecificParameters;
 }

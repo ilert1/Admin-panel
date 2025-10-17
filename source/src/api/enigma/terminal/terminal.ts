@@ -59,8 +59,8 @@ export const getTerminalEndpointsAllTerminalsEnigmaV1TerminalGetUrl = (
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal?${stringifiedParams}`
-        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal`;
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal`;
 };
 
 export const terminalEndpointsAllTerminalsEnigmaV1TerminalGet = async (
@@ -100,7 +100,7 @@ export type terminalEndpointsCreateTerminalEnigmaV1TerminalPostResponse =
     };
 
 export const getTerminalEndpointsCreateTerminalEnigmaV1TerminalPostUrl = () => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal`;
 };
 
 export const terminalEndpointsCreateTerminalEnigmaV1TerminalPost = async (
@@ -142,7 +142,7 @@ export type terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetResponse =
     };
 
 export const getTerminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGetUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
 };
 
 export const terminalEndpointsGetTerminalEnigmaV1TerminalTerminalIdGet = async (
@@ -182,7 +182,7 @@ export type terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutResponse
     };
 
 export const getTerminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPutUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
 };
 
 export const terminalEndpointsUpdateTerminalEnigmaV1TerminalTerminalIdPut = async (
@@ -225,7 +225,7 @@ export type terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteRespo
     };
 
 export const getTerminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDeleteUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}`;
 };
 
 export const terminalEndpointsDeleteTerminalEnigmaV1TerminalTerminalIdDelete = async (
@@ -265,7 +265,7 @@ export type terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPu
     };
 
 export const getTerminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPutUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth`;
 };
 
 export const terminalEndpointsReplaceTerminalAuthEnigmaV1TerminalTerminalIdAuthPut = async (
@@ -308,7 +308,7 @@ export type terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatc
     };
 
 export const getTerminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatchUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth`;
 };
 
 export const terminalEndpointsPatchTerminalAuthEnigmaV1TerminalTerminalIdAuthPatch = async (
@@ -351,7 +351,7 @@ export type terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDel
     };
 
 export const getTerminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDeleteUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth/keys`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auth/keys`;
 };
 
 export const terminalEndpointsDeleteAuthKeysEnigmaV1TerminalTerminalIdAuthKeysDelete = async (
@@ -396,7 +396,7 @@ export type terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitA
 export const getTerminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPostUrl = (
     terminalId: string
 ) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/init_accounts`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/init_accounts`;
 };
 
 export const terminalEndpointsInitProviderAccountsEnigmaV1TerminalTerminalIdInitAccountsPost = async (
@@ -436,7 +436,7 @@ export type terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchResponse =
     };
 
 export const getTerminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatchUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee`;
 };
 
 export const terminalEndpointsAddFeeEnigmaV1TerminalTerminalIdFeePatch = async (
@@ -482,7 +482,7 @@ export const getTerminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatc
     terminalId: string,
     feeId: string
 ) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee/${feeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee/${feeId}`;
 };
 
 export const terminalEndpointsUpdateFeeEnigmaV1TerminalTerminalIdFeeFeeIdPatch = async (
@@ -529,7 +529,7 @@ export const getTerminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDele
     terminalId: string,
     feeId: string
 ) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee/${feeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/fee/${feeId}`;
 };
 
 export const terminalEndpointsDeleteFeeEnigmaV1TerminalTerminalIdFeeFeeIdDelete = async (
@@ -573,7 +573,7 @@ export type terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalId
 export const getTerminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatchUrl = (
     terminalId: string
 ) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/add_payment_types`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/add_payment_types`;
 };
 
 export const terminalEndpointsAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAddPaymentTypesPatch = async (
@@ -622,7 +622,7 @@ export type terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTermin
 export const getTerminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatchUrl = (
     terminalId: string
 ) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auto_add_payment_types`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/auto_add_payment_types`;
 };
 
 export const terminalEndpointsAutoAddPaymentTypesToTerminalEnigmaV1TerminalTerminalIdAutoAddPaymentTypesPatch = async (
@@ -669,7 +669,7 @@ export type terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTermin
 
 export const getTerminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDeleteUrl =
     (terminalId: string, paymentTypeCode: string) => {
-        return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/remove_payment_type/${paymentTypeCode}`;
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/remove_payment_type/${paymentTypeCode}`;
     };
 
 export const terminalEndpointsRemovePaymentTypeFromTerminalEnigmaV1TerminalTerminalIdRemovePaymentTypePaymentTypeCodeDelete =
@@ -715,7 +715,7 @@ export type terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPos
     };
 
 export const getTerminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPostUrl = (terminalId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/callback`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal/${terminalId}/callback`;
 };
 
 export const terminalEndpointsCreateCallbackEnigmaV1TerminalTerminalIdCallbackPost = async (

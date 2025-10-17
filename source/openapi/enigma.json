@@ -18787,6 +18787,36 @@
               "TINKOFF"
             ]
           },
+          "terminal_financial_institution_outgoing_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Outgoing Code",
+            "description": "Terminal's code for the outgoing financial institution",
+            "examples": [
+              "TINKOFF"
+            ]
+          },
+          "terminal_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Country",
+            "description": "Terminal's country code for source or destination country",
+            "examples": [
+              "RU"
+            ]
+          },
           "terminal_specific_parameters": {
             "additionalProperties": true,
             "type": "object",
@@ -18917,6 +18947,36 @@
               "TINKOFF"
             ]
           },
+          "terminal_financial_institution_outgoing_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Outgoing Code",
+            "description": "Terminal's code for the outgoing financial institution",
+            "examples": [
+              "TINKOFF"
+            ]
+          },
+          "terminal_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Country",
+            "description": "Terminal's country code for source or destination country",
+            "examples": [
+              "RU"
+            ]
+          },
           "terminal_specific_parameters": {
             "additionalProperties": true,
             "type": "object",
@@ -18997,6 +19057,36 @@
             "description": "Provider's code for the financial institution",
             "examples": [
               "TINKOFF"
+            ]
+          },
+          "terminal_financial_institution_outgoing_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Outgoing Code",
+            "description": "Terminal's code for the outgoing financial institution",
+            "examples": [
+              "TINKOFF"
+            ]
+          },
+          "terminal_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Country",
+            "description": "Terminal's country code for source or destination country",
+            "examples": [
+              "RU"
             ]
           },
           "terminal_specific_parameters": {
@@ -19131,6 +19221,36 @@
             "description": "Terminal's code for the financial institution",
             "examples": [
               "SBERBANK"
+            ]
+          },
+          "terminal_financial_institution_outgoing_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Outgoing Code",
+            "description": "Terminal's code for the outgoing financial institution",
+            "examples": [
+              "TINKOFF"
+            ]
+          },
+          "terminal_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Country",
+            "description": "Terminal's country code for source or destination country",
+            "examples": [
+              "RU"
             ]
           },
           "terminal_specific_parameters": {

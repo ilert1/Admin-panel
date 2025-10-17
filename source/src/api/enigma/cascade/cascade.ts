@@ -56,8 +56,8 @@ export const getCascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantM
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/merchant/${merchantId}?${stringifiedParams}`
-        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/merchant/${merchantId}`;
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/merchant/${merchantId}?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/merchant/${merchantId}`;
 };
 
 export const cascadeEndpointsListCascadesByMerchantIdEnigmaV1CascadeMerchantMerchantIdGet = async (
@@ -111,8 +111,8 @@ export const getCascadeEndpointsListCascadesEnigmaV1CascadeGetUrl = (
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade?${stringifiedParams}`
-        : `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade`;
+        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade?${stringifiedParams}`
+        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade`;
 };
 
 export const cascadeEndpointsListCascadesEnigmaV1CascadeGet = async (
@@ -152,7 +152,7 @@ export type cascadeEndpointsCreateCascadeEnigmaV1CascadePostResponse =
     };
 
 export const getCascadeEndpointsCreateCascadeEnigmaV1CascadePostUrl = () => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade`;
 };
 
 export const cascadeEndpointsCreateCascadeEnigmaV1CascadePost = async (
@@ -194,7 +194,7 @@ export type cascadeEndpointsGetCascadeEnigmaV1CascadeCascadeIdGetResponse =
     };
 
 export const getCascadeEndpointsGetCascadeEnigmaV1CascadeCascadeIdGetUrl = (cascadeId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/${cascadeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/${cascadeId}`;
 };
 
 export const cascadeEndpointsGetCascadeEnigmaV1CascadeCascadeIdGet = async (
@@ -234,7 +234,7 @@ export type cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPutResponse =
     };
 
 export const getCascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPutUrl = (cascadeId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/${cascadeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/${cascadeId}`;
 };
 
 export const cascadeEndpointsUpdateCascadeEnigmaV1CascadeCascadeIdPut = async (
@@ -277,7 +277,7 @@ export type cascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDeleteResponse 
     };
 
 export const getCascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDeleteUrl = (cascadeId: string) => {
-    return `https://api.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/${cascadeId}`;
+    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade/${cascadeId}`;
 };
 
 export const cascadeEndpointsDeleteCascadeEnigmaV1CascadeCascadeIdDelete = async (
