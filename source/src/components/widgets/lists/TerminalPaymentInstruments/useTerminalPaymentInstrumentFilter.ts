@@ -26,7 +26,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [terminalFinancialInstitutionOutgoingCode, setTerminalFinancialInstitutionOutgoingCode] = useState(
         filterValues?.terminal_financial_institution_outgoing_code || ""
     );
-    const [terminalFilterId, setTerminalFilterId] = useState("");
+    const [terminalFilterId, setTerminalFilterId] = useState(filterValues?.terminalFilterId || "");
     const [terminalFilterName, setTerminalFilterName] = useState("");
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
@@ -41,7 +41,8 @@ const useTerminalPaymentInstrumentFilter = () => {
             const foundTerm = terminalsData?.find(terminal => terminal.terminal_id === filterValues?.terminalFilterId);
 
             if (foundTerm) {
-                setTerminalFilterName(foundTerm?.verbose_name);
+                setTerminalFilterId(foundTerm.terminal_id);
+                setTerminalFilterName(foundTerm.verbose_name);
             } else {
                 Reflect.deleteProperty(filterValues, "terminalFilterId");
                 setFilters(filterValues, displayedFilters, true);
