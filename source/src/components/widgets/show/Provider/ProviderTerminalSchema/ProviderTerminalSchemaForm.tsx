@@ -28,12 +28,22 @@ export const ProviderTerminalSchemaForm = ({
 }: IProviderTerminalSchemaForm) => {
     const translate = useTranslate();
 
-    const formSchema = z.object({
+    const baseSchema = z.object({
         key: z.string().min(1, translate("app.widgets.forms.payout.required")).trim(),
         required: z.boolean().optional(),
         description: z.string().optional(),
         default_value: z.string().optional(),
         validation_pattern: z.string().optional()
+    });
+
+    const formSchema = baseSchema.superRefine((data, ctx) => {
+        if (data.validation_pattern && !new RegExp(data.validation_pattern).test(data.default_value || "")) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ["validation_pattern"],
+                message: translate("app.widgets.forms.payout.invalidRegex")
+            });
+        }
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -106,7 +116,7 @@ export const ProviderTerminalSchemaForm = ({
                     </TableHeader>
 
                     <TableBody>
-                        {(Object.keys(formSchema.shape) as (keyof typeof formSchema.shape)[]).map(
+                        {(Object.keys(baseSchema.shape) as (keyof typeof baseSchema.shape)[]).map(
                             (key, rowIndex) =>
                                 key !== "key" && (
                                     <TableRow key={key} className="border-muted">
@@ -148,7 +158,7 @@ export const ProviderTerminalSchemaForm = ({
                                                 <FormField
                                                     control={form.control}
                                                     name={key}
-                                                    render={({ field }) => (
+                                                    render={({ field, fieldState }) => (
                                                         <FormItem className="w-full">
                                                             <FormControl>
                                                                 <Input
@@ -156,6 +166,8 @@ export const ProviderTerminalSchemaForm = ({
                                                                     value={field.value as string}
                                                                     onChange={field.onChange}
                                                                     disabled={disabledProcess}
+                                                                    error={fieldState.invalid}
+                                                                    errorMessage={<FormMessage />}
                                                                 />
                                                             </FormControl>
                                                         </FormItem>
