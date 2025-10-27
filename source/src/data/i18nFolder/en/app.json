@@ -159,7 +159,8 @@
                 "loadingError": "An error has occurred, please contact the administrator.",
                 "wordsRegex": "It is allowed to enter Latin letters. Minimum 3 characters, maximum 255",
                 "minSymbol": "The field must not be empty",
-                "numberRegex": "You can only enter numbers and special characters"
+                "numberRegex": "You can only enter numbers and special characters",
+                "invalidRegex": "Invalid regular expression format"
             },
             "payoutBanner": {
                 "title": "Bank transfer",
