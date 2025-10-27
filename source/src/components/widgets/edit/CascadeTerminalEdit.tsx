@@ -213,7 +213,7 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
-                    {isSequential ? (
+                    {!isSequential ? (
                         <>
                             <FormField
                                 control={form.control}
