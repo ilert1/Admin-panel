@@ -21,7 +21,6 @@ interface SystemPaymentInstrumentCreateProps {
 }
 
 export const SystemPaymentInstrumentCreate = ({ onOpenChange }: SystemPaymentInstrumentCreateProps) => {
-    // const { currenciesData, isCurrenciesLoading, currenciesLoadingProcess } = useCurrenciesListWithoutPagination();
     const translate = useTranslate();
     const refresh = useRefresh();
     const dataProvider = useDataProvider();

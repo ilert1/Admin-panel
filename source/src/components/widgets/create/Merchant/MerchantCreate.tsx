@@ -13,7 +13,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { FeeCreate } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { useFetchDictionaries } from "@/hooks";
 import { Fees } from "../../components/Fees";
 
 export type FeeType = "inner" | "default";
@@ -26,7 +25,6 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     const appToast = useAppToast();
 
     const controllerProps = useCreateController();
-    const data = useFetchDictionaries();
     const feeDataProvider = feesDataProvider({ id: "", resource: FeesResource.MERCHANT });
     const merchantsDataProvider = new MerchantsDataProvider();
 
@@ -243,7 +241,7 @@ export const MerchantCreate = ({ onOpenChange }: { onOpenChange: (state: boolean
     //     }
     // };
 
-    if (controllerProps.isLoading || !data)
+    if (controllerProps.isLoading)
         return (
             <div className="h-[200px]">
                 <Loading />

@@ -10,7 +10,6 @@ import { MonacoEditor } from "@/components/ui/MonacoEditor";
 import { TerminalPaymentInstrumentsActivityBtn } from "../../lists/TerminalPaymentInstruments/TerminalPaymentInstrumentsActivityBtn";
 import { EditTerminalPaymentInstrumentsDialog } from "./EditTerminalPaymentInstrumentsDialog";
 import { useSheets } from "@/components/providers/SheetProvider";
-import { useFetchDictionaries } from "@/hooks";
 
 export interface TerminalPaymentInstrumentsShowProps {
     id: string;
@@ -23,7 +22,6 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
         id
     });
 
-    const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { openSheet } = useSheets();
@@ -39,7 +37,7 @@ export const TerminalPaymentInstrumentsShow = ({ id, onOpenChange }: TerminalPay
         setDeleteDialogOpen(prev => !prev);
     }, []);
 
-    if (context.isLoading || !context.record || !data) {
+    if (context.isLoading || !context.record) {
         return <Loading />;
     }
 

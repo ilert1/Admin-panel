@@ -8,6 +8,7 @@ import { useAbortableListController } from "@/hooks/useAbortableListController";
 
 export const WalletLinkedTransactionsList = () => {
     const { permissions } = usePermissions();
+
     const listContext = useAbortableListController<Wallets.WalletLinkedTransactions>(
         permissions === "admin" ? { resource: "reconciliation" } : { resource: "merchant/reconciliation" }
     );

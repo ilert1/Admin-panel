@@ -9,7 +9,6 @@ import { PaymentTypeIcon } from "../../components/PaymentTypeIcon";
 import { DeleteProviderDialog } from "./DeleteProviderDialog";
 import { EditProviderDialog } from "./EditProviderDialog";
 import { ProviderMethodsShow } from "./ProviderMethods";
-import { useFetchDictionaries } from "@/hooks";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 import { EditIPsDialog } from "../Mapping/EditIPsDialog";
@@ -43,7 +42,6 @@ export interface ProviderShowProps {
 
 export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
     const context = useAbortableShowController<IProvider>({ resource: "provider", id });
-    const data = useFetchDictionaries();
     const dataProvider = new ProvidersDataProvider();
     const refresh = useRefresh();
     const appToast = useAppToast();
@@ -152,7 +150,7 @@ export const ProviderShow = ({ id, onOpenChange }: ProviderShowProps) => {
         setEditLinksDialogOpen(prev => !prev);
     }, []);
 
-    if (context.isLoading || !context.record || !data) {
+    if (context.isLoading || !context.record) {
         return <Loading />;
     }
 

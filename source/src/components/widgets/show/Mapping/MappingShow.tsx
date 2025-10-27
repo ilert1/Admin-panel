@@ -21,7 +21,6 @@ import { EditRetryStatusDialog } from "./EditRetryStatusDialog";
 import { EditIPsDialog } from "./EditIPsDialog";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
-import { useFetchDictionaries } from "@/hooks";
 import { CallbridgeHistoryTechnicalInfoShow } from "../CallbridgeHistory/CallbridgeHistoryTechnicalInfoShow";
 
 interface MappingShowProps {
@@ -33,7 +32,6 @@ interface MappingShowProps {
 export const MappingShow = (props: MappingShowProps) => {
     const { id, onOpenChange, externalData } = props;
     const translate = useTranslate();
-    const data = useFetchDictionaries();
     const appToast = useAppToast();
     const dataProvider = useDataProvider();
     const refresh = useRefresh();
@@ -91,7 +89,7 @@ export const MappingShow = (props: MappingShowProps) => {
     // Use externalData if provided, otherwise fall back to context.record
     const record: CallbackMappingRead | CallbackHistoryReadMapping | undefined = externalData || context.record;
 
-    if (((context.isLoading || !context.record) && !externalData) || !data) {
+    if ((context.isLoading || !context.record) && !externalData) {
         return <Loading />;
     }
 

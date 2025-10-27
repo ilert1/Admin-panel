@@ -12,7 +12,7 @@ import { useFetchFinancialInstitutionTypes } from "@/hooks/useFetchFinancialInst
 import { FinancialInstitutionWithId } from "@/data/financialInstitution";
 import { Badge } from "@/components/ui/badge";
 import { BankIcon } from "@/components/ui/BankIcon";
-import { useCountryCodes, useFetchDictionaries } from "@/hooks";
+import { useCountryCodes } from "@/hooks";
 import { CountryTextField } from "../../components/CountryTextField";
 
 export interface FinancialInstitutionShowProps {
@@ -22,7 +22,6 @@ export interface FinancialInstitutionShowProps {
 
 export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitutionShowProps) => {
     const context = useAbortableShowController<FinancialInstitutionWithId>({ resource: "financialInstitution", id });
-    const data = useFetchDictionaries();
     const translate = useTranslate();
     const [locale] = useLocaleState();
     const { countryCodesWithFlag } = useCountryCodes();
@@ -41,7 +40,7 @@ export const FinancialInstitutionShow = ({ id, onOpenChange }: FinancialInstitut
         setEditDialogOpen(prev => !prev);
     }, []);
 
-    if (context.isLoading || !context.record || !data || financialInstitutionTypesLoading) {
+    if (context.isLoading || !context.record || financialInstitutionTypesLoading) {
         return <Loading />;
     }
     const logoUrl = context.record.meta?.logoURL;
