@@ -369,38 +369,63 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
                         </>
                     ) : (
                         <div className="col-span-2 flex flex-col gap-3">
-                            <FormField
-                                control={form.control}
-                                name="state"
-                                render={({ field, fieldState }) => (
-                                    <FormItem>
-                                        <Label>
-                                            {translate("resources.cascadeSettings.cascadeTerminals.fields.state")}
-                                        </Label>
-                                        <Select value={field.value} onValueChange={field.onChange}>
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <FormField
+                                    control={form.control}
+                                    name="state"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <Label>
+                                                {translate("resources.cascadeSettings.cascadeTerminals.fields.state")}
+                                            </Label>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        variant={SelectType.GRAY}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {CASCADE_TERMINAL_STATE.map(state => (
+                                                            <SelectItem
+                                                                value={state}
+                                                                variant={SelectType.GRAY}
+                                                                key={state}>
+                                                                {translate(
+                                                                    `resources.cascadeSettings.cascades.state.${state}`
+                                                                )}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="condition.weight"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
                                             <FormControl>
-                                                <SelectTrigger
-                                                    variant={SelectType.GRAY}
-                                                    isError={fieldState.invalid}
-                                                    errorMessage={<FormMessage />}>
-                                                    <SelectValue />
-                                                </SelectTrigger>
+                                                <Input
+                                                    {...field}
+                                                    variant={InputTypes.GRAY}
+                                                    disabled={form.getValues("condition.extra")}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    label={translate(
+                                                        "resources.cascadeSettings.cascadeTerminals.fields.weight"
+                                                    )}
+                                                />
                                             </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {CASCADE_TERMINAL_STATE.map(state => (
-                                                        <SelectItem value={state} variant={SelectType.GRAY} key={state}>
-                                                            {translate(
-                                                                `resources.cascadeSettings.cascades.state.${state}`
-                                                            )}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormItem>
-                                )}
-                            />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                             <FormField
                                 control={form.control}
                                 name="condition.extra"
