@@ -207,150 +207,254 @@ export const CascadeTerminalEdit = ({ id, onOpenChange }: CascadeTerminalEditPro
             </div>
         );
 
+    const isSequential = cascadeTerminalData.cascade.cascade_kind === "sequential";
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                 <div className="grid grid-cols-1 gap-4 p-2 md:grid-cols-2">
-                    <FormField
-                        control={form.control}
-                        name="condition.weight"
-                        render={({ field, fieldState }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        variant={InputTypes.GRAY}
-                                        disabled={form.getValues("condition.extra")}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.weight")}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="condition.rank"
-                        render={({ field, fieldState }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        value={field.value === undefined ? "" : field.value}
-                                        variant={InputTypes.GRAY}
-                                        error={fieldState.invalid}
-                                        errorMessage={<FormMessage />}
-                                        label={translate("resources.cascadeSettings.cascadeTerminals.fields.rank")}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-
-                    <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
-                        <FormField
-                            control={form.control}
-                            name="condition.ttl.min"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            value={field.value ?? ""}
-                                            onChange={e => handleInputChange(e, field)}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate(
-                                                "resources.cascadeSettings.cascadeTerminals.fields.ttl_min"
-                                            )}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="condition.ttl.max"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            value={field.value ?? ""}
-                                            // value={field.value || field.value === 0 ? field.value : ""}
-                                            onChange={e => handleInputChange(e, field)}
-                                            variant={InputTypes.GRAY}
-                                            error={fieldState.invalid}
-                                            errorMessage={<FormMessage />}
-                                            label={translate(
-                                                "resources.cascadeSettings.cascadeTerminals.fields.ttl_max"
-                                            )}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field, fieldState }) => (
-                                <FormItem>
-                                    <Label>
-                                        {translate("resources.cascadeSettings.cascadeTerminals.fields.state")}
-                                    </Label>
-                                    <Select value={field.value} onValueChange={field.onChange}>
+                    {!isSequential ? (
+                        <>
+                            <FormField
+                                control={form.control}
+                                name="condition.weight"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
                                         <FormControl>
-                                            <SelectTrigger
-                                                variant={SelectType.GRAY}
-                                                isError={fieldState.invalid}
-                                                errorMessage={<FormMessage />}>
-                                                <SelectValue />
-                                            </SelectTrigger>
+                                            <Input
+                                                {...field}
+                                                variant={InputTypes.GRAY}
+                                                disabled={form.getValues("condition.extra")}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.cascadeSettings.cascadeTerminals.fields.weight"
+                                                )}
+                                            />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {CASCADE_TERMINAL_STATE.map(state => (
-                                                    <SelectItem value={state} variant={SelectType.GRAY} key={state}>
-                                                        {translate(`resources.cascadeSettings.cascades.state.${state}`)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                                    </FormItem>
+                                )}
+                            />
 
-                    <FormField
-                        control={form.control}
-                        name="condition.extra"
-                        render={({ field }) => (
-                            <FormItem>
-                                <label
-                                    onClick={() => {
-                                        const newState = !field.value;
-                                        form.setValue("condition.weight", newState ? 0 : undefined);
-                                        field.onChange(newState);
-                                    }}
-                                    className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
-                                    <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
-                                        {field.value && (
-                                            <div id="checked" className="h-2.5 w-2.5 rounded-full bg-green-50" />
-                                        )}
-                                    </div>
-                                    <span className="text-sm font-normal text-neutral-70 transition-all dark:text-neutral-40">
-                                        {translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
-                                    </span>
-                                </label>
-                            </FormItem>
-                        )}
-                    />
+                            <FormField
+                                control={form.control}
+                                name="condition.rank"
+                                render={({ field, fieldState }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                value={field.value === undefined ? "" : field.value}
+                                                variant={InputTypes.GRAY}
+                                                error={fieldState.invalid}
+                                                errorMessage={<FormMessage />}
+                                                label={translate(
+                                                    "resources.cascadeSettings.cascadeTerminals.fields.rank"
+                                                )}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+
+                            <div className="col-span-1 grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
+                                <FormField
+                                    control={form.control}
+                                    name="condition.ttl.min"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    value={field.value ?? ""}
+                                                    onChange={e => handleInputChange(e, field)}
+                                                    variant={InputTypes.GRAY}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    label={translate(
+                                                        "resources.cascadeSettings.cascadeTerminals.fields.ttl_min"
+                                                    )}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="condition.ttl.max"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    value={field.value ?? ""}
+                                                    // value={field.value || field.value === 0 ? field.value : ""}
+                                                    onChange={e => handleInputChange(e, field)}
+                                                    variant={InputTypes.GRAY}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    label={translate(
+                                                        "resources.cascadeSettings.cascadeTerminals.fields.ttl_max"
+                                                    )}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="state"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <Label>
+                                                {translate("resources.cascadeSettings.cascadeTerminals.fields.state")}
+                                            </Label>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        variant={SelectType.GRAY}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {CASCADE_TERMINAL_STATE.map(state => (
+                                                            <SelectItem
+                                                                value={state}
+                                                                variant={SelectType.GRAY}
+                                                                key={state}>
+                                                                {translate(
+                                                                    `resources.cascadeSettings.cascades.state.${state}`
+                                                                )}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <FormField
+                                control={form.control}
+                                name="condition.extra"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <label
+                                            onClick={() => {
+                                                const newState = !field.value;
+                                                form.setValue("condition.weight", newState ? 0 : undefined);
+                                                field.onChange(newState);
+                                            }}
+                                            className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
+                                            <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
+                                                {field.value && (
+                                                    <div
+                                                        id="checked"
+                                                        className="h-2.5 w-2.5 rounded-full bg-green-50"
+                                                    />
+                                                )}
+                                            </div>
+                                            <span className="text-sm font-normal text-neutral-70 transition-all dark:text-neutral-40">
+                                                {translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
+                                            </span>
+                                        </label>
+                                    </FormItem>
+                                )}
+                            />
+                        </>
+                    ) : (
+                        <div className="col-span-2 flex flex-col gap-3">
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <FormField
+                                    control={form.control}
+                                    name="state"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <Label>
+                                                {translate("resources.cascadeSettings.cascadeTerminals.fields.state")}
+                                            </Label>
+                                            <Select value={field.value} onValueChange={field.onChange}>
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        variant={SelectType.GRAY}
+                                                        isError={fieldState.invalid}
+                                                        errorMessage={<FormMessage />}>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {CASCADE_TERMINAL_STATE.map(state => (
+                                                            <SelectItem
+                                                                value={state}
+                                                                variant={SelectType.GRAY}
+                                                                key={state}>
+                                                                {translate(
+                                                                    `resources.cascadeSettings.cascades.state.${state}`
+                                                                )}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="condition.weight"
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    variant={InputTypes.GRAY}
+                                                    disabled={form.getValues("condition.extra")}
+                                                    error={fieldState.invalid}
+                                                    errorMessage={<FormMessage />}
+                                                    label={translate(
+                                                        "resources.cascadeSettings.cascadeTerminals.fields.weight"
+                                                    )}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <FormField
+                                control={form.control}
+                                name="condition.extra"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <label
+                                            onClick={() => {
+                                                const newState = !field.value;
+                                                form.setValue("condition.weight", newState ? 0 : undefined);
+                                                field.onChange(newState);
+                                            }}
+                                            className="flex cursor-pointer items-center gap-2 self-start [&>*]:hover:border-green-20 [&>*]:active:border-green-50 [&_#checked]:hover:bg-green-20 [&_#checked]:active:bg-green-50">
+                                            <div className="relative flex h-4 w-4 items-center justify-center rounded-full border border-neutral-60 bg-white transition-all dark:bg-black">
+                                                {field.value && (
+                                                    <div
+                                                        id="checked"
+                                                        className="h-2.5 w-2.5 rounded-full bg-green-50"
+                                                    />
+                                                )}
+                                            </div>
+                                            <span className="text-sm font-normal text-neutral-70 transition-all dark:text-neutral-40">
+                                                {translate("resources.cascadeSettings.cascadeTerminals.fields.extra")}
+                                            </span>
+                                        </label>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <div className="ml-auto mt-4 flex w-full flex-col gap-3 space-x-0 p-2 sm:flex-row sm:gap-0 sm:space-x-2 md:mt-0 md:w-2/5">
