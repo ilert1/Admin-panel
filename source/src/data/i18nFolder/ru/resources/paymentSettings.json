@@ -191,7 +191,8 @@
         "deleteTerminalPaymentInstrument": "Удалить терминальный платёжный инструмент?",
         "initializeTerminalPaymentInstrument": "Инициализация терминальных платёжных инструментов для терминала: %{terminal}",
         "initInstruments": "Инициализировать инструменты",
-        "terminalPaymentInstrumentInitialized": "Терминальный платёжный инструмент успешно инициализирован"
+        "terminalPaymentInstrumentInitialized": "Терминальный платёжный инструмент успешно инициализирован",
+        "deleteAllTerminalPaymentInstruments": "Удалить все TPI терминала"
     },
     "resources.paymentSettings.currency": {
         "name": "Валюты"
@@ -206,6 +207,9 @@
         "consequencesSystemInstrument": "Вы уверены, что хотите удалить системный платёжный инструмент и связанные с ним терминальные платёжные инструменты?",
         "attentionDescriptionTerminalPaymentInstrument": "Вы выполняете удаление терминального платёжного инструмента",
         "consequencesTerminalPaymentInstrument": "Вы уверены, что хотите удалить терминальный платёжный инструмент?",
+        "attentionDescriptionDeleteAllTerminalPaymentInstruments": "Вы выполняете удаление всех TPI терминала",
+        "consequencesDeleteAllTerminalPaymentInstruments": "Вы действительно хотите удалить все имеющиеся TPI у терминала %{terminal}? Отменить действие будет невозможно!",
+        "terminalPaymentInstrumentDeletedSuccessfully": "Все TPI терминала %{terminal} успешно удалены",
         "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платёжных инструментов",
         "consequencesCurrency": "Вы уверены, что хотите удалить валюту и связанные с ней платёжные инструменты?"
     },

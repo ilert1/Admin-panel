@@ -19,6 +19,8 @@ import {
 import { ImportSingleFileDialog } from "./ImportSingleFileDialog";
 import { ImportMultipleFilesDialog } from "./ImportMultipleFilesDialog";
 import { ExportReportDialog } from "./ExportReportDialog";
+import { DeleteAllTPIDialog } from "./DeleteAllTPIDialog";
+import { useListContext } from "react-admin";
 
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
@@ -52,7 +54,8 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         handleUploadMultipleFiles,
         handleDownloadReport,
         onSystemPaymentInstrumentCodeChanged,
-        selectSpiCode
+        selectSpiCode,
+        isTerminalChanging
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
@@ -60,6 +63,10 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
     const [uploadSingleDialogOpen, setUploadSingleDialogOpen] = useState(false);
     const [uploadMultipleDialogOpen, setUploadMultipleDialogOpen] = useState(false);
+    const [deleteAllTPIDialogOpen, setDeleteAllTPIDialogOpen] = useState(false);
+
+    const { isLoading, isPending, isFetching, data } = useListContext();
+    console.log(isLoading, isPending, isFetching);
 
     const clearDisabled =
         !providerName &&
@@ -155,7 +162,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                             />
                         </div>
 
-                        <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col gap-1 sm:max-w-96 md:max-w-[400px]">
+                        <div className="flex-grow-100 flex min-w-[150px] flex-1 flex-col flex-wrap gap-1 sm:max-w-96 md:max-w-[400px]">
                             <Label variant="title-2" className="mb-0 md:text-nowrap">
                                 {translate("resources.terminals.filter.filterByName")}
                             </Label>
@@ -179,6 +186,21 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                                 isLoading={terminalsLoadingProcess}
                             />
                         </div>
+                        <Button
+                            className="mt-4 sm:mt-0"
+                            onClick={() => setDeleteAllTPIDialogOpen(true)}
+                            disabled={
+                                isLoading ||
+                                isFetching ||
+                                isTerminalChanging ||
+                                !terminalFilterId ||
+                                !data ||
+                                data.length === 0
+                            }>
+                            {translate(
+                                "resources.paymentSettings.terminalPaymentInstruments.deleteAllTerminalPaymentInstruments"
+                            )}
+                        </Button>
 
                         {/* <Button
                             onClick={() => setShowInitializeDialog(true)}
@@ -318,6 +340,11 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                 onOpenChange={setExportDialogOpen}
                 handleExport={handleDownloadReport}
                 terminalId={terminalFilterId}
+            />
+            <DeleteAllTPIDialog
+                open={deleteAllTPIDialogOpen}
+                onOpenChange={setDeleteAllTPIDialogOpen}
+                terminalName={terminalFilterName}
             />
         </>
     );

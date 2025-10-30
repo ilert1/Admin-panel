@@ -8,7 +8,7 @@ import { Button, TrashButton } from "@/components/ui/Button";
 import { useSheets } from "@/components/providers/SheetProvider";
 import { EyeIcon } from "lucide-react";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import { TableEditableCell, CurrentCell, SortingState, ColumnSortingButton } from "../../shared";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({
@@ -16,7 +16,7 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
 }: {
     listContext: ListControllerResult<TerminalPaymentInstrument>;
 }) => {
-    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
+    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsDataProvider();
 
     const translate = useTranslate();
     const appToast = useAppToast();

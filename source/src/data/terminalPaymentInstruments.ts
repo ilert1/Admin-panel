@@ -35,7 +35,7 @@ import {
     terminalPaymentInstrumentEndpointsPatchTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdPatch
 } from "@/api/enigma/terminal-payment-instruments/terminal-payment-instruments";
 
-export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
+export class TerminalPaymentInstrumentsDataProvider extends IBaseDataProvider {
     async getList(resource: string, params: GetListParams): Promise<GetListResult<TerminalPaymentInstrument>> {
         const fieldsForSearch = params.filter
             ? Object.keys(params.filter).filter(

@@ -15,7 +15,7 @@ import {
     TerminalPaymentInstrumentStatus
 } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { MonacoEditor } from "@/components/ui/MonacoEditor";
-import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import { SystemPaymentInstrumentsProvider } from "@/data/systemPaymentInstruments";
@@ -50,7 +50,7 @@ export const TerminalPaymentInstrumentsCreate = ({ onClose = () => {} }: Termina
     const refresh = useRefresh();
     const translate = useTranslate();
 
-    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
+    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsDataProvider();
     const systemPaymentInstrumentsProvider = new SystemPaymentInstrumentsProvider();
     const financialInstitutionProvider = new FinancialInstitutionProvider();
     const controllerProps = useCreateController<TerminalPaymentInstrumentCreate>();

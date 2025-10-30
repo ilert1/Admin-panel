@@ -12,7 +12,7 @@ import { usePreventFocus } from "@/hooks";
 import { Label } from "@/components/ui/label";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { useQuery } from "@tanstack/react-query";
-import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import { DirectionType, TerminalPaymentInstrumentStatus } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import {
     Select,
@@ -30,7 +30,7 @@ export interface TerminalPaymentInstrumentsEditProps {
 }
 
 export const TerminalPaymentInstrumentsEdit = ({ id, onClose = () => {} }: TerminalPaymentInstrumentsEditProps) => {
-    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
+    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsDataProvider();
     const statuses = Object.keys(TerminalPaymentInstrumentStatus);
 
     const {

@@ -72,7 +72,7 @@ import { FinancialInstitutionList } from "./components/widgets/lists/FinancialIn
 import { SystemPaymentInstrumentsList } from "./components/widgets/lists/SystemPaymentInstruments";
 import { TerminalPaymentInstrumentsList } from "./components/widgets/lists/TerminalPaymentInstruments";
 import { FinancialInstitutionProvider } from "./data/financialInstitution";
-import { TerminalPaymentInstrumentsProvider } from "./data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsDataProvider } from "./data/terminalPaymentInstruments";
 import { SystemPaymentInstrumentsProvider } from "./data/systemPaymentInstruments";
 import { CallbackBackupsList } from "./components/widgets/lists/CallbackBackup/CallbackBackupsList";
 import { CallbackBackupsDataProvider } from "./data/callback_backup";
@@ -120,7 +120,7 @@ const dataProvider = combineDataProviders(resource => {
     } else if (resource === "financialInstitution") {
         return new FinancialInstitutionProvider();
     } else if (resource === "terminalPaymentInstruments") {
-        return new TerminalPaymentInstrumentsProvider();
+        return new TerminalPaymentInstrumentsDataProvider();
     } else if (resource === "systemPaymentInstruments") {
         return new SystemPaymentInstrumentsProvider();
     } else if (resource === "cascades") {

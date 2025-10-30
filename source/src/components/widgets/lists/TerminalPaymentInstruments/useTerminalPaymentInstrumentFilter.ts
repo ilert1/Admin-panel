@@ -2,15 +2,15 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useListContext, useRefresh, useTranslate } from "react-admin";
 import { debounce } from "lodash";
 import { useProvidersListWithoutPagination, useTerminalsListWithoutPagination } from "@/hooks";
-import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
 import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 const useTerminalPaymentInstrumentFilter = () => {
-    const { filterValues, setFilters, displayedFilters, setPage } = useListContext();
+    const { filterValues, setFilters, displayedFilters, setPage, isFetching } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
-    const dataProvider = new TerminalPaymentInstrumentsProvider();
+    const dataProvider = new TerminalPaymentInstrumentsDataProvider();
 
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -31,8 +31,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
     const [terminalCountry, setTerminalCountry] = useState(filterValues?.terminal_country || "");
-
-    const [reportLoading, setReportLoading] = useState(false);
+    const [isTerminalChanging, setIsTerminalChanging] = useState(false);
 
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
 
@@ -133,6 +132,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     };
 
     const onTerminalIdFieldChanged = (value: string) => {
+        setIsTerminalChanging(true);
         if (value === terminalFilterId) {
             setTerminalFilterId("");
             onPropertySelected("", "terminalFilterId");
@@ -172,9 +172,14 @@ const useTerminalPaymentInstrumentFilter = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData]);
 
-    const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
-        setReportLoading(true);
+    // Reset terminal changing flag when fetch is complete
+    useEffect(() => {
+        if (isTerminalChanging && !isFetching) {
+            setIsTerminalChanging(false);
+        }
+    }, [isFetching, isTerminalChanging]);
 
+    const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
         try {
             const data = await dataProvider.uploadReport(file, mode as ImportStrategy, terminal_ids);
 
@@ -203,7 +208,6 @@ const useTerminalPaymentInstrumentFilter = () => {
                 }
             }
         } finally {
-            setReportLoading(false);
             refresh();
         }
     };
@@ -247,14 +251,11 @@ const useTerminalPaymentInstrumentFilter = () => {
                 }
             }
         } finally {
-            setReportLoading(false);
             refresh();
         }
     };
 
     const handleDownloadReport = async (terminalId: string) => {
-        setReportLoading(true);
-
         try {
             const response = await dataProvider.downloadReport(terminalId, {
                 filter: filterValues
@@ -288,7 +289,6 @@ const useTerminalPaymentInstrumentFilter = () => {
                 appToast("error", error.message);
             }
         } finally {
-            setReportLoading(false);
             refresh();
         }
     };
@@ -320,7 +320,8 @@ const useTerminalPaymentInstrumentFilter = () => {
         handleUploadMultipleFiles,
         handleDownloadReport,
         onSystemPaymentInstrumentCodeChanged,
-        selectSpiCode
+        selectSpiCode,
+        isTerminalChanging
     };
 };
 

@@ -1,5 +1,5 @@
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useEffect, useState } from "react";

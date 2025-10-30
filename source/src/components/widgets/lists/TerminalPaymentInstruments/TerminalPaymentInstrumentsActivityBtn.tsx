@@ -1,5 +1,5 @@
 import { useAppToast } from "@/components/ui/toast/useAppToast";
-import { TerminalPaymentInstrumentsProvider } from "@/data/terminalPaymentInstruments";
+import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import clsx from "clsx";
 import { LockKeyhole, LockKeyholeOpen } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ export const TerminalPaymentInstrumentsActivityBtn = ({
 
     const [currentState, setCurrentState] = useState(() => activityState);
     const [btnDisabled, setBtnDisabled] = useState(false);
-    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsProvider();
+    const terminalPaymentInstrumentsProvider = new TerminalPaymentInstrumentsDataProvider();
 
     useEffect(() => {
         if (currentState !== activityState) {
