@@ -13,6 +13,7 @@ import type {
     BodyTerminalPaymentInstrumentEndpointsImportTerminalPaymentInstrumentsMultiCsvEnigmaV1TerminalPaymentInstrumentsImportMultiCsvPost,
     HTTPValidationError,
     TerminalInitializePaymentInstrumentsRequest,
+    TerminalPaymentInstrumentBulkDeleteRequest,
     TerminalPaymentInstrumentCreate,
     TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetParams,
     TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetParams,
@@ -600,6 +601,100 @@ export const terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEn
         return authFetch<terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteResponse>(
             getTerminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDeleteUrl(
                 terminalPaymentInstrumentId
+            ),
+            {
+                ...options,
+                method: "DELETE"
+            }
+        );
+    };
+
+/**
+ * Delete multiple terminal payment instruments by IDs
+ * @summary Bulk delete terminal payment instruments
+ */
+export type terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponse200 =
+    {
+        data: ApiResponseNoneType;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponse200
+        | terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponse422;
+
+export type terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponse =
+    terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteUrl =
+    () => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/bulk`;
+    };
+
+export const terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDelete =
+    async (
+        terminalPaymentInstrumentBulkDeleteRequest: TerminalPaymentInstrumentBulkDeleteRequest,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteResponse>(
+            getTerminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDeleteUrl(),
+            {
+                ...options,
+                method: "DELETE",
+                headers: { "Content-Type": "application/json", ...options?.headers },
+                body: JSON.stringify(terminalPaymentInstrumentBulkDeleteRequest)
+            }
+        );
+    };
+
+/**
+ * Delete all terminal payment instruments for a specific terminal
+ * @summary Delete all terminal payment instruments by terminal ID
+ */
+export type terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponse200 =
+    {
+        data: ApiResponseNoneType;
+        status: 200;
+    };
+
+export type terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponse422 =
+    {
+        data: HTTPValidationError;
+        status: 422;
+    };
+
+export type terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponseComposite =
+
+        | terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponse200
+        | terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponse422;
+
+export type terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponse =
+    terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponseComposite & {
+        headers: Headers;
+    };
+
+export const getTerminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteUrl =
+    (terminalId: string) => {
+        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/terminal_payment_instruments/all_by_terminal/${terminalId}`;
+    };
+
+export const terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDelete =
+    async (
+        terminalId: string,
+        options?: RequestInit
+    ): Promise<terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponse> => {
+        return authFetch<terminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteResponse>(
+            getTerminalPaymentInstrumentEndpointsDeleteAllTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsAllByTerminalTerminalIdDeleteUrl(
+                terminalId
             ),
             {
                 ...options,

@@ -256,6 +256,56 @@ export interface ApiResponseMerchantCascadeSchema {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseMerchantCurrencyRuleError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseMerchantCurrencyRuleMeta = unknown | null;
+
+export interface ApiResponseMerchantCurrencyRule {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: MerchantCurrencyRule;
+    /** The error details if the request was not successful */
+    error?: ApiResponseMerchantCurrencyRuleError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseMerchantCurrencyRuleMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseMerchantPredictiveRatesMapError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseMerchantPredictiveRatesMapMeta = unknown | null;
+
+export interface ApiResponseMerchantPredictiveRatesMap {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: MerchantPredictiveRatesMap;
+    /** The error details if the request was not successful */
+    error?: ApiResponseMerchantPredictiveRatesMapError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseMerchantPredictiveRatesMapMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseMerchantSchemaError = ErrorBody | null;
 
 /**
@@ -481,6 +531,31 @@ export interface ApiResponseOffsetPaginationMerchantCascadeSchema {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseOffsetPaginationMerchantCurrencyRuleError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationMerchantCurrencyRuleMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationMerchantCurrencyRule {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationMerchantCurrencyRule;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationMerchantCurrencyRuleError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationMerchantCurrencyRuleMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseOffsetPaginationMerchantSchemaError = ErrorBody | null;
 
 /**
@@ -526,6 +601,31 @@ export interface ApiResponseOffsetPaginationPaymentTypeModel {
      * @deprecated
      */
     meta?: ApiResponseOffsetPaginationPaymentTypeModelMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseOffsetPaginationProviderCurrencyRuleError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseOffsetPaginationProviderCurrencyRuleMeta = unknown | null;
+
+export interface ApiResponseOffsetPaginationProviderCurrencyRule {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: OffsetPaginationProviderCurrencyRule;
+    /** The error details if the request was not successful */
+    error?: ApiResponseOffsetPaginationProviderCurrencyRuleError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseOffsetPaginationProviderCurrencyRuleMeta;
 }
 
 /**
@@ -681,6 +781,31 @@ export interface ApiResponseProviderAddKeypair {
 /**
  * The error details if the request was not successful
  */
+export type ApiResponseProviderCurrencyRuleError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseProviderCurrencyRuleMeta = unknown | null;
+
+export interface ApiResponseProviderCurrencyRule {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: ProviderCurrencyRule;
+    /** The error details if the request was not successful */
+    error?: ApiResponseProviderCurrencyRuleError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseProviderCurrencyRuleMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
 export type ApiResponseProviderError = ErrorBody | null;
 
 /**
@@ -701,6 +826,31 @@ export interface ApiResponseProvider {
      * @deprecated
      */
     meta?: ApiResponseProviderMeta;
+}
+
+/**
+ * The error details if the request was not successful
+ */
+export type ApiResponseSaveSetupResponseError = ErrorBody | null;
+
+/**
+ * The meta details if the request. DEPRECATED
+ * @deprecated
+ */
+export type ApiResponseSaveSetupResponseMeta = unknown | null;
+
+export interface ApiResponseSaveSetupResponse {
+    /** Indicates whether the request was successful */
+    success?: boolean;
+    /** The actual response data if the request was successful */
+    data: SaveSetupResponse;
+    /** The error details if the request was not successful */
+    error?: ApiResponseSaveSetupResponseError;
+    /**
+     * The meta details if the request. DEPRECATED
+     * @deprecated
+     */
+    meta?: ApiResponseSaveSetupResponseMeta;
 }
 
 /**
@@ -1406,6 +1556,14 @@ export interface CascadeUpdate {
     /** Updated payment types explicitly assigned to cascade */
     payment_types?: CascadeUpdatePaymentTypes;
 }
+
+export type CourseMode = (typeof CourseMode)[keyof typeof CourseMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CourseMode = {
+    predictive: "predictive",
+    basic: "basic"
+} as const;
 
 export interface CurrenciesLink {
     /** Unique codes of the currencies to link (ISO 4217) */
@@ -2589,6 +2747,88 @@ export interface MerchantCreate {
 }
 
 /**
+ * 'deposit' or 'withdrawal'
+ */
+export type MerchantCurrencyRuleDirection = string | null;
+
+export type MerchantCurrencyRuleSourceCurrencyExchange = string | null;
+
+export type MerchantCurrencyRuleConfigSlug = string | null;
+
+export type MerchantCurrencyRuleMarginalityRate = number | null;
+
+export type MerchantCurrencyRuleCourseTtl = string | null;
+
+export interface MerchantCurrencyRule {
+    merchant_id: string;
+    source_currency_code: string;
+    destination_currency_code: string;
+    /** 'deposit' or 'withdrawal' */
+    direction?: MerchantCurrencyRuleDirection;
+    cource_mode: CourseMode;
+    source_currency_exchange?: MerchantCurrencyRuleSourceCurrencyExchange;
+    config_slug?: MerchantCurrencyRuleConfigSlug;
+    marginality_rate?: MerchantCurrencyRuleMarginalityRate;
+    course_ttl?: MerchantCurrencyRuleCourseTtl;
+}
+
+export type MerchantCurrencyRuleCreateSourceCurrencyExchange = string | null;
+
+export type MerchantCurrencyRuleCreateConfigSlug = string | null;
+
+export type MerchantCurrencyRuleCreateMarginalityRate = number | null;
+
+export type MerchantCurrencyRuleCreateCourseTtl = string | null;
+
+export interface MerchantCurrencyRuleCreate {
+    merchant_id: string;
+    source_currency_code: string;
+    destination_currency_code: string;
+    direction: string;
+    cource_mode: CourseMode;
+    source_currency_exchange?: MerchantCurrencyRuleCreateSourceCurrencyExchange;
+    config_slug?: MerchantCurrencyRuleCreateConfigSlug;
+    marginality_rate?: MerchantCurrencyRuleCreateMarginalityRate;
+    course_ttl?: MerchantCurrencyRuleCreateCourseTtl;
+}
+
+export type MerchantCurrencyRuleUpdateDirection = string | null;
+
+export type MerchantCurrencyRuleUpdateCourceMode = CourseMode | null;
+
+export type MerchantCurrencyRuleUpdateSourceCurrencyExchange = string | null;
+
+export type MerchantCurrencyRuleUpdateConfigSlug = string | null;
+
+export type MerchantCurrencyRuleUpdateMarginalityRate = number | null;
+
+export type MerchantCurrencyRuleUpdateCourseTtl = string | null;
+
+export interface MerchantCurrencyRuleUpdate {
+    direction?: MerchantCurrencyRuleUpdateDirection;
+    cource_mode?: MerchantCurrencyRuleUpdateCourceMode;
+    source_currency_exchange?: MerchantCurrencyRuleUpdateSourceCurrencyExchange;
+    config_slug?: MerchantCurrencyRuleUpdateConfigSlug;
+    marginality_rate?: MerchantCurrencyRuleUpdateMarginalityRate;
+    course_ttl?: MerchantCurrencyRuleUpdateCourseTtl;
+}
+
+export interface MerchantPredictiveConfig {
+    merchant_id: string;
+    deposit?: PredictivePairConfig[];
+    withdrawal?: PredictivePairConfig[];
+}
+
+export interface MerchantPredictiveRates {
+    deposit?: PredictiveRateEntryResponse[];
+    withdrawal?: PredictiveRateEntryResponse[];
+}
+
+export interface MerchantPredictiveRatesMap {
+    [key: string]: MerchantPredictiveRates;
+}
+
+/**
  * Description of the merchant
  */
 export type MerchantSchemaDescription = string | null;
@@ -2883,6 +3123,17 @@ export interface OffsetPaginationMerchantCascadeSchema {
     total: number;
 }
 
+export interface OffsetPaginationMerchantCurrencyRule {
+    /** A list of items in the current page */
+    items: MerchantCurrencyRule[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
 export interface OffsetPaginationMerchantSchema {
     /** A list of items in the current page */
     items: MerchantSchema[];
@@ -2897,6 +3148,17 @@ export interface OffsetPaginationMerchantSchema {
 export interface OffsetPaginationPaymentTypeModel {
     /** A list of items in the current page */
     items: PaymentTypeModel[];
+    /** The maximum number of items returned in a single page */
+    limit: number;
+    /** The starting index for the current page */
+    offset: number;
+    /** The total number of available items */
+    total: number;
+}
+
+export interface OffsetPaginationProviderCurrencyRule {
+    /** A list of items in the current page */
+    items: ProviderCurrencyRule[];
     /** The maximum number of items returned in a single page */
     limit: number;
     /** The starting index for the current page */
@@ -3083,6 +3345,36 @@ export interface PaymentTypesLink {
     codes: string[];
 }
 
+export interface PredictiveCreateSetupRequest {
+    merchants: MerchantPredictiveConfig[];
+}
+
+export type PredictivePairConfigMarginalityRate = number | null;
+
+export interface PredictivePairConfig {
+    config_slug: string;
+    marginality_rate?: PredictivePairConfigMarginalityRate;
+}
+
+export type PredictiveRateEntryResponseRate = string | null;
+
+export type PredictiveRateEntryResponseUpdatedAt = string | null;
+
+export type PredictiveRateEntryResponseExpirationAt = string | null;
+
+export type PredictiveRateEntryResponseMarginalityRate = number | null;
+
+export interface PredictiveRateEntryResponse {
+    rate: PredictiveRateEntryResponseRate;
+    updated_at?: PredictiveRateEntryResponseUpdatedAt;
+    expiration_at?: PredictiveRateEntryResponseExpirationAt;
+    marginality_rate?: PredictiveRateEntryResponseMarginalityRate;
+}
+
+export interface PredictiveResolveRequest {
+    merchant_ids: string[];
+}
+
 export interface PriorityPolicy {
     /**
      * Priority rank of the cascade (1 = highest priority)
@@ -3208,6 +3500,55 @@ export interface ProviderCreate {
     terminal_auth_schema?: ProviderCreateTerminalAuthSchema;
     /** Details structure schema for provider terminals */
     terminal_details_schema?: ProviderCreateTerminalDetailsSchema;
+}
+
+/**
+ * 'deposit' or 'withdrawal'
+ */
+export type ProviderCurrencyRuleDirection = string | null;
+
+export type ProviderCurrencyRuleSourceCurrencyExchange = string | null;
+
+export type ProviderCurrencyRuleConfigSlug = string | null;
+
+export interface ProviderCurrencyRule {
+    provider_name: string;
+    source_currency_code: string;
+    destination_currency_code: string;
+    /** 'deposit' or 'withdrawal' */
+    direction?: ProviderCurrencyRuleDirection;
+    cource_mode: CourseMode;
+    source_currency_exchange?: ProviderCurrencyRuleSourceCurrencyExchange;
+    config_slug?: ProviderCurrencyRuleConfigSlug;
+}
+
+export type ProviderCurrencyRuleCreateSourceCurrencyExchange = string | null;
+
+export type ProviderCurrencyRuleCreateConfigSlug = string | null;
+
+export interface ProviderCurrencyRuleCreate {
+    provider_name: string;
+    source_currency_code: string;
+    destination_currency_code: string;
+    direction: string;
+    cource_mode: CourseMode;
+    source_currency_exchange?: ProviderCurrencyRuleCreateSourceCurrencyExchange;
+    config_slug?: ProviderCurrencyRuleCreateConfigSlug;
+}
+
+export type ProviderCurrencyRuleUpdateDirection = string | null;
+
+export type ProviderCurrencyRuleUpdateCourceMode = CourseMode | null;
+
+export type ProviderCurrencyRuleUpdateSourceCurrencyExchange = string | null;
+
+export type ProviderCurrencyRuleUpdateConfigSlug = string | null;
+
+export interface ProviderCurrencyRuleUpdate {
+    direction?: ProviderCurrencyRuleUpdateDirection;
+    cource_mode?: ProviderCurrencyRuleUpdateCourceMode;
+    source_currency_exchange?: ProviderCurrencyRuleUpdateSourceCurrencyExchange;
+    config_slug?: ProviderCurrencyRuleUpdateConfigSlug;
 }
 
 export type ProviderEnvironment = (typeof ProviderEnvironment)[keyof typeof ProviderEnvironment];
@@ -3479,6 +3820,12 @@ export const RetryStrategy = {
     fixed: "fixed",
     exponential: "exponential"
 } as const;
+
+export interface SaveSetupResponse {
+    valid_configs: number;
+    invalid_configs: number;
+    invalid_slugs?: string[];
+}
 
 export type SecurityPolicyConfigAllowedIpsItem = string | string;
 
@@ -3809,6 +4156,11 @@ export type TerminalPaymentInstrumentTerminalCurrencyCode = string | null;
 export type TerminalPaymentInstrumentTerminalFinancialInstitutionCode = string | null;
 
 /**
+ * Provider's codes for the financial institutions
+ */
+export type TerminalPaymentInstrumentTerminalFinancialInstitutionCodes = string[] | null;
+
+/**
  * Terminal's code for the outgoing financial institution
  */
 export type TerminalPaymentInstrumentTerminalFinancialInstitutionOutgoingCode = string | null;
@@ -3836,6 +4188,8 @@ export interface TerminalPaymentInstrument {
     terminal_currency_code?: TerminalPaymentInstrumentTerminalCurrencyCode;
     /** Provider's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentTerminalFinancialInstitutionCode;
+    /** Provider's codes for the financial institutions */
+    terminal_financial_institution_codes?: TerminalPaymentInstrumentTerminalFinancialInstitutionCodes;
     /** Terminal's code for the outgoing financial institution */
     terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentTerminalFinancialInstitutionOutgoingCode;
     /** Terminal's country code for source or destination country */
@@ -3856,6 +4210,14 @@ export interface TerminalPaymentInstrument {
     updated_at: string;
 }
 
+export interface TerminalPaymentInstrumentBulkDeleteRequest {
+    /**
+     * List of terminal payment instrument IDs to delete
+     * @minItems 1
+     */
+    terminal_payment_instrument_ids: string[];
+}
+
 /**
  * Provider's code for the payment type (e.g., SBP)
  */
@@ -3870,6 +4232,11 @@ export type TerminalPaymentInstrumentCreateTerminalCurrencyCode = string | null;
  * Provider's code for the financial institution
  */
 export type TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCode = string | null;
+
+/**
+ * Provider's codes for the financial institutions
+ */
+export type TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCodes = string[] | null;
 
 /**
  * Terminal's code for the outgoing financial institution
@@ -3899,6 +4266,8 @@ export interface TerminalPaymentInstrumentCreate {
     terminal_currency_code?: TerminalPaymentInstrumentCreateTerminalCurrencyCode;
     /** Provider's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCode;
+    /** Provider's codes for the financial institutions */
+    terminal_financial_institution_codes?: TerminalPaymentInstrumentCreateTerminalFinancialInstitutionCodes;
     /** Terminal's code for the outgoing financial institution */
     terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentCreateTerminalFinancialInstitutionOutgoingCode;
     /** Terminal's country code for source or destination country */
@@ -3925,6 +4294,11 @@ export type TerminalPaymentInstrumentFIDataTerminalCurrencyCode = string | null;
 export type TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCode = string | null;
 
 /**
+ * Provider's codes for the financial institutions (array)
+ */
+export type TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCodes = string[] | null;
+
+/**
  * Terminal's code for the outgoing financial institution
  */
 export type TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionOutgoingCode = string | null;
@@ -3948,6 +4322,8 @@ export interface TerminalPaymentInstrumentFIData {
     terminal_currency_code?: TerminalPaymentInstrumentFIDataTerminalCurrencyCode;
     /** Provider's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCode;
+    /** Provider's codes for the financial institutions (array) */
+    terminal_financial_institution_codes?: TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionCodes;
     /** Terminal's code for the outgoing financial institution */
     terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentFIDataTerminalFinancialInstitutionOutgoingCode;
     /** Terminal's country code for source or destination country */
@@ -4003,6 +4379,11 @@ export type TerminalPaymentInstrumentUpdateTerminalCurrencyCode = string | null;
 export type TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode = string | null;
 
 /**
+ * Terminal's codes for the financial institutions (array)
+ */
+export type TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCodes = string[] | null;
+
+/**
  * Terminal's code for the outgoing financial institution
  */
 export type TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionOutgoingCode = string | null;
@@ -4035,6 +4416,8 @@ export interface TerminalPaymentInstrumentUpdate {
     terminal_currency_code?: TerminalPaymentInstrumentUpdateTerminalCurrencyCode;
     /** Terminal's code for the financial institution */
     terminal_financial_institution_code?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCode;
+    /** Terminal's codes for the financial institutions (array) */
+    terminal_financial_institution_codes?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionCodes;
     /** Terminal's code for the outgoing financial institution */
     terminal_financial_institution_outgoing_code?: TerminalPaymentInstrumentUpdateTerminalFinancialInstitutionOutgoingCode;
     /** Terminal's country code for source or destination country */
@@ -5685,6 +6068,10 @@ export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnig
          * Sort order: 'asc' or 'desc'
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSortOrder;
+        /**
+         * Filter by terminal financial institution codes (array overlap)
+         */
+        terminalFinancialInstitutionCodes?: string[] | null;
     };
 
 export type TerminalPaymentInstrumentEndpointsListTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsGetSearchMode =
@@ -5763,6 +6150,10 @@ export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnig
          * Sort order: 'asc' or 'desc'
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSortOrder;
+        /**
+         * Filter by terminal financial institution codes (array overlap)
+         */
+        terminalFinancialInstitutionCodes?: string[] | null;
     };
 
 export type TerminalPaymentInstrumentEndpointsListProviderPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsProvidersProviderNameGetSearchMode =
@@ -5841,6 +6232,10 @@ export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTer
          * Sort order: 'asc' or 'desc'
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder;
+        /**
+         * Filter by terminal financial institution codes (array overlap)
+         */
+        terminalFinancialInstitutionCodes?: string[] | null;
     };
 
 export type TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSearchMode =
@@ -5919,6 +6314,10 @@ export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEn
          * Sort order: 'asc' or 'desc'
          */
         sortOrder?: TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSortOrder;
+        /**
+         * Filter by terminal financial institution codes (array overlap)
+         */
+        terminalFinancialInstitutionCodes?: string[] | null;
     };
 
 export type TerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetSearchMode =
@@ -5961,3 +6360,121 @@ export type KeyGenEndpointsGenerateRsaKeypairEnigmaV1PkiKeygenGetParams = {
      */
     public_exponent?: number;
 };
+
+export type RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSearchMode;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSortOrder;
+};
+
+export type RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSearchMode =
+    (typeof RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSearchMode)[keyof typeof RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
+
+export type RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSortOrder =
+    (typeof RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSortOrder)[keyof typeof RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;
+
+export type RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetParams = {
+    /**
+     * List of identifiers for filtering
+     */
+    ids?: string[] | null;
+    /**
+     * Current page number (starting from 1)
+     */
+    currentPage?: number;
+    /**
+     * Number of records per page
+     */
+    pageSize?: number;
+    /**
+     * Names of the fields to search (comma-separated or repeated).
+     */
+    searchField?: string[] | null;
+    /**
+     * Values for the corresponding fields. You can pass a JSON array (e.g. `["code1","code2"]`) or multiple values separated by |.
+     */
+    searchString?: string[] | null;
+    /**
+     * If true, the search will be case-insensitive.
+     */
+    searchIgnoreCase?: boolean;
+    /**
+     * Search mode: partial (default), exact, starts_with, or ends_with
+     */
+    searchMode?: RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSearchMode;
+    /**
+     * Field to sort the results by
+     */
+    orderBy?: string | null;
+    /**
+     * Sort order: 'asc' or 'desc'
+     */
+    sortOrder?: RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSortOrder;
+};
+
+export type RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSearchMode =
+    (typeof RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSearchMode)[keyof typeof RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSearchMode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSearchMode = {
+    partial: "partial",
+    exact: "exact",
+    starts_with: "starts_with",
+    ends_with: "ends_with"
+} as const;
+
+export type RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSortOrder =
+    (typeof RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSortOrder)[keyof typeof RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSortOrder];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGetSortOrder = {
+    asc: "asc",
+    desc: "desc"
+} as const;

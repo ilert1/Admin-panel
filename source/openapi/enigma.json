@@ -8317,6 +8317,27 @@
               "default": "asc"
             },
             "description": "Sort order: 'asc' or 'desc'"
+          },
+          {
+            "name": "terminalFinancialInstitutionCodes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by terminal financial institution codes (array overlap)",
+              "title": "Terminalfinancialinstitutioncodes"
+            },
+            "description": "Filter by terminal financial institution codes (array overlap)"
           }
         ],
         "responses": {
@@ -8633,6 +8654,27 @@
               "default": "asc"
             },
             "description": "Sort order: 'asc' or 'desc'"
+          },
+          {
+            "name": "terminalFinancialInstitutionCodes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by terminal financial institution codes (array overlap)",
+              "title": "Terminalfinancialinstitutioncodes"
+            },
+            "description": "Filter by terminal financial institution codes (array overlap)"
           }
         ],
         "responses": {
@@ -8910,6 +8952,27 @@
               "default": "asc"
             },
             "description": "Sort order: 'asc' or 'desc'"
+          },
+          {
+            "name": "terminalFinancialInstitutionCodes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by terminal financial institution codes (array overlap)",
+              "title": "Terminalfinancialinstitutioncodes"
+            },
+            "description": "Filter by terminal financial institution codes (array overlap)"
           }
         ],
         "responses": {
@@ -9333,6 +9396,95 @@
         }
       }
     },
+    "/enigma/v1/terminal_payment_instruments/bulk": {
+      "delete": {
+        "tags": [
+          "Terminal Payment Instruments"
+        ],
+        "summary": "Bulk delete terminal payment instruments",
+        "description": "Delete multiple terminal payment instruments by IDs",
+        "operationId": "TerminalPaymentInstrumentEndpoints_bulk_delete_terminal_payment_instruments_enigma_v1_terminal_payment_instruments_bulk_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminalPaymentInstrumentBulkDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/terminal_payment_instruments/all_by_terminal/{terminal_id}": {
+      "delete": {
+        "tags": [
+          "Terminal Payment Instruments"
+        ],
+        "summary": "Delete all terminal payment instruments by terminal ID",
+        "description": "Delete all terminal payment instruments for a specific terminal",
+        "operationId": "TerminalPaymentInstrumentEndpoints_delete_all_terminal_payment_instruments_by_terminal_enigma_v1_terminal_payment_instruments_all_by_terminal__terminal_id__delete",
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "The unique identifier of the terminal",
+              "title": "Terminal Id"
+            },
+            "description": "The unique identifier of the terminal",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/enigma/v1/terminal_payment_instruments/export/{terminal_id}": {
       "get": {
         "tags": [
@@ -9584,6 +9736,27 @@
               "default": "asc"
             },
             "description": "Sort order: 'asc' or 'desc'"
+          },
+          {
+            "name": "terminalFinancialInstitutionCodes",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by terminal financial institution codes (array overlap)",
+              "title": "Terminalfinancialinstitutioncodes"
+            },
+            "description": "Filter by terminal financial institution codes (array overlap)"
           }
         ],
         "responses": {
@@ -9782,6 +9955,922 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponse_list_FeeTypeItem__"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/rate-notifier/predictive/resolve": {
+      "post": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Ratenotifierendpoints.Resolve Predictive",
+        "operationId": "RateNotifierEndpoints_resolve_predictive_enigma_v1_rate_notifier_predictive_resolve_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictiveResolveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_MerchantPredictiveRatesMap_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/rate-notifier/predictive/save": {
+      "post": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Ratenotifierendpoints.Save Setup",
+        "operationId": "RateNotifierEndpoints_save_setup_enigma_v1_rate_notifier_predictive_save_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictiveCreateSetupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_SaveSetupResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/rate-notifier/merchant-rules": {
+      "get": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "List merchant currency rules",
+        "description": "Returns a paginated list of merchant currency rules with filtering",
+        "operationId": "RateNotifierEndpoints_list_merchant_currency_rules_enigma_v1_rate_notifier_merchant_rules_get",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "List of identifiers for filtering",
+              "title": "Ids"
+            },
+            "description": "List of identifiers for filtering"
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Current page number (starting from 1)",
+              "default": 1,
+              "title": "Currentpage"
+            },
+            "description": "Current page number (starting from 1)"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of records per page",
+              "default": 20,
+              "title": "Pagesize"
+            },
+            "description": "Number of records per page"
+          },
+          {
+            "name": "searchField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search fields",
+              "description": "Names of the fields to search (comma-separated or repeated)."
+            },
+            "description": "Names of the fields to search (comma-separated or repeated)."
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search strings",
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
+            },
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
+          },
+          {
+            "name": "searchIgnoreCase",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "title": "Case sensitivity",
+              "description": "If true, the search will be case-insensitive.",
+              "default": true
+            },
+            "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sorting field",
+              "description": "Field to sort the results by",
+              "default": "merchant_id"
+            },
+            "description": "Field to sort the results by"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "title": "Sorting order",
+              "description": "Sort order: 'asc' or 'desc'",
+              "default": "asc"
+            },
+            "description": "Sort order: 'asc' or 'desc'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_MerchantCurrencyRule__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Create merchant currency rule",
+        "description": "Creates a merchant currency rule",
+        "operationId": "RateNotifierEndpoints_create_merchant_currency_rule_enigma_v1_rate_notifier_merchant_rules_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MerchantCurrencyRuleCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_MerchantCurrencyRule_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/rate-notifier/merchant-rules/{merchant_id}/{source_currency_code}/{destination_currency_code}": {
+      "get": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Get merchant currency rule",
+        "description": "Gets a merchant currency rule by composite key",
+        "operationId": "RateNotifierEndpoints_get_merchant_currency_rule_enigma_v1_rate_notifier_merchant_rules__merchant_id___source_currency_code___destination_currency_code__get",
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Merchant Id"
+            }
+          },
+          {
+            "name": "source_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Currency Code"
+            }
+          },
+          {
+            "name": "destination_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destination Currency Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_MerchantCurrencyRule_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Update merchant currency rule",
+        "description": "Updates a merchant currency rule",
+        "operationId": "RateNotifierEndpoints_update_merchant_currency_rule_enigma_v1_rate_notifier_merchant_rules__merchant_id___source_currency_code___destination_currency_code__put",
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Merchant Id"
+            }
+          },
+          {
+            "name": "source_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Currency Code"
+            }
+          },
+          {
+            "name": "destination_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destination Currency Code"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MerchantCurrencyRuleUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_MerchantCurrencyRule_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Delete merchant currency rule",
+        "description": "Deletes a merchant currency rule",
+        "operationId": "RateNotifierEndpoints_delete_merchant_currency_rule_enigma_v1_rate_notifier_merchant_rules__merchant_id___source_currency_code___destination_currency_code__delete",
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Merchant Id"
+            }
+          },
+          {
+            "name": "source_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Currency Code"
+            }
+          },
+          {
+            "name": "destination_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destination Currency Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/rate-notifier/provider-rules": {
+      "get": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "List provider currency rules",
+        "description": "Returns a paginated list of provider currency rules with filtering",
+        "operationId": "RateNotifierEndpoints_list_provider_currency_rules_enigma_v1_rate_notifier_provider_rules_get",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "List of identifiers for filtering",
+              "title": "Ids"
+            },
+            "description": "List of identifiers for filtering"
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Current page number (starting from 1)",
+              "default": 1,
+              "title": "Currentpage"
+            },
+            "description": "Current page number (starting from 1)"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of records per page",
+              "default": 20,
+              "title": "Pagesize"
+            },
+            "description": "Number of records per page"
+          },
+          {
+            "name": "searchField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search fields",
+              "description": "Names of the fields to search (comma-separated or repeated)."
+            },
+            "description": "Names of the fields to search (comma-separated or repeated)."
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search strings",
+              "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
+            },
+            "description": "Values for the corresponding fields. You can pass a JSON array (e.g. `[\"code1\",\"code2\"]`) or multiple values separated by |."
+          },
+          {
+            "name": "searchIgnoreCase",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "title": "Case sensitivity",
+              "description": "If true, the search will be case-insensitive.",
+              "default": true
+            },
+            "description": "If true, the search will be case-insensitive."
+          },
+          {
+            "name": "searchMode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "partial",
+                "exact",
+                "starts_with",
+                "ends_with"
+              ],
+              "type": "string",
+              "title": "Search mode",
+              "description": "Search mode: partial (default), exact, starts_with, or ends_with",
+              "default": "partial"
+            },
+            "description": "Search mode: partial (default), exact, starts_with, or ends_with"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sorting field",
+              "description": "Field to sort the results by",
+              "default": "provider_name"
+            },
+            "description": "Field to sort the results by"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "title": "Sorting order",
+              "description": "Sort order: 'asc' or 'desc'",
+              "default": "asc"
+            },
+            "description": "Sort order: 'asc' or 'desc'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_OffsetPagination_ProviderCurrencyRule__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Create provider currency rule",
+        "description": "Creates a provider currency rule",
+        "operationId": "RateNotifierEndpoints_create_provider_currency_rule_enigma_v1_rate_notifier_provider_rules_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProviderCurrencyRuleCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_ProviderCurrencyRule_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enigma/v1/rate-notifier/provider-rules/{provider_name}/{source_currency_code}/{destination_currency_code}": {
+      "get": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Get provider currency rule",
+        "description": "Gets a provider currency rule by composite key",
+        "operationId": "RateNotifierEndpoints_get_provider_currency_rule_enigma_v1_rate_notifier_provider_rules__provider_name___source_currency_code___destination_currency_code__get",
+        "parameters": [
+          {
+            "name": "provider_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Provider Name"
+            }
+          },
+          {
+            "name": "source_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Currency Code"
+            }
+          },
+          {
+            "name": "destination_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destination Currency Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_ProviderCurrencyRule_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Update provider currency rule",
+        "description": "Updates a provider currency rule",
+        "operationId": "RateNotifierEndpoints_update_provider_currency_rule_enigma_v1_rate_notifier_provider_rules__provider_name___source_currency_code___destination_currency_code__put",
+        "parameters": [
+          {
+            "name": "provider_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Provider Name"
+            }
+          },
+          {
+            "name": "source_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Currency Code"
+            }
+          },
+          {
+            "name": "destination_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destination Currency Code"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProviderCurrencyRuleUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_ProviderCurrencyRule_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rate Notifier"
+        ],
+        "summary": "Delete provider currency rule",
+        "description": "Deletes a provider currency rule",
+        "operationId": "RateNotifierEndpoints_delete_provider_currency_rule_enigma_v1_rate_notifier_provider_rules__provider_name___source_currency_code___destination_currency_code__delete",
+        "parameters": [
+          {
+            "name": "provider_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Provider Name"
+            }
+          },
+          {
+            "name": "source_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Source Currency Code"
+            }
+          },
+          {
+            "name": "destination_currency_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Destination Currency Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_NoneType_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -10208,6 +11297,88 @@
         ],
         "title": "ApiResponse[MerchantCascadeSchema]"
       },
+      "ApiResponse_MerchantCurrencyRule_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/MerchantCurrencyRule",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[MerchantCurrencyRule]"
+      },
+      "ApiResponse_MerchantPredictiveRatesMap_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/MerchantPredictiveRatesMap",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[MerchantPredictiveRatesMap]"
+      },
       "ApiResponse_MerchantSchema_": {
         "properties": {
           "success": {
@@ -10578,6 +11749,47 @@
         ],
         "title": "ApiResponse[OffsetPagination[MerchantCascadeSchema]]"
       },
+      "ApiResponse_OffsetPagination_MerchantCurrencyRule__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_MerchantCurrencyRule_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[MerchantCurrencyRule]]"
+      },
       "ApiResponse_OffsetPagination_MerchantSchema__": {
         "properties": {
           "success": {
@@ -10659,6 +11871,47 @@
           "data"
         ],
         "title": "ApiResponse[OffsetPagination[PaymentTypeModel]]"
+      },
+      "ApiResponse_OffsetPagination_ProviderCurrencyRule__": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/OffsetPagination_ProviderCurrencyRule_",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[OffsetPagination[ProviderCurrencyRule]]"
       },
       "ApiResponse_OffsetPagination_Provider__": {
         "properties": {
@@ -10906,6 +12159,47 @@
         ],
         "title": "ApiResponse[ProviderAddKeypair]"
       },
+      "ApiResponse_ProviderCurrencyRule_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProviderCurrencyRule",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[ProviderCurrencyRule]"
+      },
       "ApiResponse_Provider_": {
         "properties": {
           "success": {
@@ -10946,6 +12240,47 @@
           "data"
         ],
         "title": "ApiResponse[Provider]"
+      },
+      "ApiResponse_SaveSetupResponse_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "Indicates whether the request was successful",
+            "default": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/SaveSetupResponse",
+            "description": "The actual response data if the request was successful"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorBody"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The error details if the request was not successful"
+          },
+          "meta": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta",
+            "description": "The meta details if the request. DEPRECATED",
+            "deprecated": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ApiResponse[SaveSetupResponse]"
       },
       "ApiResponse_SystemPaymentInstrument_": {
         "properties": {
@@ -12540,6 +13875,14 @@
         },
         "type": "object",
         "title": "CascadeUpdate"
+      },
+      "CourseMode": {
+        "type": "string",
+        "enum": [
+          "predictive",
+          "basic"
+        ],
+        "title": "CourseMode"
       },
       "CurrenciesLink": {
         "properties": {
@@ -15501,6 +16844,290 @@
         ],
         "title": "MerchantCreate"
       },
+      "MerchantCurrencyRule": {
+        "properties": {
+          "merchant_id": {
+            "type": "string",
+            "title": "Merchant Id"
+          },
+          "source_currency_code": {
+            "type": "string",
+            "title": "Source Currency Code"
+          },
+          "destination_currency_code": {
+            "type": "string",
+            "title": "Destination Currency Code"
+          },
+          "direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direction",
+            "description": "'deposit' or 'withdrawal'"
+          },
+          "cource_mode": {
+            "$ref": "#/components/schemas/CourseMode"
+          },
+          "source_currency_exchange": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Currency Exchange"
+          },
+          "config_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Slug"
+          },
+          "marginality_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marginality Rate"
+          },
+          "course_ttl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Course Ttl"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchant_id",
+          "source_currency_code",
+          "destination_currency_code",
+          "cource_mode"
+        ],
+        "title": "MerchantCurrencyRule"
+      },
+      "MerchantCurrencyRuleCreate": {
+        "properties": {
+          "merchant_id": {
+            "type": "string",
+            "title": "Merchant Id"
+          },
+          "source_currency_code": {
+            "type": "string",
+            "title": "Source Currency Code"
+          },
+          "destination_currency_code": {
+            "type": "string",
+            "title": "Destination Currency Code"
+          },
+          "direction": {
+            "type": "string",
+            "title": "Direction"
+          },
+          "cource_mode": {
+            "$ref": "#/components/schemas/CourseMode"
+          },
+          "source_currency_exchange": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Currency Exchange"
+          },
+          "config_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Slug"
+          },
+          "marginality_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marginality Rate"
+          },
+          "course_ttl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Course Ttl"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchant_id",
+          "source_currency_code",
+          "destination_currency_code",
+          "direction",
+          "cource_mode"
+        ],
+        "title": "MerchantCurrencyRuleCreate"
+      },
+      "MerchantCurrencyRuleUpdate": {
+        "properties": {
+          "direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direction"
+          },
+          "cource_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CourseMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_currency_exchange": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Currency Exchange"
+          },
+          "config_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Slug"
+          },
+          "marginality_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marginality Rate"
+          },
+          "course_ttl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Course Ttl"
+          }
+        },
+        "type": "object",
+        "title": "MerchantCurrencyRuleUpdate"
+      },
+      "MerchantPredictiveConfig": {
+        "properties": {
+          "merchant_id": {
+            "type": "string",
+            "title": "Merchant Id"
+          },
+          "deposit": {
+            "items": {
+              "$ref": "#/components/schemas/PredictivePairConfig"
+            },
+            "type": "array",
+            "title": "Deposit"
+          },
+          "withdrawal": {
+            "items": {
+              "$ref": "#/components/schemas/PredictivePairConfig"
+            },
+            "type": "array",
+            "title": "Withdrawal"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchant_id"
+        ],
+        "title": "MerchantPredictiveConfig"
+      },
+      "MerchantPredictiveRates": {
+        "properties": {
+          "deposit": {
+            "items": {
+              "$ref": "#/components/schemas/PredictiveRateEntryResponse"
+            },
+            "type": "array",
+            "title": "Deposit"
+          },
+          "withdrawal": {
+            "items": {
+              "$ref": "#/components/schemas/PredictiveRateEntryResponse"
+            },
+            "type": "array",
+            "title": "Withdrawal"
+          }
+        },
+        "type": "object",
+        "title": "MerchantPredictiveRates"
+      },
+      "MerchantPredictiveRatesMap": {
+        "additionalProperties": {
+          "$ref": "#/components/schemas/MerchantPredictiveRates"
+        },
+        "type": "object",
+        "title": "MerchantPredictiveRatesMap"
+      },
       "MerchantSchema": {
         "properties": {
           "id": {
@@ -16426,6 +18053,50 @@
         ],
         "title": "OffsetPagination[MerchantCascadeSchema]"
       },
+      "OffsetPagination_MerchantCurrencyRule_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MerchantCurrencyRule"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[MerchantCurrencyRule]"
+      },
       "OffsetPagination_MerchantSchema_": {
         "properties": {
           "items": {
@@ -16513,6 +18184,50 @@
           "total"
         ],
         "title": "OffsetPagination[PaymentTypeModel]"
+      },
+      "OffsetPagination_ProviderCurrencyRule_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderCurrencyRule"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "A list of items in the current page"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "The maximum number of items returned in a single page",
+            "examples": [
+              10
+            ]
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "The starting index for the current page",
+            "examples": [
+              0
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "The total number of available items",
+            "examples": [
+              100
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "offset",
+          "total"
+        ],
+        "title": "OffsetPagination[ProviderCurrencyRule]"
       },
       "OffsetPagination_Provider_": {
         "properties": {
@@ -17064,6 +18779,117 @@
         ],
         "title": "PaymentTypesLink"
       },
+      "PredictiveCreateSetupRequest": {
+        "properties": {
+          "merchants": {
+            "items": {
+              "$ref": "#/components/schemas/MerchantPredictiveConfig"
+            },
+            "type": "array",
+            "title": "Merchants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchants"
+        ],
+        "title": "PredictiveCreateSetupRequest"
+      },
+      "PredictivePairConfig": {
+        "properties": {
+          "config_slug": {
+            "type": "string",
+            "title": "Config Slug"
+          },
+          "marginality_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marginality Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "config_slug"
+        ],
+        "title": "PredictivePairConfig"
+      },
+      "PredictiveRateEntryResponse": {
+        "properties": {
+          "rate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          },
+          "expiration_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiration At"
+          },
+          "marginality_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Marginality Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rate"
+        ],
+        "title": "PredictiveRateEntryResponse"
+      },
+      "PredictiveResolveRequest": {
+        "properties": {
+          "merchant_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Merchant Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "merchant_ids"
+        ],
+        "title": "PredictiveResolveRequest"
+      },
       "PriorityPolicy": {
         "properties": {
           "rank": {
@@ -17319,6 +19145,170 @@
           "name"
         ],
         "title": "ProviderCreate"
+      },
+      "ProviderCurrencyRule": {
+        "properties": {
+          "provider_name": {
+            "type": "string",
+            "title": "Provider Name"
+          },
+          "source_currency_code": {
+            "type": "string",
+            "title": "Source Currency Code"
+          },
+          "destination_currency_code": {
+            "type": "string",
+            "title": "Destination Currency Code"
+          },
+          "direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direction",
+            "description": "'deposit' or 'withdrawal'"
+          },
+          "cource_mode": {
+            "$ref": "#/components/schemas/CourseMode"
+          },
+          "source_currency_exchange": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Currency Exchange"
+          },
+          "config_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Slug"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider_name",
+          "source_currency_code",
+          "destination_currency_code",
+          "cource_mode"
+        ],
+        "title": "ProviderCurrencyRule"
+      },
+      "ProviderCurrencyRuleCreate": {
+        "properties": {
+          "provider_name": {
+            "type": "string",
+            "title": "Provider Name"
+          },
+          "source_currency_code": {
+            "type": "string",
+            "title": "Source Currency Code"
+          },
+          "destination_currency_code": {
+            "type": "string",
+            "title": "Destination Currency Code"
+          },
+          "direction": {
+            "type": "string",
+            "title": "Direction"
+          },
+          "cource_mode": {
+            "$ref": "#/components/schemas/CourseMode"
+          },
+          "source_currency_exchange": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Currency Exchange"
+          },
+          "config_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Slug"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider_name",
+          "source_currency_code",
+          "destination_currency_code",
+          "direction",
+          "cource_mode"
+        ],
+        "title": "ProviderCurrencyRuleCreate"
+      },
+      "ProviderCurrencyRuleUpdate": {
+        "properties": {
+          "direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direction"
+          },
+          "cource_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CourseMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_currency_exchange": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Currency Exchange"
+          },
+          "config_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Slug"
+          }
+        },
+        "type": "object",
+        "title": "ProviderCurrencyRuleUpdate"
       },
       "ProviderEnvironment": {
         "type": "string",
@@ -17857,6 +19847,31 @@
           "exponential"
         ],
         "title": "RetryStrategy"
+      },
+      "SaveSetupResponse": {
+        "properties": {
+          "valid_configs": {
+            "type": "integer",
+            "title": "Valid Configs"
+          },
+          "invalid_configs": {
+            "type": "integer",
+            "title": "Invalid Configs"
+          },
+          "invalid_slugs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Invalid Slugs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "valid_configs",
+          "invalid_configs"
+        ],
+        "title": "SaveSetupResponse"
       },
       "SecurityPolicyConfig": {
         "properties": {
@@ -18787,6 +20802,27 @@
               "TINKOFF"
             ]
           },
+          "terminal_financial_institution_codes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Codes",
+            "description": "Provider's codes for the financial institutions",
+            "examples": [
+              [
+                "TINKOFF",
+                "SBERBANK"
+              ]
+            ]
+          },
           "terminal_financial_institution_outgoing_code": {
             "anyOf": [
               {
@@ -18882,6 +20918,31 @@
         ],
         "title": "TerminalPaymentInstrument"
       },
+      "TerminalPaymentInstrumentBulkDeleteRequest": {
+        "properties": {
+          "terminal_payment_instrument_ids": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Terminal Payment Instrument Ids",
+            "description": "List of terminal payment instrument IDs to delete",
+            "examples": [
+              [
+                "550e8400-e29b-41d4-a716-446655440000",
+                "550e8400-e29b-41d4-a716-446655440001"
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "terminal_payment_instrument_ids"
+        ],
+        "title": "TerminalPaymentInstrumentBulkDeleteRequest"
+      },
       "TerminalPaymentInstrumentCreate": {
         "properties": {
           "terminal_id": {
@@ -18945,6 +21006,27 @@
             "description": "Provider's code for the financial institution",
             "examples": [
               "TINKOFF"
+            ]
+          },
+          "terminal_financial_institution_codes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Codes",
+            "description": "Provider's codes for the financial institutions",
+            "examples": [
+              [
+                "TINKOFF",
+                "SBERBANK"
+              ]
             ]
           },
           "terminal_financial_institution_outgoing_code": {
@@ -19057,6 +21139,27 @@
             "description": "Provider's code for the financial institution",
             "examples": [
               "TINKOFF"
+            ]
+          },
+          "terminal_financial_institution_codes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Codes",
+            "description": "Provider's codes for the financial institutions (array)",
+            "examples": [
+              [
+                "TINKOFF",
+                "SBERBANK"
+              ]
             ]
           },
           "terminal_financial_institution_outgoing_code": {
@@ -19221,6 +21324,27 @@
             "description": "Terminal's code for the financial institution",
             "examples": [
               "SBERBANK"
+            ]
+          },
+          "terminal_financial_institution_codes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Terminal Financial Institution Codes",
+            "description": "Terminal's codes for the financial institutions (array)",
+            "examples": [
+              [
+                "SBERBANK",
+                "TINKOFF"
+              ]
             ]
           },
           "terminal_financial_institution_outgoing_code": {
