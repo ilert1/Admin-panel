@@ -14,6 +14,7 @@ import { IBaseDataProvider } from "./base";
 import {
     ImportStrategy,
     TerminalPaymentInstrument,
+    TerminalPaymentInstrumentBulkDeleteRequest,
     TerminalPaymentInstrumentCreate,
     TerminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentsByTerminalEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdGetSortOrder,
     TerminalPaymentInstrumentFIData
@@ -21,6 +22,7 @@ import {
 import {
     getTerminalPaymentInstrumentEndpointsExportTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsExportTerminalIdGetUrl,
     terminalPaymentInstrumentEndpointsAddTerminalPaymentInstrumentsByFiEnigmaV1TerminalPaymentInstrumentsTerminalsTerminalIdFinancialInstitutionFinancialInstitutionCodePost,
+    terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDelete,
     terminalPaymentInstrumentEndpointsCreateTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsPost,
     terminalPaymentInstrumentEndpointsDeleteTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdDelete,
     terminalPaymentInstrumentEndpointsGetTerminalPaymentInstrumentEnigmaV1TerminalPaymentInstrumentsTerminalPaymentInstrumentIdGet,
@@ -401,5 +403,26 @@ export class TerminalPaymentInstrumentsProvider extends IBaseDataProvider {
                 authorization: `Bearer ${localStorage.getItem("access-token")}`
             }
         });
+    }
+
+    async bulkDelete(terminalPaymentInstrumentBulkDeleteRequest: TerminalPaymentInstrumentBulkDeleteRequest) {
+        const res =
+            await terminalPaymentInstrumentEndpointsBulkDeleteTerminalPaymentInstrumentsEnigmaV1TerminalPaymentInstrumentsBulkDelete(
+                terminalPaymentInstrumentBulkDeleteRequest,
+                {
+                    headers: { authorization: `Bearer ${localStorage.getItem("access-token")}` }
+                }
+            );
+        if ("data" in res.data && res.data.success) {
+            return {
+                data: res.data.data
+            };
+        } else if ("data" in res.data && !res.data.success) {
+            throw new Error(res.data.error?.error_message);
+        } else if ("detail" in res.data) {
+            throw new Error(res.data.detail?.[0].msg);
+        }
+
+        return Promise.reject();
     }
 }
