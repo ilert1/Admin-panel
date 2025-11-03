@@ -7,6 +7,7 @@ import { CreateTerminalPaymentInstrumentsDialog } from "./CreateTerminalPaymentI
 import { TerminalPaymentInstrumentFilter } from "./TerminalPaymentInstrumentFilter";
 import { TerminalPaymentInstrument } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 import { DeleteTerminalPaymentInstrumentsDialog } from "./DeleteTerminalPaymentInstrumentsDialog";
+import { DeleteSelectedTPIDialog } from "./DeleteSelectedTPIDialog";
 
 export const TerminalPaymentInstrumentsList = () => {
     const translate = useTranslate();
@@ -26,7 +27,13 @@ export const TerminalPaymentInstrumentsList = () => {
         showDeleteDialogOpen,
         setShowDeleteDialogOpen,
         chosenId,
-        setChosenId
+        setChosenId,
+        rowSelection,
+        setRowSelection,
+        hasSelectedRows,
+        selectedRowIds,
+        showDeleteSelectedDialog,
+        setShowDeleteSelectedDialog
     } = useGetTerminalPaymentInstrumentsListColumns({
         listContext
     });
@@ -35,10 +42,18 @@ export const TerminalPaymentInstrumentsList = () => {
         setCreateDialogOpen(true);
     };
 
+    const handleDeleteSelected = () => {
+        setShowDeleteSelectedDialog(true);
+    };
+
     return (
         <ListContextProvider value={listContext}>
             <div>
-                <TerminalPaymentInstrumentFilter createFn={createFn} />
+                <TerminalPaymentInstrumentFilter
+                    createFn={createFn}
+                    hasSelectedRows={hasSelectedRows}
+                    onDeleteSelected={handleDeleteSelected}
+                />
             </div>
 
             {listContext.isLoading ? (
@@ -51,6 +66,9 @@ export const TerminalPaymentInstrumentsList = () => {
                             ? translate("resources.paymentSettings.terminalPaymentInstruments.providerNotSelect")
                             : undefined
                     }
+                    rowSelection={rowSelection}
+                    onRowSelectionChange={setRowSelection}
+                    getRowId={row => row.id}
                 />
             )}
 
@@ -67,6 +85,17 @@ export const TerminalPaymentInstrumentsList = () => {
                     setShowDeleteDialogOpen(state);
                 }}
                 id={chosenId}
+            />
+
+            <DeleteSelectedTPIDialog
+                open={showDeleteSelectedDialog}
+                onOpenChange={state => {
+                    setShowDeleteSelectedDialog(state);
+                    if (!state) {
+                        setRowSelection({});
+                    }
+                }}
+                selectedIds={selectedRowIds}
             />
         </ListContextProvider>
     );

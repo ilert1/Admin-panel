@@ -24,9 +24,15 @@ import { useListContext } from "react-admin";
 
 interface TerminalPaymentInstrumentFilterProps {
     createFn: () => void;
+    hasSelectedRows?: boolean;
+    onDeleteSelected?: () => void;
 }
 
-export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentInstrumentFilterProps) => {
+export const TerminalPaymentInstrumentFilter = ({
+    createFn,
+    hasSelectedRows = false,
+    onDeleteSelected
+}: TerminalPaymentInstrumentFilterProps) => {
     const {
         providersData,
         providersLoadingProcess,
@@ -102,6 +108,11 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                     />
 
                     <div className="flex justify-end gap-2">
+                        {hasSelectedRows && (
+                            <Button onClick={onDeleteSelected} variant="alert" className="flex gap-[4px]">
+                                <span className="text-title-1">{translate("app.ui.actions.deleteSelected")}</span>
+                            </Button>
+                        )}
                         <Button onClick={createFn} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
 

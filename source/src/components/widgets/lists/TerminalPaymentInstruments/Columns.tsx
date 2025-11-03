@@ -10,6 +10,8 @@ import { EyeIcon } from "lucide-react";
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import { TableEditableCell, CurrentCell, SortingState, ColumnSortingButton } from "../../shared";
+import { Checkbox } from "@/components/ui/checkbox";
+import type { RowSelectionState } from "@tanstack/react-table";
 
 export const useGetTerminalPaymentInstrumentsListColumns = ({
     listContext
@@ -37,6 +39,9 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         column: undefined
     });
 
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+    const [showDeleteSelectedDialog, setShowDeleteSelectedDialog] = useState(false);
+
     const handleDeleteClicked = (id: string) => {
         setChosenId(id);
         setShowDeleteDialogOpen(true);
@@ -49,6 +54,8 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
                 column: undefined
             });
         }
+        // Clear row selection when filters change
+        setRowSelection({});
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listContext.filterValues]);
 
@@ -92,6 +99,27 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
     };
 
     const columns: ColumnDef<TerminalPaymentInstrument>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={table.getIsAllPageRowsSelected()}
+                    onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <div className="flex items-center justify-center pr-4">
+                    <Checkbox
+                        checked={row.getIsSelected()}
+                        onCheckedChange={value => row.toggleSelected(!!value)}
+                        aria-label="Select row"
+                    />
+                </div>
+            ),
+            enableSorting: false,
+            enableHiding: false
+        },
         {
             id: "terminal_id",
             accessorKey: "terminal_id",
@@ -377,6 +405,9 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         }
     ];
 
+    const selectedRowIds = Object.keys(rowSelection);
+    const hasSelectedRows = selectedRowIds.length > 0;
+
     return {
         translate,
         columns,
@@ -385,6 +416,12 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
         showDeleteDialogOpen,
         setShowDeleteDialogOpen,
         chosenId,
-        setChosenId
+        setChosenId,
+        rowSelection,
+        setRowSelection,
+        selectedRowIds,
+        hasSelectedRows,
+        showDeleteSelectedDialog,
+        setShowDeleteSelectedDialog
     };
 };

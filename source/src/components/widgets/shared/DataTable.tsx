@@ -7,6 +7,7 @@ import { useListContext, useTranslate } from "react-admin";
 import { useCallback, useEffect } from "react";
 import clsx from "clsx";
 import { cn } from "@/lib/utils";
+import type { RowSelectionState, OnChangeFn } from "@tanstack/react-table";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -18,6 +19,9 @@ interface DataTableProps<TData, TValue> {
     perPage?: number;
     setPage?: (count: number) => void;
     setPerPage?: (count: number) => void;
+    rowSelection?: RowSelectionState;
+    onRowSelectionChange?: OnChangeFn<RowSelectionState>;
+    getRowId?: (row: TData) => string;
 }
 
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
@@ -30,7 +34,10 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         page: propPage = 1,
         perPage: propPerPage = 25,
         setPage: propSetPage = () => {},
-        setPerPage: propSetPerPage = () => {}
+        setPerPage: propSetPerPage = () => {},
+        rowSelection,
+        onRowSelectionChange,
+        getRowId
     } = props;
 
     const context = useListContext();
@@ -51,6 +58,12 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
         rowCount: total,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        enableRowSelection: true,
+        getRowId: getRowId,
+        onRowSelectionChange: onRowSelectionChange,
+        state: {
+            rowSelection: rowSelection || {}
+        },
         initialState: {
             pagination: {
                 pageIndex: page - 1,
