@@ -211,7 +211,7 @@
         "attentionDescriptionDeleteAllTerminalPaymentInstruments": "Вы выполняете удаление всех TPI терминала",
         "consequencesDeleteAllTerminalPaymentInstruments": "Вы действительно хотите удалить все имеющиеся TPI у терминала %{terminal}? Отменить действие будет невозможно!",
         "attentionDescriptionDeleteSelectedTerminalPaymentInstruments": "Вы выполняете удаление выбранных TPI",
-        "consequencesDeleteSelectedTerminalPaymentInstruments": "Вы действительно хотите удалить выбранные TPI? Отменить действие будет невозможно!",
+        "consequencesDeleteSelectedTerminalPaymentInstruments": "Вы действительно хотите удалить выбранные %{count} TPI? Отменить действие будет невозможно!",
         "terminalPaymentInstrumentDeletedSuccessfully": "Все TPI терминала %{terminal} успешно удалены",
         "selectedTerminalPaymentInstrumentsDeletedSuccessfully": "Выбранные %{count} TPI успешно удалены",
         "attentionDescriptionCurrency": "Удаление валюты приведет к удалению связанных с ней платёжных инструментов",
