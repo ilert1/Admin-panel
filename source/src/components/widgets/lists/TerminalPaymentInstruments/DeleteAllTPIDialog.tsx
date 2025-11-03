@@ -16,8 +16,14 @@ export interface DeleteAllTPIDialogProps {
     open: boolean;
     onOpenChange: (state: boolean) => void;
     terminalName: string;
+    terminalIdClearCallback: () => void;
 }
-export const DeleteAllTPIDialog = ({ open, onOpenChange, terminalName }: DeleteAllTPIDialogProps) => {
+export const DeleteAllTPIDialog = ({
+    open,
+    onOpenChange,
+    terminalName,
+    terminalIdClearCallback
+}: DeleteAllTPIDialogProps) => {
     const refresh = useRefresh();
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -42,6 +48,7 @@ export const DeleteAllTPIDialog = ({ open, onOpenChange, terminalName }: DeleteA
                 })
             );
 
+            terminalIdClearCallback();
             refresh();
             onOpenChange(false);
         } catch (error) {

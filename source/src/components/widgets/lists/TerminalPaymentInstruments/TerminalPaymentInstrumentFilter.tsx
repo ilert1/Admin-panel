@@ -338,6 +338,10 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                 open={deleteAllTPIDialogOpen}
                 onOpenChange={setDeleteAllTPIDialogOpen}
                 terminalName={terminalFilterName}
+                terminalIdClearCallback={() => {
+                    onTerminalIdFieldChanged("");
+                    onTerminalNameChanged("");
+                }}
             />
         </>
     );
