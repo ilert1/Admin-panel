@@ -55,7 +55,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
         handleDownloadReport,
         onSystemPaymentInstrumentCodeChanged,
         selectSpiCode,
-        isTerminalChanging
+        filtering
     } = useTerminalPaymentInstrumentFilter();
 
     const [openFiltersClicked, setOpenFiltersClicked] = useState(true);
@@ -189,14 +189,7 @@ export const TerminalPaymentInstrumentFilter = ({ createFn }: TerminalPaymentIns
                         <Button
                             className="mt-4 sm:mt-0"
                             onClick={() => setDeleteAllTPIDialogOpen(true)}
-                            disabled={
-                                isLoading ||
-                                isFetching ||
-                                isTerminalChanging ||
-                                !terminalFilterId ||
-                                !data ||
-                                data.length === 0
-                            }>
+                            disabled={isLoading || filtering || !terminalFilterId || !data || data.length === 0}>
                             {translate(
                                 "resources.paymentSettings.terminalPaymentInstruments.deleteAllTerminalPaymentInstruments"
                             )}

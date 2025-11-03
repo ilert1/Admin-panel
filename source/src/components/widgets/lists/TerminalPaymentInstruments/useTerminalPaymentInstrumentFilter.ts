@@ -8,9 +8,10 @@ import extractFieldsFromErrorMessage from "@/helpers/extractErrorForCSV";
 import { ImportStrategy } from "@/api/enigma/blowFishEnigmaAPIService.schemas";
 
 const useTerminalPaymentInstrumentFilter = () => {
-    const { filterValues, setFilters, displayedFilters, setPage, isFetching } = useListContext();
+    const { filterValues, setFilters, displayedFilters, setPage, isFetching, data } = useListContext();
     const { providersData, providersLoadingProcess } = useProvidersListWithoutPagination();
     const dataProvider = new TerminalPaymentInstrumentsDataProvider();
+    const [filtering, setFiltering] = useState(false);
 
     const translate = useTranslate();
     const appToast = useAppToast();
@@ -31,9 +32,9 @@ const useTerminalPaymentInstrumentFilter = () => {
     const [providerName, setProviderName] = useState(filterValues?.provider || "");
     const [selectSpiCode, setSelectSpiCode] = useState(filterValues?.system_payment_instrument_code || "");
     const [terminalCountry, setTerminalCountry] = useState(filterValues?.terminal_country || "");
-    const [isTerminalChanging, setIsTerminalChanging] = useState(false);
 
     const { terminalsData, terminalsLoadingProcess } = useTerminalsListWithoutPagination(providerName);
+    // const [waitingForFetch, setWaitingForFetch] = useState(false);
 
     useEffect(() => {
         if (terminalsData && filterValues?.terminalFilterId) {
@@ -64,6 +65,7 @@ const useTerminalPaymentInstrumentFilter = () => {
                 | "terminal_financial_institution_outgoing_code"
                 | "terminal_country"
         ) => {
+            setFiltering(true);
             if (value) {
                 setFilters({ ...filterValues, [type]: value }, displayedFilters, true);
             } else {
@@ -72,6 +74,9 @@ const useTerminalPaymentInstrumentFilter = () => {
             }
 
             setPage(1);
+            // if (type === "terminalFilterId") {
+            //     setWaitingForFetch(true);
+            // }
         },
         300
     );
@@ -132,7 +137,6 @@ const useTerminalPaymentInstrumentFilter = () => {
     };
 
     const onTerminalIdFieldChanged = (value: string) => {
-        setIsTerminalChanging(true);
         if (value === terminalFilterId) {
             setTerminalFilterId("");
             onPropertySelected("", "terminalFilterId");
@@ -143,6 +147,7 @@ const useTerminalPaymentInstrumentFilter = () => {
     };
 
     const onTerminalNameChanged = (value: string) => {
+        setFiltering(true);
         setTerminalFilterName(value);
     };
 
@@ -160,6 +165,27 @@ const useTerminalPaymentInstrumentFilter = () => {
         setSelectSpiCode("");
     };
 
+    // useEffect(() => {
+    //     if (waitingForFetch && isFetching) {
+    //         setWaitingForFetch(false);
+    //     }
+
+    //     if (!isFetching && !waitingForFetch) {
+    //         setFiltering(false);
+    //     }
+    // }, [isFetching, waitingForFetch, filtering]);
+
+    useEffect(() => {
+        if (!isFetching) {
+            const timeout = setTimeout(() => {
+                setFiltering(false);
+                // setWaitingForFetch(false);
+            }, 0);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [isFetching]);
+
     useEffect(() => {
         if (providersData && filterValues?.provider) {
             const foundProvider = providersData?.find(provider => provider.name === filterValues?.provider);
@@ -171,13 +197,6 @@ const useTerminalPaymentInstrumentFilter = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [providersData]);
-
-    // Reset terminal changing flag when fetch is complete
-    useEffect(() => {
-        if (isTerminalChanging && !isFetching) {
-            setIsTerminalChanging(false);
-        }
-    }, [isFetching, isTerminalChanging]);
 
     const handleUploadReport = async (file: File, mode: string, terminal_ids: string[]) => {
         try {
@@ -321,7 +340,7 @@ const useTerminalPaymentInstrumentFilter = () => {
         handleDownloadReport,
         onSystemPaymentInstrumentCodeChanged,
         selectSpiCode,
-        isTerminalChanging
+        filtering
     };
 };
 
