@@ -108,11 +108,6 @@ export const TerminalPaymentInstrumentFilter = ({
                     />
 
                     <div className="flex justify-end gap-2">
-                        {hasSelectedRows && (
-                            <Button onClick={onDeleteSelected} variant="alert" className="flex gap-[4px]">
-                                <span className="text-title-1">{translate("app.ui.actions.deleteSelected")}</span>
-                            </Button>
-                        )}
                         <Button onClick={createFn} variant="default" className="flex gap-[4px]">
                             <CirclePlus className="h-[16px] w-[16px]" />
 
@@ -204,6 +199,16 @@ export const TerminalPaymentInstrumentFilter = ({
                             {translate(
                                 "resources.paymentSettings.terminalPaymentInstruments.deleteAllTerminalPaymentInstruments"
                             )}
+                        </Button>
+                        <Button
+                            onClick={onDeleteSelected}
+                            className="mt-4 flex gap-[4px] sm:mt-0"
+                            disabled={!hasSelectedRows}>
+                            <span className="text-title-1">
+                                {translate(
+                                    "resources.paymentSettings.terminalPaymentInstruments.deleteSelectedTerminalPaymentInstruments"
+                                )}
+                            </span>
                         </Button>
 
                         {/* <Button

@@ -10,7 +10,7 @@ import {
 import { useAppToast } from "@/components/ui/toast/useAppToast";
 import { TerminalPaymentInstrumentsDataProvider } from "@/data/terminalPaymentInstruments";
 import { useState } from "react";
-import { useListContext, useRefresh, useTranslate } from "react-admin";
+import { useRefresh, useTranslate } from "react-admin";
 
 export interface DeleteSelectedTPIDialogProps {
     open: boolean;
@@ -35,7 +35,12 @@ export const DeleteSelectedTPIDialog = ({ open, onOpenChange, selectedIds }: Del
                 terminal_payment_instrument_ids: selectedIds
             });
 
-            appToast("success", translate("app.ui.delete.deletedSuccessfully"));
+            appToast(
+                "success",
+                translate("resources.paymentSettings.deletion.selectedTerminalPaymentInstrumentsDeletedSuccessfully", {
+                    count: selectedIds.length
+                })
+            );
 
             refresh();
             onOpenChange(false);
@@ -62,7 +67,7 @@ export const DeleteSelectedTPIDialog = ({ open, onOpenChange, selectedIds }: Del
                     <DialogDescription className="text-center !text-title-1 text-red-400">
                         {!continueClicked
                             ? translate(
-                                  "resources.paymentSettings.deletion.attentionDescriptionDeleteSelectedTerminalPaymentInstruments",
+                                  "resources.paymentSettings.deletion.attentionDescriptionDeleteAllTerminalPaymentInstruments",
                                   {
                                       count: selectedIds.length
                                   }

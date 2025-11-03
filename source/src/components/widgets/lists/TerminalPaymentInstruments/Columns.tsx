@@ -103,19 +103,18 @@ export const useGetTerminalPaymentInstrumentsListColumns = ({
             id: "select",
             header: ({ table }) => (
                 <Checkbox
+                    variant="header"
                     checked={table.getIsAllPageRowsSelected()}
                     onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
                     aria-label="Select all"
                 />
             ),
             cell: ({ row }) => (
-                <div className="flex items-center justify-center pr-4">
-                    <Checkbox
-                        checked={row.getIsSelected()}
-                        onCheckedChange={value => row.toggleSelected(!!value)}
-                        aria-label="Select row"
-                    />
-                </div>
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={value => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
             ),
             enableSorting: false,
             enableHiding: false

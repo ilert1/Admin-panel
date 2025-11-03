@@ -194,7 +194,8 @@
         "initializeTerminalPaymentInstrument": "Initialization of the terminal payment instruments for terminal: %{terminal}",
         "initInstruments": "Initialize instruments",
         "terminalPaymentInstrumentInitialized": "Terminal payment instrument initialized successfully",
-        "deleteAllTerminalPaymentInstruments": "Delete all TPI of the terminal"
+        "deleteAllTerminalPaymentInstruments": "Delete all TPI of the terminal",
+        "deleteSelectedTerminalPaymentInstruments": "Delete selected TPI"
     },
     "resources.paymentSettings.currency": {
         "name": "Currencies"
@@ -209,9 +210,12 @@
         "consequencesSystemInstrument": "You are going to delete system payment instrument and associated terminal payment instruments. Proceed?",
         "attentionDescriptionTerminalPaymentInstrument": "Terminal payment instrument deletion",
         "consequencesTerminalPaymentInstrument": "You are going to delete terminal payment instrument. Proceed?",
-        "attentionDescriptionDeleteAllTerminalPaymentInstruments": "Terminal payment instruments deletion",
+        "attentionDescriptionDeleteAllTerminalPaymentInstruments": "You are going to delete all TPI of the terminal",
         "consequencesDeleteAllTerminalPaymentInstruments": "You are going to delete all TPI of the terminal %{terminal}? It cannot be undone!",
+        "attentionDescriptionDeleteSelectedTerminalPaymentInstruments": "You are going to delete selected TPI",
+        "consequencesDeleteSelectedTerminalPaymentInstruments": "You are going to delete selected TPI? It cannot be undone!",
         "terminalPaymentInstrumentDeletedSuccessfully": "All TPI of the terminal %{terminal} deleted successfully",
+        "selectedTerminalPaymentInstrumentsDeletedSuccessfully": "Selected %{count} TPI deleted successfully",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",
         "consequencesCurrency": "You are going to delete сurrency and associated payment instruments. Proceed?"
     },
