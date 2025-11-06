@@ -68,15 +68,11 @@ export const DeleteSelectedTPIDialog = ({ open, onOpenChange, selectedIds }: Del
                         {!continueClicked
                             ? translate(
                                   "resources.paymentSettings.deletion.attentionDescriptionDeleteSelectedTerminalPaymentInstruments",
-                                  {
-                                      count: selectedIds.length
-                                  }
+                                  { smart_count: selectedIds.length }
                               )
                             : translate(
                                   "resources.paymentSettings.deletion.consequencesDeleteSelectedTerminalPaymentInstruments",
-                                  {
-                                      count: selectedIds.length
-                                  }
+                                  { smart_count: selectedIds.length }
                               )}
                     </DialogDescription>
                 </DialogHeader>

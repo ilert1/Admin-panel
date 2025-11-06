@@ -71,8 +71,7 @@ export const TerminalPaymentInstrumentFilter = ({
     const [uploadMultipleDialogOpen, setUploadMultipleDialogOpen] = useState(false);
     const [deleteAllTPIDialogOpen, setDeleteAllTPIDialogOpen] = useState(false);
 
-    const { isLoading, isPending, isFetching, data } = useListContext();
-    console.log(isLoading, isPending, isFetching);
+    const { isLoading, data } = useListContext();
 
     const clearDisabled =
         !providerName &&

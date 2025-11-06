@@ -212,8 +212,10 @@
         "consequencesTerminalPaymentInstrument": "You are going to delete terminal payment instrument. Proceed?",
         "attentionDescriptionDeleteAllTerminalPaymentInstruments": "You are going to delete all TPI of the terminal",
         "consequencesDeleteAllTerminalPaymentInstruments": "You are going to delete all TPI of the terminal %{terminal}? It cannot be undone!",
-        "attentionDescriptionDeleteSelectedTerminalPaymentInstruments": "You are going to delete selected TPI",
-        "consequencesDeleteSelectedTerminalPaymentInstruments": "You are going to delete selected %{count} TPI? It cannot be undone!",
+
+        "attentionDescriptionDeleteSelectedTerminalPaymentInstruments": "You are about to delete %{smart_count} selected TPI.",
+        "consequencesDeleteSelectedTerminalPaymentInstruments": "This action will permanently delete %{smart_count} selected TPI and cannot be undone.",
+
         "terminalPaymentInstrumentDeletedSuccessfully": "All TPI of the terminal %{terminal} deleted successfully",
         "selectedTerminalPaymentInstrumentsDeletedSuccessfully": "Selected %{count} TPI deleted successfully",
         "attentionDescriptionCurrency": "Currency deletion will lead to the deletion of associated payment instruments",

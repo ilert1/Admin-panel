@@ -90,7 +90,6 @@ export const CascadeCreate = ({ onClose = () => {} }: { onClose?: () => void }) 
             details: "{}"
         }
     });
-    console.log(form.formState.errors);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (submitButtonDisabled) return;
