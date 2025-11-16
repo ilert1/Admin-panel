@@ -54,8 +54,8 @@ export const getCallbackMappingEndpointsListMappingsCallbridgeV1MappingGetUrl = 
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping`;
+        ? `https://example.com/callbridge/v1/mapping?${stringifiedParams}`
+        : `https://example.com/callbridge/v1/mapping`;
 };
 
 export const callbackMappingEndpointsListMappingsCallbridgeV1MappingGet = async (
@@ -95,7 +95,7 @@ export type callbackMappingEndpointsCreateMappingCallbridgeV1MappingPostResponse
     };
 
 export const getCallbackMappingEndpointsCreateMappingCallbridgeV1MappingPostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping`;
+    return `https://example.com/callbridge/v1/mapping`;
 };
 
 export const callbackMappingEndpointsCreateMappingCallbridgeV1MappingPost = async (
@@ -140,7 +140,7 @@ export type callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbrid
 
 export const getCallbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPostUrl =
     () => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping/by-external-path`;
+        return `https://example.com/callbridge/v1/mapping/by-external-path`;
     };
 
 export const callbackMappingEndpointsCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingByExternalPathPost = async (
@@ -181,7 +181,7 @@ export type callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetRes
     };
 
 export const getCallbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGetUrl = (mappingId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping/${mappingId}`;
+    return `https://example.com/callbridge/v1/mapping/${mappingId}`;
 };
 
 export const callbackMappingEndpointsGetMappingCallbridgeV1MappingMappingIdGet = async (
@@ -221,7 +221,7 @@ export type callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPut
     };
 
 export const getCallbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPutUrl = (mappingId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping/${mappingId}`;
+    return `https://example.com/callbridge/v1/mapping/${mappingId}`;
 };
 
 export const callbackMappingEndpointsUpdateMappingCallbridgeV1MappingMappingIdPut = async (
@@ -263,7 +263,7 @@ export type callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDel
     };
 
 export const getCallbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDeleteUrl = (mappingId: string) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping/${mappingId}`;
+    return `https://example.com/callbridge/v1/mapping/${mappingId}`;
 };
 
 export const callbackMappingEndpointsDeleteMappingCallbridgeV1MappingMappingIdDelete = async (
@@ -306,7 +306,7 @@ export type callbackMappingEndpointsBulkCreateOrUpdateMappingViaInternalPathCall
 
 export const getCallbackMappingEndpointsBulkCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingBulkCreateOrUpdatePostUrl =
     () => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/callbridge/v1/mapping/bulk/create-or-update`;
+        return `https://example.com/callbridge/v1/mapping/bulk/create-or-update`;
     };
 
 export const callbackMappingEndpointsBulkCreateOrUpdateMappingViaInternalPathCallbridgeV1MappingBulkCreateOrUpdatePost =

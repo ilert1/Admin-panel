@@ -42,7 +42,7 @@ export type financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1Fin
 
 export const getFinancialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1FinancialInstitutionTypesGetUrl =
     () => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/types`;
+        return `https://example.com/enigma/v1/financial_institution/types`;
     };
 
 export const financialInstitutionEndpointsGetFinancialInstitutionTypesEnigmaV1FinancialInstitutionTypesGet = async (
@@ -94,8 +94,8 @@ export const getFinancialInstitutionEndpointsListFinancialInstitutionsEnigmaV1Fi
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution`;
+        ? `https://example.com/enigma/v1/financial_institution?${stringifiedParams}`
+        : `https://example.com/enigma/v1/financial_institution`;
 };
 
 export const financialInstitutionEndpointsListFinancialInstitutionsEnigmaV1FinancialInstitutionGet = async (
@@ -135,7 +135,7 @@ export type financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1Finan
     };
 
 export const getFinancialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution`;
+    return `https://example.com/enigma/v1/financial_institution`;
 };
 
 export const financialInstitutionEndpointsCreateFinancialInstitutionEnigmaV1FinancialInstitutionPost = async (
@@ -191,8 +191,8 @@ export const getFinancialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/export?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/export`;
+        ? `https://example.com/enigma/v1/financial_institution/export?${stringifiedParams}`
+        : `https://example.com/enigma/v1/financial_institution/export`;
 };
 
 export const financialInstitutionEndpointsExportFinancialInstitutionsEnigmaV1FinancialInstitutionExportGet = async (
@@ -248,8 +248,8 @@ export const getFinancialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/import?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/import`;
+        ? `https://example.com/enigma/v1/financial_institution/import?${stringifiedParams}`
+        : `https://example.com/enigma/v1/financial_institution/import`;
 };
 
 export const financialInstitutionEndpointsImportFinancialInstitutionsEnigmaV1FinancialInstitutionImportPost = async (
@@ -301,7 +301,7 @@ export type financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1Financia
 
 export const getFinancialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGetUrl =
     (financialInstitutionCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}`;
+        return `https://example.com/enigma/v1/financial_institution/${financialInstitutionCode}`;
     };
 
 export const financialInstitutionEndpointsGetFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeGet =
@@ -348,7 +348,7 @@ export type financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1Finan
 
 export const getFinancialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePutUrl =
     (financialInstitutionCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}`;
+        return `https://example.com/enigma/v1/financial_institution/${financialInstitutionCode}`;
     };
 
 export const financialInstitutionEndpointsUpdateFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodePut =
@@ -398,7 +398,7 @@ export type financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1Finan
 
 export const getFinancialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDeleteUrl =
     (financialInstitutionCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}`;
+        return `https://example.com/enigma/v1/financial_institution/${financialInstitutionCode}`;
     };
 
 export const financialInstitutionEndpointsDeleteFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeDelete =
@@ -445,7 +445,7 @@ export type financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEn
 
 export const getFinancialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatchUrl =
     (financialInstitutionCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/add_payment_types`;
+        return `https://example.com/enigma/v1/financial_institution/${financialInstitutionCode}/add_payment_types`;
     };
 
 export const financialInstitutionEndpointsAddPaymentTypesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddPaymentTypesPatch =
@@ -495,7 +495,7 @@ export type financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstituti
 
 export const getFinancialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDeleteUrl =
     (financialInstitutionCode: string, paymentTypeCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/remove_payment_type/${paymentTypeCode}`;
+        return `https://example.com/enigma/v1/financial_institution/${financialInstitutionCode}/remove_payment_type/${paymentTypeCode}`;
     };
 
 export const financialInstitutionEndpointsRemovePaymentTypeFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemovePaymentTypePaymentTypeCodeDelete =
@@ -544,7 +544,7 @@ export type financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnig
 
 export const getFinancialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatchUrl =
     (financialInstitutionCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/add_currencies`;
+        return `https://example.com/enigma/v1/financial_institution/${financialInstitutionCode}/add_currencies`;
     };
 
 export const financialInstitutionEndpointsAddCurrenciesToFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeAddCurrenciesPatch =
@@ -594,7 +594,7 @@ export type financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionE
 
 export const getFinancialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDeleteUrl =
     (financialInstitutionCode: string, currencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/financial_institution/${financialInstitutionCode}/remove_currency/${currencyCode}`;
+        return `https://example.com/enigma/v1/financial_institution/${financialInstitutionCode}/remove_currency/${currencyCode}`;
     };
 
 export const financialInstitutionEndpointsRemoveCurrencyFromFinancialInstitutionEnigmaV1FinancialInstitutionFinancialInstitutionCodeRemoveCurrencyCurrencyCodeDelete =

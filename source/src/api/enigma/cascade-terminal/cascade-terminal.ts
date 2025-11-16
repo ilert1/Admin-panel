@@ -53,8 +53,8 @@ export const getCascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTermi
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal`;
+        ? `https://example.com/enigma/v1/cascade_terminal?${stringifiedParams}`
+        : `https://example.com/enigma/v1/cascade_terminal`;
 };
 
 export const cascadeTerminalEndpointsListCascadeTerminalsEnigmaV1CascadeTerminalGet = async (
@@ -94,7 +94,7 @@ export type cascadeTerminalEndpointsCreateCascadeTerminalEnigmaV1CascadeTerminal
     };
 
 export const getCascadeTerminalEndpointsCreateCascadeTerminalEnigmaV1CascadeTerminalPostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal`;
+    return `https://example.com/enigma/v1/cascade_terminal`;
 };
 
 export const cascadeTerminalEndpointsCreateCascadeTerminalEnigmaV1CascadeTerminalPost = async (
@@ -138,7 +138,7 @@ export type cascadeTerminalEndpointsGetCascadeTerminalEnigmaV1CascadeTerminalCas
 export const getCascadeTerminalEndpointsGetCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdGetUrl = (
     cascadeTerminalId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal/${cascadeTerminalId}`;
+    return `https://example.com/enigma/v1/cascade_terminal/${cascadeTerminalId}`;
 };
 
 export const cascadeTerminalEndpointsGetCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdGet = async (
@@ -180,7 +180,7 @@ export type cascadeTerminalEndpointsUpdateCascadeTerminalEnigmaV1CascadeTerminal
 export const getCascadeTerminalEndpointsUpdateCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdPutUrl = (
     cascadeTerminalId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal/${cascadeTerminalId}`;
+    return `https://example.com/enigma/v1/cascade_terminal/${cascadeTerminalId}`;
 };
 
 export const cascadeTerminalEndpointsUpdateCascadeTerminalEnigmaV1CascadeTerminalCascadeTerminalIdPut = async (
@@ -230,7 +230,7 @@ export type cascadeTerminalEndpointsRemoveTerminalFromCascadeEnigmaV1CascadeTerm
 export const getCascadeTerminalEndpointsRemoveTerminalFromCascadeEnigmaV1CascadeTerminalCascadeTerminalIdDeleteUrl = (
     cascadeTerminalId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/cascade_terminal/${cascadeTerminalId}`;
+    return `https://example.com/enigma/v1/cascade_terminal/${cascadeTerminalId}`;
 };
 
 export const cascadeTerminalEndpointsRemoveTerminalFromCascadeEnigmaV1CascadeTerminalCascadeTerminalIdDelete = async (

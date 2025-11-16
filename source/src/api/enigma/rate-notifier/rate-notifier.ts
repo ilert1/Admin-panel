@@ -48,7 +48,7 @@ export type rateNotifierEndpointsResolvePredictiveEnigmaV1RateNotifierPredictive
     };
 
 export const getRateNotifierEndpointsResolvePredictiveEnigmaV1RateNotifierPredictiveResolvePostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/predictive/resolve`;
+    return `https://example.com/enigma/v1/rate-notifier/predictive/resolve`;
 };
 
 export const rateNotifierEndpointsResolvePredictiveEnigmaV1RateNotifierPredictiveResolvePost = async (
@@ -89,7 +89,7 @@ export type rateNotifierEndpointsSaveSetupEnigmaV1RateNotifierPredictiveSavePost
     };
 
 export const getRateNotifierEndpointsSaveSetupEnigmaV1RateNotifierPredictiveSavePostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/predictive/save`;
+    return `https://example.com/enigma/v1/rate-notifier/predictive/save`;
 };
 
 export const rateNotifierEndpointsSaveSetupEnigmaV1RateNotifierPredictiveSavePost = async (
@@ -144,8 +144,8 @@ export const getRateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifi
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/merchant-rules?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/merchant-rules`;
+        ? `https://example.com/enigma/v1/rate-notifier/merchant-rules?${stringifiedParams}`
+        : `https://example.com/enigma/v1/rate-notifier/merchant-rules`;
 };
 
 export const rateNotifierEndpointsListMerchantCurrencyRulesEnigmaV1RateNotifierMerchantRulesGet = async (
@@ -185,7 +185,7 @@ export type rateNotifierEndpointsCreateMerchantCurrencyRuleEnigmaV1RateNotifierM
     };
 
 export const getRateNotifierEndpointsCreateMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesPostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/merchant-rules`;
+    return `https://example.com/enigma/v1/rate-notifier/merchant-rules`;
 };
 
 export const rateNotifierEndpointsCreateMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesPost = async (
@@ -231,7 +231,7 @@ export type rateNotifierEndpointsGetMerchantCurrencyRuleEnigmaV1RateNotifierMerc
 
 export const getRateNotifierEndpointsGetMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesMerchantIdSourceCurrencyCodeDestinationCurrencyCodeGetUrl =
     (merchantId: string, sourceCurrencyCode: string, destinationCurrencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/merchant-rules/${merchantId}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
+        return `https://example.com/enigma/v1/rate-notifier/merchant-rules/${merchantId}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
     };
 
 export const rateNotifierEndpointsGetMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesMerchantIdSourceCurrencyCodeDestinationCurrencyCodeGet =
@@ -282,7 +282,7 @@ export type rateNotifierEndpointsUpdateMerchantCurrencyRuleEnigmaV1RateNotifierM
 
 export const getRateNotifierEndpointsUpdateMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesMerchantIdSourceCurrencyCodeDestinationCurrencyCodePutUrl =
     (merchantId: string, sourceCurrencyCode: string, destinationCurrencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/merchant-rules/${merchantId}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
+        return `https://example.com/enigma/v1/rate-notifier/merchant-rules/${merchantId}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
     };
 
 export const rateNotifierEndpointsUpdateMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesMerchantIdSourceCurrencyCodeDestinationCurrencyCodePut =
@@ -336,7 +336,7 @@ export type rateNotifierEndpointsDeleteMerchantCurrencyRuleEnigmaV1RateNotifierM
 
 export const getRateNotifierEndpointsDeleteMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesMerchantIdSourceCurrencyCodeDestinationCurrencyCodeDeleteUrl =
     (merchantId: string, sourceCurrencyCode: string, destinationCurrencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/merchant-rules/${merchantId}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
+        return `https://example.com/enigma/v1/rate-notifier/merchant-rules/${merchantId}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
     };
 
 export const rateNotifierEndpointsDeleteMerchantCurrencyRuleEnigmaV1RateNotifierMerchantRulesMerchantIdSourceCurrencyCodeDestinationCurrencyCodeDelete =
@@ -396,8 +396,8 @@ export const getRateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifi
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/provider-rules?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/provider-rules`;
+        ? `https://example.com/enigma/v1/rate-notifier/provider-rules?${stringifiedParams}`
+        : `https://example.com/enigma/v1/rate-notifier/provider-rules`;
 };
 
 export const rateNotifierEndpointsListProviderCurrencyRulesEnigmaV1RateNotifierProviderRulesGet = async (
@@ -437,7 +437,7 @@ export type rateNotifierEndpointsCreateProviderCurrencyRuleEnigmaV1RateNotifierP
     };
 
 export const getRateNotifierEndpointsCreateProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesPostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/provider-rules`;
+    return `https://example.com/enigma/v1/rate-notifier/provider-rules`;
 };
 
 export const rateNotifierEndpointsCreateProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesPost = async (
@@ -483,7 +483,7 @@ export type rateNotifierEndpointsGetProviderCurrencyRuleEnigmaV1RateNotifierProv
 
 export const getRateNotifierEndpointsGetProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesProviderNameSourceCurrencyCodeDestinationCurrencyCodeGetUrl =
     (providerName: string, sourceCurrencyCode: string, destinationCurrencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/provider-rules/${providerName}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
+        return `https://example.com/enigma/v1/rate-notifier/provider-rules/${providerName}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
     };
 
 export const rateNotifierEndpointsGetProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesProviderNameSourceCurrencyCodeDestinationCurrencyCodeGet =
@@ -534,7 +534,7 @@ export type rateNotifierEndpointsUpdateProviderCurrencyRuleEnigmaV1RateNotifierP
 
 export const getRateNotifierEndpointsUpdateProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesProviderNameSourceCurrencyCodeDestinationCurrencyCodePutUrl =
     (providerName: string, sourceCurrencyCode: string, destinationCurrencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/provider-rules/${providerName}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
+        return `https://example.com/enigma/v1/rate-notifier/provider-rules/${providerName}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
     };
 
 export const rateNotifierEndpointsUpdateProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesProviderNameSourceCurrencyCodeDestinationCurrencyCodePut =
@@ -588,7 +588,7 @@ export type rateNotifierEndpointsDeleteProviderCurrencyRuleEnigmaV1RateNotifierP
 
 export const getRateNotifierEndpointsDeleteProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesProviderNameSourceCurrencyCodeDestinationCurrencyCodeDeleteUrl =
     (providerName: string, sourceCurrencyCode: string, destinationCurrencyCode: string) => {
-        return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/rate-notifier/provider-rules/${providerName}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
+        return `https://example.com/enigma/v1/rate-notifier/provider-rules/${providerName}/${sourceCurrencyCode}/${destinationCurrencyCode}`;
     };
 
 export const rateNotifierEndpointsDeleteProviderCurrencyRuleEnigmaV1RateNotifierProviderRulesProviderNameSourceCurrencyCodeDestinationCurrencyCodeDelete =

@@ -60,8 +60,8 @@ export const getMerchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCasc
         const stringifiedParams = normalizedParams.toString();
 
         return stringifiedParams.length > 0
-            ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view?${stringifiedParams}`
-            : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view`;
+            ? `https://example.com/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view?${stringifiedParams}`
+            : `https://example.com/enigma/v1/merchant_cascade/merchant/${merchantId}/merged-view`;
     };
 
 export const merchantCascadeEndpointsGetMergedCascadeViewEnigmaV1MerchantCascadeMerchantMerchantIdMergedViewGet =
@@ -119,8 +119,8 @@ export const getMerchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCasc
     const stringifiedParams = normalizedParams.toString();
 
     return stringifiedParams.length > 0
-        ? `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade?${stringifiedParams}`
-        : `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade`;
+        ? `https://example.com/enigma/v1/merchant_cascade?${stringifiedParams}`
+        : `https://example.com/enigma/v1/merchant_cascade`;
 };
 
 export const merchantCascadeEndpointsListMerchantCascadesEnigmaV1MerchantCascadeGet = async (
@@ -160,7 +160,7 @@ export type merchantCascadeEndpointsAssignCascadeToMerchantEnigmaV1MerchantCasca
     };
 
 export const getMerchantCascadeEndpointsAssignCascadeToMerchantEnigmaV1MerchantCascadePostUrl = () => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade`;
+    return `https://example.com/enigma/v1/merchant_cascade`;
 };
 
 export const merchantCascadeEndpointsAssignCascadeToMerchantEnigmaV1MerchantCascadePost = async (
@@ -204,7 +204,7 @@ export type merchantCascadeEndpointsGetMerchantCascadeEnigmaV1MerchantCascadeMer
 export const getMerchantCascadeEndpointsGetMerchantCascadeEnigmaV1MerchantCascadeMerchantCascadeIdGetUrl = (
     merchantCascadeId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/${merchantCascadeId}`;
+    return `https://example.com/enigma/v1/merchant_cascade/${merchantCascadeId}`;
 };
 
 export const merchantCascadeEndpointsGetMerchantCascadeEnigmaV1MerchantCascadeMerchantCascadeIdGet = async (
@@ -246,7 +246,7 @@ export type merchantCascadeEndpointsUpdateMerchantCascadeEnigmaV1MerchantCascade
 export const getMerchantCascadeEndpointsUpdateMerchantCascadeEnigmaV1MerchantCascadeMerchantCascadeIdPutUrl = (
     merchantCascadeId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/${merchantCascadeId}`;
+    return `https://example.com/enigma/v1/merchant_cascade/${merchantCascadeId}`;
 };
 
 export const merchantCascadeEndpointsUpdateMerchantCascadeEnigmaV1MerchantCascadeMerchantCascadeIdPut = async (
@@ -296,7 +296,7 @@ export type merchantCascadeEndpointsRemoveCascadeFromMerchantEnigmaV1MerchantCas
 export const getMerchantCascadeEndpointsRemoveCascadeFromMerchantEnigmaV1MerchantCascadeMerchantCascadeIdDeleteUrl = (
     merchantCascadeId: string
 ) => {
-    return `https://apigate.develop.blowfish.api4ftx.cloud/enigma/v1/merchant_cascade/${merchantCascadeId}`;
+    return `https://example.com/enigma/v1/merchant_cascade/${merchantCascadeId}`;
 };
 
 export const merchantCascadeEndpointsRemoveCascadeFromMerchantEnigmaV1MerchantCascadeMerchantCascadeIdDelete = async (
